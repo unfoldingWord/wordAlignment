@@ -1,0 +1,23 @@
+{
+  "name": "word-alignment-tool",
+  "version": "1.0.0",
+  "description": "Word alignment tool",
+  "title": "Word Alignment",
+  "main": "index.js",
+  "include": {
+    "ScripturePane": "1.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/translationCoreApps/word-alignment-tool.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/translationCoreApps/word-alignment-tool/issues"
+  },
+  "homepage": "https://github.com/translationCoreApps/word-alignment-tool#readme"
+}

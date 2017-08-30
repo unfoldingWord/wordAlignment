@@ -1,2 +1,2 @@
-# alignmentTool
-Language alignment tool
+# wordAlignment
+Word alignment tool

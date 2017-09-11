@@ -1,9 +1,10 @@
 {
-  "name": "word-alignment-tool",
+  "name": "wordAlignment",
   "version": "1.0.0",
   "description": "Word alignment tool",
   "title": "Word Alignment",
   "main": "index.js",
+  "display": "app",
   "include": {
     "ScripturePane": "1.0.2"
   },

@@ -5,17 +5,24 @@ import TargetBox from '../TargetBox';
 
 const TargetWordsArea = ({
   contextIdReducer,
-  resourcesReducer
+  wordAlignmentReducer,
+  actions
 }) => {
   if (contextIdReducer.contextId) {
     let { chapter, verse } = contextIdReducer.contextId.reference;
-    let targetWords = resourcesReducer.bibles.ugnt[chapter][verse]
-
+    let targetWords = wordAlignmentReducer.target[chapter][verse];
+    
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
         {
-          targetWords.map((targetWordObject, index) => (
-            <TargetBox key={index} targetWord={targetWordObject.word} />
+          targetWords.map((metadata, index) => (
+            <TargetBox
+              key={index}
+              index={index}
+              droppedWords={metadata.sources}
+              targetWords={metadata.targets}
+              actions={actions}
+            />
           ))
         }
       </div>
@@ -25,8 +32,9 @@ const TargetWordsArea = ({
 };
 
 TargetWordsArea.propTypes = {
+  wordAlignmentReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
-  resourcesReducer: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired
 }
 
 export default TargetWordsArea;

@@ -5,17 +5,22 @@ import SourceBox from '../SourceBox';
 
 const SourceWordsArea = ({
   contextIdReducer,
-  resourcesReducer
+  wordAlignmentReducer
 }) => {
   if (contextIdReducer.contextId) {
     let { chapter, verse } = contextIdReducer.contextId.reference;
-    let sourceWords = resourcesReducer.bibles.ulb[chapter][verse].split(" ");
+    let sourceWords = wordAlignmentReducer.wordBank[chapter][verse];
 
     return (
       <div style={{ flex: 0.2, width: '100%', backgroundColor: '#DCDCDC', overflowY: 'auto', padding: '5px 8px 5px 5px' }}>
         {
-          sourceWords.map((word, index) => (
-            <SourceBox key={index} id={index} word={word} />
+          sourceWords.map((metadata, index) => (
+            <SourceBox
+              key={index}
+              word={metadata.word}
+              occurrence={metadata.occurrence}
+              occurrences={metadata.occurrences}
+            />
           ))
         }
       </div>
@@ -26,7 +31,7 @@ const SourceWordsArea = ({
 
 SourceWordsArea.propTypes = {
   contextIdReducer: PropTypes.object.isRequired,
-  resourcesReducer: PropTypes.object.isRequired
+  wordAlignmentReducer: PropTypes.object.isRequired
 }
 
 export default SourceWordsArea;

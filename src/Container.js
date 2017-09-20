@@ -27,7 +27,7 @@ class Container extends Component {
         <SourceWordsArea {...this.props}/>
         <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
           {scripturePane}
-          <TargetWordsArea {...this.props}/>
+          <TargetWordsArea {...this.props} />
         </div>
       </div>
     );

@@ -13,18 +13,22 @@ const internalStyle = {
 };
 
 const TargetWordCard = ({
-  word,
+  words,
   style
 }) => {
   return (
     <span style={{ ...internalStyle, ...style }}>
-      {word}
+      {
+        words.map((wordObject, index) => (
+          <span key={index}>{wordObject.word}&nbsp;</span>
+        ))
+      }
     </span>
   );
 };
 
 TargetWordCard.propTypes = {
-  word: PropTypes.string.isRequired,
+  words: PropTypes.array.isRequired,
   style: PropTypes.object
 }
 

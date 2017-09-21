@@ -15,13 +15,17 @@ const internalStyle = {
 const DragSourceAction = {
   beginDrag(props) {
     // Return the data describing the dragged item
-    const item = { id: props.id, word: props.word };
+    const item = {
+      word: props.word,
+      occurrence: props.occurrence,
+      occurrences: props.occurrences
+    };
     return item;
   },
   endDrag(props, monitor, component) {
     // When dropped on a compatible target, do something
-    const item = monitor.getItem();
-    console.log(item)
+    // const item = monitor.getItem();
+    // console.log(item)
   }
 };
 
@@ -40,7 +44,8 @@ class SourceBox extends Component {
 
 SourceBox.propTypes = {
   word: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  occurrence: PropTypes.number.isRequired,
+  occurrences: PropTypes.number.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
 }

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 // components
-import SourceWordsArea from './components/SourceWordsArea';
-import TargetWordsArea from './components/TargetWordsArea';
+import WordBankArea from './components/WordBankArea';
+import DropBoxArea from './components/DropBoxArea';
 
 class Container extends Component {
 
@@ -24,10 +24,10 @@ class Container extends Component {
 
     return (
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <SourceWordsArea {...this.props}/>
+        <WordBankArea {...this.props}/>
         <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
           {scripturePane}
-          <TargetWordsArea {...this.props} />
+          <DropBoxArea {...this.props} />
         </div>
       </div>
     );
@@ -36,7 +36,8 @@ class Container extends Component {
 
 Container.propTypes = {
   currentToolViews: PropTypes.object.isRequired,
-  resourcesReducer: PropTypes.object.isRequired
+  resourcesReducer: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 }
 
 export default DragDropContext(HTML5Backend)(Container);

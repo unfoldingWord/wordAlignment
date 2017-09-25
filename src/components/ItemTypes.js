@@ -1,3 +1,3 @@
 export default {
-  CARD: 'card'
+  BOTTOM_WORD: 'bottomWord'
 };

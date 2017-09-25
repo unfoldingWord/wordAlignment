@@ -16,7 +16,7 @@ class Container extends Component {
   render() {
     // Modules not defined within translationWords
     const { ScripturePane } = this.props.currentToolViews;
-    let scripturePane = <div></div>
+    let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(this.props.resourcesReducer.bibles).length > 0) {
       scripturePane = <ScripturePane {...this.props} />

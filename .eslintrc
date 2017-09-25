@@ -1,0 +1,21 @@
+{
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-cond-assign": "error",
+    "no-empty": "error",
+    "no-unused-vars": "error",
+    "no-undef": "error",
+    "semi": ["error", "always", {"omitLastInOneLineBlock": true}],
+    "no-console": "off"
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

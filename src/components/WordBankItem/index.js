@@ -12,7 +12,7 @@ const internalStyle = {
   cursor: 'move'
 };
 
-const DragSourceAction = {
+const DragWordBankItemAction = {
   beginDrag(props) {
     // Return the data describing the dragged item
     const item = {
@@ -29,7 +29,7 @@ const DragSourceAction = {
   }
 };
 
-class SourceBox extends Component {
+class WordBankItem extends Component {
   render() {
     const { word, isDragging, connectDragSource } = this.props;
     const opacity = isDragging ? 0.4 : 1;
@@ -42,7 +42,7 @@ class SourceBox extends Component {
   }
 }
 
-SourceBox.propTypes = {
+WordBankItem.propTypes = {
   word: PropTypes.string.isRequired,
   occurrence: PropTypes.number.isRequired,
   occurrences: PropTypes.number.isRequired,
@@ -51,10 +51,10 @@ SourceBox.propTypes = {
 }
 
 export default DragSource(
-  ItemTypes.CARD,
-  DragSourceAction,
+  ItemTypes.BOTTOM_WORD,
+  DragWordBankItemAction,
   (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   })
-)(SourceBox);
+)(WordBankItem);

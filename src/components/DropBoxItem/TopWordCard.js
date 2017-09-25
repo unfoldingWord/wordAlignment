@@ -12,7 +12,7 @@ const internalStyle = {
   cursor: 'move'
 };
 
-const TargetWordCard = ({
+const TopWordCard = ({
   words,
   style
 }) => {
@@ -27,9 +27,9 @@ const TargetWordCard = ({
   );
 };
 
-TargetWordCard.propTypes = {
+TopWordCard.propTypes = {
   words: PropTypes.array.isRequired,
   style: PropTypes.object
 }
 
-export default TargetWordCard;
+export default TopWordCard;

@@ -1,16 +1,23 @@
 {
-  "extends": ["eslint:recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "15.0"
+    }
+  },
   "rules": {
-    "no-cond-assign": "error",
-    "no-empty": "error",
-    "no-unused-vars": "error",
-    "no-undef": "error",
     "semi": ["error", "always", {"omitLastInOneLineBlock": true}],
     "no-console": "off"
   },
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
+      "jsx": true,
       "modules": true
     }
   },

@@ -41,6 +41,6 @@ DropBoxArea.propTypes = {
   wordAlignmentReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
-}
+};
 
 export default DropBoxArea;

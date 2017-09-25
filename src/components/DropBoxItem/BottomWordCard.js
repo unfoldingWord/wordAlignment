@@ -35,7 +35,7 @@ BottomWordCard.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   style: PropTypes.object
-}
+};
 
 const DragBottomWordCardAction = {
   beginDrag(props) {
@@ -56,7 +56,7 @@ const collect = (connect, monitor) => {
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   };
-}
+};
 
 export default DragSource(
   ItemTypes.BOTTOM_WORD,

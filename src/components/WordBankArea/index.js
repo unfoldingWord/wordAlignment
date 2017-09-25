@@ -31,11 +31,11 @@ const WordBankArea = ({
     );
   }
   return <div />;
-}
+};
 
 WordBankArea.propTypes = {
   contextIdReducer: PropTypes.object.isRequired,
   wordAlignmentReducer: PropTypes.object.isRequired
-}
+};
 
 export default WordBankArea;

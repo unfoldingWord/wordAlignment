@@ -30,6 +30,6 @@ const TopWordCard = ({
 TopWordCard.propTypes = {
   words: PropTypes.array.isRequired,
   style: PropTypes.object
-}
+};
 
 export default TopWordCard;

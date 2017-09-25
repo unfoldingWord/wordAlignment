@@ -3,4 +3,10 @@
 
 # wordAlignment
 
-Word alignment tool for [translationCore](https://github.com/unfoldingWord-dev/translationCore).
+Word alignment tool for [translationCore].
+
+## Usage
+
+This should be included as a sub-module within the `tC_apps` directory in [translationCore].
+
+[translationCore]:https://github.com/unfoldingWord-dev/translationCore

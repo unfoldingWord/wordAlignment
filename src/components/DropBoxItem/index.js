@@ -54,7 +54,7 @@ DropBoxItem.propTypes = {
   alignmentIndex: PropTypes.number.isRequired,
   lastDroppedItem: PropTypes.object,
   onDrop: PropTypes.func.isRequired
-}
+};
 
 const DropDropBoxItemAction = {
   drop(props, monitor) {
@@ -68,7 +68,7 @@ const collect = (connect, monitor) => {
     isOver: monitor.isOver(),
     canDrop: monitor.canDrop()
   };
-}
+};
 
 export default DropTarget(
   ItemTypes.BOTTOM_WORD, // itemType

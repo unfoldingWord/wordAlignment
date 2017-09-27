@@ -22,7 +22,7 @@ const DragWordBankItemAction = {
     };
     return item;
   },
-  endDrag(props, monitor, component) {
+  endDrag() { // receives: props, monitor, component
     // When dropped on a compatible target, do something
     // const item = monitor.getItem();
     // console.log(item)
@@ -48,7 +48,7 @@ WordBankItem.propTypes = {
   occurrences: PropTypes.number.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
-}
+};
 
 export default DragSource(
   ItemTypes.BOTTOM_WORD,

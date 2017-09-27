@@ -1,0 +1,28 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "15.0"
+    }
+  },
+  "rules": {
+    "semi": ["error", "always", {"omitLastInOneLineBlock": true}],
+    "no-console": "off"
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

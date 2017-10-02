@@ -19,7 +19,7 @@ class DropBoxItem extends Component {
     return connectDropTarget(
       <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
-          <TopWordCard words={topWords} />
+          <TopWordCard words={topWords} resourcesReducer={this.props.resourcesReducer} actions={this.props.actions} />
           <div style={style}>
             {bottomWords.length > 0 &&
               <div style={{ display: 'flex' }}>

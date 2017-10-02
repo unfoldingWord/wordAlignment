@@ -22,6 +22,8 @@ class DropBoxArea extends Component {
                 bottomWords={alignment.bottomWords}
                 topWords={alignment.topWords}
                 onDrop={item => this.handleDrop(index, item)}
+                actions={this.props.actions}
+                resourcesReducer={this.props.resourcesReducer}
               />
             );
           })

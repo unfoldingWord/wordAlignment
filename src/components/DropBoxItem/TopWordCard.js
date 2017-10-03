@@ -18,10 +18,10 @@ const internalStyle = {
 class TopWordCard extends Component {
   componentWillMount() {
     this.onClick = this.onClick.bind(this);
-    const {verseText} = this.props;
+    const { verseText } = this.props;
     if (verseText.constructor == Array) {
       this.props.verseText.forEach((word) => {
-        const {strongs} = word;
+        const { strongs } = word;
         if (!strongs) return;
         const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs);
         const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strongs);
@@ -34,7 +34,7 @@ class TopWordCard extends Component {
     let positionCoord = e.target;
     const PopoverTitle = <strong style={{ fontSize: '1.2em' }}>{word.word}</strong>;
     let { showPopover } = this.props.actions;
-    let matchedWord = this.props.verseText.find((ele)=> {return ele.word === word.word});
+    let matchedWord = this.props.verseText.find((ele) => { return ele.word === word.word });
     const wordDetails = <WordDetails resourcesReducer={this.props.resourcesReducer} word={matchedWord} />;
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
@@ -44,7 +44,7 @@ class TopWordCard extends Component {
       <span style={{ ...internalStyle, ...style }}>
         {
           words.map((wordObject, index) => (
-            <span style={{ cursor:'pointer' }} onClick={(e) => this.onClick(e, wordObject)} key={index}>{wordObject.word}&nbsp;</span>
+            <span style={{ cursor: 'pointer' }} onClick={(e) => this.onClick(e, wordObject)} key={index}>{wordObject.word}&nbsp;</span>
           ))
         }
       </span>
@@ -55,10 +55,14 @@ class TopWordCard extends Component {
 TopWordCard.propTypes = {
   words: PropTypes.array.isRequired,
   style: PropTypes.object,
-  actions: {
-    showPopover: PropTypes.func.isRequired
-  },
-  verseText: PropTypes.array.isRequired
+  actions: PropTypes.shape({
+    showPopover: PropTypes.func.isRequired,
+    loadLexiconEntry: PropTypes.func.isRequired
+  }),
+  verseText: PropTypes.array.isRequired,
+  resourcesReducer: PropTypes.shape({
+    lexicons: PropTypes.object.isRequired
+  })
 };
 
 export default TopWordCard;

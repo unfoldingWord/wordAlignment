@@ -12,7 +12,7 @@ class DropBoxItem extends Component {
     const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords, verseText } = this.props;
     const style = {
       height: '35px',
-      padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
+      padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' : '0px',
       border: isOver ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
     };
 
@@ -53,7 +53,15 @@ DropBoxItem.propTypes = {
   bottomWords: PropTypes.array.isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   lastDroppedItem: PropTypes.object,
-  onDrop: PropTypes.func.isRequired
+  onDrop: PropTypes.func.isRequired,
+  resourcesReducer: PropTypes.shape({
+    lexicons: PropTypes.object.isRequired
+  }),
+  verseText: PropTypes.array.isRequired,
+  actions: PropTypes.shape({
+    showPopover: PropTypes.func.isRequired,
+    loadLexiconEntry: PropTypes.func.isRequired
+  })
 };
 
 const DropDropBoxItemAction = {

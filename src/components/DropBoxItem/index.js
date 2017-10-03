@@ -9,7 +9,7 @@ import TopWordCard from './TopWordCard';
 
 class DropBoxItem extends Component {
   render() {
-    const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords } = this.props;
+    const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords, verseText } = this.props;
     const style = {
       height: '35px',
       padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
@@ -19,7 +19,7 @@ class DropBoxItem extends Component {
     return connectDropTarget(
       <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
-          <TopWordCard words={topWords} resourcesReducer={this.props.resourcesReducer} actions={this.props.actions} />
+          <TopWordCard resourcesReducer={this.props.resourcesReducer} words={topWords} actions={this.props.actions} verseText={verseText} />
           <div style={style}>
             {bottomWords.length > 0 &&
               <div style={{ display: 'flex' }}>

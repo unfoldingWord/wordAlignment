@@ -17,9 +17,10 @@ const internalStyle = {
 
 class TopWordCard extends Component {
   componentWillMount() {
-    const {words} = this.props;
-    if (words.constructor == Array) {
-      this.props.words.forEach((word) => {
+    this.onClick = this.onClick.bind(this);
+    const {verseText} = this.props;
+    if (verseText.constructor == Array) {
+      this.props.verseText.forEach((word) => {
         const {strongs} = word;
         if (!strongs) return;
         const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs);
@@ -33,7 +34,8 @@ class TopWordCard extends Component {
     let positionCoord = e.target;
     const PopoverTitle = <strong style={{ fontSize: '1.2em' }}>{word.word}</strong>;
     let { showPopover } = this.props.actions;
-    const wordDetails = <WordDetails {...this.props} word={word} />;
+    let matchedWord = this.props.verseText.find((ele)=> {return ele.word === word.word});
+    const wordDetails = <WordDetails resourcesReducer={this.props.resourcesReducer} word={matchedWord} />;
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
   render() {
@@ -55,7 +57,8 @@ TopWordCard.propTypes = {
   style: PropTypes.object,
   actions: {
     showPopover: PropTypes.func.isRequired
-  }
+  },
+  verseText: PropTypes.array.isRequired
 };
 
 export default TopWordCard;

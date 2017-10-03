@@ -44,7 +44,7 @@ class TopWordCard extends Component {
       <span style={{ ...internalStyle, ...style }}>
         {
           words.map((wordObject, index) => (
-            <span onClick={(e) => this.onClick(e, wordObject)} key={index}>{wordObject.word}&nbsp;</span>
+            <span style={{ cursor:'pointer' }} onClick={(e) => this.onClick(e, wordObject)} key={index}>{wordObject.word}&nbsp;</span>
           ))
         }
       </span>

@@ -35,18 +35,11 @@ class DropBoxArea extends Component {
   }
 
   handleDrop(index, wordBankItem) {
-    switch (wordBankItem.type) {
-      case ItemTypes.BOTTOM_WORD: {
-        this.props.actions.moveWordBankItemToAlignment(index, wordBankItem);
-        break;
-      }
-      case ItemTypes.TOP_WORD: {
-        // this.props.actions.moveTopWordToAlignment(index, wordBankItem);
-        break;
-      }
-      default: {
-        // Do nothing
-      }
+    if (wordBankItem.type === ItemTypes.BOTTOM_WORD) {
+      this.props.actions.moveWordBankItemToAlignment(index, wordBankItem);
+    }
+    if (wordBankItem.type === ItemTypes.TOP_WORD) {
+      this.props.actions.mergeAlignments(wordBankItem.alignmentIndex, index);
     }
   }
 }

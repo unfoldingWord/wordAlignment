@@ -4,14 +4,17 @@ import { DragSource } from 'react-dnd';
 import ItemTypes from '../ItemTypes';
 
 const internalStyle = {
+  display: 'flex',
+  width: '100%',
   borderLeft: '5px solid #44C6FF',
   padding: '10px',
-  marginBottom: '5px',
-  color: '#ffffff',
   textAlign: 'center',
   backgroundColor: '#333333',
   boxShadow: "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-  cursor: 'move'
+  cursor: 'move',
+  color: '#ffffff',
+  marginBottom: '5px',
+  height: '40px'
 };
 
 const TopWordCard = ({

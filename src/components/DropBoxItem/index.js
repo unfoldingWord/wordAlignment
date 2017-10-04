@@ -10,7 +10,10 @@ import TopWordCard from './TopWordCard';
 class DropBoxItem extends Component {
   render() {
     const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords } = this.props;
-    const style = {
+    const topStyle = {
+      padding: topWords.length === 0 ? '15px 0px' : '1px 0'
+    };
+    const bottomStyle = {
       height: '35px',
       padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
       border: isOver && canDrop ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
@@ -19,18 +22,22 @@ class DropBoxItem extends Component {
     return connectDropTarget(
       <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
-          {
-            topWords.map((metadata, index) => (
-              <TopWordCard
-                key={index}
-                word={metadata.word}
-                occurrence={metadata.occurrence}
-                occurrences={metadata.occurrences}
-                alignmentIndex={alignmentIndex}
-              />
-            ))
-          }
-          <div style={style}>
+          <div style={topStyle}>
+            <div style={{ display: 'flex' }}>
+              {
+                topWords.map((metadata, index) => (
+                  <TopWordCard
+                    key={index}
+                    word={metadata.word}
+                    occurrence={metadata.occurrence}
+                    occurrences={metadata.occurrences}
+                    alignmentIndex={alignmentIndex}
+                  />
+                ))
+              }
+            </div>
+          </div>
+          <div style={bottomStyle}>
             {bottomWords.length > 0 &&
               <div style={{ display: 'flex' }}>
                 {

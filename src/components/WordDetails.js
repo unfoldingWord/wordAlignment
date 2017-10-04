@@ -31,7 +31,7 @@ WordDetails.propTypes = {
   word: PropTypes.shape({
     lemma: PropTypes.string.isRequired,
     morph: PropTypes.string.isRequired,
-    strongs: PropTypes.number.isRequired
+    strongs: PropTypes.string.isRequired
   }),
   resourcesReducer: PropTypes.shape({
     lexicons: PropTypes.object.isRequired

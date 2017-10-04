@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+// constants
+import ItemTypes from '../ItemTypes';
 // components
 import DropBoxItem from '../DropBoxItem';
 
@@ -33,7 +35,19 @@ class DropBoxArea extends Component {
   }
 
   handleDrop(index, wordBankItem) {
-    this.props.actions.moveWordBankItemToAlignment(index, wordBankItem);
+    switch (wordBankItem.type) {
+      case ItemTypes.BOTTOM_WORD: {
+        this.props.actions.moveWordBankItemToAlignment(index, wordBankItem);
+        break;
+      }
+      case ItemTypes.TOP_WORD: {
+        // this.props.actions.moveTopWordToAlignment(index, wordBankItem);
+        break;
+      }
+      default: {
+        // Do nothing
+      }
+    }
   }
 }
 

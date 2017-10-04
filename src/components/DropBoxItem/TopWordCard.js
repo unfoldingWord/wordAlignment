@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DragSource } from 'react-dnd';
+import ItemTypes from '../ItemTypes';
 
 const internalStyle = {
   borderLeft: '5px solid #44C6FF',
@@ -13,23 +15,54 @@ const internalStyle = {
 };
 
 const TopWordCard = ({
-  words,
-  style
+  word,
+  style,
+  isDragging,
+  connectDragSource
 }) => {
-  return (
-    <span style={{ ...internalStyle, ...style }}>
-      {
-        words.map((wordObject, index) => (
-          <span key={index}>{wordObject.word}&nbsp;</span>
-        ))
-      }
+  const opacity = isDragging ? 0.4 : 1;
+
+  return connectDragSource(
+    <span style={{ ...internalStyle, ...style, opacity }}>
+      {word}
     </span>
   );
 };
 
 TopWordCard.propTypes = {
-  words: PropTypes.array.isRequired,
+  word: PropTypes.string.isRequired,
+  occurrence: PropTypes.number.isRequired,
+  occurrences: PropTypes.number.isRequired,
+  alignmentIndex: PropTypes.number,
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired,
   style: PropTypes.object
 };
 
-export default TopWordCard;
+const DragTopWordCardAction = {
+  beginDrag(props) {
+    // Return the data describing the dragged item
+    const item = {
+      word: props.word,
+      occurrence: props.occurrence,
+      occurrences: props.occurrences,
+      alignmentIndex: props.alignmentIndex,
+      type: ItemTypes.TOP_WORD
+    };
+    return item;
+  }
+};
+
+const collect = (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+  };
+};
+
+export default DragSource(
+  ItemTypes.TOP_WORD,
+  DragTopWordCardAction,
+  collect
+)(TopWordCard);

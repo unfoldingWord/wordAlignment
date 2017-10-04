@@ -19,7 +19,17 @@ class DropBoxItem extends Component {
     return connectDropTarget(
       <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
-          <TopWordCard words={topWords} />
+          {
+            topWords.map((metadata, index) => (
+              <TopWordCard
+                key={index}
+                word={metadata.word}
+                occurrence={metadata.occurrence}
+                occurrences={metadata.occurrences}
+                alignmentIndex={alignmentIndex}
+              />
+            ))
+          }
           <div style={style}>
             {bottomWords.length > 0 &&
               <div style={{ display: 'flex' }}>
@@ -31,7 +41,6 @@ class DropBoxItem extends Component {
                       occurrence={metadata.occurrence}
                       occurrences={metadata.occurrences}
                       alignmentIndex={alignmentIndex}
-                      hide={canDrop}
                     />
                   ))
                 }
@@ -71,7 +80,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  ItemTypes.BOTTOM_WORD, // itemType
+  [ItemTypes.BOTTOM_WORD, ItemTypes.TOP_WORD], // itemType
   DropDropBoxItemAction,
   collect
 )(DropBoxItem);

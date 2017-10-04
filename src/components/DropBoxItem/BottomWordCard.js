@@ -14,18 +14,20 @@ const internalStyle = {
   cursor: 'move'
 };
 
-class BottomWordCard extends Component {
-  render() {
-    const { word, style, isDragging, connectDragSource } = this.props;
-    const opacity = isDragging ? 0.4 : 1;
+const BottomWordCard = ({
+  word,
+  style,
+  isDragging,
+  connectDragSource
+}) => {
+  const opacity = isDragging ? 0.4 : 1;
 
-    return connectDragSource(
-      <span style={{ ...internalStyle, ...style, opacity }}>
-        {word}
-      </span>
-    );
-  }
-}
+  return connectDragSource(
+    <span style={{ ...internalStyle, ...style, opacity }}>
+      {word}
+    </span>
+  );
+};
 
 BottomWordCard.propTypes = {
   word: PropTypes.string.isRequired,
@@ -44,7 +46,8 @@ const DragBottomWordCardAction = {
       word: props.word,
       occurrence: props.occurrence,
       occurrences: props.occurrences,
-      alignmentIndex: props.alignmentIndex
+      alignmentIndex: props.alignmentIndex,
+      type: ItemTypes.BOTTOM_WORD
     };
     return item;
   }

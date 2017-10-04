@@ -9,17 +9,17 @@ import TopWordCard from './TopWordCard';
 
 class DropBoxItem extends Component {
   render() {
-    const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords } = this.props;
+    const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords, verseText } = this.props;
     const style = {
       height: '35px',
-      padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
+      padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' : '0px',
       border: isOver ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
     };
 
     return connectDropTarget(
       <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
-          <TopWordCard words={topWords} />
+          <TopWordCard resourcesReducer={this.props.resourcesReducer} words={topWords} actions={this.props.actions} verseText={verseText} />
           <div style={style}>
             {bottomWords.length > 0 &&
               <div style={{ display: 'flex' }}>
@@ -53,7 +53,15 @@ DropBoxItem.propTypes = {
   bottomWords: PropTypes.array.isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   lastDroppedItem: PropTypes.object,
-  onDrop: PropTypes.func.isRequired
+  onDrop: PropTypes.func.isRequired,
+  resourcesReducer: PropTypes.shape({
+    lexicons: PropTypes.object.isRequired
+  }),
+  verseText: PropTypes.array.isRequired,
+  actions: PropTypes.shape({
+    showPopover: PropTypes.func.isRequired,
+    loadLexiconEntry: PropTypes.func.isRequired
+  })
 };
 
 const DropDropBoxItemAction = {

@@ -13,7 +13,7 @@ class DropBoxItem extends Component {
     const style = {
       height: '35px',
       padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
-      border: isOver ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
+      border: isOver && canDrop ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
     };
 
     return connectDropTarget(
@@ -66,6 +66,17 @@ DropBoxItem.propTypes = {
 };
 
 const DropDropBoxItemAction = {
+  canDrop(props, monitor) {
+    const item = monitor.getItem();
+    if (item.type === ItemTypes.TOP_WORD) {
+      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+      const canDrop = (Math.abs(alignmentIndexDelta) === 1);
+      return canDrop;
+    }
+    if (item.type === ItemTypes.BOTTOM_WORD) {
+      return true;
+    }
+  },
   drop(props, monitor) {
     props.onDrop(monitor.getItem());
   }

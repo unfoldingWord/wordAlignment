@@ -9,18 +9,35 @@ import TopWordCard from './TopWordCard';
 
 class DropBoxItem extends Component {
   render() {
-    const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords, verseText } = this.props;
-    const style = {
+    const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords } = this.props;
+    const topStyle = {
+      padding: topWords.length === 0 ? '15px 0px' : '1px 0'
+    };
+    const bottomStyle = {
       height: '35px',
-      padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' : '0px',
-      border: isOver ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
+      padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
+      border: isOver && canDrop ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
     };
 
     return connectDropTarget(
       <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
-          <TopWordCard resourcesReducer={this.props.resourcesReducer} words={topWords} actions={this.props.actions} verseText={verseText} />
-          <div style={style}>
+          <div style={topStyle}>
+            <div style={{ display: 'flex' }}>
+              {
+                topWords.map((wordObject, index) => (
+                  <TopWordCard
+                    key={index}
+                    wordObject={wordObject}
+                    alignmentIndex={this.props.alignmentIndex}
+                    resourcesReducer={this.props.resourcesReducer}
+                    actions={this.props.actions}
+                  />
+                ))
+              }
+            </div>
+          </div>
+          <div style={bottomStyle}>
             {bottomWords.length > 0 &&
               <div style={{ display: 'flex' }}>
                 {
@@ -31,7 +48,6 @@ class DropBoxItem extends Component {
                       occurrence={metadata.occurrence}
                       occurrences={metadata.occurrences}
                       alignmentIndex={alignmentIndex}
-                      hide={canDrop}
                     />
                   ))
                 }
@@ -57,7 +73,6 @@ DropBoxItem.propTypes = {
   resourcesReducer: PropTypes.shape({
     lexicons: PropTypes.object.isRequired
   }),
-  verseText: PropTypes.array.isRequired,
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
     loadLexiconEntry: PropTypes.func.isRequired
@@ -65,6 +80,17 @@ DropBoxItem.propTypes = {
 };
 
 const DropDropBoxItemAction = {
+  canDrop(props, monitor) {
+    const item = monitor.getItem();
+    if (item.type === ItemTypes.TOP_WORD) {
+      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+      const canDrop = (Math.abs(alignmentIndexDelta) === 1);
+      return canDrop;
+    }
+    if (item.type === ItemTypes.BOTTOM_WORD) {
+      return true;
+    }
+  },
   drop(props, monitor) {
     props.onDrop(monitor.getItem());
   }
@@ -79,7 +105,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  ItemTypes.BOTTOM_WORD, // itemType
+  [ItemTypes.BOTTOM_WORD, ItemTypes.TOP_WORD], // itemType
   DropDropBoxItemAction,
   collect
 )(DropBoxItem);

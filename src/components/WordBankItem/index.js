@@ -18,7 +18,8 @@ const DragWordBankItemAction = {
     const item = {
       word: props.word,
       occurrence: props.occurrence,
-      occurrences: props.occurrences
+      occurrences: props.occurrences,
+      type: ItemTypes.BOTTOM_WORD
     };
     return item;
   },

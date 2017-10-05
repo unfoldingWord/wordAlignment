@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 class WordDetails extends React.Component {
 
   render() {
-    let { lemma, morph, strongs } = this.props.word;
+    let { lemma, morph, strongs } = this.props.wordObject;
     let lexicon;
     if (strongs) {
       const { lexicons } = this.props.resourcesReducer;
@@ -28,7 +28,7 @@ class WordDetails extends React.Component {
 }
 
 WordDetails.propTypes = {
-  word: PropTypes.shape({
+  wordObject: PropTypes.shape({
     lemma: PropTypes.string.isRequired,
     morph: PropTypes.string.isRequired,
     strongs: PropTypes.string.isRequired

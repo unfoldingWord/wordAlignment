@@ -1,68 +1,103 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { DragSource } from 'react-dnd';
+import ItemTypes from '../ItemTypes';
 // helpers
 import * as lexiconHelpers from '../../helpers/lexiconHelpers';
 import WordDetails from '../WordDetails';
 
 const internalStyle = {
+  display: 'flex',
+  width: '100%',
   borderLeft: '5px solid #44C6FF',
   padding: '10px',
-  marginBottom: '5px',
-  color: '#ffffff',
   textAlign: 'center',
   backgroundColor: '#333333',
   boxShadow: "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-  cursor: 'move'
+  cursor: 'move',
+  color: '#ffffff',
+  marginBottom: '5px',
+  height: '40px'
 };
 
 class TopWordCard extends Component {
   componentWillMount() {
-    this.onClick = this.onClick.bind(this);
-    const { verseText } = this.props;
-    if (verseText.constructor == Array) {
-      this.props.verseText.forEach((word) => {
-        const { strongs } = word;
-        if (!strongs) return;
-        const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs);
-        const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strongs);
-        this.props.actions.loadLexiconEntry(lexiconId, entryId);
-      });
+    this.handleOnClick = this.handleOnClick.bind(this);
+    const { strongs } = this.props.wordObject;
+    if (strongs) {
+      const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs);
+      const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strongs);
+      this.props.actions.loadLexiconEntry(lexiconId, entryId);
     }
   }
 
-  onClick(e, word) {
-    let positionCoord = e.target;
-    const PopoverTitle = <strong style={{ fontSize: '1.2em' }}>{word.word}</strong>;
-    let { showPopover } = this.props.actions;
-    let matchedWord = this.props.verseText.find((ele) => { return ele.word === word.word });
-    const wordDetails = <WordDetails resourcesReducer={this.props.resourcesReducer} word={matchedWord} />;
-    showPopover(PopoverTitle, wordDetails, positionCoord);
-  }
   render() {
-    const { words, style } = this.props;
-    return (
-      <span style={{ ...internalStyle, ...style }}>
-        {
-          words.map((wordObject, index) => (
-            <span style={{ cursor: 'pointer' }} onClick={(e) => this.onClick(e, wordObject)} key={index}>{wordObject.word}&nbsp;</span>
-          ))
-        }
+    const { wordObject, style, isDragging, connectDragSource } = this.props;
+    const opacity = isDragging ? 0.4 : 1;
+
+    return connectDragSource(
+      <span style={{ ...internalStyle, ...style, opacity }}>
+        <span style={{ cursor: 'pointer' }} onClick={(e) => this.handleOnClick(e, wordObject)}>
+          {wordObject.word}
+        </span>
       </span>
     );
+  }
+
+  handleOnClick(e, wordObject) {
+    let positionCoord = e.target;
+    const PopoverTitle = <strong style={{ fontSize: '1.2em' }}>{wordObject.word}</strong>;
+    let { showPopover } = this.props.actions;
+    const wordDetails = <WordDetails resourcesReducer={this.props.resourcesReducer} wordObject={wordObject} />;
+    showPopover(PopoverTitle, wordDetails, positionCoord);
   }
 }
 
 TopWordCard.propTypes = {
-  words: PropTypes.array.isRequired,
+  wordObject: PropTypes.shape({
+    word: PropTypes.string.isRequired,
+    lemma: PropTypes.string.isRequired,
+    strongs: PropTypes.string.isRequired,
+    occurrence: PropTypes.number.isRequired,
+    occurrences: PropTypes.number.isRequired
+  }),
+  alignmentIndex: PropTypes.number.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired,
   style: PropTypes.object,
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
     loadLexiconEntry: PropTypes.func.isRequired
   }),
-  verseText: PropTypes.array.isRequired,
   resourcesReducer: PropTypes.shape({
     lexicons: PropTypes.object.isRequired
   })
 };
 
-export default TopWordCard;
+const DragTopWordCardAction = {
+  beginDrag(props) {
+    // Return the data describing the dragged item
+    const item = {
+      word: props.wordObject.word,
+      occurrence: props.wordObject.occurrence,
+      occurrences: props.wordObject.occurrences,
+      alignmentIndex: props.alignmentIndex,
+      type: ItemTypes.TOP_WORD
+    };
+    return item;
+  }
+};
+
+const collect = (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+  };
+};
+
+export default DragSource(
+  ItemTypes.TOP_WORD,
+  DragTopWordCardAction,
+  collect
+)(TopWordCard);

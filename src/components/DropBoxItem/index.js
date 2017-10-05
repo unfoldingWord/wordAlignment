@@ -29,6 +29,7 @@ class DropBoxItem extends Component {
                   <TopWordCard
                     key={index}
                     wordObject={wordObject}
+                    alignmentIndex={this.props.alignmentIndex}
                     resourcesReducer={this.props.resourcesReducer}
                     actions={this.props.actions}
                   />

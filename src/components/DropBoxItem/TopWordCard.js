@@ -59,9 +59,9 @@ TopWordCard.propTypes = {
     lemma: PropTypes.string.isRequired,
     strongs: PropTypes.string.isRequired,
     occurrence: PropTypes.number.isRequired,
-    occurrences: PropTypes.number.isRequired,
-    alignmentIndex: PropTypes.number.isRequired
+    occurrences: PropTypes.number.isRequired
   }),
+  alignmentIndex: PropTypes.number.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   style: PropTypes.object,
@@ -78,9 +78,9 @@ const DragTopWordCardAction = {
   beginDrag(props) {
     // Return the data describing the dragged item
     const item = {
-      word: props.word,
-      occurrence: props.occurrence,
-      occurrences: props.occurrences,
+      word: props.wordObject.word,
+      occurrence: props.wordObject.occurrence,
+      occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,
       type: ItemTypes.TOP_WORD
     };

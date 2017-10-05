@@ -9,8 +9,8 @@ import DropBoxArea from './components/DropBoxArea';
 class Container extends Component {
 
   componentWillMount() {
-    // set the ScripturePane to display ulb and ugnt
-    this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", ["ulb", "ugnt"]);
+    // set the ScripturePane to display ulb and bhp
+    this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", ["ulb", "bhp"]);
   }
 
   render() {

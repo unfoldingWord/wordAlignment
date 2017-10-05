@@ -16,7 +16,7 @@ class Container extends Component {
   render() {
     // Modules not defined within translationWords
     const { ScripturePane } = this.props.currentToolViews;
-    let scripturePane = <div/>;
+    let scripturePane = <div />;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(this.props.resourcesReducer.bibles).length > 0) {
       scripturePane = <ScripturePane {...this.props} />;
@@ -24,7 +24,7 @@ class Container extends Component {
 
     return (
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <WordBankArea {...this.props}/>
+        <WordBankArea {...this.props} />
         <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
           {scripturePane}
           <DropBoxArea {...this.props} />

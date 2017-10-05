@@ -25,13 +25,12 @@ class DropBoxItem extends Component {
           <div style={topStyle}>
             <div style={{ display: 'flex' }}>
               {
-                topWords.map((metadata, index) => (
+                topWords.map((wordObject, index) => (
                   <TopWordCard
                     key={index}
-                    word={metadata.word}
-                    occurrence={metadata.occurrence}
-                    occurrences={metadata.occurrences}
-                    alignmentIndex={alignmentIndex}
+                    wordObject={wordObject}
+                    resourcesReducer={this.props.resourcesReducer}
+                    actions={this.props.actions}
                   />
                 ))
               }
@@ -69,7 +68,14 @@ DropBoxItem.propTypes = {
   bottomWords: PropTypes.array.isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   lastDroppedItem: PropTypes.object,
-  onDrop: PropTypes.func.isRequired
+  onDrop: PropTypes.func.isRequired,
+  resourcesReducer: PropTypes.shape({
+    lexicons: PropTypes.object.isRequired
+  }),
+  actions: PropTypes.shape({
+    showPopover: PropTypes.func.isRequired,
+    loadLexiconEntry: PropTypes.func.isRequired
+  })
 };
 
 const DropDropBoxItemAction = {

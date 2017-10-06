@@ -57,6 +57,7 @@ TopWordCard.propTypes = {
   wordObject: PropTypes.shape({
     word: PropTypes.string.isRequired,
     lemma: PropTypes.string.isRequired,
+    morph: PropTypes.string.isRequired,
     strongs: PropTypes.string.isRequired,
     occurrence: PropTypes.number.isRequired,
     occurrences: PropTypes.number.isRequired
@@ -79,6 +80,9 @@ const DragTopWordCardAction = {
     // Return the data describing the dragged item
     const item = {
       word: props.wordObject.word,
+      lemma: props.wordObject.lemma,
+      morph: props.wordObject.morph,
+      strongs: props.wordObject.strongs,
       occurrence: props.wordObject.occurrence,
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,

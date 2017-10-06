@@ -42,12 +42,12 @@ class DropBoxArea extends Component {
     );
   }
 
-  handleDrop(index, wordBankItem) {
-    if (wordBankItem.type === ItemTypes.BOTTOM_WORD) {
-      this.props.actions.moveWordBankItemToAlignment(index, wordBankItem);
+  handleDrop(index, item) {
+    if (item.type === ItemTypes.BOTTOM_WORD) {
+      this.props.actions.moveWordBankItemToAlignment(index, item);
     }
-    if (wordBankItem.type === ItemTypes.TOP_WORD) {
-      this.props.actions.mergeAlignments(wordBankItem.alignmentIndex, index);
+    if (item.type === ItemTypes.TOP_WORD) {
+      this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex, index);
     }
   }
 }

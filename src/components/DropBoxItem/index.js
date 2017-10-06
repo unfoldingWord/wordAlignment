@@ -82,13 +82,20 @@ DropBoxItem.propTypes = {
 const DropDropBoxItemAction = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    if (item.type === ItemTypes.TOP_WORD) {
+    let canDrop;
+    if (item.type === ItemTypes.BOTTOM_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      const canDrop = (Math.abs(alignmentIndexDelta) === 1);
+      canDrop = alignmentIndexDelta !== 0;
       return canDrop;
     }
-    if (item.type === ItemTypes.BOTTOM_WORD) {
-      return true;
+    if (item.type === ItemTypes.TOP_WORD) {
+      if (props.topWords.length === 0 && props.bottomWords.length === 0) {
+        canDrop = true;
+      } else {
+        const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+        canDrop = (Math.abs(alignmentIndexDelta) === 1);
+      }
+      return canDrop;
     }
   },
   drop(props, monitor) {

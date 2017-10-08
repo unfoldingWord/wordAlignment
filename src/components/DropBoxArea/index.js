@@ -26,15 +26,24 @@ class DropBoxArea extends Component {
         {
           alignments.map((alignment, index) => {
             return (
-              <DropBoxItem
-                key={index}
-                alignmentIndex={index}
-                bottomWords={alignment.bottomWords}
-                topWords={alignment.topWords}
-                onDrop={item => this.handleDrop(index, item)}
-                actions={actions}
-                resourcesReducer={resourcesReducer}
-              />
+              <div key={index} style={{ display: 'flex' }}>
+                <DropBoxItem
+                  alignmentIndex={index}
+                  bottomWords={alignment.bottomWords}
+                  topWords={alignment.topWords}
+                  onDrop={item => this.handleDrop(index, item)}
+                  actions={actions}
+                  resourcesReducer={resourcesReducer}
+                />
+                <DropBoxItem
+                  alignmentIndex={index}
+                  bottomWords={[]}
+                  topWords={[]}
+                  onDrop={item => this.handleDrop(index, item)}
+                  actions={actions}
+                  resourcesReducer={resourcesReducer}
+                />
+              </div>
             );
           })
         }

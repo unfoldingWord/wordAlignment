@@ -87,6 +87,7 @@ DropBoxItem.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   topWords: PropTypes.array.isRequired,
   bottomWords: PropTypes.array.isRequired,
+  siblingTopWords: PropTypes.array,
   alignmentIndex: PropTypes.number.isRequired,
   lastDroppedItem: PropTypes.object,
   onDrop: PropTypes.func.isRequired,
@@ -111,7 +112,8 @@ const DropDropBoxItemAction = {
     }
     if (item.type === ItemTypes.TOP_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      if (alignmentIndexDelta === 0 && alignmentEmpty) {
+      const enoughSiblingTopWords = props.siblingTopWords && props.siblingTopWords.length > 1;
+      if (alignmentIndexDelta === 0 && alignmentEmpty && enoughSiblingTopWords) {
         canDrop = true;
       } else {
         canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);

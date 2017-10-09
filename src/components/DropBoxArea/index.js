@@ -39,6 +39,7 @@ class DropBoxArea extends Component {
                   alignmentIndex={index}
                   bottomWords={[]}
                   topWords={[]}
+                  siblingTopWords={alignment.topWords}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   resourcesReducer={resourcesReducer}

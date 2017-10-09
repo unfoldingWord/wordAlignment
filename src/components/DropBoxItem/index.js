@@ -102,7 +102,7 @@ DropBoxItem.propTypes = {
 const DropDropBoxItemAction = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0)
+    const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0);
     let canDrop;
     if (item.type === ItemTypes.BOTTOM_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;

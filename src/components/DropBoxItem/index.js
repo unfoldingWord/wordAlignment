@@ -18,10 +18,22 @@ class DropBoxItem extends Component {
       padding: bottomWords.length === 0 ? '15px 0px' : canDrop ? '15px 0px' :'0px',
       border: isOver && canDrop ? '3px dashed #44C6FF' : bottomWords.length === 0 ? '3px dashed #ffffff' : canDrop ? '3px dashed #ffffff' : ''
     };
-
-    return connectDropTarget(
-      <div style={{ padding: '5px 10px', backgroundColor: '#DCDCDC', margin: '0px 10px 10px 0px', height: '100px' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', width: '230px', height: '70px', backgroundColor: '#DCDCDC' }}>
+    const dropBoxItemOuterStyle = {
+      padding: '5px 10px',
+      backgroundColor: '#DCDCDC',
+      margin: '0px 10px 10px 0px',
+      height: '100px'
+    };
+    const dropBoxItemInnerStyle = {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '230px',
+      height: '70px',
+      backgroundColor: '#DCDCDC'
+    };
+    let dropBoxDiv = (
+      <div style={dropBoxItemOuterStyle}>
+        <div style={dropBoxItemInnerStyle}>
           <div style={topStyle}>
             <div style={{ display: 'flex' }}>
               {
@@ -57,6 +69,14 @@ class DropBoxItem extends Component {
         </div>
       </div>
     );
+    const emptyDropBoxItem = topWords.length === 0 && bottomWords.length === 0;
+    if (emptyDropBoxItem) {
+      dropBoxItemInnerStyle.width = 10;
+      dropBoxDiv = canDrop ? dropBoxDiv : <div />;
+    }
+    return connectDropTarget(
+      dropBoxDiv
+    );
   }
 }
 
@@ -82,18 +102,19 @@ DropBoxItem.propTypes = {
 const DropDropBoxItemAction = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
+    const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0);
     let canDrop;
     if (item.type === ItemTypes.BOTTOM_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      canDrop = alignmentIndexDelta !== 0;
+      canDrop = alignmentIndexDelta !== 0 && !alignmentEmpty;
       return canDrop;
     }
     if (item.type === ItemTypes.TOP_WORD) {
-      if (props.topWords.length === 0 && props.bottomWords.length === 0) {
+      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+      if (alignmentIndexDelta === 0 && alignmentEmpty) {
         canDrop = true;
       } else {
-        const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-        canDrop = (Math.abs(alignmentIndexDelta) === 1);
+        canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
       }
       return canDrop;
     }

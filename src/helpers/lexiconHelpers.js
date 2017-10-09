@@ -6,7 +6,7 @@
 export const lexiconIdFromStrongs = (strongs) => {
   const lexiconId = (strongs.replace(/\d+/,'') === 'G') ? 'ugl': 'uhl';
   return lexiconId;
-}
+};
 /**
  * @description - Get the lexicon entryId from the strongs number
  * @param {String} strongs - the strongs number to get the entryId from
@@ -15,4 +15,4 @@ export const lexiconIdFromStrongs = (strongs) => {
 export const lexiconEntryIdFromStrongs = (strongs) => {
   const entryId = parseInt(strongs.replace(/\w/,'').slice(0,-1));
   return entryId;
-}
+};

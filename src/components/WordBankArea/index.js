@@ -44,7 +44,7 @@ WordBankArea.propTypes = {
   contextIdReducer: PropTypes.object.isRequired,
   wordAlignmentReducer: PropTypes.object.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  isOver: PropTypes.func.isRequired
+  isOver: PropTypes.bool.isRequired
 };
 
 const wordBankAreaItemAction = {

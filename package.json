@@ -1,7 +1,7 @@
 {
   "name": "wordAlignment",
   "version": "1.0.0",
-  "description": "Word alignment tool",
+  "description": "A tool to align the translation with the original biblical languages in order to show how the translation communicates the meaning represented in the original. This data can be useful in creating other resources such as concordances and interlinear Bibles in the target language.",
   "title": "Word Alignment",
   "main": "index.js",
   "display": "app",

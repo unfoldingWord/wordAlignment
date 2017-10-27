@@ -15,7 +15,6 @@ class Container extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.contextIdReducer);
     if( isEqual(
         this.props.contextIdReducer.contextId, 
         nextProps.contextIdReducer.contextId)) {

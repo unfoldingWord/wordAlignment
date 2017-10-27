@@ -5,12 +5,22 @@ import HTML5Backend from 'react-dnd-html5-backend';
 // components
 import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
+import isEqual from 'lodash/isEqual';
 
 class Container extends Component {
 
   componentWillMount() {
     // set the ScripturePane to display ulb and bhp
     this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", ["ulb", "bhp"]);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if( isEqual(
+        this.props.contextIdReducer.contextId, 
+        nextProps.contextIdReducer.contextId)) {
+      var page = document.getElementById("DropBoxArea");
+      if (page) page.scrollTop = 0;
+    }
   }
 
   render() {

@@ -10,14 +10,24 @@ import isEqual from 'lodash/isEqual';
 class Container extends Component {
 
   componentWillMount() {
-    // set the ScripturePane to display ulb and bhp
-    this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", ["ulb", "bhp"]);
+    // current panes persisted in the scripture pane settings.
+    let panes = this.props.settingsReducer.toolsSettings.ScripturePane.currentPaneSettings;
+    // filter out targetLanguage and bhp 
+    panes = panes.filter((pane) => {
+      return pane !== "targetLanguage" && pane !== "bhp";
+    });
+    // getting the last pane from the panes array if it exist otherwise equal to null.
+    const lastPane = panes[panes.length - 1] ? panes[panes.length - 1] : null;
+    // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
+    let desiredPanes = ["targetLanguage", "bhp"];
+    // if last pane found in previous scripture pane settings then carry it over to new settings in wordAlignment.
+    if (lastPane && lastPane !== "targetLanguage" && lastPane !== "bhp") desiredPanes.push(lastPane);
+    // set new pane settings
+    this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", desiredPanes);
   }
 
   componentWillReceiveProps(nextProps) {
-    if( isEqual(
-        this.props.contextIdReducer.contextId, 
-        nextProps.contextIdReducer.contextId)) {
+    if(isEqual(this.props.contextIdReducer.contextId, nextProps.contextIdReducer.contextId)) {
       var page = document.getElementById("DropBoxArea");
       if (page) page.scrollTop = 0;
     }
@@ -47,6 +57,8 @@ class Container extends Component {
 Container.propTypes = {
   currentToolViews: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
+  contextIdReducer: PropTypes.object.isRequired,
+  settingsReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 

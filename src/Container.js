@@ -12,7 +12,7 @@ class Container extends Component {
   componentWillMount() {
     // current panes persisted in the scripture pane settings.
     let panes = this.props.settingsReducer.toolsSettings.ScripturePane.currentPaneSettings;
-    // filter out targetLanguage and bhp 
+    // filter out targetLanguage and bhp
     panes = panes.filter((pane) => {
       return pane !== "targetLanguage" && pane !== "bhp";
     });
@@ -27,7 +27,7 @@ class Container extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(isEqual(this.props.contextIdReducer.contextId, nextProps.contextIdReducer.contextId)) {
+    if(!isEqual(this.props.contextIdReducer.contextId, nextProps.contextIdReducer.contextId)) {
       var page = document.getElementById("DropBoxArea");
       if (page) page.scrollTop = 0;
     }

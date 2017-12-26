@@ -1,6 +1,7 @@
 import React from 'react';
 import DropBoxArea from '../src/components/DropBoxArea';
 import {shallow} from 'enzyme';
+import renderer from 'react-test-renderer';
 
 describe('DropBoxArea', () => {
   let contextIdReducer ,wordAlignmentReducer, resourcesReducer;
@@ -70,6 +71,14 @@ describe('DropBoxArea', () => {
     expect(dropBoxArea).toBeTruthy();
     expect(dropBoxArea.nodes.length).toEqual(expectedWords + 1);
   });
+});
+
+test('DropBoxArea renders', () => {
+  const component = renderer.create(
+    <DropBoxArea />
+  );
+  let tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
 
   // TODO: exercise UI
 });

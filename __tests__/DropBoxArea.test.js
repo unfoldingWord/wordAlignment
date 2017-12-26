@@ -3,6 +3,16 @@ import DropBoxArea from '../src/components/DropBoxArea';
 import {shallow} from 'enzyme';
 import renderer from 'react-test-renderer';
 
+test('DropBoxArea renders', () => {
+  const component = renderer.create(
+    <DropBoxArea />
+  );
+  let tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+
+  // TODO: exercise UI
+});
+
 describe('DropBoxArea', () => {
   let contextIdReducer ,wordAlignmentReducer, resourcesReducer;
   const luke1 = require('./fixtures/luke/1.json');
@@ -71,14 +81,4 @@ describe('DropBoxArea', () => {
     expect(dropBoxArea).toBeTruthy();
     expect(dropBoxArea.nodes.length).toEqual(expectedWords + 1);
   });
-});
-
-test('DropBoxArea renders', () => {
-  const component = renderer.create(
-    <DropBoxArea />
-  );
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
-
-  // TODO: exercise UI
 });

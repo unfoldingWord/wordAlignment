@@ -8,6 +8,16 @@ import renderer from 'react-test-renderer';
 import WordBankArea from '../src/components/WordBankArea';
 import WordBankItem from '../src/components/WordBankItem';
 
+test('WordBankItem renders', () => {
+  const component = renderer.create(
+    <WordBankArea />
+  );
+  let tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+
+  // TODO: exercise UI
+});
+
 describe('WordBankArea', () => {
   let contextIdReducer ,wordAlignmentReducer, connectDropTarget;
   const luke1 = require('./fixtures/luke/1.json');
@@ -78,17 +88,6 @@ describe('WordBankArea', () => {
     expect(wordBankItems).toBeTruthy();
     expect(wordBankItems.length).toEqual(expectedWords);
   });
-});
-
-
-test('WordBankItem renders', () => {
-  const component = renderer.create(
-    <WordBankArea />
-  );
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
-
-  // TODO: exercise UI
 });
 
 //

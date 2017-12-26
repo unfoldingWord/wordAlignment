@@ -43,11 +43,14 @@ describe('DropBoxArea', () => {
   });
 
   test('DropBoxArea renders Luke 1:1', () => {
+    // given
     const chapter = "1";
     const verse = "1";
     contextIdReducer.contextId.reference.chapter = chapter;
     contextIdReducer.contextId.reference.verse = verse;
     const expectedWords = wordAlignmentReducer.alignmentData[chapter][verse].alignments.length;
+
+    // when
     const enzymeWrapper = shallow(
       <DropBoxArea
         wordAlignmentReducer={wordAlignmentReducer}
@@ -57,17 +60,21 @@ describe('DropBoxArea', () => {
       />
     );
 
+    // then
     const dropBoxArea = enzymeWrapper.find('div');
     expect(dropBoxArea).toBeTruthy();
     expect(dropBoxArea.nodes.length).toEqual(expectedWords + 1);
   });
 
   test('DropBoxArea renders undefined Luke 1:81 without crashing', () => {
+    // given
     const chapter = "1";
     const verse = "81";
     contextIdReducer.contextId.reference.chapter = chapter;
     contextIdReducer.contextId.reference.verse = verse;
     const expectedWords = 0;
+
+    // when
     const enzymeWrapper = shallow(
       <DropBoxArea
         wordAlignmentReducer={wordAlignmentReducer}
@@ -77,6 +84,7 @@ describe('DropBoxArea', () => {
       />
     );
 
+    // then
     const dropBoxArea = enzymeWrapper.find('div');
     expect(dropBoxArea).toBeTruthy();
     expect(dropBoxArea.nodes.length).toEqual(expectedWords + 1);

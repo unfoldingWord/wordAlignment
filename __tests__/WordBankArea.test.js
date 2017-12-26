@@ -9,13 +9,13 @@ import WordBankArea from '../src/components/WordBankArea';
 import WordBankItem from '../src/components/WordBankItem';
 
 test('WordBankItem renders', () => {
-  const component = renderer.create(
-    <WordBankArea />
-  );
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+    const component = renderer.create(
+        <WordBankArea />
+    );
+    let tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
 
-  // TODO: exercise UI
+    // TODO: exercise UI
 });
 
 describe('WordBankArea', () => {

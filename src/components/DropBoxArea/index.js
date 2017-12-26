@@ -20,7 +20,8 @@ class DropBoxArea extends Component {
       return <div />;
     }
     const { chapter, verse } = contextId.reference;
-    const alignments = wordAlignmentReducer.alignmentData[chapter][verse].alignments;
+    const alignmentData = wordAlignmentReducer.alignmentData;
+    const alignments = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ? alignmentData[chapter][verse].alignments : [];
     return (
       <div id='DropBoxArea' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
         {

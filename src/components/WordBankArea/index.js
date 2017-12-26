@@ -17,7 +17,8 @@ const WordBankArea = ({
     const {alignmentData} = wordAlignmentReducer;
     let wordBank = [];
     if (alignmentData[chapter] && alignmentData[chapter][verse]) {
-      wordBank = wordAlignmentReducer.alignmentData[chapter][verse].wordBank;
+      wordBank = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ?
+        alignmentData[chapter][verse].wordBank : [];
     }
 
     return connectDropTarget(

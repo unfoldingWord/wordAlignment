@@ -11,7 +11,9 @@ class Container extends Component {
 
   componentWillMount() {
     // current panes persisted in the scripture pane settings.
-    let panes = this.props.settingsReducer.toolsSettings.ScripturePane.currentPaneSettings;
+    const {ScripturePane} = this.props.settingsReducer.toolsSettings;
+    let panes = [];
+    if (ScripturePane) panes = ScripturePane.currentPaneSettings;
     // filter out targetLanguage and bhp
     panes = panes.filter((pane) => {
       return pane !== "targetLanguage" && pane !== "bhp";

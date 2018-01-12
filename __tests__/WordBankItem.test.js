@@ -1,13 +1,11 @@
 import React from 'react';
 import WordBankItem from '../src/components/WordBankItem';
-import renderer from 'react-test-renderer';
 
 test('WordBankItem renders', () => {
-    const component = renderer.create(
+    const component = (
         <WordBankItem />
     );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component).toMatchSnapshot();
 
     // TODO: exercise UI
 });

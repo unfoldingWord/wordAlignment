@@ -1,14 +1,12 @@
 import React from 'react';
 import DropBoxArea from '../src/components/DropBoxArea';
 import {shallow} from 'enzyme';
-import renderer from 'react-test-renderer';
 
 test('DropBoxArea renders', () => {
-    const component = renderer.create(
+    const component = (
         <DropBoxArea />
     );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component).toMatchSnapshot();
 
     // TODO: exercise UI
 });
@@ -63,7 +61,7 @@ describe('DropBoxArea', () => {
     // then
     const dropBoxArea = enzymeWrapper.find('div');
     expect(dropBoxArea).toBeTruthy();
-    expect(dropBoxArea.nodes.length).toEqual(expectedWords + 1);
+    expect(dropBoxArea.getElements().length).toEqual(expectedWords + 1);
   });
 
   test('DropBoxArea renders undefined Luke 1:81 without crashing', () => {
@@ -87,6 +85,6 @@ describe('DropBoxArea', () => {
     // then
     const dropBoxArea = enzymeWrapper.find('div');
     expect(dropBoxArea).toBeTruthy();
-    expect(dropBoxArea.nodes.length).toEqual(expectedWords + 1);
+    expect(dropBoxArea.getElements().length).toEqual(expectedWords + 1);
   });
 });

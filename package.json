@@ -16,7 +16,11 @@
       "src/**/*.{js,jsx}",
       "!**/node_modules/**"
     ],
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "setupFiles": [
+      "./testSetUp/shim.js",
+      "./testSetUp/enzyme.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -35,7 +39,8 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
-    "enzyme": "2.9.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.13.1",
     "eslint-plugin-react": "^7.5.1",
     "jest": "^21.1.0",

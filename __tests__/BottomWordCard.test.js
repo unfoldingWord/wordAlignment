@@ -1,13 +1,11 @@
 import React from 'react';
 import BottomWordCard from '../src/components/DropBoxItem/BottomWordCard';
-import renderer from 'react-test-renderer';
 
 test('BottomWordCard renders', () => {
-    const component = renderer.create(
+    const component = (
         <BottomWordCard />
     );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component).toMatchSnapshot();
 
     // TODO: exercise UI
 });

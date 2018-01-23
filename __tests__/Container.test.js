@@ -1,13 +1,11 @@
 import React from 'react';
 import Container from '../src/Container';
-import renderer from 'react-test-renderer';
 
 test('Container renders', () => {
-    const component = renderer.create(
+    const component = (
         <Container />
     );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component).toMatchSnapshot();
 
     // TODO: exercise UI
 });

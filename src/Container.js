@@ -16,21 +16,21 @@ class Container extends Component {
     if (ScripturePane) panes = ScripturePane.currentPaneSettings;
     // filter out targetLanguage and bhp
     panes = panes.filter((pane) => {
-      return pane !== "targetLanguage" && pane !== "bhp";
+      return pane !== "targetLanguage" && pane !== "bhp" && pane !== "ugnt";
     });
     // getting the last pane from the panes array if it exist otherwise equal to null.
     const lastPane = panes[panes.length - 1] ? panes[panes.length - 1] : null;
     // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
-    let desiredPanes = ["targetLanguage", "bhp"];
+    let desiredPanes = ["targetLanguage", "ugnt"];
     // if last pane found in previous scripture pane settings then carry it over to new settings in wordAlignment.
-    if (lastPane && lastPane !== "targetLanguage" && lastPane !== "bhp") desiredPanes.push(lastPane);
+    if (lastPane && lastPane !== "targetLanguage" && lastPane !== "bhp" && lastPane !== "ugnt") desiredPanes.push(lastPane);
     // set new pane settings
     this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", desiredPanes);
   }
 
   componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.contextIdReducer.contextId, nextProps.contextIdReducer.contextId)) {
-      var page = document.getElementById("DropBoxArea");
+      let page = document.getElementById("DropBoxArea");
       if (page) page.scrollTop = 0;
     }
   }

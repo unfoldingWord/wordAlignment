@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 class WordDetails extends React.Component {
 
   render() {
-    let { lemma, morph, strongs } = this.props.wordObject;
+    let { lemma, morph, strong } = this.props.wordObject;
     let lexicon;
-    if (strongs) {
+    if (strong) {
       const { lexicons } = this.props.resourcesReducer;
-      const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs);
-      const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strongs);
+      const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strong);
+      const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strong);
       if (lexicons[lexiconId] && lexicons[lexiconId][entryId]) {
         lexicon = lexicons[lexiconId][entryId].long;
       }
@@ -20,7 +20,7 @@ class WordDetails extends React.Component {
       <div style={{ margin: '-10px 10px -20px', maxWidth: '400px' }}>
         <span><strong>Lemma:</strong> {lemma}</span><br />
         <span><strong>Morphology:</strong> {morph}</span><br />
-        <span><strong>Strongs:</strong> {strongs}</span><br />
+        <span><strong>Strongs:</strong> {strong}</span><br />
         <span><strong>Lexicon:</strong> {lexicon}</span><br />
       </div>
     );
@@ -31,7 +31,7 @@ WordDetails.propTypes = {
   wordObject: PropTypes.shape({
     lemma: PropTypes.string.isRequired,
     morph: PropTypes.string.isRequired,
-    strongs: PropTypes.string.isRequired
+    strong: PropTypes.string.isRequired
   }),
   resourcesReducer: PropTypes.shape({
     lexicons: PropTypes.object.isRequired

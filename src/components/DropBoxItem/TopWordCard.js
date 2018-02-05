@@ -23,10 +23,10 @@ const internalStyle = {
 class TopWordCard extends Component {
   componentWillMount() {
     this.handleOnClick = this.handleOnClick.bind(this);
-    const { strongs } = this.props.wordObject;
-    if (strongs) {
-      const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs);
-      const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strongs);
+    const { strong } = this.props.wordObject;
+    if (strong) {
+      const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strong);
+      const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strong);
       this.props.actions.loadLexiconEntry(lexiconId, entryId);
     }
   }
@@ -58,7 +58,7 @@ TopWordCard.propTypes = {
     word: PropTypes.string.isRequired,
     lemma: PropTypes.string.isRequired,
     morph: PropTypes.string.isRequired,
-    strongs: PropTypes.string.isRequired,
+    strong: PropTypes.string.isRequired,
     occurrence: PropTypes.number.isRequired,
     occurrences: PropTypes.number.isRequired
   }),
@@ -82,7 +82,7 @@ const DragTopWordCardAction = {
       word: props.wordObject.word,
       lemma: props.wordObject.lemma,
       morph: props.wordObject.morph,
-      strongs: props.wordObject.strongs,
+      strong: props.wordObject.strong,
       occurrence: props.wordObject.occurrence,
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,

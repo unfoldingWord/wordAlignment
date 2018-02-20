@@ -61,7 +61,8 @@ Container.propTypes = {
   resourcesReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   settingsReducer: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  appLanguage: PropTypes.string.isRequired
 };
 
 export default DragDropContext(HTML5Backend)(Container);

@@ -2,10 +2,8 @@ import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 import thunk from 'redux-thunk';
 import toolReducer from './reducers';
+import {connect} from 'react-redux';
 import { createLogger } from 'redux-logger';
-import {createProvider} from 'react-redux';
-
-const STORE_KEY = 'wordAlignment';
 
 /**
  * Returns a configured store object
@@ -25,11 +23,11 @@ export const configureStore = () => {
 };
 
 /**
- * Creates a connect HOC that is customized to read a particular store
+ * Create a custom react-redux connection HOC that binds to a particular store key
  * @param {string} key - the store key
  * @return {function(*=, *=, *=, *=)}
  */
-const createConnect = (key) => {
+export const createConnect = (key) => {
   return (
     mapStateToProps,
     mapDispatchToProps,
@@ -45,14 +43,3 @@ const createConnect = (key) => {
     );
   };
 };
-
-/**
- * A custom connect HOC to read the store
- * @type {function(*=, *=, *=, *=)}
- */
-export const connect = createConnect(STORE_KEY);
-
-/**
- * A custom provider to share the store
- */
-export const Provider = createProvider(STORE_KEY);

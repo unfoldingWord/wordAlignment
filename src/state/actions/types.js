@@ -1,0 +1,1 @@
+export const LOCALE_LOADED = 'LOCALE_LOADED';

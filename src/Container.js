@@ -57,7 +57,7 @@ class Container extends Component {
     }
 
     const {appLanguage} = this.props;
-    const localeDir = path.join(__dirname, '../locale');
+    const localeDir = path.join(__dirname, './locale');
 
     return (
       <Tool appLanguage={appLanguage}

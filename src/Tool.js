@@ -5,6 +5,7 @@ import {configureStore, createConnect} from './state/store';
 import {loadLocalization} from './state/actions/locale';
 import {setActiveLanguage} from 'react-localize-redux';
 import BrokenScreen from './BrokenScreen';
+import {getTranslate, getLocaleLoaded} from './state/reducers';
 
 /**
  * This container sets up the tool environment.
@@ -19,7 +20,6 @@ class Tool extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      store: null,
       broken: false,
       error: null,
       info: null
@@ -28,17 +28,18 @@ class Tool extends React.Component {
 
   componentWillMount() {
     const {appLanguage, localeDir, storeKey} = this.props;
-    const store = configureStore();
-    this.setState({
-      store
-    });
-
-    // load the locale if available
-    if(localeDir) {
-      store.dispatch(loadLocalization(localeDir, appLanguage));
-    }
-
+    this.store = configureStore();
+    this.store.dispatch(loadLocalization(localeDir, appLanguage));
     this.Provider = createProvider(storeKey);
+    this.unsubscribe = this.store.subscribe(this.handleChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  handleChange() {
+    this.forceUpdate();
   }
 
   componentDidCatch(error, info) {
@@ -52,27 +53,33 @@ class Tool extends React.Component {
   componentWillReceiveProps(nextProps) {
     // stay in sync with the application language
     if(nextProps.appLanguage !== this.props.appLanguage) {
-      const {store} = this.state;
-      store.dispatch(setActiveLanguage(nextProps.appLanguage));
+      this.store.dispatch(setActiveLanguage(nextProps.appLanguage));
     }
   }
 
   render() {
     const {children} = this.props;
-    const {store, broken, error, info} = this.state;
-
+    const {broken, error, info} = this.state;
     const Provider = this.Provider;
 
+    const isLocaleLoaded = getLocaleLoaded(this.store.getState());
+    if(!isLocaleLoaded) {
+      // TODO: we could display a loading screen while the locale loads
+      return null;
+    }
+
     if(broken) {
-      return <BrokenScreen translate={k=>k} error={error} info={info}/>;
+      // TODO: log the error to the core app state so it will be included in feedback logs.
+      // it would be best to pass a callback into this component for this purpose.
+      const translate = getTranslate(this.store.getState());
+      return <BrokenScreen title={translate('tool_broken')} error={error} info={info}/>;
     } else {
       return (
-        <Provider store={store}>
+        <Provider store={this.store}>
           {children}
         </Provider>
       );
     }
-
   }
 }
 
@@ -80,13 +87,13 @@ Tool.propTypes = {
   storeKey: PropTypes.string.isRequired,
   children: PropTypes.any.isRequired,
   appLanguage: PropTypes.string.isRequired,
-  localeDir: PropTypes.string
+  localeDir: PropTypes.string.isRequired
 };
 
 export default Tool;
 
 /**
- * Create a custom react-redux connection HOC that binds to a particular store key
+ * Create a custom react-redux connection HOC that binds to a particular store key.
  * @param {string} key - the store key
  * @return {function}
  */

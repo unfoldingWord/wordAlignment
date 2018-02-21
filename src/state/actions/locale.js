@@ -8,6 +8,7 @@ import path from 'path';
 import {initialize, addTranslationForLanguage, setActiveLanguage} from 'react-localize-redux';
 import osLocale from 'os-locale';
 import _ from 'lodash';
+import * as types from './types';
 
 const DEFAULT_LOCALE = 'en_US';
 
@@ -53,6 +54,14 @@ const enhanceTranslation = (translation, fileName, nonTranslatableStrings=[]) =>
     }
   };
 };
+
+/**
+ * Indicates the locale has been completely loaded
+ * @return {{type: string}}
+ */
+export const setLocaleLoaded = () => ({
+  type: types.LOCALE_LOADED
+});
 
 /**
  * This thunk loads the localization data
@@ -142,6 +151,8 @@ export const loadLocalization = (localeDir, appLanguage=null) => {
         // select system language
         return setSystemLocale(dispatch, languages, translations);
       }
+    }).then(() => {
+      dispatch(setLocaleLoaded());
     }).catch(err => {
       console.log('Failed to initialize localization', err);
     });

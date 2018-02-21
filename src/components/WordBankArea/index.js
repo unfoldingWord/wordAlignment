@@ -20,12 +20,11 @@ const WordBankArea = ({
       wordBank = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ?
         alignmentData[chapter][verse].wordBank : [];
     }
-    throw new Error('Broken!');
 
     return connectDropTarget(
       <div style={{ flex: 0.2, width: '100%', backgroundColor: '#DCDCDC', overflowY: 'auto', padding: '5px 8px 5px 5px' }}>
         {
-          isOver ? <div style={{ border: '3px dashed #44C6FF', height: '100%', width: '100%' }}></div>
+          isOver ? <div style={{ border: '3px dashed #44C6FF', height: '100%', width: '100%' }}/>
           :
           wordBank.map((metadata, index) => (
             <WordBankItem

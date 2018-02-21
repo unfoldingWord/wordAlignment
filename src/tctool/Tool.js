@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {createProvider} from 'react-redux';
-import {configureStore, createConnect} from './state/store';
+import {configureStore} from './state/store';
 import {loadLocalization} from './state/actions/locale';
 import {setActiveLanguage} from 'react-localize-redux';
 import BrokenScreen from './BrokenScreen';
-import {getTranslate, getLocaleLoaded} from './state/reducers';
+import {getTranslate, getLocaleLoaded} from './state/reducers/index';
 
 /**
  * This container sets up the tool environment.
@@ -91,10 +91,3 @@ Tool.propTypes = {
 };
 
 export default Tool;
-
-/**
- * Create a custom react-redux connection HOC that binds to a particular store key.
- * @param {string} key - the store key
- * @return {function}
- */
-exports.createConnect = createConnect;

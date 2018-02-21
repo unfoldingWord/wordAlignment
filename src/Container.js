@@ -7,7 +7,7 @@ import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
 import path from 'path-extra';
-import Tool, {createConnect} from './Tool';
+import Tool, {createConnect} from './tctool';
 
 const STORE_KEY = 'wordAlignment';
 

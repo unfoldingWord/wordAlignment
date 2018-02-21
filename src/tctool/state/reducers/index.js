@@ -18,14 +18,6 @@ export const getTranslate = (state) =>
   fromReactLocalizeRedux.getTranslate(state.locale);
 
 /**
- * Returns the active locale language
- * @param {*} state - the root redux state object
- * @return {Language}
- */
-export const getActiveLanguage = (state) =>
-  fromReactLocalizeRedux.getActiveLanguage(state.locale);
-
-/**
  * Checks if the locale has been loaded
  * @param state
  * @return {bool}

@@ -20,6 +20,7 @@ const WordBankArea = ({
       wordBank = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ?
         alignmentData[chapter][verse].wordBank : [];
     }
+    throw new Error('Broken!');
 
     return connectDropTarget(
       <div style={{ flex: 0.2, width: '100%', backgroundColor: '#DCDCDC', overflowY: 'auto', padding: '5px 8px 5px 5px' }}>

@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {createProvider} from 'react-redux';
 import {configureStore, createConnect} from './state/store';
 import {loadLocalization} from './state/actions/locale';
 import {setActiveLanguage} from 'react-localize-redux';
+import BrokenScreen from './BrokenScreen';
 
 /**
  * This container sets up the tool environment.
@@ -13,17 +14,20 @@ import {setActiveLanguage} from 'react-localize-redux';
  * @property {string} appLanguage - the app interface language code
  * @property {string} [localeDir] - directory containing the interface locale files
  */
-class Tool extends Component {
+class Tool extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      store: null
+      store: null,
+      broken: false,
+      error: null,
+      info: null
     };
   }
 
   componentWillMount() {
-    const {appLanguage, localeDir} = this.props;
+    const {appLanguage, localeDir, storeKey} = this.props;
     const store = configureStore();
     this.setState({
       store
@@ -33,6 +37,16 @@ class Tool extends Component {
     if(localeDir) {
       store.dispatch(loadLocalization(localeDir, appLanguage));
     }
+
+    this.Provider = createProvider(storeKey);
+  }
+
+  componentDidCatch(error, info) {
+    this.setState({
+      broken: true,
+      error,
+      info
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,15 +58,21 @@ class Tool extends Component {
   }
 
   render() {
-    const {children, storeKey} = this.props;
-    const {store} = this.state;
-    const Provider = createProvider(storeKey);
+    const {children} = this.props;
+    const {store, broken, error, info} = this.state;
 
-    return (
-      <Provider store={store}>
-        {children}
-      </Provider>
-    );
+    const Provider = this.Provider;
+
+    if(broken) {
+      return <BrokenScreen translate={k=>k} error={error} info={info}/>;
+    } else {
+      return (
+        <Provider store={store}>
+          {children}
+        </Provider>
+      );
+    }
+
   }
 }
 

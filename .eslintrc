@@ -11,6 +11,7 @@
     }
   },
   "rules": {
+    "react/display-name": "off",
     "no-useless-escape": "warn",
     "no-constant-condition": "warn",
     "no-unused-vars": "warn",

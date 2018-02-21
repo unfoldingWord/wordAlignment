@@ -7,14 +7,15 @@ import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
 import path from 'path-extra';
-import Tool, {createConnect} from './tctool';
+import {createConnect, connectTool} from './tctool';
 
-const STORE_KEY = 'wordAlignment';
+const TOOL_ID = 'wordAlignment';
+const LOCALE_DIR = path.join(__dirname, './locale');
 
 /**
  * The custom connect HOC for this tool
  */
-exports.connect = createConnect(STORE_KEY);
+exports.connect = createConnect(TOOL_ID);
 
 /**
  * The base container for this tool
@@ -56,13 +57,10 @@ class Container extends Component {
       scripturePane = <ScripturePane {...this.props} />;
     }
 
-    const {appLanguage} = this.props;
-    const localeDir = path.join(__dirname, './locale');
+    // const {appLanguage} = this.props;
+    // const localeDir = path.join(__dirname, './locale');
 
     return (
-      <Tool appLanguage={appLanguage}
-            storeKey={STORE_KEY}
-            localeDir={localeDir}>
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
           <WordBankArea {...this.props} />
           <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
@@ -70,7 +68,6 @@ class Container extends Component {
             <DropBoxArea {...this.props} />
           </div>
         </div>
-      </Tool>
     );
   }
 }
@@ -84,4 +81,4 @@ Container.propTypes = {
   appLanguage: PropTypes.string.isRequired
 };
 
-export default DragDropContext(HTML5Backend)(Container);
+export default connectTool(TOOL_ID, LOCALE_DIR)(DragDropContext(HTML5Backend)(Container));

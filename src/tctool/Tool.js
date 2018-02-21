@@ -7,6 +7,76 @@ import {setActiveLanguage} from 'react-localize-redux';
 import BrokenScreen from './BrokenScreen';
 import {getTranslate, getLocaleLoaded} from './state/reducers/index';
 
+export const connectTool = (toolId, localeDir) => {
+  return (WrappedComponent) => {
+    class ToolComponent extends React.Component {
+
+      constructor(props) {
+        super(props);
+        this.state = {
+          broken: false,
+          error: null,
+          info: null
+        };
+      }
+
+      render () {
+        const {broken, error, info} = this.state;
+        const Provider = this.Provider;
+
+        const isLocaleLoaded = getLocaleLoaded(this.store.getState());
+        if(!isLocaleLoaded) {
+          // TODO: we could display a loading screen while the locale loads
+          return null;
+        }
+
+        if(broken) {
+          // TODO: log the error to the core app state so it will be included in feedback logs.
+          // it would be best to pass a callback into this component for this purpose.
+          const translate = getTranslate(this.store.getState());
+          return <BrokenScreen title={translate('tool_broken')} error={error} info={info}/>;
+        } else {
+          return (
+            <Provider store={this.store}>
+              <WrappedComponent
+                {...this.props}
+              />
+            </Provider>
+          );
+        }
+      }
+
+      componentWillMount() {
+        const {appLanguage} = this.props;
+        this.store = configureStore();
+        this.store.dispatch(loadLocalization(localeDir, appLanguage));
+        this.Provider = createProvider(toolId);
+        this.unsubscribe = this.store.subscribe(this.handleChange.bind(this));
+      }
+
+      componentWillUnmount() {
+        this.unsubscribe();
+      }
+
+      handleChange() {
+        this.forceUpdate();
+      }
+
+      componentDidCatch(error, info) {
+        this.setState({
+          broken: true,
+          error,
+          info
+        });
+      }
+    }
+    ToolComponent.propTypes = {
+      appLanguage: PropTypes.string.isRequired
+    };
+    return ToolComponent;
+  };
+};
+
 /**
  * This container sets up the tool environment.
  *

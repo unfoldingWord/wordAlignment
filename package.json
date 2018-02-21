@@ -49,8 +49,17 @@
   "dependencies": {
     "prop-types": "15.5.10",
     "react": "16.2.0",
-    "react-dom": "16.2.0",
     "react-dnd": "2.5.1",
-    "react-dnd-html5-backend": "2.5.1"
+    "react-dnd-html5-backend": "2.5.1",
+    "react-dom": "16.2.0",
+    "react-localize-redux": "^2.15.1",
+    "lodash": "4.17.4",
+    "os-locale": "2.1.0",
+    "path-extra": "3.0.0",
+    "fs-extra": "4.0.3"
+  },
+  "peerDependencies": {
+    "redux": "^2.0.0 || ^3.0.0",
+    "react-redux": "^5.0.6"
   }
 }

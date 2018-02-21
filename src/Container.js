@@ -6,10 +6,30 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
+import {configureStore, Provider} from './state/store';
+import {loadLocalization} from './state/actions/locale';
+import {setActiveLanguage} from 'react-localize-redux';
+import path from 'path-extra';
+
 
 class Container extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      store: null
+    };
+  }
+
   componentWillMount() {
+    const {appLanguage} = this.props;
+    const store = configureStore();
+    this.setState({
+      store
+    });
+    const localeDir = path.join(__dirname, '../locale');
+    store.dispatch(loadLocalization(localeDir, appLanguage));
+
     // current panes persisted in the scripture pane settings.
     const {ScripturePane} = this.props.settingsReducer.toolsSettings;
     let panes = [];
@@ -33,6 +53,12 @@ class Container extends Component {
       let page = document.getElementById("DropBoxArea");
       if (page) page.scrollTop = 0;
     }
+
+    // stay in sync with the application language
+    if(nextProps.appLanguage !== this.props.appLanguage) {
+      const {store} = this.state;
+      store.dispatch(setActiveLanguage(nextProps.appLanguage));
+    }
   }
 
   render() {
@@ -44,14 +70,18 @@ class Container extends Component {
       scripturePane = <ScripturePane {...this.props} />;
     }
 
+    const {store} = this.state;
+
     return (
-      <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <WordBankArea {...this.props} />
-        <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
-          {scripturePane}
-          <DropBoxArea {...this.props} />
+      <Provider store={store}>
+        <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+          <WordBankArea {...this.props} />
+          <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
+            {scripturePane}
+            <DropBoxArea {...this.props} />
+          </div>
         </div>
-      </div>
+      </Provider>
     );
   }
 }

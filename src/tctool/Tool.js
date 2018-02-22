@@ -8,13 +8,11 @@ import BrokenScreen from './BrokenScreen';
 import {getTranslate, getLocaleLoaded} from './state/reducers';
 
 /**
- * A higher order component form of the tool.
- * This will automatically connect the store and locale tools to the component.
- *
- * The generated component has the required property `appLanguage`
+ * This HOC initializes a store and locale for the tool.
+ * It also specifies some required properties common to all tools.
  *
  * @param {string} toolId - the tool's unique id. Used for storing the redux store in the react context.
- * @param {string} [localeDir] - directory containing the interface locale files
+ * @param {string} localeDir - directory containing the interface locale files
  * @return {function(*)}
  */
 export const connectTool = (toolId, localeDir) => {
@@ -134,6 +132,9 @@ export const connectTool = (toolId, localeDir) => {
      * This effectively defines the interface between tools and tC core.
      */
     ConnectedTool.propTypes = {
+      currentToolViews: PropTypes.object.isRequired,
+      resourcesReducer: PropTypes.object.isRequired,
+      contextIdReducer: PropTypes.object.isRequired,
       appLanguage: PropTypes.string.isRequired
     };
     return ConnectedTool;

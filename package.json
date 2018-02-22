@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/translationCoreApps/word-alignment-tool#readme",
   "devDependencies": {
-    "react-dnd-test-backend": "2.5.4",
     "babel-eslint": "8.0.0",
     "babel-jest": "21.0.2",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
@@ -44,7 +43,12 @@
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "4.15.0",
     "eslint-plugin-react": "7.5.1",
-    "jest": "21.1.0"
+    "jest": "21.1.0",
+    "react": "^16.2.0",
+    "react-dnd-test-backend": "2.5.4",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
   },
   "dependencies": {
     "fs-extra": "4.0.3",
@@ -52,14 +56,15 @@
     "os-locale": "2.1.0",
     "path-extra": "3.0.0",
     "prop-types": "15.5.10",
-    "react": "16.2.0",
     "react-dnd": "2.5.1",
     "react-dnd-html5-backend": "2.5.1",
-    "react-dom": "16.2.0",
-    "react-localize-redux": "^2.15.1"
+    "react-localize-redux": "^2.15.1",
+    "tc-tool": "^1.0.0"
   },
   "peerDependencies": {
+    "react": "^16.0.0",
     "redux": "^2.0.0 || ^3.0.0",
-    "react-redux": "^5.0.6"
+    "react-redux": "^5.0.6",
+    "react-dom": "^16.0.0"
   }
 }

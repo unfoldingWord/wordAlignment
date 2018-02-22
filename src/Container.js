@@ -7,7 +7,7 @@ import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
 import path from 'path-extra';
-import {createConnect, connectTool} from './tctool';
+import {createConnect, connectTool} from 'tc-tool';
 
 const TOOL_ID = 'wordAlignment';
 const LOCALE_DIR = path.join(__dirname, './locale');
@@ -77,4 +77,7 @@ Container.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-export default connectTool(TOOL_ID, LOCALE_DIR)(DragDropContext(HTML5Backend)(Container));
+const ConnectedContainer = DragDropContext(HTML5Backend)(Container);
+exports.Container = ConnectedContainer;
+
+export default connectTool(TOOL_ID, LOCALE_DIR)(DragDropContext(HTML5Backend)(ConnectedContainer));

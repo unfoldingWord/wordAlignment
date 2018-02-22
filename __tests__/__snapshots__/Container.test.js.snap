@@ -1,3 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Container renders 1`] = `<DragDropContext(Container) />`;
+exports[`Container renders 1`] = `
+<DragDropContext(Container)
+  actions={Object {}}
+  contextIdReducer={Object {}}
+  currentToolViews={Object {}}
+  resourcesReducer={Object {}}
+  settingsReducer={Object {}}
+/>
+`;

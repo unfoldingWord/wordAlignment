@@ -10,7 +10,7 @@ import path from 'path-extra';
 import {createConnect, connectTool} from 'tc-tool';
 
 const TOOL_ID = 'wordAlignment';
-const LOCALE_DIR = path.join(__dirname, './locale');
+const LOCALE_DIR = path.join(__dirname, '../locale');
 
 /**
  * The custom connect HOC for this tool

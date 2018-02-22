@@ -57,9 +57,6 @@ class Container extends Component {
       scripturePane = <ScripturePane {...this.props} />;
     }
 
-    // const {appLanguage} = this.props;
-    // const localeDir = path.join(__dirname, './locale');
-
     return (
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
           <WordBankArea {...this.props} />
@@ -77,8 +74,7 @@ Container.propTypes = {
   resourcesReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   settingsReducer: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-  appLanguage: PropTypes.string.isRequired
+  actions: PropTypes.object.isRequired
 };
 
 export default connectTool(TOOL_ID, LOCALE_DIR)(DragDropContext(HTML5Backend)(Container));

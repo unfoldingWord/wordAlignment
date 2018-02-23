@@ -7,15 +7,10 @@ import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
 import path from 'path-extra';
-import {createConnect, connectTool} from 'tc-tool';
+import {connectTool} from 'tc-tool';
 
 const TOOL_ID = 'wordAlignment';
 const LOCALE_DIR = path.join(__dirname, '../locale');
-
-/**
- * The custom connect HOC for this tool
- */
-exports.connect = createConnect(TOOL_ID);
 
 /**
  * The base container for this tool

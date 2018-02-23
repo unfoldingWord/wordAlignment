@@ -10,7 +10,6 @@ import path from 'path-extra';
 import {connectTool} from 'tc-tool';
 
 const TOOL_ID = 'wordAlignment';
-const LOCALE_DIR = path.join(__dirname, '../locale');
 
 /**
  * The base container for this tool
@@ -75,4 +74,4 @@ Container.propTypes = {
 const ConnectedContainer = DragDropContext(HTML5Backend)(Container);
 exports.Container = ConnectedContainer;
 
-export default connectTool(TOOL_ID, LOCALE_DIR)(ConnectedContainer);
+export default connectTool(TOOL_ID)(ConnectedContainer);

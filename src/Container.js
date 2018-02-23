@@ -75,4 +75,4 @@ Container.propTypes = {
 const ConnectedContainer = DragDropContext(HTML5Backend)(Container);
 exports.Container = ConnectedContainer;
 
-export default connectTool(TOOL_ID, LOCALE_DIR)(DragDropContext(HTML5Backend)(ConnectedContainer));
+export default connectTool(TOOL_ID, LOCALE_DIR)(ConnectedContainer);

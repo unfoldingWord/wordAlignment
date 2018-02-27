@@ -6,10 +6,6 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
-import path from 'path-extra';
-import {connectTool} from 'tc-tool';
-
-const TOOL_ID = 'wordAlignment';
 
 /**
  * The base container for this tool
@@ -71,7 +67,4 @@ Container.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-const ConnectedContainer = DragDropContext(HTML5Backend)(Container);
-exports.Container = ConnectedContainer;
-
-export default connectTool(TOOL_ID)(ConnectedContainer);
+export default DragDropContext(HTML5Backend)(Container);

@@ -47,9 +47,22 @@ class Container extends Component {
       scripturePane = <ScripturePane {...this.props} />;
     }
 
+    const {connectDropTarget, isOver} = this.props;
+    const {alignmentData} = this.props.wordAlignmentReducer;
+    const {contextId} = this.props.contextIdReducer;
+    let chapter, verse;
+    if(contextId) {
+      chapter = contextId.reference.chapter;
+      verse = contextId.reference.verse;
+    }
+
     return (
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-          <WordBankArea {...this.props} />
+          <WordBankArea chapter={chapter}
+                        verse={verse}
+                        alignmentData={alignmentData}
+                        connectDropTarget={connectDropTarget}
+                        isOver={isOver} />
           <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
             {scripturePane}
             <DropBoxArea {...this.props} />
@@ -64,7 +77,11 @@ Container.propTypes = {
   resourcesReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   settingsReducer: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  wordAlignmentReducer: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+
+  isOver: PropTypes.bool,
+  connectDropTarget: PropTypes.func
 };
 
 export default DragDropContext(HTML5Backend)(Container);

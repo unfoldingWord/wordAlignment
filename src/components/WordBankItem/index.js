@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import ItemTypes from '../ItemTypes';
+import WordOccurrence from './WordOccurrence';
 
 const internalStyle = {
   borderLeft: '5px solid #44C6FF',
@@ -9,19 +10,20 @@ const internalStyle = {
   margin: '10px',
   backgroundColor: '#FFFFFF',
   boxShadow: "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-  cursor: 'move'
+  cursor: 'move',
+  display: 'flex',
+  flexDirection: 'row'
 };
 
 const DragWordBankItemAction = {
   beginDrag(props) {
     // Return the data describing the dragged item
-    const item = {
+    return {
       word: props.word,
       occurrence: props.occurrence,
       occurrences: props.occurrences,
       type: ItemTypes.BOTTOM_WORD
     };
-    return item;
   },
   endDrag() { // receives: props, monitor, component
     // When dropped on a compatible target, do something
@@ -30,14 +32,25 @@ const DragWordBankItemAction = {
   }
 };
 
+
+/**
+ * Renders a single word item
+ * @property {string} word - the represented word
+ * @property {int} occurrence
+ * @property {int} occurrences
+ */
 class WordBankItem extends Component {
   render() {
-    const { word, isDragging, connectDragSource } = this.props;
+    const { word, isDragging, connectDragSource, occurrence, occurrences } = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
       <div style={{ ...internalStyle, opacity }}>
-        {word}
+        <span style={{flex: 1}}>
+          {word}
+        </span>
+        <WordOccurrence occurrence={occurrence}
+                        occurrences={occurrences}/>
       </div>
     );
   }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordBank from './components/WordBank';
-import DropBoxArea from './components/DropBoxArea';
+import AlignmentBank from './components/AlignmentBank';
 import isEqual from 'lodash/isEqual';
 
 /**
@@ -32,7 +32,7 @@ class Container extends Component {
 
   componentWillReceiveProps(nextProps) {
     if(!isEqual(this.props.contextIdReducer.contextId, nextProps.contextIdReducer.contextId)) {
-      let page = document.getElementById("DropBoxArea");
+      let page = document.getElementById("AlignmentBank");
       if (page) page.scrollTop = 0;
     }
   }
@@ -66,7 +66,7 @@ class Container extends Component {
                     isOver={isOver} />
           <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
             {scripturePane}
-            <DropBoxArea {...this.props} />
+            <AlignmentBank {...this.props} />
           </div>
         </div>
     );

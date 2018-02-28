@@ -12,6 +12,18 @@ const internalStyle = {
   backgroundColor: '#333333',
 };
 
+/**
+ * Renders a draggable primary word
+ *
+ * @see Word
+ *
+ * @property wordObject
+ * @property alignmentIndex
+ * @property style
+ * @property actions
+ * @property resourcesReducer
+ *
+ */
 class PrimaryWord extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +46,8 @@ class PrimaryWord extends Component {
     return connectDragSource(
       <div style={{flex:1}}>
         <Word word={wordObject.word}
+              occurrence={wordObject.occurrence}
+              occurrences={wordObject.occurrences}
               onClick={this._handleClick}
               style={{ ...internalStyle, ...style, opacity }} />
       </div>
@@ -65,8 +79,6 @@ PrimaryWord.propTypes = {
     occurrences: PropTypes.number.isRequired
   }),
   alignmentIndex: PropTypes.number.isRequired,
-  connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired,
   style: PropTypes.object,
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
@@ -74,7 +86,10 @@ PrimaryWord.propTypes = {
   }),
   resourcesReducer: PropTypes.shape({
     lexicons: PropTypes.object.isRequired
-  })
+  }),
+
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired
 };
 
 const dragHandler = {

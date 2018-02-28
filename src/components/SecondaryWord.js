@@ -5,7 +5,9 @@ import { DragSource } from 'react-dnd';
 import * as types from './Word/Types';
 
 /**
- * Renders a draggable word.
+ * Renders a draggable secondary word.
+ *
+ * @see Word
  *
  * @property {string} word - the represented word
  * @property {int} occurrence

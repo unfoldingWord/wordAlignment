@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // constants
-import * as types from '../Word/Types';
+import * as types from './Word/Types';
 // components
-import DropBoxItem from '../DropBoxItem';
+import Alignment from './Alignment';
 
-class DropBoxArea extends Component {
+class AlignmentBank extends Component {
   render() {
     const {
       actions,
@@ -23,12 +23,12 @@ class DropBoxArea extends Component {
     const alignmentData = wordAlignmentReducer.alignmentData;
     const alignments = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ? alignmentData[chapter][verse].alignments : [];
     return (
-      <div id='DropBoxArea' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
+      <div id='AlignmentBank' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
         {
           alignments.map((alignment, index) => {
             return (
               <div key={index} style={{ display: 'flex' }}>
-                <DropBoxItem
+                <Alignment
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
                   topWords={alignment.topWords}
@@ -36,7 +36,7 @@ class DropBoxArea extends Component {
                   actions={actions}
                   resourcesReducer={resourcesReducer}
                 />
-                <DropBoxItem
+                <Alignment
                   alignmentIndex={index}
                   bottomWords={[]}
                   topWords={[]}
@@ -65,7 +65,7 @@ class DropBoxArea extends Component {
 
 
 
-DropBoxArea.propTypes = {
+AlignmentBank.propTypes = {
   wordAlignmentReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -74,4 +74,4 @@ DropBoxArea.propTypes = {
   })
 };
 
-export default DropBoxArea;
+export default AlignmentBank;

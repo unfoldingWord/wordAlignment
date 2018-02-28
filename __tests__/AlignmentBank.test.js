@@ -1,17 +1,17 @@
 import React from 'react';
-import DropBoxArea from '../src/components/DropBoxArea';
+import AlignmentBank from '../src/components/AlignmentBank';
 import {shallow} from 'enzyme';
 
-test('DropBoxArea renders', () => {
+test('snapshot', () => {
     const component = (
-        <DropBoxArea />
+        <AlignmentBank />
     );
     expect(component).toMatchSnapshot();
 
     // TODO: exercise UI
 });
 
-describe('DropBoxArea', () => {
+describe('AlignmentBank', () => {
   let contextIdReducer ,wordAlignmentReducer, resourcesReducer;
   const luke1 = require('./fixtures/luke/1.json');
 
@@ -40,7 +40,7 @@ describe('DropBoxArea', () => {
     };
   });
 
-  test('DropBoxArea renders Luke 1:1', () => {
+  test('renders Luke 1:1', () => {
     // given
     const chapter = "1";
     const verse = "1";
@@ -50,7 +50,7 @@ describe('DropBoxArea', () => {
 
     // when
     const enzymeWrapper = shallow(
-      <DropBoxArea
+      <AlignmentBank
         wordAlignmentReducer={wordAlignmentReducer}
         contextIdReducer={contextIdReducer}
         actions={{}}
@@ -64,7 +64,7 @@ describe('DropBoxArea', () => {
     expect(dropBoxArea.getElements().length).toEqual(expectedWords + 1);
   });
 
-  test('DropBoxArea renders undefined Luke 1:81 without crashing', () => {
+  test('renders undefined Luke 1:81 without crashing', () => {
     // given
     const chapter = "1";
     const verse = "81";
@@ -74,7 +74,7 @@ describe('DropBoxArea', () => {
 
     // when
     const enzymeWrapper = shallow(
-      <DropBoxArea
+      <AlignmentBank
         wordAlignmentReducer={wordAlignmentReducer}
         contextIdReducer={contextIdReducer}
         actions={{}}

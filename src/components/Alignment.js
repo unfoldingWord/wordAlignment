@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 // constants
-import * as types from '../Word/Types';
+import * as types from './Word/Types';
 // components
-import SecondaryWord from '../SecondaryWord';
-import PrimaryWord from '../PrimaryWord';
+import SecondaryWord from './SecondaryWord';
+import PrimaryWord from './PrimaryWord';
 
-class DropBoxItem extends Component {
+/**
+ * Renders the alignment of primary and secondary words/phrases
+ */
+class Alignment extends Component {
   render() {
     const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords } = this.props;
     const topStyle = {
@@ -69,8 +72,8 @@ class DropBoxItem extends Component {
         </div>
       </div>
     );
-    const emptyDropBoxItem = topWords.length === 0 && bottomWords.length === 0;
-    if (emptyDropBoxItem) {
+    const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
+    if (emptyAlignment) {
       dropBoxItemInnerStyle.width = 10;
       dropBoxDiv = canDrop ? dropBoxDiv : <div />;
     }
@@ -80,7 +83,7 @@ class DropBoxItem extends Component {
   }
 }
 
-DropBoxItem.propTypes = {
+Alignment.propTypes = {
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   draggingColor: PropTypes.string,
@@ -100,7 +103,7 @@ DropBoxItem.propTypes = {
   })
 };
 
-const DropDropBoxItemAction = {
+const dragHandler = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
     const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0);
@@ -136,6 +139,6 @@ const collect = (connect, monitor) => {
 
 export default DropTarget(
   [types.SECONDARY_WORD, types.PRIMARY_WORD], // itemType
-  DropDropBoxItemAction,
+  dragHandler,
   collect
-)(DropBoxItem);
+)(Alignment);

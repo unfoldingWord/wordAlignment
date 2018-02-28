@@ -1,9 +1,9 @@
 import React from 'react';
-import PrimaryWord from '../src/components/PrimaryWord';
+import Alignment from '../src/components/Alignment';
 
-test('TopWordCard renders', () => {
+test('snapshot', () => {
     const component = (
-        <PrimaryWord />
+        <Alignment />
     );
     expect(component).toMatchSnapshot();
 

@@ -18,7 +18,8 @@ const styles = {
 };
 
 /**
- * Renders a single word
+ * Renders a standard word.
+ *
  * @param {string} word - the represented word
  * @param {int} occurrence
  * @param {int} occurrences

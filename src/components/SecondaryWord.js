@@ -13,33 +13,42 @@ import * as types from './Word/Types';
  * @property {int} occurrence
  * @property {int} occurrences
  */
-class DraggableWord extends React.Component {
+class SecondaryWord extends React.Component {
   render() {
-    const {connectDragSource, word, occurrence, occurrences, isDragging} = this.props;
+    const {connectDragSource, word, occurrence, occurrences, disabled, isDragging} = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
-    return connectDragSource(
+    const wordComponent = (
       <div style={{flex: 1}}>
         <Word word={word}
+              disabled={disabled}
               style={{opacity}}
               occurrence={occurrence}
               occurrences={occurrences}/>
       </div>
     );
+
+    if(disabled) {
+      return wordComponent;
+    } else {
+      return connectDragSource(wordComponent);
+    }
   }
 }
 
-DraggableWord.propTypes = {
+SecondaryWord.propTypes = {
   word: PropTypes.string.isRequired,
   occurrence: PropTypes.number.isRequired,
   occurrences: PropTypes.number.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  alignmentIndex: PropTypes.number
+  alignmentIndex: PropTypes.number,
+  disabled: PropTypes.bool
 };
 
-DraggableWord.defaultProps = {
-  alignmentIndex: undefined // just to be explicit
+SecondaryWord.defaultProps = {
+  alignmentIndex: undefined, // just to be explicit
+  disabled: false
 };
 
 /**
@@ -65,4 +74,4 @@ export default DragSource(
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   })
-)(DraggableWord);
+)(SecondaryWord);

@@ -18,13 +18,25 @@ const WordList = ({
                     isOver
                   }) => {
   if (chapter && verse) {
-    let wordBank = [];
-    if (alignmentData[chapter] && alignmentData[chapter][verse]) {
-      wordBank = alignmentData && alignmentData[chapter] &&
+    const wordBank = alignmentData && alignmentData[chapter] &&
       alignmentData[chapter][verse]
         ? alignmentData[chapter][verse].wordBank
         : [];
-    }
+
+    const alignments = alignmentData && alignmentData[chapter] &&
+    alignmentData[chapter][verse] ?
+      alignmentData[chapter][verse].alignments :
+      [];
+
+    const alignedWords = [];
+    alignments.map(alignment => {
+      for(const word of alignment.bottomWords) {
+        word.disabled = true;
+        alignedWords.push(word);
+      }
+    });
+
+    const augmentedWordBank = wordBank.concat(alignedWords);
 
     if (isOver) {
       return (
@@ -37,10 +49,11 @@ const WordList = ({
     } else {
       return (
         <React.Fragment>
-          {wordBank.map((metadata, index) => (
+          {augmentedWordBank.map((metadata, index) => (
             <div key={index}
                  style={{margin: '10px'}}>
               <SecondaryWord
+                disabled={metadata.disabled}
                 word={metadata.word}
                 occurrence={metadata.occurrence}
                 occurrences={metadata.occurrences}

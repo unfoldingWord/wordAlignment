@@ -14,11 +14,15 @@ import ItemTypes from '../ItemTypes';
 class DraggableWord extends React.Component {
   render() {
     const {connectDragSource, word, occurrence, occurrences, isDragging} = this.props;
+    const opacity = isDragging ? 0.4 : 1;
+
     return connectDragSource(
-      <Word word={word}
-            occurrence={occurrence}
-            occurrences={occurrences}
-            isDragging={isDragging}/>
+      <div style={{margin: '10px'}}>
+        <Word word={word}
+              style={{opacity}}
+              occurrence={occurrence}
+              occurrences={occurrences}/>
+      </div>
     );
   }
 }
@@ -58,4 +62,4 @@ export default DragSource(
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   })
-)(Word);
+)(DraggableWord);

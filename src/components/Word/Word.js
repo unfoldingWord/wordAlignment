@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import WordOccurrence from './WordOccurrence';
 
-const internalStyle = {
+const defaultStyles = {
   borderLeft: '5px solid #44C6FF',
   padding: '5px',
-  margin: '10px',
   backgroundColor: '#FFFFFF',
   boxShadow: "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
   cursor: 'move',
@@ -21,11 +20,10 @@ const internalStyle = {
  */
 class Word extends Component {
   render() {
-    const { word, isDragging, occurrence, occurrences } = this.props;
-    const opacity = isDragging ? 0.4 : 1;
-
+    const { word, occurrence, occurrences, style } = this.props;
+    const wordStyle = {...defaultStyles, ...style};
     return (
-      <div style={{ ...internalStyle, opacity }}>
+      <div style={wordStyle}>
         <span style={{flex: 1}}>
           {word}
         </span>
@@ -37,10 +35,14 @@ class Word extends Component {
 }
 
 Word.propTypes = {
+  style: PropTypes.object,
   word: PropTypes.string.isRequired,
   occurrence: PropTypes.number.isRequired,
-  occurrences: PropTypes.number.isRequired,
-  isDragging: PropTypes.bool.isRequired
+  occurrences: PropTypes.number.isRequired
+};
+
+Word.defaultProps = {
+  style: {}
 };
 
 export default Word;

@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
-import ItemTypes from '../ItemTypes';
-import WordBankItem from '../WordBankItem';
+import Word from '../Word';
 
 /**
  * Renders a list of words that need to be aligned
  * @param {string} chapter
  * @param {string} verse
  * @param {object} alignmentData
- * @param {func} connectDropTarget
  * @param {bool} isOver
  * @return {*}
  * @constructor
  */
-const WordBankArea = ({
+const WordBank = ({
   chapter,
   verse,
   alignmentData,
-  connectDropTarget,
-  isOver
+  isOver,
 }) => {
   if (chapter && verse) {
     let wordBank = [];
@@ -30,22 +26,22 @@ const WordBankArea = ({
         : [];
     }
 
-    return connectDropTarget(
+    return (
       <div style={{
         flex: 0.2,
         width: '100%',
         backgroundColor: '#DCDCDC',
         overflowY: 'auto',
-        padding: '5px 8px 5px 5px'
+        padding: '5px 8px 5px 5px',
       }}>
         {
           isOver ? <div style={{
               border: '3px dashed #44C6FF',
               height: '100%',
-              width: '100%'
+              width: '100%',
             }}/>
             : wordBank.map((metadata, index) => (
-              <WordBankItem
+              <Word
                 key={index}
                 word={metadata.word}
                 occurrence={metadata.occurrence}
@@ -59,31 +55,11 @@ const WordBankArea = ({
   return null;
 };
 
-WordBankArea.propTypes = {
+WordBank.propTypes = {
   chapter: PropTypes.string.isRequired,
   verse: PropTypes.string.isRequired,
   alignmentData: PropTypes.object.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  isOver: PropTypes.bool.isRequired,
-  moveBackToWordBank: PropTypes.func.isRequired
+  isOver: PropTypes.bool.isRequired
 };
 
-const wordBankAreaItemAction = {
-  drop (props, monitor) {
-    props.moveBackToWordBank(monitor.getItem());
-  }
-};
-
-const collect = (connect, monitor) => {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
-  };
-};
-
-export default DropTarget(
-  ItemTypes.BOTTOM_WORD, // itemType
-  wordBankAreaItemAction,
-  collect
-)(WordBankArea);
+export default WordBank;

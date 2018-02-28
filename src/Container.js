@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 // components
-import WordBankArea from './components/WordBankArea';
+import WordBank from './components/WordBank';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
 
@@ -59,12 +59,12 @@ class Container extends Component {
 
     return (
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-          <WordBankArea chapter={chapter}
-                        verse={verse}
-                        moveBackToWordBank={moveBackToWordBank}
-                        alignmentData={alignmentData}
-                        connectDropTarget={connectDropTarget}
-                        isOver={isOver} />
+          <WordBank chapter={chapter}
+                    verse={verse}
+                    moveBackToWordBank={moveBackToWordBank}
+                    alignmentData={alignmentData}
+                    connectDropTarget={connectDropTarget}
+                    isOver={isOver} />
           <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
             {scripturePane}
             <DropBoxArea {...this.props} />

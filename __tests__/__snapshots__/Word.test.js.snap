@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`single occurrence 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "borderLeft": "5px solid #44C6FF",
+      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+      "cursor": "move",
+      "display": "flex",
+      "flexDirection": "row",
+      "margin": "10px",
+      "opacity": 1,
+      "padding": "5px",
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    hello
+  </span>
+</div>
+`;

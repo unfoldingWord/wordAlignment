@@ -47,6 +47,7 @@ class Container extends Component {
       scripturePane = <ScripturePane {...this.props} />;
     }
 
+    const {moveBackToWordBank} = this.props.actions;
     const {connectDropTarget, isOver} = this.props;
     const {alignmentData} = this.props.wordAlignmentReducer;
     const {contextId} = this.props.contextIdReducer;
@@ -60,6 +61,7 @@ class Container extends Component {
         <div style={{ display: 'flex', width: '100%', height: '100%' }}>
           <WordBankArea chapter={chapter}
                         verse={verse}
+                        moveBackToWordBank={moveBackToWordBank}
                         alignmentData={alignmentData}
                         connectDropTarget={connectDropTarget}
                         isOver={isOver} />

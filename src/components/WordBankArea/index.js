@@ -64,12 +64,13 @@ WordBankArea.propTypes = {
   verse: PropTypes.string.isRequired,
   alignmentData: PropTypes.object.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  isOver: PropTypes.bool.isRequired
+  isOver: PropTypes.bool.isRequired,
+  moveBackToWordBank: PropTypes.func.isRequired
 };
 
 const wordBankAreaItemAction = {
   drop (props, monitor) {
-    props.actions.moveBackToWordBank(monitor.getItem());
+    props.moveBackToWordBank(monitor.getItem());
   }
 };
 

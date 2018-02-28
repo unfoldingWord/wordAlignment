@@ -29,9 +29,9 @@ const WordOccurrence = ({occurrence, occurrences, style}) => {
 };
 
 WordOccurrence.propTypes = {
-  occurrence: PropTypes.int.isRequired,
-  occurrences: PropTypes.int.isRequired,
+  occurrence: PropTypes.number.isRequired,
+  occurrences: PropTypes.number.isRequired,
   style: PropTypes.object
 };
 
-export default  WordOccurrence;
+export default WordOccurrence;

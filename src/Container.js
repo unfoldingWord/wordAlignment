@@ -77,7 +77,8 @@ class Container extends Component {
           {scripturePane}
           <AlignmentGrid alignmentData={alignmentData}
                          lexicons={lexicons}
-                         {...this.props} />
+                         actions={this.props.actions}
+                         contextId={contextId}/>
         </div>
       </div>
     );

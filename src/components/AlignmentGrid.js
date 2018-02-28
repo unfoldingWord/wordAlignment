@@ -5,6 +5,9 @@ import * as types from './Word/Types';
 // components
 import Alignment from './Alignment';
 
+/**
+ * Renders a grid of word/phrase alignments
+ */
 class AlignmentGrid extends Component {
   render() {
     const {

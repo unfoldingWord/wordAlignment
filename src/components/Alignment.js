@@ -138,7 +138,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  [types.SECONDARY_WORD, types.PRIMARY_WORD], // itemType
+  [types.SECONDARY_WORD, types.PRIMARY_WORD],
   dragHandler,
   collect
 )(Alignment);

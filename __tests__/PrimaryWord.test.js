@@ -1,9 +1,9 @@
 import React from 'react';
-import TopWordCard from '../src/components/DropBoxItem/TopWordCard';
+import PrimaryWord from '../src/components/PrimaryWord';
 
 test('TopWordCard renders', () => {
     const component = (
-        <TopWordCard />
+        <PrimaryWord />
     );
     expect(component).toMatchSnapshot();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
-import ItemTypes from '../ItemTypes';
+import * as types from '../Word/Types';
 import WordBank from './WordBank';
 
 /**
@@ -55,7 +55,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  ItemTypes.SECONDARY_WORD,
+  types.SECONDARY_WORD,
   dragHandler,
   collect
 )(DroppableWordBank);

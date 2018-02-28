@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Word from '../src/components/Word/Word';
+import Word from '../src/components/Word';
 
 test('single occurrence', () => {
     const wrapper = renderer.create(

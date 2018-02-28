@@ -7,7 +7,7 @@ import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 import TestUtils from 'react-dom/test-utils';
 import WordBank from '../src/components/WordBank/WordBank';
-import Word from '../src/components/Word';
+import SecondaryWord from '../src/components/SecondaryWord';
 import renderer from 'react-test-renderer';
 
 const alignmentData = {
@@ -75,7 +75,7 @@ describe('WordBank', () => {
     );
 
     // then
-    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root, Word);
+    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root, SecondaryWord);
     expect(wordBankItems).toBeTruthy();
     expect(wordBankItems.length).toEqual(expectedWords);
   });
@@ -97,7 +97,7 @@ describe('WordBank', () => {
     );
 
     // then
-    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root, Word);
+    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root, SecondaryWord);
     expect(wordBankItems).toBeTruthy();
     expect(wordBankItems.length).toEqual(expectedWords);
   });

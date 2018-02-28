@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
-import ItemTypes from '../ItemTypes';
+import * as types from './Word/Types';
 // helpers
-import * as lexiconHelpers from '../../helpers/lexiconHelpers';
-import WordDetails from '../WordDetails';
-import Word from '../Word/Word';
+import * as lexiconHelpers from '../helpers/lexiconHelpers';
+import WordDetails from './WordDetails';
+import Word from './Word';
 
 const internalStyle = {
   color: '#ffffff',
   backgroundColor: '#333333',
 };
 
-class TopWordCard extends Component {
+class PrimaryWord extends Component {
   constructor(props) {
     super(props);
     this._handleClick = this._handleClick.bind(this);
@@ -55,7 +55,7 @@ class TopWordCard extends Component {
   }
 }
 
-TopWordCard.propTypes = {
+PrimaryWord.propTypes = {
   wordObject: PropTypes.shape({
     word: PropTypes.string.isRequired,
     lemma: PropTypes.string.isRequired,
@@ -88,7 +88,7 @@ const dragHandler = {
       occurrence: props.wordObject.occurrence,
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,
-      type: ItemTypes.PRIMARY_WORD
+      type: types.PRIMARY_WORD
     };
   }
 };
@@ -99,7 +99,7 @@ const collect = (connect, monitor) => ({
 });
 
 export default DragSource(
-  ItemTypes.PRIMARY_WORD,
+  types.PRIMARY_WORD,
   dragHandler,
   collect
-)(TopWordCard);
+)(PrimaryWord);

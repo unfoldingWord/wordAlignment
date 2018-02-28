@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 // constants
-import ItemTypes from '../ItemTypes';
+import * as types from '../Word/Types';
 // components
-import SecondaryWord from '../Word';
-import PrimaryWord from './TopWordCard';
+import SecondaryWord from '../SecondaryWord';
+import PrimaryWord from '../PrimaryWord';
 
 class DropBoxItem extends Component {
   render() {
@@ -105,12 +105,12 @@ const DropDropBoxItemAction = {
     const item = monitor.getItem();
     const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0);
     let canDrop;
-    if (item.type === ItemTypes.SECONDARY_WORD) {
+    if (item.type === types.SECONDARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       canDrop = alignmentIndexDelta !== 0 && !alignmentEmpty;
       return canDrop;
     }
-    if (item.type === ItemTypes.PRIMARY_WORD) {
+    if (item.type === types.PRIMARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       const enoughSiblingTopWords = props.siblingTopWords && props.siblingTopWords.length > 1;
       if (alignmentIndexDelta === 0 && alignmentEmpty && enoughSiblingTopWords) {
@@ -135,7 +135,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  [ItemTypes.SECONDARY_WORD, ItemTypes.PRIMARY_WORD], // itemType
+  [types.SECONDARY_WORD, types.PRIMARY_WORD], // itemType
   DropDropBoxItemAction,
   collect
 )(DropBoxItem);

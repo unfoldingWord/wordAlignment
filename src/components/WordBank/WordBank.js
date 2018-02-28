@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Word from '../Word';
+import SecondaryWord from '../SecondaryWord';
 
 /**
  * Renders a list of words that need to be aligned
@@ -40,7 +40,7 @@ const WordBank = ({
           {wordBank.map((metadata, index) => (
             <div key={index}
                  style={{margin: '10px'}}>
-              <Word
+              <SecondaryWord
                 word={metadata.word}
                 occurrence={metadata.occurrence}
                 occurrences={metadata.occurrences}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Word from './Word';
-import { DragSource } from 'react-dnd';
+import {DragSource} from 'react-dnd';
 import * as types from './Word/Types';
 
 /**
@@ -19,7 +19,7 @@ class DraggableWord extends React.Component {
     const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
-      <div style={{flex:1}}>
+      <div style={{flex: 1}}>
         <Word word={word}
               style={{opacity}}
               occurrence={occurrence}

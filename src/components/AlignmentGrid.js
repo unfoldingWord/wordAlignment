@@ -1,9 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 // constants
 import * as types from './Word/Types';
 // components
 import Alignment from './Alignment';
+
+const styles = {
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    height: '100%',
+    backgroundColor: '#ffffff',
+    padding: '0px 10px 50px',
+    overflowY: 'auto'
+  }
+};
 
 /**
  * Renders a grid of word/phrase alignments
@@ -12,32 +23,32 @@ class AlignmentGrid extends Component {
   render() {
     const {
       actions,
-      resourcesReducer,
-      wordAlignmentReducer,
-      contextIdReducer: {
-        contextId
-      }
+      lexicons,
+      alignmentData,
+      contextId
     } = this.props;
 
     if (!contextId) {
-      return <div />;
+      return <div/>;
     }
-    const { chapter, verse } = contextId.reference;
-    const alignmentData = wordAlignmentReducer.alignmentData;
-    const alignments = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ? alignmentData[chapter][verse].alignments : [];
+    const {chapter, verse} = contextId.reference;
+    const alignments = alignmentData && alignmentData[chapter] &&
+    alignmentData[chapter][verse] ?
+      alignmentData[chapter][verse].alignments :
+      [];
     return (
-      <div id='AlignmentGrid' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
+      <div id='AlignmentGrid' style={styles.root}>
         {
           alignments.map((alignment, index) => {
             return (
-              <div key={index} style={{ display: 'flex' }}>
+              <div key={index} style={{display: 'flex'}}>
                 <Alignment
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
                   topWords={alignment.topWords}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
-                  resourcesReducer={resourcesReducer}
+                  lexicons={lexicons}
                 />
                 <Alignment
                   alignmentIndex={index}
@@ -46,7 +57,7 @@ class AlignmentGrid extends Component {
                   siblingTopWords={alignment.topWords}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
-                  resourcesReducer={resourcesReducer}
+                  lexicons={lexicons}
                 />
               </div>
             );
@@ -61,20 +72,18 @@ class AlignmentGrid extends Component {
       this.props.actions.moveWordBankItemToAlignment(index, item);
     }
     if (item.type === types.PRIMARY_WORD) {
-      this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex, index);
+      this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex,
+        index);
     }
   }
 }
 
-
-
 AlignmentGrid.propTypes = {
-  wordAlignmentReducer: PropTypes.object.isRequired,
-  contextIdReducer: PropTypes.object.isRequired,
+  alignmentData: PropTypes.object,
+  contextId: PropTypes.object,
+
   actions: PropTypes.object.isRequired,
-  resourcesReducer: PropTypes.shape({
-    lexicons: PropTypes.object.isRequired
-  })
+  lexicons: PropTypes.object.isRequired
 };
 
 export default AlignmentGrid;

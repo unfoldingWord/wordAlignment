@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
+import {DropTarget} from 'react-dnd';
 import * as types from '../Word/Types';
 import WordList from './WordList';
 
@@ -41,7 +41,7 @@ DroppableWordList.propTypes = {
  * Handles drag events on the word bank
  */
 const dragHandler = {
-  drop (props, monitor) {
+  drop(props, monitor) {
     props.moveBackToWordBank(monitor.getItem());
   }
 };

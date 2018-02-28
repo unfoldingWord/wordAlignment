@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { DragSource } from 'react-dnd';
+import {DragSource} from 'react-dnd';
 import * as types from './Word/Types';
 // helpers
 import * as lexiconHelpers from '../helpers/lexiconHelpers';
@@ -9,7 +9,7 @@ import Word from './Word';
 
 const internalStyle = {
   color: '#ffffff',
-  backgroundColor: '#333333',
+  backgroundColor: '#333333'
 };
 
 /**
@@ -31,7 +31,7 @@ class PrimaryWord extends Component {
   }
 
   componentWillMount() {
-    const { strong } = this.props.wordObject;
+    const {strong} = this.props.wordObject;
     if (strong) {
       const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strong);
       const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strong);
@@ -40,16 +40,16 @@ class PrimaryWord extends Component {
   }
 
   render() {
-    const { wordObject, style, isDragging, connectDragSource } = this.props;
+    const {wordObject, style, isDragging, connectDragSource} = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
-      <div style={{flex:1}}>
+      <div style={{flex: 1}}>
         <Word word={wordObject.word}
               occurrence={wordObject.occurrence}
               occurrences={wordObject.occurrences}
               onClick={this._handleClick}
-              style={{ ...internalStyle, ...style, opacity }} />
+              style={{...internalStyle, ...style, opacity}}/>
       </div>
     );
   }
@@ -60,11 +60,13 @@ class PrimaryWord extends Component {
    * @private
    */
   _handleClick(e) {
-    const {wordObject} = this.props;
+    const {wordObject, lexicons} = this.props;
     let positionCoord = e.target;
-    const PopoverTitle = <strong style={{ fontSize: '1.2em' }}>{wordObject.word}</strong>;
-    let { showPopover } = this.props.actions;
-    const wordDetails = <WordDetails resourcesReducer={this.props.resourcesReducer} wordObject={wordObject} />;
+    const PopoverTitle = <strong
+      style={{fontSize: '1.2em'}}>{wordObject.word}</strong>;
+    let {showPopover} = this.props.actions;
+    const wordDetails = <WordDetails lexicons={lexicons}
+                                     wordObject={wordObject}/>;
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
 }
@@ -84,9 +86,7 @@ PrimaryWord.propTypes = {
     showPopover: PropTypes.func.isRequired,
     loadLexiconEntry: PropTypes.func.isRequired
   }),
-  resourcesReducer: PropTypes.shape({
-    lexicons: PropTypes.object.isRequired
-  }),
+  lexicons: PropTypes.object.isRequired,
 
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired

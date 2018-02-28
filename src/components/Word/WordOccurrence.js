@@ -21,7 +21,7 @@ const WordOccurrence = ({occurrence, occurrences, style}) => {
     ...styles,
     ...style
   };
-  if(occurrences > 1) {
+  if (occurrences > 1) {
     return <sup style={computedStyles}>{occurrence}</sup>;
   } else {
     return null;

@@ -19,8 +19,8 @@ describe('snapshot', () => {
     const wrapper = renderer.create(
       <WordList isOver={false}
                 alignmentData={{}}
-                verse="1"
-                chapter="1"/>,
+                verse={1}
+                chapter={1}/>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -28,9 +28,7 @@ describe('snapshot', () => {
   it('has no reference', () => {
     const wrapper = renderer.create(
       <WordList isOver={false}
-                alignmentData={{}}
-                verse=""
-                chapter=""/>,
+                alignmentData={{}}/>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -39,9 +37,9 @@ describe('snapshot', () => {
     const WrappedWordList = wrapInTestContext(WordList);
     const wrapper = renderer.create(
       <WrappedWordList isOver={false}
-                alignmentData={alignmentData}
-                verse="1"
-                chapter="1"/>,
+                       alignmentData={alignmentData}
+                       verse={1}
+                       chapter={1}/>
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -58,8 +56,8 @@ describe('WordList', () => {
 
   test('renders Luke 1:1', () => {
     // given
-    const chapter = '1';
-    const verse = '1';
+    const chapter = 1;
+    const verse = 1;
     const expectedWords = alignmentData[chapter][verse].wordBank.length;
     const WordListContext = wrapInTestContext(WordList);
 
@@ -71,11 +69,12 @@ describe('WordList', () => {
         alignmentData={alignmentData}
         connectDropTarget={connectDropTarget}
         isOver={false}
-      />,
+      />
     );
 
     // then
-    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root, SecondaryWord);
+    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root,
+      SecondaryWord);
     expect(wordBankItems).toBeTruthy();
     expect(wordBankItems.length).toEqual(expectedWords);
   });
@@ -93,11 +92,12 @@ describe('WordList', () => {
         alignmentData={alignmentData}
         connectDropTarget={connectDropTarget}
         isOver={false}
-      />,
+      />
     );
 
     // then
-    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root, SecondaryWord);
+    let wordBankItems = TestUtils.scryRenderedComponentsWithType(root,
+      SecondaryWord);
     expect(wordBankItems).toBeTruthy();
     expect(wordBankItems.length).toEqual(expectedWords);
   });
@@ -116,6 +116,6 @@ function wrapInTestContext(DecoratedComponent) {
       render() {
         return <DecoratedComponent {...this.props} />;
       }
-    },
+    }
   );
 }

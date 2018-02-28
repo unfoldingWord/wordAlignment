@@ -4,7 +4,7 @@
  * @return {String} - the id of the lexicon
  */
 export const lexiconIdFromStrongs = (strong) => {
-  const lexiconId = (strong.replace(/\d+/,'') === 'G') ? 'ugl': 'uhl';
+  const lexiconId = (strong.replace(/\d+/, '') === 'G') ? 'ugl' : 'uhl';
   return lexiconId;
 };
 /**
@@ -13,6 +13,6 @@ export const lexiconIdFromStrongs = (strong) => {
  * @return {Int} - the number of the entry
  */
 export const lexiconEntryIdFromStrongs = (strong) => {
-  const entryId = parseInt(strong.replace(/\w/,'').slice(0,-1));
+  const entryId = parseInt(strong.replace(/\w/, '').slice(0, -1));
   return entryId;
 };

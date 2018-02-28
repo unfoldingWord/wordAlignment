@@ -7,7 +7,7 @@ const styles = {
     borderLeft: '5px solid #44C6FF',
     padding: '10px',
     backgroundColor: '#FFFFFF',
-    boxShadow: "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+    boxShadow: '0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset',
     cursor: 'move',
     display: 'flex',
     flexDirection: 'row'
@@ -30,7 +30,7 @@ const styles = {
 const Word = ({word, occurrence, occurrences, style, onClick}) => {
   const rootStyles = {...styles.root, ...style};
   let wordStyles = null;
-  if(typeof onClick === 'function') {
+  if (typeof onClick === 'function') {
     wordStyles = styles.word;
   }
   return (

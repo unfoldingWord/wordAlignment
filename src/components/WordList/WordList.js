@@ -12,11 +12,11 @@ import SecondaryWord from '../SecondaryWord';
  * @constructor
  */
 const WordList = ({
-  chapter,
-  verse,
-  alignmentData,
-  isOver,
-}) => {
+                    chapter,
+                    verse,
+                    alignmentData,
+                    isOver
+                  }) => {
   if (chapter && verse) {
     let wordBank = [];
     if (alignmentData[chapter] && alignmentData[chapter][verse]) {
@@ -26,12 +26,12 @@ const WordList = ({
         : [];
     }
 
-    if(isOver) {
+    if (isOver) {
       return (
         <div style={{
           border: '3px dashed #44C6FF',
           height: '100%',
-          width: '100%',
+          width: '100%'
         }}/>
       );
     } else {

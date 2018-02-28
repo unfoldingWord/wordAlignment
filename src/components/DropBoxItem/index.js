@@ -35,7 +35,7 @@ class DropBoxItem extends Component {
       <div style={dropBoxItemOuterStyle}>
         <div style={dropBoxItemInnerStyle}>
           <div style={topStyle}>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', marginBottom: '5px' }}>
               {
                 topWords.map((wordObject, index) => (
                   <PrimaryWord

@@ -17,7 +17,7 @@ class DraggableWord extends React.Component {
     const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
-      <div>
+      <div style={{flex:1}}>
         <Word word={word}
               style={{opacity}}
               occurrence={occurrence}

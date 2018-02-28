@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 // constants
-import ItemTypes from '../ItemTypes';
+import * as types from './Word/Types';
 // components
-import BottomWordCard from './BottomWordCard';
-import TopWordCard from './TopWordCard';
+import SecondaryWord from './SecondaryWord';
+import PrimaryWord from './PrimaryWord';
 
-class DropBoxItem extends Component {
+/**
+ * Renders the alignment of primary and secondary words/phrases
+ */
+class Alignment extends Component {
   render() {
     const { alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords } = this.props;
     const topStyle = {
@@ -35,10 +38,10 @@ class DropBoxItem extends Component {
       <div style={dropBoxItemOuterStyle}>
         <div style={dropBoxItemInnerStyle}>
           <div style={topStyle}>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', marginBottom: '5px' }}>
               {
                 topWords.map((wordObject, index) => (
-                  <TopWordCard
+                  <PrimaryWord
                     key={index}
                     wordObject={wordObject}
                     alignmentIndex={this.props.alignmentIndex}
@@ -54,7 +57,7 @@ class DropBoxItem extends Component {
               <div style={{ display: 'flex' }}>
                 {
                   bottomWords.map((metadata, index) => (
-                    <BottomWordCard
+                    <SecondaryWord
                       key={index}
                       word={metadata.word}
                       occurrence={metadata.occurrence}
@@ -69,8 +72,8 @@ class DropBoxItem extends Component {
         </div>
       </div>
     );
-    const emptyDropBoxItem = topWords.length === 0 && bottomWords.length === 0;
-    if (emptyDropBoxItem) {
+    const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
+    if (emptyAlignment) {
       dropBoxItemInnerStyle.width = 10;
       dropBoxDiv = canDrop ? dropBoxDiv : <div />;
     }
@@ -80,7 +83,7 @@ class DropBoxItem extends Component {
   }
 }
 
-DropBoxItem.propTypes = {
+Alignment.propTypes = {
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   draggingColor: PropTypes.string,
@@ -100,17 +103,17 @@ DropBoxItem.propTypes = {
   })
 };
 
-const DropDropBoxItemAction = {
+const dragHandler = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
     const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0);
     let canDrop;
-    if (item.type === ItemTypes.BOTTOM_WORD) {
+    if (item.type === types.SECONDARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       canDrop = alignmentIndexDelta !== 0 && !alignmentEmpty;
       return canDrop;
     }
-    if (item.type === ItemTypes.TOP_WORD) {
+    if (item.type === types.PRIMARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       const enoughSiblingTopWords = props.siblingTopWords && props.siblingTopWords.length > 1;
       if (alignmentIndexDelta === 0 && alignmentEmpty && enoughSiblingTopWords) {
@@ -135,7 +138,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  [ItemTypes.BOTTOM_WORD, ItemTypes.TOP_WORD], // itemType
-  DropDropBoxItemAction,
+  [types.SECONDARY_WORD, types.PRIMARY_WORD],
+  dragHandler,
   collect
-)(DropBoxItem);
+)(Alignment);

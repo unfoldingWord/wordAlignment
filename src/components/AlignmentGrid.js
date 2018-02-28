@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // constants
-import ItemTypes from '../ItemTypes';
+import * as types from './Word/Types';
 // components
-import DropBoxItem from '../DropBoxItem';
+import Alignment from './Alignment';
 
-class DropBoxArea extends Component {
+/**
+ * Renders a grid of word/phrase alignments
+ */
+class AlignmentGrid extends Component {
   render() {
     const {
       actions,
@@ -23,12 +26,12 @@ class DropBoxArea extends Component {
     const alignmentData = wordAlignmentReducer.alignmentData;
     const alignments = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ? alignmentData[chapter][verse].alignments : [];
     return (
-      <div id='DropBoxArea' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
+      <div id='AlignmentGrid' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
         {
           alignments.map((alignment, index) => {
             return (
               <div key={index} style={{ display: 'flex' }}>
-                <DropBoxItem
+                <Alignment
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
                   topWords={alignment.topWords}
@@ -36,7 +39,7 @@ class DropBoxArea extends Component {
                   actions={actions}
                   resourcesReducer={resourcesReducer}
                 />
-                <DropBoxItem
+                <Alignment
                   alignmentIndex={index}
                   bottomWords={[]}
                   topWords={[]}
@@ -54,10 +57,10 @@ class DropBoxArea extends Component {
   }
 
   handleDrop(index, item) {
-    if (item.type === ItemTypes.BOTTOM_WORD) {
+    if (item.type === types.SECONDARY_WORD) {
       this.props.actions.moveWordBankItemToAlignment(index, item);
     }
-    if (item.type === ItemTypes.TOP_WORD) {
+    if (item.type === types.PRIMARY_WORD) {
       this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex, index);
     }
   }
@@ -65,7 +68,7 @@ class DropBoxArea extends Component {
 
 
 
-DropBoxArea.propTypes = {
+AlignmentGrid.propTypes = {
   wordAlignmentReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -74,4 +77,4 @@ DropBoxArea.propTypes = {
   })
 };
 
-export default DropBoxArea;
+export default AlignmentGrid;

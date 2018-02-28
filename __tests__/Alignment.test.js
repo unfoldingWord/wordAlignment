@@ -1,9 +1,9 @@
 import React from 'react';
-import WordBankItem from '../src/components/WordBankItem';
+import Alignment from '../src/components/Alignment';
 
-test('WordBankItem renders', () => {
+test('snapshot', () => {
     const component = (
-        <WordBankItem />
+        <Alignment />
     );
     expect(component).toMatchSnapshot();
 

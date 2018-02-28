@@ -1,0 +1,998 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot has data and reference 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            Many
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            have
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          1
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            taken
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            on
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          1
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            the
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          1
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            work
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            of
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          1
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            putting
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            together
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            an
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          1
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            account
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            of
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          2
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            the
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          2
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            things
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            that
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            have
+          </span>
+        </span>
+        <sup
+          style={
+            Object {
+              "marginTop": "2px",
+              "opacity": "0.8",
+              "top": 0,
+            }
+          }
+        >
+          2
+        </sup>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            been
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            fulfilled
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            among
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderLeft": "5px solid #44C6FF",
+            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+            "cursor": "move",
+            "display": "flex",
+            "flexDirection": "row",
+            "opacity": 1,
+            "padding": "10px",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <span
+            onClick={undefined}
+            style={null}
+          >
+            us
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`snapshot has no alignment data 1`] = `null`;
+
+exports[`snapshot has no reference 1`] = `null`;

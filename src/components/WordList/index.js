@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import * as types from '../Word/Types';
-import WordBank from './WordBank';
+import WordList from './WordList';
 
 /**
  * Renders a word bank with drag-drop support
  */
-class DroppableWordBank extends React.Component {
+class DroppableWordList extends React.Component {
   render() {
     const {chapter, verse, alignmentData, connectDropTarget, isOver} = this.props;
 
@@ -19,7 +19,7 @@ class DroppableWordBank extends React.Component {
         overflowY: 'auto',
         padding: '5px 8px 5px 5px'
       }}>
-        <WordBank chapter={chapter}
+        <WordList chapter={chapter}
                   verse={verse}
                   alignmentData={alignmentData}
                   isOver={isOver}/>
@@ -28,7 +28,7 @@ class DroppableWordBank extends React.Component {
   }
 }
 
-DroppableWordBank.propTypes = {
+DroppableWordList.propTypes = {
   chapter: PropTypes.number,
   verse: PropTypes.number,
   alignmentData: PropTypes.object.isRequired,
@@ -58,4 +58,4 @@ export default DropTarget(
   types.SECONDARY_WORD,
   dragHandler,
   collect
-)(DroppableWordBank);
+)(DroppableWordList);

@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 import TestUtils from 'react-dom/test-utils';
-import WordBank from '../src/components/WordBank/WordBank';
+import WordList from '../src/components/WordList/WordList';
 import SecondaryWord from '../src/components/SecondaryWord';
 import renderer from 'react-test-renderer';
 
@@ -17,7 +17,7 @@ const alignmentData = {
 describe('snapshot', () => {
   it('has no alignment data', () => {
     const wrapper = renderer.create(
-      <WordBank isOver={false}
+      <WordList isOver={false}
                 alignmentData={{}}
                 verse="1"
                 chapter="1"/>,
@@ -27,7 +27,7 @@ describe('snapshot', () => {
 
   it('has no reference', () => {
     const wrapper = renderer.create(
-      <WordBank isOver={false}
+      <WordList isOver={false}
                 alignmentData={{}}
                 verse=""
                 chapter=""/>,
@@ -36,9 +36,9 @@ describe('snapshot', () => {
   });
 
   it('has data and reference', () => {
-    const WrappedWordBank = wrapInTestContext(WordBank);
+    const WrappedWordList = wrapInTestContext(WordList);
     const wrapper = renderer.create(
-      <WrappedWordBank isOver={false}
+      <WrappedWordList isOver={false}
                 alignmentData={alignmentData}
                 verse="1"
                 chapter="1"/>,
@@ -47,7 +47,7 @@ describe('snapshot', () => {
   });
 });
 
-describe('WordBank', () => {
+describe('WordList', () => {
   let connectDropTarget;
 
   beforeEach(() => {
@@ -61,11 +61,11 @@ describe('WordBank', () => {
     const chapter = '1';
     const verse = '1';
     const expectedWords = alignmentData[chapter][verse].wordBank.length;
-    const WordBankContext = wrapInTestContext(WordBank);
+    const WordListContext = wrapInTestContext(WordList);
 
     // when
     let root = TestUtils.renderIntoDocument(
-      <WordBankContext
+      <WordListContext
         chapter={chapter}
         verse={verse}
         alignmentData={alignmentData}
@@ -83,11 +83,11 @@ describe('WordBank', () => {
   test('renders undefined Luke 1:81 without crashing', () => {
     // given
     const expectedWords = 0;
-    const WordBankContext = wrapInTestContext(WordBank);
+    const WordListContext = wrapInTestContext(WordList);
 
     // when
     let root = TestUtils.renderIntoDocument(
-      <WordBankContext
+      <WordListContext
         chapter="1"
         verse="81"
         alignmentData={alignmentData}

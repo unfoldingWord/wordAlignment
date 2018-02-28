@@ -1,17 +1,17 @@
 import React from 'react';
-import AlignmentBank from '../src/components/AlignmentBank';
+import AlignmentGrid from '../src/components/AlignmentGrid';
 import {shallow} from 'enzyme';
 
 test('snapshot', () => {
     const component = (
-        <AlignmentBank />
+        <AlignmentGrid />
     );
     expect(component).toMatchSnapshot();
 
     // TODO: exercise UI
 });
 
-describe('AlignmentBank', () => {
+describe('AlignmentGrid', () => {
   let contextIdReducer ,wordAlignmentReducer, resourcesReducer;
   const luke1 = require('./fixtures/luke/1.json');
 
@@ -50,7 +50,7 @@ describe('AlignmentBank', () => {
 
     // when
     const enzymeWrapper = shallow(
-      <AlignmentBank
+      <AlignmentGrid
         wordAlignmentReducer={wordAlignmentReducer}
         contextIdReducer={contextIdReducer}
         actions={{}}
@@ -74,7 +74,7 @@ describe('AlignmentBank', () => {
 
     // when
     const enzymeWrapper = shallow(
-      <AlignmentBank
+      <AlignmentGrid
         wordAlignmentReducer={wordAlignmentReducer}
         contextIdReducer={contextIdReducer}
         actions={{}}

@@ -5,7 +5,7 @@ import * as types from './Word/Types';
 // components
 import Alignment from './Alignment';
 
-class AlignmentBank extends Component {
+class AlignmentGrid extends Component {
   render() {
     const {
       actions,
@@ -23,7 +23,7 @@ class AlignmentBank extends Component {
     const alignmentData = wordAlignmentReducer.alignmentData;
     const alignments = alignmentData && alignmentData[chapter] && alignmentData[chapter][verse] ? alignmentData[chapter][verse].alignments : [];
     return (
-      <div id='AlignmentBank' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
+      <div id='AlignmentGrid' style={{ display: 'flex', flexWrap: 'wrap', height: '100%', backgroundColor: '#ffffff', padding: '0px 10px 50px', overflowY: 'auto' }}>
         {
           alignments.map((alignment, index) => {
             return (
@@ -65,7 +65,7 @@ class AlignmentBank extends Component {
 
 
 
-AlignmentBank.propTypes = {
+AlignmentGrid.propTypes = {
   wordAlignmentReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -74,4 +74,4 @@ AlignmentBank.propTypes = {
   })
 };
 
-export default AlignmentBank;
+export default AlignmentGrid;

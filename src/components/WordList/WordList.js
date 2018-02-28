@@ -11,7 +11,7 @@ import SecondaryWord from '../SecondaryWord';
  * @return {*}
  * @constructor
  */
-const WordBank = ({
+const WordList = ({
   chapter,
   verse,
   alignmentData,
@@ -54,11 +54,11 @@ const WordBank = ({
   return null;
 };
 
-WordBank.propTypes = {
+WordList.propTypes = {
   chapter: PropTypes.number,
   verse: PropTypes.number,
   alignmentData: PropTypes.object.isRequired,
   isOver: PropTypes.bool.isRequired
 };
 
-export default WordBank;
+export default WordList;

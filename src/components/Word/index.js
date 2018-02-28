@@ -17,7 +17,7 @@ class DraggableWord extends React.Component {
     const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
-      <div style={{margin: '10px'}}>
+      <div>
         <Word word={word}
               style={{opacity}}
               occurrence={occurrence}
@@ -32,7 +32,12 @@ DraggableWord.propTypes = {
   occurrence: PropTypes.number.isRequired,
   occurrences: PropTypes.number.isRequired,
   connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired
+  isDragging: PropTypes.bool.isRequired,
+  alignmentIndex: PropTypes.number
+};
+
+DraggableWord.defaultProps = {
+  alignmentIndex: undefined // just to be explicit
 };
 
 /**
@@ -45,18 +50,14 @@ const dragHandler = {
       word: props.word,
       occurrence: props.occurrence,
       occurrences: props.occurrences,
-      type: ItemTypes.BOTTOM_WORD
+      alignmentIndex: props.alignmentIndex,
+      type: ItemTypes.SECONDARY_WORD
     };
-  },
-  endDrag() { // receives: props, monitor, component
-    // When dropped on a compatible target, do something
-    // const item = monitor.getItem();
-    // console.log(item)
   }
 };
 
 export default DragSource(
-  ItemTypes.BOTTOM_WORD,
+  ItemTypes.SECONDARY_WORD,
   dragHandler,
   (connect, monitor) => ({
     connectDragSource: connect.dragSource(),

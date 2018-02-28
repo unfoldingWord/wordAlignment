@@ -1,4 +1,4 @@
 export default {
-  BOTTOM_WORD: 'bottomWord',
-  TOP_WORD: 'topWord'
+  SECONDARY_WORD: 'secondary',
+  PRIMARY_WORD: 'primary'
 };

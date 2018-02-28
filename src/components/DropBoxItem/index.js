@@ -4,8 +4,8 @@ import { DropTarget } from 'react-dnd';
 // constants
 import ItemTypes from '../ItemTypes';
 // components
-import BottomWordCard from './BottomWordCard';
-import TopWordCard from './TopWordCard';
+import SecondaryWord from '../Word';
+import PrimaryWord from './TopWordCard';
 
 class DropBoxItem extends Component {
   render() {
@@ -38,7 +38,7 @@ class DropBoxItem extends Component {
             <div style={{ display: 'flex' }}>
               {
                 topWords.map((wordObject, index) => (
-                  <TopWordCard
+                  <PrimaryWord
                     key={index}
                     wordObject={wordObject}
                     alignmentIndex={this.props.alignmentIndex}
@@ -54,7 +54,7 @@ class DropBoxItem extends Component {
               <div style={{ display: 'flex' }}>
                 {
                   bottomWords.map((metadata, index) => (
-                    <BottomWordCard
+                    <SecondaryWord
                       key={index}
                       word={metadata.word}
                       occurrence={metadata.occurrence}
@@ -105,12 +105,12 @@ const DropDropBoxItemAction = {
     const item = monitor.getItem();
     const alignmentEmpty = (props.topWords.length === 0 && props.bottomWords.length === 0);
     let canDrop;
-    if (item.type === ItemTypes.BOTTOM_WORD) {
+    if (item.type === ItemTypes.SECONDARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       canDrop = alignmentIndexDelta !== 0 && !alignmentEmpty;
       return canDrop;
     }
-    if (item.type === ItemTypes.TOP_WORD) {
+    if (item.type === ItemTypes.PRIMARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       const enoughSiblingTopWords = props.siblingTopWords && props.siblingTopWords.length > 1;
       if (alignmentIndexDelta === 0 && alignmentEmpty && enoughSiblingTopWords) {
@@ -135,7 +135,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  [ItemTypes.BOTTOM_WORD, ItemTypes.TOP_WORD], // itemType
+  [ItemTypes.SECONDARY_WORD, ItemTypes.PRIMARY_WORD], // itemType
   DropDropBoxItemAction,
   collect
 )(DropBoxItem);

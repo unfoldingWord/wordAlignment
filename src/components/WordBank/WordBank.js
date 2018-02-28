@@ -38,12 +38,14 @@ const WordBank = ({
       return (
         <React.Fragment>
           {wordBank.map((metadata, index) => (
-            <Word
-              key={index}
-              word={metadata.word}
-              occurrence={metadata.occurrence}
-              occurrences={metadata.occurrences}
-            />
+            <div key={index}
+                 style={{margin: '10px'}}>
+              <Word
+                word={metadata.word}
+                occurrence={metadata.occurrence}
+                occurrences={metadata.occurrences}
+              />
+            </div>
           ))}
         </React.Fragment>
       );

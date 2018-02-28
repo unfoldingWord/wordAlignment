@@ -54,10 +54,10 @@ class DropBoxArea extends Component {
   }
 
   handleDrop(index, item) {
-    if (item.type === ItemTypes.BOTTOM_WORD) {
+    if (item.type === ItemTypes.SECONDARY_WORD) {
       this.props.actions.moveWordBankItemToAlignment(index, item);
     }
-    if (item.type === ItemTypes.TOP_WORD) {
+    if (item.type === ItemTypes.PRIMARY_WORD) {
       this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex, index);
     }
   }

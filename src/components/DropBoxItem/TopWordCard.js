@@ -86,7 +86,7 @@ const DragTopWordCardAction = {
       occurrence: props.wordObject.occurrence,
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,
-      type: ItemTypes.TOP_WORD
+      type: ItemTypes.PRIMARY_WORD
     };
     return item;
   }
@@ -101,7 +101,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DragSource(
-  ItemTypes.TOP_WORD,
+  ItemTypes.PRIMARY_WORD,
   DragTopWordCardAction,
   collect
 )(TopWordCard);

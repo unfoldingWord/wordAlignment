@@ -55,7 +55,7 @@ const collect = (connect, monitor) => {
 };
 
 export default DropTarget(
-  ItemTypes.BOTTOM_WORD,
+  ItemTypes.SECONDARY_WORD,
   dragHandler,
   collect
 )(DroppableWordBank);

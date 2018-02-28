@@ -12,17 +12,19 @@ class DroppableWordBank extends React.Component {
     const {chapter, verse, alignmentData, connectDropTarget, isOver} = this.props;
 
     return connectDropTarget(
-      <WordBank chapter={chapter}
-                verse={verse}
-                alignmentData={alignmentData}
-                isOver={isOver}/>
+      <div>
+        <WordBank chapter={chapter}
+                  verse={verse}
+                  alignmentData={alignmentData}
+                  isOver={isOver}/>
+      </div>
     );
   }
 }
 
 DroppableWordBank.propTypes = {
-  chapter: PropTypes.string.isRequired,
-  verse: PropTypes.string.isRequired,
+  chapter: PropTypes.number,
+  verse: PropTypes.number,
   alignmentData: PropTypes.object.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,

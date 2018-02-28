@@ -4,8 +4,8 @@ import Word from '../Word';
 
 /**
  * Renders a list of words that need to be aligned
- * @param {string} chapter
- * @param {string} verse
+ * @param {int} chapter
+ * @param {int} verse
  * @param {object} alignmentData
  * @param {bool} isOver
  * @return {*}
@@ -56,8 +56,8 @@ const WordBank = ({
 };
 
 WordBank.propTypes = {
-  chapter: PropTypes.string.isRequired,
-  verse: PropTypes.string.isRequired,
+  chapter: PropTypes.number,
+  verse: PropTypes.number,
   alignmentData: PropTypes.object.isRequired,
   isOver: PropTypes.bool.isRequired
 };

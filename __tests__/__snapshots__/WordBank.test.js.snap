@@ -1,17 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`snapshot has data and reference 1`] = `
-<div
-  style={
-    Object {
-      "backgroundColor": "#DCDCDC",
-      "flex": 0.2,
-      "overflowY": "auto",
-      "padding": "5px 8px 5px 5px",
-      "width": "100%",
-    }
-  }
->
+Array [
   <div
     style={
       Object {
@@ -36,7 +26,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       Many
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -72,7 +62,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       1
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -97,7 +87,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       taken
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -133,7 +123,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       1
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -169,7 +159,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       1
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -194,7 +184,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       work
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -230,7 +220,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       1
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -255,7 +245,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       putting
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -280,7 +270,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       together
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -316,7 +306,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       1
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -341,7 +331,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       account
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -377,7 +367,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       2
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -413,7 +403,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       2
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -438,7 +428,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       things
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -463,7 +453,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       that
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -499,7 +489,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       2
     </sup>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -524,7 +514,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       been
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -549,7 +539,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       fulfilled
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -574,7 +564,7 @@ exports[`snapshot has data and reference 1`] = `
     >
       among
     </span>
-  </div>
+  </div>,
   <div
     style={
       Object {
@@ -599,22 +589,10 @@ exports[`snapshot has data and reference 1`] = `
     >
       us
     </span>
-  </div>
-</div>
+  </div>,
+]
 `;
 
-exports[`snapshot has no alignment data 1`] = `
-<div
-  style={
-    Object {
-      "backgroundColor": "#DCDCDC",
-      "flex": 0.2,
-      "overflowY": "auto",
-      "padding": "5px 8px 5px 5px",
-      "width": "100%",
-    }
-  }
-/>
-`;
+exports[`snapshot has no alignment data 1`] = `null`;
 
 exports[`snapshot has no reference 1`] = `null`;

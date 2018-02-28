@@ -12,7 +12,13 @@ class DroppableWordBank extends React.Component {
     const {chapter, verse, alignmentData, connectDropTarget, isOver} = this.props;
 
     return connectDropTarget(
-      <div>
+      <div style={{
+        flex: 0.2,
+        width: '100%',
+        backgroundColor: '#DCDCDC',
+        overflowY: 'auto',
+        padding: '5px 8px 5px 5px'
+      }}>
         <WordBank chapter={chapter}
                   verse={verse}
                   alignmentData={alignmentData}

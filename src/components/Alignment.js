@@ -94,15 +94,16 @@ class Alignment extends Component {
 }
 
 Alignment.propTypes = {
+  draggingColor: PropTypes.string,
+  siblingTopWords: PropTypes.array,
+  lastDroppedItem: PropTypes.object,
+
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
-  draggingColor: PropTypes.string,
   connectDropTarget: PropTypes.func.isRequired,
   topWords: PropTypes.array.isRequired,
   bottomWords: PropTypes.array.isRequired,
-  siblingTopWords: PropTypes.array,
   alignmentIndex: PropTypes.number.isRequired,
-  lastDroppedItem: PropTypes.object,
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
   actions: PropTypes.shape({

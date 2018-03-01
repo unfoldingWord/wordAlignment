@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import WordList from './components/WordList';
-import AlignmentGrid from './components/AlignmentGrid';
+import WordList from './WordList/index';
+import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'lodash/isEqual';
-import {getWords, getAlignedWords, disableAlignedWords} from './utils/words';
+import {getWords, getAlignedWords, disableAlignedWords} from '../utils/words';
 
 /**
  * The base container for this tool
@@ -54,7 +54,7 @@ class Container extends Component {
     const {connectDropTarget, isOver} = this.props;
     const {alignmentData} = this.props.wordAlignmentReducer;
     const {contextId} = this.props.contextIdReducer;
-    const {lexicons, bibles: {ugnt, targetLanguage}} = this.props.resourcesReducer;
+    const {lexicons, bibles: {targetLanguage}} = this.props.resourcesReducer;
     let chapter, verse;
     let words = [];
     if (contextId) {

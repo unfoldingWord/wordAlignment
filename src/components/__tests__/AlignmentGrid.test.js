@@ -1,5 +1,5 @@
 import React from 'react';
-import AlignmentGrid from '../src/components/AlignmentGrid';
+import AlignmentGrid from '../AlignmentGrid';
 import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
 

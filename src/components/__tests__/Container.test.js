@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from '../src/Container';
+import Container from '../Container';
 
 test('Container renders', () => {
   const component = (

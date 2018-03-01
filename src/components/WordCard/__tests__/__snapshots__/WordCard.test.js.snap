@@ -22,8 +22,8 @@ exports[`multiple occurrence 1`] = `
     }
   >
     <span
-      onClick={undefined}
-      style={null}
+      onClick={[Function]}
+      style={Object {}}
     >
       hello
     </span>
@@ -64,8 +64,8 @@ exports[`single occurrence 1`] = `
     }
   >
     <span
-      onClick={undefined}
-      style={null}
+      onClick={[Function]}
+      style={Object {}}
     >
       hello
     </span>

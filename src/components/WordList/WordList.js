@@ -38,6 +38,11 @@ const WordList = ({
 
     const augmentedWordBank = wordBank.concat(alignedWords);
 
+    // TODO: we need to sort these but all the logic is in the core!
+    // we can't sort manually here because we don't have the raw verse
+    // and if we did we may as well just use the verse.
+    // We need to
+
     if (isOver) {
       return (
         <div style={{

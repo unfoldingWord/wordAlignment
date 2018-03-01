@@ -1,6 +1,6 @@
 import React from 'react';
 // helpers
-import * as lexiconHelpers from '../helpers/lexiconHelpers';
+import * as lexiconHelpers from '../utils/lexicon';
 import PropTypes from 'prop-types';
 
 class WordDetails extends React.Component {

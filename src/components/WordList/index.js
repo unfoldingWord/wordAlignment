@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
-import * as types from '../Word/Types';
+import * as types from '../WordCard/Types';
 import WordList from './WordList';
+import Unigram from '../../specs/Unigram';
 
 /**
  * Renders a word bank with drag-drop support
  */
 class DroppableWordList extends React.Component {
   render() {
-    const {chapter, verse, alignmentData, connectDropTarget, isOver} = this.props;
+    const {words, chapter, verse, alignmentData, connectDropTarget, isOver} = this.props;
 
     return connectDropTarget(
       <div style={{
@@ -21,6 +22,7 @@ class DroppableWordList extends React.Component {
       }}>
         <WordList chapter={chapter}
                   verse={verse}
+                  words={words}
                   alignmentData={alignmentData}
                   isOver={isOver}/>
       </div>
@@ -31,6 +33,7 @@ class DroppableWordList extends React.Component {
 DroppableWordList.propTypes = {
   chapter: PropTypes.number,
   verse: PropTypes.number,
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Unigram)),
   alignmentData: PropTypes.object.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,

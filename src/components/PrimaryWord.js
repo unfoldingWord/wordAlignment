@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
-import * as types from './Word/Types';
+import * as types from './WordCard/Types';
 // helpers
-import * as lexiconHelpers from '../helpers/lexiconHelpers';
+import * as lexiconHelpers from '../utils/lexicon';
 import WordDetails from './WordDetails';
-import Word from './Word';
+import Word from './WordCard';
 
 const internalStyle = {
   color: '#ffffff',
@@ -15,7 +15,7 @@ const internalStyle = {
 /**
  * Renders a draggable primary word
  *
- * @see Word
+ * @see WordCard
  *
  * @property wordObject
  * @property alignmentIndex

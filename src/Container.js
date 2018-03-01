@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './components/WordList';
 import AlignmentGrid from './components/AlignmentGrid';
 import isEqual from 'lodash/isEqual';
+import {getWords} from './utils/words';
 
 /**
  * The base container for this tool
@@ -53,17 +54,23 @@ class Container extends Component {
     const {connectDropTarget, isOver} = this.props;
     const {alignmentData} = this.props.wordAlignmentReducer;
     const {contextId} = this.props.contextIdReducer;
-    const {lexicons} = this.props.resourcesReducer;
+    const {lexicons, bibles: {ugnt, targetLanguage}} = this.props.resourcesReducer;
     let chapter, verse;
+    let words = [];
     if (contextId) {
       chapter = contextId.reference.chapter;
       verse = contextId.reference.verse;
+      
+      // parse secondary text words
+      const secondaryChapterText = targetLanguage[chapter];
+      words = getWords(secondaryChapterText[verse]);
     }
 
     return (
       <div style={{display: 'flex', width: '100%', height: '100%'}}>
         <WordList chapter={chapter}
                   verse={verse}
+                  words={words}
                   moveBackToWordBank={moveBackToWordBank}
                   alignmentData={alignmentData}
                   connectDropTarget={connectDropTarget}

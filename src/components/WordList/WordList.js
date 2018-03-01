@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SecondaryWord from '../SecondaryWord';
+import Unigram from '../../specs/Unigram';
 
 /**
  * Renders a list of words that need to be aligned
+ * @param {Unigram[]} words,
  * @param {int} chapter
  * @param {int} verse
  * @param {object} alignmentData
@@ -12,11 +14,12 @@ import SecondaryWord from '../SecondaryWord';
  * @constructor
  */
 const WordList = ({
-                    chapter,
-                    verse,
-                    alignmentData,
-                    isOver
-                  }) => {
+  words,
+  chapter,
+  verse,
+  alignmentData,
+  isOver
+}) => {
   if (chapter && verse) {
     const wordBank = alignmentData && alignmentData[chapter] &&
       alignmentData[chapter][verse]
@@ -54,17 +57,17 @@ const WordList = ({
     } else {
       return (
         <React.Fragment>
-          {augmentedWordBank.map((metadata, index) => {
-            const {disabled} = metadata;
-            delete metadata.disabled;
+          {words.map((unigram, index) => {
+            const {disabled} = unigram;
+            delete unigram.disabled;
             return (
               <div key={index}
                    style={{margin: '10px'}}>
                 <SecondaryWord
                   disabled={disabled}
-                  word={metadata.word}
-                  occurrence={metadata.occurrence}
-                  occurrences={metadata.occurrences}
+                  word={unigram.token}
+                  occurrence={unigram.occurrence}
+                  occurrences={unigram.occurrences}
                 />
               </div>
             );
@@ -77,6 +80,7 @@ const WordList = ({
 };
 
 WordList.propTypes = {
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Unigram)),
   chapter: PropTypes.number,
   verse: PropTypes.number,
   alignmentData: PropTypes.object.isRequired,

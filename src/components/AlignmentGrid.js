@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 // constants
-import * as types from './Word/Types';
+import * as types from './WordCard/Types';
 // components
 import Alignment from './Alignment';
 

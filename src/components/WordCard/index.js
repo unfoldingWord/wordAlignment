@@ -55,7 +55,7 @@ const makeStyles = (props) => {
  * @param {bool} [disabled] - indicates the word is disabled
  * @constructor
  */
-class Word extends React.Component {
+class WordCard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -92,7 +92,7 @@ class Word extends React.Component {
   }
 }
 
-Word.propTypes = {
+WordCard.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   style: PropTypes.object,
@@ -101,11 +101,11 @@ Word.propTypes = {
   word: PropTypes.string.isRequired
 };
 
-Word.defaultProps = {
+WordCard.defaultProps = {
   style: {},
   occurrence: 1,
   occurrences: 1,
   disabled: false
 };
 
-export default Word;
+export default WordCard;

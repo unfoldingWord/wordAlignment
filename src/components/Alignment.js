@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
 // constants
-import * as types from './Word/Types';
+import * as types from './WordCard/Types';
 // components
 import SecondaryWord from './SecondaryWord';
 import PrimaryWord from './PrimaryWord';

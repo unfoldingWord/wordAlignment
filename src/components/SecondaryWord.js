@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Word from './Word';
+import Word from './WordCard';
 import {DragSource} from 'react-dnd';
-import * as types from './Word/Types';
+import * as types from './WordCard/Types';
 
 /**
  * Renders a draggable secondary word.
  *
- * @see Word
+ * @see WordCard
  *
  * @property {string} word - the represented word
  * @property {int} occurrence

@@ -1,11 +1,12 @@
-import Unigram from '../specs/Unigram';
+import Word from '../specs/Word';
 import * as stringUtils from './strings';
 import {getWordList} from './verses';
+import _ from 'lodash';
 
 /**
  * Returns a list of words from a verse
  * @param {string} verseText - the verse text from the secondary language
- * @return {Unigram[]} - an array of uni-grams
+ * @return {Word[]} - an array of Words
  */
 export const getWords = (verseText) => {
   const verseWords = getWordList(verseText);
@@ -15,6 +16,47 @@ export const getWords = (verseText) => {
     const word = object.text;
     let occurrences = stringUtils.occurrencesInString(_verseText, word);
     let occurrence = stringUtils.occurrenceInString(_verseText, index, word);
-    return new Unigram(word, occurrence, occurrences);
+    return new Word(word, occurrence, occurrences);
+  });
+};
+
+/**
+ * Returns a list of words that have been aligned
+ * @param {object} alignmentData - the alignments object
+ * @param {int} chapter
+ * @param {int} verse
+ * @return {Word[]} - an array of Words
+ */
+export const getAlignedWords = (alignmentData, chapter, verse) => {
+  if(alignmentData
+    && alignmentData[chapter]
+    && alignmentData[chapter][verse]
+    && alignmentData[chapter][verse].alignments) {
+    const alignments = alignmentData[chapter][verse].alignments;
+    const words = [];
+    alignments.map(alignment => {
+      for(const word of alignment.bottomWords) {
+        words.push(new Word(word.word, word.occurrence, word.occurrences));
+      }
+    });
+    return words;
+  } else {
+    return [];
+  }
+};
+
+/**
+ * Returns a new array with aligned words disabled.
+ *
+ * @param {Word[]} words
+ * @param {Word[]} alignedWords
+ * @return {Word[]}
+ */
+export const disableAlignedWords = (words, alignedWords) => {
+  return words.map(word => {
+    if(_.find(alignedWords, word)) {
+      word.disable();
+    }
+    return word;
   });
 };

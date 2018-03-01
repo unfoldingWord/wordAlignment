@@ -63,7 +63,8 @@
     "react-dnd-html5-backend": "2.5.1",
     "react-localize-redux": "^2.15.1",
     "tc-tool": "^1.1.0",
-    "usfm-js": "^1.0.0-beta.30"
+    "usfm-js": "^1.0.0-beta.30",
+    "xregexp": "^4.1.1"
   },
   "peerDependencies": {
     "react": "^16.0.0",

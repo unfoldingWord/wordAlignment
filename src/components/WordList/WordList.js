@@ -49,17 +49,21 @@ const WordList = ({
     } else {
       return (
         <React.Fragment>
-          {augmentedWordBank.map((metadata, index) => (
-            <div key={index}
-                 style={{margin: '10px'}}>
-              <SecondaryWord
-                disabled={metadata.disabled}
-                word={metadata.word}
-                occurrence={metadata.occurrence}
-                occurrences={metadata.occurrences}
-              />
-            </div>
-          ))}
+          {augmentedWordBank.map((metadata, index) => {
+            const {disabled} = metadata;
+            delete metadata.disabled;
+            return (
+              <div key={index}
+                   style={{margin: '10px'}}>
+                <SecondaryWord
+                  disabled={disabled}
+                  word={metadata.word}
+                  occurrence={metadata.occurrence}
+                  occurrences={metadata.occurrences}
+                />
+              </div>
+            );
+          })}
         </React.Fragment>
       );
     }

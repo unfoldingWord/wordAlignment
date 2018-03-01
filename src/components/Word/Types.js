@@ -1,2 +1,2 @@
-export const SECONDARY_WORD = 'secondary';
-export const PRIMARY_WORD = 'primary';
+export const SECONDARY_WORD = 'bottomWord';
+export const PRIMARY_WORD = 'topWord';

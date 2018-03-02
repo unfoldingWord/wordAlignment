@@ -1,23 +1,35 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
-// constants
 import * as types from './WordCard/Types';
-// components
 import SecondaryWord from './SecondaryWord';
 import PrimaryWord from './PrimaryWord';
 
-/**
- * Renders the alignment of primary and secondary words/phrases
- */
-class Alignment extends Component {
-  render() {
-    const {lexicons, alignmentIndex, canDrop, isOver, bottomWords, connectDropTarget, topWords} = this.props;
-    const topStyle = {
+const makeStyles = (props) => {
+  const {topWords, canDrop, isOver, bottomWords} = props;
+  const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
+  const largeAlignment = topWords.length > 1 || bottomWords.length > 1;
+
+  const defaultAlignmentWidth = '115px';
+
+  return {
+    root: {
+      padding: '10px',
+      backgroundColor: '#DCDCDC',
+      margin: '0px 10px 10px 0px',
+      minWidth: emptyAlignment ? 0 : defaultAlignmentWidth,
+      flexGrow: largeAlignment ? 1 : 0
+    },
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: emptyAlignment ? '50%' : '100%',
+      backgroundColor: '#DCDCDC'
+    },
+    top: {
       padding: topWords.length === 0 ? '15px 0px' : '1px 0'
-    };
-    const bottomStyle = {
-      height: '35px',
+    },
+    bottom: {
       padding: bottomWords.length === 0 ?
         '15px 0px' :
         canDrop ?
@@ -30,24 +42,22 @@ class Alignment extends Component {
           canDrop ?
             '3px dashed #ffffff' :
             ''
-    };
-    const dropBoxItemOuterStyle = {
-      padding: '5px 10px',
-      backgroundColor: '#DCDCDC',
-      margin: '0px 10px 10px 0px',
-      height: '100px'
-    };
-    const dropBoxItemInnerStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '230px',
-      height: '70px',
-      backgroundColor: '#DCDCDC'
-    };
+    }
+  };
+};
+
+/**
+ * Renders the alignment of primary and secondary words/phrases
+ */
+class Alignment extends Component {
+  render() {
+    const {lexicons, alignmentIndex, canDrop, bottomWords, connectDropTarget, topWords} = this.props;
+    const styles = makeStyles(this.props);
+
     let dropBoxDiv = (
-      <div style={dropBoxItemOuterStyle}>
-        <div style={dropBoxItemInnerStyle}>
-          <div style={topStyle}>
+      <div style={styles.root}>
+        <div style={styles.wrapper}>
+          <div style={styles.top}>
             <div style={{display: 'flex', marginBottom: '5px'}}>
               {
                 topWords.map((wordObject, index) => (
@@ -62,7 +72,7 @@ class Alignment extends Component {
               }
             </div>
           </div>
-          <div style={bottomStyle}>
+          <div style={styles.bottom}>
             {bottomWords.length > 0 &&
             <div style={{display: 'flex'}}>
               {
@@ -84,7 +94,6 @@ class Alignment extends Component {
     );
     const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
     if (emptyAlignment) {
-      dropBoxItemInnerStyle.width = 10;
       dropBoxDiv = canDrop ? dropBoxDiv : <div/>;
     }
     return connectDropTarget(

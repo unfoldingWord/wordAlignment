@@ -9,7 +9,6 @@ const styles = {
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    height: '100%',
     backgroundColor: '#ffffff',
     padding: '0px 10px 50px',
     overflowY: 'auto'
@@ -41,7 +40,7 @@ class AlignmentGrid extends Component {
         {
           alignments.map((alignment, index) => {
             return (
-              <div key={index} style={{display: 'flex'}}>
+              <React.Fragment key={index}>
                 <Alignment
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
@@ -50,6 +49,7 @@ class AlignmentGrid extends Component {
                   actions={actions}
                   lexicons={lexicons}
                 />
+                {/* placeholder for un-merging primary words */}
                 <Alignment
                   alignmentIndex={index}
                   bottomWords={[]}
@@ -59,7 +59,7 @@ class AlignmentGrid extends Component {
                   actions={actions}
                   lexicons={lexicons}
                 />
-              </div>
+              </React.Fragment>
             );
           })
         }

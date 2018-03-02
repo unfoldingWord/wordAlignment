@@ -7,6 +7,9 @@ import WordBankArea from './components/WordBankArea';
 import DropBoxArea from './components/DropBoxArea';
 import isEqual from 'lodash/isEqual';
 
+/**
+ * The base container for this tool
+ */
 class Container extends Component {
 
   componentWillMount() {
@@ -45,13 +48,13 @@ class Container extends Component {
     }
 
     return (
-      <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <WordBankArea {...this.props} />
-        <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
-          {scripturePane}
-          <DropBoxArea {...this.props} />
+        <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+          <WordBankArea {...this.props} />
+          <div style={{ flex: 0.8, width: '100%', height: '100%', paddingBottom: '150px' }}>
+            {scripturePane}
+            <DropBoxArea {...this.props} />
+          </div>
         </div>
-      </div>
     );
   }
 }

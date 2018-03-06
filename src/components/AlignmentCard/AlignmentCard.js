@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
+/**
+ * Generates the styles for the component
+ * @param props
+ * @return {*}
+ */
 const makeStyles = (props) => {
-  const { topWords, hoverTop, hoverBottom, bottomWords } = props;
+  const { topWords, hoverTop, hoverBottom, bottomWords, acceptsTopWords, acceptsBottomWords } = props;
   const emptyTop = !topWords || topWords.length === 0;
   const emptyBottom = !bottomWords || bottomWords.length === 0;
   const emptyAlignment = emptyTop && emptyBottom;
@@ -11,49 +15,60 @@ const makeStyles = (props) => {
 
   const defaultAlignmentWidth = '115px';
   const blueBorder = '3px dashed #44C6FF';
+  const clearBorder = '3px dashed transparent';
+  const whiteBorder = '3px dashed #ffffff';
 
-  const styles= {
+  const rowStyle = {
+    display: 'flex',
+    position: 'relative'
+  };
+  const styles = {
     root: {
-      padding: '10px',
+      padding: '7px',
       backgroundColor: '#DCDCDC',
       margin: '0px 10px 10px 0px',
       minWidth: emptyAlignment ? `calc(${defaultAlignmentWidth}/2)` : defaultAlignmentWidth,
       flexGrow: largeAlignment ? 1 : 0
     },
-    wrapper: {
+    content: {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
       backgroundColor: '#DCDCDC'
     },
     top: {
-      width: '100%',
-      minHeight: '40px',
       flexGrow: 1,
+      width: '100%',
+      minHeight: '45px',
+      border: emptyTop || acceptsTopWords ? whiteBorder : clearBorder,
       boxSizing: 'border-box',
-      marginBottom: '10px'
+      marginBottom: '7px'
     },
     bottom: {
       flexGrow: 1,
       width: '100%',
-      minHeight: '40px',
-      border: emptyBottom ? '3px dashed #ffffff' : '',
+      minHeight: '45px',
+      border: emptyBottom || acceptsBottomWords ? whiteBorder : clearBorder,
       boxSizing: 'border-box'
     },
-    shim: {
-
+    topRow: {
+      ...rowStyle,
+      top: acceptsTopWords ? '7px' : 0,
+      left: acceptsTopWords ? '7px' : 0,
+      opacity: hoverTop ? '0.8' : 1
+    },
+    bottomRow: {
+      ...rowStyle,
+      top: acceptsBottomWords ? '7px' : 0,
+      left: acceptsBottomWords ? '7px' : 0,
+      opacity: hoverBottom ? '0.8' : 1
     }
   };
-  if(hoverTop && emptyTop) {
+
+  if (hoverTop && acceptsTopWords) {
     styles.top.border = blueBorder;
-  } else if(hoverTop && !emptyTop) {
-    styles.shim = {
-      border: blueBorder,
-      padding: '10px',
-      marginLeft: '10px'
-    };
   }
-  if(hoverBottom) {
+  if (hoverBottom && acceptsBottomWords) {
     styles.bottom.border = blueBorder;
   }
   return styles;
@@ -61,25 +76,30 @@ const makeStyles = (props) => {
 
 /**
  * Renders the alignment of primary and secondary words/phrases
+ *
+ * @property {array} topWords
+ * @property {array} bottomWords
+ * @property {bool} hoverBottom - a bottom word is hover over this component
+ * @property {bool} hoverTop - a top word is hovering over this component
+ * @property {bool} acceptsTopWords - this component accepts dropped top words
+ * @property {bool} acceptsBottomWords - this component accepts dropped bottom words
  */
 class AlignmentCard extends Component {
   render() {
-    const { bottomWords, topWords, hoverBottom } = this.props;
+    const { bottomWords, topWords } = this.props;
     const styles = makeStyles(this.props);
-    const emptyTop = !topWords || topWords.length === 0;
 
     return (
       <div style={styles.root}>
-        <div style={styles.wrapper}>
+        <div style={styles.content}>
           <div style={styles.top}>
-            <div style={{ display: 'flex' }}>
-              {!emptyTop && topWords}
-              <span style={styles.shim}/>
+            <div style={styles.topRow}>
+              {topWords}
             </div>
           </div>
           <div style={styles.bottom}>
-            <div style={{ display: 'flex' }}>
-              {!hoverBottom && bottomWords}
+            <div style={styles.bottomRow}>
+              {bottomWords}
             </div>
           </div>
         </div>
@@ -92,7 +112,9 @@ AlignmentCard.propTypes = {
   topWords: PropTypes.array,
   bottomWords: PropTypes.array,
   hoverBottom: PropTypes.bool,
-  hoverTop: PropTypes.bool
+  hoverTop: PropTypes.bool,
+  acceptsTopWords: PropTypes.bool,
+  acceptsBottomWords: PropTypes.bool,
 };
 
 export default AlignmentCard;

@@ -13,8 +13,12 @@ class DroppableAlignmentCard extends Component {
   render() {
     const {lexicons, alignmentIndex, canDrop, dragItemType, isOver, actions, bottomWords, connectDropTarget, topWords} = this.props;
 
-    const hoverTop = isOver && canDrop && dragItemType === types.PRIMARY_WORD;
-    const hoverBottom = isOver && canDrop && dragItemType === types.SECONDARY_WORD;
+    const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
+    const acceptsBottom = canDrop && dragItemType === types.SECONDARY_WORD;
+
+    const hoverTop = isOver && acceptsTop;
+    const hoverBottom = isOver && acceptsBottom;
+
     const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
 
     const topWordCards = topWords.map((wordObject, index) => (
@@ -45,6 +49,8 @@ class DroppableAlignmentCard extends Component {
           <AlignmentCard bottomWords={bottomWordCards}
                          hoverBottom={hoverBottom}
                          hoverTop={hoverTop}
+                         acceptsBottomWords={acceptsBottom}
+                         acceptsTopWords={acceptsTop}
                          topWords={topWordCards}/>
         </div>
       );

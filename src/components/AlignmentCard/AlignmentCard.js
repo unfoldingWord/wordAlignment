@@ -10,6 +10,7 @@ const makeStyles = (props) => {
   const largeAlignment = (!emptyTop && topWords.length > 1) || (!emptyBottom && bottomWords.length > 1);
 
   const defaultAlignmentWidth = '115px';
+  const blueBorder = '3px dashed #44C6FF';
 
   const styles= {
     root: {
@@ -38,13 +39,22 @@ const makeStyles = (props) => {
       minHeight: '40px',
       border: emptyBottom ? '3px dashed #ffffff' : '',
       boxSizing: 'border-box'
+    },
+    shim: {
+
     }
   };
   if(hoverTop && emptyTop) {
-    styles.top.border = '3px dashed #44C6FF';
+    styles.top.border = blueBorder;
+  } else if(hoverTop && !emptyTop) {
+    styles.shim = {
+      border: blueBorder,
+      padding: '10px',
+      marginLeft: '10px'
+    };
   }
   if(hoverBottom) {
-    styles.bottom.border = '3px dashed #44C6FF';
+    styles.bottom.border = blueBorder;
   }
   return styles;
 };
@@ -64,6 +74,7 @@ class AlignmentCard extends Component {
           <div style={styles.top}>
             <div style={{ display: 'flex' }}>
               {!emptyTop && topWords}
+              <span style={styles.shim}/>
             </div>
           </div>
           <div style={styles.bottom}>

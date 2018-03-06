@@ -1,4 +1,4 @@
-import Container from './src/Container';
+import Container from './src/components/Container';
 import {connectTool} from 'tc-tool';
 
 const NAMESPACE = 'wordAlignment';

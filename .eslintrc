@@ -1,7 +1,8 @@
 {
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "plugins": [
-    "react"
+    "react",
+    "jest"
   ],
   "settings": {
     "react": {
@@ -12,12 +13,10 @@
   },
   "rules": {
     "react/display-name": "off",
-    "no-useless-escape": "warn",
-    "no-constant-condition": "warn",
-    "no-unused-vars": "warn",
-    "react/prop-types": "warn",
+    "no-undef": "warn",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
     "react/no-unescaped-entities": "warn",
-    "react/no-string-refs": "warn",
     "react/no-find-dom-node": "warn",
     "semi": ["error", "always", {"omitLastInOneLineBlock": true}],
     "no-console": "off"
@@ -32,6 +31,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   }
 }

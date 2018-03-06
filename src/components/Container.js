@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
@@ -70,7 +71,7 @@ class Container extends Component {
       verse = contextId.reference.verse;
 
       // parse secondary text words
-      const secondaryChapterText = targetLanguage[chapter];
+      const secondaryChapterText = targetLanguage['targetBible'][chapter];
       words = getWords(secondaryChapterText[verse]);
       const alignedWords = getAlignedWords(alignmentData, chapter, verse);
       words = disableAlignedWords(words, alignedWords);

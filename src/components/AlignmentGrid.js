@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // constants
 import * as types from './WordCard/Types';
 // components
-import Alignment from './Alignment';
+import AlignmentCard from './AlignmentCard';
 
 const styles = {
   root: {
@@ -41,7 +41,7 @@ class AlignmentGrid extends Component {
           alignments.map((alignment, index) => {
             return (
               <React.Fragment key={index}>
-                <Alignment
+                <AlignmentCard
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
                   topWords={alignment.topWords}
@@ -50,7 +50,7 @@ class AlignmentGrid extends Component {
                   lexicons={lexicons}
                 />
                 {/* placeholder for un-merging primary words */}
-                <Alignment
+                <AlignmentCard
                   alignmentIndex={index}
                   bottomWords={[]}
                   topWords={[]}

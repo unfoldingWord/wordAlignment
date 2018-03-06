@@ -1,11 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Alignment from '../Alignment';
+import AlignmentCard from '../AlignmentCard';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 
-test('snapshot', () => {
-  const ConnectedAlignment = wrapInTestContext(Alignment);
+test('empty alignment', () => {
+  const ConnectedAlignment = wrapInTestContext(AlignmentCard);
   const wrapper = renderer.create(
     <ConnectedAlignment topWords={[]}
                         bottomWords={[]}
@@ -15,6 +15,19 @@ test('snapshot', () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+test('filled alignment', () => {
+  const ConnectedAlignment = wrapInTestContext(AlignmentCard);
+  const wrapper = renderer.create(
+    <ConnectedAlignment topWords={[]}
+                        bottomWords={[]}
+                        onDrop={jest.fn()}
+                        lexicons={{}}
+                        alignmentIndex={0}/>
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
 
 // TODO: test with something in it.
 

@@ -79,14 +79,16 @@ class WordCard extends React.Component {
     const {word, occurrence, occurrences} = this.props;
     const styles = makeStyles(this.props);
     return (
-      <div style={styles.root}>
+      <div style={{flex: 1}}>
+        <div style={styles.root}>
         <span style={{flex: 1}}>
           <span onClick={this._handleClick} style={styles.word}>
             {word}
           </span>
         </span>
-        <WordOccurrence occurrence={occurrence}
-                        occurrences={occurrences}/>
+          <WordOccurrence occurrence={occurrence}
+                          occurrences={occurrences}/>
+        </div>
       </div>
     );
   }

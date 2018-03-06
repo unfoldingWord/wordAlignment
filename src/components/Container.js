@@ -4,7 +4,7 @@ import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'deep-equal';
 import {getWords, getAlignedWords, disableAlignedWords} from '../utils/words';
 
 /**

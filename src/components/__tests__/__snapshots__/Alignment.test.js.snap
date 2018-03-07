@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`empty alignment 1`] = `null`;
-
-exports[`filled alignment 1`] = `null`;
-
-exports[`snapshot 1`] = `<div />`;

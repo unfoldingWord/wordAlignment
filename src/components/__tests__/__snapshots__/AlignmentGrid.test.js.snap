@@ -1,3 +1,1372 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot 1`] = `<div />`;
+exports[`AlignmentGrid renders Luke 1:1 1`] = `
+<div
+  id="AlignmentGrid"
+  style={
+    Object {
+      "backgroundColor": "#ffffff",
+      "display": "flex",
+      "flexWrap": "wrap",
+      "overflowY": "auto",
+      "padding": "0px 10px 50px",
+    }
+  }
+>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      ἐπειδήπερ
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      πολλοὶ
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      ἐπεχείρησαν
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      ἀνατάξασθαι
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      διήγησιν
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      περὶ
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      τῶν
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      πεπληροφορημένων
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      ἐν
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      ἡμῖν
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#DCDCDC",
+          "flexGrow": 0,
+          "margin": "0px 10px 10px 0px",
+          "minWidth": "115px",
+          "padding": "7px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#DCDCDC",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "border": "3px dashed transparent",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "marginBottom": "7px",
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "backgroundColor": "#333333",
+                      "borderLeft": "5px solid #44C6FF",
+                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                      "color": "#ffffff",
+                      "cursor": "move",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "opacity": 1,
+                      "padding": "10px",
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <span
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                        }
+                      }
+                    >
+                      πραγμάτων
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "border": "3px dashed #ffffff",
+              "boxSizing": "border-box",
+              "flexGrow": 1,
+              "minHeight": "45px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "left": 0,
+                "opacity": 1,
+                "position": "relative",
+                "top": 0,
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`empty snapshot 1`] = `<div />`;

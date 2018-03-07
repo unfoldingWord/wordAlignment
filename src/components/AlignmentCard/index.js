@@ -21,9 +21,11 @@ class DroppableAlignmentCard extends Component {
 
     const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
 
+    const alignmentLength = topWords.length;
     const topWordCards = topWords.map((wordObject, index) => (
       <PrimaryWord
         key={index}
+        isDraggable={index === 0 || index === alignmentLength - 1 }
         wordObject={wordObject}
         alignmentIndex={alignmentIndex}
         lexicons={lexicons}

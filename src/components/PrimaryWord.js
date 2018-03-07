@@ -7,9 +7,27 @@ import * as lexiconHelpers from '../utils/lexicon';
 import WordDetails from './WordDetails';
 import Word from './WordCard';
 
+
 const internalStyle = {
-  color: '#ffffff',
-  backgroundColor: '#333333'
+  word: {
+    color: '#ffffff',
+    backgroundColor: '#333333'
+  },
+  tooltip: {
+    visibility: 'visible',
+    position: 'absolute',
+    width: '120px',
+    backgroundColor: '#555',
+    color: '#fff',
+    textAlign: 'center',
+    padding: '5px 0',
+    borderRadius: '6px',
+    zIndex: '1',
+    opacity: '1',
+    transition: 'opacity .6s',
+
+    top: '135%'
+  }
 };
 
 /**
@@ -28,6 +46,12 @@ class PrimaryWord extends Component {
   constructor(props) {
     super(props);
     this._handleClick = this._handleClick.bind(this);
+    this._handleOut = this._handleOut.bind(this);
+    this._handleOver = this._handleOver.bind(this);
+    this.state = {
+      hover: false,
+      anchorEl: null
+    };
   }
 
   componentWillMount() {
@@ -39,17 +63,57 @@ class PrimaryWord extends Component {
     }
   }
 
+  /**
+   * Enables hover state
+   * @private
+   */
+  _handleOver(e) {
+    this.setState({
+      hover: true,
+      anchorEl: e.currentTarget
+    });
+  }
+
+  /**
+   * Disables hover state
+   * @private
+   */
+  _handleOut() {
+    this.setState({
+      hover: false,
+      anchorEl: null
+    });
+  }
+
   render() {
-    const {wordObject, style, isDragging, connectDragSource} = this.props;
+    const {wordObject, style, isDragging, isDraggable, connectDragSource} = this.props;
+    const {hover} = this.state;
     const opacity = isDragging ? 0.4 : 1;
 
+    let body = (
+      <Word word={wordObject.word}
+            disabled={hover && !isDraggable}
+            occurrence={wordObject.occurrence}
+            occurrences={wordObject.occurrences}
+            style={{...internalStyle.word, ...style, opacity}}/>
+    );
+
+    if(hover && !isDraggable) {
+      // TODO: display popover
+    }
+
     return connectDragSource(
-      <div style={{flex: 1}}>
-        <Word word={wordObject.word}
-              occurrence={wordObject.occurrence}
-              occurrences={wordObject.occurrences}
-              onClick={this._handleClick}
-              style={{...internalStyle, ...style, opacity}}/>
+      <div style={{flex: 1, position: 'relative'}}
+           onClick={this._handleClick}
+           onMouseOver={this._handleOver}
+           onMouseOut={this._handleOut}>
+        {body}
+        {hover && !isDraggable ? (
+          <span style={internalStyle.tooltip}>
+            Cannot un-merge a middle word.
+          </span>
+        ) : null}
+
       </div>
     );
   }
@@ -72,6 +136,7 @@ class PrimaryWord extends Component {
 }
 
 PrimaryWord.propTypes = {
+  isDraggable: PropTypes.bool,
   wordObject: PropTypes.shape({
     word: PropTypes.string.isRequired,
     lemma: PropTypes.string.isRequired,
@@ -92,6 +157,10 @@ PrimaryWord.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
+PrimaryWord.defaultProps = {
+  isDraggable: true
+};
+
 const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
@@ -105,6 +174,10 @@ const dragHandler = {
       alignmentIndex: props.alignmentIndex,
       type: types.PRIMARY_WORD
     };
+  },
+  canDrag(props) {
+    const {isDraggable} = props;
+    return isDraggable;
   }
 };
 

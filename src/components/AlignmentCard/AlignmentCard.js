@@ -17,13 +17,16 @@ const makeStyles = (props) => {
   const blueBorder = '3px dashed #44C6FF';
   const clearBorder = '3px dashed transparent';
   const whiteBorder = '3px dashed #ffffff';
+  const transitionSpeed = '0.25s';
 
   const rowStyle = {
     display: 'flex',
+    transition: transitionSpeed,
     position: 'relative'
   };
   const styles = {
     root: {
+      transition: transitionSpeed,
       padding: '7px',
       backgroundColor: '#DCDCDC',
       margin: '0px 10px 10px 0px',
@@ -37,6 +40,7 @@ const makeStyles = (props) => {
       backgroundColor: '#DCDCDC'
     },
     top: {
+      transition: transitionSpeed,
       flexGrow: 1,
       width: '100%',
       minHeight: '45px',
@@ -45,6 +49,7 @@ const makeStyles = (props) => {
       marginBottom: '7px'
     },
     bottom: {
+      transition: transitionSpeed,
       flexGrow: 1,
       width: '100%',
       minHeight: '45px',

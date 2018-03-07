@@ -22,6 +22,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -43,6 +44,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -55,6 +57,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -117,6 +120,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -129,6 +133,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -145,6 +150,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -166,6 +172,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -178,6 +185,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -240,6 +248,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -252,6 +261,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -268,6 +278,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -289,6 +300,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -301,6 +313,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -363,6 +376,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -375,6 +389,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -391,6 +406,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -412,6 +428,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -424,6 +441,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -486,6 +504,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -498,6 +517,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -514,6 +534,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -535,6 +556,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -547,6 +569,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -609,6 +632,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -621,6 +645,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -637,6 +662,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -658,6 +684,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -670,6 +697,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -732,6 +760,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -744,6 +773,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -760,6 +790,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -781,6 +812,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -793,6 +825,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -855,6 +888,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -867,6 +901,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -883,6 +918,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -904,6 +940,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -916,6 +953,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -978,6 +1016,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -990,6 +1029,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -1006,6 +1046,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -1027,6 +1068,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -1039,6 +1081,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -1101,6 +1144,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -1113,6 +1157,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -1129,6 +1174,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -1150,6 +1196,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -1162,6 +1209,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -1224,6 +1272,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -1236,6 +1285,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />
@@ -1252,6 +1302,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
+          "transition": "0.25s",
         }
       }
     >
@@ -1273,6 +1324,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -1285,6 +1337,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           >
@@ -1347,6 +1400,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
+              "transition": "0.25s",
               "width": "100%",
             }
           }
@@ -1359,6 +1413,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
+                "transition": "0.25s",
               }
             }
           />

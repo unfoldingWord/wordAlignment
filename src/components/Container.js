@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
@@ -19,18 +20,26 @@ class Container extends Component {
     if (ScripturePane) panes = ScripturePane.currentPaneSettings;
     // filter out targetLanguage and bhp
     panes = panes.filter((pane) => {
-      return pane !== 'targetLanguage' && pane !== 'bhp' && pane !== 'ugnt';
+      return pane.languageId !== "targetLanguage" && pane.bibleId !== "bhp" && pane.bibleId !== "ugnt";
     });
     // getting the last pane from the panes array if it exist otherwise equal to null.
     const lastPane = panes[panes.length - 1] ? panes[panes.length - 1] : null;
     // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
-    let desiredPanes = ['targetLanguage', 'ugnt'];
+    let desiredPanes = [
+      {
+        languageId: "targetLanguage",
+        bibleId: "targetBible"
+      },
+      {
+        languageId: "originalLanguage",
+        bibleId: "ugnt"
+      }
+    ];
     // if last pane found in previous scripture pane settings then carry it over to new settings in wordAlignment.
-    if (lastPane && lastPane !== 'targetLanguage' && lastPane !== 'bhp' &&
-      lastPane !== 'ugnt') desiredPanes.push(lastPane);
+    const carryOverPane = lastPane && lastPane.languageId !== "targetLanguage" && lastPane.bibleId !== "bhp" && lastPane.bibleId !== "ugnt";
+    if (carryOverPane) desiredPanes.push(lastPane);
     // set new pane settings
-    this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
-      desiredPanes);
+    this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", desiredPanes);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +71,7 @@ class Container extends Component {
       verse = contextId.reference.verse;
 
       // parse secondary text words
-      const secondaryChapterText = targetLanguage[chapter];
+      const secondaryChapterText = targetLanguage['targetBible'][chapter];
       words = getWords(secondaryChapterText[verse]);
       const alignedWords = getAlignedWords(alignmentData, chapter, verse);
       words = disableAlignedWords(words, alignedWords);

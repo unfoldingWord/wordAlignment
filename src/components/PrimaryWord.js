@@ -6,27 +6,12 @@ import * as types from './WordCard/Types';
 import * as lexiconHelpers from '../utils/lexicon';
 import WordDetails from './WordDetails';
 import Word from './WordCard';
-
+import Tooltip from './Tooltip';
 
 const internalStyle = {
   word: {
     color: '#ffffff',
     backgroundColor: '#333333'
-  },
-  tooltip: {
-    visibility: 'visible',
-    position: 'absolute',
-    width: '120px',
-    backgroundColor: '#555',
-    color: '#fff',
-    textAlign: 'center',
-    padding: '5px 0',
-    borderRadius: '6px',
-    zIndex: '1',
-    opacity: '1',
-    transition: 'opacity .6s',
-
-    top: '135%'
   }
 };
 
@@ -86,21 +71,17 @@ class PrimaryWord extends Component {
   }
 
   render() {
-    const {wordObject, style, isDragging, isDraggable, connectDragSource} = this.props;
+    const {wordObject, style, isDragging, canDrag, connectDragSource} = this.props;
     const {hover} = this.state;
     const opacity = isDragging ? 0.4 : 1;
 
     let body = (
       <Word word={wordObject.word}
-            disabled={hover && !isDraggable}
+            disabled={hover && !canDrag}
             occurrence={wordObject.occurrence}
             occurrences={wordObject.occurrences}
             style={{...internalStyle.word, ...style, opacity}}/>
     );
-
-    if(hover && !isDraggable) {
-      // TODO: display popover
-    }
 
     return connectDragSource(
       <div style={{flex: 1, position: 'relative'}}
@@ -108,12 +89,9 @@ class PrimaryWord extends Component {
            onMouseOver={this._handleOver}
            onMouseOut={this._handleOut}>
         {body}
-        {hover && !isDraggable ? (
-          <span style={internalStyle.tooltip}>
-            Cannot un-merge a middle word.
-          </span>
+        {hover && !canDrag ? (
+          <Tooltip message="Cannot un-merge a middle word."/>
         ) : null}
-
       </div>
     );
   }
@@ -136,6 +114,7 @@ class PrimaryWord extends Component {
 }
 
 PrimaryWord.propTypes = {
+  canDrag: PropTypes.bool,
   isDraggable: PropTypes.bool,
   wordObject: PropTypes.shape({
     word: PropTypes.string.isRequired,
@@ -172,10 +151,22 @@ const dragHandler = {
       occurrence: props.wordObject.occurrence,
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,
+      wordIndex: props.wordIndex,
+      alignmentLength: PropTypes.alignmentLength,
       type: types.PRIMARY_WORD
     };
   },
   canDrag(props) {
+  //   const {wordIndex, alignmentLength} = props;
+  //   const firstWord = wordIndex === 0;
+  //   const lastWord = wordIndex === alignmentLength - 1;
+  //   if(alignmentLength > 1) {
+  //     return firstWord || lastWord;
+  //   } else {
+  //     return true;
+  //   }
+  // }
+
     const {isDraggable} = props;
     return isDraggable;
   }
@@ -183,6 +174,7 @@ const dragHandler = {
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  canDrag: monitor.canDrag(),
   isDragging: monitor.isDragging()
 });
 

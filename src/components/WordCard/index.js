@@ -70,7 +70,7 @@ class WordCard extends React.Component {
    */
   _handleClick(e) {
     const {disabled, onClick} = this.props;
-    if(!disabled) {
+    if(!disabled && typeof onClick === 'function') {
       onClick(e);
     }
   }

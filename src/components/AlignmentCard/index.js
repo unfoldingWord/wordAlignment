@@ -5,6 +5,7 @@ import * as types from '../WordCard/Types';
 import SecondaryWord from '../SecondaryWord';
 import PrimaryWord from '../PrimaryWord';
 import AlignmentCard from './AlignmentCard';
+import {canDropPrimaryWord} from '../../utils/dragDrop';
 
 /**
  * Renders the alignment of primary and secondary words/phrases
@@ -25,6 +26,8 @@ class DroppableAlignmentCard extends Component {
     const topWordCards = topWords.map((wordObject, index) => (
       <PrimaryWord
         key={index}
+        wordIndex={index}
+        alignmentLength={alignmentLength}
         isDraggable={index === 0 || index === alignmentLength - 1 }
         wordObject={wordObject}
         alignmentIndex={alignmentIndex}
@@ -32,6 +35,19 @@ class DroppableAlignmentCard extends Component {
         actions={actions}
       />
     ));
+    // const topWordCards = topWords.map((wordObject, index) => {
+    //   return (
+    //     <PrimaryWord
+    //       key={index}
+    //       wordIndex={index}
+    //       alignmentLength={alignmentLength}
+    //       wordObject={wordObject}
+    //       alignmentIndex={alignmentIndex}
+    //       lexicons={lexicons}
+    //       actions={actions}
+    //     />
+    //   );
+    // });
 
     const bottomWordCards = bottomWords.map((metadata, index) => (
       <SecondaryWord
@@ -83,23 +99,18 @@ const dragHandler = {
     const item = monitor.getItem();
     const alignmentEmpty = (props.topWords.length === 0 &&
       props.bottomWords.length === 0);
-    let canDrop;
+    let canDrop = false;
     if (item.type === types.SECONDARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
       canDrop = alignmentIndexDelta !== 0 && !alignmentEmpty;
       return canDrop;
     }
     if (item.type === types.PRIMARY_WORD) {
-      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      const enoughSiblingTopWords = props.siblingTopWords &&
-        props.siblingTopWords.length > 1;
-      if (alignmentIndexDelta === 0 && alignmentEmpty &&
-        enoughSiblingTopWords) {
-        canDrop = true;
-      } else {
-        canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
-      }
-      return canDrop;
+      const result = canDropPrimaryWord(props, item);
+      // if(result) {
+        console.log('can drop', result, props, item);
+      // }
+      return result;
     }
   },
   drop(props, monitor) {

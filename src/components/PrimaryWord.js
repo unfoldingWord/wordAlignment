@@ -85,6 +85,7 @@ class PrimaryWord extends Component {
               occurrence={wordObject.occurrence}
               occurrences={wordObject.occurrences}
               style={{...internalStyle.word, ...style, opacity}}/>
+        {/* TODO: fix the drag rendering do not display this*/}
         {/*{!isDragging && hover && !canDrag ? (*/}
           {/*<Tooltip message="Cannot un-merge a middle word."/>*/}
         {/*) : null}*/}

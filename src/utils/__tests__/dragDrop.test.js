@@ -1,17 +1,4 @@
-// import {canDropPrimaryWord} from '../dragDrop';
-
-const canDropPrimaryWord = (props, item) => {
-  const alignmentEmpty = (props.topWords.length === 0 &&
-    props.bottomWords.length === 0);
-  let canDrop = false;
-  const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-  if (alignmentIndexDelta === 0 && alignmentEmpty) {
-    canDrop = true;
-  } else {
-    canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
-  }
-  return canDrop;
-};
+import {canDropPrimaryWord} from '../dragDrop';
 
 describe('acceptable drops', () => {
   test('single to single left', () => {

@@ -11,8 +11,8 @@ export function canDropPrimaryWord(dropTargetProps, dragSourceProps) {
   const singleSource  = dragSourceProps.alignmentLength === 1;
   const mergedSource = dragSourceProps.alignmentLength > 1;
   const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;
-  const moveLeft = alignmentDelta < 0;
-  const moveRight = alignmentDelta > 0;
+  const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
+  const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
   const moved = alignmentDelta !== 0;
   const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
   const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
@@ -32,9 +32,9 @@ export function canDropPrimaryWord(dropTargetProps, dragSourceProps) {
   // merged to empty
   if(mergedSource && emptyTarget) {
     if(!moved) return true;
-    // TRICKY: valid empty targets have the same alignment index as the source
-    // if(moveLeft && leftWord) return true;
-    // if(moveRight && rightWord) return true;
+    // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
+    // if(!moved && leftPlaceholder && leftWord) return true;
+    // if(!moved && rightPlaceholder && rightWord) return true;
   }
 
   return false;

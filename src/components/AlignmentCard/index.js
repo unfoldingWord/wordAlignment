@@ -7,6 +7,21 @@ import PrimaryWord from '../PrimaryWord';
 import AlignmentCard from './AlignmentCard';
 import {canDropPrimaryWord} from '../../utils/dragDrop';
 
+const styles = {
+  root: {
+    open: {
+      width: 'auto',
+      display: 'inherit',
+      transition: '0.5s'
+    },
+    closed: {
+      width: '0',
+      display: 'none',
+      transition: '0.5s'
+    }
+  }
+};
+
 /**
  * Renders the alignment of primary and secondary words/phrases
  */
@@ -46,7 +61,7 @@ class DroppableAlignmentCard extends Component {
     ));
 
     if(emptyAlignment && !canDrop) {
-      return null;
+      return <div style={styles.root.closed}/>;
     } else {
       return connectDropTarget(
         <div>
@@ -63,8 +78,7 @@ class DroppableAlignmentCard extends Component {
 }
 
 DroppableAlignmentCard.propTypes = {
-  siblingTopWords: PropTypes.array,
-
+  placeholderPosition: PropTypes.string,
   dragItemType: PropTypes.string,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
@@ -99,6 +113,7 @@ const dragHandler = {
       //   canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
       // }
       // return canDrop;
+      console.log('drop', props, item);
       return canDropPrimaryWord(props, item);
     }
   },

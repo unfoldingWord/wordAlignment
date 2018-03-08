@@ -42,14 +42,17 @@ class AlignmentGrid extends Component {
             return (
               <React.Fragment key={index}>
                 {/* placeholder for un-merging primary words */}
+                {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
                 {/*<AlignmentCard*/}
                   {/*alignmentIndex={index}*/}
+                  {/*placeholderPosition="left"*/}
                   {/*bottomWords={[]}*/}
                   {/*topWords={[]}*/}
                   {/*onDrop={item => this.handleDrop(index, item)}*/}
                   {/*actions={actions}*/}
                   {/*lexicons={lexicons}*/}
                 {/*/>*/}
+
                 <AlignmentCard
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
@@ -61,6 +64,7 @@ class AlignmentGrid extends Component {
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
                   alignmentIndex={index}
+                  placeholderPosition="right"
                   bottomWords={[]}
                   topWords={[]}
                   onDrop={item => this.handleDrop(index, item)}

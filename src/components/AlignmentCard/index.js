@@ -28,7 +28,6 @@ class DroppableAlignmentCard extends Component {
         key={index}
         wordIndex={index}
         alignmentLength={alignmentLength}
-        isDraggable={index === 0 || index === alignmentLength - 1 }
         wordObject={wordObject}
         alignmentIndex={alignmentIndex}
         lexicons={lexicons}
@@ -93,17 +92,14 @@ const dragHandler = {
       return canDrop;
     }
     if (item.type === types.PRIMARY_WORD) {
-      // const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      // const enoughSiblingTopWords = props.siblingTopWords &&
-      //   props.siblingTopWords.length > 1;
-      // if (alignmentIndexDelta === 0 && alignmentEmpty &&
-      //   enoughSiblingTopWords) {
-      //   canDrop = true;
-      // } else {
-      //   canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
-      // }
-      // return canDrop;
-      return canDropPrimaryWord(props, item);
+      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+      if (alignmentIndexDelta === 0 && alignmentEmpty) {
+        canDrop = true;
+      } else {
+        canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
+      }
+      return canDrop;
+      // return canDropPrimaryWord(props, item);
     }
   },
   drop(props, monitor) {

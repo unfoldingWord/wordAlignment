@@ -75,23 +75,19 @@ class PrimaryWord extends Component {
     const {hover} = this.state;
     const opacity = isDragging ? 0.4 : 1;
 
-    let body = (
-      <Word word={wordObject.word}
-            disabled={hover && !canDrag}
-            occurrence={wordObject.occurrence}
-            occurrences={wordObject.occurrences}
-            style={{...internalStyle.word, ...style, opacity}}/>
-    );
-
     return connectDragSource(
       <div style={{flex: 1, position: 'relative'}}
            onClick={this._handleClick}
            onMouseOver={this._handleOver}
            onMouseOut={this._handleOut}>
-        {body}
-        {!isDragging && hover && !canDrag ? (
-          <Tooltip message="Cannot un-merge a middle word."/>
-        ) : null}
+        <Word word={wordObject.word}
+              disabled={!isDragging && hover && !canDrag}
+              occurrence={wordObject.occurrence}
+              occurrences={wordObject.occurrences}
+              style={{...internalStyle.word, ...style, opacity}}/>
+        {/*{!isDragging && hover && !canDrag ? (*/}
+          {/*<Tooltip message="Cannot un-merge a middle word."/>*/}
+        {/*) : null}*/}
       </div>
     );
   }
@@ -163,12 +159,11 @@ const dragHandler = {
     const {wordIndex, alignmentLength} = props;
     const firstWord = wordIndex === 0;
     const lastWord = wordIndex === alignmentLength - 1;
-    return true;
-    // if(alignmentLength > 1) {
-    //   return firstWord || lastWord;
-    // } else {
-    //   return true;
-    // }
+    if(alignmentLength > 1) {
+      return firstWord || lastWord;
+    } else {
+      return true;
+    }
   }
 };
 

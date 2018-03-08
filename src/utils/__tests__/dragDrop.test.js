@@ -1,17 +1,17 @@
-import {canDropPrimaryWord} from '../dragDrop';
+// import {canDropPrimaryWord} from '../dragDrop';
 
-// const canDropPrimaryWord = (props, item) => {
-//   const alignmentEmpty = (props.topWords.length === 0 &&
-//     props.bottomWords.length === 0);
-//   let canDrop = false;
-//   const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-//   if (alignmentIndexDelta === 0 && alignmentEmpty) {
-//     canDrop = true;
-//   } else {
-//     canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
-//   }
-//   return canDrop;
-// };
+const canDropPrimaryWord = (props, item) => {
+  const alignmentEmpty = (props.topWords.length === 0 &&
+    props.bottomWords.length === 0);
+  let canDrop = false;
+  const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+  if (alignmentIndexDelta === 0 && alignmentEmpty) {
+    canDrop = true;
+  } else {
+    canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
+  }
+  return canDrop;
+};
 
 describe('acceptable drops', () => {
   test('single to single left', () => {
@@ -116,17 +116,8 @@ describe('unacceptable drops', () => {
 
   describe('multi-word (merged) alignments', () => {
     test('last word is dropped on a previous adjacent alignment', () => {
-      const source = {
-        alignmentIndex: 2,
-        wordIndex: 1,
-        alignmentLength: 2
-      };
-      const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
-      };
+      const source = makeMergedSource('move left', 'right word');
+      const target = makeMergedTarget();
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
     });

@@ -92,14 +92,14 @@ const dragHandler = {
       return canDrop;
     }
     if (item.type === types.PRIMARY_WORD) {
-      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      if (alignmentIndexDelta === 0 && alignmentEmpty) {
-        canDrop = true;
-      } else {
-        canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
-      }
-      return canDrop;
-      // return canDropPrimaryWord(props, item);
+      // const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
+      // if (alignmentIndexDelta === 0 && alignmentEmpty) {
+      //   canDrop = true;
+      // } else {
+      //   canDrop = (!alignmentEmpty && Math.abs(alignmentIndexDelta) === 1);
+      // }
+      // return canDrop;
+      return canDropPrimaryWord(props, item);
     }
   },
   drop(props, monitor) {

@@ -89,7 +89,7 @@ class PrimaryWord extends Component {
            onMouseOver={this._handleOver}
            onMouseOut={this._handleOut}>
         {body}
-        {hover && !canDrag ? (
+        {!isDragging && hover && !canDrag ? (
           <Tooltip message="Cannot un-merge a middle word."/>
         ) : null}
       </div>
@@ -114,8 +114,9 @@ class PrimaryWord extends Component {
 }
 
 PrimaryWord.propTypes = {
+  wordIndex: PropTypes.number,
+  alignmentLength: PropTypes.number,
   canDrag: PropTypes.bool,
-  isDraggable: PropTypes.bool,
   wordObject: PropTypes.shape({
     word: PropTypes.string.isRequired,
     lemma: PropTypes.string.isRequired,
@@ -137,7 +138,9 @@ PrimaryWord.propTypes = {
 };
 
 PrimaryWord.defaultProps = {
-  isDraggable: true
+  alignmentLength: 1,
+  wordIndex: 0,
+  canDrag: true
 };
 
 const dragHandler = {
@@ -152,23 +155,20 @@ const dragHandler = {
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,
       wordIndex: props.wordIndex,
-      alignmentLength: PropTypes.alignmentLength,
+      alignmentLength: props.alignmentLength,
       type: types.PRIMARY_WORD
     };
   },
   canDrag(props) {
-  //   const {wordIndex, alignmentLength} = props;
-  //   const firstWord = wordIndex === 0;
-  //   const lastWord = wordIndex === alignmentLength - 1;
-  //   if(alignmentLength > 1) {
-  //     return firstWord || lastWord;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-
-    const {isDraggable} = props;
-    return isDraggable;
+    const {wordIndex, alignmentLength} = props;
+    const firstWord = wordIndex === 0;
+    const lastWord = wordIndex === alignmentLength - 1;
+    return true;
+    // if(alignmentLength > 1) {
+    //   return firstWord || lastWord;
+    // } else {
+    //   return true;
+    // }
   }
 };
 

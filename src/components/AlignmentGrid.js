@@ -42,15 +42,14 @@ class AlignmentGrid extends Component {
             return (
               <React.Fragment key={index}>
                 {/* placeholder for un-merging primary words */}
-                {/*<AlignmentCard*/}
-                  {/*alignmentIndex={index}*/}
-                  {/*bottomWords={[]}*/}
-                  {/*topWords={[]}*/}
-                  {/*siblingTopWords={alignment.topWords}*/}
-                  {/*onDrop={item => this.handleDrop(index, item)}*/}
-                  {/*actions={actions}*/}
-                  {/*lexicons={lexicons}*/}
-                {/*/>*/}
+                <AlignmentCard
+                  alignmentIndex={index}
+                  bottomWords={[]}
+                  topWords={[]}
+                  onDrop={item => this.handleDrop(index, item)}
+                  actions={actions}
+                  lexicons={lexicons}
+                />
                 <AlignmentCard
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
@@ -64,7 +63,6 @@ class AlignmentGrid extends Component {
                   alignmentIndex={index}
                   bottomWords={[]}
                   topWords={[]}
-                  siblingTopWords={alignment.topWords}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   lexicons={lexicons}

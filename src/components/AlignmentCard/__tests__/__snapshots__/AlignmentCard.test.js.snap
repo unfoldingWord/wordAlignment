@@ -9,7 +9,7 @@ exports[`has a bottom word 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -31,7 +31,7 @@ exports[`has a bottom word 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -44,7 +44,7 @@ exports[`has a bottom word 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />
@@ -56,7 +56,7 @@ exports[`has a bottom word 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -69,7 +69,7 @@ exports[`has a bottom word 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -86,7 +86,7 @@ exports[`has a bottom word 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -135,7 +135,7 @@ exports[`has a top and bottom word 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -157,7 +157,7 @@ exports[`has a top and bottom word 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -170,7 +170,7 @@ exports[`has a top and bottom word 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -187,7 +187,7 @@ exports[`has a top and bottom word 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -219,7 +219,7 @@ exports[`has a top and bottom word 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -232,7 +232,7 @@ exports[`has a top and bottom word 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -249,7 +249,7 @@ exports[`has a top and bottom word 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -298,7 +298,7 @@ exports[`has a top word 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "calc(115px/2)",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -320,7 +320,7 @@ exports[`has a top word 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -333,7 +333,7 @@ exports[`has a top word 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />
@@ -345,7 +345,7 @@ exports[`has a top word 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -358,7 +358,7 @@ exports[`has a top word 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />
@@ -376,7 +376,7 @@ exports[`has multiple bottom words 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -398,7 +398,7 @@ exports[`has multiple bottom words 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -411,7 +411,7 @@ exports[`has multiple bottom words 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />
@@ -423,7 +423,7 @@ exports[`has multiple bottom words 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -436,7 +436,7 @@ exports[`has multiple bottom words 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -453,7 +453,7 @@ exports[`has multiple bottom words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -489,7 +489,7 @@ exports[`has multiple bottom words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -538,7 +538,7 @@ exports[`has multiple top and bottom words 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -560,7 +560,7 @@ exports[`has multiple top and bottom words 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -573,7 +573,7 @@ exports[`has multiple top and bottom words 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -590,7 +590,7 @@ exports[`has multiple top and bottom words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -626,7 +626,7 @@ exports[`has multiple top and bottom words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -658,7 +658,7 @@ exports[`has multiple top and bottom words 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -671,7 +671,7 @@ exports[`has multiple top and bottom words 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -688,7 +688,7 @@ exports[`has multiple top and bottom words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -724,7 +724,7 @@ exports[`has multiple top and bottom words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -773,7 +773,7 @@ exports[`has multiple top words 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -795,7 +795,7 @@ exports[`has multiple top words 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -808,7 +808,7 @@ exports[`has multiple top words 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       >
@@ -825,7 +825,7 @@ exports[`has multiple top words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -861,7 +861,7 @@ exports[`has multiple top words 1`] = `
                 "backgroundColor": "#FFFFFF",
                 "borderLeft": "5px solid #44C6FF",
                 "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "move",
+                "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
                 "padding": "10px",
@@ -893,7 +893,7 @@ exports[`has multiple top words 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -906,7 +906,7 @@ exports[`has multiple top words 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />
@@ -924,7 +924,7 @@ exports[`is empty 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "calc(115px/2)",
       "padding": "7px",
-      "transition": "0.25s",
+      "transition": "0.1s",
     }
   }
 >
@@ -946,7 +946,7 @@ exports[`is empty 1`] = `
           "flexGrow": 1,
           "marginBottom": "7px",
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -959,7 +959,7 @@ exports[`is empty 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />
@@ -971,7 +971,7 @@ exports[`is empty 1`] = `
           "boxSizing": "border-box",
           "flexGrow": 1,
           "minHeight": "45px",
-          "transition": "0.25s",
+          "transition": "0.1s",
           "width": "100%",
         }
       }
@@ -984,7 +984,7 @@ exports[`is empty 1`] = `
             "opacity": 1,
             "position": "relative",
             "top": 0,
-            "transition": "0.25s",
+            "transition": "0.1s",
           }
         }
       />

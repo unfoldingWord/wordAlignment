@@ -71,7 +71,7 @@ class PrimaryWord extends Component {
   }
 
   render() {
-    const {wordObject, style, isDragging, canDrag, connectDragSource} = this.props;
+    const {translate, wordObject, style, isDragging, canDrag, connectDragSource} = this.props;
     const {hover} = this.state;
     const opacity = isDragging ? 0.4 : 1;
 
@@ -83,12 +83,10 @@ class PrimaryWord extends Component {
            onMouseOut={this._handleOut}>
         <Word word={wordObject.word}
               disabled={!isDragging && hover && !canDrag}
-              occurrence={wordObject.occurrence}
-              occurrences={wordObject.occurrences}
               style={{...internalStyle.word, ...style, opacity}}/>
-        {/*{!isDragging && hover && !canDrag ? (*/}
-          {/*<Tooltip message="Cannot un-merge a middle word."/>*/}
-        {/*) : null}*/}
+        {!isDragging && hover && !canDrag ? (
+          <Tooltip message={translate('cannot_drag_middle')}/>
+        ) : null}
       </div>
     );
   }
@@ -111,6 +109,7 @@ class PrimaryWord extends Component {
 }
 
 PrimaryWord.propTypes = {
+  translate: PropTypes.func.isRequired,
   wordIndex: PropTypes.number,
   alignmentLength: PropTypes.number,
   canDrag: PropTypes.bool,

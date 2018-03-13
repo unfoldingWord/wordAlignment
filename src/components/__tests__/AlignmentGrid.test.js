@@ -8,6 +8,7 @@ import {DragDropContext} from 'react-dnd';
 test('empty snapshot', () => {
   const wrapper = renderer.create(
     <AlignmentGrid lexicons={{}}
+                   translate={k=>k}
                    actions={{}}/>
   );
   expect(wrapper).toMatchSnapshot();
@@ -45,6 +46,7 @@ describe('AlignmentGrid', () => {
       <ConnectedAlignmentGrid
         alignmentData={alignmentData}
         contextId={contextId}
+        translate={k=>k}
         actions={{}}
         lexicons={{}}
       />
@@ -67,6 +69,7 @@ describe('AlignmentGrid', () => {
       <AlignmentGrid
         alignmentData={alignmentData}
         contextId={contextId}
+        translate={k=>k}
         actions={{}}
         lexicons={{}}
       />

@@ -27,7 +27,7 @@ const styles = {
  */
 class DroppableAlignmentCard extends Component {
   render() {
-    const {lexicons, alignmentIndex, canDrop, dragItemType, isOver, actions, bottomWords, connectDropTarget, topWords} = this.props;
+    const {translate, lexicons, alignmentIndex, canDrop, dragItemType, isOver, actions, bottomWords, connectDropTarget, topWords} = this.props;
 
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
     const acceptsBottom = canDrop && dragItemType === types.SECONDARY_WORD;
@@ -41,6 +41,7 @@ class DroppableAlignmentCard extends Component {
     const topWordCards = topWords.map((wordObject, index) => (
       <PrimaryWord
         key={index}
+        translate={translate}
         wordIndex={index}
         alignmentLength={alignmentLength}
         wordObject={wordObject}
@@ -78,6 +79,7 @@ class DroppableAlignmentCard extends Component {
 }
 
 DroppableAlignmentCard.propTypes = {
+  translate: PropTypes.func.isRequired,
   placeholderPosition: PropTypes.string,
   dragItemType: PropTypes.string,
   isOver: PropTypes.bool.isRequired,

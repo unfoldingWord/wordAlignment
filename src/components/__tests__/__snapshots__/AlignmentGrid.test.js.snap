@@ -22,7 +22,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -44,7 +44,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -57,14 +57,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -82,7 +86,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -99,11 +103,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       ἐπειδήπερ
                     </span>
@@ -120,7 +120,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -133,7 +133,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -141,6 +141,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -150,7 +159,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -172,7 +181,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -185,14 +194,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -210,7 +223,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -227,11 +240,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       πολλοὶ
                     </span>
@@ -248,7 +257,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -261,7 +270,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -269,6 +278,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -278,7 +296,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -300,7 +318,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -313,14 +331,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -338,7 +360,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -355,11 +377,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       ἐπεχείρησαν
                     </span>
@@ -376,7 +394,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -389,7 +407,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -397,6 +415,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -406,7 +433,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -428,7 +455,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -441,14 +468,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -466,7 +497,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -483,11 +514,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       ἀνατάξασθαι
                     </span>
@@ -504,7 +531,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -517,7 +544,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -525,6 +552,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -534,7 +570,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -556,7 +592,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -569,14 +605,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -594,7 +634,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -611,11 +651,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       διήγησιν
                     </span>
@@ -632,7 +668,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -645,7 +681,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -653,6 +689,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -662,7 +707,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -684,7 +729,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -697,14 +742,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -722,7 +771,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -739,11 +788,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       περὶ
                     </span>
@@ -760,7 +805,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -773,7 +818,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -781,6 +826,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -790,7 +844,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -812,7 +866,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -825,14 +879,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -850,7 +908,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -867,11 +925,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       τῶν
                     </span>
@@ -888,7 +942,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -901,7 +955,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -909,6 +963,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -918,7 +981,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -940,7 +1003,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -953,14 +1016,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -978,7 +1045,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -995,11 +1062,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       πεπληροφορημένων
                     </span>
@@ -1016,7 +1079,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1029,7 +1092,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -1037,6 +1100,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -1046,7 +1118,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -1068,7 +1140,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1081,14 +1153,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -1106,7 +1182,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -1123,11 +1199,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       ἐν
                     </span>
@@ -1144,7 +1216,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1157,7 +1229,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -1165,6 +1237,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -1174,7 +1255,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -1196,7 +1277,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1209,14 +1290,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -1234,7 +1319,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -1251,11 +1336,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       ἡμῖν
                     </span>
@@ -1272,7 +1353,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1285,7 +1366,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -1293,6 +1374,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
   <div>
     <div
       style={
@@ -1302,7 +1392,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.25s",
+          "transition": "0.1s",
         }
       }
     >
@@ -1324,7 +1414,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "flexGrow": 1,
               "marginBottom": "7px",
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1337,14 +1427,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           >
             <div
+              onClick={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               style={
                 Object {
                   "flex": 1,
+                  "position": "relative",
                 }
               }
             >
@@ -1362,7 +1456,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                       "borderLeft": "5px solid #44C6FF",
                       "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
                       "color": "#ffffff",
-                      "cursor": "move",
+                      "cursor": "pointer",
                       "display": "flex",
                       "flexDirection": "row",
                       "opacity": 1,
@@ -1379,11 +1473,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   >
                     <span
                       onClick={[Function]}
-                      style={
-                        Object {
-                          "cursor": "pointer",
-                        }
-                      }
+                      style={Object {}}
                     >
                       πραγμάτων
                     </span>
@@ -1400,7 +1490,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               "boxSizing": "border-box",
               "flexGrow": 1,
               "minHeight": "45px",
-              "transition": "0.25s",
+              "transition": "0.1s",
               "width": "100%",
             }
           }
@@ -1413,7 +1503,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 "opacity": 1,
                 "position": "relative",
                 "top": 0,
-                "transition": "0.25s",
+                "transition": "0.1s",
               }
             }
           />
@@ -1421,6 +1511,15 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       </div>
     </div>
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+        "transition": "0.5s",
+        "width": "0",
+      }
+    }
+  />
 </div>
 `;
 

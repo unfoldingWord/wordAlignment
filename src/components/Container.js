@@ -60,7 +60,7 @@ class Container extends Component {
     }
 
     const {moveBackToWordBank} = this.props.actions;
-    const {connectDropTarget, isOver} = this.props;
+    const {translate, connectDropTarget, isOver} = this.props;
     const {alignmentData} = this.props.wordAlignmentReducer;
     const {contextId} = this.props.contextIdReducer;
     const {lexicons, bibles: {targetLanguage}} = this.props.resourcesReducer;
@@ -93,6 +93,7 @@ class Container extends Component {
         }}>
           {scripturePane}
           <AlignmentGrid alignmentData={alignmentData}
+                         translate={translate}
                          lexicons={lexicons}
                          actions={this.props.actions}
                          contextId={contextId}/>
@@ -109,7 +110,7 @@ Container.propTypes = {
   settingsReducer: PropTypes.object.isRequired,
   wordAlignmentReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-
+  translate: PropTypes.func,
   isOver: PropTypes.bool,
   connectDropTarget: PropTypes.func
 };

@@ -21,6 +21,7 @@ const styles = {
 class AlignmentGrid extends Component {
   render() {
     const {
+      translate,
       actions,
       lexicons,
       alignmentData,
@@ -45,6 +46,7 @@ class AlignmentGrid extends Component {
                 {/* placeholder for un-merging primary words */}
                 {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
                 {/*<AlignmentCard*/}
+                  {/*translate={translate}*/}
                   {/*alignmentIndex={index}*/}
                   {/*placeholderPosition="left"*/}
                   {/*bottomWords={[]}*/}
@@ -55,6 +57,7 @@ class AlignmentGrid extends Component {
                 {/*/>*/}
 
                 <AlignmentCard
+                  translate={translate}
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
                   topWords={alignment.topWords}
@@ -64,6 +67,7 @@ class AlignmentGrid extends Component {
                 />
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
+                  translate={translate}
                   alignmentIndex={index}
                   placeholderPosition="right"
                   bottomWords={[]}
@@ -94,7 +98,7 @@ class AlignmentGrid extends Component {
 AlignmentGrid.propTypes = {
   alignmentData: PropTypes.object,
   contextId: PropTypes.object,
-
+  translate: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
   lexicons: PropTypes.object.isRequired
 };

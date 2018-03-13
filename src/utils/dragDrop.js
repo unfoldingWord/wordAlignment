@@ -11,11 +11,11 @@ export function canDropPrimaryWord(dropTargetProps, dragSourceProps) {
   const singleSource  = dragSourceProps.alignmentLength === 1;
   const mergedSource = dragSourceProps.alignmentLength > 1;
   const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;
-  const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
-  const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
+  // const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
+  // const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
   const moved = alignmentDelta !== 0;
-  const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
-  const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
+  // const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
+  // const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
 
   // limit all drags to adjacent alignments
   if(Math.abs(alignmentDelta) > 1) return false;

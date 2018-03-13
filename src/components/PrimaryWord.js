@@ -75,6 +75,7 @@ class PrimaryWord extends Component {
     const {hover} = this.state;
     const opacity = isDragging ? 0.4 : 1;
 
+    // TODO: fix the drag rendering to not display the tooltip
     return connectDragSource(
       <div style={{flex: 1, position: 'relative'}}
            onClick={this._handleClick}
@@ -85,7 +86,6 @@ class PrimaryWord extends Component {
               occurrence={wordObject.occurrence}
               occurrences={wordObject.occurrences}
               style={{...internalStyle.word, ...style, opacity}}/>
-        {/* TODO: fix the drag rendering do not display this*/}
         {/*{!isDragging && hover && !canDrag ? (*/}
           {/*<Tooltip message="Cannot un-merge a middle word."/>*/}
         {/*) : null}*/}

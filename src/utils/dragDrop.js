@@ -33,6 +33,10 @@ export function canDropPrimaryWord(dropTargetProps, dragSourceProps) {
   if(mergedSource && emptyTarget) {
     if(!moved) return true;
     // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
+    // see components/AlignmentGrid.js
+    // we could potentially use the touch backend https://github.com/yahoo/react-dnd-touch-backend
+    // however that would require us to render a custom drag preview and the drag performance may
+    // not be as good.
     // if(!moved && leftPlaceholder && leftWord) return true;
     // if(!moved && rightPlaceholder && rightWord) return true;
   }

@@ -35,6 +35,7 @@ class AlignmentGrid extends Component {
     alignmentData[chapter][verse] ?
       alignmentData[chapter][verse].alignments :
       [];
+    // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
       <div id='AlignmentGrid' style={styles.root}>
         {

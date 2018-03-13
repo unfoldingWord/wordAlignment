@@ -71,19 +71,24 @@ class PrimaryWord extends Component {
   }
 
   render() {
-    const {translate, wordObject, style, isDragging, canDrag, connectDragSource} = this.props;
+    const {translate, wordObject, style, isDragging, canDrag, connectDragSource, dragPreview} = this.props;
     const {hover} = this.state;
     const opacity = isDragging ? 0.4 : 1;
 
     // TODO: fix the drag rendering to not display the tooltip
+    const word = dragPreview(
+      <div>
+        <Word word={wordObject.word}
+              disabled={isDragging  || (hover && !canDrag)}
+              style={{...internalStyle.word, ...style}}/>
+      </div>
+    );
     return connectDragSource(
       <div style={{flex: 1, position: 'relative'}}
            onClick={this._handleClick}
            onMouseOver={this._handleOver}
            onMouseOut={this._handleOut}>
-        <Word word={wordObject.word}
-              disabled={!isDragging && hover && !canDrag}
-              style={{...internalStyle.word, ...style, opacity}}/>
+        {word}
         {!isDragging && hover && !canDrag ? (
           <Tooltip message={translate('cannot_drag_middle')}/>
         ) : null}
@@ -128,7 +133,7 @@ PrimaryWord.propTypes = {
     loadLexiconEntry: PropTypes.func.isRequired
   }),
   lexicons: PropTypes.object.isRequired,
-
+  dragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
 };
@@ -169,6 +174,7 @@ const dragHandler = {
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  dragPreview: connect.dragPreview({captureDraggingState: false}),
   canDrag: monitor.canDrag(),
   isDragging: monitor.isDragging()
 });

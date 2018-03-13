@@ -72,42 +72,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      ἐπειδήπερ
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        ἐπειδήπερ
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -209,42 +210,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      πολλοὶ
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        πολλοὶ
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -346,42 +348,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      ἐπεχείρησαν
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        ἐπεχείρησαν
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -483,42 +486,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      ἀνατάξασθαι
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        ἀνατάξασθαι
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -620,42 +624,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      διήγησιν
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        διήγησιν
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -757,42 +762,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      περὶ
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        περὶ
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -894,42 +900,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      τῶν
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        τῶν
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1031,42 +1038,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      πεπληροφορημένων
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        πεπληροφορημένων
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1168,42 +1176,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      ἐν
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        ἐν
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1305,42 +1314,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      ἡμῖν
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        ἡμῖν
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1442,42 +1452,43 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                 }
               }
             >
-              <div
-                style={
-                  Object {
-                    "flex": 1,
-                  }
-                }
-              >
+              <div>
                 <div
                   style={
                     Object {
-                      "backgroundColor": "#333333",
-                      "borderLeft": "5px solid #44C6FF",
-                      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                      "color": "#ffffff",
-                      "cursor": "pointer",
-                      "display": "flex",
-                      "flexDirection": "row",
-                      "opacity": 1,
-                      "padding": "10px",
+                      "flex": 1,
                     }
                   }
                 >
-                  <span
+                  <div
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "padding": "10px",
                       }
                     }
                   >
                     <span
-                      onClick={[Function]}
-                      style={Object {}}
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
                     >
-                      πραγμάτων
+                      <span
+                        onClick={[Function]}
+                        style={Object {}}
+                      >
+                        πραγμάτων
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

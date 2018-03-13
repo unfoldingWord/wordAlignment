@@ -73,7 +73,6 @@ class PrimaryWord extends Component {
   render() {
     const {translate, wordObject, style, isDragging, canDrag, connectDragSource, dragPreview} = this.props;
     const {hover} = this.state;
-    const opacity = isDragging ? 0.4 : 1;
 
     // TODO: fix the drag rendering to not display the tooltip
     const word = dragPreview(

@@ -52,18 +52,37 @@ class Container extends Component {
 
   render() {
     // Modules not defined within translationWords
-    const {ScripturePane} = this.props.currentToolViews;
+    const {
+      connectDropTarget,
+      isOver,
+      actions,
+      settingsReducer,
+      resourcesReducer,
+      selectionsReducer,
+      contextIdReducer,
+      wordAlignmentReducer,
+      projectDetailsReducer,
+      appLanguage,
+      currentToolViews
+    } = this.props;
+    const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(this.props.resourcesReducer.bibles).length > 0) {
-      scripturePane = <ScripturePane {...this.props} />;
+      scripturePane = <ScripturePane projectDetailsReducer={projectDetailsReducer}
+                                     appLanguage={appLanguage}
+                                     selectionsReducer={selectionsReducer}
+                                     currentToolViews={currentToolViews}
+                                     resourcesReducer={resourcesReducer}
+                                     contextIdReducer={contextIdReducer}
+                                     settingsReducer={settingsReducer}
+                                     actions={actions} />;
     }
 
-    const {moveBackToWordBank} = this.props.actions;
-    const {connectDropTarget, isOver} = this.props;
-    const {alignmentData} = this.props.wordAlignmentReducer;
-    const {contextId} = this.props.contextIdReducer;
-    const {lexicons, bibles: {targetLanguage}} = this.props.resourcesReducer;
+    const {moveBackToWordBank} = actions;
+    const {alignmentData} = wordAlignmentReducer;
+    const {contextId} = contextIdReducer;
+    const {lexicons, bibles: {targetLanguage}} = resourcesReducer;
     let chapter, verse;
     let words = [];
     if (contextId) {
@@ -94,7 +113,7 @@ class Container extends Component {
           {scripturePane}
           <AlignmentGrid alignmentData={alignmentData}
                          lexicons={lexicons}
-                         actions={this.props.actions}
+                         actions={actions}
                          contextId={contextId}/>
         </div>
       </div>
@@ -103,6 +122,9 @@ class Container extends Component {
 }
 
 Container.propTypes = {
+  appLanguage: PropTypes.string.isRequired,
+  selectionsReducer: PropTypes.object.isRequired,
+  projectDetailsReducer: PropTypes.object.isRequired,
   currentToolViews: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,

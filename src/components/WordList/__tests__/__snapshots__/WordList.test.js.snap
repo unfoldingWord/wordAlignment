@@ -21,31 +21,39 @@ Array [
       <div
         style={
           Object {
-            "backgroundColor": "#FFFFFF",
-            "borderLeft": "5px solid #44C6FF",
-            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-            "cursor": "move",
-            "display": "flex",
-            "flexDirection": "row",
-            "opacity": 1,
-            "padding": "10px",
+            "flex": 1,
           }
         }
       >
-        <span
+        <div
           style={
             Object {
-              "flex": 1,
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "10px",
             }
           }
         >
           <span
-            onClick={[Function]}
-            style={Object {}}
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
           >
-            w1
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w1
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>,
@@ -66,31 +74,39 @@ Array [
       <div
         style={
           Object {
-            "backgroundColor": "#FFFFFF",
-            "borderLeft": "5px solid #44C6FF",
-            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-            "cursor": "move",
-            "display": "flex",
-            "flexDirection": "row",
-            "opacity": 1,
-            "padding": "10px",
+            "flex": 1,
           }
         }
       >
-        <span
+        <div
           style={
             Object {
-              "flex": 1,
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "10px",
             }
           }
         >
           <span
-            onClick={[Function]}
-            style={Object {}}
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
           >
-            w2
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w2
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>,
@@ -111,32 +127,40 @@ Array [
       <div
         style={
           Object {
-            "backgroundColor": "#FFFFFF",
-            "borderLeft": "5px solid #868686",
-            "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-            "cursor": "not-allowed",
-            "display": "flex",
-            "flexDirection": "row",
-            "opacity": 0.3,
-            "padding": "10px",
-            "userSelect": "none",
+            "flex": 1,
           }
         }
       >
-        <span
+        <div
           style={
             Object {
-              "flex": 1,
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #868686",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "not-allowed",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 0.3,
+              "padding": "10px",
+              "userSelect": "none",
             }
           }
         >
           <span
-            onClick={[Function]}
-            style={Object {}}
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
           >
-            w3
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w3
+            </span>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>,

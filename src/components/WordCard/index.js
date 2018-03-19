@@ -16,7 +16,7 @@ const makeStyles = (props) => {
       padding: '10px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset',
-      cursor: 'move',
+      cursor: 'pointer',
       display: 'flex',
       flexDirection: 'row',
       ...style
@@ -70,7 +70,7 @@ class WordCard extends React.Component {
    */
   _handleClick(e) {
     const {disabled, onClick} = this.props;
-    if(!disabled) {
+    if(!disabled && typeof onClick === 'function') {
       onClick(e);
     }
   }
@@ -79,14 +79,16 @@ class WordCard extends React.Component {
     const {word, occurrence, occurrences} = this.props;
     const styles = makeStyles(this.props);
     return (
-      <div style={styles.root}>
+      <div style={{flex: 1}}>
+        <div style={styles.root}>
         <span style={{flex: 1}}>
           <span onClick={this._handleClick} style={styles.word}>
             {word}
           </span>
         </span>
-        <WordOccurrence occurrence={occurrence}
-                        occurrences={occurrences}/>
+          <WordOccurrence occurrence={occurrence}
+                          occurrences={occurrences}/>
+        </div>
       </div>
     );
   }

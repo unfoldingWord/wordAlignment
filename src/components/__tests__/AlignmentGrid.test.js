@@ -2,10 +2,13 @@ import React from 'react';
 import AlignmentGrid from '../AlignmentGrid';
 import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
+import TestBackend from 'react-dnd-test-backend';
+import {DragDropContext} from 'react-dnd';
 
-test('snapshot', () => {
+test('empty snapshot', () => {
   const wrapper = renderer.create(
     <AlignmentGrid lexicons={{}}
+                   translate={k=>k}
                    actions={{}}/>
   );
   expect(wrapper).toMatchSnapshot();
@@ -36,26 +39,21 @@ describe('AlignmentGrid', () => {
 
   test('renders Luke 1:1', () => {
     // given
-    const chapter = '1';
-    const verse = '1';
-    contextId.reference.chapter = chapter;
-    contextId.reference.verse = verse;
-    const expectedWords = alignmentData[chapter][verse].alignments.length;
-
-    // when
-    const enzymeWrapper = shallow(
-      <AlignmentGrid
+    contextId.reference.chapter = '1';
+    contextId.reference.verse = '1';
+    const ConnectedAlignmentGrid = wrapInTestContext(AlignmentGrid);
+    const wrapper = renderer.create(
+      <ConnectedAlignmentGrid
         alignmentData={alignmentData}
         contextId={contextId}
+        translate={k=>k}
         actions={{}}
         lexicons={{}}
       />
     );
 
     // then
-    const dropBoxArea = enzymeWrapper.find('div');
-    expect(dropBoxArea).toBeTruthy();
-    expect(dropBoxArea.getElements().length).toEqual(expectedWords + 1);
+    expect(wrapper).toMatchSnapshot();
   });
 
   test('renders undefined Luke 1:81 without crashing', () => {
@@ -71,6 +69,7 @@ describe('AlignmentGrid', () => {
       <AlignmentGrid
         alignmentData={alignmentData}
         contextId={contextId}
+        translate={k=>k}
         actions={{}}
         lexicons={{}}
       />
@@ -82,3 +81,17 @@ describe('AlignmentGrid', () => {
     expect(dropBoxArea.getElements().length).toEqual(expectedWords + 1);
   });
 });
+
+
+/**
+ * Wraps a component into a DragDropContext that uses the TestBackend.
+ */
+function wrapInTestContext(DecoratedComponent) {
+  return DragDropContext(TestBackend)(
+    class TestContextContainer extends React.Component {
+      render() {
+        return <DecoratedComponent {...this.props} />;
+      }
+    }
+  );
+}

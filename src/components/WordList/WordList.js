@@ -4,7 +4,8 @@ import SecondaryWord from '../SecondaryWord';
 import Word from '../../specs/Word';
 
 /**
- * Renders a list of words that need to be aligned
+ * Renders a list of words that need to be aligned.
+ * Previously known as the "WordBank".
  * @param {Word[]} words,
  * @param {bool} isOver
  * @return {*}

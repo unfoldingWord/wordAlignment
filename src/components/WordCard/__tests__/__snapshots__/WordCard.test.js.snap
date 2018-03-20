@@ -4,41 +4,49 @@ exports[`multiple occurrence 1`] = `
 <div
   style={
     Object {
-      "backgroundColor": "#FFFFFF",
-      "borderLeft": "5px solid #44C6FF",
-      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-      "cursor": "move",
-      "display": "flex",
-      "flexDirection": "row",
-      "padding": "10px",
+      "flex": 1,
     }
   }
 >
-  <span
+  <div
     style={
       Object {
-        "flex": 1,
+        "backgroundColor": "#FFFFFF",
+        "borderLeft": "5px solid #44C6FF",
+        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+        "cursor": "pointer",
+        "display": "flex",
+        "flexDirection": "row",
+        "padding": "10px",
       }
     }
   >
     <span
-      onClick={[Function]}
-      style={Object {}}
-    >
-      hello
-    </span>
-  </span>
-  <sup
-    style={
-      Object {
-        "marginTop": "2px",
-        "opacity": "0.8",
-        "top": 0,
+      style={
+        Object {
+          "flex": 1,
+        }
       }
-    }
-  >
-    1
-  </sup>
+    >
+      <span
+        onClick={[Function]}
+        style={Object {}}
+      >
+        hello
+      </span>
+    </span>
+    <sup
+      style={
+        Object {
+          "marginTop": "2px",
+          "opacity": "0.8",
+          "top": 0,
+        }
+      }
+    >
+      1
+    </sup>
+  </div>
 </div>
 `;
 
@@ -46,29 +54,37 @@ exports[`single occurrence 1`] = `
 <div
   style={
     Object {
-      "backgroundColor": "#FFFFFF",
-      "borderLeft": "5px solid #44C6FF",
-      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-      "cursor": "move",
-      "display": "flex",
-      "flexDirection": "row",
-      "padding": "10px",
+      "flex": 1,
     }
   }
 >
-  <span
+  <div
     style={
       Object {
-        "flex": 1,
+        "backgroundColor": "#FFFFFF",
+        "borderLeft": "5px solid #44C6FF",
+        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+        "cursor": "pointer",
+        "display": "flex",
+        "flexDirection": "row",
+        "padding": "10px",
       }
     }
   >
     <span
-      onClick={[Function]}
-      style={Object {}}
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
     >
-      hello
+      <span
+        onClick={[Function]}
+        style={Object {}}
+      >
+        hello
+      </span>
     </span>
-  </span>
+  </div>
 </div>
 `;

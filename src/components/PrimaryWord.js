@@ -6,10 +6,13 @@ import * as types from './WordCard/Types';
 import * as lexiconHelpers from '../utils/lexicon';
 import WordDetails from './WordDetails';
 import Word from './WordCard';
+import Tooltip from './Tooltip';
 
 const internalStyle = {
-  color: '#ffffff',
-  backgroundColor: '#333333'
+  word: {
+    color: '#ffffff',
+    backgroundColor: '#333333'
+  }
 };
 
 /**
@@ -28,6 +31,12 @@ class PrimaryWord extends Component {
   constructor(props) {
     super(props);
     this._handleClick = this._handleClick.bind(this);
+    this._handleOut = this._handleOut.bind(this);
+    this._handleOver = this._handleOver.bind(this);
+    this.state = {
+      hover: false,
+      anchorEl: null
+    };
   }
 
   componentWillMount() {
@@ -39,17 +48,49 @@ class PrimaryWord extends Component {
     }
   }
 
-  render() {
-    const {wordObject, style, isDragging, connectDragSource} = this.props;
-    const opacity = isDragging ? 0.4 : 1;
+  /**
+   * Enables hover state
+   * @private
+   */
+  _handleOver(e) {
+    this.setState({
+      hover: true,
+      anchorEl: e.currentTarget
+    });
+  }
 
-    return connectDragSource(
-      <div style={{flex: 1}}>
+  /**
+   * Disables hover state
+   * @private
+   */
+  _handleOut() {
+    this.setState({
+      hover: false,
+      anchorEl: null
+    });
+  }
+
+  render() {
+    const {translate, wordObject, style, isDragging, canDrag, connectDragSource, dragPreview} = this.props;
+    const {hover} = this.state;
+
+    // TODO: fix the drag rendering to not display the tooltip
+    const word = dragPreview(
+      <div>
         <Word word={wordObject.word}
-              occurrence={wordObject.occurrence}
-              occurrences={wordObject.occurrences}
-              onClick={this._handleClick}
-              style={{...internalStyle, ...style, opacity}}/>
+              disabled={isDragging  || (hover && !canDrag)}
+              style={{...internalStyle.word, ...style}}/>
+      </div>
+    );
+    return connectDragSource(
+      <div style={{flex: 1, position: 'relative'}}
+           onClick={this._handleClick}
+           onMouseOver={this._handleOver}
+           onMouseOut={this._handleOut}>
+        {word}
+        {!isDragging && hover && !canDrag ? (
+          <Tooltip message={translate('cannot_drag_middle')}/>
+        ) : null}
       </div>
     );
   }
@@ -72,6 +113,10 @@ class PrimaryWord extends Component {
 }
 
 PrimaryWord.propTypes = {
+  translate: PropTypes.func.isRequired,
+  wordIndex: PropTypes.number,
+  alignmentLength: PropTypes.number,
+  canDrag: PropTypes.bool,
   wordObject: PropTypes.shape({
     word: PropTypes.string.isRequired,
     lemma: PropTypes.string.isRequired,
@@ -87,9 +132,15 @@ PrimaryWord.propTypes = {
     loadLexiconEntry: PropTypes.func.isRequired
   }),
   lexicons: PropTypes.object.isRequired,
-
+  dragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired
+};
+
+PrimaryWord.defaultProps = {
+  alignmentLength: 1,
+  wordIndex: 0,
+  canDrag: true
 };
 
 const dragHandler = {
@@ -103,13 +154,27 @@ const dragHandler = {
       occurrence: props.wordObject.occurrence,
       occurrences: props.wordObject.occurrences,
       alignmentIndex: props.alignmentIndex,
+      wordIndex: props.wordIndex,
+      alignmentLength: props.alignmentLength,
       type: types.PRIMARY_WORD
     };
+  },
+  canDrag(props) {
+    const {wordIndex, alignmentLength} = props;
+    const firstWord = wordIndex === 0;
+    const lastWord = wordIndex === alignmentLength - 1;
+    if(alignmentLength > 1) {
+      return firstWord || lastWord;
+    } else {
+      return true;
+    }
   }
 };
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  dragPreview: connect.dragPreview({captureDraggingState: false}),
+  canDrag: monitor.canDrag(),
   isDragging: monitor.isDragging()
 });
 

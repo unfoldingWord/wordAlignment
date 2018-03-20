@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 // constants
 import * as types from './WordCard/Types';
 // components
-import Alignment from './Alignment';
+import AlignmentCard from './AlignmentCard';
 
 const styles = {
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    height: '100%',
     backgroundColor: '#ffffff',
     padding: '0px 10px 50px',
     overflowY: 'auto'
@@ -22,6 +21,7 @@ const styles = {
 class AlignmentGrid extends Component {
   render() {
     const {
+      translate,
       actions,
       lexicons,
       alignmentData,
@@ -36,13 +36,28 @@ class AlignmentGrid extends Component {
     alignmentData[chapter][verse] ?
       alignmentData[chapter][verse].alignments :
       [];
+    // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
       <div id='AlignmentGrid' style={styles.root}>
         {
           alignments.map((alignment, index) => {
             return (
-              <div key={index} style={{display: 'flex'}}>
-                <Alignment
+              <React.Fragment key={index}>
+                {/* placeholder for un-merging primary words */}
+                {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
+                {/*<AlignmentCard*/}
+                  {/*translate={translate}*/}
+                  {/*alignmentIndex={index}*/}
+                  {/*placeholderPosition="left"*/}
+                  {/*bottomWords={[]}*/}
+                  {/*topWords={[]}*/}
+                  {/*onDrop={item => this.handleDrop(index, item)}*/}
+                  {/*actions={actions}*/}
+                  {/*lexicons={lexicons}*/}
+                {/*/>*/}
+
+                <AlignmentCard
+                  translate={translate}
                   alignmentIndex={index}
                   bottomWords={alignment.bottomWords}
                   topWords={alignment.topWords}
@@ -50,16 +65,18 @@ class AlignmentGrid extends Component {
                   actions={actions}
                   lexicons={lexicons}
                 />
-                <Alignment
+                {/* placeholder for un-merging primary words */}
+                <AlignmentCard
+                  translate={translate}
                   alignmentIndex={index}
+                  placeholderPosition="right"
                   bottomWords={[]}
                   topWords={[]}
-                  siblingTopWords={alignment.topWords}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   lexicons={lexicons}
                 />
-              </div>
+              </React.Fragment>
             );
           })
         }
@@ -81,7 +98,7 @@ class AlignmentGrid extends Component {
 AlignmentGrid.propTypes = {
   alignmentData: PropTypes.object,
   contextId: PropTypes.object,
-
+  translate: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
   lexicons: PropTypes.object.isRequired
 };

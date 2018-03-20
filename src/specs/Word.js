@@ -21,14 +21,14 @@ class Word extends Unigram {
   }
 
   /**
-   * Disables the word
+   * Enables the word
    */
   enable() {
     this._enabled = true;
   }
 
   /**
-   * Enables the word
+   * Disables the word
    */
   disable() {
     this._enabled = false;

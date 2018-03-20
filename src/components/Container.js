@@ -56,6 +56,7 @@ class Container extends Component {
       connectDropTarget,
       isOver,
       actions,
+      translate,
       settingsReducer,
       resourcesReducer,
       selectionsReducer,
@@ -112,6 +113,7 @@ class Container extends Component {
         }}>
           {scripturePane}
           <AlignmentGrid alignmentData={alignmentData}
+                         translate={translate}
                          lexicons={lexicons}
                          actions={actions}
                          contextId={contextId}/>
@@ -131,7 +133,7 @@ Container.propTypes = {
   settingsReducer: PropTypes.object.isRequired,
   wordAlignmentReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-
+  translate: PropTypes.func,
   isOver: PropTypes.bool,
   connectDropTarget: PropTypes.func
 };

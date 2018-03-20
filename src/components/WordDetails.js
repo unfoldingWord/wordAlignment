@@ -9,11 +9,11 @@ class WordDetails extends React.Component {
     let {lemma, morph, strong} = this.props.wordObject;
     let lexicon;
     if (strong) {
-      const {lexicons} = this.props;
+      const {lexiconData} = this.props;
       const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strong);
       const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strong);
-      if (lexicons[lexiconId] && lexicons[lexiconId][entryId]) {
-        lexicon = lexicons[lexiconId][entryId].long;
+      if (lexiconData[lexiconId] && lexiconData[lexiconId][entryId]) {
+        lexicon = lexiconData[lexiconId][entryId].long;
       }
     }
     return (
@@ -33,7 +33,7 @@ WordDetails.propTypes = {
     morph: PropTypes.string.isRequired,
     strong: PropTypes.string.isRequired
   }),
-  lexicons: PropTypes.object.isRequired
+  lexiconData: PropTypes.object.isRequired
 };
 
 export default WordDetails;

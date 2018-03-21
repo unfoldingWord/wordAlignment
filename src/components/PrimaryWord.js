@@ -4,6 +4,7 @@ import {DragSource} from 'react-dnd';
 import * as types from './WordCard/Types';
 // helpers
 import * as lexiconHelpers from '../utils/lexicon';
+// components
 import WordDetails from './WordDetails';
 import Word from './WordCard';
 import Tooltip from './Tooltip';
@@ -17,7 +18,6 @@ const internalStyle = {
 
 /**
  * Renders a draggable primary word
- *
  * @see WordCard
  *
  * @property wordObject
@@ -37,15 +37,6 @@ class PrimaryWord extends Component {
       hover: false,
       anchorEl: null
     };
-  }
-
-  componentWillMount() {
-    const {strong} = this.props.wordObject;
-    if (strong) {
-      const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strong);
-      const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strong);
-      this.props.actions.loadLexiconEntry(lexiconId, entryId);
-    }
   }
 
   /**
@@ -101,13 +92,18 @@ class PrimaryWord extends Component {
    * @private
    */
   _handleClick(e) {
-    const {wordObject, lexicons} = this.props;
-    let positionCoord = e.target;
-    const PopoverTitle = <strong
-      style={{fontSize: '1.2em'}}>{wordObject.word}</strong>;
-    let {showPopover} = this.props.actions;
-    const wordDetails = <WordDetails lexicons={lexicons}
-                                     wordObject={wordObject}/>;
+    const {wordObject} = this.props;
+    const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(wordObject.strong);
+    const lexiconId = lexiconHelpers.lexiconIdFromStrongs(wordObject.strong);
+    const lexiconData = this.props.actions.getLexiconData(lexiconId, entryId);
+    const positionCoord = e.target;
+    const PopoverTitle = (
+      <strong style={{fontSize: '1.2em'}}>{wordObject.word}</strong>
+    );
+    const {showPopover} = this.props.actions;
+    const wordDetails = (
+      <WordDetails lexiconData={lexiconData} wordObject={wordObject}/>
+    );
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
 }
@@ -129,7 +125,8 @@ PrimaryWord.propTypes = {
   style: PropTypes.object,
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
-    loadLexiconEntry: PropTypes.func.isRequired
+    loadLexiconEntry: PropTypes.func.isRequired,
+    getLexiconData: PropTypes.func.isRequired
   }),
   lexicons: PropTypes.object.isRequired,
   dragPreview: PropTypes.func.isRequired,

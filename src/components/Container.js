@@ -107,9 +107,10 @@ class Container extends Component {
                   isOver={isOver}/>
         <div style={{
           flex: 0.8,
+          display: 'flex',
+          flexDirection: 'column',
           width: '100%',
-          height: '100%',
-          paddingBottom: '150px'
+          height: '100%'
         }}>
           {scripturePane}
           <AlignmentGrid alignmentData={alignmentData}

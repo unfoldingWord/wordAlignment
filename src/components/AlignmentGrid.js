@@ -10,8 +10,10 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     backgroundColor: '#ffffff',
-    padding: '0px 10px 50px',
-    overflowY: 'auto'
+    padding: '0px 10px 10px',
+    overflowY: 'auto',
+    flexGrow: 2,
+    alignContent: 'flex-start'
   }
 };
 

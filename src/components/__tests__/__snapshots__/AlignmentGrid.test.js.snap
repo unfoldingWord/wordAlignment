@@ -5,11 +5,13 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
   id="AlignmentGrid"
   style={
     Object {
+      "alignContent": "flex-start",
       "backgroundColor": "#ffffff",
       "display": "flex",
+      "flexGrow": 2,
       "flexWrap": "wrap",
       "overflowY": "auto",
-      "padding": "0px 10px 50px",
+      "padding": "0px 10px 10px",
     }
   }
 >

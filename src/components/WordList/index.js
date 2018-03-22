@@ -9,17 +9,44 @@ import Word from '../../specs/Word';
  * Renders a word bank with drag-drop support
  */
 class DroppableWordList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {wordBankScrollTop: null};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let wordBank = document.getElementById('wordBank');
+    if (wordBank) {
+      if (this.props.chapter != nextProps.chapter || this.props.verse != nextProps.verse) {
+        wordBank.scrollTop = 0;
+        this.setState({wordBankScrollTop: null});
+      } else if (! this.props.isOver && nextProps.isOver) {
+        this.setState({wordBankScrollTop: wordBank.scrollTop});
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    let wordBank = document.getElementById('wordBank');
+    if (wordBank && ! this.props.isOver && this.state.wordBankScrollTop ) {
+      wordBank.scrollTop = this.state.wordBankScrollTop;
+      this.setState({wordBankScrollTop: null});
+    }
+  }
+
   render() {
     const {words, chapter, verse, connectDropTarget, isOver} = this.props;
-
     return connectDropTarget(
-      <div style={{
-        flex: 0.2,
-        width: '100%',
-        backgroundColor: '#DCDCDC',
-        overflowY: 'auto',
-        padding: '5px 8px 5px 5px'
-      }}>
+      <div
+        id='wordBank'
+        style={{
+          flex: 0.2,
+          width: '100%',
+          backgroundColor: '#DCDCDC',
+          overflowY: 'auto',
+          padding: '5px 8px 5px 5px'
+        }}
+      >
         <WordList chapter={chapter}
                   verse={verse}
                   words={words}

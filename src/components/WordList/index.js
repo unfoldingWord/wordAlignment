@@ -28,7 +28,7 @@ class DroppableWordList extends React.Component {
 
   componentDidUpdate() {
     let wordBank = document.getElementById('wordBank');
-    if (wordBank && ! this.props.isOver && this.state.wordBankScrollTop ) {
+    if (wordBank && ! this.props.isOver && this.state.wordBankScrollTop) {
       wordBank.scrollTop = this.state.wordBankScrollTop;
       this.setState({wordBankScrollTop: null});
     }

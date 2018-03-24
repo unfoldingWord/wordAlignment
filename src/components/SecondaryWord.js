@@ -19,12 +19,15 @@ class SecondaryWord extends React.Component {
     const opacity = isDragging ? 0.4 : 1;
 
     const wordComponent = (
-      <div style={{flex: 1}}>
-        <Word word={word}
-              disabled={disabled}
-              style={{opacity}}
-              occurrence={occurrence}
-              occurrences={occurrences}/>
+      <div
+        style={{flex: 1}}
+      >
+        <Word
+          word={word}
+          disabled={disabled}
+          style={{opacity}}
+          occurrence={occurrence}
+          occurrences={occurrences}/>
       </div>
     );
 

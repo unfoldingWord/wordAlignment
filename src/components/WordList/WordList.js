@@ -17,19 +17,21 @@ const WordList = ({
 }) => {
   if (isOver) {
     return (
-      <div style={{
-        border: '3px dashed #44C6FF',
-        height: '100%',
-        width: '100%'
-      }}/>
+      <div
+        style={{
+          border: '3px dashed #44C6FF',
+          height: '100%',
+          width: '100%'
+        }} />
     );
   } else {
     return (
       <React.Fragment>
         {words.map((word, index) => {
           return (
-            <div key={index}
-                 style={{margin: '10px'}}>
+            <div
+              key={index}
+              style={{margin: '10px'}}>
               <SecondaryWord
                 disabled={!word.enabled}
                 word={word.token}

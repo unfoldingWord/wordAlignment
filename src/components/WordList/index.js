@@ -11,26 +11,26 @@ import Word from '../../specs/Word';
 class DroppableWordList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {wordBankScrollTop: null};
+    this.state = {wordListScrollTop: null};
   }
 
   componentWillReceiveProps(nextProps) {
-    let wordBank = document.getElementById('wordBank');
-    if (wordBank) {
+    let wordList = document.getElementById('wordList');
+    if (wordList) {
       if (this.props.chapter != nextProps.chapter || this.props.verse != nextProps.verse) {
-        wordBank.scrollTop = 0;
-        this.setState({wordBankScrollTop: null});
+        wordList.scrollTop = 0;
+        this.setState({wordListScrollTop: null});
       } else if (! this.props.isOver && nextProps.isOver) {
-        this.setState({wordBankScrollTop: wordBank.scrollTop});
+        this.setState({wordListScrollTop: wordList.scrollTop});
       }
     }
   }
 
   componentDidUpdate() {
-    let wordBank = document.getElementById('wordBank');
-    if (wordBank && ! this.props.isOver && this.state.wordBankScrollTop) {
-      wordBank.scrollTop = this.state.wordBankScrollTop;
-      this.setState({wordBankScrollTop: null});
+    let wordList = document.getElementById('wordList');
+    if (wordList && ! this.props.isOver && this.state.wordListScrollTop) {
+      wordList.scrollTop = this.state.wordListScrollTop;
+      this.setState({wordListScrollTop: null});
     }
   }
 
@@ -38,7 +38,7 @@ class DroppableWordList extends React.Component {
     const {words, chapter, verse, connectDropTarget, isOver} = this.props;
     return connectDropTarget(
       <div
-        id='wordBank'
+        id='wordList'
         style={{
           flex: 0.2,
           width: '100%',
@@ -47,10 +47,11 @@ class DroppableWordList extends React.Component {
           padding: '5px 8px 5px 5px'
         }}
       >
-        <WordList chapter={chapter}
-                  verse={verse}
-                  words={words}
-                  isOver={isOver}/>
+        <WordList
+          chapter={chapter}
+          verse={verse}
+          words={words}
+          isOver={isOver} />
       </div>
     );
   }

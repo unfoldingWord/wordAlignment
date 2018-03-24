@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test DroppableWordList component in WordList/index.js DroppableWordList component full integration test 1`] = `
+<div
+  id="wordList"
+  style={
+    Object {
+      "backgroundColor": "#DCDCDC",
+      "flex": 0.2,
+      "overflowY": "auto",
+      "padding": "5px 8px 5px 5px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "10px",
+            }
+          }
+        >
+          <span
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+          >
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w1
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "10px",
+            }
+          }
+        >
+          <span
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+          >
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w2
+            </span>
+          </span>
+          <sup
+            style={
+              Object {
+                "marginTop": "2px",
+                "opacity": "0.8",
+                "top": 0,
+              }
+            }
+          >
+            1
+          </sup>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "10px",
+            }
+          }
+        >
+          <span
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+          >
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w2
+            </span>
+          </span>
+          <sup
+            style={
+              Object {
+                "marginTop": "2px",
+                "opacity": "0.8",
+                "top": 0,
+              }
+            }
+          >
+            2
+          </sup>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "margin": "10px",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #868686",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "not-allowed",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 0.3,
+              "padding": "10px",
+              "userSelect": "none",
+            }
+          }
+        >
+          <span
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+          >
+            <span
+              onClick={[Function]}
+              style={Object {}}
+            >
+              w3
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

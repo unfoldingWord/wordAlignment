@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import { DragDropContext } from 'react-dnd';
-import renderer from 'react-test-renderer';
 import expect from 'expect';
 import Container from '../Container';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
 test('Container renders', () => {

@@ -4,8 +4,7 @@ import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 import DroppableWordList from '../index';
-import renderer from 'react-test-renderer';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
 describe('Test DroppableWordList component in WordList/index.js', () => {

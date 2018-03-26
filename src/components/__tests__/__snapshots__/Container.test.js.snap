@@ -13,11 +13,7 @@ exports[`Container renders 1`] = `
   }
   appLanguage="en"
   contextIdReducer={Object {}}
-  currentToolViews={
-    Object {
-      "ScripturePane": [Function],
-    }
-  }
+  currentToolViews={Object {}}
   projectDetailsReducer={Object {}}
   resourcesReducer={
     Object {
@@ -62,11 +58,7 @@ exports[`Container renders 1`] = `
     }
     appLanguage="en"
     contextIdReducer={Object {}}
-    currentToolViews={
-      Object {
-        "ScripturePane": [Function],
-      }
-    }
+    currentToolViews={Object {}}
     projectDetailsReducer={Object {}}
     resourcesReducer={
       Object {
@@ -111,11 +103,7 @@ exports[`Container renders 1`] = `
       }
       appLanguage="en"
       contextIdReducer={Object {}}
-      currentToolViews={
-        Object {
-          "ScripturePane": [Function],
-        }
-      }
+      currentToolViews={Object {}}
       projectDetailsReducer={Object {}}
       resourcesReducer={
         Object {
@@ -160,11 +148,7 @@ exports[`Container renders 1`] = `
         }
         appLanguage="en"
         contextIdReducer={Object {}}
-        currentToolViews={
-          Object {
-            "ScripturePane": [Function],
-          }
-        }
+        currentToolViews={Object {}}
         projectDetailsReducer={Object {}}
         resourcesReducer={
           Object {

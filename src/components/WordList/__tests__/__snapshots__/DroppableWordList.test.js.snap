@@ -1,252 +1,1140 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test DroppableWordList component in WordList/index.js DroppableWordList component full integration test 1`] = `
-<div
-  id="wordList"
-  style={
-    Object {
-      "backgroundColor": "#DCDCDC",
-      "flex": 0.2,
-      "overflowY": "auto",
-      "padding": "5px 8px 5px 5px",
-      "width": "100%",
-    }
+<DragDropContext(TestContextContainer)
+  chapter={1}
+  moveBackToWordBank={[Function]}
+  verse={1}
+  words={
+    Array [
+      Word {
+        "_enabled": true,
+        "occurrence": 1,
+        "occurrences": 1,
+        "token": "w1",
+      },
+      Word {
+        "_enabled": true,
+        "occurrence": 1,
+        "occurrences": 2,
+        "token": "w2",
+      },
+      Word {
+        "_enabled": true,
+        "occurrence": 2,
+        "occurrences": 2,
+        "token": "w2",
+      },
+      Word {
+        "_enabled": false,
+        "occurrence": 1,
+        "occurrences": 1,
+        "token": "w3",
+      },
+    ]
   }
 >
-  <div
-    style={
-      Object {
-        "margin": "10px",
-      }
+  <TestContextContainer
+    chapter={1}
+    moveBackToWordBank={[Function]}
+    verse={1}
+    words={
+      Array [
+        Word {
+          "_enabled": true,
+          "occurrence": 1,
+          "occurrences": 1,
+          "token": "w1",
+        },
+        Word {
+          "_enabled": true,
+          "occurrence": 1,
+          "occurrences": 2,
+          "token": "w2",
+        },
+        Word {
+          "_enabled": true,
+          "occurrence": 2,
+          "occurrences": 2,
+          "token": "w2",
+        },
+        Word {
+          "_enabled": false,
+          "occurrence": 1,
+          "occurrences": 1,
+          "token": "w3",
+        },
+      ]
     }
   >
-    <div
-      style={
-        Object {
-          "flex": 1,
-        }
+    <DropTarget(DroppableWordList)
+      chapter={1}
+      moveBackToWordBank={[Function]}
+      verse={1}
+      words={
+        Array [
+          Word {
+            "_enabled": true,
+            "occurrence": 1,
+            "occurrences": 1,
+            "token": "w1",
+          },
+          Word {
+            "_enabled": true,
+            "occurrence": 1,
+            "occurrences": 2,
+            "token": "w2",
+          },
+          Word {
+            "_enabled": true,
+            "occurrence": 2,
+            "occurrences": 2,
+            "token": "w2",
+          },
+          Word {
+            "_enabled": false,
+            "occurrence": 1,
+            "occurrences": 1,
+            "token": "w3",
+          },
+        ]
       }
     >
-      <div
-        style={
-          Object {
-            "flex": 1,
-          }
+      <DroppableWordList
+        canDrop={false}
+        chapter={1}
+        connectDropTarget={[Function]}
+        isOver={false}
+        moveBackToWordBank={[Function]}
+        verse={1}
+        words={
+          Array [
+            Word {
+              "_enabled": true,
+              "occurrence": 1,
+              "occurrences": 1,
+              "token": "w1",
+            },
+            Word {
+              "_enabled": true,
+              "occurrence": 1,
+              "occurrences": 2,
+              "token": "w2",
+            },
+            Word {
+              "_enabled": true,
+              "occurrence": 2,
+              "occurrences": 2,
+              "token": "w2",
+            },
+            Word {
+              "_enabled": false,
+              "occurrence": 1,
+              "occurrences": 1,
+              "token": "w3",
+            },
+          ]
         }
       >
         <div
+          id="wordList"
           style={
             Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #44C6FF",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 1,
-              "padding": "10px",
+              "backgroundColor": "#DCDCDC",
+              "flex": 0.2,
+              "overflowY": "auto",
+              "padding": "5px 8px 5px 5px",
+              "width": "100%",
             }
           }
         >
-          <span
-            style={
-              Object {
-                "flex": 1,
-              }
+          <WordList
+            chapter={1}
+            isOver={false}
+            verse={1}
+            words={
+              Array [
+                Word {
+                  "_enabled": true,
+                  "occurrence": 1,
+                  "occurrences": 1,
+                  "token": "w1",
+                },
+                Word {
+                  "_enabled": true,
+                  "occurrence": 1,
+                  "occurrences": 2,
+                  "token": "w2",
+                },
+                Word {
+                  "_enabled": true,
+                  "occurrence": 2,
+                  "occurrences": 2,
+                  "token": "w2",
+                },
+                Word {
+                  "_enabled": false,
+                  "occurrence": 1,
+                  "occurrences": 1,
+                  "token": "w3",
+                },
+              ]
             }
           >
-            <span
-              onClick={[Function]}
-              style={Object {}}
+            <div
+              key="0"
+              style={
+                Object {
+                  "margin": "10px",
+                }
+              }
             >
-              w1
-            </span>
-          </span>
+              <DragSource(SecondaryWord)
+                disabled={false}
+                occurrence={1}
+                occurrences={1}
+                word="w1"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={false}
+                  isDragging={false}
+                  occurrence={1}
+                  occurrences={1}
+                  word="w1"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={false}
+                      occurrence={1}
+                      occurrences={1}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w1"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #44C6FF",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "pointer",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 1,
+                              "padding": "10px",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w1
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={1}
+                            occurrences={1}
+                          />
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+            <div
+              key="1"
+              style={
+                Object {
+                  "margin": "10px",
+                }
+              }
+            >
+              <DragSource(SecondaryWord)
+                disabled={false}
+                occurrence={1}
+                occurrences={2}
+                word="w2"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={false}
+                  isDragging={false}
+                  occurrence={1}
+                  occurrences={2}
+                  word="w2"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={false}
+                      occurrence={1}
+                      occurrences={2}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w2"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #44C6FF",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "pointer",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 1,
+                              "padding": "10px",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w2
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={1}
+                            occurrences={2}
+                          >
+                            <sup
+                              style={
+                                Object {
+                                  "marginTop": "2px",
+                                  "opacity": "0.8",
+                                  "top": 0,
+                                }
+                              }
+                            >
+                              1
+                            </sup>
+                          </WordOccurrence>
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+            <div
+              key="2"
+              style={
+                Object {
+                  "margin": "10px",
+                }
+              }
+            >
+              <DragSource(SecondaryWord)
+                disabled={false}
+                occurrence={2}
+                occurrences={2}
+                word="w2"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={false}
+                  isDragging={false}
+                  occurrence={2}
+                  occurrences={2}
+                  word="w2"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={false}
+                      occurrence={2}
+                      occurrences={2}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w2"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #44C6FF",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "pointer",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 1,
+                              "padding": "10px",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w2
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={2}
+                            occurrences={2}
+                          >
+                            <sup
+                              style={
+                                Object {
+                                  "marginTop": "2px",
+                                  "opacity": "0.8",
+                                  "top": 0,
+                                }
+                              }
+                            >
+                              2
+                            </sup>
+                          </WordOccurrence>
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+            <div
+              key="3"
+              style={
+                Object {
+                  "margin": "10px",
+                }
+              }
+            >
+              <DragSource(SecondaryWord)
+                disabled={true}
+                occurrence={1}
+                occurrences={1}
+                word="w3"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={true}
+                  isDragging={false}
+                  occurrence={1}
+                  occurrences={1}
+                  word="w3"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={true}
+                      occurrence={1}
+                      occurrences={1}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w3"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #868686",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "not-allowed",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 0.3,
+                              "padding": "10px",
+                              "userSelect": "none",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w3
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={1}
+                            occurrences={1}
+                          />
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+          </WordList>
         </div>
-      </div>
-    </div>
-  </div>
-  <div
-    style={
+      </DroppableWordList>
+    </DropTarget(DroppableWordList)>
+  </TestContextContainer>
+</DragDropContext(TestContextContainer)>
+`;
+
+exports[`Test DroppableWordList component in WordList/index.js DroppableWordList test scroll save and restore 1`] = `
+<DragDropContext(TestContextContainer)
+  chapter={2}
+  isOver={false}
+  moveBackToWordBank={[Function]}
+  verse={1}
+  wordList={
+    Object {
+      "scrollTop": 0,
+    }
+  }
+  words={
+    Array [
+      Word {
+        "_enabled": true,
+        "occurrence": 1,
+        "occurrences": 1,
+        "token": "w1",
+      },
+      Word {
+        "_enabled": true,
+        "occurrence": 1,
+        "occurrences": 2,
+        "token": "w2",
+      },
+      Word {
+        "_enabled": true,
+        "occurrence": 2,
+        "occurrences": 2,
+        "token": "w2",
+      },
+      Word {
+        "_enabled": false,
+        "occurrence": 1,
+        "occurrences": 1,
+        "token": "w3",
+      },
+    ]
+  }
+>
+  <TestContextContainer
+    chapter={2}
+    isOver={false}
+    moveBackToWordBank={[Function]}
+    verse={1}
+    wordList={
       Object {
-        "margin": "10px",
+        "scrollTop": 0,
       }
     }
+    words={
+      Array [
+        Word {
+          "_enabled": true,
+          "occurrence": 1,
+          "occurrences": 1,
+          "token": "w1",
+        },
+        Word {
+          "_enabled": true,
+          "occurrence": 1,
+          "occurrences": 2,
+          "token": "w2",
+        },
+        Word {
+          "_enabled": true,
+          "occurrence": 2,
+          "occurrences": 2,
+          "token": "w2",
+        },
+        Word {
+          "_enabled": false,
+          "occurrence": 1,
+          "occurrences": 1,
+          "token": "w3",
+        },
+      ]
+    }
   >
-    <div
-      style={
+    <DropTarget(DroppableWordList)
+      chapter={2}
+      isOver={false}
+      moveBackToWordBank={[Function]}
+      verse={1}
+      wordList={
         Object {
-          "flex": 1,
+          "scrollTop": 0,
         }
       }
+      words={
+        Array [
+          Word {
+            "_enabled": true,
+            "occurrence": 1,
+            "occurrences": 1,
+            "token": "w1",
+          },
+          Word {
+            "_enabled": true,
+            "occurrence": 1,
+            "occurrences": 2,
+            "token": "w2",
+          },
+          Word {
+            "_enabled": true,
+            "occurrence": 2,
+            "occurrences": 2,
+            "token": "w2",
+          },
+          Word {
+            "_enabled": false,
+            "occurrence": 1,
+            "occurrences": 1,
+            "token": "w3",
+          },
+        ]
+      }
     >
-      <div
-        style={
+      <DroppableWordList
+        canDrop={false}
+        chapter={2}
+        connectDropTarget={[Function]}
+        isOver={false}
+        moveBackToWordBank={[Function]}
+        verse={1}
+        wordList={
           Object {
-            "flex": 1,
+            "scrollTop": 0,
           }
+        }
+        words={
+          Array [
+            Word {
+              "_enabled": true,
+              "occurrence": 1,
+              "occurrences": 1,
+              "token": "w1",
+            },
+            Word {
+              "_enabled": true,
+              "occurrence": 1,
+              "occurrences": 2,
+              "token": "w2",
+            },
+            Word {
+              "_enabled": true,
+              "occurrence": 2,
+              "occurrences": 2,
+              "token": "w2",
+            },
+            Word {
+              "_enabled": false,
+              "occurrence": 1,
+              "occurrences": 1,
+              "token": "w3",
+            },
+          ]
         }
       >
         <div
+          id="wordList"
           style={
             Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #44C6FF",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 1,
-              "padding": "10px",
+              "backgroundColor": "#DCDCDC",
+              "flex": 0.2,
+              "overflowY": "auto",
+              "padding": "5px 8px 5px 5px",
+              "width": "100%",
             }
           }
         >
-          <span
-            style={
-              Object {
-                "flex": 1,
-              }
+          <WordList
+            chapter={2}
+            isOver={false}
+            verse={1}
+            words={
+              Array [
+                Word {
+                  "_enabled": true,
+                  "occurrence": 1,
+                  "occurrences": 1,
+                  "token": "w1",
+                },
+                Word {
+                  "_enabled": true,
+                  "occurrence": 1,
+                  "occurrences": 2,
+                  "token": "w2",
+                },
+                Word {
+                  "_enabled": true,
+                  "occurrence": 2,
+                  "occurrences": 2,
+                  "token": "w2",
+                },
+                Word {
+                  "_enabled": false,
+                  "occurrence": 1,
+                  "occurrences": 1,
+                  "token": "w3",
+                },
+              ]
             }
           >
-            <span
-              onClick={[Function]}
-              style={Object {}}
+            <div
+              key="0"
+              style={
+                Object {
+                  "margin": "10px",
+                }
+              }
             >
-              w2
-            </span>
-          </span>
-          <sup
-            style={
-              Object {
-                "marginTop": "2px",
-                "opacity": "0.8",
-                "top": 0,
+              <DragSource(SecondaryWord)
+                disabled={false}
+                occurrence={1}
+                occurrences={1}
+                word="w1"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={false}
+                  isDragging={false}
+                  occurrence={1}
+                  occurrences={1}
+                  word="w1"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={false}
+                      occurrence={1}
+                      occurrences={1}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w1"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #44C6FF",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "pointer",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 1,
+                              "padding": "10px",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w1
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={1}
+                            occurrences={1}
+                          />
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+            <div
+              key="1"
+              style={
+                Object {
+                  "margin": "10px",
+                }
               }
-            }
-          >
-            1
-          </sup>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "margin": "10px",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flex": 1,
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flex": 1,
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #44C6FF",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 1,
-              "padding": "10px",
-            }
-          }
-        >
-          <span
-            style={
-              Object {
-                "flex": 1,
-              }
-            }
-          >
-            <span
-              onClick={[Function]}
-              style={Object {}}
             >
-              w2
-            </span>
-          </span>
-          <sup
-            style={
-              Object {
-                "marginTop": "2px",
-                "opacity": "0.8",
-                "top": 0,
+              <DragSource(SecondaryWord)
+                disabled={false}
+                occurrence={1}
+                occurrences={2}
+                word="w2"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={false}
+                  isDragging={false}
+                  occurrence={1}
+                  occurrences={2}
+                  word="w2"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={false}
+                      occurrence={1}
+                      occurrences={2}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w2"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #44C6FF",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "pointer",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 1,
+                              "padding": "10px",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w2
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={1}
+                            occurrences={2}
+                          >
+                            <sup
+                              style={
+                                Object {
+                                  "marginTop": "2px",
+                                  "opacity": "0.8",
+                                  "top": 0,
+                                }
+                              }
+                            >
+                              1
+                            </sup>
+                          </WordOccurrence>
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+            <div
+              key="2"
+              style={
+                Object {
+                  "margin": "10px",
+                }
               }
-            }
-          >
-            2
-          </sup>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    style={
-      Object {
-        "margin": "10px",
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "flex": 1,
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "flex": 1,
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #868686",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "not-allowed",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 0.3,
-              "padding": "10px",
-              "userSelect": "none",
-            }
-          }
-        >
-          <span
-            style={
-              Object {
-                "flex": 1,
-              }
-            }
-          >
-            <span
-              onClick={[Function]}
-              style={Object {}}
             >
-              w3
-            </span>
-          </span>
+              <DragSource(SecondaryWord)
+                disabled={false}
+                occurrence={2}
+                occurrences={2}
+                word="w2"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={false}
+                  isDragging={false}
+                  occurrence={2}
+                  occurrences={2}
+                  word="w2"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={false}
+                      occurrence={2}
+                      occurrences={2}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w2"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #44C6FF",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "pointer",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 1,
+                              "padding": "10px",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w2
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={2}
+                            occurrences={2}
+                          >
+                            <sup
+                              style={
+                                Object {
+                                  "marginTop": "2px",
+                                  "opacity": "0.8",
+                                  "top": 0,
+                                }
+                              }
+                            >
+                              2
+                            </sup>
+                          </WordOccurrence>
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+            <div
+              key="3"
+              style={
+                Object {
+                  "margin": "10px",
+                }
+              }
+            >
+              <DragSource(SecondaryWord)
+                disabled={true}
+                occurrence={1}
+                occurrences={1}
+                word="w3"
+              >
+                <SecondaryWord
+                  connectDragSource={[Function]}
+                  disabled={true}
+                  isDragging={false}
+                  occurrence={1}
+                  occurrences={1}
+                  word="w3"
+                >
+                  <div
+                    style={
+                      Object {
+                        "flex": 1,
+                      }
+                    }
+                  >
+                    <WordCard
+                      disabled={true}
+                      occurrence={1}
+                      occurrences={1}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      word="w3"
+                    >
+                      <div
+                        style={
+                          Object {
+                            "flex": 1,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "backgroundColor": "#FFFFFF",
+                              "borderLeft": "5px solid #868686",
+                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                              "cursor": "not-allowed",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "opacity": 0.3,
+                              "padding": "10px",
+                              "userSelect": "none",
+                            }
+                          }
+                        >
+                          <span
+                            style={
+                              Object {
+                                "flex": 1,
+                              }
+                            }
+                          >
+                            <span
+                              onClick={[Function]}
+                              style={Object {}}
+                            >
+                              w3
+                            </span>
+                          </span>
+                          <WordOccurrence
+                            occurrence={1}
+                            occurrences={1}
+                          />
+                        </div>
+                      </div>
+                    </WordCard>
+                  </div>
+                </SecondaryWord>
+              </DragSource(SecondaryWord)>
+            </div>
+          </WordList>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+      </DroppableWordList>
+    </DropTarget(DroppableWordList)>
+  </TestContextContainer>
+</DragDropContext(TestContextContainer)>
 `;

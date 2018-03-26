@@ -19,8 +19,7 @@
     "coverageDirectory": "coverage",
     "setupFiles": [
       "./testSetUp/shim.js",
-      "./testSetUp/enzyme.js",
-      "./testSetUp/setupFile.js"
+      "./testSetUp/enzyme.js"
     ]
   },
   "repository": {

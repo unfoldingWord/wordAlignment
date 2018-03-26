@@ -1,12 +1,11 @@
 /* eslint-env jest */
-
 import Word from '../../../specs/Word';
 import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 import DroppableWordList from '../index';
 import renderer from 'react-test-renderer';
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
 describe('Test DroppableWordList component in WordList/index.js', () => {
@@ -25,21 +24,26 @@ describe('Test DroppableWordList component in WordList/index.js', () => {
       chapter: 1,
       verse: 1,
       words: words,
-      isOver: false,
       moveBackToWordBank: jest.fn()
     };
   });
 
   test('DroppableWordList component full integration test', () => {
     const WrappedWordList = wrapInTestContext(DroppableWordList);
-    const wrapper = renderer.create(<WrappedWordList {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const wrapper = mount(<WrappedWordList {...props} />);
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('DroppableWordList test scroll save and restore', () => {
     const WrappedWordList = wrapInTestContext(DroppableWordList);
-    const component = mount(<WrappedWordList {...props} />);
-    component.setProps({chapter: 2, verse: 1});
+    props.wordList = {
+      scrollTop: 100
+    };
+    const wrapper = mount(<WrappedWordList {...props} />);
+    wrapper.setProps({isOver: true});
+    wrapper.setProps({isOver: false});
+    wrapper.setProps({chapter: 2});
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });
 

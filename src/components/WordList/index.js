@@ -11,27 +11,39 @@ import Word from '../../specs/Word';
 class DroppableWordList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {wordListScrollTop: null};
+    this.state = {
+      wordListScrollTop: null
+    };
+  }
+
+  setScrollState(wordList, nextProps) {
+    if (this.props.chapter != nextProps.chapter || this.props.verse != nextProps.verse) {
+      wordList.scrollTop = 0;
+      this.setState({wordListScrollTop: null});
+    } else if (! this.props.isOver) {
+      this.setState({wordListScrollTop: wordList.scrollTop});
+    }
+  }
+
+  setWordListScroll(wordList) {
+    if (! this.props.isOver && this.state.wordListScrollTop) {
+      wordList.scrollTop = this.state.wordListScrollTop;
+      this.setState({wordListScrollTop: null});
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     let wordList = document.getElementById('wordList');
-    if (wordList) {
-      if (this.props.chapter != nextProps.chapter || this.props.verse != nextProps.verse) {
-        wordList.scrollTop = 0;
-        this.setState({wordListScrollTop: null});
-      } else if (! this.props.isOver && nextProps.isOver) {
-        this.setState({wordListScrollTop: wordList.scrollTop});
-      }
-    }
+    if(! wordList)
+      wordList = this.props.wordList;
+    this.setScrollState(wordList, nextProps);
   }
 
   componentDidUpdate() {
     let wordList = document.getElementById('wordList');
-    if (wordList && ! this.props.isOver && this.state.wordListScrollTop) {
-      wordList.scrollTop = this.state.wordListScrollTop;
-      this.setState({wordListScrollTop: null});
-    }
+    if(! wordList)
+      wordList = this.props.wordList;
+    this.setWordListScroll(wordList);
   }
 
   render() {
@@ -63,7 +75,8 @@ DroppableWordList.propTypes = {
   words: PropTypes.arrayOf(PropTypes.instanceOf(Word)),
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
-  moveBackToWordBank: PropTypes.func.isRequired
+  moveBackToWordBank: PropTypes.func.isRequired,
+  wordList: PropTypes.object
 };
 
 /**

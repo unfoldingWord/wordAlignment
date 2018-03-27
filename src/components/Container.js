@@ -77,7 +77,8 @@ class Container extends Component {
                                      resourcesReducer={resourcesReducer}
                                      contextIdReducer={contextIdReducer}
                                      settingsReducer={settingsReducer}
-                                     actions={actions} />;
+                                     actions={actions}
+                                     translate={translate} />;
     }
 
     const {moveBackToWordBank} = actions;

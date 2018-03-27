@@ -99,12 +99,13 @@ class Container extends Component {
 
     return (
       <div style={{display: 'flex', width: '100%', height: '100%'}}>
-        <WordList chapter={chapter}
-                  verse={verse}
-                  words={words}
-                  moveBackToWordBank={moveBackToWordBank}
-                  connectDropTarget={connectDropTarget}
-                  isOver={isOver}/>
+        <WordList
+          chapter={chapter}
+          verse={verse}
+          words={words}
+          moveBackToWordBank={moveBackToWordBank}
+          connectDropTarget={connectDropTarget}
+          isOver={isOver} />
         <div style={{
           flex: 0.8,
           display: 'flex',
@@ -114,10 +115,10 @@ class Container extends Component {
         }}>
           {scripturePane}
           <AlignmentGrid alignmentData={alignmentData}
-                         translate={translate}
-                         lexicons={lexicons}
-                         actions={actions}
-                         contextId={contextId}/>
+            translate={translate}
+            lexicons={lexicons}
+            actions={actions}
+            contextId={contextId}/>
         </div>
       </div>
     );
@@ -131,7 +132,9 @@ Container.propTypes = {
   currentToolViews: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
-  settingsReducer: PropTypes.object.isRequired,
+  settingsReducer: PropTypes.shape({
+    toolsSettings: PropTypes.object.required
+  }).isRequired,
   wordAlignmentReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   translate: PropTypes.func,

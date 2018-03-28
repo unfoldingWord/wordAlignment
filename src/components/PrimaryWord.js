@@ -92,7 +92,7 @@ class PrimaryWord extends Component {
    * @private
    */
   _handleClick(e) {
-    const {wordObject} = this.props;
+    const {translate, wordObject} = this.props;
     const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(wordObject.strong);
     const lexiconId = lexiconHelpers.lexiconIdFromStrongs(wordObject.strong);
     const lexiconData = this.props.actions.getLexiconData(lexiconId, entryId);
@@ -102,7 +102,7 @@ class PrimaryWord extends Component {
     );
     const {showPopover} = this.props.actions;
     const wordDetails = (
-      <WordDetails lexiconData={lexiconData} wordObject={wordObject}/>
+      <WordDetails lexiconData={lexiconData} wordObject={wordObject} translate={translate}/>
     );
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }

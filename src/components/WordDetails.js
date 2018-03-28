@@ -7,9 +7,9 @@ class WordDetails extends React.Component {
 
   render() {
     let {lemma, morph, strong} = this.props.wordObject;
+    const {translate, lexiconData} = this.props;
     let lexicon;
     if (strong) {
-      const {lexiconData} = this.props;
       const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strong);
       const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strong);
       if (lexiconData[lexiconId] && lexiconData[lexiconId][entryId]) {
@@ -18,16 +18,17 @@ class WordDetails extends React.Component {
     }
     return (
       <div style={{margin: '-10px 10px -20px', maxWidth: '400px'}}>
-        <span><strong>Lemma:</strong> {lemma}</span><br/>
-        <span><strong>Morphology:</strong> {morph}</span><br/>
-        <span><strong>Strongs:</strong> {strong}</span><br/>
-        <span><strong>Lexicon:</strong> {lexicon}</span><br/>
+        <span><strong>{translate("lemma")}</strong> {lemma}</span><br/>
+        <span><strong>{translate("morphology")}</strong> {morph}</span><br/>
+        <span><strong>{translate("strongs")}</strong> {strong}</span><br/>
+        <span><strong>{translate("lexicon")}</strong> {lexicon}</span><br/>
       </div>
     );
   }
 }
 
 WordDetails.propTypes = {
+  translate: PropTypes.func.isRequired,
   wordObject: PropTypes.shape({
     lemma: PropTypes.string.isRequired,
     morph: PropTypes.string.isRequired,

@@ -1,7 +1,7 @@
 {
   "cannot_drag_middle": "Cannot un-merge a middle word",
-  "step1_read": "Step 1. Read",
-  "show_exp_resource": "Click to show expanded resource panes",
-  "click_add_resource": "Click to add a resource",
-  "add_resource": "Add Resources"
+  "lemma": "Lemma:",
+  "morphology": "Morphology:",
+  "strongs": "Strongs:",
+  "lexicon": "Lexicon:"
 }

@@ -1,3 +1,7 @@
 {
-  "cannot_drag_middle": "Cannot un-merge a middle word"
+  "cannot_drag_middle": "Cannot un-merge a middle word",
+  "lemma": "Lemma:",
+  "morphology": "Morphology:",
+  "strongs": "Strongs:",
+  "lexicon": "Lexicon:"
 }

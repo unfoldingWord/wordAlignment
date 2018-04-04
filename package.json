@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/translationCoreApps/word-alignment-tool#readme",
   "devDependencies": {
-    "crowdin-api": "^2.0.2",
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.2",
     "babel-jest": "21.2.0",

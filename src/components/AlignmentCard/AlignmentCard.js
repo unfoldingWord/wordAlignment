@@ -100,7 +100,7 @@ class AlignmentCard extends Component {
      // if there is no top words show warning alert
      if (topWords.length === 1 && !topWords[0].word) {
       alignmentCardContent = (
-        <div style={{...styles.content, width: '280px', height: '100px', fontSize: '20px', padding: '5px' }}>
+        <div style={{ ...styles.content, width: '280px', height: '100px', fontSize: '20px', padding: '5px' }}>
           {noBibleTextWarning}
         </div>
       );

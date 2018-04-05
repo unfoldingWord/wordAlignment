@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+// constants
+const noBibleTextWarning = `[WARNING: This Bible version does not include text for this reference.]`;
 /**
  * Generates the styles for the component
  * @param props
@@ -82,8 +83,9 @@ const makeStyles = (props) => {
 /**
  * Renders the alignment of primary and secondary words/phrases
  *
+ * @property {array} topWordCards
+ * @property {array} bottomWordsCards
  * @property {array} topWords
- * @property {array} bottomWords
  * @property {bool} hoverBottom - a bottom word is hover over this component
  * @property {bool} hoverTop - a top word is hovering over this component
  * @property {bool} acceptsTopWords - this component accepts dropped top words
@@ -91,23 +93,37 @@ const makeStyles = (props) => {
  */
 class AlignmentCard extends Component {
   render() {
-    const { bottomWords, topWords } = this.props;
+    const { bottomWordsCards, topWordCards, topWords } = this.props;
     const styles = makeStyles(this.props);
+    let alignmentCardContent = <div/>;
 
-    return (
-      <div style={styles.root}>
+     // if there is no top words show warning alert
+     if (topWords.length === 1 && !topWords[0].word) {
+      alignmentCardContent = (
+        <div style={{...styles.content, width: '280px', height: '100px', fontSize: '20px', padding: '5px' }}>
+          {noBibleTextWarning}
+        </div>
+      );
+    } else {
+      alignmentCardContent = (
         <div style={styles.content}>
           <div style={styles.top}>
             <div style={styles.topRow}>
-              {topWords}
+              {topWordCards}
             </div>
           </div>
           <div style={styles.bottom}>
             <div style={styles.bottomRow}>
-              {bottomWords}
+              {bottomWordsCards}
             </div>
           </div>
         </div>
+      );
+    }
+
+    return (
+      <div style={styles.root}>
+        {alignmentCardContent}
       </div>
     );
   }
@@ -115,7 +131,8 @@ class AlignmentCard extends Component {
 
 AlignmentCard.propTypes = {
   topWords: PropTypes.array,
-  bottomWords: PropTypes.array,
+  topWordCards: PropTypes.array,
+  bottomWordsCards: PropTypes.array,
   hoverBottom: PropTypes.bool,
   hoverTop: PropTypes.bool,
   acceptsTopWords: PropTypes.bool,

@@ -71,7 +71,8 @@ class DroppableAlignmentCard extends Component {
                          hoverTop={hoverTop}
                          acceptsBottomWords={acceptsBottom}
                          acceptsTopWords={acceptsTop}
-                         topWords={topWordCards}/>
+                         topWordCards={topWordCards}
+                         topWords={topWords}/>
         </div>
       );
     }

@@ -87,17 +87,19 @@ class AlignmentGrid extends Component {
   }
 
   handleDrop(index, item) {
+    const {onAlign, onMerge} = this.props;
     if (item.type === types.SECONDARY_WORD) {
-      this.props.actions.moveWordBankItemToAlignment(index, item);
+      onAlign(index, item);
     }
     if (item.type === types.PRIMARY_WORD) {
-      this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex,
-        index);
+      onMerge(item, item.alignmentIndex, index);
     }
   }
 }
 
 AlignmentGrid.propTypes = {
+  onAlign: PropTypes.func.isRequired,
+  onMerge: PropTypes.func.isRequired,
   alignmentData: PropTypes.object,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,

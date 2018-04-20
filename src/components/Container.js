@@ -1,12 +1,12 @@
 /* eslint-disable no-debugger */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { DragDropContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
-import { disableAlignedWords, getAlignedWords, getWords } from '../utils/words';
+import {disableAlignedWords, getAlignedWords, getWords} from '../utils/words';
 import WordMap from 'word-map';
 
 /**
@@ -14,7 +14,7 @@ import WordMap from 'word-map';
  */
 class Container extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.predictAlignments = this.predictAlignments.bind(this);
     this.updatePredictionEngine = this.updatePredictionEngine.bind(this);
@@ -22,10 +22,11 @@ class Container extends Component {
     this.handleAddAlignment = this.handleAddAlignment.bind(this);
     this.handleRemoveAlignment = this.handleRemoveAlignment.bind(this);
     this.handlePrimaryAlignment = this.handlePrimaryAlignment.bind(this);
-    this.getAvailableAlignmentIndex = this.getAvailableAlignmentIndex.bind(this);
+    this.getAvailableAlignmentIndex = this.getAvailableAlignmentIndex.bind(
+      this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     const {
       wordAlignmentReducer: {alignmentData}
     } = this.props;
@@ -65,7 +66,7 @@ class Container extends Component {
     this.initPredictionEngine(alignmentData);
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.contextIdReducer.contextId,
       nextProps.contextIdReducer.contextId)) {
       let page = document.getElementById('AlignmentGrid');
@@ -108,23 +109,24 @@ class Container extends Component {
    * @param secondaryVerse - the secondary verse text
    * @param currentAlignments - a list of existing alignments
    */
-  predictAlignments (primaryVerse, secondaryVerse, currentAlignments) {
+  predictAlignments(primaryVerse, secondaryVerse, currentAlignments) {
     const suggestions = this.map.predict(primaryVerse, secondaryVerse);
     for (const p of suggestions[0].predictions) {
       if (p.confidence > 1) {
         // console.log(currentAlignments);
         // console.log(p.toString(), p.source.tokenPosition);
 
-        const alignmentIndex = this.getAvailableAlignmentIndex(p.source, currentAlignments);
-        if(alignmentIndex >= 0) {
+        const alignmentIndex = this.getAvailableAlignmentIndex(p.source,
+          currentAlignments);
+        if (alignmentIndex >= 0) {
           // TODO: check if the secondary word has already been aligned.
-          console.log("valid alignment!", p.toString());
-          for(const token of p.target.getTokens()) {
+          console.log('valid alignment!', p.toString());
+          for (const token of p.target.getTokens()) {
             this.handleAddAlignment(alignmentIndex, {
               alignmentIndex: undefined,
               occurrence: 1, // TODO: get token occurrence
               occurrences: 1, // TODO: get token occurrences
-              type: "bottomWord",
+              type: 'bottomWord',
               word: token.toString()
             });
             // TODO: inject suggestions into alignments
@@ -144,19 +146,20 @@ class Container extends Component {
    */
   getAvailableAlignmentIndex(sourceToken, alignments) {
     let pos = 0;
-    for(const alignment of alignments) {
-      if(pos > sourceToken.tokenPosition) {
+    for (const alignment of alignments) {
+      if (pos > sourceToken.tokenPosition) {
         break;
       }
       const numBottomWords = alignment.bottomWords.length;
       const numTopWords = alignment.topWords.length;
-      if(numBottomWords === 0 && numTopWords === sourceToken.tokenLength) {
-        for (let i = 0; i < numTopWords; i ++) {
+      if (numBottomWords === 0 && numTopWords === sourceToken.tokenLength) {
+        for (let i = 0; i < numTopWords; i++) {
           // find matching primary word
           if (pos === sourceToken.tokenPosition) {
             // validate text matches
-            if(alignment.topWords[i].word !== sourceToken.getTokens()[i].toString()) {
-              console.error("primary words appear to be out of order.");
+            if (alignment.topWords[i].word !==
+              sourceToken.getTokens()[i].toString()) {
+              console.error('primary words appear to be out of order.');
             }
             return pos;
           }
@@ -176,8 +179,14 @@ class Container extends Component {
    * @param item - the secondary word to move
    */
   handleAddAlignment(index, item) {
-    const {actions: {moveWordBankItemToAlignment}} = this.props;
+    const {
+      actions: {moveWordBankItemToAlignment},
+      contextIdReducer: {contextId: {reference: {bookId, chapter}}},
+      writeToolData
+    } = this.props;
     console.log('add alignment', item);
+    writeToolData(`alignments/${bookId}/${chapter}.json`, JSON.stringify({some: 'data'}));
+
     // TODO: add to map index
     moveWordBankItemToAlignment(index, item);
   }
@@ -206,7 +215,7 @@ class Container extends Component {
     moveTopWordItemToAlignment(item, previousIndex, nextIndex);
   }
 
-  render () {
+  render() {
     // Modules not defined within translationWords
     const {
       connectDropTarget,
@@ -271,7 +280,8 @@ class Container extends Component {
       // pass aligned words to prediction so we can filter those out.
       // tokens in suggestion will need to have occurrence information.
       console.log(alignmentData);
-      this.predictAlignments(primaryVerseText, secondaryChapterText[verse], alignmentData[chapter][verse].alignments);
+      this.predictAlignments(primaryVerseText, secondaryChapterText[verse],
+        alignmentData[chapter][verse].alignments);
     }
 
     return (
@@ -305,6 +315,7 @@ class Container extends Component {
 }
 
 Container.propTypes = {
+  writeToolData: PropTypes.func.isRequired,
   appLanguage: PropTypes.string.isRequired,
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,

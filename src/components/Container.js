@@ -10,9 +10,14 @@ import WordMap from 'word-map';
 import {default as aligner} from 'word-aligner';
 import path from 'path-extra';
 import {setChapterAlignments} from '../state/actions';
-import {getChapterAlignments} from '../state/reducers';
+import {getChapterAlignments, getVerseAlignments} from '../state/reducers';
 import {connect} from 'react-redux';
-import {checkVerseForChanges, cleanAlignmentData} from '../utils/alignments';
+import {
+  checkVerseForChanges,
+  cleanAlignmentData,
+  getUnalignedIndex
+} from '../utils/alignments';
+import Word from '../specs/Word';
 
 /**
  * The base container for this tool
@@ -31,55 +36,23 @@ class Container extends Component {
   }
 
   /**
-   * Looks for a matching alignment index if it is not already aligned
-   * @param sourceToken
-   * @param alignments
-   * @return {number}
+   * Validates the verse data and resets the alignments if needed.
+   * @param props
    */
-  static getAvailableAlignmentIndex(sourceToken, alignments) {
-    let pos = 0;
-    for (const alignment of alignments) {
-      if (pos > sourceToken.tokenPosition) {
-        break;
-      }
-      const numBottomWords = alignment.bottomWords.length;
-      const numTopWords = alignment.topWords.length;
-      if (numBottomWords === 0 && numTopWords === sourceToken.tokenLength) {
-        for (let i = 0; i < numTopWords; i++) {
-          // find matching primary word
-          if (pos === sourceToken.tokenPosition) {
-            // validate text matches
-            if (alignment.topWords[i].word !==
-              sourceToken.getTokens()[i].toString()) {
-              console.error('primary words appear to be out of order.');
-            }
-            return pos;
-          }
-          pos++;
-        }
-      } else {
-        // skip primary words that have already been aligned
-        pos += numTopWords;
-      }
-    }
-    return -1;
-  }
-
   static validateVerseData(props) {
     const {
-      chapterAlignments,
+      verseAlignments,
       originalVerse,
-      targetVerse,
-      contextId: {reference: {verse}}
+      targetVerse
     } = props;
     const {alignmentsInvalid, showDialog} = checkVerseForChanges(
-      chapterAlignments[verse], originalVerse, targetVerse);
+      verseAlignments, originalVerse, targetVerse);
     if (showDialog && alignmentsInvalid) {
       // TODO: show dialog
     }
     if (alignmentsInvalid) {
-      chapterAlignments[verse] = aligner.getBlankAlignmentDataForVerse(
-        originalVerse, targetVerse);
+      const blankAlignments = aligner.getBlankAlignmentDataForVerse(originalVerse, targetVerse);
+      // TODO: update the verse alignments
     }
   }
 
@@ -116,21 +89,16 @@ class Container extends Component {
       desiredPanes);
 
     this.loadChapterAlignments();
+    // TODO: then load alignments for the rest of the book so we can index them in map
   }
 
   componentWillReceiveProps(nextProps) {
     const {
-      alignments: nextAlignments,
       contextId: nextContextId
     } = nextProps;
     const {
-      alignments: prevAlignments,
       contextId: prevContextId
     } = this.props;
-
-    if (!prevAlignments && nextAlignments) {
-      this.initMAP(nextAlignments);
-    }
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -164,8 +132,6 @@ class Container extends Component {
       setChapterAlignments
     } = this.props;
 
-    console.log('original verse', originalVerse);
-    console.log('loading alignments');
     return readGlobalToolData(
       path.join('alignmentData', bookId, chapter + '.json')).
       then(async data => {
@@ -189,8 +155,8 @@ class Container extends Component {
     // TODO: warm the index asynchronously
     for (const chapter of Object.keys(alignmentData)) {
       for (const verse of Object.keys(alignmentData[chapter])) {
-        if(alignmentData[chapter][verse].alignment) {
-          for (const alignment of alignmentData[chapter][verse].alignments) {
+        if (alignmentData[chapter][verse].alignment) {
+          for (const alignment of alignmentData[chapter][verse]) {
             if (alignment.topWords.length && alignment.bottomWords.length) {
               const sourceText = alignment.topWords.map(w => w.word).join(' ');
               const targetText = alignment.bottomWords.map(w => w.word).
@@ -213,11 +179,7 @@ class Container extends Component {
     const suggestions = this.map.predict(primaryVerse, secondaryVerse);
     for (const p of suggestions[0].predictions) {
       if (p.confidence > 1) {
-        // console.log(currentAlignments);
-        // console.log(p.toString(), p.source.tokenPosition);
-
-        const alignmentIndex = Container.getAvailableAlignmentIndex(p.source,
-          currentAlignments);
+        const alignmentIndex = getUnalignedIndex(p.source, currentAlignments);
         if (alignmentIndex >= 0) {
           // TODO: check if the secondary word has already been aligned.
           console.log('valid alignment!', p.toString());
@@ -319,7 +281,7 @@ class Container extends Component {
       selectionsReducer,
       contextId,
       contextIdReducer,
-      wordAlignmentReducer,
+      verseAlignments,
       projectDetailsReducer,
       appLanguage,
       currentToolViews
@@ -339,7 +301,7 @@ class Container extends Component {
                        actions={actions}/>;
     }
 
-    const {alignmentData} = wordAlignmentReducer;
+    // const {alignmentData} = wordAlignmentReducer;
     const {lexicons, bibles: {targetLanguage, originalLanguage}} = resourcesReducer;
     let chapter, verse;
     let words = [];
@@ -361,19 +323,23 @@ class Container extends Component {
           }
         }
       }
-      const primaryVerseText = primaryVerseTextArray.join(' ');
+      // const primaryVerseText = primaryVerseTextArray.join(' ');
 
       // parse secondary text words
       const secondaryChapterText = targetLanguage['targetBible'][chapter];
       words = getWords(secondaryChapterText[verse]);
-      const alignedWords = getAlignedWords(alignmentData, chapter, verse);
+      const alignedWords = verseAlignments.map(alignment => {
+        for(const word of alignment.bottomWords) {
+          words.push(new Word(word.word, word.occurrence, word.occurrences));
+        }
+      });
       words = disableAlignedWords(words, alignedWords);
 
       // pass aligned words to prediction so we can filter those out.
       // tokens in suggestion will need to have occurrence information.
       // console.log(alignmentData);
-      this.predictAlignments(primaryVerseText, secondaryChapterText[verse],
-        alignmentData[chapter][verse].alignments);
+      // this.predictAlignments(primaryVerseText, secondaryChapterText[verse],
+      //   alignmentData[chapter][verse].alignments);
     }
 
     return (
@@ -393,7 +359,7 @@ class Container extends Component {
           height: '100%'
         }}>
           {scripturePane}
-          <AlignmentGrid alignmentData={alignmentData}
+          <AlignmentGrid alignments={verseAlignments}
                          translate={translate}
                          lexicons={lexicons}
                          onAlign={this.handleAddAlignment}
@@ -409,12 +375,12 @@ class Container extends Component {
 Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,
   readGlobalToolData: PropTypes.func.isRequired,
-  contextId: PropTypes.object.isRequired,
-  targetVerse: PropTypes.string.isRequired,
-  originalVerse: PropTypes.object.isRequired,
+  contextId: PropTypes.object,
+  targetVerse: PropTypes.string,
+  originalVerse: PropTypes.object,
   appLanguage: PropTypes.string.isRequired,
   setChapterAlignments: PropTypes.func.isRequired,
-  alignments: PropTypes.object.isRequired,
+  verseAlignments: PropTypes.array.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -436,9 +402,9 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, {contextId}) => {
-  const {reference: {chapter}} = contextId;
+  const {reference: {chapter, verse}} = contextId;
   return {
-    alignments: getChapterAlignments(state, chapter)
+    verseAlignments: getVerseAlignments(state, chapter, verse)
   };
 };
 

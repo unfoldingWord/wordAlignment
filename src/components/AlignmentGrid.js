@@ -26,18 +26,13 @@ class AlignmentGrid extends Component {
       translate,
       actions,
       lexicons,
-      alignmentData,
+      alignments,
       contextId
     } = this.props;
 
     if (!contextId) {
       return <div/>;
     }
-    const {chapter, verse} = contextId.reference;
-    const alignments = alignmentData && alignmentData[chapter] &&
-    alignmentData[chapter][verse] ?
-      alignmentData[chapter][verse].alignments :
-      [];
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
       <div id='AlignmentGrid' style={styles.root}>
@@ -100,7 +95,7 @@ class AlignmentGrid extends Component {
 AlignmentGrid.propTypes = {
   onAlign: PropTypes.func.isRequired,
   onMerge: PropTypes.func.isRequired,
-  alignmentData: PropTypes.object,
+  alignments: PropTypes.array.isRequired,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,

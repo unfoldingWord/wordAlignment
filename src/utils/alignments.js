@@ -32,6 +32,41 @@ export const cleanAlignmentData = function (chapterData) {
   return chapterData;
 };
 
+/**
+ * Returns the alignment index for the source token if it is not been aligned
+ * @param sourceToken
+ * @param alignments
+ * @return {number}
+ */
+export const getUnalignedIndex = (sourceToken, alignments) => {
+  let pos = 0;
+  for (const alignment of alignments) {
+    if (pos > sourceToken.tokenPosition) {
+      break;
+    }
+    const numBottomWords = alignment.bottomWords.length;
+    const numTopWords = alignment.topWords.length;
+    if (numBottomWords === 0 && numTopWords === sourceToken.tokenLength) {
+      for (let i = 0; i < numTopWords; i++) {
+        // find matching primary word
+        if (pos === sourceToken.tokenPosition) {
+          // validate text matches
+          if (alignment.topWords[i].word !==
+            sourceToken.getTokens()[i].toString()) {
+            console.error('primary words appear to be out of order.');
+          }
+          return pos;
+        }
+        pos++;
+      }
+    } else {
+      // skip primary words that have already been aligned
+      pos += numTopWords;
+    }
+  }
+  return -1;
+};
+
 const cleanWordList = function (words) {
   for (let word of words) {
     if (word.strongs) {

@@ -22,6 +22,7 @@ export const getWords = (verseText) => {
 
 /**
  * Returns a list of words that have been aligned
+ * @deprecated use the reducer instead
  * @param {object} alignmentData - the alignments object
  * @param {int} chapter
  * @param {int} verse

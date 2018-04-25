@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
@@ -8,6 +7,10 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import {disableAlignedWords, getAlignedWords, getWords} from '../utils/words';
 import WordMap from 'word-map';
+import aligner from 'word-aligner';
+import path from 'path-extra';
+import {loadAlignments} from '../state/actions';
+import {connect} from 'react-redux';
 
 /**
  * The base container for this tool
@@ -17,18 +20,52 @@ class Container extends Component {
   constructor(props) {
     super(props);
     this.predictAlignments = this.predictAlignments.bind(this);
-    this.updatePredictionEngine = this.updatePredictionEngine.bind(this);
     this.initPredictionEngine = this.initPredictionEngine.bind(this);
     this.handleAddAlignment = this.handleAddAlignment.bind(this);
     this.handleRemoveAlignment = this.handleRemoveAlignment.bind(this);
     this.handlePrimaryAlignment = this.handlePrimaryAlignment.bind(this);
-    this.getAvailableAlignmentIndex = this.getAvailableAlignmentIndex.bind(
-      this);
+    this.loadAlignmentData = this.loadAlignmentData.bind(this);
+  }
+
+  /**
+   * Looks for a matching alignment index if it is not already aligned
+   * @param sourceToken
+   * @param alignments
+   * @return {number}
+   */
+  static getAvailableAlignmentIndex(sourceToken, alignments) {
+    let pos = 0;
+    for (const alignment of alignments) {
+      if (pos > sourceToken.tokenPosition) {
+        break;
+      }
+      const numBottomWords = alignment.bottomWords.length;
+      const numTopWords = alignment.topWords.length;
+      if (numBottomWords === 0 && numTopWords === sourceToken.tokenLength) {
+        for (let i = 0; i < numTopWords; i++) {
+          // find matching primary word
+          if (pos === sourceToken.tokenPosition) {
+            // validate text matches
+            if (alignment.topWords[i].word !==
+              sourceToken.getTokens()[i].toString()) {
+              console.error('primary words appear to be out of order.');
+            }
+            return pos;
+          }
+          pos++;
+        }
+      } else {
+        // skip primary words that have already been aligned
+        pos += numTopWords;
+      }
+    }
+    return -1;
   }
 
   componentWillMount() {
     const {
-      wordAlignmentReducer: {alignmentData}
+      wordAlignmentReducer: {alignmentData},
+      contextId: {reference: {chapter}}
     } = this.props;
     // current panes persisted in the scripture pane settings.
     const {ScripturePane} = this.props.settingsReducer.toolsSettings;
@@ -64,24 +101,56 @@ class Container extends Component {
     // MAP
     this.map = new WordMap();
     this.initPredictionEngine(alignmentData);
+
+    this.loadAlignmentData(chapter);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.contextIdReducer.contextId,
-      nextProps.contextIdReducer.contextId)) {
+    const {
+      contextId: nextContextId
+    } = nextProps;
+    const {contextId: prevContextId} = this.props;
+
+    if (!isEqual(prevContextId, nextContextId)) {
+      // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
+    }
+
+    // load chapter alignment data
+    const {reference: {chapter: prevChapter}} = prevContextId;
+    const {reference: {chapter: nextChapter}} = nextContextId;
+    if (prevChapter !== nextChapter) {
+      this.loadAlignmentData();
     }
   }
 
   /**
-   * Appends new saved alignments to the prediction engine
-   * @param alignmentData
+   * Loads alignment data for a chapter
+   * @param chapter
    */
-  updatePredictionEngine(alignmentData) {
-    // TODO: append data to index when new alignments are made
-    // we will need to intercept the alignment creation before it
-    // goes to tC.
+  loadAlignmentData(chapter) {
+    const {
+      contextId: {reference: {bookId}},
+      readGlobalToolData,
+      originalVerse,
+      loadAlignments
+    } = this.props;
+
+    console.log('original verse', originalVerse);
+    console.log('loading alignments');
+    readGlobalToolData(path.join('alignmentData', bookId, chapter + '.json')).
+      then(data => {
+        const alignments = JSON.parse(data.toString());
+        console.log('loaded alignments', alignments);
+        // TODO: check verse for changes
+
+        loadAlignments(alignments);
+      }).
+      catch(err => {
+        const alignments = {}; //TODO: get default data
+        loadAlignments(alignments);
+      });
   }
 
   /**
@@ -116,7 +185,7 @@ class Container extends Component {
         // console.log(currentAlignments);
         // console.log(p.toString(), p.source.tokenPosition);
 
-        const alignmentIndex = this.getAvailableAlignmentIndex(p.source,
+        const alignmentIndex = Container.getAvailableAlignmentIndex(p.source,
           currentAlignments);
         if (alignmentIndex >= 0) {
           // TODO: check if the secondary word has already been aligned.
@@ -139,41 +208,6 @@ class Container extends Component {
   }
 
   /**
-   * Looks for a matching alignment index if it is not already aligned
-   * @param sourceToken
-   * @param alignments
-   * @return {number}
-   */
-  getAvailableAlignmentIndex(sourceToken, alignments) {
-    let pos = 0;
-    for (const alignment of alignments) {
-      if (pos > sourceToken.tokenPosition) {
-        break;
-      }
-      const numBottomWords = alignment.bottomWords.length;
-      const numTopWords = alignment.topWords.length;
-      if (numBottomWords === 0 && numTopWords === sourceToken.tokenLength) {
-        for (let i = 0; i < numTopWords; i++) {
-          // find matching primary word
-          if (pos === sourceToken.tokenPosition) {
-            // validate text matches
-            if (alignment.topWords[i].word !==
-              sourceToken.getTokens()[i].toString()) {
-              console.error('primary words appear to be out of order.');
-            }
-            return pos;
-          }
-          pos++;
-        }
-      } else {
-        // skip primary words that have already been aligned
-        pos += numTopWords;
-      }
-    }
-    return -1;
-  }
-
-  /**
    * Handles adding secondary words to an alignment
    * @param {number} index - the alignment index
    * @param item - the secondary word to move
@@ -181,11 +215,38 @@ class Container extends Component {
   handleAddAlignment(index, item) {
     const {
       actions: {moveWordBankItemToAlignment},
-      contextIdReducer: {contextId: {reference: {bookId, chapter}}},
-      writeToolData
+      contextId: {reference: {bookId, chapter}},
+      targetVerse,
+      writeGlobalToolData
     } = this.props;
     console.log('add alignment', item);
-    writeToolData(`alignments/${bookId}/${chapter}.json`, JSON.stringify({some: 'data'}));
+
+    // TODO: get full alignment data
+    const alignments = [];
+
+    // remove word from existing alignment
+    if (typeof item.alignmentIndex === 'number') {
+      delete item.alignmentIndex;
+      if (alignments[index]) {
+        alignments[index].bottomWords = alignments[index].bottomWords.filter(
+          word => {
+            return !(
+              word.occurrence === item.occurrence
+              && word.occurrences === item.occurrences
+              && word.word === item.word);
+          });
+      }
+    }
+
+    // add word to new alignment
+    alignments[index].bottomWords.push(item);
+    alignments[index].bottomWords = aligner.default.orderAlignments(targetVerse,
+      alignments[index].bottomWords);
+
+    // console.log('alignments', alignments);
+    // TODO: write files
+    // writeGlobalToolData(`alignmentData/${bookId}/${chapter}.json`,
+    //   JSON.stringify({some: 'data'}));
 
     // TODO: add to map index
     moveWordBankItemToAlignment(index, item);
@@ -225,6 +286,7 @@ class Container extends Component {
       settingsReducer,
       resourcesReducer,
       selectionsReducer,
+      contextId,
       contextIdReducer,
       wordAlignmentReducer,
       projectDetailsReducer,
@@ -247,7 +309,6 @@ class Container extends Component {
     }
 
     const {alignmentData} = wordAlignmentReducer;
-    const {contextId} = contextIdReducer;
     const {lexicons, bibles: {targetLanguage, originalLanguage}} = resourcesReducer;
     let chapter, verse;
     let words = [];
@@ -279,7 +340,7 @@ class Container extends Component {
 
       // pass aligned words to prediction so we can filter those out.
       // tokens in suggestion will need to have occurrence information.
-      console.log(alignmentData);
+      // console.log(alignmentData);
       this.predictAlignments(primaryVerseText, secondaryChapterText[verse],
         alignmentData[chapter][verse].alignments);
     }
@@ -315,8 +376,14 @@ class Container extends Component {
 }
 
 Container.propTypes = {
-  writeToolData: PropTypes.func.isRequired,
+  writeGlobalToolData: PropTypes.func.isRequired,
+  readGlobalToolData: PropTypes.func.isRequired,
+  contextId: PropTypes.object.isRequired,
+  targetVerse: PropTypes.string.isRequired,
+  originalVerse: PropTypes.object.isRequired,
   appLanguage: PropTypes.string.isRequired,
+  loadAlignments: PropTypes.func.isRequired,
+
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
   currentToolViews: PropTypes.object.isRequired,
@@ -332,4 +399,9 @@ Container.propTypes = {
   connectDropTarget: PropTypes.func
 };
 
-export default DragDropContext(HTML5Backend)(Container);
+const mapDispatchToProps = ({
+  loadAlignments
+});
+
+export default DragDropContext(HTML5Backend)(
+  connect(null, mapDispatchToProps)(Container));

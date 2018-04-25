@@ -7,10 +7,12 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import {disableAlignedWords, getAlignedWords, getWords} from '../utils/words';
 import WordMap from 'word-map';
-import aligner from 'word-aligner';
+import {default as aligner} from 'word-aligner';
 import path from 'path-extra';
-import {loadAlignments} from '../state/actions';
+import {setChapterAlignments} from '../state/actions';
+import {getChapterAlignments} from '../state/reducers';
 import {connect} from 'react-redux';
+import {checkVerseForChanges, cleanAlignmentData} from '../utils/alignments';
 
 /**
  * The base container for this tool
@@ -19,12 +21,13 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
+    this.map = new WordMap();
     this.predictAlignments = this.predictAlignments.bind(this);
-    this.initPredictionEngine = this.initPredictionEngine.bind(this);
+    this.initMAP = this.initMAP.bind(this);
     this.handleAddAlignment = this.handleAddAlignment.bind(this);
     this.handleRemoveAlignment = this.handleRemoveAlignment.bind(this);
     this.handlePrimaryAlignment = this.handlePrimaryAlignment.bind(this);
-    this.loadAlignmentData = this.loadAlignmentData.bind(this);
+    this.loadChapterAlignments = this.loadChapterAlignments.bind(this);
   }
 
   /**
@@ -62,11 +65,25 @@ class Container extends Component {
     return -1;
   }
 
-  componentWillMount() {
+  static validateVerseData(props) {
     const {
-      wordAlignmentReducer: {alignmentData},
-      contextId: {reference: {chapter}}
-    } = this.props;
+      chapterAlignments,
+      originalVerse,
+      targetVerse,
+      contextId: {reference: {verse}}
+    } = props;
+    const {alignmentsInvalid, showDialog} = checkVerseForChanges(
+      chapterAlignments[verse], originalVerse, targetVerse);
+    if (showDialog && alignmentsInvalid) {
+      // TODO: show dialog
+    }
+    if (alignmentsInvalid) {
+      chapterAlignments[verse] = aligner.getBlankAlignmentDataForVerse(
+        originalVerse, targetVerse);
+    }
+  }
+
+  componentWillMount() {
     // current panes persisted in the scripture pane settings.
     const {ScripturePane} = this.props.settingsReducer.toolsSettings;
     let panes = [];
@@ -98,18 +115,22 @@ class Container extends Component {
     this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
       desiredPanes);
 
-    // MAP
-    this.map = new WordMap();
-    this.initPredictionEngine(alignmentData);
-
-    this.loadAlignmentData(chapter);
+    this.loadChapterAlignments();
   }
 
   componentWillReceiveProps(nextProps) {
     const {
+      alignments: nextAlignments,
       contextId: nextContextId
     } = nextProps;
-    const {contextId: prevContextId} = this.props;
+    const {
+      alignments: prevAlignments,
+      contextId: prevContextId
+    } = this.props;
+
+    if (!prevAlignments && nextAlignments) {
+      this.initMAP(nextAlignments);
+    }
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -118,38 +139,45 @@ class Container extends Component {
     }
 
     // load chapter alignment data
-    const {reference: {chapter: prevChapter}} = prevContextId;
-    const {reference: {chapter: nextChapter}} = nextContextId;
+    const {reference: {chapter: prevChapter, verse: prevVerse}} = prevContextId;
+    const {reference: {chapter: nextChapter, verse: nextVerse}} = nextContextId;
     if (prevChapter !== nextChapter) {
-      this.loadAlignmentData();
+      this.loadChapterAlignments();
+    }
+
+    // validate verse data
+    if (prevVerse !== nextVerse) {
+      Container.validateVerseData(nextProps);
     }
   }
 
   /**
    * Loads alignment data for a chapter
-   * @param chapter
+   * TODO: this needs to be cleaned up a LOT
+   * @return {Promise}
    */
-  loadAlignmentData(chapter) {
+  loadChapterAlignments() {
     const {
-      contextId: {reference: {bookId}},
+      contextId: {reference: {bookId, chapter}},
       readGlobalToolData,
       originalVerse,
-      loadAlignments
+      setChapterAlignments
     } = this.props;
 
     console.log('original verse', originalVerse);
     console.log('loading alignments');
-    readGlobalToolData(path.join('alignmentData', bookId, chapter + '.json')).
-      then(data => {
-        const alignments = JSON.parse(data.toString());
-        console.log('loaded alignments', alignments);
-        // TODO: check verse for changes
-
-        loadAlignments(alignments);
+    return readGlobalToolData(
+      path.join('alignmentData', bookId, chapter + '.json')).
+      then(async data => {
+        const chapterAlignments = JSON.parse(data);
+        // TODO: clean alignmentData is temporary migration step.
+        await setChapterAlignments(chapter,
+          cleanAlignmentData(chapterAlignments));
       }).
-      catch(err => {
-        const alignments = {}; //TODO: get default data
-        loadAlignments(alignments);
+      catch(async () => {
+        const chapterAlignments = aligner.generateBlankAlignments(
+          originalVerse);
+        await setChapterAlignments(chapter, chapterAlignments);
       });
   }
 
@@ -157,15 +185,18 @@ class Container extends Component {
    * Initializes the prediction engine
    * @param alignmentData
    */
-  initPredictionEngine(alignmentData) {
+  initMAP(alignmentData) {
     // TODO: warm the index asynchronously
     for (const chapter of Object.keys(alignmentData)) {
       for (const verse of Object.keys(alignmentData[chapter])) {
-        for (const alignment of alignmentData[chapter][verse].alignments) {
-          if (alignment.topWords.length && alignment.bottomWords.length) {
-            const sourceText = alignment.topWords.map(w => w.word).join(' ');
-            const targetText = alignment.bottomWords.map(w => w.word).join(' ');
-            this.map.appendSavedAlignmentsString(sourceText, targetText);
+        if(alignmentData[chapter][verse].alignment) {
+          for (const alignment of alignmentData[chapter][verse].alignments) {
+            if (alignment.topWords.length && alignment.bottomWords.length) {
+              const sourceText = alignment.topWords.map(w => w.word).join(' ');
+              const targetText = alignment.bottomWords.map(w => w.word).
+                join(' ');
+              this.map.appendSavedAlignmentsString(sourceText, targetText);
+            }
           }
         }
       }
@@ -240,7 +271,7 @@ class Container extends Component {
 
     // add word to new alignment
     alignments[index].bottomWords.push(item);
-    alignments[index].bottomWords = aligner.default.orderAlignments(targetVerse,
+    alignments[index].bottomWords = aligner.orderAlignments(targetVerse,
       alignments[index].bottomWords);
 
     // console.log('alignments', alignments);
@@ -382,7 +413,8 @@ Container.propTypes = {
   targetVerse: PropTypes.string.isRequired,
   originalVerse: PropTypes.object.isRequired,
   appLanguage: PropTypes.string.isRequired,
-  loadAlignments: PropTypes.func.isRequired,
+  setChapterAlignments: PropTypes.func.isRequired,
+  alignments: PropTypes.object.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -400,8 +432,15 @@ Container.propTypes = {
 };
 
 const mapDispatchToProps = ({
-  loadAlignments
+  setChapterAlignments
 });
 
+const mapStateToProps = (state, {contextId}) => {
+  const {reference: {chapter}} = contextId;
+  return {
+    alignments: getChapterAlignments(state, chapter)
+  };
+};
+
 export default DragDropContext(HTML5Backend)(
-  connect(null, mapDispatchToProps)(Container));
+  connect(mapStateToProps, mapDispatchToProps)(Container));

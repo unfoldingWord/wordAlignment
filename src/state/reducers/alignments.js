@@ -1,8 +1,50 @@
+import Token from 'word-map/structures/Token';
 import {
-  ADD_ALIGNMENT,
-  REMOVE_ALIGNMENT,
+  ADD_TO_ALIGNMENT,
+  REMOVE_FROM_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS
 } from '../actions/actionTypes';
+
+const alignment = (state = {topWords: [], bottomWords: []}, action) => {
+  switch (action.type) {
+    case ADD_TO_ALIGNMENT:
+      return {
+        topWords: [...state.topWords],
+        bottomWords: [...state.bottomWords, action.token]
+      };
+    default:
+      return state;
+  }
+};
+
+const verse = (state = [], action) => {
+  switch (action.type) {
+    case ADD_TO_ALIGNMENT: {
+      const index = action.alignmentIndex;
+      const nextState = [
+        ...state
+      ];
+      nextState[index] = alignment(state[index], action);
+      return nextState;
+    }
+    default:
+      return state;
+  }
+};
+
+const chapter = (state = {}, action) => {
+  switch (action.type) {
+    case ADD_TO_ALIGNMENT: {
+      const vid = action.verse + '';
+      return {
+        ...state,
+        [vid]: verse(state[vid], action)
+      };
+    }
+    default:
+      return state;
+  }
+};
 
 /**
  * Represents the alignment data.
@@ -14,9 +56,14 @@ import {
  */
 const alignments = (state = {}, action) => {
   switch (action.type) {
-    case ADD_ALIGNMENT:
-      return state;
-    case REMOVE_ALIGNMENT:
+    case ADD_TO_ALIGNMENT: {
+      const cid = action.chapter + '';
+      return {
+        ...state,
+        [cid]: chapter(state[cid], action)
+      };
+    }
+    case REMOVE_FROM_ALIGNMENT:
       return state;
     case SET_CHAPTER_ALIGNMENTS: {
       const chapterAlignments = {};
@@ -68,4 +115,26 @@ export const getVerseAlignments = (state, chapter, verse) => {
   } else {
     return [];
   }
+};
+
+/**
+ * Returns tokens that have been aligned to the verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getAlignedVerseTokens = (state, chapter, verse) => {
+  const verseAlignments = getVerseAlignments(state, chapter, verse);
+  const tokens = [];
+  for (const alignment of verseAlignments) {
+    for (const word of alignment.bottomWords) {
+      tokens.push(new Token({
+        text: word.word,
+        occurrence: word.occurrence,
+        occurrences: word.occurrences
+      }));
+    }
+  }
+  return tokens;
 };

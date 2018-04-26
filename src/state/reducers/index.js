@@ -24,3 +24,13 @@ export const getChapterAlignments = (state, chapter) => {
  */
 export const getVerseAlignments = (state, chapter, verse) => 
   fromAlignments.getVerseAlignments(state.tool.alignments, chapter, verse);
+
+/**
+ * Returns an array of tokens that have been aligned to the verse
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {Array}
+ */
+export const getAlignedVerseTokens = (state, chapter, verse) =>
+  fromAlignments.getAlignedVerseTokens(state.tool.alignments, chapter, verse);

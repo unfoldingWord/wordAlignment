@@ -5,19 +5,18 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
-import {disableAlignedWords, getAlignedWords, getWords} from '../utils/words';
 import WordMap from 'word-map';
+import Lexer from 'word-map/Lexer';
 import {default as aligner} from 'word-aligner';
 import path from 'path-extra';
 import {setChapterAlignments} from '../state/actions';
-import {getChapterAlignments, getVerseAlignments} from '../state/reducers';
+import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
 import {connect} from 'react-redux';
 import {
   checkVerseForChanges,
   cleanAlignmentData,
   getUnalignedIndex
 } from '../utils/alignments';
-import Word from '../specs/Word';
 
 /**
  * The base container for this tool
@@ -51,7 +50,7 @@ class Container extends Component {
       // TODO: show dialog
     }
     if (alignmentsInvalid) {
-      const blankAlignments = aligner.getBlankAlignmentDataForVerse(originalVerse, targetVerse);
+      // const blankAlignments = aligner.getBlankAlignmentDataForVerse(originalVerse, targetVerse);
       // TODO: update the verse alignments
     }
   }
@@ -218,23 +217,23 @@ class Container extends Component {
     const alignments = [];
 
     // remove word from existing alignment
-    if (typeof item.alignmentIndex === 'number') {
-      delete item.alignmentIndex;
-      if (alignments[index]) {
-        alignments[index].bottomWords = alignments[index].bottomWords.filter(
-          word => {
-            return !(
-              word.occurrence === item.occurrence
-              && word.occurrences === item.occurrences
-              && word.word === item.word);
-          });
-      }
-    }
+    // if (typeof item.alignmentIndex === 'number') {
+    //   delete item.alignmentIndex;
+    //   if (alignments[index]) {
+    //     alignments[index].bottomWords = alignments[index].bottomWords.filter(
+    //       word => {
+    //         return !(
+    //           word.occurrence === item.occurrence
+    //           && word.occurrences === item.occurrences
+    //           && word.word === item.word);
+    //       });
+    //   }
+    // }
 
     // add word to new alignment
-    alignments[index].bottomWords.push(item);
-    alignments[index].bottomWords = aligner.orderAlignments(targetVerse,
-      alignments[index].bottomWords);
+    // alignments[index].bottomWords.push(item);
+    // alignments[index].bottomWords = aligner.orderAlignments(targetVerse,
+    //   alignments[index].bottomWords);
 
     // console.log('alignments', alignments);
     // TODO: write files
@@ -279,7 +278,9 @@ class Container extends Component {
       settingsReducer,
       resourcesReducer,
       selectionsReducer,
+      targetVerse,
       contextId,
+      alignedTokens,
       contextIdReducer,
       verseAlignments,
       projectDetailsReducer,
@@ -289,7 +290,7 @@ class Container extends Component {
     const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
-    if (Object.keys(this.props.resourcesReducer.bibles).length > 0) {
+    if (Object.keys(resourcesReducer.bibles).length > 0) {
       scripturePane =
         <ScripturePane projectDetailsReducer={projectDetailsReducer}
                        appLanguage={appLanguage}
@@ -301,46 +302,24 @@ class Container extends Component {
                        actions={actions}/>;
     }
 
-    // const {alignmentData} = wordAlignmentReducer;
-    const {lexicons, bibles: {targetLanguage, originalLanguage}} = resourcesReducer;
-    let chapter, verse;
-    let words = [];
-    if (contextId) {
-      chapter = contextId.reference.chapter;
-      verse = contextId.reference.verse;
+    const {lexicons} = resourcesReducer;
+    const {reference: {chapter, verse}} = contextId;
 
-      // parse primary text
-      const primaryVerseObjects = originalLanguage['ugnt'][chapter][verse].verseObjects;
-      const primaryVerseTextArray = [];
-      for (const v of primaryVerseObjects) {
-        if (v.type === 'text' || v.type === 'word') {
-          primaryVerseTextArray.push(v.text);
-        } else if (v.type === 'milestone') {
-          for (const child of v.children) {
-            if (child.type === 'text' || child.type === 'word') {
-              primaryVerseTextArray.push(child.text);
-            }
-          }
+    // parse secondary tokens
+    let words = Lexer.tokenize(targetVerse);
+    words = words.map(word => {
+      let isUsed = false;
+      for (const token of alignedTokens) {
+        if (token.toString() === word.toString()
+          && token.occurrence === word.occurrence
+          && token.occurrences === word.occurrences) {
+          isUsed = true;
+          break;
         }
       }
-      // const primaryVerseText = primaryVerseTextArray.join(' ');
-
-      // parse secondary text words
-      const secondaryChapterText = targetLanguage['targetBible'][chapter];
-      words = getWords(secondaryChapterText[verse]);
-      const alignedWords = verseAlignments.map(alignment => {
-        for(const word of alignment.bottomWords) {
-          words.push(new Word(word.word, word.occurrence, word.occurrences));
-        }
-      });
-      words = disableAlignedWords(words, alignedWords);
-
-      // pass aligned words to prediction so we can filter those out.
-      // tokens in suggestion will need to have occurrence information.
-      // console.log(alignmentData);
-      // this.predictAlignments(primaryVerseText, secondaryChapterText[verse],
-      //   alignmentData[chapter][verse].alignments);
-    }
+      word.disabled = isUsed;
+      return word;
+    });
 
     return (
       <div style={{display: 'flex', width: '100%', height: '100%'}}>
@@ -381,6 +360,7 @@ Container.propTypes = {
   appLanguage: PropTypes.string.isRequired,
   setChapterAlignments: PropTypes.func.isRequired,
   verseAlignments: PropTypes.array.isRequired,
+  alignedTokens: PropTypes.array.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -404,6 +384,7 @@ const mapDispatchToProps = ({
 const mapStateToProps = (state, {contextId}) => {
   const {reference: {chapter, verse}} = contextId;
   return {
+    alignedTokens: getAlignedVerseTokens(state, chapter, verse),
     verseAlignments: getVerseAlignments(state, chapter, verse)
   };
 };

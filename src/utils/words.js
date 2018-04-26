@@ -56,7 +56,7 @@ export const getAlignedWords = (alignmentData, chapter, verse) => {
 export const disableAlignedWords = (words, alignedWords) => {
   return words.map(word => {
     if(_.find(alignedWords, word)) {
-      word.disable();
+      word.disabled = true;
     }
     return word;
   });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
 import * as types from '../WordCard/Types';
 import WordList from './WordList';
-import Word from '../../specs/Word';
+import Token from 'word-map/structures/Token';
 
 /**
  * Renders a word bank with drag-drop support
@@ -17,7 +17,7 @@ class DroppableWordList extends React.Component {
   }
 
   setScrollState(wordList, nextProps) {
-    if (this.props.chapter != nextProps.chapter || this.props.verse != nextProps.verse) {
+    if (this.props.chapter !== nextProps.chapter || this.props.verse !== nextProps.verse) {
       wordList.scrollTop = 0;
       this.setState({wordListScrollTop: null});
     } else if (! this.props.isOver) {
@@ -72,7 +72,7 @@ class DroppableWordList extends React.Component {
 DroppableWordList.propTypes = {
   chapter: PropTypes.number,
   verse: PropTypes.number,
-  words: PropTypes.arrayOf(PropTypes.instanceOf(Word)),
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)),
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
   moveBackToWordBank: PropTypes.func.isRequired,

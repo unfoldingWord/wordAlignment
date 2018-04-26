@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SecondaryWord from '../SecondaryWord';
-import Word from '../../specs/Word';
-
+import Token from 'word-map/structures/Token';
 /**
  * Renders a list of words that need to be aligned.
  * Previously known as the "WordBank".
- * @param {Word[]} words,
+ * @param {Token[]} words,
  * @param {bool} isOver
  * @return {*}
  * @constructor
@@ -33,8 +32,8 @@ const WordList = ({
               key={index}
               style={{margin: '10px'}}>
               <SecondaryWord
-                disabled={!word.enabled}
-                word={word.token}
+                disabled={word.disabled === true}
+                word={word.toString()}
                 occurrence={word.occurrence}
                 occurrences={word.occurrences}
               />
@@ -47,7 +46,7 @@ const WordList = ({
 };
 
 WordList.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.instanceOf(Word)),
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)),
   isOver: PropTypes.bool.isRequired
 };
 

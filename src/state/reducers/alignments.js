@@ -10,8 +10,31 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
     case ADD_TO_ALIGNMENT:
       return {
         topWords: [...state.topWords],
-        bottomWords: [...state.bottomWords, action.token]
+        bottomWords: [
+          ...state.bottomWords, {
+            word: action.token.toString(),
+            occurrence: action.token.occurrence,
+            occurrences: action.token.occurrences
+          }]
       };
+    case REMOVE_FROM_ALIGNMENT:
+      return {
+        topWords: [...state.topWords],
+        bottomWords: state.bottomWords.filter(word => {
+          const match = word.word === action.token.toString()
+            && word.occurrence === action.token.occurrence
+            && word.occurrences === action.token.occurrences;
+          return !match;
+        })
+      };
+    case SET_CHAPTER_ALIGNMENTS: {
+      const vid = action.verse + '';
+      const alignment = action.alignments[vid].alignments[action.alignmentIndex];
+      return {
+        topWords: [...alignment.topWords],
+        bottomWords: [...alignment.bottomWords]
+      };
+    }
     default:
       return state;
   }
@@ -19,6 +42,7 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
 
 const verse = (state = [], action) => {
   switch (action.type) {
+    case REMOVE_FROM_ALIGNMENT:
     case ADD_TO_ALIGNMENT: {
       const index = action.alignmentIndex;
       const nextState = [
@@ -27,6 +51,14 @@ const verse = (state = [], action) => {
       nextState[index] = alignment(state[index], action);
       return nextState;
     }
+    case SET_CHAPTER_ALIGNMENTS: {
+      const vid = action.verse + '';
+      const alignments = [];
+      for (let i = 0; i < action.alignments[vid].alignments.length; i++) {
+        alignments.push(alignment(state[i], {...action, alignmentIndex: i}));
+      }
+      return alignments;
+    }
     default:
       return state;
   }
@@ -34,12 +66,20 @@ const verse = (state = [], action) => {
 
 const chapter = (state = {}, action) => {
   switch (action.type) {
+    case REMOVE_FROM_ALIGNMENT:
     case ADD_TO_ALIGNMENT: {
       const vid = action.verse + '';
       return {
         ...state,
         [vid]: verse(state[vid], action)
       };
+    }
+    case SET_CHAPTER_ALIGNMENTS: {
+      const verses = {};
+      for (const vid of Object.keys(action.alignments)) {
+        verses[vid] = verse(state[vid], {...action, verse: vid});
+      }
+      return verses;
     }
     default:
       return state;
@@ -48,7 +88,6 @@ const chapter = (state = {}, action) => {
 
 /**
  * Represents the alignment data.
- * TODO: I think we can organize the data in redux better.
  *
  * @param state
  * @param action
@@ -56,26 +95,13 @@ const chapter = (state = {}, action) => {
  */
 const alignments = (state = {}, action) => {
   switch (action.type) {
+    case SET_CHAPTER_ALIGNMENTS:
+    case REMOVE_FROM_ALIGNMENT:
     case ADD_TO_ALIGNMENT: {
       const cid = action.chapter + '';
       return {
         ...state,
         [cid]: chapter(state[cid], action)
-      };
-    }
-    case REMOVE_FROM_ALIGNMENT:
-      return state;
-    case SET_CHAPTER_ALIGNMENTS: {
-      const chapterAlignments = {};
-      // TRICKY: simplify structure found in the alignment file
-      for (const verse of Object.keys(action.alignments)) {
-        chapterAlignments[verse] = [
-          ...action.alignments[verse].alignments
-        ];
-      }
-      return {
-        ...state,
-        [action.chapter + '']: chapterAlignments
       };
     }
     default:

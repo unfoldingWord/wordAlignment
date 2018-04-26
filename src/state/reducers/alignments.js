@@ -1,9 +1,23 @@
 import Token from 'word-map/structures/Token';
 import {
+  ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
-  UNALIGN_TARGET_TOKEN,
-  SET_CHAPTER_ALIGNMENTS
+  SET_CHAPTER_ALIGNMENTS,
+  UNALIGN_SOURCE_TOKEN,
+  UNALIGN_TARGET_TOKEN
 } from '../actions/actionTypes';
+
+/**
+ * Checks if a word equals a token
+ * @param {object} word
+ * @param {Token} token
+ * @return {boolean}
+ */
+const wordEqualsToken = (word, token) => {
+  return word.word === token.toString()
+    && word.occurrence === token.occurrence
+    && word.occurrences === token.occurrences;
+};
 
 const alignment = (state = {topWords: [], bottomWords: []}, action) => {
   switch (action.type) {
@@ -21,11 +35,28 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
       return {
         topWords: [...state.topWords],
         bottomWords: state.bottomWords.filter(word => {
-          const match = word.word === action.token.toString()
-            && word.occurrence === action.token.occurrence
-            && word.occurrences === action.token.occurrences;
-          return !match;
+          return !wordEqualsToken(word, action.token);
         })
+      };
+    case ALIGN_SOURCE_TOKEN:
+      return {
+        topWords: [...state.topWords, {
+          word: action.token.toString(),
+          occurrence: action.token.occurrence,
+          occurrences: action.token.occurrences,
+          strong: action.token.strong,
+          lemma: action.token.lemma,
+          morph: action.token.morph
+        }],
+        bottomWords: [...state.bottomWords]
+      };
+    case UNALIGN_SOURCE_TOKEN:
+      return {
+        topWords: [
+          ...state.topWords.filter(word => {
+            return !wordEqualsToken(word, action.token);
+          })],
+        bottomWords: []
       };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
@@ -42,6 +73,8 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
 
 const verse = (state = [], action) => {
   switch (action.type) {
+    case UNALIGN_SOURCE_TOKEN:
+    case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
       const index = action.index;
@@ -66,6 +99,8 @@ const verse = (state = [], action) => {
 
 const chapter = (state = {}, action) => {
   switch (action.type) {
+    case UNALIGN_SOURCE_TOKEN:
+    case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';
@@ -96,6 +131,8 @@ const chapter = (state = {}, action) => {
 const alignments = (state = {}, action) => {
   switch (action.type) {
     case SET_CHAPTER_ALIGNMENTS:
+    case UNALIGN_SOURCE_TOKEN:
+    case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
       const cid = action.chapter + '';

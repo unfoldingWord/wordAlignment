@@ -23,7 +23,7 @@ describe('set chapter alignments when empty', () => {
     stateAfter);
 });
 
-describe('add alignment', () => {
+describe('align target token', () => {
   const stateBefore = {
     '1': {
       '1': [
@@ -38,7 +38,7 @@ describe('add alignment', () => {
     type: types.ALIGN_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
-    alignmentIndex: 0,
+    index: 0,
     token: new Token({
       text: 'hello',
       occurrence: 1,
@@ -65,7 +65,67 @@ describe('add alignment', () => {
     stateAfter);
 });
 
-describe('remove alignment', () => {
+describe('align source token', () => {
+  const stateBefore = {
+    '1': {
+      '1': [
+        {
+          topWords: [],
+          bottomWords: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1
+            }
+          ]
+        }
+      ]
+    }
+  };
+  const action = {
+    type: types.ALIGN_SOURCE_TOKEN,
+    chapter: 1,
+    verse: 1,
+    index: 0,
+    token: new Token({
+      text: 'hello',
+      occurrence: 1,
+      occurrences: 1,
+      strong: 'strong',
+      morph: 'morph',
+      lemma: 'lemma'
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': [
+        {
+          topWords: [
+            {
+              word: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              strong: 'strong',
+              morph: 'morph',
+              lemma: 'lemma'
+            }
+          ],
+          bottomWords: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1
+            }
+          ]
+        }
+      ]
+    }
+  };
+  reducerTest('Add Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
+describe('remove target token alignment', () => {
   const stateBefore = {
     '1': {
       '1': [
@@ -86,7 +146,7 @@ describe('remove alignment', () => {
     type: types.UNALIGN_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
-    alignmentIndex: 0,
+    index: 0,
     token: new Token({
       text: 'world',
       occurrence: 1,
@@ -104,6 +164,54 @@ describe('remove alignment', () => {
     }
   };
   reducerTest('Remove Alignment', alignments, stateBefore, action, stateAfter);
+});
+
+describe('remove source token alignment', () => {
+  const stateBefore = {
+    '1': {
+      '1': [
+        {
+          topWords: [
+            {
+              word: 'hello',
+              occurrence: 1,
+              occurrences: 1
+            }
+          ],
+          bottomWords: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1
+            }
+          ]
+        }
+      ]
+    }
+  };
+  const action = {
+    type: types.UNALIGN_SOURCE_TOKEN,
+    chapter: 1,
+    verse: 1,
+    index: 0,
+    token: new Token({
+      text: 'hello',
+      occurrence: 1,
+      occurrences: 1
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': [
+        {
+          topWords: [],
+          bottomWords: []
+        }
+      ]
+    }
+  };
+  reducerTest('Remove Alignment', alignments, stateBefore, action,
+    stateAfter);
 });
 
 describe('set chapter alignments', () => {

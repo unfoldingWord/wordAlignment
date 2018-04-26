@@ -43,3 +43,35 @@ export const unalignTargetToken = (chapter, verse, index, token) => ({
   index,
   token
 });
+
+/**
+ * Adds a target token to an alignment
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {number} index - the alignment index
+ * @param {Token} token - the target token being added to the alignment
+ * @return {{}}
+ */
+export const alignSourceToken = (chapter, verse, index, token) => ({
+  type: types.ALIGN_SOURCE_TOKEN,
+  chapter,
+  verse,
+  index,
+  token
+});
+
+/**
+ * Removes a target token from an alignment
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {number} index - the alignment index
+ * @param {Token} token - the target token being removed from the alignment
+ * @return {{}}
+ */
+export const unalignSourceToken = (chapter, verse, index, token) => ({
+  type: types.UNALIGN_SOURCE_TOKEN,
+  chapter,
+  verse,
+  index,
+  token
+});

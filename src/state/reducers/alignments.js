@@ -1,13 +1,13 @@
 import Token from 'word-map/structures/Token';
 import {
-  ADD_TO_ALIGNMENT,
-  REMOVE_FROM_ALIGNMENT,
+  ALIGN_TARGET_TOKEN,
+  UNALIGN_TARGET_TOKEN,
   SET_CHAPTER_ALIGNMENTS
 } from '../actions/actionTypes';
 
 const alignment = (state = {topWords: [], bottomWords: []}, action) => {
   switch (action.type) {
-    case ADD_TO_ALIGNMENT:
+    case ALIGN_TARGET_TOKEN:
       return {
         topWords: [...state.topWords],
         bottomWords: [
@@ -17,7 +17,7 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
             occurrences: action.token.occurrences
           }]
       };
-    case REMOVE_FROM_ALIGNMENT:
+    case UNALIGN_TARGET_TOKEN:
       return {
         topWords: [...state.topWords],
         bottomWords: state.bottomWords.filter(word => {
@@ -29,7 +29,7 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
       };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
-      const alignment = action.alignments[vid].alignments[action.alignmentIndex];
+      const alignment = action.alignments[vid].alignments[action.index];
       return {
         topWords: [...alignment.topWords],
         bottomWords: [...alignment.bottomWords]
@@ -42,9 +42,9 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
 
 const verse = (state = [], action) => {
   switch (action.type) {
-    case REMOVE_FROM_ALIGNMENT:
-    case ADD_TO_ALIGNMENT: {
-      const index = action.alignmentIndex;
+    case UNALIGN_TARGET_TOKEN:
+    case ALIGN_TARGET_TOKEN: {
+      const index = action.index;
       const nextState = [
         ...state
       ];
@@ -55,7 +55,7 @@ const verse = (state = [], action) => {
       const vid = action.verse + '';
       const alignments = [];
       for (let i = 0; i < action.alignments[vid].alignments.length; i++) {
-        alignments.push(alignment(state[i], {...action, alignmentIndex: i}));
+        alignments.push(alignment(state[i], {...action, index: i}));
       }
       return alignments;
     }
@@ -66,8 +66,8 @@ const verse = (state = [], action) => {
 
 const chapter = (state = {}, action) => {
   switch (action.type) {
-    case REMOVE_FROM_ALIGNMENT:
-    case ADD_TO_ALIGNMENT: {
+    case UNALIGN_TARGET_TOKEN:
+    case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';
       return {
         ...state,
@@ -96,8 +96,8 @@ const chapter = (state = {}, action) => {
 const alignments = (state = {}, action) => {
   switch (action.type) {
     case SET_CHAPTER_ALIGNMENTS:
-    case REMOVE_FROM_ALIGNMENT:
-    case ADD_TO_ALIGNMENT: {
+    case UNALIGN_TARGET_TOKEN:
+    case ALIGN_TARGET_TOKEN: {
       const cid = action.chapter + '';
       return {
         ...state,

@@ -84,10 +84,10 @@ class AlignmentGrid extends Component {
   handleDrop(index, item) {
     const {onAlign, onMerge} = this.props;
     if (item.type === types.SECONDARY_WORD) {
-      onAlign(index, item);
+      onAlign(item, index, item.alignmentIndex);
     }
     if (item.type === types.PRIMARY_WORD) {
-      onMerge(item, item.alignmentIndex, index);
+      onMerge(item, index, item.alignmentIndex);
     }
   }
 }

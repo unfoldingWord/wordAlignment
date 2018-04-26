@@ -9,7 +9,12 @@ import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
 import {default as aligner} from 'word-aligner';
 import path from 'path-extra';
-import {setChapterAlignments} from '../state/actions';
+import Token from 'word-map/structures/Token';
+import {
+  alignTargetToken,
+  setChapterAlignments,
+  unalignTargetToken
+} from '../state/actions';
 import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
 import {connect} from 'react-redux';
 import {
@@ -28,9 +33,9 @@ class Container extends Component {
     this.map = new WordMap();
     this.predictAlignments = this.predictAlignments.bind(this);
     this.initMAP = this.initMAP.bind(this);
-    this.handleAddAlignment = this.handleAddAlignment.bind(this);
-    this.handleRemoveAlignment = this.handleRemoveAlignment.bind(this);
-    this.handlePrimaryAlignment = this.handlePrimaryAlignment.bind(this);
+    this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
+    this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
+    this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadChapterAlignments = this.loadChapterAlignments.bind(this);
   }
 
@@ -183,7 +188,7 @@ class Container extends Component {
           // TODO: check if the secondary word has already been aligned.
           console.log('valid alignment!', p.toString());
           for (const token of p.target.getTokens()) {
-            this.handleAddAlignment(alignmentIndex, {
+            this.handleAlignTargetToken(alignmentIndex, {
               alignmentIndex: undefined,
               occurrence: 1, // TODO: get token occurrence
               occurrences: 1, // TODO: get token occurrences
@@ -201,71 +206,77 @@ class Container extends Component {
 
   /**
    * Handles adding secondary words to an alignment
-   * @param {number} index - the alignment index
    * @param item - the secondary word to move
+   * @param {number} nextIndex - the index to which the token will be moved
+   * @param {number} [prevIndex=-1] - the index from which the token will be moved
    */
-  handleAddAlignment(index, item) {
+  handleAlignTargetToken(item, nextIndex, prevIndex=-1) {
     const {
-      actions: {moveWordBankItemToAlignment},
-      contextId: {reference: {bookId, chapter}},
-      targetVerse,
-      writeGlobalToolData
+      contextId: {reference: {chapter, verse}},
+      alignTargetToken,
+      unalignTargetToken,
+      // writeGlobalToolData
     } = this.props;
-    console.log('add alignment', item);
 
-    // TODO: get full alignment data
-    const alignments = [];
+    let token = token = new Token({
+      text: item.word,
+      occurrence: item.occurrence,
+      occurrences: item.occurrences
+    });
+    if (prevIndex >= 0) {
+      unalignTargetToken(chapter, verse, prevIndex, token);
+    }
+    alignTargetToken(chapter, verse, nextIndex, token);
 
-    // remove word from existing alignment
-    // if (typeof item.alignmentIndex === 'number') {
-    //   delete item.alignmentIndex;
-    //   if (alignments[index]) {
-    //     alignments[index].bottomWords = alignments[index].bottomWords.filter(
-    //       word => {
-    //         return !(
-    //           word.occurrence === item.occurrence
-    //           && word.occurrences === item.occurrences
-    //           && word.word === item.word);
-    //       });
-    //   }
-    // }
 
-    // add word to new alignment
-    // alignments[index].bottomWords.push(item);
-    // alignments[index].bottomWords = aligner.orderAlignments(targetVerse,
-    //   alignments[index].bottomWords);
-
-    // console.log('alignments', alignments);
     // TODO: write files
     // writeGlobalToolData(`alignmentData/${bookId}/${chapter}.json`,
     //   JSON.stringify({some: 'data'}));
-
-    // TODO: add to map index
-    moveWordBankItemToAlignment(index, item);
   }
 
   /**
    * Handles removing secondary words from an alignment
    * @param item - the secondary word to remove
+   * @param {number} prevIndex - the index from which this token will be moved
    */
-  handleRemoveAlignment(item) {
-    const {actions: {moveBackToWordBank}} = this.props;
-    console.log('remove alignment', item);
+  handleUnalignTargetToken(item, prevIndex) {
+    const {
+      contextId: {reference: {chapter, verse}},
+      unalignTargetToken
+    } = this.props;
+
+    let token = new Token({
+      text: item.word,
+      occurrence: item.occurrence,
+      occurrences: item.occurrences
+    });
+    unalignTargetToken(chapter, verse, prevIndex, token);
+    
+    // console.log('remove alignment', item);
     // TODO: remove from map index
-    moveBackToWordBank(item);
+    // moveBackToWordBank(item);
   }
 
   /**
    * Handles (un)merging primary words
    * @param item - the primary word to move
-   * @param {number} previousIndex - the previous alignment index
+   * @param {number} prevIndex - the previous alignment index
    * @param {number} nextIndex - the next alignment index
    */
-  handlePrimaryAlignment(item, previousIndex, nextIndex) {
+  handleAlignPrimaryToken(item, nextIndex, prevIndex) {
+    let token = new Token({
+      text: item.word,
+      occurrence: item.occurrence,
+      occurrences: item.occurrences,
+      lemma: item.lemma,
+      morph: item.morph,
+      strong: item.strong
+    });
+    
     const {actions: {moveTopWordItemToAlignment}} = this.props;
     console.log('remove alignments to primary', item);
     // TODO: remove from map index
-    moveTopWordItemToAlignment(item, previousIndex, nextIndex);
+    moveTopWordItemToAlignment(item, prevIndex, nextIndex);
   }
 
   render() {
@@ -327,7 +338,7 @@ class Container extends Component {
           chapter={chapter}
           verse={verse}
           words={words}
-          moveBackToWordBank={this.handleRemoveAlignment}
+          moveBackToWordBank={this.handleUnalignTargetToken}
           connectDropTarget={connectDropTarget}
           isOver={isOver}/>
         <div style={{
@@ -341,8 +352,8 @@ class Container extends Component {
           <AlignmentGrid alignments={verseAlignments}
                          translate={translate}
                          lexicons={lexicons}
-                         onAlign={this.handleAddAlignment}
-                         onMerge={this.handlePrimaryAlignment}
+                         onAlign={this.handleAlignTargetToken}
+                         onMerge={this.handleAlignPrimaryToken}
                          actions={actions}
                          contextId={contextId}/>
         </div>
@@ -361,6 +372,8 @@ Container.propTypes = {
   setChapterAlignments: PropTypes.func.isRequired,
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
+  alignTargetToken: PropTypes.func.isRequired,
+  unalignTargetToken: PropTypes.func.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -378,7 +391,9 @@ Container.propTypes = {
 };
 
 const mapDispatchToProps = ({
-  setChapterAlignments
+  setChapterAlignments,
+  alignTargetToken,
+  unalignTargetToken
 });
 
 const mapStateToProps = (state, {contextId}) => {

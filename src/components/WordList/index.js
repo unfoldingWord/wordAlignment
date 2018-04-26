@@ -84,7 +84,8 @@ DroppableWordList.propTypes = {
  */
 const dragHandler = {
   drop(props, monitor) {
-    props.moveBackToWordBank(monitor.getItem());
+    const item = monitor.getItem();
+    props.moveBackToWordBank(item, item.alignmentIndex);
   }
 };
 

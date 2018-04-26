@@ -3,7 +3,7 @@ import * as types from '../../actions/actionTypes';
 import alignments from '../alignments';
 import Token from 'word-map/structures/Token';
 
-{
+describe('set chapter alignments when empty', () => {
   const stateBefore = {};
   const action = {
     type: types.SET_CHAPTER_ALIGNMENTS,
@@ -21,9 +21,9 @@ import Token from 'word-map/structures/Token';
   };
   reducerTest('Set Chapter Alignments', alignments, stateBefore, action,
     stateAfter);
-}
+});
 
-{
+describe('add alignment', () => {
   const stateBefore = {
     '1': {
       '1': [
@@ -35,7 +35,7 @@ import Token from 'word-map/structures/Token';
     }
   };
   const action = {
-    type: types.ADD_TO_ALIGNMENT,
+    type: types.ALIGN_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
     alignmentIndex: 0,
@@ -63,9 +63,9 @@ import Token from 'word-map/structures/Token';
   };
   reducerTest('Add Alignment', alignments, stateBefore, action,
     stateAfter);
-}
+});
 
-{
+describe('remove alignment', () => {
   const stateBefore = {
     '1': {
       '1': [
@@ -83,7 +83,7 @@ import Token from 'word-map/structures/Token';
     }
   };
   const action = {
-    type: types.REMOVE_FROM_ALIGNMENT,
+    type: types.UNALIGN_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
     alignmentIndex: 0,
@@ -104,9 +104,9 @@ import Token from 'word-map/structures/Token';
     }
   };
   reducerTest('Remove Alignment', alignments, stateBefore, action, stateAfter);
-}
+});
 
-{
+describe('set chapter alignments', () => {
   const stateBefore = {
     '1': {
       '1': [
@@ -161,4 +161,4 @@ import Token from 'word-map/structures/Token';
   };
   reducerTest('Set Chapter Alignments', alignments, stateBefore, action,
     stateAfter);
-}
+});

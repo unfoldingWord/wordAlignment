@@ -28,8 +28,15 @@ describe('align target token', () => {
     '1': {
       '1': [
         {
-          topWords: [],
-          bottomWords: []
+          topWords: [{}],
+          bottomWords: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }
+          ]
         }
       ]
     }
@@ -49,12 +56,19 @@ describe('align target token', () => {
     '1': {
       '1': [
         {
-          topWords: [],
+          topWords: [{}],
           bottomWords: [
             {
               word: 'hello',
               occurrence: 1,
-              occurrences: 1
+              occurrences: 1,
+              position: 0
+            },
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
             }
           ]
         }
@@ -62,6 +76,78 @@ describe('align target token', () => {
     }
   };
   reducerTest('Add Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
+describe('insert source token', () => {
+  const stateBefore = {
+    '1': {
+      '1': [
+        {
+          topWords: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              strong: 'strong',
+              morph: 'morph',
+              lemma: 'lemma',
+              position: 1
+            }
+          ],
+          bottomWords: []
+        }
+      ]
+    }
+  };
+  const action = {
+    type: types.INSERT_SOURCE_TOKEN,
+    chapter: 1,
+    verse: 1,
+    token: new Token({
+      text: 'hello',
+      occurrence: 1,
+      occurrences: 1,
+      strong: 'strong',
+      morph: 'morph',
+      lemma: 'lemma'
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': [
+        {
+          topWords: [
+            {
+              word: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              strong: 'strong',
+              morph: 'morph',
+              lemma: 'lemma',
+              position: 0
+            }
+          ],
+          bottomWords: []
+        },
+        {
+          topWords: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              strong: 'strong',
+              morph: 'morph',
+              lemma: 'lemma',
+              position: 1
+            }
+          ],
+          bottomWords: []
+        }
+      ]
+    }
+  };
+  reducerTest('Insert Alignment', alignments, stateBefore, action,
     stateAfter);
 });
 
@@ -107,7 +193,8 @@ describe('align source token', () => {
               occurrences: 1,
               strong: 'strong',
               morph: 'morph',
-              lemma: 'lemma'
+              lemma: 'lemma',
+              position: 0
             }
           ],
           bottomWords: [
@@ -130,7 +217,7 @@ describe('remove target token alignment', () => {
     '1': {
       '1': [
         {
-          topWords: [],
+          topWords: [{}],
           bottomWords: [
             {
               word: 'world',
@@ -157,7 +244,7 @@ describe('remove target token alignment', () => {
     '1': {
       '1': [
         {
-          topWords: [],
+          topWords: [{}],
           bottomWords: []
         }
       ]
@@ -202,12 +289,7 @@ describe('remove source token alignment', () => {
   };
   const stateAfter = {
     '1': {
-      '1': [
-        {
-          topWords: [],
-          bottomWords: []
-        }
-      ]
+      '1': []
     }
   };
   reducerTest('Remove Alignment', alignments, stateBefore, action,

@@ -2,6 +2,7 @@ import Token from 'word-map/structures/Token';
 import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
+  INSERT_SOURCE_TOKEN,
   SET_CHAPTER_ALIGNMENTS,
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
@@ -19,17 +20,63 @@ const wordEqualsToken = (word, token) => {
     && word.occurrences === token.occurrences;
 };
 
+/**
+ * Compares two words.
+ * This is used for sorting
+ * @param {object} a
+ * @param {object} b
+ * @return {number}
+ */
+const wordComparator = (a, b) => {
+  if (a.position < b.position) {
+    return -1;
+  }
+  if (a.position > b.position) {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Compares two alignments.
+ * This is used for sorting
+ * @param {object} a
+ * @param {object} b
+ * @return {number}
+ */
+const alignmentComparator = (a, b) => {
+  if (a.topWords.length && b.topWords.length) {
+    return wordComparator(a.topWords[0], b.topWords[0]);
+  } else {
+    return 0;
+  }
+};
+
+const topWord = (token) => ({
+  word: token.toString(),
+  position: token.position,
+  occurrence: token.occurrence,
+  occurrences: token.occurrences,
+  strong: token.strong,
+  lemma: token.lemma,
+  morph: token.morph
+});
+
+const bottomWord = (token) => ({
+  word: token.toString(),
+  occurrence: token.occurrence,
+  occurrences: token.occurrences,
+  position: token.position
+});
+
 const alignment = (state = {topWords: [], bottomWords: []}, action) => {
   switch (action.type) {
     case ALIGN_TARGET_TOKEN:
       return {
         topWords: [...state.topWords],
         bottomWords: [
-          ...state.bottomWords, {
-            word: action.token.toString(),
-            occurrence: action.token.occurrence,
-            occurrences: action.token.occurrences
-          }]
+          ...state.bottomWords, bottomWord(action.token)
+        ].sort(wordComparator)
       };
     case UNALIGN_TARGET_TOKEN:
       return {
@@ -38,16 +85,11 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
           return !wordEqualsToken(word, action.token);
         })
       };
+    case INSERT_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
       return {
-        topWords: [...state.topWords, {
-          word: action.token.toString(),
-          occurrence: action.token.occurrence,
-          occurrences: action.token.occurrences,
-          strong: action.token.strong,
-          lemma: action.token.lemma,
-          morph: action.token.morph
-        }],
+        topWords: [...state.topWords, topWord(action.token)].sort(
+          wordComparator),
         bottomWords: [...state.bottomWords]
       };
     case UNALIGN_SOURCE_TOKEN:
@@ -82,8 +124,16 @@ const verse = (state = [], action) => {
         ...state
       ];
       nextState[index] = alignment(state[index], action);
+      if(nextState[index].topWords.length === 0) {
+        nextState.splice(index, 1);
+      }
       return nextState;
     }
+    case INSERT_SOURCE_TOKEN:
+      return [
+        ...state,
+        alignment(undefined, action)
+      ].sort(alignmentComparator);
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];
@@ -99,6 +149,7 @@ const verse = (state = [], action) => {
 
 const chapter = (state = {}, action) => {
   switch (action.type) {
+    case INSERT_SOURCE_TOKEN:
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
@@ -130,6 +181,7 @@ const chapter = (state = {}, action) => {
  */
 const alignments = (state = {}, action) => {
   switch (action.type) {
+    case INSERT_SOURCE_TOKEN:
     case SET_CHAPTER_ALIGNMENTS:
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:

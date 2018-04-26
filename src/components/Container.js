@@ -11,10 +11,9 @@ import {default as aligner} from 'word-aligner';
 import path from 'path-extra';
 import Token from 'word-map/structures/Token';
 import {
-  alignSourceToken,
   alignTargetToken,
   setChapterAlignments,
-  unalignSourceToken,
+  moveSourceToken,
   unalignTargetToken
 } from '../state/actions';
 import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
@@ -117,6 +116,7 @@ class Container extends Component {
     const {reference: {chapter: nextChapter, verse: nextVerse}} = nextContextId;
     if (prevChapter !== nextChapter) {
       this.loadChapterAlignments();
+      Container.validateVerseData(nextProps);
     }
 
     // validate verse data
@@ -223,7 +223,8 @@ class Container extends Component {
     let token = token = new Token({
       text: item.word,
       occurrence: item.occurrence,
-      occurrences: item.occurrences
+      occurrences: item.occurrences,
+      tokenPosition: item.position
     });
     if (prevIndex >= 0) {
       unalignTargetToken(chapter, verse, prevIndex, token);
@@ -249,7 +250,8 @@ class Container extends Component {
     let token = new Token({
       text: item.word,
       occurrence: item.occurrence,
-      occurrences: item.occurrences
+      occurrences: item.occurrences,
+      tokenPosition: item.position
     });
     unalignTargetToken(chapter, verse, prevIndex, token);
 
@@ -266,8 +268,7 @@ class Container extends Component {
    */
   handleAlignPrimaryToken(item, nextIndex, prevIndex) {
     const {
-      alignSourceToken,
-      unalignSourceToken,
+      moveSourceToken,
       contextId: {reference: {chapter, verse}}
     } = this.props;
 
@@ -277,11 +278,11 @@ class Container extends Component {
       occurrences: item.occurrences,
       lemma: item.lemma,
       morph: item.morph,
-      strong: item.strong
+      strong: item.strong,
+      tokenPosition: item.position
     });
 
-    unalignSourceToken(chapter, verse, prevIndex, token);
-    alignSourceToken(chapter, verse, nextIndex, token);
+    moveSourceToken(chapter, verse, nextIndex, prevIndex, token);
 
     // const {actions: {moveTopWordItemToAlignment}} = this.props;
     // console.log('remove alignments to primary', item);
@@ -384,8 +385,7 @@ Container.propTypes = {
   alignedTokens: PropTypes.array.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
-  alignSourceToken: PropTypes.func.isRequired,
-  unalignSourceToken: PropTypes.func.isRequired,
+  moveSourceToken: PropTypes.func.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -406,8 +406,7 @@ const mapDispatchToProps = ({
   setChapterAlignments,
   alignTargetToken,
   unalignTargetToken,
-  alignSourceToken,
-  unalignSourceToken
+  moveSourceToken
 });
 
 const mapStateToProps = (state, {contextId}) => {

@@ -52,7 +52,7 @@ export const unalignTargetToken = (chapter, verse, index, token) => ({
  * @param {Token} token - the target token being added to the alignment
  * @return {{}}
  */
-export const alignSourceToken = (chapter, verse, index, token) => ({
+const alignSourceToken = (chapter, verse, index, token) => ({
   type: types.ALIGN_SOURCE_TOKEN,
   chapter,
   verse,
@@ -68,10 +68,44 @@ export const alignSourceToken = (chapter, verse, index, token) => ({
  * @param {Token} token - the target token being removed from the alignment
  * @return {{}}
  */
-export const unalignSourceToken = (chapter, verse, index, token) => ({
+const unalignSourceToken = (chapter, verse, index, token) => ({
   type: types.UNALIGN_SOURCE_TOKEN,
   chapter,
   verse,
   index,
   token
 });
+
+/**
+ * Inserts a source token as a new alignment
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {Token} token - the source token to insert
+ * @return {{type: *, chapter: *, verse: *, token: *}}
+ */
+const insertSourceToken = (chapter, verse, token) => ({
+  type: types.INSERT_SOURCE_TOKEN,
+  chapter,
+  verse,
+  token
+});
+
+/**
+ * This thunk moves a source token between alignments
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {number} nextIndex - the token to which the token will be moved
+ * @param {number} prevIndex - the index from which the token will be moved
+ * @param {Token} token - the source token to move
+ * @return {Function}
+ */
+export const moveSourceToken = (chapter, verse, nextIndex, prevIndex, token) => {
+  return dispatch => {
+    dispatch(unalignSourceToken(chapter, verse, prevIndex, token));
+    if(prevIndex === nextIndex) {
+      dispatch(insertSourceToken(chapter, verse, token));
+    } else {
+      dispatch(alignSourceToken(chapter, verse, nextIndex, token));
+    }
+  };
+};

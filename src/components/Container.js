@@ -7,13 +7,15 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
-import {default as aligner} from 'word-aligner';
+import {default as aligner, VerseObjectUtils} from 'word-aligner';
 import path from 'path-extra';
 import Token from 'word-map/structures/Token';
 import {
   alignTargetToken,
-  setChapterAlignments,
   moveSourceToken,
+  setChapterAlignments,
+  setSourceTokens,
+  setTargetTokens,
   unalignTargetToken
 } from '../state/actions';
 import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
@@ -38,6 +40,7 @@ class Container extends Component {
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadChapterAlignments = this.loadChapterAlignments.bind(this);
+    this.loadTokens = this.loadTokens.bind(this);
   }
 
   /**
@@ -59,6 +62,47 @@ class Container extends Component {
       // const blankAlignments = aligner.getBlankAlignmentDataForVerse(originalVerse, targetVerse);
       // TODO: update the verse alignments
     }
+  }
+
+  /**
+   * Converts verse objects (as in from the source language verse) into {@link Token}s.
+   * TODO: the verse objects are not sorted
+   * @param verseObjects
+   */
+  static tokenizeVerseObjects(verseObjects) {
+    const tokens = [];
+    const completeTokens = []; // includes occurrences
+    const occurrences = {};
+    let position = 0;
+    const words = VerseObjectUtils.getWordList(verseObjects);
+    for (const word of words) {
+      if (typeof occurrences[word.text] === 'undefined') {
+        occurrences[word.text] = 0;
+      }
+      occurrences[word.text]++;
+      tokens.push(new Token({
+        text: word.text,
+        strong: (word.strong || word.strongs),
+        morph: word.morph,
+        lemma: word.lemma,
+        position: position,
+        occurrence: occurrences[word.text]
+      }));
+      position++;
+    }
+    // inject occurrences
+    for (const token of tokens) {
+      completeTokens.push(new Token({
+        text: token.toString(),
+        strong: token.strong,
+        morph: token.morph,
+        lemma: token.lemma,
+        position: token.position,
+        occurrence: token.occurrence,
+        occurrences: occurrences[token.toString()]
+      }));
+    }
+    return completeTokens;
   }
 
   componentWillMount() {
@@ -93,6 +137,7 @@ class Container extends Component {
     this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
       desiredPanes);
 
+    this.loadTokens();
     this.loadChapterAlignments();
     // TODO: then load alignments for the rest of the book so we can index them in map
   }
@@ -115,13 +160,37 @@ class Container extends Component {
     const {reference: {chapter: prevChapter, verse: prevVerse}} = prevContextId;
     const {reference: {chapter: nextChapter, verse: nextVerse}} = nextContextId;
     if (prevChapter !== nextChapter) {
+      this.loadTokens();
       this.loadChapterAlignments();
       Container.validateVerseData(nextProps);
     }
 
     // validate verse data
     if (prevVerse !== nextVerse) {
+      this.loadTokens();
       Container.validateVerseData(nextProps);
+    }
+  }
+
+  /**
+   * Loads the tokens that will be aligned
+   */
+  loadTokens() {
+    const {
+      originalVerse,
+      targetVerse,
+      contextId,
+      setSourceTokens,
+      setTargetTokens
+    } = this.props;
+    // load the tokens being aligned
+    if (originalVerse && originalVerse.verseObjects) {
+      const sourceTokens = Container.tokenizeVerseObjects(
+        originalVerse.verseObjects);
+      const targetTokens = Lexer.tokenize(targetVerse);
+      console.warn('context', contextId);
+      setSourceTokens(sourceTokens);
+      setTargetTokens(targetTokens);
     }
   }
 
@@ -132,12 +201,18 @@ class Container extends Component {
    */
   loadChapterAlignments() {
     const {
-      contextId: {reference: {bookId, chapter}},
+      contextId,
       readGlobalToolData,
       originalVerse,
       setChapterAlignments
     } = this.props;
 
+    if (!contextId) {
+      return;
+    }
+
+    const {reference: {bookId, chapter}} = contextId;
+    // load the alignment data
     return readGlobalToolData(
       path.join('alignmentData', bookId, chapter + '.json')).
       then(async data => {
@@ -386,6 +461,8 @@ Container.propTypes = {
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
   moveSourceToken: PropTypes.func.isRequired,
+  setSourceTokens: PropTypes.func.isRequired,
+  setTargetTokens: PropTypes.func.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -406,15 +483,24 @@ const mapDispatchToProps = ({
   setChapterAlignments,
   alignTargetToken,
   unalignTargetToken,
-  moveSourceToken
+  moveSourceToken,
+  setSourceTokens,
+  setTargetTokens
 });
 
 const mapStateToProps = (state, {contextId}) => {
-  const {reference: {chapter, verse}} = contextId;
-  return {
-    alignedTokens: getAlignedVerseTokens(state, chapter, verse),
-    verseAlignments: getVerseAlignments(state, chapter, verse)
-  };
+  if (contextId) {
+    const {reference: {chapter, verse}} = contextId;
+    return {
+      alignedTokens: getAlignedVerseTokens(state, chapter, verse),
+      verseAlignments: getVerseAlignments(state, chapter, verse)
+    };
+  } else {
+    return {
+      alignedTokens: [],
+      verseAlignments: []
+    };
+  }
 };
 
 export default DragDropContext(HTML5Backend)(

@@ -84,7 +84,7 @@ const unalignSourceToken = (chapter, verse, index, token) => ({
  * @return {{type: *, chapter: *, verse: *, token: *}}
  */
 const insertSourceToken = (chapter, verse, token) => ({
-  type: types.INSERT_SOURCE_TOKEN,
+  type: types.INSERT_ALIGNMENT,
   chapter,
   verse,
   token
@@ -109,3 +109,21 @@ export const moveSourceToken = (chapter, verse, nextIndex, prevIndex, token) => 
     }
   };
 };
+
+/**
+ * Sets the target tokens for the current context
+ * @param {Token[]} tokens
+ */
+export const setTargetTokens = (tokens) => ({
+  type: types.SET_TARGET_TOKENS,
+  tokens
+});
+
+/**
+ * Sets the source tokens for the current context
+ * @param {Token[]} tokens
+ */
+export const setSourceTokens = (tokens) => ({
+  type: types.SET_SOURCE_TOKENS,
+  tokens
+});

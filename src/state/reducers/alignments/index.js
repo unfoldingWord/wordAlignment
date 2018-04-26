@@ -1,12 +1,14 @@
 import Token from 'word-map/structures/Token';
+import {combineReducers} from 'redux';
+import tokens from './tokens';
 import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
-  INSERT_SOURCE_TOKEN,
+  INSERT_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS,
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
-} from '../actions/actionTypes';
+} from '../../actions/actionTypes';
 
 /**
  * Checks if a word equals a token
@@ -85,7 +87,7 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
           return !wordEqualsToken(word, action.token);
         })
       };
-    case INSERT_SOURCE_TOKEN:
+    case INSERT_ALIGNMENT:
     case ALIGN_SOURCE_TOKEN:
       return {
         topWords: [...state.topWords, topWord(action.token)].sort(
@@ -103,9 +105,19 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignment = action.alignments[vid].alignments[action.index];
+      const topWords = [];
+      const bottomWords = [];
+      for (const word of alignment.topWords) {
+        // TODO: look up token from index
+        topWords.push(word);
+      }
+      for (const word of alignment.bottomWords) {
+        // TODO: look up token from index
+        bottomWords.push(word);
+      }
       return {
-        topWords: [...alignment.topWords],
-        bottomWords: [...alignment.bottomWords]
+        topWords: topWords,
+        bottomWords: bottomWords
       };
     }
     default:
@@ -124,12 +136,12 @@ const verse = (state = [], action) => {
         ...state
       ];
       nextState[index] = alignment(state[index], action);
-      if(nextState[index].topWords.length === 0) {
+      if (nextState[index].topWords.length === 0) {
         nextState.splice(index, 1);
       }
       return nextState;
     }
-    case INSERT_SOURCE_TOKEN:
+    case INSERT_ALIGNMENT:
       return [
         ...state,
         alignment(undefined, action)
@@ -149,7 +161,7 @@ const verse = (state = [], action) => {
 
 const chapter = (state = {}, action) => {
   switch (action.type) {
-    case INSERT_SOURCE_TOKEN:
+    case INSERT_ALIGNMENT:
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
@@ -181,7 +193,7 @@ const chapter = (state = {}, action) => {
  */
 const alignments = (state = {}, action) => {
   switch (action.type) {
-    case INSERT_SOURCE_TOKEN:
+    case INSERT_ALIGNMENT:
     case SET_CHAPTER_ALIGNMENTS:
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
@@ -198,7 +210,10 @@ const alignments = (state = {}, action) => {
   }
 };
 
-export default alignments;
+export default combineReducers({
+  alignments,
+  tokens
+});
 
 /**
  * Returns alignments for an entire chapter
@@ -208,8 +223,8 @@ export default alignments;
  */
 export const getChapterAlignments = (state, chapter) => {
   const chapterId = chapter + '';
-  if (chapterId in state) {
-    return state[chapterId];
+  if (chapterId in state.alignments) {
+    return state.alignments[chapterId];
   } else {
     return {};
   }

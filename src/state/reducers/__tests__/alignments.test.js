@@ -101,7 +101,7 @@ describe('insert source token', () => {
     }
   };
   const action = {
-    type: types.INSERT_SOURCE_TOKEN,
+    type: types.INSERT_ALIGNMENT,
     chapter: 1,
     verse: 1,
     token: new Token({

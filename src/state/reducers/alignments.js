@@ -126,14 +126,15 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
       const bottomWords = [];
       const sourceTokens = action.sourceTokens[vid];
       for (const word of alignment.topWords) {
-        const token = findToken(word, sourceTokens);
-        if (token) {
-          topWords.push(topWord(token));
-        } else {
-          // exclude invalid words
-          console.warn('Invalid source word data',
-            `"${word.word}" does not exist in the sentence.`);
-        }
+        topWords.push(word);
+        // const token = findToken(word, sourceTokens);
+        // if (token) {
+        //   topWords.push(topWord(token));
+        // } else {
+        //   // exclude invalid words
+        //   console.warn('Invalid source word data',
+        //     `"${word.word}" does not exist in the sentence.`);
+        // }
       }
       for (const word of alignment.bottomWords) {
         // TODO: look up token from index

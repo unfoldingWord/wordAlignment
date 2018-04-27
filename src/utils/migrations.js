@@ -1,0 +1,246 @@
+/**
+ * Migrates a topWord to a source token (json format)
+ * @param word
+ * @return {*}
+ */
+const migrateTopWord = word => ({
+  text: word.word,
+  strong: word.strong,
+  lemma: word.lemma,
+  morph: word.morph,
+  occurrence: word.occurrence,
+  occurrences: word.occurrences
+});
+
+/**
+ * Migrates a bottomWord to a target token (json format)
+ * @param word
+ * @return {{text: *, occurrence: *, occurrences: *}}
+ */
+const migrateBottomWord = word => ({
+  text: word.word,
+  occurrence: word.occurrence,
+  occurrences: word.occurrences
+});
+
+/**
+ * Searches for a token in the array that matches the given parameters
+ * @param {Token[]} tokens
+ * @param {string} text
+ * @param {number} occurrence
+ * @param {number} occurrences
+ * @return {Token}
+ */
+const findToken = (tokens, text, occurrence, occurrences) => {
+  for (const token of tokens) {
+    if (token.toString() === text
+      && token.occurrence === occurrence
+      && token.occurrences === occurrences) {
+      return token;
+    }
+  }
+  return null;
+};
+
+/**
+ * A comparator used for sorting objects by their position key.
+ * @param a
+ * @param b
+ */
+const positionComparator = (a, b) => {
+  if (a.position < b.position) {
+    return -1;
+  }
+  if (a.position > b.position) {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * Returns the index of a token in the array that matches the given parameters
+ * @param {object[]} tokens - an array of json tokens (not {@Token}'s)
+ * @param {text} text
+ * @param {number} occurrence
+ * @param {number} occurrences
+ * @return {number} the index of the token or -1
+ */
+const indexOfToken = (tokens, text, occurrence, occurrences) => {
+  for (let i = 0; i < tokens.length; i++) {
+    if (tokens[i].text === text
+      && tokens[i].occurrence === occurrence
+      && tokens[i].occurrences === occurrences) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+/**
+ * Migrates the alignment data read from the disk into an intermediate format.
+ * Note: this is not a full migration, because are are missing some data.
+ *
+ * @param {object} data - the raw alignment data
+ * @throws Throws an error if the data is invalid
+ * @example
+ * // data format
+ * {
+ *   "1": {
+ *      "alignments": [
+ *        {
+ *          "topWords": [...],
+ *          "bottomWords": [...]
+ *        }
+ *      ],
+ *      "wordBank": [...]
+ *   }
+ * }
+ * // where words are like:
+ * {
+ *  "word": "",
+ *  "strong": "",
+ *  "lemma": "",
+ *  "morph": "",
+ *  "occurrence": 1,
+ *  "occurrences: 1
+ * }
+ */
+export const migrateAlignmentData = (data) => {
+  const migratedData = {};
+  for (const verse of Object.keys(data)) {
+    let targetTokens = [];
+    let sourceTokens = [];
+    const alignments = [];
+
+    for (const alignment of data[verse].alignments) {
+      const sourceNgram = alignment.topWords.map(migrateTopWord);
+      const targetNgram = alignment.bottomWords.map(migrateBottomWord);
+
+      // organize source tokens
+      sourceTokens = sourceTokens.concat(sourceNgram);
+
+      // organize target tokens
+      targetTokens = targetTokens.concat(targetNgram);
+
+      // organize alignments
+      alignments.push({
+        sourceNgram,
+        targetNgram
+      });
+    }
+
+    // merge word bank into target tokens
+    targetTokens = targetTokens.concat(
+      data[verse].wordBank.map(migrateBottomWord));
+
+    migratedData[verse] = {
+      sourceTokens,
+      targetTokens,
+      alignments
+    };
+  }
+  return migratedData;
+};
+
+/**
+ * Finishes the migration by injecting some data, sorting, and simplifying the n-grams
+ * @param data
+ * @param {Token[]} sourceTokensBaseline
+ * @param {Token[]} targetTokensBaseline
+ * @throws will throw an error if the data is invalid
+ * @return {*}
+ */
+export const normalizeAlignmentData = (
+  data, sourceTokensBaseline, targetTokensBaseline) => {
+  const normalizedData = {};
+  for (const verse of Object.keys(data)) {
+    let targetTokens = [];
+    let sourceTokens = [];
+    const alignments = [];
+
+    // add position to target tokens
+    for (const t of data[verse].targetTokens) {
+      const baseline = findToken(targetTokensBaseline, t.text, t.occurrence,
+        t.occurrences);
+      if (baseline) {
+        targetTokens.push({
+          ...t,
+          position: baseline.position
+        });
+      } else {
+        throw new Error(
+          `Unexpected target token "${t.text}" in alignment data`);
+      }
+    }
+
+    // add position to source tokens
+    for (const t of data[verse].sourceTokens) {
+      const baseline = findToken(sourceTokensBaseline, t.text, t.occurrence,
+        t.occurrences);
+      if (baseline) {
+        sourceTokens.push({
+          ...t,
+          position: baseline.position
+        });
+      } else {
+        throw new Error(
+          `Unexpected source token "${t.text}" in alignment data`);
+      }
+    }
+
+    // sort sentence tokens
+    sourceTokens.sort(positionComparator);
+    targetTokens.sort(positionComparator);
+
+    // simplify alignments
+    for (const alignment of data[verse].alignments) {
+      const sourceNgram = [];
+      const targetNgram = [];
+
+      // convert source tokens to indices
+      for (const token of alignment.sourceNgram) {
+        const index = indexOfToken(sourceTokens, token.text, token.occurrence,
+          token.occurrences);
+        if (index >= 0) {
+          sourceNgram.push(index);
+        } else {
+          throw new Error(
+            `Unexpected source token "${token.text}" in alignment`);
+        }
+      }
+
+      // convert target tokens to indices
+      for (const token of alignment.targetNgram) {
+        const index = indexOfToken(targetTokens, token.text, token.occurrence,
+          token.occurrences);
+        if (index >= 0) {
+          targetNgram.push(index);
+        } else {
+          throw new Error(
+            `Unexpected target token "${token.text}" in alignment`);
+        }
+      }
+
+      // sort n-grams
+      sourceNgram.sort();
+      targetNgram.sort();
+
+      alignments.push({
+        sourceNgram,
+        targetNgram
+      });
+    }
+
+    // sort alignments
+    alignments.sort((a, b) => {
+      return positionComparator(a.sourceNgram, b.sourceNgram);
+    });
+
+    normalizedData[verse] = {
+      sourceTokens,
+      targetTokens,
+      alignments
+    };
+  }
+  return normalizedData;
+};

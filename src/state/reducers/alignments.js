@@ -1,9 +1,9 @@
 import Token from 'word-map/structures/Token';
 import {combineReducers} from 'redux';
-import tokens from './tokens';
+import tokens, * as fromTokens from './tokens';
 import {
   ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
+  ALIGN_TARGET_TOKEN, CLEAR_STATE,
   INSERT_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS,
   UNALIGN_SOURCE_TOKEN,
@@ -205,6 +205,8 @@ const alignments = (state = {}, action) => {
         [cid]: chapter(state[cid], action)
       };
     }
+    case CLEAR_STATE:
+      return {};
     default:
       return state;
   }
@@ -246,6 +248,16 @@ export const getVerseAlignments = (state, chapter, verse) => {
     return [];
   }
 };
+
+/**
+ * Returns the source tokens for a verse
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {*}
+ */
+export const getSourceTokens = (state, chapter, verse) =>
+  fromTokens(state.tokens, chapter, verse);
 
 /**
  * Returns tokens that have been aligned to the verse

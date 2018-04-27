@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {
   SET_TARGET_TOKENS,
-  SET_SOURCE_TOKENS
+  SET_SOURCE_TOKENS, CLEAR_STATE
 } from '../../actions/actionTypes';
 
 const tokenComparator = (a, b) => {
@@ -57,6 +57,8 @@ const sourceTokens = (state = [], action) => {
       }
       return sourceTokens;
     }
+    case CLEAR_STATE:
+      return [];
     default:
       return state;
   }
@@ -78,6 +80,8 @@ const targetTokens = (state = [], action) => {
       }
       return targetTokens;
     }
+    case CLEAR_STATE:
+      return [];
     default:
       return state;
   }
@@ -87,3 +91,16 @@ export default combineReducers({
   source: sourceTokens,
   target: targetTokens
 });
+
+/**
+ * Returns the source tokens for a verse
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {*}
+ */
+export const getSourceTokens = (state, chapter, verse) => {
+  // TODO: eventually index tokens by chapter and verse
+  console.log('use me', chapter, verse);
+  return state.source;
+};

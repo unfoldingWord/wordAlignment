@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import {
   SET_TARGET_TOKENS,
   SET_SOURCE_TOKENS, CLEAR_STATE
-} from '../../actions/actionTypes';
+} from '../actions/actionTypes';
 
 const tokenComparator = (a, b) => {
   if (a.position < b.position) {
@@ -41,21 +41,49 @@ const targetToken = (token) => ({
   position: token.position
 });
 
+const verse = (state = [], action) => {
+  switch(action.type) {
+    case SET_SOURCE_TOKENS: {
+      const sortedTokens = action.tokens.sort(tokenComparator);
+      const tokens = [];
+      for(const token of sortedTokens) {
+        tokens.push(sourceToken(token));
+      }
+      return tokens;
+    }
+    default:
+      return state;
+  }
+};
+
+const chapter = (state = {}, action) => {
+  switch(action.type) {
+    case SET_SOURCE_TOKENS: {
+      const vid = action.verse + '';
+      return {
+        ...state,
+        [vid]: verse(state[vid], action)
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 /**
  * Stores source tokens for the current verse
  * @param state
  * @param action
  * @return {Array}
  */
-const sourceTokens = (state = [], action) => {
+const sourceTokens = (state = {}, action) => {
   switch(action.type) {
     case SET_SOURCE_TOKENS: {
-      const sortedTokens = action.tokens.sort(tokenComparator);
-      const sourceTokens = [];
-      for(const token of sortedTokens) {
-        sourceTokens.push(sourceToken(token));
-      }
-      return sourceTokens;
+      const cid = action.chapter + '';
+      return {
+        ...state,
+        [cid]: chapter(state[cid], action)
+      };
     }
     case CLEAR_STATE:
       return [];
@@ -97,10 +125,30 @@ export default combineReducers({
  * @param state
  * @param {number} chapter
  * @param {number} verse
+ * @return {[]}
+ */
+export const getVerseSourceTokens = (state, chapter, verse) => {
+  const tokens = getChapterSourceTokens(state, chapter);
+  const vid = verse + '';
+  if(tokens[vid]) {
+    return tokens[vid];
+  } else {
+    return [];
+  }
+};
+
+/**
+ * Returns the source tokens for a chapter
+ * @param state
+ * @param {number} chapter
  * @return {*}
  */
-export const getSourceTokens = (state, chapter, verse) => {
-  // TODO: eventually index tokens by chapter and verse
-  console.log('use me', chapter, verse);
-  return state.source;
+export const getChapterSourceTokens = (state, chapter) => {
+  console.error('you', chapter);
+  const cid = chapter + '';
+  if(state[cid]) {
+    return state[cid];
+  } else {
+    return {};
+  }
 };

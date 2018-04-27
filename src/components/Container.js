@@ -12,11 +12,13 @@ import path from 'path-extra';
 import Token from 'word-map/structures/Token';
 import {
   alignTargetToken,
+  clearState,
   moveSourceToken,
-  setChapterAlignments,
+  indexChapterAlignments,
   setSourceTokens,
   setTargetTokens,
-  unalignTargetToken
+  unalignTargetToken,
+  setChapterAlignments
 } from '../state/actions';
 import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
 import {connect} from 'react-redux';
@@ -31,6 +33,8 @@ import {
  */
 class Container extends Component {
 
+  const;
+
   constructor(props) {
     super(props);
     this.map = new WordMap();
@@ -39,7 +43,6 @@ class Container extends Component {
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
-    this.loadAlignments = this.loadAlignments.bind(this);
   }
 
   /**
@@ -83,7 +86,7 @@ class Container extends Component {
         strong: (word.strong || word.strongs),
         morph: word.morph,
         lemma: word.lemma,
-        tokenPosition: position,
+        position: position,
         occurrence: occurrences[word.text]
       }));
       position++;
@@ -95,12 +98,84 @@ class Container extends Component {
         strong: token.strong,
         morph: token.morph,
         lemma: token.lemma,
-        tokenPosition: token.position,
+        position: token.position,
         occurrence: token.occurrence,
         occurrences: occurrences[token.toString()]
       }));
     }
     return completeTokens;
+  }
+
+  /**
+   * Loads the target language tokens.
+   * This is a temporary step when loading the alignment data.
+   * Eventually the target verse will be part of the saved alignment data.
+   * @param {object} props - the component props
+   */
+  static loadTokens(props) {
+    const {
+      originalVerse,
+      targetVerse,
+      contextId,
+      setSourceTokens,
+      setTargetTokens
+    } = props;
+    // TODO: load tokens for the entire book (for map)
+    // TODO: at least load tokens for the entire chapter
+    // load the tokens being aligned
+    if (!contextId) {
+      console.error('no context id. skipping tokenizing');
+      return;
+    }
+
+    const {reference: {chapter, verse}} = contextId;
+    const sourceTokens = Container.tokenizeOriginalVerse(originalVerse);
+    const targetTokens = Lexer.tokenize(targetVerse);
+    setSourceTokens(chapter, verse, sourceTokens);
+    setTargetTokens(chapter, verse, targetTokens);
+
+    return sourceTokens;
+  }
+
+  /**
+   * Loads alignment data
+   * TODO: this needs to be cleaned up a LOT
+   * @param {object} props - the container props
+   * @return {Promise}
+   */
+  static loadAlignments(props) {
+    const {
+      contextId,
+      readGlobalToolData,
+      originalVerse,
+      indexChapterAlignments,
+      setChapterAlignments
+    } = props;
+
+    if (!contextId) {
+      console.error('no context id. skipping loading');
+      return;
+    }
+
+    // we must load the tokens first
+    const sourceTokens = Container.loadTokens(props);
+
+    // TODO: load alignment data for the entire book (for map)
+    const {reference: {bookId, chapter}} = contextId;
+    // load the alignment data
+    return readGlobalToolData(
+      path.join('alignmentData', bookId, chapter + '.json')).
+      then(async data => {
+        const chapterAlignments = JSON.parse(data);
+        // TODO: clean alignmentData is a temporary migration step.
+        await setChapterAlignments(chapter,
+          cleanAlignmentData(chapterAlignments), sourceTokens);
+      }).
+      catch(async () => {
+        const chapterAlignments = aligner.generateBlankAlignments(
+          originalVerse);
+        await indexChapterAlignments(chapter, chapterAlignments);
+      });
   }
 
   componentWillMount() {
@@ -135,8 +210,13 @@ class Container extends Component {
     this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
       desiredPanes);
 
-    Container.loadTokens(this.props);
-    this.loadAlignments();
+    Container.loadAlignments(this.props);
+  }
+
+  componentWillUnmount() {
+    const {clearState} = this.props;
+    clearState();
+    console.error('un-mounting');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -153,71 +233,34 @@ class Container extends Component {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
-    }
 
-    if (!isEqual(prevContextId, nextContextId)) {
-      Container.loadTokens(nextProps);
+      if (Container.chapterContextChanged(prevContextId, nextContextId)) {
+        Container.loadAlignments(nextProps);
+      } else {
+        Container.loadTokens(nextProps);
+      }
       Container.validateVerseData(nextProps);
     }
   }
 
   /**
-   * Loads the target language tokens.
-   * This is a temporary step when loading the alignment data.
-   * Eventually the target verse will be part of the saved alignment data.
-   * @param {object} props - the component props
+   * Checks if the chapter context changed
+   * @param prevContext
+   * @param nextContext
+   * @return {boolean}
    */
-  static loadTokens(props) {
-    const {
-      originalVerse,
-      targetVerse,
-      setSourceTokens,
-      setTargetTokens
-    } = props;
-    // TODO: load tokens for the entire book (for map)
-    // TODO: at least load tokens for the entire chapter
-    // load the tokens being aligned
-    if (originalVerse && originalVerse.verseObjects) {
-      const sourceTokens = Container.tokenizeOriginalVerse(originalVerse);
-      const targetTokens = Lexer.tokenize(targetVerse);
-      setSourceTokens(sourceTokens);
-      setTargetTokens(targetTokens);
+  static chapterContextChanged(prevContext, nextContext) {
+    if (!prevContext && nextContext) {
+      return true;
     }
-  }
-
-  /**
-   * Loads alignment data
-   * TODO: this needs to be cleaned up a LOT
-   * @return {Promise}
-   */
-  loadAlignments() {
-    const {
-      contextId,
-      readGlobalToolData,
-      originalVerse,
-      setChapterAlignments
-    } = this.props;
-
-    if (!contextId) {
-      return;
+    if (prevContext && nextContext) {
+      const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
+      const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
+      if(prevBook !== nextBook || prevChapter !== nextChapter) {
+        return true;
+      }
     }
-
-    // TODO: load alignment data for the entire book (for map)
-    const {reference: {bookId, chapter}} = contextId;
-    // load the alignment data
-    return readGlobalToolData(
-      path.join('alignmentData', bookId, chapter + '.json')).
-      then(async data => {
-        const chapterAlignments = JSON.parse(data);
-        // TODO: clean alignmentData is a temporary migration step.
-        await setChapterAlignments(chapter,
-          cleanAlignmentData(chapterAlignments));
-      }).
-      catch(async () => {
-        const chapterAlignments = aligner.generateBlankAlignments(
-          originalVerse);
-        await setChapterAlignments(chapter, chapterAlignments);
-      });
+    return false;
   }
 
   /**
@@ -291,7 +334,7 @@ class Container extends Component {
       text: item.word,
       occurrence: item.occurrence,
       occurrences: item.occurrences,
-      tokenPosition: item.position
+      position: item.position
     });
     if (prevIndex >= 0) {
       unalignTargetToken(chapter, verse, prevIndex, token);
@@ -318,7 +361,7 @@ class Container extends Component {
       text: item.word,
       occurrence: item.occurrence,
       occurrences: item.occurrences,
-      tokenPosition: item.position
+      position: item.position
     });
     unalignTargetToken(chapter, verse, prevIndex, token);
 
@@ -346,7 +389,7 @@ class Container extends Component {
       lemma: item.lemma,
       morph: item.morph,
       strong: item.strong,
-      tokenPosition: item.position
+      position: item.position
     });
 
     moveSourceToken(chapter, verse, nextIndex, prevIndex, token);
@@ -376,6 +419,11 @@ class Container extends Component {
       appLanguage,
       currentToolViews
     } = this.props;
+
+    if (!contextId) {
+      return null;
+    }
+
     const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
@@ -447,7 +495,7 @@ Container.propTypes = {
   targetVerse: PropTypes.string,
   originalVerse: PropTypes.object,
   appLanguage: PropTypes.string.isRequired,
-  setChapterAlignments: PropTypes.func.isRequired,
+  indexChapterAlignments: PropTypes.func.isRequired,
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
@@ -455,6 +503,8 @@ Container.propTypes = {
   moveSourceToken: PropTypes.func.isRequired,
   setSourceTokens: PropTypes.func.isRequired,
   setTargetTokens: PropTypes.func.isRequired,
+  clearState: PropTypes.func.isRequired,
+  setChapterAlignments: PropTypes.func.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -472,12 +522,14 @@ Container.propTypes = {
 };
 
 const mapDispatchToProps = ({
-  setChapterAlignments,
+  indexChapterAlignments,
   alignTargetToken,
   unalignTargetToken,
   moveSourceToken,
   setSourceTokens,
-  setTargetTokens
+  setTargetTokens,
+  setChapterAlignments,
+  clearState
 });
 
 const mapStateToProps = (state, {contextId}) => {

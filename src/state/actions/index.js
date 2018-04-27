@@ -1,16 +1,38 @@
 import * as types from './actionTypes';
+import {getChapterSourceTokens} from '../reducers';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
  * @param {number} chapter - the chapter to which these alignment data belongs
  * @param {object} data - the new alignment data;
+ * @param {Token[]} sourceTokens - the source text tokens
  * @return {Function}
  */
-export const setChapterAlignments = (chapter, data) => ({
+export const setChapterAlignments = (chapter, data, sourceTokens) => ({
   type: types.SET_CHAPTER_ALIGNMENTS,
   chapter,
-  alignments: data
+  alignments: data,
+  sourceTokens
 });
+
+/**
+ * Retrieves some extra data from redux before inserting the chapter alignments.
+ * The pain point here is due to the current alignment file format we cannot
+ * reliably assume token order. Therefore we must include a frame of reference.
+ * @param chapter
+ * @param data
+ * @return {Function}
+ */
+export const indexChapterAlignments = (chapter, data) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    // TRICKY: add position information to
+    const sourceTokens = getChapterSourceTokens(state, parseInt(chapter));
+    console.log('source tokens', sourceTokens);
+    // TODO: get target tokens as well
+    dispatch(setChapterAlignments(chapter, data, sourceTokens));
+  };
+};
 
 /**
  * Adds a target token to an alignment
@@ -99,10 +121,11 @@ const insertSourceToken = (chapter, verse, token) => ({
  * @param {Token} token - the source token to move
  * @return {Function}
  */
-export const moveSourceToken = (chapter, verse, nextIndex, prevIndex, token) => {
+export const moveSourceToken = (
+  chapter, verse, nextIndex, prevIndex, token) => {
   return dispatch => {
     dispatch(unalignSourceToken(chapter, verse, prevIndex, token));
-    if(prevIndex === nextIndex) {
+    if (prevIndex === nextIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
       dispatch(alignSourceToken(chapter, verse, nextIndex, token));
@@ -111,19 +134,35 @@ export const moveSourceToken = (chapter, verse, nextIndex, prevIndex, token) => 
 };
 
 /**
- * Sets the target tokens for the current context
+ * Sets the target tokens for the verse
+ * @param {number} chapter
+ * @param {number} verse
  * @param {Token[]} tokens
  */
-export const setTargetTokens = (tokens) => ({
+export const setTargetTokens = (chapter, verse, tokens) => ({
   type: types.SET_TARGET_TOKENS,
-  tokens
+  tokens,
+  chapter,
+  verse
 });
 
 /**
- * Sets the source tokens for the current context
+ * Sets the source tokens for the verse
+ * @param {number} chapter
+ * @param {number} verse
  * @param {Token[]} tokens
  */
-export const setSourceTokens = (tokens) => ({
+export const setSourceTokens = (chapter, verse, tokens) => ({
   type: types.SET_SOURCE_TOKENS,
-  tokens
+  tokens,
+  chapter,
+  verse
+});
+
+/**
+ * Clears the tool's redux state
+ * @return {{}}
+ */
+export const clearState = () => ({
+  type: types.CLEAR_STATE
 });

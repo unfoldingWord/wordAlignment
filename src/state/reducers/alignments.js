@@ -1,14 +1,14 @@
 import Token from 'word-map/structures/Token';
-import {combineReducers} from 'redux';
-import tokens, * as fromTokens from './tokens';
+
 import {
   ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN, CLEAR_STATE,
+  ALIGN_TARGET_TOKEN,
+  CLEAR_STATE,
   INSERT_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS,
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
-} from '../../actions/actionTypes';
+} from '../actions/actionTypes';
 
 /**
  * Checks if a word equals a token
@@ -52,6 +52,23 @@ const alignmentComparator = (a, b) => {
   } else {
     return 0;
   }
+};
+
+/**
+ * Search for a token that matches the word
+ * @param {{}} word
+ * @param {[]} tokens
+ */
+const findToken = (word, tokens) => {
+  if (tokens) {
+    for (const t of tokens) {
+      if (t.text === word.text && t.occurrence === word.occurrence &&
+        t.occurrences === word.occurrences) {
+        return t;
+      }
+    }
+  }
+  return null;
 };
 
 const topWord = (token) => ({
@@ -107,9 +124,16 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
       const alignment = action.alignments[vid].alignments[action.index];
       const topWords = [];
       const bottomWords = [];
+      const sourceTokens = action.sourceTokens[vid];
       for (const word of alignment.topWords) {
-        // TODO: look up token from index
-        topWords.push(word);
+        const token = findToken(word, sourceTokens);
+        if (token) {
+          topWords.push(topWord(token));
+        } else {
+          // exclude invalid words
+          console.warn('Invalid source word data',
+            `"${word.word}" does not exist in the sentence.`);
+        }
       }
       for (const word of alignment.bottomWords) {
         // TODO: look up token from index
@@ -212,21 +236,18 @@ const alignments = (state = {}, action) => {
   }
 };
 
-export default combineReducers({
-  alignments,
-  tokens
-});
+export default alignments;
 
 /**
  * Returns alignments for an entire chapter
  * @param state
  * @param {number} chapter - the chapter for which to return alignments
- * @return {*}
+ * @return {{}}
  */
 export const getChapterAlignments = (state, chapter) => {
   const chapterId = chapter + '';
-  if (chapterId in state.alignments) {
-    return state.alignments[chapterId];
+  if (chapterId in state) {
+    return state[chapterId];
   } else {
     return {};
   }
@@ -237,7 +258,7 @@ export const getChapterAlignments = (state, chapter) => {
  * @param state
  * @param {number} chapter
  * @param {number} verse
- * @return {*}
+ * @return {[]}
  */
 export const getVerseAlignments = (state, chapter, verse) => {
   const chapterAlignments = getChapterAlignments(state, chapter);
@@ -248,16 +269,6 @@ export const getVerseAlignments = (state, chapter, verse) => {
     return [];
   }
 };
-
-/**
- * Returns the source tokens for a verse
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @return {*}
- */
-export const getSourceTokens = (state, chapter, verse) =>
-  fromTokens(state.tokens, chapter, verse);
 
 /**
  * Returns tokens that have been aligned to the verse

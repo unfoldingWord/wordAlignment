@@ -83,7 +83,7 @@ const indexOfToken = (tokens, text, occurrence, occurrences) => {
  * @param {object} data - the raw alignment data
  * @throws Throws an error if the data is invalid
  * @example
- * // data format
+ * // input data format
  * {
  *   "1": {
  *      "alignments": [
@@ -149,6 +149,27 @@ export const migrateAlignmentData = (data) => {
  * @param {Token[]} targetTokensBaseline
  * @throws will throw an error if the data is invalid
  * @return {*}
+ * @example
+ * // input data format
+ * {
+ *    "1": {
+ *      "sourceTokens": [...],
+ *      "targetTokens": [...],
+ *      "alignments": [{
+ *        "sourceNgram": [...],
+ *        "targetNgram": [...]
+ *      }, ...]
+ *    }
+ * }
+ * // where tokens are like:
+ * {
+ *    "text": "",
+ *    "strong": "",
+ *    "lemma": "",
+ *    "morph": "",
+ *    "occurrence": 1,
+ *    "occurrences: 1
+ * }
  */
 export const normalizeAlignmentData = (
   data, sourceTokensBaseline, targetTokensBaseline) => {

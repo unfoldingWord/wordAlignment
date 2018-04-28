@@ -1,5 +1,7 @@
 import * as types from './actionTypes';
-import {getChapterSourceTokens} from '../reducers';
+import Lexer from 'word-map/Lexer';
+import {tokenizeVerseObjects} from '../../utils/verseObjects';
+import {migrateChapterAlignments} from '../../utils/migrations';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
@@ -19,18 +21,41 @@ export const setChapterAlignments = (chapter, data, sourceTokens) => ({
  * Retrieves some extra data from redux before inserting the chapter alignments.
  * The pain point here is due to the current alignment file format we cannot
  * reliably assume token order. Therefore we must include a frame of reference.
- * @param chapter
- * @param data
+ * @param chapterId
+ * @param {object} rawAlignmentData
+ * @param sourceChapter
+ * @param targetChapter
  * @return {Function}
  */
-export const indexChapterAlignments = (chapter, data) => {
-  return (dispatch, getState) => {
-    const state = getState();
-    // TRICKY: add position information to
-    const sourceTokens = getChapterSourceTokens(state, parseInt(chapter));
-    console.log('source tokens', sourceTokens);
-    // TODO: get target tokens as well
-    dispatch(setChapterAlignments(chapter, data, sourceTokens));
+export const indexChapterAlignments = (
+  chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      // tokenize chapters
+      const targetChapterTokens = {};
+      const sourceChapterTokens = {};
+      console.log('chapter data', sourceChapter, targetChapter);
+      for (const verse of Object.keys(targetChapter)) {
+        targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
+      }
+      for (const verse of Object.keys(sourceChapter)) {
+        sourceChapterTokens[verse] = tokenizeVerseObjects(
+          sourceChapter[verse]);
+      }
+
+      // migrate alignment data
+      let alignmentData = null;
+      try {
+        reject('oops');
+        alignmentData = migrateChapterAlignments(rawAlignmentData,
+          sourceChapterTokens, targetChapterTokens);
+        dispatch(setChapterAlignments(chapterId, alignmentData));
+        resolve();
+      } catch (e) {
+        // TODO: reset alignment data to default state.
+        reject(e);
+      }
+    });
   };
 };
 

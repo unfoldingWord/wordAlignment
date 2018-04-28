@@ -1,5 +1,5 @@
 import Token from 'word-map/structures/Token';
-import {migrateAlignmentData, normalizeAlignmentData} from '../migrations';
+import {formatAlignmentData, normalizeAlignmentData} from '../migrations';
 
 describe('alignment data migration', () => {
   it('migrates legacy (2017) alignment data', () => {
@@ -33,7 +33,7 @@ describe('alignment data migration', () => {
           }]
       }
     };
-    const output = migrateAlignmentData(data);
+    const output = formatAlignmentData(data);
     expect(output).toEqual({
       '1': {
         sourceTokens: [

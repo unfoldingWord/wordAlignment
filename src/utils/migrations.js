@@ -5,7 +5,7 @@
  */
 const migrateTopWord = word => ({
   text: word.word,
-  strong: word.strong,
+  strong: word.strong ? word.strong : word.strongs,
   lemma: word.lemma,
   morph: word.morph,
   occurrence: word.occurrence,
@@ -77,8 +77,26 @@ const indexOfToken = (tokens, text, occurrence, occurrences) => {
 };
 
 /**
- * Migrates the alignment data read from the disk into an intermediate format.
- * Note: this is not a full migration, because are are missing some data.
+ * Migrates chapter alignment data to a form usable by the tool.
+ * Note: this only performs alignment validation not sentence validation.
+ * You should validate the sentences (sourceTokens and targetTokens) for consistency after migration.
+ *
+ * @param {object} data - the chapter alignment data
+ * @param {Token[]} sourceTokens - the source tokens used as a baseline
+ * @param {Token[]} targetTokens - the target tokens used as a baseline
+ * @return {*}
+ * @throws {AlignmentError} if any of the alignments are invalid
+ */
+export const migrateChapterAlignments = (data, sourceTokens, targetTokens) => {
+  const interchangeData = formatAlignmentData(data);
+  return normalizeAlignmentData(interchangeData, sourceTokens, targetTokens);
+};
+
+/**
+ * Formats legacy alignment data into a usable form.
+ * Note: this is not a full migration, because we are missing some data.
+ * You should execute {@link normalizeAlignmentData} on the output of this method.
+ * This is exported only for testing.
  *
  * @param {object} data - the raw alignment data
  * @throws Throws an error if the data is invalid
@@ -105,7 +123,7 @@ const indexOfToken = (tokens, text, occurrence, occurrences) => {
  *  "occurrences: 1
  * }
  */
-export const migrateAlignmentData = (data) => {
+export const formatAlignmentData = (data) => {
   const migratedData = {};
   for (const verse of Object.keys(data)) {
     let targetTokens = [];
@@ -143,11 +161,14 @@ export const migrateAlignmentData = (data) => {
 };
 
 /**
- * Finishes the migration by injecting some data, sorting, and simplifying the n-grams
+ * Finishes the migration by injecting some data, sorting, and simplifying the n-grams.
+ * This is exported only for testing.
+ *
  * @param data
  * @param {Token[]} sourceTokensBaseline
  * @param {Token[]} targetTokensBaseline
  * @throws will throw an error if the data is invalid
+ * @throws {AlignmentError} if the alignment is invalid
  * @return {*}
  * @example
  * // input data format
@@ -189,7 +210,7 @@ export const normalizeAlignmentData = (
           position: baseline.position
         });
       } else {
-        throw new Error(
+        throw new AlignmentError(
           `Unexpected target token "${t.text}" in alignment data`);
       }
     }
@@ -204,7 +225,7 @@ export const normalizeAlignmentData = (
           position: baseline.position
         });
       } else {
-        throw new Error(
+        throw new AlignmentError(
           `Unexpected source token "${t.text}" in alignment data`);
       }
     }
@@ -225,7 +246,7 @@ export const normalizeAlignmentData = (
         if (index >= 0) {
           sourceNgram.push(index);
         } else {
-          throw new Error(
+          throw new AlignmentError(
             `Unexpected source token "${token.text}" in alignment`);
         }
       }
@@ -237,7 +258,7 @@ export const normalizeAlignmentData = (
         if (index >= 0) {
           targetNgram.push(index);
         } else {
-          throw new Error(
+          throw new AlignmentError(
             `Unexpected target token "${token.text}" in alignment`);
         }
       }
@@ -265,3 +286,9 @@ export const normalizeAlignmentData = (
   }
   return normalizedData;
 };
+
+/**
+ * An error indicating the word alignment is invalid
+ */
+class AlignmentError extends Error {
+}

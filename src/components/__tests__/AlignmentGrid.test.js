@@ -4,19 +4,26 @@ import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
+import Token from 'word-map/structures/Token';
 
 test('empty snapshot', () => {
   const wrapper = renderer.create(
     <AlignmentGrid lexicons={{}}
-                   translate={k=>k}
-                   actions={{}}/>
+                   alignments={[]}
+                   onAlign={jest.fn()}
+                   onMerge={jest.fn()}
+                   translate={k => k}
+                   actions={{
+                     showPopover: jest.fn(),
+                     loadLexiconEntry: jest.fn(),
+                     getLexiconData: jest.fn()
+                   }}/>
   );
   expect(wrapper).toMatchSnapshot();
 });
 
 describe('AlignmentGrid', () => {
   let contextId, alignmentData;
-  const luke1 = require('./fixtures/luke/1.json');
 
   beforeEach(() => {
 
@@ -33,7 +40,49 @@ describe('AlignmentGrid', () => {
       'tool': 'TranslationNotesChecker'
     };
     alignmentData = {
-      '1': luke1
+      '1': {
+        '1': [
+          {
+            'sourceNgram': [
+              new Token({
+                'text': 'ἐπειδήπερ',
+                'strongs': 'G18950',
+                'lemma': 'ἐπειδήπερ',
+                'morph': 'Gr,CS,,,,,,,,',
+                'occurrence': 1,
+                'occurrences': 1
+              })
+            ],
+            'targetNgram': []
+          },
+          {
+            'sourceNgram': [
+              new Token({
+                'text': 'πολλοὶ',
+                'strongs': 'G41830',
+                'lemma': 'πολλός',
+                'morph': 'Gr,RI,,,,NMP,',
+                'occurrence': 1,
+                'occurrences': 1
+              })
+            ],
+            'targetNgram': []
+          },
+          {
+            'sourceNgram': [
+              new Token({
+                'text': 'ἐπεχείρησαν',
+                'strongs': 'G20210',
+                'lemma': 'ἐπιχειρέω',
+                'morph': 'Gr,V,IAA3,,P,',
+                'occurrence': 1,
+                'occurrences': 1
+              })
+            ],
+            'targetNgram': []
+          }
+        ]
+      }
     };
   });
 
@@ -44,10 +93,16 @@ describe('AlignmentGrid', () => {
     const ConnectedAlignmentGrid = wrapInTestContext(AlignmentGrid);
     const wrapper = renderer.create(
       <ConnectedAlignmentGrid
-        alignmentData={alignmentData}
+        alignments={alignmentData['1']['1']}
         contextId={contextId}
-        translate={k=>k}
-        actions={{}}
+        onAlign={jest.fn()}
+        onMerge={jest.fn()}
+        translate={k => k}
+        actions={{
+          showPopover: jest.fn(),
+          loadLexiconEntry: jest.fn(),
+          getLexiconData: jest.fn()
+        }}
         lexicons={{}}
       />
     );
@@ -67,10 +122,16 @@ describe('AlignmentGrid', () => {
     // when
     const enzymeWrapper = shallow(
       <AlignmentGrid
-        alignmentData={alignmentData}
+        alignments={alignmentData['1']['1']}
         contextId={contextId}
-        translate={k=>k}
-        actions={{}}
+        onAlign={jest.fn()}
+        onMerge={jest.fn()}
+        translate={k => k}
+        actions={{
+          showPopover: jest.fn(),
+          loadLexiconEntry: jest.fn(),
+          getLexiconData: jest.fn()
+        }}
         lexicons={{}}
       />
     );
@@ -81,7 +142,6 @@ describe('AlignmentGrid', () => {
     expect(dropBoxArea.getElements().length).toEqual(expectedWords + 1);
   });
 });
-
 
 /**
  * Wraps a component into a DragDropContext that uses the TestBackend.

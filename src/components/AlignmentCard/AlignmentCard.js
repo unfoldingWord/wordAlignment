@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 // constants
 const noBibleTextWarning = `[WARNING: This Bible version does not include text for this reference.]`;
@@ -8,11 +8,12 @@ const noBibleTextWarning = `[WARNING: This Bible version does not include text f
  * @return {*}
  */
 const makeStyles = (props) => {
-  const { topWordCards, hoverTop, hoverBottom, bottomWordCards, acceptsTopWords, acceptsBottomWords } = props;
+  const {topWordCards, hoverTop, hoverBottom, bottomWordCards, acceptsTopWords, acceptsBottomWords} = props;
   const emptyTop = !topWordCards || topWordCards.length === 0;
   const emptyBottom = !bottomWordCards || bottomWordCards.length === 0;
   const emptyAlignment = emptyTop && emptyBottom;
-  const largeAlignment = (!emptyTop && topWordCards.length > 1) || (!emptyBottom && bottomWordCards.length > 1);
+  const largeAlignment = (!emptyTop && topWordCards.length > 1) ||
+    (!emptyBottom && bottomWordCards.length > 1);
 
   const defaultAlignmentWidth = '115px';
   const blueBorder = '3px dashed #44C6FF';
@@ -31,7 +32,9 @@ const makeStyles = (props) => {
       padding: '7px',
       backgroundColor: '#DCDCDC',
       margin: '0px 10px 10px 0px',
-      minWidth: emptyAlignment ? `calc(${defaultAlignmentWidth}/2)` : defaultAlignmentWidth,
+      minWidth: emptyAlignment ?
+        `calc(${defaultAlignmentWidth}/2)` :
+        defaultAlignmentWidth,
       flexGrow: largeAlignment ? 1 : 0
     },
     content: {
@@ -93,14 +96,20 @@ const makeStyles = (props) => {
  */
 class AlignmentCard extends Component {
   render() {
-    const { bottomWordCards, topWordCards, topWords } = this.props;
+    const {bottomWordCards, topWordCards} = this.props;
     const styles = makeStyles(this.props);
     let alignmentCardContent = <div/>;
 
-     // if there is no top words show warning alert
-     if (topWords.length === 1 && !topWords[0].text) {
+    // if there is no top words show warning alert
+    if (!topWordCards.length) {
       alignmentCardContent = (
-        <div style={{ ...styles.content, width: '280px', height: '100px', fontSize: '20px', padding: '5px' }}>
+        <div style={{
+          ...styles.content,
+          width: '280px',
+          height: '100px',
+          fontSize: '20px',
+          padding: '5px'
+        }}>
           {noBibleTextWarning}
         </div>
       );
@@ -130,13 +139,12 @@ class AlignmentCard extends Component {
 }
 
 AlignmentCard.propTypes = {
-  topWords: PropTypes.array,
   topWordCards: PropTypes.array,
   bottomWordCards: PropTypes.array,
   hoverBottom: PropTypes.bool,
   hoverTop: PropTypes.bool,
   acceptsTopWords: PropTypes.bool,
-  acceptsBottomWords: PropTypes.bool,
+  acceptsBottomWords: PropTypes.bool
 };
 
 export default AlignmentCard;

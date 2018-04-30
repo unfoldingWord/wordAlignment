@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Container renders 1`] = `
-<DragDropContext(TestContextContainer)
+<DragDropContext(Tool)
   actions={
     Object {
       "getWordListForVerse": [Function],
@@ -15,6 +15,7 @@ exports[`Container renders 1`] = `
   contextIdReducer={Object {}}
   currentToolViews={Object {}}
   projectDetailsReducer={Object {}}
+  readGlobalToolData={[Function]}
   resourcesReducer={
     Object {
       "bibles": Array [],
@@ -45,8 +46,9 @@ exports[`Container renders 1`] = `
       "alignmentData": Object {},
     }
   }
+  writeGlobalToolData={[Function]}
 >
-  <TestContextContainer
+  <Tool
     actions={
       Object {
         "getWordListForVerse": [Function],
@@ -60,6 +62,7 @@ exports[`Container renders 1`] = `
     contextIdReducer={Object {}}
     currentToolViews={Object {}}
     projectDetailsReducer={Object {}}
+    readGlobalToolData={[Function]}
     resourcesReducer={
       Object {
         "bibles": Array [],
@@ -90,53 +93,20 @@ exports[`Container renders 1`] = `
         "alignmentData": Object {},
       }
     }
+    writeGlobalToolData={[Function]}
   >
-    <DragDropContext(Container)
-      actions={
+    <Provider
+      store={
         Object {
-          "getWordListForVerse": [Function],
-          "loadLexiconEntry": [Function],
-          "moveBackToWordBank": [Function],
-          "setToolSettings": [Function],
-          "showPopover": [Function],
-        }
-      }
-      appLanguage="en"
-      contextIdReducer={Object {}}
-      currentToolViews={Object {}}
-      projectDetailsReducer={Object {}}
-      resourcesReducer={
-        Object {
-          "bibles": Array [],
-          "lexicons": Object {},
-        }
-      }
-      selectionsReducer={
-        Object {
-          "selections": Array [
-            Object {
-              "text": "text",
-            },
-          ],
-        }
-      }
-      settingsReducer={
-        Object {
-          "toolsSettings": Object {
-            "ScripturePane": Object {
-              "currentPaneSettings": Array [],
-            },
-          },
-        }
-      }
-      translate={[Function]}
-      wordAlignmentReducer={
-        Object {
-          "alignmentData": Object {},
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
         }
       }
     >
-      <Container
+      <TestContextContainer
         actions={
           Object {
             "getWordListForVerse": [Function],
@@ -150,6 +120,7 @@ exports[`Container renders 1`] = `
         contextIdReducer={Object {}}
         currentToolViews={Object {}}
         projectDetailsReducer={Object {}}
+        readGlobalToolData={[Function]}
         resourcesReducer={
           Object {
             "bibles": Array [],
@@ -180,59 +151,103 @@ exports[`Container renders 1`] = `
             "alignmentData": Object {},
           }
         }
+        writeGlobalToolData={[Function]}
       >
-        <div
-          style={
+        <DragDropContext(Connect(Container))
+          actions={
             Object {
-              "display": "flex",
-              "height": "100%",
-              "width": "100%",
+              "getWordListForVerse": [Function],
+              "loadLexiconEntry": [Function],
+              "moveBackToWordBank": [Function],
+              "setToolSettings": [Function],
+              "showPopover": [Function],
             }
           }
+          appLanguage="en"
+          contextIdReducer={Object {}}
+          currentToolViews={Object {}}
+          projectDetailsReducer={Object {}}
+          readGlobalToolData={[Function]}
+          resourcesReducer={
+            Object {
+              "bibles": Array [],
+              "lexicons": Object {},
+            }
+          }
+          selectionsReducer={
+            Object {
+              "selections": Array [
+                Object {
+                  "text": "text",
+                },
+              ],
+            }
+          }
+          settingsReducer={
+            Object {
+              "toolsSettings": Object {
+                "ScripturePane": Object {
+                  "currentPaneSettings": Array [],
+                },
+              },
+            }
+          }
+          translate={[Function]}
+          wordAlignmentReducer={
+            Object {
+              "alignmentData": Object {},
+            }
+          }
+          writeGlobalToolData={[Function]}
         >
-          <DropTarget(DroppableWordList)
-            moveBackToWordBank={[Function]}
-            words={Array []}
-          >
-            <DroppableWordList
-              canDrop={false}
-              connectDropTarget={[Function]}
-              isOver={false}
-              moveBackToWordBank={[Function]}
-              words={Array []}
-            >
-              <div
-                id="wordList"
-                style={
-                  Object {
-                    "backgroundColor": "#DCDCDC",
-                    "flex": 0.2,
-                    "overflowY": "auto",
-                    "padding": "5px 8px 5px 5px",
-                    "width": "100%",
-                  }
-                }
-              >
-                <WordList
-                  isOver={false}
-                  words={Array []}
-                />
-              </div>
-            </DroppableWordList>
-          </DropTarget(DroppableWordList)>
-          <div
-            style={
+          <Connect(Container)
+            actions={
               Object {
-                "display": "flex",
-                "flex": 0.8,
-                "flexDirection": "column",
-                "height": "100%",
-                "width": "100%",
+                "getWordListForVerse": [Function],
+                "loadLexiconEntry": [Function],
+                "moveBackToWordBank": [Function],
+                "setToolSettings": [Function],
+                "showPopover": [Function],
               }
             }
+            appLanguage="en"
+            contextIdReducer={Object {}}
+            currentToolViews={Object {}}
+            projectDetailsReducer={Object {}}
+            readGlobalToolData={[Function]}
+            resourcesReducer={
+              Object {
+                "bibles": Array [],
+                "lexicons": Object {},
+              }
+            }
+            selectionsReducer={
+              Object {
+                "selections": Array [
+                  Object {
+                    "text": "text",
+                  },
+                ],
+              }
+            }
+            settingsReducer={
+              Object {
+                "toolsSettings": Object {
+                  "ScripturePane": Object {
+                    "currentPaneSettings": Array [],
+                  },
+                },
+              }
+            }
+            translate={[Function]}
+            wordAlignmentReducer={
+              Object {
+                "alignmentData": Object {},
+              }
+            }
+            writeGlobalToolData={[Function]}
           >
-            <div />
-            <AlignmentGrid
+            <Container
               actions={
                 Object {
                   "getWordListForVerse": [Function],
@@ -242,16 +257,57 @@ exports[`Container renders 1`] = `
                   "showPopover": [Function],
                 }
               }
-              alignmentData={Object {}}
-              lexicons={Object {}}
+              alignTargetToken={[Function]}
+              alignedTokens={Array []}
+              appLanguage="en"
+              clearState={[Function]}
+              contextIdReducer={Object {}}
+              currentToolViews={Object {}}
+              indexChapterAlignments={[Function]}
+              moveSourceToken={[Function]}
+              projectDetailsReducer={Object {}}
+              readGlobalToolData={[Function]}
+              resourcesReducer={
+                Object {
+                  "bibles": Array [],
+                  "lexicons": Object {},
+                }
+              }
+              selectionsReducer={
+                Object {
+                  "selections": Array [
+                    Object {
+                      "text": "text",
+                    },
+                  ],
+                }
+              }
+              setChapterAlignments={[Function]}
+              setSourceTokens={[Function]}
+              setTargetTokens={[Function]}
+              settingsReducer={
+                Object {
+                  "toolsSettings": Object {
+                    "ScripturePane": Object {
+                      "currentPaneSettings": Array [],
+                    },
+                  },
+                }
+              }
               translate={[Function]}
-            >
-              <div />
-            </AlignmentGrid>
-          </div>
-        </div>
-      </Container>
-    </DragDropContext(Container)>
-  </TestContextContainer>
-</DragDropContext(TestContextContainer)>
+              unalignTargetToken={[Function]}
+              verseAlignments={Array []}
+              wordAlignmentReducer={
+                Object {
+                  "alignmentData": Object {},
+                }
+              }
+              writeGlobalToolData={[Function]}
+            />
+          </Connect(Container)>
+        </DragDropContext(Connect(Container))>
+      </TestContextContainer>
+    </Provider>
+  </Tool>
+</DragDropContext(Tool)>
 `;

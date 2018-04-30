@@ -44,7 +44,7 @@ const WordList = ({
 };
 
 WordList.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)),
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   isOver: PropTypes.bool.isRequired
 };
 

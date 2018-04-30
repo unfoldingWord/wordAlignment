@@ -1,22 +1,22 @@
 import {disableAlignedWords} from '../words';
-import Word from '../../specs/Word';
+import Token from 'word-map/structures/Token';
 
 describe('disableAlignedWords', () => {
   it('disables some words', () => {
     const words = [
-      new Word('w1'),
-      new Word('w2'),
-      new Word('w3')
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
+      new Token({text: 'w3'}),
     ];
     const alignedWords = [
-      new Word('w2')
+      new Token({text: 'w2'})
     ];
-    const w2 = new Word('w2');
-    w2.disable();
+    const w2 = new Token({text: 'w2'});
+    w2.disabled = true;
     const expected = [
-      new Word('w1'),
+      new Token({text: 'w1'}),
       w2,
-      new Word('w3')
+      new Token({text: 'w3'})
     ];
 
     const result = disableAlignedWords(words, alignedWords);
@@ -25,17 +25,17 @@ describe('disableAlignedWords', () => {
 
   it('disables no words', () => {
     const words = [
-      new Word('w1'),
-      new Word('w2'),
-      new Word('w3')
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
+      new Token({text: 'w3'})
     ];
     const alignedWords = [
-      new Word('w0')
+      new Token({text: 'w0'})
     ];
     const expected = [
-      new Word('w1'),
-      new Word('w2'),
-      new Word('w3')
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
+      new Token({text: 'w3'})
     ];
 
     const result = disableAlignedWords(words, alignedWords);
@@ -44,16 +44,16 @@ describe('disableAlignedWords', () => {
 
   it('has no alignments', () => {
     const words = [
-      new Word('w1'),
-      new Word('w2'),
-      new Word('w3')
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
+      new Token({text: 'w3'})
     ];
     const alignedWords = [
     ];
     const expected = [
-      new Word('w1'),
-      new Word('w2'),
-      new Word('w3')
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
+      new Token({text: 'w3'})
     ];
 
     const result = disableAlignedWords(words, alignedWords);
@@ -63,9 +63,9 @@ describe('disableAlignedWords', () => {
   it('has no words', () => {
     const words = [];
     const alignedWords = [
-      new Word('w1'),
-      new Word('w2'),
-      new Word('w3')
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
+      new Token({text: 'w3'})
     ];
     const expected = [];
     const result = disableAlignedWords(words, alignedWords);

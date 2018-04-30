@@ -1,11 +1,12 @@
 /* eslint-env jest */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
-import { DragDropContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 import expect from 'expect';
 import Container from '../Container';
-import { mount } from 'enzyme';
+import {mount} from 'enzyme';
 import toJson from 'enzyme-to-json';
+import {connectTool} from 'tc-tool';
 
 test('Container renders', () => {
   const props = {
@@ -14,7 +15,7 @@ test('Container renders', () => {
       moveBackToWordBank: jest.fn(),
       getWordListForVerse: jest.fn(),
       loadLexiconEntry: jest.fn(),
-      showPopover: jest.fn()  
+      showPopover: jest.fn()
     },
     settingsReducer: {
       toolsSettings: {
@@ -24,7 +25,7 @@ test('Container renders', () => {
       }
     },
     selectionsReducer: {
-      selections: [{text:'text'}]
+      selections: [{text: 'text'}]
     },
     projectDetailsReducer: {},
     contextIdReducer: {},
@@ -36,8 +37,10 @@ test('Container renders', () => {
     wordAlignmentReducer: {
       alignmentData: {}
     },
+    writeGlobalToolData: jest.fn(),
+    readGlobalToolData: jest.fn(),
     appLanguage: 'en',
-    translate: k=>k,
+    translate: k => k
   };
 
   const WrappedContainer = wrapInTestContext(Container);
@@ -49,11 +52,11 @@ test('Container renders', () => {
  * Wraps a component into a DragDropContext that uses the TestBackend.
  */
 function wrapInTestContext(DecoratedComponent) {
-  return DragDropContext(TestBackend)(
-    class TestContextContainer extends Component {
-      render() {
-        return <DecoratedComponent {...this.props} />;
-      }
+  class TestContextContainer extends Component {
+    render() {
+      return <DecoratedComponent {...this.props} />;
     }
-  );
+  }
+
+  return DragDropContext(TestBackend)(connectTool()(TestContextContainer));
 }

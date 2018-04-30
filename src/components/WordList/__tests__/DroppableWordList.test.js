@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import Word from '../../../specs/Word';
+import Token from 'word-map/structures/Token';
 import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
@@ -11,12 +11,12 @@ describe('Test DroppableWordList component in WordList/index.js', () => {
   let props;
 
   beforeEach(() => {
-    const w3 = new Word('w3');
-    w3.disable();
+    const w3 = new Token({text: 'w3'});
+    w3.disabled = true;
     const words = [
-      new Word('w1', 1, 1),
-      new Word('w2', 1, 2),
-      new Word('w2', 2, 2),
+      new Token({text: 'w1'}),
+      new Token({text: 'w2', occurrence: 1, occurrences: 2}),
+      new Token({text: 'w2', occurrence: 2, occurrences: 2}),
       w3
     ];
     props = {

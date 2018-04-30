@@ -478,10 +478,6 @@ class Container extends Component {
   }
 }
 
-Container.contextTypes = {
-  store: PropTypes.object.isRequired
-};
-
 Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,
   readGlobalToolData: PropTypes.func.isRequired,

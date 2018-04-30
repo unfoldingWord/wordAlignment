@@ -1,10 +1,8 @@
 import {combineReducers} from 'redux';
 import alignments, * as fromAlignments from './alignments';
-import tokens, * as fromTokens from './tokens';
 
 export default combineReducers({
-  alignments,
-  tokens
+  alignments
 });
 
 /**
@@ -37,23 +35,3 @@ export const getVerseAlignments = (state, chapter, verse) =>
  */
 export const getAlignedVerseTokens = (state, chapter, verse) =>
   fromAlignments.getAlignedVerseTokens(state.tool.alignments, chapter, verse);
-
-/**
- * Returns the source tokens for a verse
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @return {object[]}
- */
-export const getVerseSourceTokens = (state, chapter, verse) =>
-  fromTokens.getVerseSourceTokens(state.tool.tokens, chapter, verse);
-
-/**
- * Returns the source tokens for a chapter.
- *
- * @param state
- * @param {number} chapter
- * @return {{}} - a dictionary of verse source tokens
- */
-export const getChapterSourceTokens = (state, chapter) =>
-  fromTokens.getChapterSourceTokens(state.tool.tokens, chapter);

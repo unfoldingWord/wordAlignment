@@ -28,34 +28,34 @@ it('is empty', () => {
 });
 it('has a top word', () => {
   testSnapshot({
-    topWord: singleTopWord
+    topWordCards: singleTopWord
   });
 });
 it('has a top and bottom word', () => {
   testSnapshot({
-    topWords: singleTopWord,
-    bottomWords: singleBottomWord
+    topWordCards: singleTopWord,
+    bottomWordCards: singleBottomWord
   });
 });
 it('has a bottom word', () => {
   testSnapshot({
-    bottomWords: singleBottomWord
+    bottomWordCards: singleBottomWord
   });
 });
 it('has multiple top words', () => {
   testSnapshot({
-    topWords: multipleTopWords
+    topWordCards: multipleTopWords
   });
 });
 it('has multiple top and bottom words', () => {
   testSnapshot({
-    topWords: multipleTopWords,
-    bottomWords: multipleBottomWords
+    topWordCards: multipleTopWords,
+    bottomWordCards: multipleBottomWords
   });
 });
 it('has multiple bottom words', () => {
   testSnapshot({
-    bottomWords: multipleBottomWords
+    bottomWordCards: multipleBottomWords
   });
 });
 
@@ -71,6 +71,8 @@ function testSnapshot(props={}) {
                             onDrop={jest.fn()}
                             lexicons={{}}
                             alignmentIndex={0}
+                            bottomWordCards={[]}
+                            topWordCards={[]}
                             {...props}/>
   );
   expect(wrapper).toMatchSnapshot();

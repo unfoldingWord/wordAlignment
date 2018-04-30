@@ -158,69 +158,36 @@ class Container extends Component {
 
   /**
    * Loads alignment data
-   * TODO: this needs to be cleaned up a LOT
    * @param {object} props - the container props
    * @return {Promise}
    */
-  loadAlignments(props) {
+  async loadAlignments(props) {
     const {
       contextId,
       readGlobalToolData,
       targetChapter,
-      sourceChapter
-      // indexChapterAlignments
+      sourceChapter,
+      indexChapterAlignments
     } = props;
 
-    const {store} = this.context;
-
     if (!contextId) {
-      console.error('no context id. skipping loading');
+      console.warn('Missing context id. Alignments not loaded.');
       return;
     }
 
     const {reference: {bookId, chapter}} = contextId;
 
-    // tokenize verses
-    // const targetChapterTokens = {};
-    // const sourceChapterTokens = {};
-    // for (const verse of Object.keys(targetChapter)) {
-    //   targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
-    // }
-    // for (const verse of Object.keys(sourceChapter)) {
-    //   sourceChapterTokens[verse] = Container.tokenizeVerseObjects(
-    //     sourceChapter[verse]);
-    // }
-
-    // load the alignment data
-    const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-    return readGlobalToolData(dataPath).
-      then(data => {
-        // TRICKY: 
-        return new Promise((resolve, reject) => {
-          const rawChapterData = JSON.parse(data);
-          const action = indexChapterAlignments(chapter, rawChapterData,
-            sourceChapter, targetChapter)
-          .then(resolve)
-          .catch((e) => {
-            reject(e);
-          });
-          store.dispatch(action);
-        });
-
-        // let alignmentData;
-        // try {
-        //   alignmentData = migrateChapterAlignments(rawChapterData,
-        //     sourceChapterTokens, targetChapterTokens);
-        // } catch (e) {
-        //   return Promise.reject(e);
-        // }
-        // await setChapterAlignments(chapter, alignmentData);
-      }).
-      catch((e) => {
-        console.log('failed to read alignment data', e);
-        // TODO: reset alignment data to default state
-        // we can create a new action that will receive the source and target chapters.
-      });
+    try {
+      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      const data = await readGlobalToolData(dataPath);
+      const rawChapterData = JSON.parse(data);
+      await indexChapterAlignments(chapter, rawChapterData, sourceChapter,
+        targetChapter);
+    } catch (e) {
+      console.log('failed to read alignment data', e);
+      // TODO: reset alignment data to default state
+      // we can create a new action that will receive the source and target chapters.
+    }
   }
 
   componentWillMount() {
@@ -526,7 +493,6 @@ Container.propTypes = {
   sourceChapter: PropTypes.object,
   targetChapter: PropTypes.object,
   appLanguage: PropTypes.string.isRequired,
-  indexChapterAlignments: PropTypes.func.isRequired,
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
@@ -536,6 +502,7 @@ Container.propTypes = {
   setTargetTokens: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   setChapterAlignments: PropTypes.func.isRequired,
+  indexChapterAlignments: PropTypes.func.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -553,14 +520,14 @@ Container.propTypes = {
 };
 
 const mapDispatchToProps = ({
-  indexChapterAlignments,
   alignTargetToken,
   unalignTargetToken,
   moveSourceToken,
   setSourceTokens,
   setTargetTokens,
   setChapterAlignments,
-  clearState
+  clearState,
+  indexChapterAlignments
 });
 
 const mapStateToProps = (state, {contextId}) => {

@@ -114,8 +114,8 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
         targetNgram.push(word);
       }
       return {
-        topWords: sourceNgram,
-        bottomWords: targetNgram
+        sourceNgram,
+        targetNgram
       };
     }
     default:
@@ -150,7 +150,17 @@ const verse = (state = [], action) => {
       for (let i = 0; i < action.alignments[vid].alignments.length; i++) {
         alignments.push(alignment(state[i], {...action, index: i}));
       }
-      return alignments;
+      return {
+        source: {
+          tokens: [...action.alignments[vid].sourceTokens],
+          text: action.alignments[vid].sourceTokens.map(t => t.text).join(' ')
+        },
+        target: {
+          tokens: [...action.alignments[vid].targetTokens],
+          text: action.alignments[vid].targetTokens.map(t => t.text).join(' ')
+        },
+        alignments
+      };
     }
     default:
       return state;
@@ -221,7 +231,11 @@ export default alignments;
 export const getChapterAlignments = (state, chapter) => {
   const chapterId = chapter + '';
   if (chapterId in state) {
-    return state[chapterId];
+    const alignments = {};
+    for(const verseId of Object.keys(state[chapterId])) {
+      alignments[verseId] = getVerseAlignments(state, chapterId, verseId);
+    }
+    return alignments;
   } else {
     return {};
   }
@@ -230,18 +244,36 @@ export const getChapterAlignments = (state, chapter) => {
 /**
  * Returns alignments for a single verse
  * @param state
- * @param {number} chapter
- * @param {number} verse
+ * @param {number} chapterNum
+ * @param {number} verseNum
  * @return {[]}
  */
-export const getVerseAlignments = (state, chapter, verse) => {
-  const chapterAlignments = getChapterAlignments(state, chapter);
-  const verseId = verse + '';
-  if (verseId in chapterAlignments) {
-    return chapterAlignments[verseId];
-  } else {
-    return [];
+export const getVerseAlignments = (state, chapterNum, verseNum) => {
+  const chapterId = chapterNum + '';
+  const verseId = verseNum + '';
+  if (chapterId in state) {
+    const chapter = state[chapterId];
+    if (verseId in chapter) {
+      const verse = chapter[verseId];
+
+      // join tokens to alignments
+      const alignments = [];
+      for (const a of verse.alignments) {
+        const sourceNgram = [
+          ...a.sourceNgram.map(pos => new Token(verse.source.tokens[pos]))
+        ];
+        const targetNgram = [
+          ...a.targetNgram.map(pos => new Token(verse.target.tokens[pos]))
+        ];
+        alignments.push({
+          sourceNgram,
+          targetNgram
+        });
+      }
+      return alignments;
+    }
   }
+  return [];
 };
 
 /**
@@ -249,18 +281,14 @@ export const getVerseAlignments = (state, chapter, verse) => {
  * @param state
  * @param chapter
  * @param verse
- * @return {Array}
+ * @return {Token[]}
  */
 export const getAlignedVerseTokens = (state, chapter, verse) => {
   const verseAlignments = getVerseAlignments(state, chapter, verse);
   const tokens = [];
   for (const alignment of verseAlignments) {
-    for (const word of alignment.bottomWords) {
-      tokens.push(new Token({
-        text: word.word,
-        occurrence: word.occurrence,
-        occurrences: word.occurrences
-      }));
+    for (const token of alignment.targetNgram) {
+      tokens.push(token);
     }
   }
   return tokens;

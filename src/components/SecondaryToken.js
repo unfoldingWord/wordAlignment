@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Word from './WordCard';
 import {DragSource} from 'react-dnd';
 import * as types from './WordCard/Types';
+import Token from 'word-map/structures/Token';
 
 /**
  * Renders a draggable secondary word.
@@ -13,9 +14,14 @@ import * as types from './WordCard/Types';
  * @property {int} occurrence
  * @property {int} occurrences
  */
-class SecondaryWord extends React.Component {
+class SecondaryToken extends React.Component {
   render() {
-    const {connectDragSource, word, occurrence, occurrences, disabled, isDragging} = this.props;
+    const {
+      connectDragSource,
+      token,
+      disabled,
+      isDragging
+    } = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
     const wordComponent = (
@@ -23,11 +29,11 @@ class SecondaryWord extends React.Component {
         style={{flex: 1}}
       >
         <Word
-          word={word}
+          word={token.text}
           disabled={disabled}
           style={{opacity}}
-          occurrence={occurrence}
-          occurrences={occurrences}/>
+          occurrence={token.occurrence}
+          occurrences={token.occurrences}/>
       </div>
     );
 
@@ -39,17 +45,15 @@ class SecondaryWord extends React.Component {
   }
 }
 
-SecondaryWord.propTypes = {
-  word: PropTypes.string.isRequired,
-  occurrence: PropTypes.number.isRequired,
-  occurrences: PropTypes.number.isRequired,
+SecondaryToken.propTypes = {
+  token: PropTypes.instanceOf(Token).isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   alignmentIndex: PropTypes.number,
   disabled: PropTypes.bool
 };
 
-SecondaryWord.defaultProps = {
+SecondaryToken.defaultProps = {
   alignmentIndex: undefined, // just to be explicit
   disabled: false
 };
@@ -61,7 +65,7 @@ const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
     return {
-      word: props.word,
+      word: props.text,
       occurrence: props.occurrence,
       occurrences: props.occurrences,
       alignmentIndex: props.alignmentIndex,
@@ -77,4 +81,4 @@ export default DragSource(
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   })
-)(SecondaryWord);
+)(SecondaryToken);

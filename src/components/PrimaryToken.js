@@ -8,6 +8,7 @@ import * as lexiconHelpers from '../utils/lexicon';
 import WordDetails from './WordDetails';
 import Word from './WordCard';
 import Tooltip from './Tooltip';
+import Token from 'word-map/structures/Token';
 
 const internalStyle = {
   word: {
@@ -27,7 +28,7 @@ const internalStyle = {
  * @property resourcesReducer
  *
  */
-class PrimaryWord extends Component {
+class PrimaryToken extends Component {
   constructor(props) {
     super(props);
     this._handleClick = this._handleClick.bind(this);
@@ -62,14 +63,22 @@ class PrimaryWord extends Component {
   }
 
   render() {
-    const {translate, wordObject, style, isDragging, canDrag, connectDragSource, dragPreview} = this.props;
+    const {
+      translate,
+      token,
+      style,
+      isDragging,
+      canDrag,
+      connectDragSource,
+      dragPreview
+    } = this.props;
     const {hover} = this.state;
 
     // TODO: fix the drag rendering to not display the tooltip
     const word = dragPreview(
       <div>
-        <Word word={wordObject.word}
-              disabled={isDragging  || (hover && !canDrag)}
+        <Word word={token.text}
+              disabled={isDragging || (hover && !canDrag)}
               style={{...internalStyle.word, ...style}}/>
       </div>
     );
@@ -92,35 +101,37 @@ class PrimaryWord extends Component {
    * @private
    */
   _handleClick(e) {
-    const {translate, wordObject} = this.props;
-    const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(wordObject.strong);
-    const lexiconId = lexiconHelpers.lexiconIdFromStrongs(wordObject.strong);
+    const {translate, token} = this.props;
+    const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(token.strong);
+    const lexiconId = lexiconHelpers.lexiconIdFromStrongs(token.strong);
     const lexiconData = this.props.actions.getLexiconData(lexiconId, entryId);
     const positionCoord = e.target;
     const PopoverTitle = (
-      <strong style={{fontSize: '1.2em'}}>{wordObject.word}</strong>
+      <strong style={{fontSize: '1.2em'}}>{token.text}</strong>
     );
     const {showPopover} = this.props.actions;
     const wordDetails = (
-      <WordDetails lexiconData={lexiconData} wordObject={wordObject} translate={translate}/>
+      <WordDetails lexiconData={lexiconData} wordObject={token}
+                   translate={translate}/>
     );
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
 }
 
-PrimaryWord.propTypes = {
+PrimaryToken.propTypes = {
   translate: PropTypes.func.isRequired,
   wordIndex: PropTypes.number,
   alignmentLength: PropTypes.number,
   canDrag: PropTypes.bool,
-  wordObject: PropTypes.shape({
-    word: PropTypes.string.isRequired,
-    lemma: PropTypes.string.isRequired,
-    morph: PropTypes.string.isRequired,
-    strong: PropTypes.string.isRequired,
-    occurrence: PropTypes.number.isRequired,
-    occurrences: PropTypes.number.isRequired
-  }),
+  token: PropTypes.instanceOf(Token),
+  //   shape({
+  //   text: PropTypes.string.isRequired,
+  //   lemma: PropTypes.string.isRequired,
+  //   morph: PropTypes.string.isRequired,
+  //   strong: PropTypes.string.isRequired,
+  //   occurrence: PropTypes.number.isRequired,
+  //   occurrences: PropTypes.number.isRequired
+  // }),
   alignmentIndex: PropTypes.number.isRequired,
   style: PropTypes.object,
   actions: PropTypes.shape({
@@ -134,7 +145,7 @@ PrimaryWord.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
-PrimaryWord.defaultProps = {
+PrimaryToken.defaultProps = {
   alignmentLength: 1,
   wordIndex: 0,
   canDrag: true
@@ -144,7 +155,7 @@ const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
     return {
-      word: props.wordObject.word,
+      text: props.wordObject.text,
       lemma: props.wordObject.lemma,
       morph: props.wordObject.morph,
       strong: props.wordObject.strong,
@@ -160,7 +171,7 @@ const dragHandler = {
     const {wordIndex, alignmentLength} = props;
     const firstWord = wordIndex === 0;
     const lastWord = wordIndex === alignmentLength - 1;
-    if(alignmentLength > 1) {
+    if (alignmentLength > 1) {
       return firstWord || lastWord;
     } else {
       return true;
@@ -179,4 +190,4 @@ export default DragSource(
   types.PRIMARY_WORD,
   dragHandler,
   collect
-)(PrimaryWord);
+)(PrimaryToken);

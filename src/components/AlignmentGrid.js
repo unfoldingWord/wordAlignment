@@ -56,8 +56,8 @@ class AlignmentGrid extends Component {
                 <AlignmentCard
                   translate={translate}
                   alignmentIndex={index}
-                  bottomWords={alignment.bottomWords}
-                  topWords={alignment.topWords}
+                  targetNgram={alignment.targetNgram}
+                  sourceNgram={alignment.sourceNgram}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   lexicons={lexicons}
@@ -67,8 +67,8 @@ class AlignmentGrid extends Component {
                   translate={translate}
                   alignmentIndex={index}
                   placeholderPosition="right"
-                  bottomWords={[]}
-                  topWords={[]}
+                  targetNgram={[]}
+                  sourceNgram={[]}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   lexicons={lexicons}

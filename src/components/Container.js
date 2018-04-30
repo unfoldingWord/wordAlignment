@@ -241,8 +241,6 @@ class Container extends Component {
       contextId: prevContextId
     } = this.props;
 
-    console.warn('on receive props: context', nextContextId);
-
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
@@ -250,8 +248,6 @@ class Container extends Component {
 
       if (Container.chapterContextChanged(prevContextId, nextContextId)) {
         this.loadAlignments(nextProps);
-      } else {
-        Container.loadTokens(nextProps);
       }
       Container.validateVerseData(nextProps);
     }

@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
 import * as types from '../WordCard/Types';
-import SecondaryWord from '../SecondaryWord';
-import PrimaryWord from '../PrimaryWord';
+import SecondaryToken from '../SecondaryToken';
+import PrimaryToken from '../PrimaryToken';
 import AlignmentCard from './AlignmentCard';
 import {canDropPrimaryWord} from '../../utils/dragDrop';
 
@@ -27,7 +27,18 @@ const styles = {
  */
 class DroppableAlignmentCard extends Component {
   render() {
-    const {translate, lexicons, alignmentIndex, canDrop, dragItemType, isOver, actions, bottomWords, connectDropTarget, topWords} = this.props;
+    const {
+      translate,
+      lexicons,
+      alignmentIndex,
+      canDrop,
+      dragItemType,
+      isOver,
+      actions,
+      targetNgram,
+      connectDropTarget,
+      sourceNgram
+    } = this.props;
 
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
     const acceptsBottom = canDrop && dragItemType === types.SECONDARY_WORD;
@@ -35,44 +46,41 @@ class DroppableAlignmentCard extends Component {
     const hoverTop = isOver && acceptsTop;
     const hoverBottom = isOver && acceptsBottom;
 
-    const emptyAlignment = topWords.length === 0 && bottomWords.length === 0;
+    const emptyAlignment = sourceNgram.length === 0 && targetNgram.length === 0;
 
-    const alignmentLength = topWords.length;
-    const topWordCards = topWords.map((wordObject, index) => (
-      <PrimaryWord
+    const alignmentLength = sourceNgram.length;
+    const topWordCards = sourceNgram.map((token, index) => (
+      <PrimaryToken
         key={index}
         translate={translate}
         wordIndex={index}
         alignmentLength={alignmentLength}
-        wordObject={wordObject}
+        token={token}
         alignmentIndex={alignmentIndex}
         lexicons={lexicons}
         actions={actions}
       />
     ));
-
-    const bottomWordCards = bottomWords.map((metadata, index) => (
-      <SecondaryWord
+    const bottomWordCards = targetNgram.map((token, index) => (
+      <SecondaryToken
         key={index}
-        word={metadata.word}
-        occurrence={metadata.occurrence}
-        occurrences={metadata.occurrences}
+        token={token}
         alignmentIndex={alignmentIndex}
       />
     ));
 
-    if(emptyAlignment && !canDrop) {
+    if (emptyAlignment && !canDrop) {
       return <div style={styles.root.closed}/>;
     } else {
       return connectDropTarget(
         <div>
-          <AlignmentCard bottomWords={bottomWordCards}
+          <AlignmentCard bottomWordCards={bottomWordCards}
                          hoverBottom={hoverBottom}
                          hoverTop={hoverTop}
                          acceptsBottomWords={acceptsBottom}
                          acceptsTopWords={acceptsTop}
                          topWordCards={topWordCards}
-                         topWords={topWords}/>
+                         topWords={sourceNgram}/>
         </div>
       );
     }
@@ -86,8 +94,8 @@ DroppableAlignmentCard.propTypes = {
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  topWords: PropTypes.array.isRequired,
-  bottomWords: PropTypes.array.isRequired,
+  sourceNgram: PropTypes.array.isRequired,
+  targetNgram: PropTypes.array.isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,

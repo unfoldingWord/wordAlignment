@@ -8,11 +8,11 @@ const noBibleTextWarning = `[WARNING: This Bible version does not include text f
  * @return {*}
  */
 const makeStyles = (props) => {
-  const { topWords, hoverTop, hoverBottom, bottomWords, acceptsTopWords, acceptsBottomWords } = props;
-  const emptyTop = !topWords || topWords.length === 0;
-  const emptyBottom = !bottomWords || bottomWords.length === 0;
+  const { topWordCards, hoverTop, hoverBottom, bottomWordCards, acceptsTopWords, acceptsBottomWords } = props;
+  const emptyTop = !topWordCards || topWordCards.length === 0;
+  const emptyBottom = !bottomWordCards || bottomWordCards.length === 0;
   const emptyAlignment = emptyTop && emptyBottom;
-  const largeAlignment = (!emptyTop && topWords.length > 1) || (!emptyBottom && bottomWords.length > 1);
+  const largeAlignment = (!emptyTop && topWordCards.length > 1) || (!emptyBottom && bottomWordCards.length > 1);
 
   const defaultAlignmentWidth = '115px';
   const blueBorder = '3px dashed #44C6FF';
@@ -93,12 +93,12 @@ const makeStyles = (props) => {
  */
 class AlignmentCard extends Component {
   render() {
-    const { bottomWordsCards, topWordCards, topWords } = this.props;
+    const { bottomWordCards, topWordCards, topWords } = this.props;
     const styles = makeStyles(this.props);
     let alignmentCardContent = <div/>;
 
      // if there is no top words show warning alert
-     if (topWords.length === 1 && !topWords[0].word) {
+     if (topWords.length === 1 && !topWords[0].text) {
       alignmentCardContent = (
         <div style={{ ...styles.content, width: '280px', height: '100px', fontSize: '20px', padding: '5px' }}>
           {noBibleTextWarning}
@@ -114,7 +114,7 @@ class AlignmentCard extends Component {
           </div>
           <div style={styles.bottom}>
             <div style={styles.bottomRow}>
-              {bottomWordsCards}
+              {bottomWordCards}
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@ class AlignmentCard extends Component {
 AlignmentCard.propTypes = {
   topWords: PropTypes.array,
   topWordCards: PropTypes.array,
-  bottomWordsCards: PropTypes.array,
+  bottomWordCards: PropTypes.array,
   hoverBottom: PropTypes.bool,
   hoverTop: PropTypes.bool,
   acceptsTopWords: PropTypes.bool,

@@ -45,7 +45,6 @@ export const indexChapterAlignments = (
         const alignmentData = migrateChapterAlignments(rawAlignmentData,
           sourceChapterTokens, targetChapterTokens);
 
-        console.log('migrated alignments', alignmentData);
         // set the loaded alignments
         dispatch(setChapterAlignments(chapterId, alignmentData));
         resolve();

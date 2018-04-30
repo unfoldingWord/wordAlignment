@@ -58,6 +58,22 @@ const positionComparator = (a, b) => {
 };
 
 /**
+ * a comparator used for sorting alignments by their first source token position
+ * @param a
+ * @param b
+ * @return {number}
+ */
+const alignmentComparator = (a, b) => {
+  if (a.sourceNgram[0] < b.sourceNgram[0]) {
+    return -1;
+  }
+  if (a.sourceNgram[0] > b.sourceNgram[0]) {
+    return 1;
+  }
+  return 0;
+};
+
+/**
  * Returns the index of a token in the array that matches the given parameters
  * @param {object[]} tokens - an array of json tokens (not {@Token}'s)
  * @param {text} text
@@ -274,9 +290,7 @@ export const normalizeAlignmentData = (
     }
 
     // sort alignments
-    alignments.sort((a, b) => {
-      return positionComparator(a.sourceNgram, b.sourceNgram);
-    });
+    alignments.sort(alignmentComparator);
 
     normalizedData[verse] = {
       sourceTokens,

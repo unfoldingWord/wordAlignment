@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SecondaryWord from '../SecondaryWord';
+import SecondaryToken from '../SecondaryToken';
 import Token from 'word-map/structures/Token';
 /**
  * Renders a list of words that need to be aligned.
@@ -26,16 +26,14 @@ const WordList = ({
   } else {
     return (
       <React.Fragment>
-        {words.map((word, index) => {
+        {words.map((token, index) => {
           return (
             <div
               key={index}
               style={{margin: '10px'}}>
-              <SecondaryWord
-                disabled={word.disabled === true}
-                word={word.toString()}
-                occurrence={word.occurrence}
-                occurrences={word.occurrences}
+              <SecondaryToken
+                token={token}
+                disabled={token.disabled === true}
               />
             </div>
           );

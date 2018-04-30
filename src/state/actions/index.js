@@ -7,14 +7,12 @@ import {migrateChapterAlignments} from '../../utils/migrations';
  * Puts alignment data that has been loaded from the file system into redux.
  * @param {number} chapter - the chapter to which these alignment data belongs
  * @param {object} data - the new alignment data;
- * @param {Token[]} sourceTokens - the source text tokens
  * @return {Function}
  */
-export const setChapterAlignments = (chapter, data, sourceTokens) => ({
+export const setChapterAlignments = (chapter, data) => ({
   type: types.SET_CHAPTER_ALIGNMENTS,
   chapter,
-  alignments: data,
-  sourceTokens
+  alignments: data
 });
 
 /**
@@ -31,28 +29,27 @@ export const indexChapterAlignments = (
   chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      // tokenize chapters
-      const targetChapterTokens = {};
-      const sourceChapterTokens = {};
-      console.log('chapter data', sourceChapter, targetChapter);
-      for (const verse of Object.keys(targetChapter)) {
-        targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
-      }
-      for (const verse of Object.keys(sourceChapter)) {
-        sourceChapterTokens[verse] = tokenizeVerseObjects(
-          sourceChapter[verse]);
-      }
-
-      // migrate alignment data
-      let alignmentData = null;
       try {
-        reject('oops');
-        alignmentData = migrateChapterAlignments(rawAlignmentData,
+        // tokenize chapters
+        const targetChapterTokens = {};
+        const sourceChapterTokens = {};
+        for (const verse of Object.keys(targetChapter)) {
+          targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
+        }
+        for (const verse of Object.keys(sourceChapter)) {
+          sourceChapterTokens[verse] = tokenizeVerseObjects(
+            sourceChapter[verse]);
+        }
+
+        // migrate alignment data
+        const alignmentData = migrateChapterAlignments(rawAlignmentData,
           sourceChapterTokens, targetChapterTokens);
+
+        console.log('migrated alignments', alignmentData);
+        // set the loaded alignments
         dispatch(setChapterAlignments(chapterId, alignmentData));
         resolve();
       } catch (e) {
-        // TODO: reset alignment data to default state.
         reject(e);
       }
     });

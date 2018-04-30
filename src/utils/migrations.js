@@ -82,8 +82,8 @@ const indexOfToken = (tokens, text, occurrence, occurrences) => {
  * You should validate the sentences (sourceTokens and targetTokens) for consistency after migration.
  *
  * @param {object} data - the chapter alignment data
- * @param {Token[]} sourceTokens - the source tokens used as a baseline
- * @param {Token[]} targetTokens - the target tokens used as a baseline
+ * @param {object} sourceTokens - a dictionary of tokenized source sentences as a baseline
+ * @param {object} targetTokens - a dictionary of tokenized target sentences as a baseline
  * @return {*}
  * @throws {AlignmentError} if any of the alignments are invalid
  */
@@ -165,8 +165,8 @@ export const formatAlignmentData = (data) => {
  * This is exported only for testing.
  *
  * @param data
- * @param {Token[]} sourceTokensBaseline
- * @param {Token[]} targetTokensBaseline
+ * @param {object} sourceTokensBaseline - a dictionary of tokenized source verses
+ * @param {object} targetTokensBaseline - a dictionary of tokenized target verses
  * @throws will throw an error if the data is invalid
  * @throws {AlignmentError} if the alignment is invalid
  * @return {*}
@@ -202,7 +202,7 @@ export const normalizeAlignmentData = (
 
     // add position to target tokens
     for (const t of data[verse].targetTokens) {
-      const baseline = findToken(targetTokensBaseline, t.text, t.occurrence,
+      const baseline = findToken(targetTokensBaseline[verse], t.text, t.occurrence,
         t.occurrences);
       if (baseline) {
         targetTokens.push({
@@ -211,13 +211,13 @@ export const normalizeAlignmentData = (
         });
       } else {
         throw new AlignmentError(
-          `Unexpected target token "${t.text}" in alignment data`);
+          `Unexpected target token "${t.text} (${t.occurrence} of ${t.occurrences})" in verse ${verse}`);
       }
     }
 
     // add position to source tokens
     for (const t of data[verse].sourceTokens) {
-      const baseline = findToken(sourceTokensBaseline, t.text, t.occurrence,
+      const baseline = findToken(sourceTokensBaseline[verse], t.text, t.occurrence,
         t.occurrences);
       if (baseline) {
         sourceTokens.push({
@@ -226,7 +226,7 @@ export const normalizeAlignmentData = (
         });
       } else {
         throw new AlignmentError(
-          `Unexpected source token "${t.text}" in alignment data`);
+          `Unexpected source token "${t.text} (${t.occurrence} of ${t.occurrences})" in verse ${verse}`);
       }
     }
 
@@ -240,26 +240,26 @@ export const normalizeAlignmentData = (
       const targetNgram = [];
 
       // convert source tokens to indices
-      for (const token of alignment.sourceNgram) {
-        const index = indexOfToken(sourceTokens, token.text, token.occurrence,
-          token.occurrences);
+      for (const t of alignment.sourceNgram) {
+        const index = indexOfToken(sourceTokens, t.text, t.occurrence,
+          t.occurrences);
         if (index >= 0) {
           sourceNgram.push(index);
         } else {
           throw new AlignmentError(
-            `Unexpected source token "${token.text}" in alignment`);
+            `Unexpected source token "${t.text} (${t.occurrence} of ${t.occurrences})" in alignment for verse ${verse}`);
         }
       }
 
       // convert target tokens to indices
-      for (const token of alignment.targetNgram) {
-        const index = indexOfToken(targetTokens, token.text, token.occurrence,
-          token.occurrences);
+      for (const t of alignment.targetNgram) {
+        const index = indexOfToken(targetTokens, t.text, t.occurrence,
+          t.occurrences);
         if (index >= 0) {
           targetNgram.push(index);
         } else {
           throw new AlignmentError(
-            `Unexpected target token "${token.text}" in alignment`);
+            `Unexpected target token "${t.text} (${t.occurrence} of ${t.occurrences})" in alignment for verse ${verse}`);
         }
       }
 

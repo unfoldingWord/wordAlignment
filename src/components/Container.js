@@ -183,10 +183,12 @@ class Container extends Component {
       const rawChapterData = JSON.parse(data);
       await indexChapterAlignments(chapter, rawChapterData, sourceChapter,
         targetChapter);
+      // TODO: validate verse
     } catch (e) {
-      console.log('failed to read alignment data', e);
+      console.error('The alignment data is corrupt', e);
       // TODO: reset alignment data to default state
-      // we can create a new action that will receive the source and target chapters.
+      // we can create a new action that will receive the source and target chapters
+      // for generating the new alignments.
     }
   }
 

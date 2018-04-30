@@ -54,23 +54,6 @@ const alignmentComparator = (a, b) => {
   }
 };
 
-/**
- * Search for a token that matches the word
- * @param {{}} word
- * @param {[]} tokens
- */
-const findToken = (word, tokens) => {
-  if (tokens) {
-    for (const t of tokens) {
-      if (t.text === word.text && t.occurrence === word.occurrence &&
-        t.occurrences === word.occurrences) {
-        return t;
-      }
-    }
-  }
-  return null;
-};
-
 const topWord = (token) => ({
   word: token.toString(),
   position: token.position,
@@ -122,27 +105,17 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignment = action.alignments[vid].alignments[action.index];
-      const topWords = [];
-      const bottomWords = [];
-      const sourceTokens = action.sourceTokens[vid];
-      for (const word of alignment.topWords) {
-        topWords.push(word);
-        // const token = findToken(word, sourceTokens);
-        // if (token) {
-        //   topWords.push(topWord(token));
-        // } else {
-        //   // exclude invalid words
-        //   console.warn('Invalid source word data',
-        //     `"${word.word}" does not exist in the sentence.`);
-        // }
+      const sourceNgram = [];
+      const targetNgram = [];
+      for (const word of alignment.sourceNgram) {
+        sourceNgram.push(word);
       }
-      for (const word of alignment.bottomWords) {
-        // TODO: look up token from index
-        bottomWords.push(word);
+      for (const word of alignment.targetNgram) {
+        targetNgram.push(word);
       }
       return {
-        topWords: topWords,
-        bottomWords: bottomWords
+        topWords: sourceNgram,
+        bottomWords: targetNgram
       };
     }
     default:

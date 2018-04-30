@@ -20,7 +20,7 @@ describe('alignment data migration', () => {
               {
                 'word': 'Mẽ',
                 'occurrence': 1,
-                'occurrences': 1,
+                'occurrences': 2,
                 'type': 'bottomWord'
               }]
           }],
@@ -49,7 +49,7 @@ describe('alignment data migration', () => {
           {
             'text': 'Mẽ',
             'occurrence': 1,
-            'occurrences': 1
+            'occurrences': 2
           },
           {
             'text': 'vlẽ',
@@ -68,7 +68,7 @@ describe('alignment data migration', () => {
           targetNgram: [{
             'text': 'Mẽ',
             'occurrence': 1,
-            'occurrences': 1
+            'occurrences': 2
           }]
         }]
       }
@@ -116,26 +116,30 @@ describe('alignment data migration', () => {
       }
     };
 
-    const sourceTokens = [new Token({
-      text: 'ὁ',
-      occurrence: 1,
-      occurrences: 1,
-      position: 0
-    })];
-    const targetTokens = [
-      new Token({
-        text: 'Mẽ',
+    const sourceTokens = {
+      '1': [new Token({
+        text: 'ὁ',
         occurrence: 1,
         occurrences: 1,
         position: 0
-      }),
-      new Token({
-        text: 'vlẽ',
-        occurrence: 1,
-        occurrences: 1,
-        position: 1
-      })
-    ];
+      })]
+    };
+    const targetTokens = {
+      '1': [
+        new Token({
+          text: 'Mẽ',
+          occurrence: 1,
+          occurrences: 1,
+          position: 0
+        }),
+        new Token({
+          text: 'vlẽ',
+          occurrence: 1,
+          occurrences: 1,
+          position: 1
+        })
+      ]
+    };
     const output = normalizeAlignmentData(data, sourceTokens, targetTokens);
     expect(output).toEqual({
       '1': {

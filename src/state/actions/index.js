@@ -149,7 +149,9 @@ export const moveSourceToken = (
     if (prevIndex === nextIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
-      dispatch(alignSourceToken(chapter, verse, nextIndex, token));
+      // TRICKY: shift the next index since we removed an alignment
+      const index = prevIndex < nextIndex ? nextIndex - 1 : nextIndex;
+      dispatch(alignSourceToken(chapter, verse, index, token));
     }
   };
 };

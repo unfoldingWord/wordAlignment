@@ -41,6 +41,14 @@ import {
 // };
 
 /**
+ * Compares two numbers for sorting
+ * @param {number} a
+ * @param {number} b
+ * @return {number}
+ */
+const numberComparator = (a, b) => a - b;
+
+/**
  * Compares two alignments.
  * This is used for sorting
  * @param {object} a
@@ -49,14 +57,7 @@ import {
  */
 const alignmentComparator = (a, b) => {
   if (a.sourceNgram.length && b.sourceNgram.length) {
-    const aTokenPos = a.sourceNgram[0];
-    const bTokenPos = b.sourceNgram[0];
-    if (aTokenPos < bTokenPos) {
-      return -1;
-    }
-    if (aTokenPos > bTokenPos) {
-      return 1;
-    }
+    return numberComparator(a.sourceNgram[0], b.sourceNgram[0]);
   }
   return 0;
 };
@@ -84,7 +85,7 @@ const reduceAlignment = (
     case ALIGN_TARGET_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram],
-        targetNgram: [...state.targetNgram, action.token.position].sort()
+        targetNgram: [...state.targetNgram, action.token.position].sort(numberComparator)
       };
     case UNALIGN_TARGET_TOKEN:
       return {
@@ -96,7 +97,7 @@ const reduceAlignment = (
     case INSERT_ALIGNMENT:
     case ALIGN_SOURCE_TOKEN:
       return {
-        sourceNgram: [...state.sourceNgram, action.token.position].sort(),
+        sourceNgram: [...state.sourceNgram, action.token.position].sort(numberComparator),
         targetNgram: [...state.targetNgram]
       };
     case UNALIGN_SOURCE_TOKEN:
@@ -120,8 +121,8 @@ const reduceAlignment = (
         targetNgram.push(token);
       }
       return {
-        sourceNgram: sourceNgram.sort(),
-        targetNgram: targetNgram.sort()
+        sourceNgram: sourceNgram.sort(numberComparator),
+        targetNgram: targetNgram.sort(numberComparator)
       };
     }
     default:
@@ -138,7 +139,7 @@ const reduceVerse = (state = [], action) => {
       const index = action.index;
       const newAlignments = [...state.alignments];
       newAlignments[index] = reduceAlignment(state.alignments[index], action);
-
+      // TRICKY: remove empty alignments
       if (newAlignments[index].sourceNgram.length === 0) {
         newAlignments.splice(index, 1);
       }

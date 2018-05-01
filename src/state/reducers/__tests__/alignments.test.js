@@ -411,7 +411,7 @@ describe('align source token', () => {
         },
         alignments: [
           {
-            sourceNgram: [1, 2],
+            sourceNgram: [2, 1],
             targetNgram: []
           }]
       }

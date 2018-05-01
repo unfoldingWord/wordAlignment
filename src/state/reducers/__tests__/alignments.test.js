@@ -579,10 +579,11 @@ describe('remove source token alignment', () => {
         target: {
           tokens: []
         },
-        alignments: [{
-          sourceNgram: [0],
-          targetNgram: []
-        }]
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          }]
       }
     }
   };
@@ -636,6 +637,7 @@ describe('set chapter alignments', () => {
           tokens: [
             {
               text: 'world',
+              position: 0,
               occurrence: 1,
               occurrences: 1
             }]
@@ -662,9 +664,15 @@ describe('set chapter alignments', () => {
         sourceTokens: [],
         targetTokens: [
           {
-            text: 'hello'
+            text: 'hello',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
           }, {
-            text: 'world'
+            text: 'world',
+            position: 1,
+            occurrence: 1,
+            occurrences: 1
           }],
         alignments: [
           {
@@ -697,9 +705,15 @@ describe('set chapter alignments', () => {
           text: 'hello world',
           tokens: [
             {
-              text: 'hello'
+              text: 'hello',
+              position: 0,
+              occurrence: 1,
+              occurrences: 1
             }, {
-              text: 'world'
+              text: 'world',
+              position: 1,
+              occurrence: 1,
+              occurrences: 1
             }
           ]
         },

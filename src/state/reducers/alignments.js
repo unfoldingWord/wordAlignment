@@ -9,36 +9,6 @@ import {
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../actions/actionTypes';
-//
-// /**
-//  * Checks if a word equals a token
-//  * @deprecated
-//  * @param {object} word
-//  * @param {Token} token
-//  * @return {boolean}
-//  */
-// const wordEqualsToken = (word, token) => {
-//   return word.word === token.toString()
-//     && word.occurrence === token.occurrence
-//     && word.occurrences === token.occurrences;
-// };
-
-// /**
-//  * Compares two words.
-//  * This is used for sorting
-//  * @param {object} a
-//  * @param {object} b
-//  * @return {number}
-//  */
-// const tokenComparator = (a, b) => {
-//   if (a.position < b.position) {
-//     return -1;
-//   }
-//   if (a.position > b.position) {
-//     return 1;
-//   }
-//   return 0;
-// };
 
 /**
  * Compares two numbers for sorting
@@ -49,8 +19,7 @@ import {
 const numberComparator = (a, b) => a - b;
 
 /**
- * Compares two alignments.
- * This is used for sorting
+ * Compares two alignments for sorting
  * @param {object} a
  * @param {object} b
  * @return {number}
@@ -61,31 +30,48 @@ const alignmentComparator = (a, b) => {
   }
   return 0;
 };
-//
-// const reduceSourceToken = (token) => ({
-//   text: token.toString(),
-//   position: token.position,
-//   occurrence: token.occurrence,
-//   occurrences: token.occurrences,
-//   strong: token.strong,
-//   lemma: token.lemma,
-//   morph: token.morph
-// });
-//
-// const reduceTargetToken = (token) => ({
-//   text: token.toString(),
-//   occurrence: token.occurrence,
-//   occurrences: token.occurrences,
-//   position: token.position
-// });
 
+/**
+ * Reduces a source token
+ * @param token
+ * @return {*}
+ */
+const reduceSourceToken = (token) => ({
+  text: token.text,
+  position: token.position,
+  occurrence: token.occurrence,
+  occurrences: token.occurrences,
+  strong: token.strong,
+  lemma: token.lemma,
+  morph: token.morph
+});
+
+/**
+ * Reduces a target token
+ * @param token
+ * @return {*}
+ */
+const reduceTargetToken = (token) => ({
+  text: token.text,
+  occurrence: token.occurrence,
+  occurrences: token.occurrences,
+  position: token.position
+});
+
+/**
+ * Reduces the alignment state
+ * @param state
+ * @param action
+ * @return {*}
+ */
 const reduceAlignment = (
   state = {sourceNgram: [], targetNgram: []}, action) => {
   switch (action.type) {
     case ALIGN_TARGET_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram],
-        targetNgram: [...state.targetNgram, action.token.position].sort(numberComparator)
+        targetNgram: [...state.targetNgram, action.token.position].sort(
+          numberComparator)
       };
     case UNALIGN_TARGET_TOKEN:
       return {
@@ -97,7 +83,8 @@ const reduceAlignment = (
     case INSERT_ALIGNMENT:
     case ALIGN_SOURCE_TOKEN:
       return {
-        sourceNgram: [...state.sourceNgram, action.token.position].sort(numberComparator),
+        sourceNgram: [...state.sourceNgram, action.token.position].sort(
+          numberComparator),
         targetNgram: [...state.targetNgram]
       };
     case UNALIGN_SOURCE_TOKEN:
@@ -110,16 +97,8 @@ const reduceAlignment = (
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignment = action.alignments[vid].alignments[action.index];
-      const sourceNgram = [];
-      const targetNgram = [];
-      for (const token of alignment.sourceNgram) {
-        // TODO: wrap with sourceToken()
-        sourceNgram.push(token);
-      }
-      for (const token of alignment.targetNgram) {
-        // TODO: wrap with targetToken();
-        targetNgram.push(token);
-      }
+      const sourceNgram = [...alignment.sourceNgram];
+      const targetNgram = [...alignment.targetNgram];
       return {
         sourceNgram: sourceNgram.sort(numberComparator),
         targetNgram: targetNgram.sort(numberComparator)
@@ -130,6 +109,12 @@ const reduceAlignment = (
   }
 };
 
+/**
+ * Reduces the verse alignment state
+ * @param state
+ * @param action
+ * @return {*}
+ */
 const reduceVerse = (state = [], action) => {
   switch (action.type) {
     case UNALIGN_SOURCE_TOKEN:
@@ -164,11 +149,11 @@ const reduceVerse = (state = [], action) => {
       }
       return {
         source: {
-          tokens: [...action.alignments[vid].sourceTokens],
+          tokens: action.alignments[vid].sourceTokens.map(reduceSourceToken),
           text: action.alignments[vid].sourceTokens.map(t => t.text).join(' ')
         },
         target: {
-          tokens: [...action.alignments[vid].targetTokens],
+          tokens: action.alignments[vid].targetTokens.map(reduceTargetToken),
           text: action.alignments[vid].targetTokens.map(t => t.text).join(' ')
         },
         alignments
@@ -179,6 +164,12 @@ const reduceVerse = (state = [], action) => {
   }
 };
 
+/**
+ * Reduces the chapter alignment state
+ * @param state
+ * @param action
+ * @return {*}
+ */
 const reduceChapter = (state = {}, action) => {
   switch (action.type) {
     case INSERT_ALIGNMENT:

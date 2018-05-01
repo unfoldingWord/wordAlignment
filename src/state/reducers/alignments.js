@@ -9,36 +9,36 @@ import {
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../actions/actionTypes';
+//
+// /**
+//  * Checks if a word equals a token
+//  * @deprecated
+//  * @param {object} word
+//  * @param {Token} token
+//  * @return {boolean}
+//  */
+// const wordEqualsToken = (word, token) => {
+//   return word.word === token.toString()
+//     && word.occurrence === token.occurrence
+//     && word.occurrences === token.occurrences;
+// };
 
-/**
- * Checks if a word equals a token
- * @deprecated
- * @param {object} word
- * @param {Token} token
- * @return {boolean}
- */
-const wordEqualsToken = (word, token) => {
-  return word.word === token.toString()
-    && word.occurrence === token.occurrence
-    && word.occurrences === token.occurrences;
-};
-
-/**
- * Compares two words.
- * This is used for sorting
- * @param {object} a
- * @param {object} b
- * @return {number}
- */
-const tokenComparator = (a, b) => {
-  if (a.position < b.position) {
-    return -1;
-  }
-  if (a.position > b.position) {
-    return 1;
-  }
-  return 0;
-};
+// /**
+//  * Compares two words.
+//  * This is used for sorting
+//  * @param {object} a
+//  * @param {object} b
+//  * @return {number}
+//  */
+// const tokenComparator = (a, b) => {
+//   if (a.position < b.position) {
+//     return -1;
+//   }
+//   if (a.position > b.position) {
+//     return 1;
+//   }
+//   return 0;
+// };
 
 /**
  * Compares two alignments.
@@ -48,38 +48,43 @@ const tokenComparator = (a, b) => {
  * @return {number}
  */
 const alignmentComparator = (a, b) => {
-  if (a.topWords.length && b.topWords.length) {
-    return tokenComparator(a.topWords[0], b.topWords[0]);
-  } else {
-    return 0;
+  if (a.sourceNgram.length && b.sourceNgram.length) {
+    const aTokenPos = a.sourceNgram[0];
+    const bTokenPos = b.sourceNgram[0];
+    if (aTokenPos < bTokenPos) {
+      return -1;
+    }
+    if (aTokenPos > bTokenPos) {
+      return 1;
+    }
   }
+  return 0;
 };
+//
+// const reduceSourceToken = (token) => ({
+//   text: token.toString(),
+//   position: token.position,
+//   occurrence: token.occurrence,
+//   occurrences: token.occurrences,
+//   strong: token.strong,
+//   lemma: token.lemma,
+//   morph: token.morph
+// });
+//
+// const reduceTargetToken = (token) => ({
+//   text: token.toString(),
+//   occurrence: token.occurrence,
+//   occurrences: token.occurrences,
+//   position: token.position
+// });
 
-const reduceSourceToken = (token) => ({
-  text: token.toString(),
-  position: token.position,
-  occurrence: token.occurrence,
-  occurrences: token.occurrences,
-  strong: token.strong,
-  lemma: token.lemma,
-  morph: token.morph
-});
-
-const reduceTargetToken = (token) => ({
-  text: token.toString(),
-  occurrence: token.occurrence,
-  occurrences: token.occurrences,
-  position: token.position
-});
-
-const reduceAlignment = (state = {topWords: [], bottomWords: []}, action) => {
+const reduceAlignment = (
+  state = {sourceNgram: [], targetNgram: []}, action) => {
   switch (action.type) {
     case ALIGN_TARGET_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram],
-        targetNgram: [
-          ...state.targetNgram, action.token.position
-        ].sort()
+        targetNgram: [...state.targetNgram, action.token.position].sort()
       };
     case UNALIGN_TARGET_TOKEN:
       return {
@@ -91,15 +96,14 @@ const reduceAlignment = (state = {topWords: [], bottomWords: []}, action) => {
     case INSERT_ALIGNMENT:
     case ALIGN_SOURCE_TOKEN:
       return {
-        sourceNgram: [...state.sourceNgram, action.token.position].sort(
-          tokenComparator),
+        sourceNgram: [...state.sourceNgram, action.token.position].sort(),
         targetNgram: [...state.targetNgram]
       };
     case UNALIGN_SOURCE_TOKEN:
       return {
         sourceNgram: state.sourceNgram.filter(position => {
-            return position !== action.token.position;
-          }),
+          return position !== action.token.position;
+        }),
         targetNgram: []
       };
     case SET_CHAPTER_ALIGNMENTS: {
@@ -116,8 +120,8 @@ const reduceAlignment = (state = {topWords: [], bottomWords: []}, action) => {
         targetNgram.push(token);
       }
       return {
-        sourceNgram,
-        targetNgram
+        sourceNgram: sourceNgram.sort(),
+        targetNgram: targetNgram.sort()
       };
     }
     default:
@@ -133,7 +137,7 @@ const reduceVerse = (state = [], action) => {
     case ALIGN_TARGET_TOKEN: {
       const index = action.index;
       const newAlignments = [...state.alignments];
-      newAlignments[index] = reduceAlignment(state.alignments[0], action);
+      newAlignments[index] = reduceAlignment(state.alignments[index], action);
 
       if (newAlignments[index].sourceNgram.length === 0) {
         newAlignments.splice(index, 1);
@@ -144,10 +148,13 @@ const reduceVerse = (state = [], action) => {
       };
     }
     case INSERT_ALIGNMENT:
-      return [
+      return {
         ...state,
-        reduceAlignment(undefined, action)
-      ].sort(alignmentComparator);
+        alignments: [
+          ...state.alignments,
+          reduceAlignment(undefined, action)
+        ].sort(alignmentComparator)
+      };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];

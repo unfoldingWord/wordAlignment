@@ -45,7 +45,7 @@ describe('align target token to empty source token', () => {
         target: {
           tokens: [
             {
-              word: 'world',
+              word: 'hello',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -86,7 +86,7 @@ describe('align target token to empty source token', () => {
         target: {
           tokens: [
             {
-              word: 'world',
+              word: 'hello',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -113,7 +113,7 @@ describe('align target token', () => {
         source: {
           tokens: [
             {
-              text: 'hello',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -122,7 +122,7 @@ describe('align target token', () => {
         target: {
           tokens: [
             {
-              text: 'world',
+              text: 'hello',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -160,7 +160,7 @@ describe('align target token', () => {
         source: {
           tokens: [
             {
-              text: 'hello',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -169,7 +169,7 @@ describe('align target token', () => {
         target: {
           tokens: [
             {
-              text: 'world',
+              text: 'hello',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -193,25 +193,141 @@ describe('align target token', () => {
     stateAfter);
 });
 
+describe('align target token from second alignment', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        source: {
+          tokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        target: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }]
+      }
+    }
+  };
+  const action = {
+    type: types.ALIGN_TARGET_TOKEN,
+    chapter: 1,
+    verse: 1,
+    index: 1,
+    token: new Token({
+      text: 'world',
+      position: 1,
+      occurrence: 1,
+      occurrences: 1
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        source: {
+          tokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        target: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [1]
+          }]
+      }
+    }
+  };
+  reducerTest('Add Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
 describe('insert source token', () => {
   const stateBefore = {
     '1': {
-      '1': [
-        {
-          topWords: [
+      '1': {
+        source: {
+          tokens: [
             {
-              word: 'world',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
-              strong: 'strong',
-              morph: 'morph',
-              lemma: 'lemma',
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
               position: 1
-            }
-          ],
-          bottomWords: []
-        }
-      ]
+            }]
+        },
+        target: {
+          tokens: []
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          }]
+      }
     }
   };
   const action = {
@@ -219,9 +335,10 @@ describe('insert source token', () => {
     chapter: 1,
     verse: 1,
     token: new Token({
-      text: 'hello',
+      text: 'dlrow',
       occurrence: 1,
       occurrences: 1,
+      position: 1,
       strong: 'strong',
       morph: 'morph',
       lemma: 'lemma'
@@ -229,36 +346,35 @@ describe('insert source token', () => {
   };
   const stateAfter = {
     '1': {
-      '1': [
-        {
-          topWords: [
+      '1': {
+        source: {
+          tokens: [
             {
-              word: 'hello',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
-              strong: 'strong',
-              morph: 'morph',
-              lemma: 'lemma',
               position: 0
-            }
-          ],
-          bottomWords: []
-        },
-        {
-          topWords: [
+            },
             {
-              word: 'world',
+              text: 'dlrow',
               occurrence: 1,
               occurrences: 1,
-              strong: 'strong',
-              morph: 'morph',
-              lemma: 'lemma',
               position: 1
-            }
-          ],
-          bottomWords: []
-        }
-      ]
+            }]
+        },
+        target: {
+          tokens: []
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }]
+      }
     }
   };
   reducerTest('Insert Alignment', alignments, stateBefore, action,
@@ -268,18 +384,37 @@ describe('insert source token', () => {
 describe('align source token', () => {
   const stateBefore = {
     '1': {
-      '1': [
-        {
-          topWords: [],
-          bottomWords: [
+      '1': {
+        source: {
+          tokens: [
             {
-              word: 'world',
+              text: 'olleh',
               occurrence: 1,
-              occurrences: 1
-            }
-          ]
-        }
-      ]
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            },
+            {
+              text: 'ih',
+              occurrence: 1,
+              occurrences: 1,
+              position: 2
+            }]
+        },
+        target: {
+          tokens: []
+        },
+        alignments: [
+          {
+            sourceNgram: [1, 2],
+            targetNgram: []
+          }]
+      }
     }
   };
   const action = {
@@ -288,9 +423,10 @@ describe('align source token', () => {
     verse: 1,
     index: 0,
     token: new Token({
-      text: 'hello',
+      text: 'olleh',
       occurrence: 1,
       occurrences: 1,
+      position: 0,
       strong: 'strong',
       morph: 'morph',
       lemma: 'lemma'
@@ -298,28 +434,37 @@ describe('align source token', () => {
   };
   const stateAfter = {
     '1': {
-      '1': [
-        {
-          topWords: [
+      '1': {
+        source: {
+          tokens: [
             {
-              word: 'hello',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
-              strong: 'strong',
-              morph: 'morph',
-              lemma: 'lemma',
               position: 0
-            }
-          ],
-          bottomWords: [
+            },
             {
-              word: 'world',
+              text: 'dlrow',
               occurrence: 1,
-              occurrences: 1
-            }
-          ]
-        }
-      ]
+              occurrences: 1,
+              position: 1
+            },
+            {
+              text: 'ih',
+              occurrence: 1,
+              occurrences: 1,
+              position: 2
+            }]
+        },
+        target: {
+          tokens: []
+        },
+        alignments: [
+          {
+            sourceNgram: [0, 1, 2],
+            targetNgram: []
+          }]
+      }
     }
   };
   reducerTest('Add Alignment', alignments, stateBefore, action,
@@ -415,24 +560,30 @@ describe('remove target token alignment', () => {
 describe('remove source token alignment', () => {
   const stateBefore = {
     '1': {
-      '1': [
-        {
-          topWords: [
+      '1': {
+        source: {
+          tokens: [
             {
-              word: 'hello',
+              text: 'olleh',
               occurrence: 1,
-              occurrences: 1
-            }
-          ],
-          bottomWords: [
+              occurrences: 1,
+              position: 0
+            },
             {
-              word: 'world',
+              text: 'dlrow',
               occurrence: 1,
-              occurrences: 1
-            }
-          ]
-        }
-      ]
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        target: {
+          tokens: []
+        },
+        alignments: [{
+          sourceNgram: [0],
+          targetNgram: []
+        }]
+      }
     }
   };
   const action = {
@@ -441,14 +592,35 @@ describe('remove source token alignment', () => {
     verse: 1,
     index: 0,
     token: new Token({
-      text: 'hello',
+      text: 'olleh',
       occurrence: 1,
-      occurrences: 1
+      occurrences: 1,
+      position: 0
     })
   };
   const stateAfter = {
     '1': {
-      '1': []
+      '1': {
+        source: {
+          tokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        target: {
+          tokens: []
+        },
+        alignments: []
+      }
     }
   };
   reducerTest('Remove Alignment', alignments, stateBefore, action,

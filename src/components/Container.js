@@ -294,7 +294,6 @@ class Container extends Component {
               alignmentIndex: undefined,
               occurrence: 1, // TODO: get token occurrence
               occurrences: 1, // TODO: get token occurrences
-              type: 'bottomWord',
               word: token.toString()
             });
             // TODO: inject suggestions into alignments
@@ -313,6 +312,7 @@ class Container extends Component {
    * @param {number} [prevIndex=-1] - the index from which the token will be moved
    */
   handleAlignTargetToken(item, nextIndex, prevIndex = -1) {
+    console.log('aligning token', item);
     const {
       contextId: {reference: {chapter, verse}},
       alignTargetToken,
@@ -342,6 +342,7 @@ class Container extends Component {
    * @param {number} prevIndex - the index from which this token will be moved
    */
   handleUnalignTargetToken(item, prevIndex) {
+    console.log('un-aligning token', item);
     const {
       contextId: {reference: {chapter, verse}},
       unalignTargetToken
@@ -367,6 +368,7 @@ class Container extends Component {
    * @param {number} nextIndex - the next alignment index
    */
   handleAlignPrimaryToken(item, nextIndex, prevIndex) {
+    console.log('aligning primary token', item);
     const {
       moveSourceToken,
       contextId: {reference: {chapter, verse}}
@@ -454,7 +456,7 @@ class Container extends Component {
           chapter={chapter}
           verse={verse}
           words={words}
-          moveBackToWordBank={this.handleUnalignTargetToken}
+          onDropTargetToken={this.handleUnalignTargetToken}
           connectDropTarget={connectDropTarget}
           isOver={isOver}/>
         <div style={{
@@ -468,8 +470,8 @@ class Container extends Component {
           <AlignmentGrid alignments={verseAlignments}
                          translate={translate}
                          lexicons={lexicons}
-                         onAlign={this.handleAlignTargetToken}
-                         onMerge={this.handleAlignPrimaryToken}
+                         onDropTargetToken={this.handleAlignTargetToken}
+                         onDropSourceToken={this.handleAlignPrimaryToken}
                          actions={actions}
                          contextId={contextId}/>
         </div>

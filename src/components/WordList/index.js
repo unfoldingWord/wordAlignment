@@ -75,7 +75,7 @@ DroppableWordList.propTypes = {
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)),
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
-  moveBackToWordBank: PropTypes.func.isRequired,
+  onDropTargetToken: PropTypes.func.isRequired,
   wordList: PropTypes.object
 };
 
@@ -85,7 +85,9 @@ DroppableWordList.propTypes = {
 const dragHandler = {
   drop(props, monitor) {
     const item = monitor.getItem();
-    props.moveBackToWordBank(item, item.alignmentIndex);
+    if(item.alignmentIndex !== undefined) {
+      props.onDropTargetToken(item, item.alignmentIndex);
+    }
   }
 };
 

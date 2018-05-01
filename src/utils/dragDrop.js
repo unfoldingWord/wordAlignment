@@ -5,9 +5,9 @@
  * @return {boolean}
  */
 export function canDropPrimaryWord(dropTargetProps, dragSourceProps) {
-  const emptyTarget = dropTargetProps.topWords.length === 0;
-  const singleTarget = dropTargetProps.topWords.length === 1;
-  const mergedTarget = dropTargetProps.topWords.length > 1;
+  const emptyTarget = dropTargetProps.sourceNgram.length === 0;
+  const singleTarget = dropTargetProps.sourceNgram.length === 1;
+  const mergedTarget = dropTargetProps.sourceNgram.length > 1;
   const singleSource  = dragSourceProps.alignmentLength === 1;
   const mergedSource = dragSourceProps.alignmentLength > 1;
   const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;

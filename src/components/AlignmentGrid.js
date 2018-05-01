@@ -82,19 +82,19 @@ class AlignmentGrid extends Component {
   }
 
   handleDrop(index, item) {
-    const {onAlign, onMerge} = this.props;
+    const {onDropTargetToken, onDropSourceToken} = this.props;
     if (item.type === types.SECONDARY_WORD) {
-      onAlign(item, index, item.alignmentIndex);
+      onDropTargetToken(item, index, item.alignmentIndex);
     }
     if (item.type === types.PRIMARY_WORD) {
-      onMerge(item, index, item.alignmentIndex);
+      onDropSourceToken(item, index, item.alignmentIndex);
     }
   }
 }
 
 AlignmentGrid.propTypes = {
-  onAlign: PropTypes.func.isRequired,
-  onMerge: PropTypes.func.isRequired,
+  onDropTargetToken: PropTypes.func.isRequired,
+  onDropSourceToken: PropTypes.func.isRequired,
   alignments: PropTypes.array.isRequired,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,

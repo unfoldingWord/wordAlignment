@@ -155,12 +155,12 @@ const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
     return {
-      text: props.wordObject.text,
-      lemma: props.wordObject.lemma,
-      morph: props.wordObject.morph,
-      strong: props.wordObject.strong,
-      occurrence: props.wordObject.occurrence,
-      occurrences: props.wordObject.occurrences,
+      text: props.token.text,
+      lemma: props.token.lemma,
+      morph: props.token.morph,
+      strong: props.token.strong,
+      occurrence: props.token.occurrence,
+      occurrences: props.token.occurrences,
       alignmentIndex: props.alignmentIndex,
       wordIndex: props.wordIndex,
       alignmentLength: props.alignmentLength,

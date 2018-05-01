@@ -65,9 +65,9 @@ const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
     return {
-      word: props.text,
-      occurrence: props.occurrence,
-      occurrences: props.occurrences,
+      word: props.token.text,
+      occurrence: props.token.occurrence,
+      occurrences: props.token.occurrences,
       alignmentIndex: props.alignmentIndex,
       type: types.SECONDARY_WORD
     };

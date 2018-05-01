@@ -108,8 +108,8 @@ DroppableAlignmentCard.propTypes = {
 const dragHandler = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    const alignmentEmpty = (props.topWords.length === 0 &&
-      props.bottomWords.length === 0);
+    const alignmentEmpty = (props.sourceNgram.length === 0 &&
+      props.targetNgram.length === 0);
     let canDrop = false;
     if (item.type === types.SECONDARY_WORD) {
       const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;

@@ -12,6 +12,7 @@ import {
 
 /**
  * Checks if a word equals a token
+ * @deprecated
  * @param {object} word
  * @param {Token} token
  * @return {boolean}
@@ -29,7 +30,7 @@ const wordEqualsToken = (word, token) => {
  * @param {object} b
  * @return {number}
  */
-const wordComparator = (a, b) => {
+const tokenComparator = (a, b) => {
   if (a.position < b.position) {
     return -1;
   }
@@ -48,14 +49,14 @@ const wordComparator = (a, b) => {
  */
 const alignmentComparator = (a, b) => {
   if (a.topWords.length && b.topWords.length) {
-    return wordComparator(a.topWords[0], b.topWords[0]);
+    return tokenComparator(a.topWords[0], b.topWords[0]);
   } else {
     return 0;
   }
 };
 
-const topWord = (token) => ({
-  word: token.toString(),
+const reduceSourceToken = (token) => ({
+  text: token.toString(),
   position: token.position,
   occurrence: token.occurrence,
   occurrences: token.occurrences,
@@ -64,54 +65,55 @@ const topWord = (token) => ({
   morph: token.morph
 });
 
-const bottomWord = (token) => ({
-  word: token.toString(),
+const reduceTargetToken = (token) => ({
+  text: token.toString(),
   occurrence: token.occurrence,
   occurrences: token.occurrences,
   position: token.position
 });
 
-const alignment = (state = {topWords: [], bottomWords: []}, action) => {
+const reduceAlignment = (state = {topWords: [], bottomWords: []}, action) => {
   switch (action.type) {
     case ALIGN_TARGET_TOKEN:
       return {
-        topWords: [...state.topWords],
-        bottomWords: [
-          ...state.bottomWords, bottomWord(action.token)
-        ].sort(wordComparator)
+        sourceNgram: [...state.sourceNgram],
+        targetNgram: [
+          ...state.targetNgram, action.token.position
+        ].sort()
       };
     case UNALIGN_TARGET_TOKEN:
       return {
-        topWords: [...state.topWords],
-        bottomWords: state.bottomWords.filter(word => {
-          return !wordEqualsToken(word, action.token);
+        sourceNgram: [...state.sourceNgram],
+        targetNgram: state.targetNgram.filter(position => {
+          return position !== action.token.position;
         })
       };
     case INSERT_ALIGNMENT:
     case ALIGN_SOURCE_TOKEN:
       return {
-        topWords: [...state.topWords, topWord(action.token)].sort(
-          wordComparator),
-        bottomWords: [...state.bottomWords]
+        sourceNgram: [...state.sourceNgram, action.token.position].sort(
+          tokenComparator),
+        targetNgram: [...state.targetNgram]
       };
     case UNALIGN_SOURCE_TOKEN:
       return {
-        topWords: [
-          ...state.topWords.filter(word => {
-            return !wordEqualsToken(word, action.token);
-          })],
-        bottomWords: []
+        sourceNgram: state.sourceNgram.filter(position => {
+            return position !== action.token.position;
+          }),
+        targetNgram: []
       };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignment = action.alignments[vid].alignments[action.index];
       const sourceNgram = [];
       const targetNgram = [];
-      for (const word of alignment.sourceNgram) {
-        sourceNgram.push(word);
+      for (const token of alignment.sourceNgram) {
+        // TODO: wrap with sourceToken()
+        sourceNgram.push(token);
       }
-      for (const word of alignment.targetNgram) {
-        targetNgram.push(word);
+      for (const token of alignment.targetNgram) {
+        // TODO: wrap with targetToken();
+        targetNgram.push(token);
       }
       return {
         sourceNgram,
@@ -123,32 +125,34 @@ const alignment = (state = {topWords: [], bottomWords: []}, action) => {
   }
 };
 
-const verse = (state = [], action) => {
+const reduceVerse = (state = [], action) => {
   switch (action.type) {
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
       const index = action.index;
-      const nextState = [
-        ...state
-      ];
-      nextState[index] = alignment(state[index], action);
-      if (nextState[index].topWords.length === 0) {
-        nextState.splice(index, 1);
+      const newAlignments = [...state.alignments];
+      newAlignments[index] = reduceAlignment(state.alignments[0], action);
+
+      if (newAlignments[index].sourceNgram.length === 0) {
+        newAlignments.splice(index, 1);
       }
-      return nextState;
+      return {
+        ...state,
+        alignments: newAlignments
+      };
     }
     case INSERT_ALIGNMENT:
       return [
         ...state,
-        alignment(undefined, action)
+        reduceAlignment(undefined, action)
       ].sort(alignmentComparator);
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];
       for (let i = 0; i < action.alignments[vid].alignments.length; i++) {
-        alignments.push(alignment(state[i], {...action, index: i}));
+        alignments.push(reduceAlignment(state[i], {...action, index: i}));
       }
       return {
         source: {
@@ -167,7 +171,7 @@ const verse = (state = [], action) => {
   }
 };
 
-const chapter = (state = {}, action) => {
+const reduceChapter = (state = {}, action) => {
   switch (action.type) {
     case INSERT_ALIGNMENT:
     case UNALIGN_SOURCE_TOKEN:
@@ -177,13 +181,13 @@ const chapter = (state = {}, action) => {
       const vid = action.verse + '';
       return {
         ...state,
-        [vid]: verse(state[vid], action)
+        [vid]: reduceVerse(state[vid], action)
       };
     }
     case SET_CHAPTER_ALIGNMENTS: {
       const verses = {};
       for (const vid of Object.keys(action.alignments)) {
-        verses[vid] = verse(state[vid], {...action, verse: vid});
+        verses[vid] = reduceVerse(state[vid], {...action, verse: vid});
       }
       return verses;
     }
@@ -210,7 +214,7 @@ const alignments = (state = {}, action) => {
       const cid = action.chapter + '';
       return {
         ...state,
-        [cid]: chapter(state[cid], action)
+        [cid]: reduceChapter(state[cid], action)
       };
     }
     case CLEAR_STATE:
@@ -232,7 +236,7 @@ export const getChapterAlignments = (state, chapter) => {
   const chapterId = chapter + '';
   if (chapterId in state) {
     const alignments = {};
-    for(const verseId of Object.keys(state[chapterId])) {
+    for (const verseId of Object.keys(state[chapterId])) {
       alignments[verseId] = getVerseAlignments(state, chapterId, verseId);
     }
     return alignments;

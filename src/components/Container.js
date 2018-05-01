@@ -307,12 +307,12 @@ class Container extends Component {
 
   /**
    * Handles adding secondary words to an alignment
-   * @param item - the secondary word to move
+   * @param {Token} token - the secondary word to move
    * @param {number} nextIndex - the index to which the token will be moved
    * @param {number} [prevIndex=-1] - the index from which the token will be moved
    */
-  handleAlignTargetToken(item, nextIndex, prevIndex = -1) {
-    console.log('aligning token', item);
+  handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
+    console.log('aligning token', token);
     const {
       contextId: {reference: {chapter, verse}},
       alignTargetToken,
@@ -320,12 +320,12 @@ class Container extends Component {
       // writeGlobalToolData
     } = this.props;
 
-    let token = token = new Token({
-      text: item.word,
-      occurrence: item.occurrence,
-      occurrences: item.occurrences,
-      position: item.position
-    });
+    // let token = token = new Token({
+    //   text: token.word,
+    //   occurrence: token.occurrence,
+    //   occurrences: token.occurrences,
+    //   position: token.position
+    // });
     if (prevIndex >= 0) {
       unalignTargetToken(chapter, verse, prevIndex, token);
     }
@@ -338,22 +338,22 @@ class Container extends Component {
 
   /**
    * Handles removing secondary words from an alignment
-   * @param item - the secondary word to remove
+   * @param {Token} token - the secondary word to remove
    * @param {number} prevIndex - the index from which this token will be moved
    */
-  handleUnalignTargetToken(item, prevIndex) {
-    console.log('un-aligning token', item);
+  handleUnalignTargetToken(token, prevIndex) {
+    console.log('un-aligning token', token);
     const {
       contextId: {reference: {chapter, verse}},
       unalignTargetToken
     } = this.props;
 
-    let token = new Token({
-      text: item.word,
-      occurrence: item.occurrence,
-      occurrences: item.occurrences,
-      position: item.position
-    });
+    // let token = new Token({
+    //   text: token.word,
+    //   occurrence: token.occurrence,
+    //   occurrences: token.occurrences,
+    //   position: token.position
+    // });
     unalignTargetToken(chapter, verse, prevIndex, token);
 
     // console.log('remove alignment', item);
@@ -363,26 +363,26 @@ class Container extends Component {
 
   /**
    * Handles (un)merging primary words
-   * @param item - the primary word to move
+   * @param {Token} token - the primary word to move
    * @param {number} prevIndex - the previous alignment index
    * @param {number} nextIndex - the next alignment index
    */
-  handleAlignPrimaryToken(item, nextIndex, prevIndex) {
-    console.log('aligning primary token', item);
+  handleAlignPrimaryToken(token, nextIndex, prevIndex) {
+    console.log('aligning primary token', token);
     const {
       moveSourceToken,
       contextId: {reference: {chapter, verse}}
     } = this.props;
-
-    let token = new Token({
-      text: item.word,
-      occurrence: item.occurrence,
-      occurrences: item.occurrences,
-      lemma: item.lemma,
-      morph: item.morph,
-      strong: item.strong,
-      position: item.position
-    });
+    //
+    // let token = new Token({
+    //   text: token.word,
+    //   occurrence: token.occurrence,
+    //   occurrences: token.occurrences,
+    //   lemma: token.lemma,
+    //   morph: token.morph,
+    //   strong: token.strong,
+    //   position: token.position
+    // });
 
     moveSourceToken(chapter, verse, nextIndex, prevIndex, token);
 

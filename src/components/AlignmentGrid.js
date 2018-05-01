@@ -84,10 +84,10 @@ class AlignmentGrid extends Component {
   handleDrop(index, item) {
     const {onDropTargetToken, onDropSourceToken} = this.props;
     if (item.type === types.SECONDARY_WORD) {
-      onDropTargetToken(item, index, item.alignmentIndex);
+      onDropTargetToken(item.token, index, item.alignmentIndex);
     }
     if (item.type === types.PRIMARY_WORD) {
-      onDropSourceToken(item, index, item.alignmentIndex);
+      onDropSourceToken(item.token, index, item.alignmentIndex);
     }
   }
 }

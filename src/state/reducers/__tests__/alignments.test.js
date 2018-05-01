@@ -35,43 +35,17 @@ describe('set chapter alignments when empty', () => {
     stateAfter);
 });
 
-describe('align target token', () => {
+describe('align target token to empty source token', () => {
   const stateBefore = {
     '1': {
-      '1': [
-        {
-          topWords: [{}],
-          bottomWords: [
+      '1': {
+        source: {
+          tokens: []
+        },
+        target: {
+          tokens: [
             {
               word: 'world',
-              occurrence: 1,
-              occurrences: 1,
-              position: 1
-            }
-          ]
-        }
-      ]
-    }
-  };
-  const action = {
-    type: types.ALIGN_TARGET_TOKEN,
-    chapter: 1,
-    verse: 1,
-    index: 0,
-    token: new Token({
-      text: 'hello',
-      occurrence: 1,
-      occurrences: 1
-    })
-  };
-  const stateAfter = {
-    '1': {
-      '1': [
-        {
-          topWords: [{}],
-          bottomWords: [
-            {
-              word: 'hello',
               occurrence: 1,
               occurrences: 1,
               position: 0
@@ -81,10 +55,138 @@ describe('align target token', () => {
               occurrence: 1,
               occurrences: 1,
               position: 1
-            }
-          ]
-        }
-      ]
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [],
+            targetNgram: [1]
+          }]
+      }
+    }
+  };
+  const action = {
+    type: types.ALIGN_TARGET_TOKEN,
+    chapter: 1,
+    verse: 1,
+    index: 0,
+    token: new Token({
+      text: 'hello',
+      position: 0,
+      occurrence: 1,
+      occurrences: 1
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        source: {
+          tokens: []
+        },
+        target: {
+          tokens: [
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              word: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: []
+      }
+    }
+  };
+  reducerTest('Add Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
+describe('align target token', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        source: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }]
+        },
+        target: {
+          tokens: [
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [1]
+          }]
+      }
+    }
+  };
+  const action = {
+    type: types.ALIGN_TARGET_TOKEN,
+    chapter: 1,
+    verse: 1,
+    index: 0,
+    token: new Token({
+      text: 'hello',
+      position: 0,
+      occurrence: 1,
+      occurrences: 1
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        source: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }]
+        },
+        target: {
+          tokens: [
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1]
+          }]
+      }
     }
   };
   reducerTest('Add Alignment', alignments, stateBefore, action,
@@ -227,18 +329,37 @@ describe('align source token', () => {
 describe('remove target token alignment', () => {
   const stateBefore = {
     '1': {
-      '1': [
-        {
-          topWords: [{}],
-          bottomWords: [
+      '1': {
+        source: {
+          tokens: [
             {
-              word: 'world',
+              text: 'hello',
               occurrence: 1,
-              occurrences: 1
-            }
-          ]
-        }
-      ]
+              occurrences: 1,
+              position: 0
+            }]
+        },
+        target: {
+          tokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [1]
+          }]
+      }
     }
   };
   const action = {
@@ -247,19 +368,45 @@ describe('remove target token alignment', () => {
     verse: 1,
     index: 0,
     token: new Token({
-      text: 'world',
+      text: 'dlrow',
       occurrence: 1,
-      occurrences: 1
+      occurrences: 1,
+      position: 1
     })
   };
   const stateAfter = {
     '1': {
-      '1': [
-        {
-          topWords: [{}],
-          bottomWords: []
-        }
-      ]
+      '1': {
+        source: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }]
+        },
+        target: {
+          tokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }]
+        },
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          }]
+      }
     }
   };
   reducerTest('Remove Alignment', alignments, stateBefore, action, stateAfter);
@@ -403,20 +550,22 @@ describe('selectors', () => {
       '1': {
         '1': {
           source: {
-            tokens: [{
-              text: 'hello',
-              occurrence: 1,
-              occurrences: 1,
-              position: 0
-            }]
+            tokens: [
+              {
+                text: 'hello',
+                occurrence: 1,
+                occurrences: 1,
+                position: 0
+              }]
           },
           target: {
-            tokens: [{
-              text: 'world',
-              occurrence: 1,
-              occurrences: 1,
-              position: 0
-            }]
+            tokens: [
+              {
+                text: 'world',
+                occurrence: 1,
+                occurrences: 1,
+                position: 0
+              }]
           },
           alignments: [
             {
@@ -428,45 +577,53 @@ describe('selectors', () => {
       }
     };
     const alignments = fromAlignments.getVerseAlignments(state, 1, 1);
-    expect(JSON.parse(JSON.stringify(alignments))).toEqual([{
-      sourceNgram: [{
-        text: 'hello',
-        occurrence: 1,
-        occurrences: 1,
-        index: 0
-      }],
-      targetNgram: [{
+    expect(JSON.parse(JSON.stringify(alignments))).toEqual([
+      {
+        sourceNgram: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            index: 0
+          }],
+        targetNgram: [
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            index: 0
+          }]
+      }]);
+
+    const chapterAlignments = fromAlignments.getChapterAlignments(state, 1);
+    expect(JSON.parse(JSON.stringify(chapterAlignments))).toEqual({
+      '1': [
+        {
+          sourceNgram: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              index: 0
+            }],
+          targetNgram: [
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              index: 0
+            }]
+        }]
+    });
+
+    const alignedTargetTokens = fromAlignments.getAlignedVerseTokens(state, 1,
+      1);
+    expect(JSON.parse(JSON.stringify(alignedTargetTokens))).toEqual([
+      {
         text: 'world',
         occurrence: 1,
         occurrences: 1,
         index: 0
-      }]
-    }]);
-
-    const chapterAlignments = fromAlignments.getChapterAlignments(state, 1);
-    expect(JSON.parse(JSON.stringify(chapterAlignments))).toEqual({
-      '1': [{
-        sourceNgram: [{
-          text: 'hello',
-          occurrence: 1,
-          occurrences: 1,
-          index: 0
-        }],
-        targetNgram: [{
-          text: 'world',
-          occurrence: 1,
-          occurrences: 1,
-          index: 0
-        }]
-      }]
-    });
-
-    const alignedTargetTokens = fromAlignments.getAlignedVerseTokens(state, 1, 1);
-    expect(JSON.parse(JSON.stringify(alignedTargetTokens))).toEqual([{
-      text: 'world',
-      occurrence: 1,
-      occurrences: 1,
-      index: 0
-    }]);
+      }]);
   });
 });

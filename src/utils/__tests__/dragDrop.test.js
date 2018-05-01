@@ -58,10 +58,9 @@ describe('unacceptable drops', () => {
         alignmentLength: 1
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
       };
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
@@ -75,10 +74,9 @@ describe('unacceptable drops', () => {
         alignmentLength: 1
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
       };
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
@@ -91,10 +89,9 @@ describe('unacceptable drops', () => {
         alignmentLength: 1
       };
       const target = {
-        topWords: [],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: [],
+        targetNgram: [],
+        alignmentIndex: 1
       };
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
@@ -116,10 +113,9 @@ describe('unacceptable drops', () => {
         alignmentLength: 2
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 2,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 2
       };
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
@@ -132,10 +128,9 @@ describe('unacceptable drops', () => {
         alignmentLength: 2
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 2,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 2
       };
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
@@ -148,10 +143,9 @@ describe('unacceptable drops', () => {
         alignmentLength: 2
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
       };
       const result = canDropPrimaryWord(target, source);
       expect(result).toEqual(false);
@@ -177,24 +171,24 @@ function makeSingleSource(movement) {
 
 function makeMergedTarget() {
   return {
-    topWords: ['word1', 'word2'],
-    bottomWords: [],
+    sourceNgram: ['word1', 'word2'],
+    targetNgram: [],
     alignmentIndex: 2
   };
 }
 
 function makeEmptyTarget() {
   return {
-    topWords: [],
-    bottomWords: [],
+    sourceNgram: [],
+    targetNgram: [],
     alignmentIndex: 2
   };
 }
 
 function makeSingleTarget() {
   return {
-    topWords: ['word1'],
-    bottomWords: [],
+    sourceNgram: ['word1'],
+    targetNgram: [],
     alignmentIndex: 2
   };
 }

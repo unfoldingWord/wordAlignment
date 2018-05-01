@@ -4,6 +4,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
 <DragDropContext(TestContextContainer)
   chapter={1}
   moveBackToWordBank={[Function]}
+  onDropTargetToken={[Function]}
   verse={1}
   words={
     Array [
@@ -33,6 +34,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   <TestContextContainer
     chapter={1}
     moveBackToWordBank={[Function]}
+    onDropTargetToken={[Function]}
     verse={1}
     words={
       Array [
@@ -62,6 +64,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     <DropTarget(DroppableWordList)
       chapter={1}
       moveBackToWordBank={[Function]}
+      onDropTargetToken={[Function]}
       verse={1}
       words={
         Array [
@@ -94,6 +97,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         isOver={false}
         moveBackToWordBank={[Function]}
+        onDropTargetToken={[Function]}
         verse={1}
         words={
           Array [
@@ -575,6 +579,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   chapter={2}
   isOver={false}
   moveBackToWordBank={[Function]}
+  onDropTargetToken={[Function]}
   verse={1}
   wordList={
     Object {
@@ -610,6 +615,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     chapter={2}
     isOver={false}
     moveBackToWordBank={[Function]}
+    onDropTargetToken={[Function]}
     verse={1}
     wordList={
       Object {
@@ -645,6 +651,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       chapter={2}
       isOver={false}
       moveBackToWordBank={[Function]}
+      onDropTargetToken={[Function]}
       verse={1}
       wordList={
         Object {
@@ -682,6 +689,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         isOver={false}
         moveBackToWordBank={[Function]}
+        onDropTargetToken={[Function]}
         verse={1}
         wordList={
           Object {

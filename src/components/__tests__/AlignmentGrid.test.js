@@ -10,8 +10,8 @@ test('empty snapshot', () => {
   const wrapper = renderer.create(
     <AlignmentGrid lexicons={{}}
                    alignments={[]}
-                   onAlign={jest.fn()}
-                   onMerge={jest.fn()}
+                   onDropSourceToken={jest.fn()}
+                   onDropTargetToken={jest.fn()}
                    translate={k => k}
                    actions={{
                      showPopover: jest.fn(),
@@ -95,8 +95,8 @@ describe('AlignmentGrid', () => {
       <ConnectedAlignmentGrid
         alignments={alignmentData['1']['1']}
         contextId={contextId}
-        onAlign={jest.fn()}
-        onMerge={jest.fn()}
+        onDropSourceToken={jest.fn()}
+        onDropTargetToken={jest.fn()}
         translate={k => k}
         actions={{
           showPopover: jest.fn(),
@@ -124,8 +124,8 @@ describe('AlignmentGrid', () => {
       <AlignmentGrid
         alignments={alignmentData['1']['1']}
         contextId={contextId}
-        onAlign={jest.fn()}
-        onMerge={jest.fn()}
+        onDropSourceToken={jest.fn()}
+        onDropTargetToken={jest.fn()}
         translate={k => k}
         actions={{
           showPopover: jest.fn(),

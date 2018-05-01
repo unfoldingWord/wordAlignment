@@ -22,6 +22,7 @@ describe('Test DroppableWordList component in WordList/index.js', () => {
     props = {
       chapter: 1,
       verse: 1,
+      onDropTargetToken: jest.fn(),
       words: words,
       moveBackToWordBank: jest.fn()
     };

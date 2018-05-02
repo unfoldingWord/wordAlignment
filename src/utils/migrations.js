@@ -24,25 +24,6 @@ const migrateBottomWord = word => ({
 });
 
 /**
- * Searches for a token in the array that matches the given parameters
- * @param {Token[]} tokens
- * @param {string} text
- * @param {number} occurrence
- * @param {number} occurrences
- * @return {Token}
- */
-const findToken = (tokens, text, occurrence, occurrences) => {
-  for (const token of tokens) {
-    if (token.toString() === text
-      && token.occurrence === occurrence
-      && token.occurrences === occurrences) {
-      return token;
-    }
-  }
-  return null;
-};
-
-/**
  * A comparator used for sorting objects by their position key.
  * @param a
  * @param b
@@ -101,7 +82,6 @@ const indexOfToken = (tokens, text, occurrence, occurrences) => {
  * @param {object} sourceTokens - a dictionary of tokenized source sentences as a baseline
  * @param {object} targetTokens - a dictionary of tokenized target sentences as a baseline
  * @return {*}
- * @throws {AlignmentError} if any of the alignments are invalid
  */
 export const migrateChapterAlignments = (data, sourceTokens, targetTokens) => {
   const interchangeData = formatAlignmentData(data);
@@ -115,7 +95,6 @@ export const migrateChapterAlignments = (data, sourceTokens, targetTokens) => {
  * This is exported only for testing.
  *
  * @param {object} data - the raw alignment data
- * @throws Throws an error if the data is invalid
  * @example
  * // input data format
  * {
@@ -181,10 +160,6 @@ export const formatAlignmentData = (data) => {
  * This is exported only for testing.
  *
  * @param data
- * @param {object} sourceTokensBaseline - a dictionary of tokenized source verses
- * @param {object} targetTokensBaseline - a dictionary of tokenized target verses
- * @throws will throw an error if the data is invalid
- * @throws {AlignmentError} if the alignment is invalid
  * @return {*}
  * @example
  * // input data format
@@ -208,45 +183,30 @@ export const formatAlignmentData = (data) => {
  *    "occurrences: 1
  * }
  */
-export const normalizeAlignmentData = (
-  data, sourceTokensBaseline, targetTokensBaseline) => {
+export const normalizeAlignmentData = (data) => {
   const normalizedData = {};
   for (const verse of Object.keys(data)) {
     let targetTokens = [];
     let sourceTokens = [];
     const alignments = [];
 
-    // add position to target tokens
-    for (const t of data[verse].targetTokens) {
-      const baseline = findToken(targetTokensBaseline[verse], t.text, t.occurrence,
-        t.occurrences);
-      if (baseline) {
-        targetTokens.push({
-          ...t,
-          position: baseline.position
-        });
-      } else {
-        throw new AlignmentError(
-          `Unexpected target token "${t.text} (${t.occurrence} of ${t.occurrences})" in verse ${verse}`);
-      }
-    }
-
     // add position to source tokens
     for (const t of data[verse].sourceTokens) {
-      const baseline = findToken(sourceTokensBaseline[verse], t.text, t.occurrence,
-        t.occurrences);
-      if (baseline) {
-        sourceTokens.push({
-          ...t,
-          position: baseline.position
-        });
-      } else {
-        throw new AlignmentError(
-          `Unexpected source token "${t.text} (${t.occurrence} of ${t.occurrences})" in verse ${verse}`);
-      }
+      sourceTokens.push({
+        ...t,
+        position: sourceTokens.length
+      });
     }
 
-    // sort sentence tokens
+    // add position to target tokens
+    for (const t of data[verse].targetTokens) {
+      targetTokens.push({
+        ...t,
+        position: targetTokens.length
+      });
+    }
+
+    // sort tokens
     sourceTokens.sort(positionComparator);
     targetTokens.sort(positionComparator);
 
@@ -262,8 +222,8 @@ export const normalizeAlignmentData = (
         if (index >= 0) {
           sourceNgram.push(index);
         } else {
-          throw new AlignmentError(
-            `Unexpected source token "${t.text} (${t.occurrence} of ${t.occurrences})" in alignment for verse ${verse}`);
+          // TRICKY: let the ui validate invalid alignments
+          sourceNgram.push(-1);
         }
       }
 
@@ -274,8 +234,7 @@ export const normalizeAlignmentData = (
         if (index >= 0) {
           targetNgram.push(index);
         } else {
-          throw new AlignmentError(
-            `Unexpected target token "${t.text} (${t.occurrence} of ${t.occurrences})" in alignment for verse ${verse}`);
+          // TRICKY: let the ui validate invalid alignments
         }
       }
 
@@ -300,9 +259,3 @@ export const normalizeAlignmentData = (
   }
   return normalizedData;
 };
-
-/**
- * An error indicating the word alignment is invalid
- */
-class AlignmentError extends Error {
-}

@@ -1,6 +1,4 @@
 import * as types from './actionTypes';
-import Lexer from 'word-map/Lexer';
-import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {migrateChapterAlignments} from '../../utils/migrations';
 import path from 'path';
 
@@ -21,16 +19,14 @@ export const setChapterAlignments = (chapter, data) => ({
  * @param dataReader
  * @param bookId
  * @param chapter
- * @param sourceChapter
- * @param targetChapter
  * @return {Function}
  */
-export const loadChapterAlignments = ({dataReader, bookId, chapter, sourceChapter, targetChapter}) => {
+export const loadChapterAlignments = (dataReader, bookId, chapter) => {
   return async dispatch => {
     const dataPath = path.join('alignmentData', bookId, chapter + '.json');
     const data = await dataReader(dataPath);
     const rawChapterData = JSON.parse(data);
-    await dispatch(indexChapterAlignments(chapter, rawChapterData, sourceChapter, targetChapter));
+    await dispatch(indexChapterAlignments(chapter, rawChapterData));
   };
 };
 
@@ -40,29 +36,14 @@ export const loadChapterAlignments = ({dataReader, bookId, chapter, sourceChapte
  * reliably assume token order. Therefore we must include a frame of reference.
  * @param chapterId
  * @param {object} rawAlignmentData
- * @param sourceChapter
- * @param targetChapter
  * @return {Function}
  */
-export const indexChapterAlignments = (
-  chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
+export const indexChapterAlignments = (chapterId, rawAlignmentData) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       try {
-        // tokenize baseline chapters
-        const targetChapterTokens = {};
-        const sourceChapterTokens = {};
-        for (const verse of Object.keys(targetChapter)) {
-          targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
-        }
-        for (const verse of Object.keys(sourceChapter)) {
-          sourceChapterTokens[verse] = tokenizeVerseObjects(
-            sourceChapter[verse].verseObjects);
-        }
-
         // migrate alignment data
-        const alignmentData = migrateChapterAlignments(rawAlignmentData,
-          sourceChapterTokens, targetChapterTokens);
+        const alignmentData = migrateChapterAlignments(rawAlignmentData);
 
         // set the loaded alignments
         dispatch(setChapterAlignments(chapterId, alignmentData));

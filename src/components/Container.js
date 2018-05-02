@@ -73,8 +73,6 @@ class Container extends Component {
     const {
       contextId,
       readGlobalToolData,
-      targetChapter,
-      sourceChapter,
       loadChapterAlignments
     } = props;
 
@@ -86,13 +84,7 @@ class Container extends Component {
     const {reference: {bookId, chapter}} = contextId;
 
     try {
-      await loadChapterAlignments({
-        dataReader: readGlobalToolData,
-        bookId,
-        chapter,
-        sourceChapter,
-        targetChapter
-      });
+      await loadChapterAlignments(readGlobalToolData, bookId, chapter);
       Container.validate(props);
     } catch (e) {
       console.error('The alignment data is corrupt', e);
@@ -398,10 +390,8 @@ Container.propTypes = {
   readGlobalToolData: PropTypes.func.isRequired,
   contextId: PropTypes.object,
   targetVerseText: PropTypes.string,
-  targetTokens: PropTypes.arrayOf(Token).isRequired,
+  targetTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   sourceVerse: PropTypes.object,
-  sourceChapter: PropTypes.object,
-  targetChapter: PropTypes.object,
   appLanguage: PropTypes.string.isRequired,
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,

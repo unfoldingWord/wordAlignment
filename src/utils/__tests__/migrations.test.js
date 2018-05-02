@@ -1,4 +1,3 @@
-import Token from 'word-map/structures/Token';
 import {formatAlignmentData, normalizeAlignmentData} from '../migrations';
 
 describe('alignment data migration', () => {
@@ -87,14 +86,14 @@ describe('alignment data migration', () => {
             'occurrence': 1,
             'occurrences': 1
           }],
-        targetTokens: [ // out of order
+        targetTokens: [
           {
-            'text': 'vlẽ',
+            'text': 'Mẽ',
             'occurrence': 1,
             'occurrences': 1
           },
           {
-            'text': 'Mẽ',
+            'text': 'vlẽ',
             'occurrence': 1,
             'occurrences': 1
           }],
@@ -116,31 +115,7 @@ describe('alignment data migration', () => {
       }
     };
 
-    const sourceTokens = {
-      '1': [new Token({
-        text: 'ὁ',
-        occurrence: 1,
-        occurrences: 1,
-        position: 0
-      })]
-    };
-    const targetTokens = {
-      '1': [
-        new Token({
-          text: 'Mẽ',
-          occurrence: 1,
-          occurrences: 1,
-          position: 0
-        }),
-        new Token({
-          text: 'vlẽ',
-          occurrence: 1,
-          occurrences: 1,
-          position: 1
-        })
-      ]
-    };
-    const output = normalizeAlignmentData(data, sourceTokens, targetTokens);
+    const output = normalizeAlignmentData(data);
     expect(output).toEqual({
       '1': {
         sourceTokens: [
@@ -153,7 +128,7 @@ describe('alignment data migration', () => {
             occurrences: 1,
             position: 0
           }],
-        targetTokens: [ // ordered
+        targetTokens: [
           {
             text: 'Mẽ',
             occurrence: 1,

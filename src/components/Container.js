@@ -18,7 +18,8 @@ import {
   setChapterAlignments,
   setSourceTokens,
   setTargetTokens,
-  unalignTargetToken
+  unalignTargetToken,
+  loadChapterAlignments
 } from '../state/actions';
 import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
 import {connect} from 'react-redux';
@@ -167,7 +168,7 @@ class Container extends Component {
       readGlobalToolData,
       targetChapter,
       sourceChapter,
-      indexChapterAlignments
+      loadChapterAlignments
     } = props;
 
     if (!contextId) {
@@ -178,12 +179,14 @@ class Container extends Component {
     const {reference: {bookId, chapter}} = contextId;
 
     try {
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      const data = await readGlobalToolData(dataPath);
-      const rawChapterData = JSON.parse(data);
-      await indexChapterAlignments(chapter, rawChapterData, sourceChapter,
-        targetChapter);
-      // TODO: validate verse
+      await loadChapterAlignments({
+        dataReader: readGlobalToolData,
+        bookId,
+        chapter,
+        sourceChapter,
+        targetChapter
+      });
+      // TODO: validate the current verse
     } catch (e) {
       console.error('The alignment data is corrupt', e);
       // TODO: reset alignment data to default state
@@ -523,7 +526,8 @@ const mapDispatchToProps = ({
   setTargetTokens,
   setChapterAlignments,
   clearState,
-  indexChapterAlignments
+  indexChapterAlignments,
+  loadChapterAlignments
 });
 
 const mapStateToProps = (state, {contextId}) => {

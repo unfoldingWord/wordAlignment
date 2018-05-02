@@ -2,6 +2,7 @@ import * as types from './actionTypes';
 import Lexer from 'word-map/Lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {migrateChapterAlignments} from '../../utils/migrations';
+import path from 'path';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
@@ -14,6 +15,24 @@ export const setChapterAlignments = (chapter, data) => ({
   chapter,
   alignments: data
 });
+
+/**
+ * Loads the alignment data from the disk
+ * @param dataReader
+ * @param bookId
+ * @param chapter
+ * @param sourceChapter
+ * @param targetChapter
+ * @return {Function}
+ */
+export const loadChapterAlignments = ({dataReader, bookId, chapter, sourceChapter, targetChapter}) => {
+  return async dispatch => {
+    const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+    const data = await dataReader(dataPath);
+    const rawChapterData = JSON.parse(data);
+    await dispatch(indexChapterAlignments(chapter, rawChapterData, sourceChapter, targetChapter));
+  };
+};
 
 /**
  * Retrieves some extra data from redux before inserting the chapter alignments.

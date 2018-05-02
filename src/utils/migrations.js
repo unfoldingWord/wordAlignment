@@ -222,8 +222,8 @@ export const normalizeAlignmentData = (data) => {
         if (index >= 0) {
           sourceNgram.push(index);
         } else {
-          // TRICKY: let the ui validate invalid alignments
-          sourceNgram.push(-1);
+          // TRICKY: this should never happen
+          throw new Error(`Unexpected source token ${t.text} find in alignment.`);
         }
       }
 
@@ -234,7 +234,8 @@ export const normalizeAlignmentData = (data) => {
         if (index >= 0) {
           targetNgram.push(index);
         } else {
-          // TRICKY: let the ui validate invalid alignments
+          // TRICKY: this should never happen
+          throw new Error(`Unexpected target token ${t.text} find in alignment.`);
         }
       }
 

@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-// constants
-const noBibleTextWarning = `[WARNING: This Bible version does not include text for this reference.]`;
+
 /**
  * Generates the styles for the component
  * @param props
  * @return {*}
  */
 const makeStyles = (props) => {
-  const {topWordCards, hoverTop, hoverBottom, bottomWordCards, acceptsTopWords, acceptsBottomWords} = props;
-  const emptyTop = !topWordCards || topWordCards.length === 0;
-  const emptyBottom = !bottomWordCards || bottomWordCards.length === 0;
+  const {sourceTokenCards, hoverTop, hoverBottom, targetTokenCards, acceptsSourceTokens, acceptsTargetTokens} = props;
+  const emptyTop = !sourceTokenCards || sourceTokenCards.length === 0;
+  const emptyBottom = !targetTokenCards || targetTokenCards.length === 0;
   const emptyAlignment = emptyTop && emptyBottom;
-  const largeAlignment = (!emptyTop && topWordCards.length > 1) ||
-    (!emptyBottom && bottomWordCards.length > 1);
+  const largeAlignment = (!emptyTop && sourceTokenCards.length > 1) ||
+    (!emptyBottom && targetTokenCards.length > 1);
 
   const defaultAlignmentWidth = '115px';
   const blueBorder = '3px dashed #44C6FF';
@@ -48,7 +47,7 @@ const makeStyles = (props) => {
       flexGrow: 1,
       width: '100%',
       minHeight: '45px',
-      border: emptyTop || acceptsTopWords ? whiteBorder : clearBorder,
+      border: emptyTop || acceptsSourceTokens ? whiteBorder : clearBorder,
       boxSizing: 'border-box',
       marginBottom: '7px'
     },
@@ -57,94 +56,72 @@ const makeStyles = (props) => {
       flexGrow: 1,
       width: '100%',
       minHeight: '45px',
-      border: emptyBottom || acceptsBottomWords ? whiteBorder : clearBorder,
+      border: emptyBottom || acceptsTargetTokens ? whiteBorder : clearBorder,
       boxSizing: 'border-box'
     },
     topRow: {
       ...rowStyle,
-      top: acceptsTopWords ? '7px' : 0,
-      left: acceptsTopWords ? '7px' : 0,
+      top: acceptsSourceTokens ? '7px' : 0,
+      left: acceptsSourceTokens ? '7px' : 0,
       opacity: hoverTop ? '0.8' : 1
     },
     bottomRow: {
       ...rowStyle,
-      top: acceptsBottomWords ? '7px' : 0,
-      left: acceptsBottomWords ? '7px' : 0,
+      top: acceptsTargetTokens ? '7px' : 0,
+      left: acceptsTargetTokens ? '7px' : 0,
       opacity: hoverBottom ? '0.8' : 1
     }
   };
 
-  if (hoverTop && acceptsTopWords) {
+  if (hoverTop && acceptsSourceTokens) {
     styles.top.border = blueBorder;
   }
-  if (hoverBottom && acceptsBottomWords) {
+  if (hoverBottom && acceptsTargetTokens) {
     styles.bottom.border = blueBorder;
   }
   return styles;
 };
 
 /**
- * Renders the alignment of primary and secondary words/phrases
+ * Renders the alignment of source and target n-grams
  *
- * @property {array} topWordCards
- * @property {array} bottomWordsCards
- * @property {array} topWords
+ * @property {array} sourceTokenCards
+ * @property {array} targetTokenCards
  * @property {bool} hoverBottom - a bottom word is hover over this component
  * @property {bool} hoverTop - a top word is hovering over this component
- * @property {bool} acceptsTopWords - this component accepts dropped top words
- * @property {bool} acceptsBottomWords - this component accepts dropped bottom words
+ * @property {bool} acceptsSourceTokens - this component accepts dropped source tokens
+ * @property {bool} acceptsTargetTokens - this component accepts dropped target tokens
  */
 class AlignmentCard extends Component {
   render() {
-    const {bottomWordCards, topWordCards} = this.props;
+    const {targetTokenCards, sourceTokenCards} = this.props;
     const styles = makeStyles(this.props);
-    let alignmentCardContent = <div/>;
-
-    // if there is no top words show warning alert
-    if (!topWordCards.length) {
-      alignmentCardContent = (
-        <div style={{
-          ...styles.content,
-          width: '280px',
-          height: '100px',
-          fontSize: '20px',
-          padding: '5px'
-        }}>
-          {noBibleTextWarning}
-        </div>
-      );
-    } else {
-      alignmentCardContent = (
+    return (
+      <div style={styles.root}>
         <div style={styles.content}>
           <div style={styles.top}>
             <div style={styles.topRow}>
-              {topWordCards}
+              {sourceTokenCards}
             </div>
           </div>
           <div style={styles.bottom}>
             <div style={styles.bottomRow}>
-              {bottomWordCards}
+              {targetTokenCards}
             </div>
           </div>
         </div>
-      );
-    }
-
-    return (
-      <div style={styles.root}>
-        {alignmentCardContent}
       </div>
     );
   }
 }
 
 AlignmentCard.propTypes = {
-  topWordCards: PropTypes.array,
-  bottomWordCards: PropTypes.array,
+  sourceTokenCards: PropTypes.array.isRequired,
+  targetTokenCards: PropTypes.array.isRequired,
   hoverBottom: PropTypes.bool,
   hoverTop: PropTypes.bool,
-  acceptsTopWords: PropTypes.bool,
-  acceptsBottomWords: PropTypes.bool
+  acceptsSourceTokens: PropTypes.bool,
+  acceptsTargetTokens: PropTypes.bool
 };
 
 export default AlignmentCard;

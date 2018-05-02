@@ -5,6 +5,7 @@ import * as types from '../WordCard/Types';
 import SecondaryToken from '../SecondaryToken';
 import PrimaryToken from '../PrimaryToken';
 import AlignmentCard from './AlignmentCard';
+import Token from 'word-map/structures/Token';
 
 const styles = {
   root: {
@@ -120,13 +121,12 @@ class DroppableAlignmentCard extends Component {
     } else {
       return connectDropTarget(
         <div>
-          <AlignmentCard bottomWordCards={bottomWordCards}
+          <AlignmentCard targetTokenCards={bottomWordCards}
                          hoverBottom={hoverBottom}
                          hoverTop={hoverTop}
-                         acceptsBottomWords={acceptsBottom}
-                         acceptsTopWords={acceptsTop}
-                         topWordCards={topWordCards}
-                         topWords={sourceNgram}/>
+                         acceptsTargetTokens={acceptsBottom}
+                         acceptsSourceTokens={acceptsTop}
+                         sourceTokenCards={topWordCards}/>
         </div>
       );
     }
@@ -140,8 +140,8 @@ DroppableAlignmentCard.propTypes = {
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  sourceNgram: PropTypes.array.isRequired,
-  targetNgram: PropTypes.array.isRequired,
+  sourceNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
+  targetNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,

@@ -19,14 +19,109 @@ exports[`has a bottom word 1`] = `
         "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
-        "fontSize": "20px",
-        "height": "100px",
-        "padding": "5px",
-        "width": "280px",
+        "height": "100%",
       }
     }
   >
-    [WARNING: This Bible version does not include text for this reference.]
+    <div
+      style={
+        Object {
+          "border": "3px dashed #ffffff",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "marginBottom": "7px",
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "border": "3px dashed transparent",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord
+              </span>
+            </span>
+            <sup
+              style={
+                Object {
+                  "marginTop": "2px",
+                  "opacity": "0.8",
+                  "top": 0,
+                }
+              }
+            >
+              1
+            </sup>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -328,14 +423,145 @@ exports[`has multiple bottom words 1`] = `
         "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
-        "fontSize": "20px",
-        "height": "100px",
-        "padding": "5px",
-        "width": "280px",
+        "height": "100%",
       }
     }
   >
-    [WARNING: This Bible version does not include text for this reference.]
+    <div
+      style={
+        Object {
+          "border": "3px dashed #ffffff",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "marginBottom": "7px",
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "border": "3px dashed transparent",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord2
+              </span>
+            </span>
+            <sup
+              style={
+                Object {
+                  "marginTop": "2px",
+                  "opacity": "0.8",
+                  "top": 0,
+                }
+              }
+            >
+              1
+            </sup>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -745,14 +971,61 @@ exports[`is empty 1`] = `
         "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
-        "fontSize": "20px",
-        "height": "100px",
-        "padding": "5px",
-        "width": "280px",
+        "height": "100%",
       }
     }
   >
-    [WARNING: This Bible version does not include text for this reference.]
+    <div
+      style={
+        Object {
+          "border": "3px dashed #ffffff",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "marginBottom": "7px",
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "border": "3px dashed #ffffff",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      />
+    </div>
   </div>
 </div>
 `;

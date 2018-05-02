@@ -28,34 +28,34 @@ it('is empty', () => {
 });
 it('has a top word', () => {
   testSnapshot({
-    topWordCards: singleTopWord
+    sourceTokenCards: singleTopWord
   });
 });
 it('has a top and bottom word', () => {
   testSnapshot({
-    topWordCards: singleTopWord,
-    bottomWordCards: singleBottomWord
+    sourceTokenCards: singleTopWord,
+    targetTokenCards: singleBottomWord
   });
 });
 it('has a bottom word', () => {
   testSnapshot({
-    bottomWordCards: singleBottomWord
+    targetTokenCards: singleBottomWord
   });
 });
 it('has multiple top words', () => {
   testSnapshot({
-    topWordCards: multipleTopWords
+    sourceTokenCards: multipleTopWords
   });
 });
 it('has multiple top and bottom words', () => {
   testSnapshot({
-    topWordCards: multipleTopWords,
-    bottomWordCards: multipleBottomWords
+    sourceTokenCards: multipleTopWords,
+    targetTokenCards: multipleBottomWords
   });
 });
 it('has multiple bottom words', () => {
   testSnapshot({
-    bottomWordCards: multipleBottomWords
+    targetTokenCards: multipleBottomWords
   });
 });
 
@@ -66,13 +66,11 @@ it('has multiple bottom words', () => {
 function testSnapshot(props={}) {
   const ConnectedAlignmentCard = wrapInTestContext(AlignmentCard);
   const wrapper = renderer.create(
-    <ConnectedAlignmentCard topWords={[]}
-                            bottomWords={[]}
-                            onDrop={jest.fn()}
+    <ConnectedAlignmentCard onDrop={jest.fn()}
                             lexicons={{}}
                             alignmentIndex={0}
-                            bottomWordCards={[]}
-                            topWordCards={[]}
+                            targetTokenCards={[]}
+                            sourceTokenCards={[]}
                             {...props}/>
   );
   expect(wrapper).toMatchSnapshot();

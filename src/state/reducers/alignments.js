@@ -172,12 +172,10 @@ const reduceVerse = (state = [], action) => {
       }
       return {
         source: {
-          tokens: action.alignments[vid].sourceTokens.map(reduceSourceToken),
-          // text: action.alignments[vid].sourceTokens.map(t => t.text).join(' ')
+          tokens: action.alignments[vid].sourceTokens.map(reduceSourceToken)
         },
         target: {
-          tokens: action.alignments[vid].targetTokens.map(reduceTargetToken),
-          // text: action.alignments[vid].targetTokens.map(t => t.text).join(' ')
+          tokens: action.alignments[vid].targetTokens.map(reduceTargetToken)
         },
         alignments
       };
@@ -395,7 +393,5 @@ export const getIsVerseInvalid = (
   state, chapter, verse, sourceVerseText, targetVerseText) => {
   const sourceAlignmentText = getVerseSourceText(state, chapter, verse);
   const targetAlignmentText = getVerseTargetText(state, chapter, verse);
-  console.log('compare source text\n', sourceAlignmentText, '\n', sourceVerseText);
-  console.log('compare target text\n', targetAlignmentText, '\n', targetVerseText);
   return sourceAlignmentText !== sourceVerseText || targetAlignmentText !== targetVerseText;
 };

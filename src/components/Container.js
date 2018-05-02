@@ -158,14 +158,12 @@ class Container extends Component {
 
       if (Container.chapterContextChanged(prevContextId, nextContextId)) {
         this.loadAlignments(nextProps);
-        // TODO: this should trigger a loading state so we know to wait for certain things until we are ready. e.g. validation.
+        // TODO: this should trigger a loading state so we know to wait for certain things until we are ready.
+        // maybe display some nice loading animation.
       }
     }
 
-    // TRICKY: do not validate if we are loading alignment data.
-    if (!Container.chapterContextChanged(prevContextId, nextContextId)) {
-      Container.validate(nextProps);
-    }
+    Container.validate(nextProps);
   }
 
   static validate(props) {
@@ -183,11 +181,12 @@ class Container extends Component {
     if(verseIsInvalid && verseAlignments.length) {
       const {reference: {chapter, verse}} = contextId;
       if(alignedTokens.length) {
+        // update alignment tokens and reset alignments
         // TODO: notify the user
         console.error('The verse is invalid',
           'We need to reset all alignments and tokens');
       } else {
-        console.warn('Resetting invalid alignment tokens');
+        // update alignment tokens
         setSourceTokens(chapter, verse, sourceTokens);
         setTargetTokens(chapter, verse, targetTokens);
       }

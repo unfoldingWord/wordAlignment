@@ -286,7 +286,7 @@ export const getVerseAlignments = (state, chapterNum, verseNum) => {
  * @param verse
  * @return {Token[]}
  */
-export const getAlignedVerseTokens = (state, chapter, verse) => {
+export const getAlignedVerseTargetTokens = (state, chapter, verse) => {
   const verseAlignments = getVerseAlignments(state, chapter, verse);
   const tokens = [];
   for (const alignment of verseAlignments) {
@@ -295,4 +295,80 @@ export const getAlignedVerseTokens = (state, chapter, verse) => {
     }
   }
   return tokens;
+};
+
+/**
+ * Returns the source tokens being aligned for a verse
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {Token[]}
+ */
+export const getVerseSourceTokens = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  const verseId = verse + '';
+  if (chapterId in state) {
+    if (verseId in state[chapterId]) {
+      return state[chapterId][verseId].source.tokens.map(t=>new Token(t));
+    }
+  }
+  return [];
+};
+
+/**
+ * Returns the target tokens being aligned for a verse
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {Token[]}
+ */
+export const getVerseTargetTokens = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  const verseId = verse + '';
+  if (chapterId in state) {
+    if (verseId in state[chapterId]) {
+      return state[chapterId][verseId].target.tokens.map(t=>new Token(t));
+    }
+  }
+  return [];
+};
+
+/**
+ * Returns the source verse text being aligned
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {string}
+ */
+export const getVerseSourceText = (state, chapter, verse) => {
+  return getVerseSourceTokens(state, chapter, verse).join(' ');
+};
+
+/**
+ * Returns the target verse text being aligned
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {string}
+ */
+export const getVerseTargetText = (state, chapter, verse) => {
+  return getVerseTargetTokens(state, chapter, verse).join(' ');
+};
+
+/**
+ * Checks if the alignment text is invalid
+ * @param state
+ * @param chapter
+ * @param verse
+ * @param sourceVerseText
+ * @param targetVerseText
+ * @return {boolean}
+ */
+export const getIsVerseInvalid = (
+  state, chapter, verse, sourceVerseText, targetVerseText) => {
+  const sourceAlignmentText = getVerseSourceText(state, chapter, verse);
+  const targetAlignmentText = getVerseTargetText(state, chapter, verse);
+  console.log('compare source text\n', sourceAlignmentText, '\n', sourceVerseText);
+  console.log('compare target text\n', targetAlignmentText, '\n', targetVerseText);
+  return sourceAlignmentText !== sourceVerseText || targetAlignmentText !== targetVerseText;
 };

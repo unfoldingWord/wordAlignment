@@ -23,14 +23,14 @@ export const checkVerseForChanges = (verseAlignments, ugnt, targetVerse) => {
   };
 };
 
-export const cleanAlignmentData = function (chapterData) {
-  for (let verse of Object.keys(chapterData)) {
-    for (let alignment of chapterData[verse].alignments) {
-      cleanWordList(alignment.topWords);
-    }
-  }
-  return chapterData;
-};
+// export const cleanAlignmentData = function (chapterData) {
+//   for (let verse of Object.keys(chapterData)) {
+//     for (let alignment of chapterData[verse].alignments) {
+//       cleanWordList(alignment.topWords);
+//     }
+//   }
+//   return chapterData;
+// };
 
 /**
  * Returns the alignment index for the source token if it is not been aligned
@@ -67,14 +67,14 @@ export const getUnalignedIndex = (sourceToken, alignments) => {
   return -1;
 };
 
-const cleanWordList = function (words) {
-  for (let word of words) {
-    if (word.strongs) {
-      word.strong = word.strongs;
-      delete word.strongs;
-    }
-  }
-};
+// const cleanWordList = function (words) {
+//   for (let word of words) {
+//     if (word.strongs) {
+//       word.strong = word.strongs;
+//       delete word.strongs;
+//     }
+//   }
+// };
 
 /**
  * Strips out punctuation from the verse
@@ -94,7 +94,7 @@ const cleanVerse = (verse) => {
  * @param verseObjects
  * @return {*}
  */
-const stringifyVerseObjects = (verseObjects) => {
+export const stringifyVerseObjects = (verseObjects) => {
   if(verseObjects) {
     const words = VerseObjectUtils.getWordsFromVerseObjects(verseObjects);
     const filteredWords = words.filter(({type}) => {

@@ -12,7 +12,6 @@ export default combineReducers({
  * @return {*}
  */
 export const getChapterAlignments = (state, chapter) => {
-  console.log('get alignments', state);
   return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
 };
 
@@ -34,4 +33,16 @@ export const getVerseAlignments = (state, chapter, verse) =>
  * @return {Array}
  */
 export const getAlignedVerseTokens = (state, chapter, verse) =>
-  fromAlignments.getAlignedVerseTokens(state.tool.alignments, chapter, verse);
+  fromAlignments.getAlignedVerseTargetTokens(state.tool.alignments, chapter, verse);
+
+/**
+ * Checks if a verse is invalid
+ * @param state
+ * @param {string} targetVerseText
+ * @param {string} sourceVerseText
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {*}
+ */
+export const getIsVerseInvalid = (state, chapter, verse, sourceVerseText, targetVerseText) =>
+  fromAlignments.getIsVerseInvalid(state.tool.alignments, chapter, verse, sourceVerseText, targetVerseText);

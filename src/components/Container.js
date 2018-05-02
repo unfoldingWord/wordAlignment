@@ -7,13 +7,9 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
-import {VerseObjectUtils} from 'word-aligner';
-import path from 'path-extra';
-import Token from 'word-map/structures/Token';
 import {
   alignTargetToken,
   clearState,
-  indexChapterAlignments,
   moveSourceToken,
   setChapterAlignments,
   setSourceTokens,
@@ -21,9 +17,13 @@ import {
   unalignTargetToken,
   loadChapterAlignments
 } from '../state/actions';
-import {getAlignedVerseTokens, getVerseAlignments} from '../state/reducers';
+import {
+  getAlignedVerseTokens,
+  getVerseAlignments,
+  getIsVerseInvalid
+} from '../state/reducers';
 import {connect} from 'react-redux';
-import {checkVerseForChanges, getUnalignedIndex} from '../utils/alignments';
+import {getUnalignedIndex, stringifyVerseObjects} from '../utils/alignments';
 
 /**
  * The base container for this tool
@@ -41,100 +41,6 @@ class Container extends Component {
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadAlignments = this.loadAlignments.bind(this);
-  }
-
-  /**
-   * Validates the verse data and resets the alignments if needed.
-   * @param props
-   */
-  static validateVerseData(props) {
-    const {
-      verseAlignments,
-      sourceVerse,
-      targetVerse
-    } = props;
-    const {alignmentsInvalid, showDialog} = checkVerseForChanges(
-      verseAlignments, sourceVerse, targetVerse);
-    if (showDialog && alignmentsInvalid) {
-      // TODO: show dialog
-    }
-    if (alignmentsInvalid) {
-      // const blankAlignments = aligner.getBlankAlignmentDataForVerse(sourceVerse, targetVerse);
-      // TODO: update the verse alignments
-    }
-  }
-
-  /**
-   * Converts verse objects (as in from the source language verse) into {@link Token}s.
-   * @deprecated
-   * @param sourceVerse
-   */
-  static tokenizeVerseObjects(sourceVerse) {
-    const tokens = [];
-    const completeTokens = []; // includes occurrences
-    const occurrences = {};
-    let position = 0;
-    const words = VerseObjectUtils.getWordList(sourceVerse.verseObjects);
-    for (const word of words) {
-      if (typeof occurrences[word.text] === 'undefined') {
-        occurrences[word.text] = 0;
-      }
-      occurrences[word.text]++;
-      tokens.push(new Token({
-        text: word.text,
-        strong: (word.strong || word.strongs),
-        morph: word.morph,
-        lemma: word.lemma,
-        position: position,
-        occurrence: occurrences[word.text]
-      }));
-      position++;
-    }
-    // inject occurrences
-    for (const token of tokens) {
-      completeTokens.push(new Token({
-        text: token.toString(),
-        strong: token.strong,
-        morph: token.morph,
-        lemma: token.lemma,
-        position: token.position,
-        occurrence: token.occurrence,
-        occurrences: occurrences[token.toString()]
-      }));
-    }
-    return completeTokens;
-  }
-
-  /**
-   * Loads the target language tokens.
-   * This is a temporary step when loading the alignment data.
-   * Eventually the target verse will be part of the saved alignment data.
-   * @deprecated just use {@link loadAlignments}
-   * @param {object} props - the component props
-   */
-  static loadTokens(props) {
-    const {
-      sourceVerse,
-      targetVerse,
-      contextId,
-      setSourceTokens,
-      setTargetTokens
-    } = props;
-    // TODO: load tokens for the entire book (for map)
-    // TODO: at least load tokens for the entire chapter
-    // load the tokens being aligned
-    if (!contextId) {
-      console.error('no context id. skipping tokenizing');
-      return;
-    }
-
-    const {reference: {chapter, verse}} = contextId;
-    const sourceTokens = Container.tokenizeVerseObjects(sourceVerse);
-    const targetTokens = Lexer.tokenize(targetVerse);
-    setSourceTokens(chapter, verse, sourceTokens);
-    setTargetTokens(chapter, verse, targetTokens);
-
-    return sourceTokens;
   }
 
   /**
@@ -252,7 +158,21 @@ class Container extends Component {
       if (Container.chapterContextChanged(prevContextId, nextContextId)) {
         this.loadAlignments(nextProps);
       }
-      Container.validateVerseData(nextProps);
+    }
+
+    Container.validate(nextProps);
+  }
+
+  static validate({verseIsInvalid, alignedTokens}) {
+    if(verseIsInvalid) {
+      if(alignedTokens.length) {
+        // TODO: notify the user
+        console.error('The verse is invalid',
+          'We need to reset all alignments and tokens');
+      } else {
+        // TODO: just reset tokens
+        console.warn('invalid verses. Need to quietly reset tokens');
+      }
     }
   }
 
@@ -395,6 +315,10 @@ class Container extends Component {
     // moveTopWordItemToAlignment(item, prevIndex, nextIndex);
   }
 
+  componentWillUpdate() {
+
+  }
+
   render() {
     // Modules not defined within translationWords
     const {
@@ -501,7 +425,7 @@ Container.propTypes = {
   setTargetTokens: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   setChapterAlignments: PropTypes.func.isRequired,
-  indexChapterAlignments: PropTypes.func.isRequired,
+  verseIsInvalid: PropTypes.func.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -526,21 +450,24 @@ const mapDispatchToProps = ({
   setTargetTokens,
   setChapterAlignments,
   clearState,
-  indexChapterAlignments,
   loadChapterAlignments
 });
 
-const mapStateToProps = (state, {contextId}) => {
+const mapStateToProps = (state, {contextId, targetVerse, sourceVerse}) => {
   if (contextId) {
     const {reference: {chapter, verse}} = contextId;
+    const sourceVerseText = stringifyVerseObjects(sourceVerse.verseObjects);
+    const normalizedTargetVerse = Lexer.tokenize(targetVerse).map(t=>t.toString()).join(' ');
     return {
       alignedTokens: getAlignedVerseTokens(state, chapter, verse),
-      verseAlignments: getVerseAlignments(state, chapter, verse)
+      verseAlignments: getVerseAlignments(state, chapter, verse),
+      verseIsInvalid: getIsVerseInvalid(state, chapter, verse, sourceVerseText, normalizedTargetVerse)
     };
   } else {
     return {
       alignedTokens: [],
-      verseAlignments: []
+      verseAlignments: [],
+      verseIsInvalid: false
     };
   }
 };

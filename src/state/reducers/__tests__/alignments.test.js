@@ -802,7 +802,7 @@ describe('selectors', () => {
         }]
     });
 
-    const alignedTargetTokens = fromAlignments.getAlignedVerseTokens(state, 1,
+    const alignedTargetTokens = fromAlignments.getAlignedVerseTargetTokens(state, 1,
       1);
     expect(JSON.parse(JSON.stringify(alignedTargetTokens))).toEqual([
       {

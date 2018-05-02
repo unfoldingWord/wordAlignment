@@ -30,7 +30,7 @@ export const indexChapterAlignments = (
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       try {
-        // tokenize chapters
+        // tokenize baseline chapters
         const targetChapterTokens = {};
         const sourceChapterTokens = {};
         for (const verse of Object.keys(targetChapter)) {
@@ -143,7 +143,7 @@ const insertSourceToken = (chapter, verse, token) => ({
  * @return {Function}
  */
 export const moveSourceToken = (
-  chapter, verse, nextIndex, prevIndex, token) => {
+  {chapter, verse, nextIndex, prevIndex, token}) => {
   return dispatch => {
     dispatch(unalignSourceToken(chapter, verse, prevIndex, token));
     if (prevIndex === nextIndex) {

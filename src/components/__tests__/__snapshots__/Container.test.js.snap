@@ -263,7 +263,7 @@ exports[`Container renders 1`] = `
               clearState={[Function]}
               contextIdReducer={Object {}}
               currentToolViews={Object {}}
-              indexChapterAlignments={[Function]}
+              loadChapterAlignments={[Function]}
               moveSourceToken={[Function]}
               projectDetailsReducer={Object {}}
               readGlobalToolData={[Function]}
@@ -294,9 +294,12 @@ exports[`Container renders 1`] = `
                   },
                 }
               }
+              sourceTokens={Array []}
+              targetTokens={Array []}
               translate={[Function]}
               unalignTargetToken={[Function]}
               verseAlignments={Array []}
+              verseIsInvalid={false}
               wordAlignmentReducer={
                 Object {
                   "alignmentData": Object {},

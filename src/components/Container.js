@@ -23,8 +23,8 @@ import {
   getIsVerseInvalid
 } from '../state/reducers';
 import {connect} from 'react-redux';
-import {getUnalignedIndex, stringifyVerseObjects} from '../utils/alignments';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
+import Token from 'word-map/structures/Token';
 
 /**
  * The base container for this tool
@@ -219,13 +219,14 @@ class Container extends Component {
    * Predicts alignments
    * @param primaryVerse - the primary verse text
    * @param secondaryVerse - the secondary verse text
-   * @param currentAlignments - a list of existing alignments
+   * @param [currentAlignments] - a list of existing alignments
    */
-  predictAlignments(primaryVerse, secondaryVerse, currentAlignments) {
+  predictAlignments(primaryVerse, secondaryVerse) {
     const suggestions = this.map.predict(primaryVerse, secondaryVerse);
     for (const p of suggestions[0].predictions) {
       if (p.confidence > 1) {
-        const alignmentIndex = getUnalignedIndex(p.source, currentAlignments);
+        // TODO:  find the unused alignment index
+        const alignmentIndex = -1;
         if (alignmentIndex >= 0) {
           // TODO: check if the secondary word has already been aligned.
           console.log('valid alignment!', p.toString());
@@ -296,7 +297,7 @@ class Container extends Component {
       moveSourceToken,
       contextId: {reference: {chapter, verse}}
     } = this.props;
-    moveSourceToken(chapter, verse, nextIndex, prevIndex, token);
+    moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
     // TODO: write files
   }
 
@@ -314,7 +315,7 @@ class Container extends Component {
       settingsReducer,
       resourcesReducer,
       selectionsReducer,
-      targetVerse,
+      targetTokens,
       contextId,
       alignedTokens,
       contextIdReducer,
@@ -346,20 +347,20 @@ class Container extends Component {
     const {lexicons} = resourcesReducer;
     const {reference: {chapter, verse}} = contextId;
 
-    // parse secondary tokens
-    let words = Lexer.tokenize(targetVerse);
-    words = words.map(word => {
+    // disabled aligned target tokens
+    console.log('aligned tokens', alignedTokens);
+    const words = targetTokens.map(token => {
       let isUsed = false;
-      for (const token of alignedTokens) {
-        if (token.toString() === word.toString()
-          && token.occurrence === word.occurrence
-          && token.occurrences === word.occurrences) {
+      for (const usedToken of alignedTokens) {
+        if (token.toString() === usedToken.toString()
+          && token.occurrence === usedToken.occurrence
+          && token.occurrences === usedToken.occurrences) {
           isUsed = true;
           break;
         }
       }
-      word.disabled = isUsed;
-      return word;
+      token.disabled = isUsed;
+      return token;
     });
 
     return (
@@ -396,7 +397,8 @@ Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,
   readGlobalToolData: PropTypes.func.isRequired,
   contextId: PropTypes.object,
-  targetVerse: PropTypes.string,
+  targetVerseText: PropTypes.string,
+  targetTokens: PropTypes.arrayOf(Token).isRequired,
   sourceVerse: PropTypes.object,
   sourceChapter: PropTypes.object,
   targetChapter: PropTypes.object,
@@ -410,7 +412,7 @@ Container.propTypes = {
   setTargetTokens: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   setChapterAlignments: PropTypes.func.isRequired,
-  verseIsInvalid: PropTypes.func.isRequired,
+  verseIsInvalid: PropTypes.bool.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -438,19 +440,20 @@ const mapDispatchToProps = ({
   loadChapterAlignments
 });
 
-const mapStateToProps = (state, {contextId, targetVerse, sourceVerse}) => {
+const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
   if (contextId) {
     const {reference: {chapter, verse}} = contextId;
-    const sourceVerseText = stringifyVerseObjects(sourceVerse.verseObjects);
-    const targetTokens = Lexer.tokenize(targetVerse);
+    // TRICKY: the target verse contains punctuation we need to remove
+    const targetTokens = Lexer.tokenize(targetVerseText);
     const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
-    const normalizedTargetVerse = targetTokens.map(t=>t.toString()).join(' ');
+    const normalizedSourceVerseText = sourceTokens.map(t=>t.toString()).join(' ');
+    const normalizedTargetVerseText = targetTokens.map(t=>t.toString()).join(' ');
     return {
       targetTokens,
       sourceTokens,
       alignedTokens: getAlignedVerseTokens(state, chapter, verse),
       verseAlignments: getVerseAlignments(state, chapter, verse),
-      verseIsInvalid: getIsVerseInvalid(state, chapter, verse, sourceVerseText, normalizedTargetVerse)
+      verseIsInvalid: getIsVerseInvalid(state, chapter, verse, normalizedSourceVerseText, normalizedTargetVerseText)
     };
   } else {
     return {

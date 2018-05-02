@@ -21,11 +21,9 @@ describe('set chapter alignments when empty', () => {
       '1': {
         alignments: [],
         source: {
-          text: '',
           tokens: []
         },
         target: {
-          text: '',
           tokens: []
         }
       }
@@ -687,22 +685,18 @@ describe('set chapter alignments', () => {
     '1': {
       '1': {
         source: {
-          text: '',
           tokens: []
         },
         target: {
-          text: '',
           tokens: []
         },
         alignments: []
       },
       '2': {
         source: {
-          text: '',
           tokens: []
         },
         target: {
-          text: 'hello world',
           tokens: [
             {
               text: 'hello',
@@ -802,7 +796,8 @@ describe('selectors', () => {
         }]
     });
 
-    const alignedTargetTokens = fromAlignments.getAlignedVerseTargetTokens(state, 1,
+    const alignedTargetTokens = fromAlignments.getAlignedVerseTargetTokens(
+      state, 1,
       1);
     expect(JSON.parse(JSON.stringify(alignedTargetTokens))).toEqual([
       {
@@ -812,4 +807,142 @@ describe('selectors', () => {
         index: 0
       }]);
   });
+});
+
+describe('target tokens', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        source: {
+          tokens: []
+        },
+        target: {
+          tokens: [
+            {
+              text: 'woot',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }]
+        },
+        alignments: []
+      }
+    }
+  };
+  const action = {
+    type: types.SET_TARGET_TOKENS,
+    chapter: 1,
+    verse: 1,
+    tokens: [
+      {
+        text: 'hello',
+        occurrence: 1,
+        occurrences: 1,
+        position: 0
+      },
+      {
+        text: 'world',
+        occurrence: 1,
+        occurrences: 1,
+        position: 0
+      }
+    ]
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        source: {
+          tokens: []
+        },
+        target: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }
+          ]
+        },
+        alignments: []
+      }
+    }
+  };
+  reducerTest('Sets the target tokens', alignments, stateBefore, action,
+    stateAfter);
+});
+
+describe('source tokens', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        target: {
+          tokens: []
+        },
+        source: {
+          tokens: [
+            {
+              text: 'woot',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }]
+        },
+        alignments: []
+      }
+    }
+  };
+  const action = {
+    type: types.SET_SOURCE_TOKENS,
+    chapter: 1,
+    verse: 1,
+    tokens: [
+      {
+        text: 'hello',
+        occurrence: 1,
+        occurrences: 1,
+        position: 0
+      },
+      {
+        text: 'world',
+        occurrence: 1,
+        occurrences: 1,
+        position: 0
+      }
+    ]
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        target: {
+          tokens: []
+        },
+        source: {
+          tokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }
+          ]
+        },
+        alignments: []
+      }
+    }
+  };
+  reducerTest('Sets the source tokens', alignments, stateBefore, action,
+    stateAfter);
 });

@@ -57,7 +57,7 @@ export const indexChapterAlignments = (
         }
         for (const verse of Object.keys(sourceChapter)) {
           sourceChapterTokens[verse] = tokenizeVerseObjects(
-            sourceChapter[verse]);
+            sourceChapter[verse].verseObjects);
         }
 
         // migrate alignment data

@@ -3,14 +3,14 @@ import {VerseObjectUtils} from 'word-aligner';
 
 /**
  * Converts verse objects (as in from the source language verse) into {@link Token}s.
- * @param sourceVerse
+ * @param verseObjects
  */
-export const tokenizeVerseObjects = (sourceVerse) => {
+export const tokenizeVerseObjects = (verseObjects) => {
   const tokens = [];
   const completeTokens = []; // includes occurrences
   const occurrences = {};
   let position = 0;
-  const words = VerseObjectUtils.getWordList(sourceVerse.verseObjects);
+  const words = VerseObjectUtils.getWordList(verseObjects);
   for (const word of words) {
     if (typeof occurrences[word.text] === 'undefined') {
       occurrences[word.text] = 0;

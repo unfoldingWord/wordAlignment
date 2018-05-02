@@ -1,11 +1,12 @@
 import Token from 'word-map/structures/Token';
+// import {createSelector} from 'reselect';
 
 import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   CLEAR_STATE,
   INSERT_ALIGNMENT,
-  SET_CHAPTER_ALIGNMENTS,
+  SET_CHAPTER_ALIGNMENTS, SET_SOURCE_TOKENS, SET_TARGET_TOKENS,
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../actions/actionTypes';
@@ -141,6 +142,28 @@ const reduceVerse = (state = [], action) => {
           reduceAlignment(undefined, action)
         ].sort(alignmentComparator)
       };
+    case SET_SOURCE_TOKENS: {
+      return {
+        source: {
+          tokens: action.tokens.map(reduceSourceToken)
+        },
+        target: {
+          tokens: [...state.target.tokens]
+        },
+        alignments: [...state.alignments]
+      };
+    }
+    case SET_TARGET_TOKENS: {
+      return {
+        target: {
+          tokens: action.tokens.map(reduceTargetToken)
+        },
+        source: {
+          tokens: [...state.source.tokens]
+        },
+        alignments: [...state.alignments]
+      };
+    }
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];
@@ -150,11 +173,11 @@ const reduceVerse = (state = [], action) => {
       return {
         source: {
           tokens: action.alignments[vid].sourceTokens.map(reduceSourceToken),
-          text: action.alignments[vid].sourceTokens.map(t => t.text).join(' ')
+          // text: action.alignments[vid].sourceTokens.map(t => t.text).join(' ')
         },
         target: {
           tokens: action.alignments[vid].targetTokens.map(reduceTargetToken),
-          text: action.alignments[vid].targetTokens.map(t => t.text).join(' ')
+          // text: action.alignments[vid].targetTokens.map(t => t.text).join(' ')
         },
         alignments
       };
@@ -176,6 +199,8 @@ const reduceChapter = (state = {}, action) => {
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
+    case SET_TARGET_TOKENS:
+    case SET_SOURCE_TOKENS:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';
       return {
@@ -207,6 +232,8 @@ const alignments = (state = {}, action) => {
     case INSERT_ALIGNMENT:
     case SET_CHAPTER_ALIGNMENTS:
     case UNALIGN_SOURCE_TOKEN:
+    case SET_TARGET_TOKENS:
+    case SET_SOURCE_TOKENS:
     case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {

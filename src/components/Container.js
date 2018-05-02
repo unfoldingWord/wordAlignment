@@ -24,6 +24,7 @@ import {
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {getUnalignedIndex, stringifyVerseObjects} from '../utils/alignments';
+import {tokenizeVerseObjects} from '../utils/verseObjects';
 
 /**
  * The base container for this tool
@@ -92,7 +93,7 @@ class Container extends Component {
         sourceChapter,
         targetChapter
       });
-      // TODO: validate the current verse
+      Container.validate(props);
     } catch (e) {
       console.error('The alignment data is corrupt', e);
       // TODO: reset alignment data to default state
@@ -157,21 +158,38 @@ class Container extends Component {
 
       if (Container.chapterContextChanged(prevContextId, nextContextId)) {
         this.loadAlignments(nextProps);
+        // TODO: this should trigger a loading state so we know to wait for certain things until we are ready. e.g. validation.
       }
     }
 
-    Container.validate(nextProps);
+    // TRICKY: do not validate if we are loading alignment data.
+    if (!Container.chapterContextChanged(prevContextId, nextContextId)) {
+      Container.validate(nextProps);
+    }
   }
 
-  static validate({verseIsInvalid, alignedTokens}) {
-    if(verseIsInvalid) {
+  static validate(props) {
+    const {
+      verseIsInvalid,
+      alignedTokens,
+      verseAlignments,
+      sourceTokens,
+      targetTokens,
+      setSourceTokens,
+      setTargetTokens,
+      contextId
+    } = props;
+    // TRICKY: if there are no verse alignments the data has not been loaded yet.
+    if(verseIsInvalid && verseAlignments.length) {
+      const {reference: {chapter, verse}} = contextId;
       if(alignedTokens.length) {
         // TODO: notify the user
         console.error('The verse is invalid',
           'We need to reset all alignments and tokens');
       } else {
-        // TODO: just reset tokens
-        console.warn('invalid verses. Need to quietly reset tokens');
+        console.warn('Resetting invalid alignment tokens');
+        setSourceTokens(chapter, verse, sourceTokens);
+        setTargetTokens(chapter, verse, targetTokens);
       }
     }
   }
@@ -242,13 +260,6 @@ class Container extends Component {
       unalignTargetToken
       // writeGlobalToolData
     } = this.props;
-
-    // let token = token = new Token({
-    //   text: token.word,
-    //   occurrence: token.occurrence,
-    //   occurrences: token.occurrences,
-    //   position: token.position
-    // });
     if (prevIndex >= 0) {
       unalignTargetToken(chapter, verse, prevIndex, token);
     }
@@ -270,18 +281,8 @@ class Container extends Component {
       contextId: {reference: {chapter, verse}},
       unalignTargetToken
     } = this.props;
-
-    // let token = new Token({
-    //   text: token.word,
-    //   occurrence: token.occurrence,
-    //   occurrences: token.occurrences,
-    //   position: token.position
-    // });
     unalignTargetToken(chapter, verse, prevIndex, token);
-
-    // console.log('remove alignment', item);
-    // TODO: remove from map index
-    // moveBackToWordBank(item);
+    // TODO: write files
   }
 
   /**
@@ -296,23 +297,8 @@ class Container extends Component {
       moveSourceToken,
       contextId: {reference: {chapter, verse}}
     } = this.props;
-    //
-    // let token = new Token({
-    //   text: token.word,
-    //   occurrence: token.occurrence,
-    //   occurrences: token.occurrences,
-    //   lemma: token.lemma,
-    //   morph: token.morph,
-    //   strong: token.strong,
-    //   position: token.position
-    // });
-
     moveSourceToken(chapter, verse, nextIndex, prevIndex, token);
-
-    // const {actions: {moveTopWordItemToAlignment}} = this.props;
-    // console.log('remove alignments to primary', item);
-    // TODO: remove from map index
-    // moveTopWordItemToAlignment(item, prevIndex, nextIndex);
+    // TODO: write files
   }
 
   componentWillUpdate() {
@@ -457,14 +443,20 @@ const mapStateToProps = (state, {contextId, targetVerse, sourceVerse}) => {
   if (contextId) {
     const {reference: {chapter, verse}} = contextId;
     const sourceVerseText = stringifyVerseObjects(sourceVerse.verseObjects);
-    const normalizedTargetVerse = Lexer.tokenize(targetVerse).map(t=>t.toString()).join(' ');
+    const targetTokens = Lexer.tokenize(targetVerse);
+    const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
+    const normalizedTargetVerse = targetTokens.map(t=>t.toString()).join(' ');
     return {
+      targetTokens,
+      sourceTokens,
       alignedTokens: getAlignedVerseTokens(state, chapter, verse),
       verseAlignments: getVerseAlignments(state, chapter, verse),
       verseIsInvalid: getIsVerseInvalid(state, chapter, verse, sourceVerseText, normalizedTargetVerse)
     };
   } else {
     return {
+      targetTokens: [],
+      sourceTokens: [],
       alignedTokens: [],
       verseAlignments: [],
       verseIsInvalid: false

@@ -71,6 +71,7 @@
     "react-dnd-html5-backend": "2.5.4",
     "react-localize-redux": "^2.15.1",
     "redux-logic": "^0.12.3",
+    "reselect": "^3.0.1",
     "tc-tool": "^1.4.0",
     "usfm-js": "^1.0.0-beta.30",
     "word-aligner": "0.0.1",

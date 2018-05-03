@@ -137,7 +137,7 @@ export default verse;
  * @return {Token[]}
  */
 export const getSourceTokens = state => {
-  return state.tokens.map(t => new Token(t));
+  return state.source.tokens.map(t => new Token(t));
 };
 
 /**
@@ -146,7 +146,7 @@ export const getSourceTokens = state => {
  * @return {Token[]}
  */
 export const getTargetTokens = state => {
-  return state.tokens.map(t => new Token(t));
+  return state.target.tokens.map(t => new Token(t));
 };
 
 /**
@@ -179,7 +179,7 @@ export const getTargetText = state => {
 export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
   const sourceText = getSourceText(state);
   const targetText = getTargetText(state);
-  return sourceText !== sourceBaselineText || targetText !== targetBaselineText;
+  return sourceText === sourceBaselineText && targetText === targetBaselineText;
 };
 
 /**

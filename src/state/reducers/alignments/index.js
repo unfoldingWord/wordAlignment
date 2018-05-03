@@ -63,7 +63,8 @@ export const getChapterAlignments = (state, chapter) => {
   if (chapterId in state) {
     const alignments = {};
     for (const verseId of Object.keys(state[chapterId])) {
-      alignments[verseId] = getVerseAlignments(state, chapter, verseId);
+      alignments[verseId] = getVerseAlignments(state, chapter,
+        parseInt(verseId));
     }
     return alignments;
   } else {

@@ -1,6 +1,6 @@
 import {reducerTest} from 'redux-jest';
-import * as types from '../../actions/actionTypes';
-import alignments, * as fromAlignments from '../alignments';
+import * as types from '../../../actions/actionTypes';
+import alignments, * as fromAlignments from '../index';
 import Token from 'word-map/structures/Token';
 
 describe('set chapter alignments when empty', () => {
@@ -725,8 +725,10 @@ describe('set chapter alignments', () => {
 });
 
 describe('selectors', () => {
-  it('returns the verse alignments', () => {
-    const state = {
+  let state = {};
+
+  beforeEach(() => {
+    state = {
       '1': {
         '1': {
           source: {
@@ -756,27 +758,11 @@ describe('selectors', () => {
         }
       }
     };
-    const alignments = fromAlignments.getVerseAlignments(state, 1, 1);
-    expect(JSON.parse(JSON.stringify(alignments))).toEqual([
-      {
-        sourceNgram: [
-          {
-            text: 'hello',
-            occurrence: 1,
-            occurrences: 1,
-            index: 0
-          }],
-        targetNgram: [
-          {
-            text: 'world',
-            occurrence: 1,
-            occurrences: 1,
-            index: 0
-          }]
-      }]);
+  });
 
-    const chapterAlignments = fromAlignments.getChapterAlignments(state, 1);
-    expect(JSON.parse(JSON.stringify(chapterAlignments))).toEqual({
+  it('returns alignments of the entire chapter', () => {
+    const result = fromAlignments.getChapterAlignments(state, 1);
+    expect(JSON.parse(JSON.stringify(result))).toEqual({
       '1': [
         {
           sourceNgram: [
@@ -795,17 +781,48 @@ describe('selectors', () => {
             }]
         }]
     });
+  });
 
-    const alignedTargetTokens = fromAlignments.getVerseAlignedTargetTokens(
-      state, 1,
-      1);
-    expect(JSON.parse(JSON.stringify(alignedTargetTokens))).toEqual([
+  it('returns the verse alignments', () => {
+    const result = fromAlignments.getVerseAlignments(state, 1, 1);
+    expect(JSON.parse(JSON.stringify(result))).toEqual([
+      {
+        sourceNgram: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            index: 0
+          }],
+        targetNgram: [
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            index: 0
+          }]
+      }]);
+  });
+
+  it('returns the aligned target tokens for the verse', () => {
+    const result = fromAlignments.getVerseAlignedTargetTokens(state, 1, 1);
+    expect(JSON.parse(JSON.stringify(result))).toEqual([
       {
         text: 'world',
         occurrence: 1,
         occurrences: 1,
         index: 0
       }]);
+  });
+
+  it('checks if the verse is valid (valid)', () => {
+    const result = fromAlignments.getIsVerseValid(state, 1, 1, 'hello', 'world');
+    expect(result).toEqual(true);
+  });
+
+  it('checks if the verse is valid (invalid)', () => {
+    const result = fromAlignments.getIsVerseValid(state, 1, 1, 'foo', 'bar');
+    expect(result).toEqual(false);
   });
 });
 

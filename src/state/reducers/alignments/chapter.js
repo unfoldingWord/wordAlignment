@@ -71,7 +71,7 @@ export const getIsVerseValid = (
  */
 export const getVerseAlignments = (state, verse) => {
   const verseId = verse + '';
-  if(verseId in state) {
+  if (verseId in state) {
     return fromVerse.getAlignments(state[verseId]);
   } else {
     return [];

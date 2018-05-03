@@ -71,8 +71,9 @@ class Container extends Component {
       sourceTokens,
       targetTokens,
       resetVerse,
-      showAlert,
-      contextId
+      showDialog,
+      contextId,
+      translate
     } = props;
 
     this.setState({
@@ -82,7 +83,7 @@ class Container extends Component {
     if (!verseIsValid) {
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
-        await showAlert('The verse is invalid');
+        await showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
       }
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
@@ -399,7 +400,7 @@ class Container extends Component {
 Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,
   readGlobalToolData: PropTypes.func.isRequired,
-  showAlert: PropTypes.func.isRequired,
+  showDialog: PropTypes.func.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
   moveSourceToken: PropTypes.func.isRequired,

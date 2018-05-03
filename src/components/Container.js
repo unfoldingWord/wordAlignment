@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
+import throttle from 'lodash/throttle';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
@@ -38,9 +39,11 @@ class Container extends Component {
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadAlignments = this.loadAlignments.bind(this);
+    this.saveState = this.saveState.bind(this);
     this.state = {
       loading: false,
-      validating: false
+      validating: false,
+      prevState: undefined
     };
   }
 
@@ -140,7 +143,35 @@ class Container extends Component {
     }
   }
 
+  /**
+   * Handles saving the state to the disk.
+   * @param state
+   */
+  saveState(state) {
+    const {prevState} = this.state;
+
+    // const {contextId: {reference: {chapter, verse}}} = this.props;
+    // TODO: determine changes between state
+
+    if(prevState && !isEqual(prevState.tool, state.tool)) {
+      console.warn('writing data!');
+    }
+
+    this.setState({
+      prevState: state
+    });
+  }
+
   componentWillMount() {
+    const {store} = this.context;
+    this.unsubscribe = store.subscribe(throttle(() => {
+      this.saveState(store.getState());
+    }, 1000));
+
+    this.loadAlignments(this.props);
+
+    // TODO: the following code needs to be cleaned up
+
     // current panes persisted in the scripture pane settings.
     const {ScripturePane} = this.props.settingsReducer.toolsSettings;
     let panes = [];
@@ -171,14 +202,12 @@ class Container extends Component {
     // set new pane settings
     this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
       desiredPanes);
-
-    this.loadAlignments(this.props);
   }
 
   componentWillUnmount() {
     const {clearState} = this.props;
     clearState();
-    console.error('un-mounting');
+    this.unsubscribe();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -403,6 +432,10 @@ class Container extends Component {
     );
   }
 }
+
+Container.contextTypes = {
+  store: PropTypes.any.isRequired
+};
 
 Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,

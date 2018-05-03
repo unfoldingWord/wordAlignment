@@ -182,6 +182,8 @@ export const getTargetText = state => {
 export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
   const sourceText = getSourceText(state);
   const targetText = getTargetText(state);
+  console.warn('source text:\n', sourceText, '\n', sourceBaselineText);
+  console.warn('target text:\n', targetText, '\n', targetBaselineText);
   return sourceText === sourceBaselineText && targetText === targetBaselineText;
 };
 

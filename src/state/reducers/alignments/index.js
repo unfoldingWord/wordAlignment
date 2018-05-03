@@ -1,4 +1,3 @@
-import Token from 'word-map/structures/Token';
 import chapter, * as fromChapter from './chapter';
 
 import {
@@ -54,9 +53,9 @@ const alignments = (state = {}, action) => {
 export default alignments;
 
 /**
- * Returns alignments for an entire chapter
+ * Returns verse alignments for an entire chapter
  * @param state
- * @param {number} chapter - the chapter for which to return alignments
+ * @param {number} chapter
  * @return {{}}
  */
 export const getChapterAlignments = (state, chapter) => {
@@ -64,7 +63,7 @@ export const getChapterAlignments = (state, chapter) => {
   if (chapterId in state) {
     const alignments = {};
     for (const verseId of Object.keys(state[chapterId])) {
-      alignments[verseId] = getVerseAlignments(state, chapterId, verseId);
+      alignments[verseId] = getVerseAlignments(state, chapter, verseId);
     }
     return alignments;
   } else {
@@ -75,34 +74,14 @@ export const getChapterAlignments = (state, chapter) => {
 /**
  * Returns alignments for a single verse
  * @param state
- * @param {number} chapterNum
- * @param {number} verseNum
+ * @param {number} chapter
+ * @param {number} verse
  * @return {[]}
  */
-export const getVerseAlignments = (state, chapterNum, verseNum) => {
-  const chapterId = chapterNum + '';
-  const verseId = verseNum + '';
+export const getVerseAlignments = (state, chapter, verse) => {
+  const chapterId = chapter + '';
   if (chapterId in state) {
-    const chapter = state[chapterId];
-    if (verseId in chapter) {
-      const verse = chapter[verseId];
-
-      // join tokens to alignments
-      const alignments = [];
-      for (const a of verse.alignments) {
-        const sourceNgram = [
-          ...a.sourceNgram.map(pos => new Token(verse.source.tokens[pos]))
-        ];
-        const targetNgram = [
-          ...a.targetNgram.map(pos => new Token(verse.target.tokens[pos]))
-        ];
-        alignments.push({
-          sourceNgram,
-          targetNgram
-        });
-      }
-      return alignments;
-    }
+    return fromChapter.getVerseAlignments(state[chapterId], verse);
   }
   return [];
 };
@@ -114,7 +93,7 @@ export const getVerseAlignments = (state, chapterNum, verseNum) => {
  * @param verse
  * @return {Token[]}
  */
-export const getAlignedVerseTargetTokens = (state, chapter, verse) => {
+export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
   const verseAlignments = getVerseAlignments(state, chapter, verse);
   const tokens = [];
   for (const alignment of verseAlignments) {
@@ -123,64 +102,6 @@ export const getAlignedVerseTargetTokens = (state, chapter, verse) => {
     }
   }
   return tokens;
-};
-
-/**
- * Returns the source tokens being aligned for a verse
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @return {Token[]}
- */
-export const getVerseSourceTokens = (state, chapter, verse) => {
-  const chapterId = chapter + '';
-  const verseId = verse + '';
-  if (chapterId in state) {
-    if (verseId in state[chapterId]) {
-      return state[chapterId][verseId].source.tokens.map(t => new Token(t));
-    }
-  }
-  return [];
-};
-
-/**
- * Returns the target tokens being aligned for a verse
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @return {Token[]}
- */
-export const getVerseTargetTokens = (state, chapter, verse) => {
-  const chapterId = chapter + '';
-  const verseId = verse + '';
-  if (chapterId in state) {
-    if (verseId in state[chapterId]) {
-      return state[chapterId][verseId].target.tokens.map(t => new Token(t));
-    }
-  }
-  return [];
-};
-
-/**
- * Returns the source verse text being aligned
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @return {string}
- */
-export const getVerseSourceText = (state, chapter, verse) => {
-  return getVerseSourceTokens(state, chapter, verse).join(' ');
-};
-
-/**
- * Returns the target verse text being aligned
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @return {string}
- */
-export const getVerseTargetText = (state, chapter, verse) => {
-  return getVerseTargetTokens(state, chapter, verse).join(' ');
 };
 
 /**

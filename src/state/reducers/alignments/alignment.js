@@ -6,6 +6,7 @@ import {
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
+import Token from 'word-map/structures/Token';
 
 /**
  * Reduces the alignment state
@@ -59,3 +60,18 @@ const alignment = (
 };
 
 export default alignment;
+
+/**
+ * Returns the tokenized alignment.
+ * That is, the n-grams contain an array of {@link Token}'s instead of positions
+ * @param state
+ * @param {Token[]} sourceTokens
+ * @param {Token[]} targetTokens
+ * @return {{sourceNgram: Token[], targetNgram: Token[]}}
+ */
+export const getTokenizedAlignment = (state, sourceTokens, targetTokens) => {
+  return {
+    sourceNgram: state.sourceNgram.map(pos => new Token(sourceTokens[pos])),
+    targetNgram: state.targetNgram.map(pos => new Token(targetTokens[pos]))
+  };
+};

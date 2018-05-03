@@ -299,7 +299,7 @@ exports[`Container renders 1`] = `
               translate={[Function]}
               unalignTargetToken={[Function]}
               verseAlignments={Array []}
-              verseIsInvalid={false}
+              verseIsValid={true}
               wordAlignmentReducer={
                 Object {
                   "alignmentData": Object {},

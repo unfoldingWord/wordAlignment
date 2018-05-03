@@ -18,7 +18,7 @@ import {
   loadChapterAlignments
 } from '../state/actions';
 import {
-  getAlignedVerseTokens,
+  getVerseAlignedTargetTokens,
   getVerseAlignments,
   getIsVerseValid
 } from '../state/reducers';
@@ -441,7 +441,7 @@ const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
     return {
       targetTokens,
       sourceTokens,
-      alignedTokens: getAlignedVerseTokens(state, chapter, verse),
+      alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
       verseAlignments: getVerseAlignments(state, chapter, verse),
       verseIsValid: getIsVerseValid(state, chapter, verse, normalizedSourceVerseText, normalizedTargetVerseText)
     };

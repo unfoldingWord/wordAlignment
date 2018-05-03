@@ -62,3 +62,18 @@ export const getIsVerseValid = (
     return false;
   }
 };
+
+/**
+ * Returns an array of alignments for the verse
+ * @param state
+ * @param {number} verse
+ * @return {Array}
+ */
+export const getVerseAlignments = (state, verse) => {
+  const verseId = verse + '';
+  if(verseId in state) {
+    return fromVerse.getAlignments(state[verseId]);
+  } else {
+    return [];
+  }
+};

@@ -8,7 +8,7 @@ import {
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
-import alignment from './alignment';
+import alignment, * as fromAlignment from './alignment';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
 
@@ -180,4 +180,21 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
   const sourceText = getSourceText(state);
   const targetText = getTargetText(state);
   return sourceText !== sourceBaselineText || targetText !== targetBaselineText;
+};
+
+/**
+ * Returns the tokenized alignments for the verse
+ * @param state
+ * @return {Array}
+ */
+export const getAlignments = state => {
+  const alignments = [];
+  for (const alignment of state.alignments) {
+    alignments.push(fromAlignment.getTokenizedAlignment(
+      alignment,
+      state.source.tokens,
+      state.target.tokens
+    ));
+  }
+  return alignments;
 };

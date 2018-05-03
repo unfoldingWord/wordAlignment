@@ -6,16 +6,6 @@ export default combineReducers({
 });
 
 /**
- * Returns alignments for a chapter
- * @param {object} state - the redux state
- * @param {number} chapter - the chapter for which alignments will be returned
- * @return {*}
- */
-export const getChapterAlignments = (state, chapter) => {
-  return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
-};
-
-/**
  * Returns alignments for a verse
  * @param state
  * @param chapter
@@ -26,14 +16,14 @@ export const getVerseAlignments = (state, chapter, verse) =>
   fromAlignments.getVerseAlignments(state.tool.alignments, chapter, verse);
 
 /**
- * Returns an array of tokens that have been aligned to the verse
+ * Returns an array of target tokens that have been aligned to the verse
  * @param state
  * @param {number} chapter
  * @param {number} verse
  * @return {Array}
  */
-export const getAlignedVerseTokens = (state, chapter, verse) =>
-  fromAlignments.getAlignedVerseTargetTokens(state.tool.alignments, chapter, verse);
+export const getVerseAlignedTargetTokens = (state, chapter, verse) =>
+  fromAlignments.getVerseAlignedTargetTokens(state.tool.alignments, chapter, verse);
 
 /**
  * Checks if the verses being aligned are valid

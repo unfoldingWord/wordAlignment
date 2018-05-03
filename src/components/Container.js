@@ -10,17 +10,17 @@ import Lexer from 'word-map/Lexer';
 import {
   alignTargetToken,
   clearState,
+  loadChapterAlignments,
   moveSourceToken,
   setChapterAlignments,
   setSourceTokens,
   setTargetTokens,
-  unalignTargetToken,
-  loadChapterAlignments
+  unalignTargetToken
 } from '../state/actions';
 import {
+  getIsVerseValid,
   getVerseAlignedTargetTokens,
-  getVerseAlignments,
-  getIsVerseValid
+  getVerseAlignments
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -62,6 +62,34 @@ class Container extends Component {
       }
     }
     return false;
+  }
+
+  static validate(props) {
+    const {
+      verseIsValid,
+      alignedTokens,
+      verseAlignments,
+      sourceTokens,
+      targetTokens,
+      setSourceTokens,
+      setTargetTokens,
+      contextId
+    } = props;
+    // TRICKY: if there are no verse alignments the data has not been loaded yet.
+    if (!verseIsValid && verseAlignments.length) {
+      const {reference: {chapter, verse}} = contextId;
+      if (alignedTokens.length) {
+        // update alignment tokens and reset alignments
+        // TODO: notify the user
+        console.error(
+          'The verse is invalid. We need to reset all alignments and tokens',
+          contextId);
+      } else {
+        // update alignment tokens
+        setSourceTokens(chapter, verse, sourceTokens);
+        setTargetTokens(chapter, verse, targetTokens);
+      }
+    }
   }
 
   /**
@@ -156,33 +184,6 @@ class Container extends Component {
     }
 
     Container.validate(nextProps);
-  }
-
-  static validate(props) {
-    const {
-      verseIsValid,
-      alignedTokens,
-      verseAlignments,
-      sourceTokens,
-      targetTokens,
-      setSourceTokens,
-      setTargetTokens,
-      contextId
-    } = props;
-    // TRICKY: if there are no verse alignments the data has not been loaded yet.
-    if(!verseIsValid && verseAlignments.length) {
-      const {reference: {chapter, verse}} = contextId;
-      if(alignedTokens.length) {
-        // update alignment tokens and reset alignments
-        // TODO: notify the user
-        console.error('The verse is invalid',
-          'We need to reset all alignments and tokens');
-      } else {
-        // update alignment tokens
-        setSourceTokens(chapter, verse, sourceTokens);
-        setTargetTokens(chapter, verse, targetTokens);
-      }
-    }
   }
 
   /**
@@ -340,7 +341,6 @@ class Container extends Component {
     const {reference: {chapter, verse}} = contextId;
 
     // disabled aligned target tokens
-    console.log('aligned tokens', alignedTokens);
     const words = targetTokens.map(token => {
       let isUsed = false;
       for (const usedToken of alignedTokens) {
@@ -436,14 +436,17 @@ const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
     // TRICKY: the target verse contains punctuation we need to remove
     const targetTokens = Lexer.tokenize(targetVerseText);
     const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
-    const normalizedSourceVerseText = sourceTokens.map(t=>t.toString()).join(' ');
-    const normalizedTargetVerseText = targetTokens.map(t=>t.toString()).join(' ');
+    const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
+      join(' ');
+    const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
+      join(' ');
     return {
       targetTokens,
       sourceTokens,
       alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
       verseAlignments: getVerseAlignments(state, chapter, verse),
-      verseIsValid: getIsVerseValid(state, chapter, verse, normalizedSourceVerseText, normalizedTargetVerseText)
+      verseIsValid: getIsVerseValid(state, chapter, verse,
+        normalizedSourceVerseText, normalizedTargetVerseText)
     };
   } else {
     return {

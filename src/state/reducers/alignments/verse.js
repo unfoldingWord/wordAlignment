@@ -52,13 +52,15 @@ const formatTargetToken = (token) => ({
   position: token.position
 });
 
+const defaultState = {sourceTokens: [], targetTokens: [], alignments: []};
+
 /**
  * Reduces the verse alignment state
  * @param state
  * @param action
  * @return {*}
  */
-const verse = (state = {}, action) => {
+const verse = (state = defaultState, action) => {
   switch (action.type) {
     case UNALIGN_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
@@ -86,23 +88,15 @@ const verse = (state = {}, action) => {
       };
     case SET_SOURCE_TOKENS: {
       return {
-        source: {
-          tokens: action.tokens.map(formatSourceToken)
-        },
-        target: {
-          tokens: [...state.target.tokens]
-        },
+        sourceTokens: action.tokens.map(formatSourceToken),
+        targetTokens: [...state.targetTokens],
         alignments: [...state.alignments]
       };
     }
     case SET_TARGET_TOKENS: {
       return {
-        target: {
-          tokens: action.tokens.map(formatTargetToken)
-        },
-        source: {
-          tokens: [...state.source.tokens]
-        },
+        targetTokens: action.tokens.map(formatTargetToken),
+        sourceTokens: [...state.sourceTokens],
         alignments: [...state.alignments]
       };
     }
@@ -113,12 +107,10 @@ const verse = (state = {}, action) => {
         alignments.push(alignment(state[i], {...action, index: i}));
       }
       return {
-        source: {
-          tokens: action.alignments[vid].sourceTokens.map(formatSourceToken)
-        },
-        target: {
-          tokens: action.alignments[vid].targetTokens.map(formatTargetToken)
-        },
+        sourceTokens: action.alignments[vid].sourceTokens.map(
+          formatSourceToken),
+        targetTokens: action.alignments[vid].targetTokens.map(
+          formatTargetToken),
         alignments
       };
     }
@@ -137,7 +129,7 @@ export default verse;
  * @return {Token[]}
  */
 export const getSourceTokens = state => {
-  return state.source.tokens.map(t => new Token(t));
+  return state.sourceTokens.map(t => new Token(t));
 };
 
 /**
@@ -146,7 +138,7 @@ export const getSourceTokens = state => {
  * @return {Token[]}
  */
 export const getTargetTokens = state => {
-  return state.target.tokens.map(t => new Token(t));
+  return state.targetTokens.map(t => new Token(t));
 };
 
 /**
@@ -192,8 +184,8 @@ export const getAlignments = state => {
   for (const alignment of state.alignments) {
     alignments.push(fromAlignment.getTokenizedAlignment(
       alignment,
-      state.source.tokens,
-      state.target.tokens
+      state.sourceTokens,
+      state.targetTokens
     ));
   }
   return alignments;

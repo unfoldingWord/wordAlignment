@@ -31,6 +31,21 @@ export const loadChapterAlignments = (dataReader, bookId, chapter) => {
 };
 
 /**
+ * Resets the alignment data for a verse.
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {Token[]} sourceTokens
+ * @param {Token[]} targetTokens
+ */
+export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
+  return dispatch => {
+    dispatch(setSourceTokens(chapter, verse, sourceTokens));
+    dispatch(setTargetTokens(chapter, verse, targetTokens));
+    dispatch(clearVerseAlignments(chapter, verse));
+  };
+};
+
+/**
  * Retrieves some extra data from redux before inserting the chapter alignments.
  * The pain point here is due to the current alignment file format we cannot
  * reliably assume token order. Therefore we must include a frame of reference.
@@ -183,8 +198,20 @@ export const setSourceTokens = (chapter, verse, tokens) => ({
 });
 
 /**
+ * Clears the alignment data for a verse
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {*}
+ */
+export const clearVerseAlignments = (chapter, verse) => ({
+  type: types.CLEAR_VERSE_ALIGNMENTS,
+  chapter,
+  verse
+});
+
+/**
  * Clears the tool's redux state
- * @return {{}}
+ * @return {*}
  */
 export const clearState = () => ({
   type: types.CLEAR_STATE

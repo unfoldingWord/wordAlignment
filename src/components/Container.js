@@ -12,10 +12,8 @@ import {
   clearState,
   loadChapterAlignments,
   moveSourceToken,
-  setChapterAlignments,
-  setSourceTokens,
-  setTargetTokens,
-  unalignTargetToken
+  unalignTargetToken,
+  resetVerse
 } from '../state/actions';
 import {
   getIsVerseValid,
@@ -71,8 +69,7 @@ class Container extends Component {
       verseAlignments,
       sourceTokens,
       targetTokens,
-      setSourceTokens,
-      setTargetTokens,
+      resetVerse,
       contextId
     } = props;
     // TRICKY: if there are no verse alignments the data has not been loaded yet.
@@ -85,9 +82,7 @@ class Container extends Component {
           'The verse is invalid. We need to reset all alignments and tokens',
           contextId);
       } else {
-        // update alignment tokens
-        setSourceTokens(chapter, verse, sourceTokens);
-        setTargetTokens(chapter, verse, targetTokens);
+        resetVerse(chapter, verse, sourceTokens, targetTokens);
       }
     }
   }
@@ -388,6 +383,12 @@ class Container extends Component {
 Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,
   readGlobalToolData: PropTypes.func.isRequired,
+  alignTargetToken: PropTypes.func.isRequired,
+  unalignTargetToken: PropTypes.func.isRequired,
+  moveSourceToken: PropTypes.func.isRequired,
+  clearState: PropTypes.func.isRequired,
+  resetVerse: PropTypes.func.isRequired,
+
   contextId: PropTypes.object,
   targetVerseText: PropTypes.string,
   targetTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -395,13 +396,6 @@ Container.propTypes = {
   appLanguage: PropTypes.string.isRequired,
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
-  alignTargetToken: PropTypes.func.isRequired,
-  unalignTargetToken: PropTypes.func.isRequired,
-  moveSourceToken: PropTypes.func.isRequired,
-  setSourceTokens: PropTypes.func.isRequired,
-  setTargetTokens: PropTypes.func.isRequired,
-  clearState: PropTypes.func.isRequired,
-  setChapterAlignments: PropTypes.func.isRequired,
   verseIsValid: PropTypes.bool.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
@@ -423,9 +417,7 @@ const mapDispatchToProps = ({
   alignTargetToken,
   unalignTargetToken,
   moveSourceToken,
-  setSourceTokens,
-  setTargetTokens,
-  setChapterAlignments,
+  resetVerse,
   clearState,
   loadChapterAlignments
 });

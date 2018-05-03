@@ -4,6 +4,7 @@ import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   CLEAR_STATE,
+  CLEAR_VERSE_ALIGNMENTS,
   INSERT_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
@@ -35,6 +36,7 @@ const alignments = (state = {}, action) => {
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
     case ALIGN_SOURCE_TOKEN:
+    case CLEAR_VERSE_ALIGNMENTS:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
       const chapterId = action.chapter + '';

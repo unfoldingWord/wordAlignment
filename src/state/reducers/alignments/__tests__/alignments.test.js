@@ -654,6 +654,101 @@ describe('set chapter alignments', () => {
     stateAfter);
 });
 
+describe('reset alignments', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'world',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
+          }],
+        alignments: [
+          {
+            primaryNgram: [0],
+            secondaryNgram: [0]
+          }
+        ]
+      }
+    }
+  };
+  const action = {
+    type: types.CLEAR_VERSE_ALIGNMENTS,
+    chapter: 1,
+    verse: 1
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'world',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
+          }],
+        alignments: []
+      }
+    }
+  };
+  reducerTest('Clear verse alignments', alignments, stateBefore, action,
+    stateAfter);
+});
+
+describe('reset state', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'world',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
+          }],
+        alignments: [
+          {
+            primaryNgram: [0],
+            secondaryNgram: [0]
+          }
+        ]
+      }
+    }
+  };
+  const action = {
+    type: types.CLEAR_STATE
+  };
+  const stateAfter = {};
+  reducerTest('Clear tool state', alignments, stateBefore, action,
+    stateAfter);
+});
+
 describe('selectors', () => {
   let state = {};
 

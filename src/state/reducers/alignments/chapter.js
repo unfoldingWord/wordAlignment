@@ -1,6 +1,6 @@
 import {
   ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
+  ALIGN_TARGET_TOKEN, CLEAR_VERSE_ALIGNMENTS,
   INSERT_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
@@ -24,6 +24,7 @@ const chapter = (state = {}, action) => {
     case UNALIGN_TARGET_TOKEN:
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
+    case CLEAR_VERSE_ALIGNMENTS:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';
       return {
@@ -72,7 +73,7 @@ export const getIsVerseValid = (
 export const getVerseAlignments = (state, verse) => {
   const verseId = verse + '';
   if (verseId in state) {
-    return fromVerse.getAlignments(state[verseId]);
+    return fromVerse.getTokenizedAlignments(state[verseId]);
   } else {
     return [];
   }

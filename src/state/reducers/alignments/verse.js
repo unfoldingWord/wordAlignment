@@ -1,6 +1,6 @@
 import {
   ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
+  ALIGN_TARGET_TOKEN, CLEAR_VERSE_ALIGNMENTS,
   INSERT_ALIGNMENT,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
@@ -100,6 +100,12 @@ const verse = (state = defaultState, action) => {
         alignments: [...state.alignments]
       };
     }
+    case CLEAR_VERSE_ALIGNMENTS:
+      return {
+        sourceTokens: [...state.sourceTokens],
+        targetTokens: [...state.targetTokens],
+        alignments: []
+      };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];
@@ -179,7 +185,7 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
  * @param state
  * @return {Array}
  */
-export const getAlignments = state => {
+export const getTokenizedAlignments = state => {
   const alignments = [];
   for (const alignment of state.alignments) {
     alignments.push(fromAlignment.getTokenizedAlignment(

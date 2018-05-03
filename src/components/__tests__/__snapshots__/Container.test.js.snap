@@ -267,6 +267,7 @@ exports[`Container renders 1`] = `
               moveSourceToken={[Function]}
               projectDetailsReducer={Object {}}
               readGlobalToolData={[Function]}
+              resetVerse={[Function]}
               resourcesReducer={
                 Object {
                   "bibles": Array [],
@@ -282,9 +283,6 @@ exports[`Container renders 1`] = `
                   ],
                 }
               }
-              setChapterAlignments={[Function]}
-              setSourceTokens={[Function]}
-              setTargetTokens={[Function]}
               settingsReducer={
                 Object {
                   "toolsSettings": Object {

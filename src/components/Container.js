@@ -62,7 +62,7 @@ class Container extends Component {
     return false;
   }
 
-  static validate(props) {
+  async validate(props) {
     const {
       verseIsValid,
       alignedTokens,
@@ -70,20 +70,17 @@ class Container extends Component {
       sourceTokens,
       targetTokens,
       resetVerse,
+      showAlert,
       contextId
     } = props;
+
     // TRICKY: if there are no verse alignments the data has not been loaded yet.
     if (!verseIsValid && verseAlignments.length) {
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
-        // update alignment tokens and reset alignments
-        // TODO: notify the user
-        console.error(
-          'The verse is invalid. We need to reset all alignments and tokens',
-          contextId);
-      } else {
-        resetVerse(chapter, verse, sourceTokens, targetTokens);
+        showAlert('The verse is invalid');
       }
+      resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
   }
 
@@ -108,7 +105,7 @@ class Container extends Component {
 
     try {
       await loadChapterAlignments(readGlobalToolData, bookId, chapter);
-      Container.validate(props);
+      this.validate(props);
     } catch (e) {
       console.error('The alignment data is corrupt', e);
       // TODO: reset alignment data to default state
@@ -178,7 +175,7 @@ class Container extends Component {
       }
     }
 
-    Container.validate(nextProps);
+    this.validate(nextProps);
   }
 
   /**
@@ -383,6 +380,7 @@ class Container extends Component {
 Container.propTypes = {
   writeGlobalToolData: PropTypes.func.isRequired,
   readGlobalToolData: PropTypes.func.isRequired,
+  showAlert: PropTypes.func.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
   moveSourceToken: PropTypes.func.isRequired,

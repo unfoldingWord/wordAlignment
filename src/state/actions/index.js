@@ -1,6 +1,8 @@
 import * as types from './actionTypes';
 import {migrateChapterAlignments} from '../../utils/migrations';
 import path from 'path';
+import Lexer from 'word-map/Lexer';
+import {tokenizeVerseObjects} from '../../utils/verseObjects';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
@@ -16,17 +18,22 @@ export const setChapterAlignments = (chapter, data) => ({
 
 /**
  * Loads the alignment data from the disk
- * @param dataReader
- * @param bookId
- * @param chapter
+ * @param {func} dataReader
+ * @param {string} bookId
+ * @param {number} chapter
+ * @param {object} sourceChapter - the source chapter data used as a baseline for sorting
+ * @param {object} targetChapter - the target chapter data used as a baseline for sorting
  * @return {Function}
  */
-export const loadChapterAlignments = (dataReader, bookId, chapter) => {
+export const loadChapterAlignments = (
+  dataReader, bookId, chapter, sourceChapter, targetChapter) => {
   return async dispatch => {
     const dataPath = path.join('alignmentData', bookId, chapter + '.json');
     const data = await dataReader(dataPath);
     const rawChapterData = JSON.parse(data);
-    await dispatch(indexChapterAlignments(chapter, rawChapterData));
+    await dispatch(
+      indexChapterAlignments(chapter, rawChapterData, sourceChapter,
+        targetChapter));
   };
 };
 
@@ -51,14 +58,29 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
  * reliably assume token order. Therefore we must include a frame of reference.
  * @param chapterId
  * @param {object} rawAlignmentData
+ * @param {object} sourceChapter - source chapter data used as a baseline for sorting
+ * @param {object} targetChapter - target chapter data used as a baseline for sorting
  * @return {Function}
  */
-export const indexChapterAlignments = (chapterId, rawAlignmentData) => {
+export const indexChapterAlignments = (
+  chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       try {
+        // tokenize baseline chapters
+        const targetChapterTokens = {};
+        const sourceChapterTokens = {};
+        for (const verse of Object.keys(targetChapter)) {
+          targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
+        }
+        for (const verse of Object.keys(sourceChapter)) {
+          sourceChapterTokens[verse] = tokenizeVerseObjects(
+            sourceChapter[verse].verseObjects);
+        }
+
         // migrate alignment data
-        const alignmentData = migrateChapterAlignments(rawAlignmentData);
+        const alignmentData = migrateChapterAlignments(rawAlignmentData,
+          sourceChapterTokens, targetChapterTokens);
 
         // set the loaded alignments
         dispatch(setChapterAlignments(chapterId, alignmentData));

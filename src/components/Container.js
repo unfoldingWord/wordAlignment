@@ -89,6 +89,7 @@ class Container extends Component {
     });
 
     if (!verseIsValid) {
+      console.error('verse is invalid');
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
         await showDialog(translate('alignments_reset'),
@@ -112,6 +113,10 @@ class Container extends Component {
       contextId,
       readGlobalToolData,
       loadChapterAlignments,
+      sourceTokens,
+      targetTokens,
+      targetChapter,
+      sourceChapter,
       resetVerse,
       translate,
       showDialog
@@ -122,20 +127,20 @@ class Container extends Component {
       return;
     }
 
-    const {reference: {bookId, chapter}} = contextId;
+    const {reference: {bookId, chapter, verse}} = contextId;
 
     this.setState({
       loading: true
     });
 
     try {
-      await loadChapterAlignments(readGlobalToolData, bookId, chapter);
+      await loadChapterAlignments(readGlobalToolData, bookId, chapter, sourceChapter, targetChapter);
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
       console.error('The alignment data is corrupt', e);
       await showDialog(translate('alignments_corrupt'),
         translate('buttons.ok_button'));
-      resetVerse();
+      resetVerse(chapter, verse, sourceTokens, targetTokens);
     } finally {
       this.setState({
         loading: false
@@ -455,6 +460,8 @@ Container.propTypes = {
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   verseIsValid: PropTypes.bool.isRequired,
+  sourceChapter: PropTypes.object.isRequired,
+  targetChapter: PropTypes.object.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,

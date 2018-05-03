@@ -24,6 +24,8 @@ test('Container renders', () => {
         }
       }
     },
+    sourceChapter: {},
+    targetChapter: {},
     selectionsReducer: {
       selections: [{text: 'text'}]
     },
@@ -34,6 +36,7 @@ test('Container renders', () => {
       bibles: [],
       lexicons: {}
     },
+    showDialog: jest.fn(),
     wordAlignmentReducer: {
       alignmentData: {}
     },

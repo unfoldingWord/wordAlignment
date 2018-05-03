@@ -24,6 +24,25 @@ const migrateBottomWord = word => ({
 });
 
 /**
+ * Searches for a token in the array that matches the given parameters
+ * @param {Token[]} tokens
+ * @param {string} text
+ * @param {number} occurrence
+ * @param {number} occurrences
+ * @return {Token}
+ */
+const findToken = (tokens, text, occurrence, occurrences) => {
+  for (const token of tokens) {
+    if (token.toString() === text
+      && token.occurrence === occurrence
+      && token.occurrences === occurrences) {
+      return token;
+    }
+  }
+  return null;
+};
+
+/**
  * A comparator used for sorting objects by their position key.
  * @param a
  * @param b
@@ -160,6 +179,8 @@ export const formatAlignmentData = (data) => {
  * This is exported only for testing.
  *
  * @param data
+ * @param {object} sourceTokensBaseline - a dictionary of tokenized source verses
+ * @param {object} targetTokensBaseline - a dictionary of tokenized target verses
  * @return {*}
  * @example
  * // input data format
@@ -183,7 +204,7 @@ export const formatAlignmentData = (data) => {
  *    "occurrences: 1
  * }
  */
-export const normalizeAlignmentData = (data) => {
+export const normalizeAlignmentData = (data, sourceTokensBaseline, targetTokensBaseline) => {
   const normalizedData = {};
   for (const verse of Object.keys(data)) {
     let targetTokens = [];
@@ -192,18 +213,38 @@ export const normalizeAlignmentData = (data) => {
 
     // add position to source tokens
     for (const t of data[verse].sourceTokens) {
-      sourceTokens.push({
-        ...t,
-        position: sourceTokens.length
-      });
+      const baseline = findToken(sourceTokensBaseline[verse], t.text, t.occurrence,
+        t.occurrences);
+      if (baseline) {
+        sourceTokens.push({
+          ...t,
+          position: baseline.position
+        });
+      } else {
+        // TRICKY: the UI can perform validation on this later
+        sourceTokens.push({
+          ...t,
+          position: 0
+        });
+      }
     }
 
     // add position to target tokens
     for (const t of data[verse].targetTokens) {
-      targetTokens.push({
-        ...t,
-        position: targetTokens.length
-      });
+      const baseline = findToken(targetTokensBaseline[verse], t.text, t.occurrence,
+        t.occurrences);
+      if (baseline) {
+        targetTokens.push({
+          ...t,
+          position: baseline.position
+        });
+      } else {
+        // TRICKY: the UI can perform validation on this later
+        targetTokens.push({
+          ...t,
+          position: 0
+        });
+      }
     }
 
     // sort tokens

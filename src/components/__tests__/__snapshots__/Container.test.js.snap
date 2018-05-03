@@ -40,6 +40,7 @@ exports[`Container renders 1`] = `
       },
     }
   }
+  showDialog={[Function]}
   translate={[Function]}
   wordAlignmentReducer={
     Object {
@@ -87,6 +88,7 @@ exports[`Container renders 1`] = `
         },
       }
     }
+    showDialog={[Function]}
     translate={[Function]}
     wordAlignmentReducer={
       Object {
@@ -145,6 +147,7 @@ exports[`Container renders 1`] = `
             },
           }
         }
+        showDialog={[Function]}
         translate={[Function]}
         wordAlignmentReducer={
           Object {
@@ -192,6 +195,7 @@ exports[`Container renders 1`] = `
               },
             }
           }
+          showDialog={[Function]}
           translate={[Function]}
           wordAlignmentReducer={
             Object {
@@ -239,6 +243,7 @@ exports[`Container renders 1`] = `
                 },
               }
             }
+            showDialog={[Function]}
             translate={[Function]}
             wordAlignmentReducer={
               Object {
@@ -292,6 +297,7 @@ exports[`Container renders 1`] = `
                   },
                 }
               }
+              showDialog={[Function]}
               sourceTokens={Array []}
               targetTokens={Array []}
               translate={[Function]}

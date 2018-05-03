@@ -20,7 +20,7 @@ import {
 import {
   getAlignedVerseTokens,
   getVerseAlignments,
-  getIsVerseInvalid
+  getIsVerseValid
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -160,7 +160,7 @@ class Container extends Component {
 
   static validate(props) {
     const {
-      verseIsInvalid,
+      verseIsValid,
       alignedTokens,
       verseAlignments,
       sourceTokens,
@@ -170,7 +170,7 @@ class Container extends Component {
       contextId
     } = props;
     // TRICKY: if there are no verse alignments the data has not been loaded yet.
-    if(verseIsInvalid && verseAlignments.length) {
+    if(!verseIsValid && verseAlignments.length) {
       const {reference: {chapter, verse}} = contextId;
       if(alignedTokens.length) {
         // update alignment tokens and reset alignments
@@ -402,7 +402,7 @@ Container.propTypes = {
   setTargetTokens: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   setChapterAlignments: PropTypes.func.isRequired,
-  verseIsInvalid: PropTypes.bool.isRequired,
+  verseIsValid: PropTypes.bool.isRequired,
 
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
@@ -443,7 +443,7 @@ const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
       sourceTokens,
       alignedTokens: getAlignedVerseTokens(state, chapter, verse),
       verseAlignments: getVerseAlignments(state, chapter, verse),
-      verseIsInvalid: getIsVerseInvalid(state, chapter, verse, normalizedSourceVerseText, normalizedTargetVerseText)
+      verseIsValid: getIsVerseValid(state, chapter, verse, normalizedSourceVerseText, normalizedTargetVerseText)
     };
   } else {
     return {
@@ -451,7 +451,7 @@ const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
       sourceTokens: [],
       alignedTokens: [],
       verseAlignments: [],
-      verseIsInvalid: false
+      verseIsValid: true
     };
   }
 };

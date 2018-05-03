@@ -36,13 +36,13 @@ export const getAlignedVerseTokens = (state, chapter, verse) =>
   fromAlignments.getAlignedVerseTargetTokens(state.tool.alignments, chapter, verse);
 
 /**
- * Checks if a verse is invalid
+ * Checks if the verses being aligned are valid
  * @param state
- * @param {string} targetVerseText
- * @param {string} sourceVerseText
+ * @param {string} targetText - the target text used as a baseline
+ * @param {string} sourceText - the source text used as a baseline
  * @param {number} chapter
  * @param {number} verse
  * @return {*}
  */
-export const getIsVerseInvalid = (state, chapter, verse, sourceVerseText, targetVerseText) =>
-  fromAlignments.getIsVerseInvalid(state.tool.alignments, chapter, verse, sourceVerseText, targetVerseText);
+export const getIsVerseValid = (state, chapter, verse, sourceText, targetText) =>
+  fromAlignments.getIsVerseValid(state.tool.alignments, chapter, verse, sourceText, targetText);

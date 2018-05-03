@@ -12,8 +12,8 @@ import {
   clearState,
   loadChapterAlignments,
   moveSourceToken,
-  unalignTargetToken,
-  resetVerse
+  resetVerse,
+  unalignTargetToken
 } from '../state/actions';
 import {
   getIsVerseValid,
@@ -64,6 +64,11 @@ class Container extends Component {
     return false;
   }
 
+  /**
+   * Performs necessary clean up operations if the current verse is invalid.
+   * @param props
+   * @return {Promise<void>}
+   */
   async validate(props) {
     const {
       verseIsValid,
@@ -83,7 +88,8 @@ class Container extends Component {
     if (!verseIsValid) {
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
-        await showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+        await showDialog(translate('alignments_reset'),
+          translate('buttons.ok_button'));
       }
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
@@ -102,7 +108,10 @@ class Container extends Component {
     const {
       contextId,
       readGlobalToolData,
-      loadChapterAlignments
+      loadChapterAlignments,
+      resetVerse,
+      translate,
+      showDialog
     } = props;
 
     if (!contextId) {
@@ -119,11 +128,11 @@ class Container extends Component {
     try {
       await loadChapterAlignments(readGlobalToolData, bookId, chapter);
     } catch (e) {
+      // TODO: give the user an option to reset the data or recover from it.
       console.error('The alignment data is corrupt', e);
-      // TODO: notify user that we could not load the alignment data
-      // TODO: reset alignment data to default state
-      // we can create a new action that will receive the source and target chapters
-      // for generating the new alignments.
+      await showDialog(translate('alignments_corrupt'),
+        translate('buttons.ok_button'));
+      resetVerse();
     } finally {
       this.setState({
         loading: false
@@ -188,12 +197,10 @@ class Container extends Component {
 
       if (Container.chapterContextChanged(prevContextId, nextContextId)) {
         this.loadAlignments(nextProps);
-        // TODO: this should trigger a loading state so we know to wait for certain things until we are ready.
-        // maybe display some nice loading animation.
       }
     }
 
-    if(!loading && !validating) {
+    if (!loading && !validating) {
       this.validate(nextProps);
     }
   }

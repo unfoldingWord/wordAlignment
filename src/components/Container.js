@@ -29,8 +29,6 @@ import Token from 'word-map/structures/Token';
  */
 class Container extends Component {
 
-  const;
-
   constructor(props) {
     super(props);
     this.map = new WordMap();
@@ -40,6 +38,10 @@ class Container extends Component {
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadAlignments = this.loadAlignments.bind(this);
+    this.state = {
+      loading: false,
+      validating: false
+    };
   }
 
   /**
@@ -66,7 +68,6 @@ class Container extends Component {
     const {
       verseIsValid,
       alignedTokens,
-      verseAlignments,
       sourceTokens,
       targetTokens,
       resetVerse,
@@ -74,14 +75,21 @@ class Container extends Component {
       contextId
     } = props;
 
-    // TRICKY: if there are no verse alignments the data has not been loaded yet.
-    if (!verseIsValid && verseAlignments.length) {
+    this.setState({
+      validating: true
+    });
+
+    if (!verseIsValid) {
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
-        showAlert('The verse is invalid');
+        await showAlert('The verse is invalid');
       }
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
+
+    this.setState({
+      validating: false
+    });
   }
 
   /**
@@ -103,14 +111,22 @@ class Container extends Component {
 
     const {reference: {bookId, chapter}} = contextId;
 
+    this.setState({
+      loading: true
+    });
+
     try {
       await loadChapterAlignments(readGlobalToolData, bookId, chapter);
-      this.validate(props);
     } catch (e) {
       console.error('The alignment data is corrupt', e);
+      // TODO: notify user that we could not load the alignment data
       // TODO: reset alignment data to default state
       // we can create a new action that will receive the source and target chapters
       // for generating the new alignments.
+    } finally {
+      this.setState({
+        loading: false
+      });
     }
   }
 
@@ -162,6 +178,7 @@ class Container extends Component {
     const {
       contextId: prevContextId
     } = this.props;
+    const {loading, validating} = this.state;
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -175,7 +192,9 @@ class Container extends Component {
       }
     }
 
-    this.validate(nextProps);
+    if(!loading && !validating) {
+      this.validate(nextProps);
+    }
   }
 
   /**

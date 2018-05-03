@@ -41,6 +41,8 @@ exports[`Container renders 1`] = `
     }
   }
   showDialog={[Function]}
+  sourceChapter={Object {}}
+  targetChapter={Object {}}
   translate={[Function]}
   wordAlignmentReducer={
     Object {
@@ -89,6 +91,8 @@ exports[`Container renders 1`] = `
       }
     }
     showDialog={[Function]}
+    sourceChapter={Object {}}
+    targetChapter={Object {}}
     translate={[Function]}
     wordAlignmentReducer={
       Object {
@@ -148,6 +152,8 @@ exports[`Container renders 1`] = `
           }
         }
         showDialog={[Function]}
+        sourceChapter={Object {}}
+        targetChapter={Object {}}
         translate={[Function]}
         wordAlignmentReducer={
           Object {
@@ -196,6 +202,8 @@ exports[`Container renders 1`] = `
             }
           }
           showDialog={[Function]}
+          sourceChapter={Object {}}
+          targetChapter={Object {}}
           translate={[Function]}
           wordAlignmentReducer={
             Object {
@@ -244,6 +252,8 @@ exports[`Container renders 1`] = `
               }
             }
             showDialog={[Function]}
+            sourceChapter={Object {}}
+            targetChapter={Object {}}
             translate={[Function]}
             wordAlignmentReducer={
               Object {
@@ -298,7 +308,9 @@ exports[`Container renders 1`] = `
                 }
               }
               showDialog={[Function]}
+              sourceChapter={Object {}}
               sourceTokens={Array []}
+              targetChapter={Object {}}
               targetTokens={Array []}
               translate={[Function]}
               unalignTargetToken={[Function]}

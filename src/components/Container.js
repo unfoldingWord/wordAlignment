@@ -89,7 +89,6 @@ class Container extends Component {
     });
 
     if (!verseIsValid) {
-      console.error('verse is invalid');
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
         await showDialog(translate('alignments_reset'),
@@ -135,6 +134,10 @@ class Container extends Component {
 
     try {
       await loadChapterAlignments(readGlobalToolData, bookId, chapter, sourceChapter, targetChapter);
+      // TRICKY: validate the latest state
+      const {store} = this.context;
+      const newState = mapStateToProps(store.getState(), props);
+      await this.validate({...props, ...newState});
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
       console.error('The alignment data is corrupt', e);

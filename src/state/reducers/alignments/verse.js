@@ -1,7 +1,8 @@
 import {
   ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN, CLEAR_VERSE_ALIGNMENTS,
+  ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
+  RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
@@ -78,6 +79,16 @@ const verse = (state = defaultState, action) => {
         alignments: newAlignments
       };
     }
+    case RESET_VERSE_ALIGNMENTS: {
+      const alignments = [];
+      for (let i = 0; i < state.sourceTokens.length; i ++) {
+        alignments.push(alignment(undefined, {...action, position: i}));
+      }
+      return {
+        ...state,
+        alignments
+      };
+    }
     case INSERT_ALIGNMENT:
       return {
         ...state,
@@ -100,12 +111,6 @@ const verse = (state = defaultState, action) => {
         alignments: [...state.alignments]
       };
     }
-    case CLEAR_VERSE_ALIGNMENTS:
-      return {
-        sourceTokens: [...state.sourceTokens],
-        targetTokens: [...state.targetTokens],
-        alignments: []
-      };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];

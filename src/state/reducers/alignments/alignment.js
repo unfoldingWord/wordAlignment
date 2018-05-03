@@ -2,6 +2,7 @@ import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
+  RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
@@ -18,6 +19,11 @@ import Token from 'word-map/structures/Token';
 const alignment = (
   state = {sourceNgram: [], targetNgram: []}, action) => {
   switch (action.type) {
+    case RESET_VERSE_ALIGNMENTS:
+      return {
+        sourceNgram: [action.position],
+        targetNgram: []
+      };
     case ALIGN_TARGET_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram],

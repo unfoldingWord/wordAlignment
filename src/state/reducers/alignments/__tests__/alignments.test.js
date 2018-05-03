@@ -580,8 +580,8 @@ describe('set chapter alignments', () => {
           }],
         alignments: [
           {
-            primaryNgram: [],
-            secondaryNgram: [0]
+            sourceNgram: [],
+            targetNgram: [0]
           }
         ]
       }
@@ -664,26 +664,32 @@ describe('reset alignments', () => {
             position: 0,
             occurrence: 1,
             occurrences: 1
+          },
+          {
+            text: 'world',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
           }
         ],
         targetTokens: [
           {
-            text: 'world',
+            text: 'dlrow',
             position: 0,
             occurrence: 1,
             occurrences: 1
           }],
         alignments: [
           {
-            primaryNgram: [0],
-            secondaryNgram: [0]
+            sourceNgram: [0],
+            targetNgram: [0]
           }
         ]
       }
     }
   };
   const action = {
-    type: types.CLEAR_VERSE_ALIGNMENTS,
+    type: types.RESET_VERSE_ALIGNMENTS,
     chapter: 1,
     verse: 1
   };
@@ -696,16 +702,30 @@ describe('reset alignments', () => {
             position: 0,
             occurrence: 1,
             occurrences: 1
-          }
-        ],
-        targetTokens: [
+          },
           {
             text: 'world',
             position: 0,
             occurrence: 1,
             occurrences: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'dlrow',
+            position: 0,
+            occurrence: 1,
+            occurrences: 1
           }],
-        alignments: []
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }]
       }
     }
   };
@@ -734,8 +754,8 @@ describe('reset state', () => {
           }],
         alignments: [
           {
-            primaryNgram: [0],
-            secondaryNgram: [0]
+            sourceNgram: [0],
+            targetNgram: [0]
           }
         ]
       }

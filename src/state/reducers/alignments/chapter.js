@@ -1,7 +1,8 @@
 import {
   ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN, CLEAR_VERSE_ALIGNMENTS,
+  ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
+  RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
@@ -24,7 +25,7 @@ const chapter = (state = {}, action) => {
     case UNALIGN_TARGET_TOKEN:
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
-    case CLEAR_VERSE_ALIGNMENTS:
+    case RESET_VERSE_ALIGNMENTS:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';
       return {

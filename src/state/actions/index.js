@@ -41,7 +41,7 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
   return dispatch => {
     dispatch(setSourceTokens(chapter, verse, sourceTokens));
     dispatch(setTargetTokens(chapter, verse, targetTokens));
-    dispatch(clearVerseAlignments(chapter, verse));
+    dispatch(resetVerseAlignments(chapter, verse));
   };
 };
 
@@ -203,8 +203,8 @@ export const setSourceTokens = (chapter, verse, tokens) => ({
  * @param {number} verse
  * @return {*}
  */
-export const clearVerseAlignments = (chapter, verse) => ({
-  type: types.CLEAR_VERSE_ALIGNMENTS,
+export const resetVerseAlignments = (chapter, verse) => ({
+  type: types.RESET_VERSE_ALIGNMENTS,
   chapter,
   verse
 });

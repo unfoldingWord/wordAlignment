@@ -330,7 +330,6 @@ class Container extends Component {
    * @param {number} [prevIndex=-1] - the index from which the token will be moved
    */
   handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
-    console.log('aligning token', token);
     const {
       api: {contextId: {reference: {chapter, verse}}},
       alignTargetToken,
@@ -348,7 +347,6 @@ class Container extends Component {
    * @param {number} prevIndex - the index from which this token will be moved
    */
   handleUnalignTargetToken(token, prevIndex) {
-    console.log('un-aligning token', token);
     const {
       api: {contextId: {reference: {chapter, verse}}},
       unalignTargetToken

@@ -657,10 +657,12 @@ describe('set chapter alignments', () => {
 describe('repair alignments', () => {
   const tokensBefore = {
     sourceTokens: [
-      {text: 'how', position: 0},
-      {text: 'are', position: 1},
-      {text: 'you', position: 2}, // will update
-      {text: 'today', position: 3} // will removed
+      {text: '0', position: 0},
+      {text: '1', position: 1},
+      {text: '2', position: 2}, // will update
+      {text: '3', position: 3}, // will removed
+      {text: '4', position: 4},
+      {text: '5', position: 5}
     ],
     targetTokens: [
       {text: 'woh', position: 0},
@@ -672,17 +674,25 @@ describe('repair alignments', () => {
   const tokensAfter = {
     sourceTokens: [
       {
-        text: 'how', position: 0, occurrence: 1, occurrences: 1,
+        text: '0', position: 0, occurrence: 1, occurrences: 1,
         lemma: '', morph: '', strong: ''
       },
       {
-        text: 'are', position: 1, occurrence: 1, occurrences: 1,
+        text: '1', position: 1, occurrence: 1, occurrences: 1,
         lemma: '', morph: '', strong: ''
       },
       {
-        text: 'they', position: 2, occurrence: 1, occurrences: 1,
+        text: '*2', position: 2, occurrence: 1, occurrences: 1,
         lemma: '', morph: '', strong: ''
-      } // updated
+      },
+      {
+        text: '4', position: 3, occurrence: 1, occurrences: 1,
+        lemma: '', morph: '', strong: ''
+      },
+      {
+        text: '5', position: 4, occurrence: 1, occurrences: 1,
+        lemma: '', morph: '', strong: ''
+      }
     ],
     targetTokens: [
       {text: 'woh', position: 0, occurrence: 1, occurrences: 1},
@@ -696,15 +706,17 @@ describe('repair alignments', () => {
     chapter: 1,
     verse: 1,
     sourceTokens: [
-      new Token({text: 'how', position: 0, occurrence: 1, occurrences: 1}),
-      new Token({text: 'are', position: 1, occurrence: 1, occurrences: 1}),
-      new Token({text: 'they', position: 2, occurrence: 1, occurrences: 1}) // updated,
+      new Token({text: '0', position: 0}),
+      new Token({text: '1', position: 1}),
+      new Token({text: '*2', position: 2}), // updated,
       // removed one
+      new Token({text: '4', position: 3}),
+      new Token({text: '5', position: 4})
     ],
     targetTokens: [
-      new Token({text: 'woh', position: 0, occurrence: 1, occurrences: 1}),
-      new Token({text: 'era', position: 1, occurrence: 1, occurrences: 1}),
-      new Token({text: 'yeht', position: 2, occurrence: 1, occurrences: 1}) // updated
+      new Token({text: 'woh', position: 0}),
+      new Token({text: 'era', position: 1}),
+      new Token({text: 'yeht', position: 2}) // updated
       // removed one
     ]
   };
@@ -732,12 +744,13 @@ describe('repair alignments', () => {
             {sourceNgram: [0], targetNgram: [0]},
             {sourceNgram: [0, 1], targetNgram: [0]},
             {sourceNgram: [0], targetNgram: [0, 1]},
-            {sourceNgram: [0, 1], targetNgram: [0, 1]},
+            {sourceNgram: [0, 1], targetNgram: [0, 1]}
           ]
         }
       }
     };
-    reducerTest('does not repair valid alignments alignments', alignments, stateBefore, action,
+    reducerTest('does not repair valid alignments alignments', alignments,
+      stateBefore, action,
       stateAfter);
   });
 
@@ -760,17 +773,17 @@ describe('repair alignments', () => {
         '1': {
           ...tokensAfter,
           alignments: [
-            // {sourceNgram: [2], targetNgram: []},
-            // {sourceNgram: [0], targetNgram: []},
-            // {sourceNgram: [2], targetNgram: []},
-            // {sourceNgram: [2], targetNgram: []},
-            // {sourceNgram: [0], targetNgram: []},
-            // {sourceNgram: [2], targetNgram: []},
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: []},
+            {sourceNgram: [2], targetNgram: []},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []}
           ]
         }
       }
     };
-    reducerTest('repairs updated source tokens', alignments, stateBefore, action,
+    reducerTest('repairs updated source tokens', alignments, stateBefore,
+      action,
       stateAfter);
   });
 
@@ -793,13 +806,17 @@ describe('repair alignments', () => {
         '1': {
           ...tokensAfter,
           alignments: [
-            // {sourceNgram: [0], targetNgram: []},
-            // {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: []},
+            {sourceNgram: [2], targetNgram: []},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []}
           ]
         }
       }
     };
-    reducerTest('repairs deleted source tokens', alignments, stateBefore, action,
+    reducerTest('repairs deleted source tokens', alignments, stateBefore,
+      action,
       stateAfter);
   });
 
@@ -830,7 +847,8 @@ describe('repair alignments', () => {
         }
       }
     };
-    reducerTest('repairs updated target tokens', alignments, stateBefore, action,
+    reducerTest('repairs updated target tokens', alignments, stateBefore,
+      action,
       stateAfter);
   });
 
@@ -861,48 +879,10 @@ describe('repair alignments', () => {
         }
       }
     };
-    reducerTest('repairs deleted target tokens', alignments, stateBefore, action,
+    reducerTest('repairs deleted target tokens', alignments, stateBefore,
+      action,
       stateAfter);
   });
-
-  const stateBefore = {
-    '1': {
-      '1': {
-        ...tokensBefore,
-        alignments: [
-          // un-touched
-          {sourceNgram: [0], targetNgram: [0]},
-          {sourceNgram: [0, 1], targetNgram: [0]},
-          {sourceNgram: [0], targetNgram: [0, 1]},
-          {sourceNgram: [0, 1], targetNgram: [0, 1]},
-
-          // updated source token
-          {sourceNgram: [2], targetNgram: [0]},
-          {sourceNgram: [0, 2], targetNgram: [0]},
-          {sourceNgram: [2], targetNgram: [0, 1]},
-          {sourceNgram: [0, 2], targetNgram: [0, 1]},
-
-          // removed source token
-          {sourceNgram: [3], targetNgram: [0]},
-          {sourceNgram: [0, 3], targetNgram: [0]},
-          {sourceNgram: [3], targetNgram: [0, 1]},
-          {sourceNgram: [0, 3], targetNgram: [0, 1]},
-
-          // updated target token
-          {targetNgram: [2], sourceNgram: [0]},
-          {targetNgram: [0, 2], sourceNgram: [0]},
-          {targetNgram: [2], sourceNgram: [0, 1]},
-          {targetNgram: [0, 2], sourceNgram: [0, 1]},
-
-          // removed target token
-          {targetNgram: [3], sourceNgram: [0]},
-          {targetNgram: [0, 3], sourceNgram: [0]},
-          {targetNgram: [3], sourceNgram: [0, 1]},
-          {targetNgram: [0, 3], sourceNgram: [0, 1]}
-        ]
-      }
-    }
-  };
 });
 
 describe('reset alignments', () => {

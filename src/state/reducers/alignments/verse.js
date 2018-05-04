@@ -13,6 +13,7 @@ import {
 import alignment, * as fromAlignment from './alignment';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
+import {insertSourceToken} from '../../actions';
 
 /**
  * Compares two alignments for sorting
@@ -144,6 +145,20 @@ const verse = (state = defaultState, action) => {
           sourceTokenOperations,
           targetTokenOperations
         }));
+
+      // hydrate alignments
+      let usedSourceTokens = [];
+      fixedAlignments.map(a => {
+        usedSourceTokens = usedSourceTokens.concat(
+          fromAlignment.getSourceTokenPositions(a));
+      });
+      for(const t of action.sourceTokens) {
+        if(!(t.position in usedSourceTokens)) {
+          const insertAction = insertSourceToken(action.chapter, action.verse, t);
+          fixedAlignments.push(alignment(undefined, insertAction));
+        }
+      }
+
       return {
         targetTokens: action.targetTokens.map(formatTargetToken),
         sourceTokens: action.sourceTokens.map(formatSourceToken),

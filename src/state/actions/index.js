@@ -179,7 +179,7 @@ const unalignSourceToken = (chapter, verse, index, token) => ({
  * @param {Token} token - the source token to insert
  * @return {{type: *, chapter: *, verse: *, token: *}}
  */
-const insertSourceToken = (chapter, verse, token) => ({
+export const insertSourceToken = (chapter, verse, token) => ({
   type: types.INSERT_ALIGNMENT,
   chapter,
   verse,

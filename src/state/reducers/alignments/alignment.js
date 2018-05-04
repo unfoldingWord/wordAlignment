@@ -100,3 +100,10 @@ export const getTokenizedAlignment = (state, sourceTokens, targetTokens) => {
     targetNgram: state.targetNgram.map(pos => new Token(targetTokens[pos]))
   };
 };
+
+/**
+ * Returns the positions of the source tokens used in the alignment
+ * @param state
+ * @return {number[]}
+ */
+export const getSourceTokenPositions = (state) => [...state.sourceNgram];

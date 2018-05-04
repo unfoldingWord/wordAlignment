@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "Cannot un-merge a middle word",
   "lemma": "Lemma:",
+  "loading_alignments": "Loading alignment data",
   "morphology": "Morphology:",
   "strongs": "Strongs:",
   "lexicon": "Lexicon:",

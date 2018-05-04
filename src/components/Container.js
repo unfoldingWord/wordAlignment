@@ -79,8 +79,10 @@ class Container extends Component {
       sourceTokens,
       targetTokens,
       resetVerse,
-      showDialog,
-      contextId,
+      api: {
+        showDialog,
+        contextId
+      },
       translate
     } = props;
 
@@ -109,16 +111,20 @@ class Container extends Component {
    */
   async loadAlignments(props) {
     const {
-      contextId,
-      readGlobalToolData,
+      api: {
+        contextId,
+        readGlobalToolData,
+        targetChapter,
+        sourceChapter,
+        showDialog,
+        showLoading,
+        closeLoading
+      },
       loadChapterAlignments,
       sourceTokens,
       targetTokens,
-      targetChapter,
-      sourceChapter,
       resetVerse,
-      translate,
-      showDialog
+      translate
     } = props;
 
     if (!contextId) {
@@ -133,10 +139,13 @@ class Container extends Component {
     });
 
     try {
-      await loadChapterAlignments(readGlobalToolData, bookId, chapter, sourceChapter, targetChapter);
+      showLoading(translate('loading_alignments'));
+      await loadChapterAlignments(readGlobalToolData, bookId, chapter,
+        sourceChapter, targetChapter);
       // TRICKY: validate the latest state
       const {store} = this.context;
       const newState = mapStateToProps(store.getState(), props);
+      closeLoading();
       await this.validate({...props, ...newState});
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
@@ -161,7 +170,7 @@ class Container extends Component {
     // const {contextId: {reference: {chapter, verse}}} = this.props;
     // TODO: determine changes between state
 
-    if(prevState && !isEqual(prevState.tool, state.tool)) {
+    if (prevState && !isEqual(prevState.tool, state.tool)) {
       console.warn('writing data!');
     }
 
@@ -220,10 +229,10 @@ class Container extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      contextId: nextContextId
+      api: {contextId: nextContextId}
     } = nextProps;
     const {
-      contextId: prevContextId
+      api: {contextId: prevContextId}
     } = this.props;
     const {loading, validating} = this.state;
 
@@ -304,19 +313,14 @@ class Container extends Component {
   handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
     console.log('aligning token', token);
     const {
-      contextId: {reference: {chapter, verse}},
+      api: {contextId: {reference: {chapter, verse}}},
       alignTargetToken,
       unalignTargetToken
-      // writeGlobalToolData
     } = this.props;
     if (prevIndex >= 0) {
       unalignTargetToken(chapter, verse, prevIndex, token);
     }
     alignTargetToken(chapter, verse, nextIndex, token);
-
-    // TODO: write files
-    // writeGlobalToolData(`alignmentData/${bookId}/${chapter}.json`,
-    //   JSON.stringify({some: 'data'}));
   }
 
   /**
@@ -327,7 +331,7 @@ class Container extends Component {
   handleUnalignTargetToken(token, prevIndex) {
     console.log('un-aligning token', token);
     const {
-      contextId: {reference: {chapter, verse}},
+      api: {contextId: {reference: {chapter, verse}}},
       unalignTargetToken
     } = this.props;
     unalignTargetToken(chapter, verse, prevIndex, token);
@@ -341,13 +345,11 @@ class Container extends Component {
    * @param {number} nextIndex - the next alignment index
    */
   handleAlignPrimaryToken(token, nextIndex, prevIndex) {
-    console.log('aligning primary token', token);
     const {
       moveSourceToken,
-      contextId: {reference: {chapter, verse}}
+      api: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
-    // TODO: write files
   }
 
   componentWillUpdate() {
@@ -365,12 +367,14 @@ class Container extends Component {
       resourcesReducer,
       selectionsReducer,
       targetTokens,
-      contextId,
       alignedTokens,
       contextIdReducer,
       verseAlignments,
       projectDetailsReducer,
-      appLanguage,
+      api: {
+        appLanguage,
+        contextId
+      },
       currentToolViews
     } = this.props;
 
@@ -446,26 +450,44 @@ Container.contextTypes = {
 };
 
 Container.propTypes = {
-  writeGlobalToolData: PropTypes.func.isRequired,
-  readGlobalToolData: PropTypes.func.isRequired,
-  showDialog: PropTypes.func.isRequired,
+  api: PropTypes.shape({
+    writeGlobalToolData: PropTypes.func.isRequired,
+    readGlobalToolData: PropTypes.func.isRequired,
+    showDialog: PropTypes.func.isRequired,
+    showLoading: PropTypes.func.isRequired,
+    closeLoading: PropTypes.func.isRequired,
+
+    targetVerseText: PropTypes.string,
+    contextId: PropTypes.object,
+    sourceVerse: PropTypes.object,
+    sourceChapter: PropTypes.object.isRequired,
+    targetChapter: PropTypes.object.isRequired,
+    appLanguage: PropTypes.string.isRequired
+  }).isRequired,
+
+  // dispatch props
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
   moveSourceToken: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   resetVerse: PropTypes.func.isRequired,
+  loadChapterAlignments: PropTypes.func.isRequired,
 
-  contextId: PropTypes.object,
-  targetVerseText: PropTypes.string,
+  // state props
+  sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   targetTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
-  sourceVerse: PropTypes.object,
-  appLanguage: PropTypes.string.isRequired,
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   verseIsValid: PropTypes.bool.isRequired,
-  sourceChapter: PropTypes.object.isRequired,
-  targetChapter: PropTypes.object.isRequired,
 
+  // tc-tool props
+  translate: PropTypes.func,
+
+  // drag props
+  isOver: PropTypes.bool,
+  connectDropTarget: PropTypes.func,
+
+  // old properties
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
   currentToolViews: PropTypes.object.isRequired,
@@ -475,10 +497,7 @@ Container.propTypes = {
     toolsSettings: PropTypes.object.required
   }).isRequired,
   wordAlignmentReducer: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-  translate: PropTypes.func,
-  isOver: PropTypes.bool,
-  connectDropTarget: PropTypes.func
+  actions: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = ({

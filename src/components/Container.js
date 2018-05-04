@@ -45,7 +45,8 @@ class Container extends Component {
     this.state = {
       loading: false,
       validating: false,
-      prevState: undefined
+      prevState: undefined,
+      writing: false
     };
   }
 
@@ -173,14 +174,22 @@ class Container extends Component {
         contextId: {reference: {bookId, chapter}}
       }
     } = this.props;
-    const {prevState} = this.state;
+    const {prevState, writing} = this.state;
 
-    if (prevState && !isEqual(prevState.tool, state.tool)) {
+    if (!writing && prevState && !isEqual(prevState.tool, state.tool)) {
       console.warn('writing data!');
+      this.setState({
+        writing: true
+      });
+
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
       const data = getLegacyChapterAlignments(state, chapter);
       if(data) {
-        writeGlobalToolData(dataPath, data);
+        writeGlobalToolData(dataPath, JSON.stringify(data)).then(() => {
+          this.setState({
+            writing: false
+          });
+        });
       }
     }
 
@@ -232,9 +241,9 @@ class Container extends Component {
   }
 
   componentWillUnmount() {
+    this.unsubscribe();
     const {clearState} = this.props;
     clearState();
-    this.unsubscribe();
   }
 
   componentWillReceiveProps(nextProps) {

@@ -4,8 +4,8 @@ import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   CLEAR_STATE,
-  RESET_VERSE_ALIGNMENTS,
   INSERT_ALIGNMENT,
+  RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
@@ -125,4 +125,17 @@ export const getIsVerseValid = (
   } else {
     return false;
   }
+};
+
+/**
+ * Returns the chapter alignments in the legacy format
+ * @param state
+ * @param {number} chapter
+ */
+export const getLegacyChapterAlignments = (state, chapter) => {
+  const chapterId = chapter + '';
+  if (chapterId in state) {
+    return fromChapter.getLegacyAlignments(state[chapterId]);
+  }
+  return {};
 };

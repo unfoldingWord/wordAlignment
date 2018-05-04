@@ -8,6 +8,7 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
+import path from 'path-extra';
 import {
   alignTargetToken,
   clearState,
@@ -19,7 +20,8 @@ import {
 import {
   getIsVerseValid,
   getVerseAlignedTargetTokens,
-  getVerseAlignments
+  getVerseAlignments,
+  getLegacyChapterAlignments
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -165,13 +167,21 @@ class Container extends Component {
    * @param state
    */
   saveState(state) {
+    const {
+      api: {
+        writeGlobalToolData,
+        contextId: {reference: {bookId, chapter}}
+      }
+    } = this.props;
     const {prevState} = this.state;
-
-    // const {contextId: {reference: {chapter, verse}}} = this.props;
-    // TODO: determine changes between state
 
     if (prevState && !isEqual(prevState.tool, state.tool)) {
       console.warn('writing data!');
+      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      const data = getLegacyChapterAlignments(state, chapter);
+      if(data) {
+        writeGlobalToolData(dataPath, data);
+      }
     }
 
     this.setState({
@@ -335,7 +345,6 @@ class Container extends Component {
       unalignTargetToken
     } = this.props;
     unalignTargetToken(chapter, verse, prevIndex, token);
-    // TODO: write files
   }
 
   /**
@@ -350,10 +359,6 @@ class Container extends Component {
       api: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
-  }
-
-  componentWillUpdate() {
-
   }
 
   render() {

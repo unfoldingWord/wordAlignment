@@ -24,8 +24,6 @@ test('Container renders', () => {
         }
       }
     },
-    sourceChapter: {},
-    targetChapter: {},
     selectionsReducer: {
       selections: [{text: 'text'}]
     },
@@ -36,13 +34,20 @@ test('Container renders', () => {
       bibles: [],
       lexicons: {}
     },
-    showDialog: jest.fn(),
     wordAlignmentReducer: {
       alignmentData: {}
     },
-    writeGlobalToolData: jest.fn(),
-    readGlobalToolData: jest.fn(),
     appLanguage: 'en',
+    api: {
+      sourceChapter: {},
+      targetChapter: {},
+      showDialog: jest.fn(),
+      writeGlobalToolData: jest.fn(),
+      readGlobalToolData: jest.fn(),
+      appLanguage: 'en',
+      showLoading: jest.fn(),
+      closeLoading: jest.fn()
+    },
     translate: k => k
   };
 

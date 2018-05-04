@@ -778,17 +778,23 @@ describe('selectors', () => {
         '1': {
           sourceTokens: [
             {
-              text: 'hello',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
               position: 0
             }],
           targetTokens: [
             {
-              text: 'world',
+              text: 'hello',
               occurrence: 1,
               occurrences: 1,
               position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
             }],
           alignments: [
             {
@@ -801,6 +807,41 @@ describe('selectors', () => {
     };
   });
 
+  it('gives the legacy alignment format', () => {
+    const result = fromAlignments.getLegacyChapterAlignments(state, 1);
+    expect(result).
+      toEqual({
+        '1': {
+          'alignments': [
+            {
+              'bottomWords': [
+                {
+                  'occurrence': 1,
+                  'occurrences': 1,
+                  'type': 'bottomWord',
+                  'word': 'hello'
+                }],
+              'topWords': [
+                {
+                  'lemma': '',
+                  'morph': '',
+                  'occurrence': 1,
+                  'occurrences': 1,
+                  'strong': '',
+                  'word': 'olleh'
+                }]
+            }],
+          'wordBank': [
+            {
+              'occurrence': 1,
+              'occurrences': 1,
+              'type': 'bottomWord',
+              'word': 'world'
+            }]
+        }
+      });
+  });
+
   it('returns alignments of the entire chapter', () => {
     const result = fromAlignments.getChapterAlignments(state, 1);
     expect(JSON.parse(JSON.stringify(result))).toEqual({
@@ -808,14 +849,14 @@ describe('selectors', () => {
         {
           sourceNgram: [
             {
-              text: 'hello',
+              text: 'olleh',
               occurrence: 1,
               occurrences: 1,
               index: 0
             }],
           targetNgram: [
             {
-              text: 'world',
+              text: 'hello',
               occurrence: 1,
               occurrences: 1,
               index: 0
@@ -830,14 +871,14 @@ describe('selectors', () => {
       {
         sourceNgram: [
           {
-            text: 'hello',
+            text: 'olleh',
             occurrence: 1,
             occurrences: 1,
             index: 0
           }],
         targetNgram: [
           {
-            text: 'world',
+            text: 'hello',
             occurrence: 1,
             occurrences: 1,
             index: 0
@@ -849,7 +890,7 @@ describe('selectors', () => {
     const result = fromAlignments.getVerseAlignedTargetTokens(state, 1, 1);
     expect(JSON.parse(JSON.stringify(result))).toEqual([
       {
-        text: 'world',
+        text: 'hello',
         occurrence: 1,
         occurrences: 1,
         index: 0
@@ -857,8 +898,8 @@ describe('selectors', () => {
   });
 
   it('checks if the verse is valid (valid)', () => {
-    const result = fromAlignments.getIsVerseValid(state, 1, 1, 'hello',
-      'world');
+    const result = fromAlignments.getIsVerseValid(state, 1, 1, 'olleh',
+      'hello world');
     expect(result).toEqual(true);
   });
 

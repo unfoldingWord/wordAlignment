@@ -79,3 +79,15 @@ export const getVerseAlignments = (state, verse) => {
     return [];
   }
 };
+
+/**
+ * Returns the chapter alignments in the legacy format
+ * @param state
+ */
+export const getLegacyAlignments = state => {
+  const alignments = {};
+  for(const verseId of Object.keys(state)) {
+    alignments[verseId] = fromVerse.getLegacyAlignments(state[verseId]);
+  }
+  return alignments;
+};

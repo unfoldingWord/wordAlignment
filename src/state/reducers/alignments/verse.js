@@ -31,7 +31,7 @@ const alignmentComparator = (a, b) => {
  * @param token
  * @return {*}
  */
-const formatSourceToken = (token) => ({
+const formatSourceToken = token => ({
   text: token.text,
   position: token.position,
   occurrence: token.occurrence,
@@ -182,8 +182,8 @@ export const getTargetText = state => {
 export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
   const sourceText = getSourceText(state);
   const targetText = getTargetText(state);
-  console.warn('source text:\n', sourceText, '\n', sourceBaselineText);
-  console.warn('target text:\n', targetText, '\n', targetBaselineText);
+  // console.warn('source text:\n', sourceText, '\n', sourceBaselineText);
+  // console.warn('target text:\n', targetText, '\n', targetBaselineText);
   return sourceText === sourceBaselineText && targetText === targetBaselineText;
 };
 
@@ -203,3 +203,51 @@ export const getTokenizedAlignments = state => {
   }
   return alignments;
 };
+
+export const getLegacyAlignments = state => {
+  const alignments = getTokenizedAlignments(state);
+  const targetTokens = getTargetTokens(state);
+  const legacyAlignments = [];
+  let usedTargetTokens = [];
+  for(const a of alignments) {
+    usedTargetTokens = usedTargetTokens.concat(a.targetNgram);
+    legacyAlignments.push(makeLegacyAlignment(a));
+  }
+  const unusedTargetTokens = targetTokens.filter(t => {
+    for(const usedToken of usedTargetTokens) {
+      if(t.equals(usedToken)) {
+        return false;
+      }
+    }
+    return true;
+  });
+  return {
+    alignments: legacyAlignments,
+    wordBank: unusedTargetTokens.map(makeLegacyTargetToken)
+  };
+};
+
+/**
+ * Converts an alignment to a legacy alignment
+ * @param alignment
+ */
+const makeLegacyAlignment = alignment => ({
+  topWords: alignment.sourceNgram.map(makeLegacySourceToken),
+  bottomWords: alignment.targetNgram.map(makeLegacyTargetToken)
+});
+
+const makeLegacySourceToken = token => ({
+  word: token.toString(),
+  strong: token.strong,
+  lemma: token.lemma,
+  morph: token.morph,
+  occurrence: token.occurrence,
+  occurrences: token.occurrences
+});
+
+const makeLegacyTargetToken = token => ({
+  word: token.toString(),
+  occurrence: token.occurrence,
+  occurrences: token.occurrences,
+  type: 'bottomWord'
+});

@@ -36,3 +36,11 @@ export const getVerseAlignedTargetTokens = (state, chapter, verse) =>
  */
 export const getIsVerseValid = (state, chapter, verse, sourceText, targetText) =>
   fromAlignments.getIsVerseValid(state.tool.alignments, chapter, verse, sourceText, targetText);
+
+/**
+ * Returns the chapter alignments in the legacy format
+ * @param state
+ * @param chapter
+ */
+export const getLegacyChapterAlignments = (state, chapter) =>
+  fromAlignments.getLegacyChapterAlignments(state.tool.alignments, chapter);

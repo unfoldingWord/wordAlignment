@@ -11,11 +11,22 @@ exports[`Container renders 1`] = `
       "showPopover": [Function],
     }
   }
+  api={
+    Object {
+      "appLanguage": "en",
+      "closeLoading": [Function],
+      "readGlobalToolData": [Function],
+      "showDialog": [Function],
+      "showLoading": [Function],
+      "sourceChapter": Object {},
+      "targetChapter": Object {},
+      "writeGlobalToolData": [Function],
+    }
+  }
   appLanguage="en"
   contextIdReducer={Object {}}
   currentToolViews={Object {}}
   projectDetailsReducer={Object {}}
-  readGlobalToolData={[Function]}
   resourcesReducer={
     Object {
       "bibles": Array [],
@@ -40,16 +51,12 @@ exports[`Container renders 1`] = `
       },
     }
   }
-  showDialog={[Function]}
-  sourceChapter={Object {}}
-  targetChapter={Object {}}
   translate={[Function]}
   wordAlignmentReducer={
     Object {
       "alignmentData": Object {},
     }
   }
-  writeGlobalToolData={[Function]}
 >
   <Tool
     actions={
@@ -61,11 +68,22 @@ exports[`Container renders 1`] = `
         "showPopover": [Function],
       }
     }
+    api={
+      Object {
+        "appLanguage": "en",
+        "closeLoading": [Function],
+        "readGlobalToolData": [Function],
+        "showDialog": [Function],
+        "showLoading": [Function],
+        "sourceChapter": Object {},
+        "targetChapter": Object {},
+        "writeGlobalToolData": [Function],
+      }
+    }
     appLanguage="en"
     contextIdReducer={Object {}}
     currentToolViews={Object {}}
     projectDetailsReducer={Object {}}
-    readGlobalToolData={[Function]}
     resourcesReducer={
       Object {
         "bibles": Array [],
@@ -90,16 +108,12 @@ exports[`Container renders 1`] = `
         },
       }
     }
-    showDialog={[Function]}
-    sourceChapter={Object {}}
-    targetChapter={Object {}}
     translate={[Function]}
     wordAlignmentReducer={
       Object {
         "alignmentData": Object {},
       }
     }
-    writeGlobalToolData={[Function]}
   >
     <Provider
       store={
@@ -122,11 +136,22 @@ exports[`Container renders 1`] = `
             "showPopover": [Function],
           }
         }
+        api={
+          Object {
+            "appLanguage": "en",
+            "closeLoading": [Function],
+            "readGlobalToolData": [Function],
+            "showDialog": [Function],
+            "showLoading": [Function],
+            "sourceChapter": Object {},
+            "targetChapter": Object {},
+            "writeGlobalToolData": [Function],
+          }
+        }
         appLanguage="en"
         contextIdReducer={Object {}}
         currentToolViews={Object {}}
         projectDetailsReducer={Object {}}
-        readGlobalToolData={[Function]}
         resourcesReducer={
           Object {
             "bibles": Array [],
@@ -151,16 +176,12 @@ exports[`Container renders 1`] = `
             },
           }
         }
-        showDialog={[Function]}
-        sourceChapter={Object {}}
-        targetChapter={Object {}}
         translate={[Function]}
         wordAlignmentReducer={
           Object {
             "alignmentData": Object {},
           }
         }
-        writeGlobalToolData={[Function]}
       >
         <DragDropContext(Connect(Container))
           actions={
@@ -172,11 +193,22 @@ exports[`Container renders 1`] = `
               "showPopover": [Function],
             }
           }
+          api={
+            Object {
+              "appLanguage": "en",
+              "closeLoading": [Function],
+              "readGlobalToolData": [Function],
+              "showDialog": [Function],
+              "showLoading": [Function],
+              "sourceChapter": Object {},
+              "targetChapter": Object {},
+              "writeGlobalToolData": [Function],
+            }
+          }
           appLanguage="en"
           contextIdReducer={Object {}}
           currentToolViews={Object {}}
           projectDetailsReducer={Object {}}
-          readGlobalToolData={[Function]}
           resourcesReducer={
             Object {
               "bibles": Array [],
@@ -201,16 +233,12 @@ exports[`Container renders 1`] = `
               },
             }
           }
-          showDialog={[Function]}
-          sourceChapter={Object {}}
-          targetChapter={Object {}}
           translate={[Function]}
           wordAlignmentReducer={
             Object {
               "alignmentData": Object {},
             }
           }
-          writeGlobalToolData={[Function]}
         >
           <Connect(Container)
             actions={
@@ -222,11 +250,22 @@ exports[`Container renders 1`] = `
                 "showPopover": [Function],
               }
             }
+            api={
+              Object {
+                "appLanguage": "en",
+                "closeLoading": [Function],
+                "readGlobalToolData": [Function],
+                "showDialog": [Function],
+                "showLoading": [Function],
+                "sourceChapter": Object {},
+                "targetChapter": Object {},
+                "writeGlobalToolData": [Function],
+              }
+            }
             appLanguage="en"
             contextIdReducer={Object {}}
             currentToolViews={Object {}}
             projectDetailsReducer={Object {}}
-            readGlobalToolData={[Function]}
             resourcesReducer={
               Object {
                 "bibles": Array [],
@@ -251,16 +290,12 @@ exports[`Container renders 1`] = `
                 },
               }
             }
-            showDialog={[Function]}
-            sourceChapter={Object {}}
-            targetChapter={Object {}}
             translate={[Function]}
             wordAlignmentReducer={
               Object {
                 "alignmentData": Object {},
               }
             }
-            writeGlobalToolData={[Function]}
           >
             <Container
               actions={
@@ -274,6 +309,18 @@ exports[`Container renders 1`] = `
               }
               alignTargetToken={[Function]}
               alignedTokens={Array []}
+              api={
+                Object {
+                  "appLanguage": "en",
+                  "closeLoading": [Function],
+                  "readGlobalToolData": [Function],
+                  "showDialog": [Function],
+                  "showLoading": [Function],
+                  "sourceChapter": Object {},
+                  "targetChapter": Object {},
+                  "writeGlobalToolData": [Function],
+                }
+              }
               appLanguage="en"
               clearState={[Function]}
               contextIdReducer={Object {}}
@@ -281,7 +328,6 @@ exports[`Container renders 1`] = `
               loadChapterAlignments={[Function]}
               moveSourceToken={[Function]}
               projectDetailsReducer={Object {}}
-              readGlobalToolData={[Function]}
               resetVerse={[Function]}
               resourcesReducer={
                 Object {
@@ -307,10 +353,7 @@ exports[`Container renders 1`] = `
                   },
                 }
               }
-              showDialog={[Function]}
-              sourceChapter={Object {}}
               sourceTokens={Array []}
-              targetChapter={Object {}}
               targetTokens={Array []}
               translate={[Function]}
               unalignTargetToken={[Function]}
@@ -321,7 +364,6 @@ exports[`Container renders 1`] = `
                   "alignmentData": Object {},
                 }
               }
-              writeGlobalToolData={[Function]}
             />
           </Connect(Container)>
         </DragDropContext(Connect(Container))>

@@ -7,7 +7,8 @@ import {
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
   UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN
+  UNALIGN_TARGET_TOKEN,
+  REPAIR_VERSE_ALIGNMENTS
 } from '../../actions/actionTypes';
 import verse, * as fromVerse from './verse';
 
@@ -25,6 +26,7 @@ const chapter = (state = {}, action) => {
     case UNALIGN_TARGET_TOKEN:
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
+    case REPAIR_VERSE_ALIGNMENTS:
     case RESET_VERSE_ALIGNMENTS:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';

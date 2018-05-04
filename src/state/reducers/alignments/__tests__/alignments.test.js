@@ -654,6 +654,139 @@ describe('set chapter alignments', () => {
     stateAfter);
 });
 
+describe('repair alignments', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {text: 'how', position: 0, occurrence: 1, occurrences: 1},
+          {text: 'are', position: 1, occurrence: 1, occurrences: 1},
+          {text: 'you', position: 2, occurrence: 1, occurrences: 1}, // updated
+          {text: 'today', position: 3, occurrence: 1, occurrences: 1} // removed
+        ],
+        targetTokens: [
+          {text: 'woh', position: 0, occurrence: 1, occurrences: 1},
+          {text: 'era', position: 1, occurrence: 1, occurrences: 1},
+          {text: 'uoy', position: 2, occurrence: 1, occurrences: 1}, // updated
+          {text: 'yadot', position: 3, occurrence: 1, occurrences: 1} // removed
+        ],
+        alignments: [
+          // un-touched
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [0, 1], targetNgram: [0]},
+          {sourceNgram: [0], targetNgram: [0, 1]},
+          {sourceNgram: [0, 1], targetNgram: [0, 1]},
+
+          // updated source token
+          {sourceNgram: [2], targetNgram: [0]},
+          {sourceNgram: [0, 2], targetNgram: [0]},
+          {sourceNgram: [2], targetNgram: [0, 1]},
+          {sourceNgram: [0, 2], targetNgram: [0, 1]},
+
+          // removed source token
+          {sourceNgram: [3], targetNgram: [0]},
+          {sourceNgram: [0, 3], targetNgram: [0]},
+          {sourceNgram: [3], targetNgram: [0, 1]},
+          {sourceNgram: [0, 3], targetNgram: [0, 1]},
+
+          // updated target token
+          {targetNgram: [2], sourceNgram: [0]},
+          {targetNgram: [0, 2], sourceNgram: [0]},
+          {targetNgram: [2], sourceNgram: [0, 1]},
+          {targetNgram: [0, 2], sourceNgram: [0, 1]},
+
+          // removed target token
+          {targetNgram: [3], sourceNgram: [0]},
+          {targetNgram: [0, 3], sourceNgram: [0]},
+          {targetNgram: [3], sourceNgram: [0, 1]},
+          {targetNgram: [0, 3], sourceNgram: [0, 1]}
+        ]
+      }
+    }
+  };
+  // break updated source token
+  // break updated source token in merged alignment
+  // remove deleted source token
+
+  // remove updated target token
+  // removed deleted target token
+  const action = {
+    type: types.REPAIR_VERSE_ALIGNMENTS,
+    chapter: 1,
+    verse: 1,
+    sourceTokens: [
+      new Token({text: 'how', position: 0, occurrence: 1, occurrences: 1}),
+      new Token({text: 'are', position: 1, occurrence: 1, occurrences: 1}),
+      new Token({text: 'they', position: 2, occurrence: 1, occurrences: 1}) // updated,
+      // removed one
+    ],
+    targetTokens: [
+      new Token({text: 'woh', position: 0, occurrence: 1, occurrences: 1}),
+      new Token({text: 'era', position: 1, occurrence: 1, occurrences: 1}),
+      new Token({text: 'yeht', position: 2, occurrence: 1, occurrences: 1}) // updated
+      // removed one
+    ]
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'how', position: 0, occurrence: 1, occurrences: 1,
+            lemma: '', morph: '', strong: ''
+          },
+          {
+            text: 'are', position: 1, occurrence: 1, occurrences: 1,
+            lemma: '', morph: '', strong: ''
+          },
+          {
+            text: 'they', position: 2, occurrence: 1, occurrences: 1,
+            lemma: '', morph: '', strong: ''
+          } // updated
+        ],
+        targetTokens: [
+          {text: 'woh', position: 0, occurrence: 1, occurrences: 1},
+          {text: 'era', position: 1, occurrence: 1, occurrences: 1},
+          {text: 'yeht', position: 2, occurrence: 1, occurrences: 1} // updated
+        ],
+        alignments: [
+          // un-touched
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [0, 1], targetNgram: [0]},
+          {sourceNgram: [0], targetNgram: [0, 1]},
+          {sourceNgram: [0, 1], targetNgram: [0, 1]},
+
+          // updated source token
+          // {sourceNgram: [2], targetNgram: []},
+          // {sourceNgram: [0], targetNgram: []},
+          // {sourceNgram: [2], targetNgram: []},
+          // {sourceNgram: [2], targetNgram: []},
+          // {sourceNgram: [0], targetNgram: []},
+          // {sourceNgram: [2], targetNgram: []},
+
+          // removed source token
+          // {sourceNgram: [0], targetNgram: []},
+          // {sourceNgram: [0], targetNgram: []},
+
+          // updated target token
+          {targetNgram: [], sourceNgram: [0]},
+          {targetNgram: [0], sourceNgram: [0]},
+          {targetNgram: [], sourceNgram: [0, 1]},
+          {targetNgram: [0], sourceNgram: [0, 1]},
+
+          // removed target token
+          {targetNgram: [], sourceNgram: [0]},
+          {targetNgram: [0], sourceNgram: [0]},
+          {targetNgram: [], sourceNgram: [0, 1]},
+          {targetNgram: [0], sourceNgram: [0, 1]}
+        ]
+      }
+    }
+  };
+  reducerTest('repairs the verse alignments', alignments, stateBefore, action,
+    stateAfter);
+});
+
 describe('reset alignments', () => {
   const stateBefore = {
     '1': {
@@ -667,7 +800,7 @@ describe('reset alignments', () => {
           },
           {
             text: 'world',
-            position: 0,
+            position: 1,
             occurrence: 1,
             occurrences: 1
           }
@@ -705,7 +838,7 @@ describe('reset alignments', () => {
           },
           {
             text: 'world',
-            position: 0,
+            position: 1,
             occurrence: 1,
             occurrences: 1
           }

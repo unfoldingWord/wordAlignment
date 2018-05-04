@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
@@ -14,14 +14,15 @@ import {
   clearState,
   loadChapterAlignments,
   moveSourceToken,
+  repairVerse,
   resetVerse,
   unalignTargetToken
 } from '../state/actions';
 import {
   getIsVerseValid,
+  getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
-  getVerseAlignments,
-  getLegacyChapterAlignments
+  getVerseAlignments
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -81,7 +82,7 @@ class Container extends Component {
       alignedTokens,
       sourceTokens,
       targetTokens,
-      resetVerse,
+      repairVerse,
       api: {
         showDialog,
         contextId
@@ -99,7 +100,7 @@ class Container extends Component {
         await showDialog(translate('alignments_reset'),
           translate('buttons.ok_button'));
       }
-      resetVerse(chapter, verse, sourceTokens, targetTokens);
+      repairVerse(chapter, verse, sourceTokens, targetTokens);
     }
 
     this.setState({
@@ -184,7 +185,7 @@ class Container extends Component {
 
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
       const data = getLegacyChapterAlignments(state, chapter);
-      if(data) {
+      if (data) {
         writeGlobalToolData(dataPath, JSON.stringify(data)).then(() => {
           this.setState({
             writing: false
@@ -200,9 +201,9 @@ class Container extends Component {
 
   componentWillMount() {
     const {store} = this.context;
-    this.unsubscribe = store.subscribe(throttle(() => {
+    this.unsubscribe = store.subscribe(debounce(() => {
       this.saveState(store.getState());
-    }, 1000));
+    }, 1000, {maxWait: 5000}));
 
     this.loadAlignments(this.props);
 
@@ -483,6 +484,7 @@ Container.propTypes = {
   moveSourceToken: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   resetVerse: PropTypes.func.isRequired,
+  repairVerse: PropTypes.func.isRequired,
   loadChapterAlignments: PropTypes.func.isRequired,
 
   // state props
@@ -517,6 +519,7 @@ const mapDispatchToProps = ({
   unalignTargetToken,
   moveSourceToken,
   resetVerse,
+  repairVerse,
   clearState,
   loadChapterAlignments
 });

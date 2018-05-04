@@ -2,6 +2,7 @@ import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
+  REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   UNALIGN_SOURCE_TOKEN,
@@ -10,14 +11,15 @@ import {
 import {numberComparator} from './index';
 import Token from 'word-map/structures/Token';
 
+const defaultState = {sourceNgram: [], targetNgram: []};
+
 /**
  * Reduces the alignment state
  * @param state
  * @param action
  * @return {*}
  */
-const alignment = (
-  state = {sourceNgram: [], targetNgram: []}, action) => {
+const alignment = (state = defaultState, action) => {
   switch (action.type) {
     case RESET_VERSE_ALIGNMENTS:
       return {
@@ -59,6 +61,22 @@ const alignment = (
       return {
         sourceNgram: sourceNgram.sort(numberComparator),
         targetNgram: targetNgram.sort(numberComparator)
+      };
+    }
+    case REPAIR_VERSE_ALIGNMENTS: {
+      const filteredSourceNgram = state.sourceNgram.filter(pos => {
+        return action.sourceTokenOperations[pos] === 'keep';
+      });
+      if (filteredSourceNgram.length !== state.sourceNgram.length) {
+        return defaultState;
+      }
+
+      const filteredTargetNgram = state.targetNgram.filter(pos => {
+        return action.targetTokenOperations[pos] === 'keep';
+      });
+      return {
+        sourceNgram: [...state.sourceNgram],
+        targetNgram: filteredTargetNgram
       };
     }
     default:

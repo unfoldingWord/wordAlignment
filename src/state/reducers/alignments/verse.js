@@ -2,6 +2,7 @@ import {
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
+  REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
@@ -81,7 +82,7 @@ const verse = (state = defaultState, action) => {
     }
     case RESET_VERSE_ALIGNMENTS: {
       const alignments = [];
-      for (let i = 0; i < state.sourceTokens.length; i ++) {
+      for (let i = 0; i < state.sourceTokens.length; i++) {
         alignments.push(alignment(undefined, {...action, position: i}));
       }
       return {
@@ -109,6 +110,44 @@ const verse = (state = defaultState, action) => {
         targetTokens: action.tokens.map(formatTargetToken),
         sourceTokens: [...state.sourceTokens],
         alignments: [...state.alignments]
+      };
+    }
+    case REPAIR_VERSE_ALIGNMENTS: {
+      // calculate operations
+      const sourceTokenOperations = [];
+      const targetTokenOperations = [];
+      for (let i = 0; i < state.sourceTokens.length; i++) {
+        const t = new Token(state.sourceTokens[i]);
+        if (i >= action.sourceTokens.length) {
+          sourceTokenOperations.push('delete');
+        } else if (!t.equals(action.sourceTokens[i])) {
+          sourceTokenOperations.push('update');
+        } else {
+          sourceTokenOperations.push('keep');
+        }
+      }
+      for (let i = 0; i < state.targetTokens.length; i++) {
+        const t = new Token(state.targetTokens[i]);
+        if (i >= action.targetTokens.length) {
+          targetTokenOperations.push('delete');
+        } else if (!t.equals(action.targetTokens[i])) {
+          targetTokenOperations.push('update');
+        } else {
+          targetTokenOperations.push('keep');
+        }
+      }
+
+      // repair
+      const fixedAlignments = state.alignments.map(
+        a => alignment(a, {
+          ...action,
+          sourceTokenOperations,
+          targetTokenOperations
+        }));
+      return {
+        targetTokens: action.targetTokens.map(formatTargetToken),
+        sourceTokens: action.sourceTokens.map(formatSourceToken),
+        alignments: fixedAlignments.filter(a => a.sourceNgram.length > 0)
       };
     }
     case SET_CHAPTER_ALIGNMENTS: {
@@ -209,13 +248,13 @@ export const getLegacyAlignments = state => {
   const targetTokens = getTargetTokens(state);
   const legacyAlignments = [];
   let usedTargetTokens = [];
-  for(const a of alignments) {
+  for (const a of alignments) {
     usedTargetTokens = usedTargetTokens.concat(a.targetNgram);
     legacyAlignments.push(makeLegacyAlignment(a));
   }
   const unusedTargetTokens = targetTokens.filter(t => {
-    for(const usedToken of usedTargetTokens) {
-      if(t.equals(usedToken)) {
+    for (const usedToken of usedTargetTokens) {
+      if (t.equals(usedToken)) {
         return false;
       }
     }

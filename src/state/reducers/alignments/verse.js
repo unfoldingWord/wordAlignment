@@ -29,6 +29,35 @@ const alignmentComparator = (a, b) => {
 };
 
 /**
+ * Compares two tokens for equivalence based on their occurrence.
+ * TRICKY: this is different from {@link Token.equals} which checks for an exact positional match.
+ * @param {Token} t1
+ * @param {Token} t2
+ * @return {boolean}
+ */
+const isSameOccurrence = (t1, t2) => {
+  return t1.toString() === t2.toString()
+    && t1.occurrence === t2.occurrence
+    && t1.occurrences === t2.occurrences;
+};
+
+/**
+ * Searches for the index of a matching token occurrence.
+ * This ignores the token's position within the sentence.
+ * @param {Token} t
+ * @param {Token[]} tokens
+ * @return {number}
+ */
+const findIndexOfOccurrence = (t, tokens) =>{
+  for(let i = 0; i < tokens.length; i ++) {
+    if(isSameOccurrence(t, tokens[i])) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+/**
  * Reduces a source token
  * @param token
  * @return {*}
@@ -114,36 +143,28 @@ const verse = (state = defaultState, action) => {
       };
     }
     case REPAIR_VERSE_ALIGNMENTS: {
+
+
       // calculate operations
-      const sourceTokenOperations = [];
-      const targetTokenOperations = [];
+      const sourceTokenPositionMap = [];
+      const targetTokenPositionMap = [];
       for (let i = 0; i < state.sourceTokens.length; i++) {
         const t = new Token(state.sourceTokens[i]);
-        if (i >= action.sourceTokens.length) {
-          sourceTokenOperations.push('delete');
-        } else if (!t.equals(action.sourceTokens[i])) {
-          sourceTokenOperations.push('update');
-        } else {
-          sourceTokenOperations.push('keep');
-        }
+        const newPos = findIndexOfOccurrence(t, action.sourceTokens);
+        sourceTokenPositionMap.push(newPos);
       }
       for (let i = 0; i < state.targetTokens.length; i++) {
         const t = new Token(state.targetTokens[i]);
-        if (i >= action.targetTokens.length) {
-          targetTokenOperations.push('delete');
-        } else if (!t.equals(action.targetTokens[i])) {
-          targetTokenOperations.push('update');
-        } else {
-          targetTokenOperations.push('keep');
-        }
+        const newPos = findIndexOfOccurrence(t, action.targetTokens);
+        targetTokenPositionMap.push(newPos);
       }
 
       // repair
-      const fixedAlignments = state.alignments.map(
+      let fixedAlignments = state.alignments.map(
         a => alignment(a, {
           ...action,
-          sourceTokenOperations,
-          targetTokenOperations
+          sourceTokenPositionMap,
+          targetTokenPositionMap
         }));
 
       // hydrate alignments
@@ -152,17 +173,21 @@ const verse = (state = defaultState, action) => {
         usedSourceTokens = usedSourceTokens.concat(
           fromAlignment.getSourceTokenPositions(a));
       });
-      for(const t of action.sourceTokens) {
-        if(!(t.position in usedSourceTokens)) {
-          const insertAction = insertSourceToken(action.chapter, action.verse, t);
+      for (const t of action.sourceTokens) {
+        if (!usedSourceTokens.includes(t.position)) {
+          const insertAction = insertSourceToken(action.chapter, action.verse,
+            t);
           fixedAlignments.push(alignment(undefined, insertAction));
         }
       }
 
+      // clean broken alignments
+      fixedAlignments = fixedAlignments.filter(a => a.sourceNgram.length > 0);
+
       return {
         targetTokens: action.targetTokens.map(formatTargetToken),
         sourceTokens: action.sourceTokens.map(formatSourceToken),
-        alignments: fixedAlignments.filter(a => a.sourceNgram.length > 0)
+        alignments: fixedAlignments.sort(alignmentComparator)
       };
     }
     case SET_CHAPTER_ALIGNMENTS: {

@@ -328,6 +328,7 @@ exports[`Container renders 1`] = `
               loadChapterAlignments={[Function]}
               moveSourceToken={[Function]}
               projectDetailsReducer={Object {}}
+              repairVerse={[Function]}
               resetVerse={[Function]}
               resourcesReducer={
                 Object {

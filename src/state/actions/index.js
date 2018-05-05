@@ -38,22 +38,6 @@ export const loadChapterAlignments = (
 };
 
 /**
- * Updates the verse tokens and repairs the alignment data.
- * @param {number} chapter
- * @param {number} verse
- * @param {Token[]} sourceTokens - the correct verse source tokens
- * @param {Token[]} targetTokens - the correct verse target tokens
- * @return {Function}
- */
-export const repairVerse = (chapter, verse, sourceTokens, targetTokens) => {
-  return dispatch => {
-    dispatch(setSourceTokens(chapter, verse, sourceTokens));
-    dispatch(setTargetTokens(chapter, verse, targetTokens));
-    dispatch(repairVerseAlignments(chapter, verse));
-  };
-};
-
-/**
  * Updates the verse tokens and resets the alignment data.
  * @param {number} chapter
  * @param {number} verse
@@ -248,15 +232,19 @@ export const resetVerseAlignments = (chapter, verse) => ({
 });
 
 /**
- * Repairs the alignment data for a verse.
- * @param chapter
- * @param verse
- * @return {{type: *, chapter: *, verse: *}}
+ * Updates the verse tokens and repairs the alignment data.
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {Token[]} sourceTokens - the correct verse source tokens
+ * @param {Token[]} targetTokens - the correct verse target tokens
+ * @return {Function}
  */
-export const repairVerseAlignments = (chapter, verse) => ({
+export const repairVerse = (chapter, verse, sourceTokens, targetTokens) => ({
   type: types.REPAIR_VERSE_ALIGNMENTS,
   chapter,
-  verse
+  verse,
+  sourceTokens,
+  targetTokens
 });
 
 /**

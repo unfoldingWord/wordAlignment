@@ -64,19 +64,25 @@ const alignment = (state = defaultState, action) => {
       };
     }
     case REPAIR_VERSE_ALIGNMENTS: {
+      const sourceMap = action.sourceTokenPositionMap;
+      const targetMap = action.targetTokenPositionMap;
+
+      // remove broken source tokens
       const filteredSourceNgram = state.sourceNgram.filter(pos => {
-        return action.sourceTokenOperations[pos] === 'keep';
+        return sourceMap[pos] >= 0;
       });
-      if (filteredSourceNgram.length !== state.sourceNgram.length) {
+      if(filteredSourceNgram.length !== state.sourceNgram.length) {
+        // TRICKY: removing a source token automatically breaks the alignment
         return defaultState;
       }
-
       const filteredTargetNgram = state.targetNgram.filter(pos => {
-        return action.targetTokenOperations[pos] === 'keep';
+        return targetMap[pos] >= 0;
       });
+
+      // re-map token positions
       return {
-        sourceNgram: [...state.sourceNgram],
-        targetNgram: filteredTargetNgram
+        sourceNgram: filteredSourceNgram.map(pos => sourceMap[pos]),
+        targetNgram: filteredTargetNgram.map(pos => targetMap[pos])
       };
     }
     default:

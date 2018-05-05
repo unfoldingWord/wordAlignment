@@ -692,6 +692,10 @@ describe('repair alignments', () => {
       {
         text: '5', position: 4, occurrence: 1, occurrences: 1,
         lemma: '', morph: '', strong: ''
+      },
+      {
+        text: '6', position: 5, occurrence: 1, occurrences: 1,
+        lemma: '', morph: '', strong: ''
       }
     ],
     targetTokens: [
@@ -711,7 +715,8 @@ describe('repair alignments', () => {
       new Token({text: '*2', position: 2}), // updated,
       // removed one
       new Token({text: '4', position: 3}),
-      new Token({text: '5', position: 4})
+      new Token({text: '5', position: 4}),
+      new Token({text: '6', position: 5})
     ],
     targetTokens: [
       new Token({text: 'woh', position: 0}),
@@ -720,6 +725,77 @@ describe('repair alignments', () => {
       // removed one
     ]
   };
+
+  describe('delete target token from middle alignment', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {text: '0', position: 0},
+            {text: '1', position: 1},
+            {text: '2', position: 2}
+          ],
+          targetTokens: [
+            {text: '0', position: 0},
+            {text: '1', position: 1},
+            {text: '2', position: 2}
+          ],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [0]},
+            {sourceNgram: [1], targetNgram: [1]},
+            {sourceNgram: [2], targetNgram: [2]}
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.REPAIR_VERSE_ALIGNMENTS,
+      chapter: 1,
+      verse: 1,
+      sourceTokens: [
+        new Token({text: '0', position: 0}),
+        new Token({text: '1', position: 1}),
+        new Token({text: '2', position: 2})
+      ],
+      targetTokens: [
+        new Token({text: '0', position: 0}),
+        new Token({text: '2', position: 1})
+      ]
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: '0', position: 0, occurrence: 1, occurrences: 1, lemma: '',
+              morph: '', strong: ''
+            },
+            {
+              text: '1', position: 1, occurrence: 1, occurrences: 1, lemma: '',
+              morph: '', strong: ''
+            },
+            {
+              text: '2', position: 2, occurrence: 1, occurrences: 1, lemma: '',
+              morph: '', strong: ''
+            }
+          ],
+          targetTokens: [
+            {text: '0', position: 0, occurrence: 1, occurrences: 1},
+            {text: '2', position: 1, occurrence: 1, occurrences: 1}
+          ],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [0]},
+            {sourceNgram: [1], targetNgram: []},
+            {sourceNgram: [2], targetNgram: [1]}
+          ]
+        }
+      }
+    };
+    reducerTest('fixes a middle alignment without breaking later alignments',
+      alignments, stateBefore,
+      action,
+      stateAfter);
+  });
 
   describe('valid alignments', () => {
     const stateBefore = {
@@ -740,11 +816,14 @@ describe('repair alignments', () => {
         '1': {
           ...tokensAfter,
           alignments: [
-            // un-touched
             {sourceNgram: [0], targetNgram: [0]},
             {sourceNgram: [0, 1], targetNgram: [0]},
             {sourceNgram: [0], targetNgram: [0, 1]},
-            {sourceNgram: [0, 1], targetNgram: [0, 1]}
+            {sourceNgram: [0, 1], targetNgram: [0, 1]},
+            {sourceNgram: [2], targetNgram: []},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
           ]
         }
       }
@@ -777,7 +856,8 @@ describe('repair alignments', () => {
             {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []}
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
           ]
         }
       }
@@ -796,7 +876,11 @@ describe('repair alignments', () => {
             {sourceNgram: [3], targetNgram: [0]},
             {sourceNgram: [0, 3], targetNgram: [0]},
             {sourceNgram: [3], targetNgram: [0, 1]},
-            {sourceNgram: [0, 3], targetNgram: [0, 1]}
+            {sourceNgram: [0, 3], targetNgram: [0, 1]},
+            {sourceNgram: [1], targetNgram: []},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
           ]
         }
       }
@@ -810,7 +894,8 @@ describe('repair alignments', () => {
             {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []}
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
           ]
         }
       }
@@ -842,7 +927,11 @@ describe('repair alignments', () => {
             {targetNgram: [], sourceNgram: [0]},
             {targetNgram: [0], sourceNgram: [0]},
             {targetNgram: [], sourceNgram: [0, 1]},
-            {targetNgram: [0], sourceNgram: [0, 1]}
+            {targetNgram: [0], sourceNgram: [0, 1]},
+            {sourceNgram: [2], targetNgram: []},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
           ]
         }
       }
@@ -874,7 +963,11 @@ describe('repair alignments', () => {
             {targetNgram: [], sourceNgram: [0]},
             {targetNgram: [0], sourceNgram: [0]},
             {targetNgram: [], sourceNgram: [0, 1]},
-            {targetNgram: [0], sourceNgram: [0, 1]}
+            {targetNgram: [0], sourceNgram: [0, 1]},
+            {sourceNgram: [2], targetNgram: []},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
           ]
         }
       }

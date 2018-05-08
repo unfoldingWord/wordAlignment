@@ -66,5 +66,5 @@ function wrapInTestContext(DecoratedComponent) {
     }
   }
 
-  return DragDropContext(TestBackend)(connectTool()(TestContextContainer));
+  return DragDropContext(TestBackend)(connectTool()(TestContextContainer).container);
 }

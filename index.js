@@ -1,14 +1,12 @@
 import Container from './src/components/Container';
 import {connectTool} from 'tc-tool';
-import reducers from './src/state/reducers';
+import reducer from './src/state/reducers';
 import path from 'path';
+import Api from './src/Api';
 // import logic from './src/logic';
 
 const NAMESPACE = 'wordAlignment';
-const LOCALE_DIR = path.join(__dirname, 'src/locale');
+const localeDir = path.join(__dirname, 'src/locale');
 // const middleware = [logic];
 
-export default {
-  name: NAMESPACE,
-  container: connectTool(LOCALE_DIR, reducers)(Container)
-};
+export default connectTool(NAMESPACE, {localeDir, reducer, api: new Api()})(Container);

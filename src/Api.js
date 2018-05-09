@@ -12,7 +12,6 @@ export default class Api extends ToolApi {
         contextId: {reference: {bookId, chapter}}
       }
     } = this.props;
-    console.log('state changed', nextState, prevState);
     if (prevState && !isEqual(prevState.tool, nextState.tool)) {
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
       const data = getLegacyChapterAlignments(nextState, chapter);
@@ -25,7 +24,7 @@ export default class Api extends ToolApi {
       }
     }
   }
-
+  
   toolWillConnect() {
     console.warn('tool is connecting');
   }

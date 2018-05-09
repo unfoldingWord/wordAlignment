@@ -121,7 +121,7 @@ export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
 export const getIsVerseValid = (
   state, chapter, verse, sourceText, targetText) => {
   const chapterId = chapter + '';
-  if (chapterId in state) {
+  if (state && chapterId in state) {
     return fromChapter.getIsVerseValid(state[chapterId], verse, sourceText,
       targetText);
   } else {
@@ -136,7 +136,7 @@ export const getIsVerseValid = (
  */
 export const getLegacyChapterAlignments = (state, chapter) => {
   const chapterId = chapter + '';
-  if (chapterId in state) {
+  if (state && chapterId in state) {
     return fromChapter.getLegacyAlignments(state[chapterId]);
   }
   return {};

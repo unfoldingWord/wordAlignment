@@ -8,7 +8,6 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
-import {ScripturePane} from 'tc-ui-toolkit';
 // import path from 'path-extra';
 import {
   alignTargetToken,
@@ -391,7 +390,7 @@ class Container extends Component {
       return null;
     }
 
-    // const {ScripturePane} = currentToolViews;
+    const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {

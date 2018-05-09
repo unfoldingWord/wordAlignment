@@ -6,28 +6,22 @@ import path from 'path-extra';
 export default class Api extends ToolApi {
 
   stateChangeThrottled(nextState, prevState) {
-    console.warn('checking if save is needed', nextState, prevState, Boolean(prevState), !isEqual(prevState.tool, nextState.tool));
     const {
-      tcApi: {
-        writeGlobalToolData,
-        contextId: {reference: {bookId, chapter}}
-      }
+      writeGlobalToolData,
+      contextId: {reference: {bookId, chapter}}
     } = this.props;
-    if (Boolean(prevState) && !isEqual(prevState.tool, nextState.tool)) {
-      console.warn('preparing to write data');
+    const writableChange = Boolean(prevState) && Boolean(nextState) &&
+      !isEqual(prevState.tool, nextState.tool);
+    if (writableChange) {
+      // write alignment data to the project folder
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
       const data = getLegacyChapterAlignments(nextState, chapter);
       if (data) {
-        console.error('writing data');
-        return writeGlobalToolData(dataPath, JSON.stringify(data)).then(() => {
-          this.setState({
-            writing: false
-          });
-        });
+        return writeGlobalToolData(dataPath, JSON.stringify(data));
       }
     }
   }
-  
+
   toolWillConnect() {
     console.warn('tool is connecting');
   }

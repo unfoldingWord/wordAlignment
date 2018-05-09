@@ -83,7 +83,7 @@ class Container extends Component {
       sourceTokens,
       targetTokens,
       repairVerse,
-      api: {
+      tcApi: {
         showDialog,
         contextId
       },
@@ -115,7 +115,7 @@ class Container extends Component {
    */
   async loadAlignments(props) {
     const {
-      api: {
+      tcApi: {
         contextId,
         readGlobalToolData,
         targetChapter,
@@ -170,7 +170,7 @@ class Container extends Component {
    */
   saveState(state) {
     const {
-      api: {
+      tcApi: {
         writeGlobalToolData,
         contextId: {reference: {bookId, chapter}}
       }
@@ -249,10 +249,10 @@ class Container extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      api: {contextId: nextContextId}
+      tcApi: {contextId: nextContextId}
     } = nextProps;
     const {
-      api: {contextId: prevContextId}
+      tcApi: {contextId: prevContextId}
     } = this.props;
     const {loading, validating} = this.state;
 
@@ -332,7 +332,7 @@ class Container extends Component {
    */
   handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
     const {
-      api: {contextId: {reference: {chapter, verse}}},
+      tcApi: {contextId: {reference: {chapter, verse}}},
       alignTargetToken,
       unalignTargetToken
     } = this.props;
@@ -349,7 +349,7 @@ class Container extends Component {
    */
   handleUnalignTargetToken(token, prevIndex) {
     const {
-      api: {contextId: {reference: {chapter, verse}}},
+      tcApi: {contextId: {reference: {chapter, verse}}},
       unalignTargetToken
     } = this.props;
     unalignTargetToken(chapter, verse, prevIndex, token);
@@ -364,7 +364,7 @@ class Container extends Component {
   handleAlignPrimaryToken(token, nextIndex, prevIndex) {
     const {
       moveSourceToken,
-      api: {contextId: {reference: {chapter, verse}}}
+      tcApi: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
   }
@@ -384,7 +384,7 @@ class Container extends Component {
       contextIdReducer,
       verseAlignments,
       projectDetailsReducer,
-      api: {
+      tcApi: {
         appLanguage,
         contextId
       },
@@ -463,7 +463,7 @@ Container.contextTypes = {
 };
 
 Container.propTypes = {
-  api: PropTypes.shape({
+  tcApi: PropTypes.shape({
     writeGlobalToolData: PropTypes.func.isRequired,
     readGlobalToolData: PropTypes.func.isRequired,
     showDialog: PropTypes.func.isRequired,

@@ -38,7 +38,7 @@ test('Container renders', () => {
       alignmentData: {}
     },
     appLanguage: 'en',
-    api: {
+    tcApi: {
       sourceChapter: {},
       targetChapter: {},
       showDialog: jest.fn(),

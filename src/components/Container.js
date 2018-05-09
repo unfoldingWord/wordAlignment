@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
-import debounce from 'lodash/debounce';
+// import debounce from 'lodash/debounce';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
-import path from 'path-extra';
+import {ScripturePane} from 'tc-ui-toolkit';
+// import path from 'path-extra';
 import {
   alignTargetToken,
   clearState,
@@ -20,7 +21,7 @@ import {
 } from '../state/actions';
 import {
   getIsVerseValid,
-  getLegacyChapterAlignments,
+  // getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
   getVerseAlignments
 } from '../state/reducers';
@@ -42,7 +43,7 @@ class Container extends Component {
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadAlignments = this.loadAlignments.bind(this);
-    this.saveState = this.saveState.bind(this);
+    // this.saveState = this.saveState.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -168,7 +169,7 @@ class Container extends Component {
    * Handles saving the state to the disk.
    * @param state
    */
-  saveState(state) {
+  // saveState(state) {
     // const {
     //   tcApi: {
     //     writeGlobalToolData,
@@ -197,14 +198,9 @@ class Container extends Component {
     // this.setState({
     //   prevState: state
     // });
-  }
+  // }
 
   componentWillMount() {
-    const {store} = this.context;
-    this.unsubscribe = store.subscribe(debounce(() => {
-      this.saveState(store.getState());
-    }, 1000, {maxWait: 5000}));
-
     this.loadAlignments(this.props);
 
     // TODO: the following code needs to be cleaned up
@@ -395,7 +391,7 @@ class Container extends Component {
       return null;
     }
 
-    const {ScripturePane} = currentToolViews;
+    // const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {

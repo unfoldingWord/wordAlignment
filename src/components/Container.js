@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
-// import debounce from 'lodash/debounce';
 import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
-// import path from 'path-extra';
 import {
   alignTargetToken,
   clearState,
@@ -20,7 +18,6 @@ import {
 } from '../state/actions';
 import {
   getIsVerseValid,
-  // getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
   getVerseAlignments
 } from '../state/reducers';
@@ -42,7 +39,6 @@ class Container extends Component {
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
     this.loadAlignments = this.loadAlignments.bind(this);
-    // this.saveState = this.saveState.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -83,7 +79,7 @@ class Container extends Component {
       sourceTokens,
       targetTokens,
       repairVerse,
-      tcApi: {
+      tc: {
         showDialog,
         contextId
       },
@@ -115,7 +111,7 @@ class Container extends Component {
    */
   async loadAlignments(props) {
     const {
-      tcApi: {
+      tc: {
         contextId,
         readGlobalToolData,
         targetChapter,
@@ -164,41 +160,6 @@ class Container extends Component {
     }
   }
 
-  /**
-   * Handles saving the state to the disk.
-   * @param state
-   */
-  // saveState(state) {
-    // const {
-    //   tcApi: {
-    //     writeGlobalToolData,
-    //     contextId: {reference: {bookId, chapter}}
-    //   }
-    // } = this.props;
-    // const {prevState, writing} = this.state;
-    //
-    // if (!writing && prevState && !isEqual(prevState.tool, state.tool)) {
-    //   console.warn('writing data!');
-    //   this.setState({
-    //     writing: true
-    //   });
-    //
-    //   const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-    //   const data = getLegacyChapterAlignments(state, chapter);
-    //   if (data) {
-    //     writeGlobalToolData(dataPath, JSON.stringify(data)).then(() => {
-    //       this.setState({
-    //         writing: false
-    //       });
-    //     });
-    //   }
-    // }
-    //
-    // this.setState({
-    //   prevState: state
-    // });
-  // }
-
   componentWillMount() {
     this.loadAlignments(this.props);
 
@@ -244,10 +205,10 @@ class Container extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      tcApi: {contextId: nextContextId}
+      tc: {contextId: nextContextId}
     } = nextProps;
     const {
-      tcApi: {contextId: prevContextId}
+      tc: {contextId: prevContextId}
     } = this.props;
     const {loading, validating} = this.state;
 
@@ -327,7 +288,7 @@ class Container extends Component {
    */
   handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
     const {
-      tcApi: {contextId: {reference: {chapter, verse}}},
+      tc: {contextId: {reference: {chapter, verse}}},
       alignTargetToken,
       unalignTargetToken
     } = this.props;
@@ -344,7 +305,7 @@ class Container extends Component {
    */
   handleUnalignTargetToken(token, prevIndex) {
     const {
-      tcApi: {contextId: {reference: {chapter, verse}}},
+      tc: {contextId: {reference: {chapter, verse}}},
       unalignTargetToken
     } = this.props;
     unalignTargetToken(chapter, verse, prevIndex, token);
@@ -359,7 +320,7 @@ class Container extends Component {
   handleAlignPrimaryToken(token, nextIndex, prevIndex) {
     const {
       moveSourceToken,
-      tcApi: {contextId: {reference: {chapter, verse}}}
+      tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
   }
@@ -379,7 +340,7 @@ class Container extends Component {
       contextIdReducer,
       verseAlignments,
       projectDetailsReducer,
-      tcApi: {
+      tc: {
         appLanguage,
         contextId
       },
@@ -458,7 +419,7 @@ Container.contextTypes = {
 };
 
 Container.propTypes = {
-  tcApi: PropTypes.shape({
+  tc: PropTypes.shape({
     writeGlobalToolData: PropTypes.func.isRequired,
     readGlobalToolData: PropTypes.func.isRequired,
     showDialog: PropTypes.func.isRequired,

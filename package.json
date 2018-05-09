@@ -72,7 +72,7 @@
     "react-localize-redux": "^2.15.1",
     "redux-logic": "^0.12.3",
     "reselect": "^3.0.1",
-    "tc-tool": "^1.4.11",
+    "tc-tool": "git+https://github.com/translationCoreApps/tc-tool.git",
     "usfm-js": "^1.0.0-beta.30",
     "word-aligner": "0.0.1",
     "word-map": "^0.1.5",

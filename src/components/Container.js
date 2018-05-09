@@ -169,34 +169,34 @@ class Container extends Component {
    * @param state
    */
   saveState(state) {
-    const {
-      tcApi: {
-        writeGlobalToolData,
-        contextId: {reference: {bookId, chapter}}
-      }
-    } = this.props;
-    const {prevState, writing} = this.state;
-
-    if (!writing && prevState && !isEqual(prevState.tool, state.tool)) {
-      console.warn('writing data!');
-      this.setState({
-        writing: true
-      });
-
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      const data = getLegacyChapterAlignments(state, chapter);
-      if (data) {
-        writeGlobalToolData(dataPath, JSON.stringify(data)).then(() => {
-          this.setState({
-            writing: false
-          });
-        });
-      }
-    }
-
-    this.setState({
-      prevState: state
-    });
+    // const {
+    //   tcApi: {
+    //     writeGlobalToolData,
+    //     contextId: {reference: {bookId, chapter}}
+    //   }
+    // } = this.props;
+    // const {prevState, writing} = this.state;
+    //
+    // if (!writing && prevState && !isEqual(prevState.tool, state.tool)) {
+    //   console.warn('writing data!');
+    //   this.setState({
+    //     writing: true
+    //   });
+    //
+    //   const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+    //   const data = getLegacyChapterAlignments(state, chapter);
+    //   if (data) {
+    //     writeGlobalToolData(dataPath, JSON.stringify(data)).then(() => {
+    //       this.setState({
+    //         writing: false
+    //       });
+    //     });
+    //   }
+    // }
+    //
+    // this.setState({
+    //   prevState: state
+    // });
   }
 
   componentWillMount() {

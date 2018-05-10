@@ -99,14 +99,18 @@ export const getVerseAlignments = (state, chapter, verse) => {
  * @return {Token[]}
  */
 export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
-  const verseAlignments = getVerseAlignments(state, chapter, verse);
-  const tokens = [];
-  for (const alignment of verseAlignments) {
-    for (const token of alignment.targetNgram) {
-      tokens.push(token);
-    }
+  const chapterId = chapter + '';
+  if(chapterId in state) {
+    return fromChapter.getVerseAlignedTargetTokens(state[chapterId], verse);
   }
-  return tokens;
+  // const verseAlignments = getVerseAlignments(state, chapter, verse);
+  // const tokens = [];
+  // for (const alignment of verseAlignments) {
+  //   for (const token of alignment.targetNgram) {
+  //     tokens.push(token);
+  //   }
+  // }
+  // return tokens;
 };
 
 /**

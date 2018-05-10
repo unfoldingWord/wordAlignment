@@ -1198,6 +1198,36 @@ describe('selectors', () => {
     };
   });
 
+  it('checks if the verse is fully aligned', () => {
+    const alignedState = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            }
+          ]
+        }
+      }
+    };
+    expect(fromAlignments.getIsVerseAligned(alignedState, 1, 1)).toEqual(true);
+  });
+
   it('gives the legacy alignment format', () => {
     const result = fromAlignments.getLegacyChapterAlignments(state, 1);
     expect(result).

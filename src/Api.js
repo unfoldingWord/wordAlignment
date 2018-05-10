@@ -187,9 +187,6 @@ export default class Api extends ToolApi {
 
   getIsVerseFinished(chapter, verse) {
     const {store} = this.context;
-    const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
-    console.log('checking if verse is finished', store.getState(), chapter,
-      verse, isAligned);
-    return isAligned;
+    return getIsVerseAligned(store.getState(), chapter, verse);
   }
 }

@@ -48,9 +48,9 @@ const isSameOccurrence = (t1, t2) => {
  * @param {Token[]} tokens
  * @return {number}
  */
-const findIndexOfOccurrence = (t, tokens) =>{
-  for(let i = 0; i < tokens.length; i ++) {
-    if(isSameOccurrence(t, tokens[i])) {
+const findIndexOfOccurrence = (t, tokens) => {
+  for (let i = 0; i < tokens.length; i++) {
+    if (isSameOccurrence(t, tokens[i])) {
       return i;
     }
   }
@@ -267,18 +267,36 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
 };
 
 /**
- * Checks if the verse is aligned
+ * Checks if the verse is aligned.
+ * All source and target tokens must be aligned.
  * @param state
  */
 export const getIsAligned = state => {
   // check if source has been aligned
-  for(const alignment of state.alignments) {
-    if(!fromAlignment.getIsAligned(alignment)) {
+  for (const alignment of state.alignments) {
+    if (!fromAlignment.getIsAligned(alignment)) {
       return false;
     }
   }
-  // TODO: do we need to check if all of the target tokens have been used?
-  return true;
+  const tokens = getAlignedTargetTokens(state);
+  return tokens.length === state.targetTokens.length;
+  
+};
+
+/**
+ * Returns tokens that have been aligned to the verse
+ * @param state
+ * @return {Token[]}
+ */
+export const getAlignedTargetTokens = state => {
+  const alignments = getTokenizedAlignments(state);
+  const tokens = [];
+  for (const alignment of alignments) {
+    for (const token of alignment.targetNgram) {
+      tokens.push(token);
+    }
+  }
+  return tokens;
 };
 
 /**

@@ -97,6 +97,21 @@ export const getVerseAlignments = (state, verse) => {
 };
 
 /**
+ * Returns tokens that have been aligned to the verse
+ * @param state
+ * @param {number} verse
+ * @return {Token[]}
+ */
+export const getVerseAlignedTargetTokens = (state, verse) => {
+  const verseId = verse + '';
+  if(verseId in state) {
+    return fromVerse.getAlignedTargetTokens(state[verseId]);
+  } else {
+    return [];
+  }
+};
+
+/**
  * Returns the chapter alignments in the legacy format
  * @param state
  */

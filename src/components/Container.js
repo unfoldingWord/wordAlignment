@@ -161,7 +161,7 @@ class Container extends Component {
   }
 
   componentWillMount() {
-    this.loadAlignments(this.props);
+    // this.loadAlignments(this.props);
 
     // TODO: the following code needs to be cleaned up
 
@@ -198,7 +198,6 @@ class Container extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
     const {clearState} = this.props;
     clearState();
   }

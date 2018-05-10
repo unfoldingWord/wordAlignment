@@ -44,3 +44,13 @@ export const getIsVerseValid = (state, chapter, verse, sourceText, targetText) =
  */
 export const getLegacyChapterAlignments = (state, chapter) =>
   fromAlignments.getLegacyChapterAlignments(state.tool.alignments, chapter);
+
+/**
+ * Checks if a verse has been fully aligned
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {*}
+ */
+export const getIsVerseAligned = (state, chapter, verse) =>
+  fromAlignments.getIsVerseAligned(state.tool.alignments, chapter, verse);

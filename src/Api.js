@@ -4,7 +4,8 @@ import {
   getIsVerseValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
-  getVerseAlignments
+  getVerseAlignments,
+  getIsVerseAligned
 } from './state/reducers';
 import path from 'path-extra';
 import Lexer from 'word-map/Lexer';
@@ -56,10 +57,6 @@ export default class Api extends ToolApi {
       translate
     } = props;
 
-    this.setState({
-      validating: true
-    });
-
     if (!verseIsValid) {
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
@@ -68,10 +65,6 @@ export default class Api extends ToolApi {
       }
       repairVerse(chapter, verse, sourceTokens, targetTokens);
     }
-
-    this.setState({
-      validating: false
-    });
   }
 
   /**
@@ -94,7 +87,8 @@ export default class Api extends ToolApi {
       sourceTokens,
       targetTokens,
       resetVerse,
-      translate
+      translate,
+      setToolReady
     } = props;
 
     if (!contextId) {
@@ -103,10 +97,6 @@ export default class Api extends ToolApi {
     }
 
     const {reference: {bookId, chapter, verse}} = contextId;
-
-    // this.setState({
-    //   loading: true
-    // });
 
     try {
       showLoading(translate('loading_alignments'));
@@ -124,19 +114,17 @@ export default class Api extends ToolApi {
         translate('buttons.ok_button'));
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     } finally {
-      // this.setState({
-      //   loading: false
-      // });
+      setToolReady();
     }
   }
 
   toolWillConnect() {
-    console.warn('tool is connecting');
-    // this._loadAlignments(this.props);
+    const {setToolLoading} = this.props;
+    setToolLoading();
+    this._loadAlignments(this.props);
   }
 
   mapStateToProps(state, props) {
-    console.warn('mapping state', state, props);
     const {tc: {contextId, targetVerseText, sourceVerse}} = props;
     if (contextId) {
       const {reference: {chapter, verse}} = contextId;
@@ -194,8 +182,9 @@ export default class Api extends ToolApi {
   }
 
   getIsVerseFinished(chapter, verse) {
-    // TODO: check if the verse has finished being aligned
-    console.log('checking if verse is finished', chapter, verse);
-    return false;
+    const {store} = this.context;
+    const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
+    console.log('checking if verse is finished', store.getState(), chapter, verse, isAligned);
+    return isAligned;
   }
 }

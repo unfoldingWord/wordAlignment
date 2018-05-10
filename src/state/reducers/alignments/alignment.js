@@ -108,6 +108,14 @@ export const getTokenizedAlignment = (state, sourceTokens, targetTokens) => {
 };
 
 /**
+ * Checks if an alignment has been aligned with at least one token
+ * @param state
+ */
+export const getIsAligned = state => {
+  return state.targetNgram.length > 0;
+};
+
+/**
  * Returns the positions of the source tokens used in the alignment
  * @param state
  * @return {number[]}

@@ -68,6 +68,20 @@ export const getIsVerseValid = (
 };
 
 /**
+ * Checks if a verse has been fully aligned
+ * @param state
+ * @param verse
+ */
+export const getIsVerseAligned = (state, verse) => {
+  const verseId = verse + '';
+  if (verseId in state) {
+    return fromVerse.getIsAligned(state[verseId]);
+  } else {
+    return false;
+  }
+};
+
+/**
  * Returns an array of alignments for the verse
  * @param state
  * @param {number} verse

@@ -267,6 +267,21 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
 };
 
 /**
+ * Checks if the verse is aligned
+ * @param state
+ */
+export const getIsAligned = state => {
+  // check if source has been aligned
+  for(const alignment of state.alignments) {
+    if(!fromAlignment.getIsAligned(alignment)) {
+      return false;
+    }
+  }
+  // TODO: do we need to check if all of the target tokens have been used?
+  return true;
+};
+
+/**
  * Returns the tokenized alignments for the verse
  * @param state
  * @return {Array}

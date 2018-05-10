@@ -130,6 +130,21 @@ export const getIsVerseValid = (
 };
 
 /**
+ * Checks if a verse has been fully aligned
+ * @param state
+ * @param chapter
+ * @param verse
+ */
+export const getIsVerseAligned = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  if(state && chapterId in state) {
+    return fromChapter.getIsVerseAligned(state[chapterId], verse);
+  } else {
+    return false;
+  }
+};
+
+/**
  * Returns the chapter alignments in the legacy format
  * @param state
  * @param {number} chapter

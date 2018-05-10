@@ -1,12 +1,12 @@
 import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
+  getIsChapterLoaded,
   getIsVerseAligned,
   getIsVerseValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
-  getVerseAlignments,
-  getIsChapterLoaded
+  getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
 import Lexer from 'word-map/Lexer';
@@ -101,7 +101,7 @@ export default class Api extends ToolApi {
       return;
     }
 
-    if(chapterIsLoaded) return;
+    if (chapterIsLoaded) return;
 
     const {reference: {bookId, chapter, verse}} = contextId;
 
@@ -203,6 +203,8 @@ export default class Api extends ToolApi {
 
   toolWillDisconnect() {
     console.warn('tool is disconnecting');
+    const {clearState} = this.props;
+    clearState();
   }
 
   toolWillReceiveProps(nextProps) {

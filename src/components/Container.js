@@ -24,7 +24,6 @@ import {
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import Token from 'word-map/structures/Token';
-import path from 'path-extra';
 
 /**
  * The base container for this tool
@@ -47,125 +46,7 @@ class Container extends Component {
     };
   }
 
-  /**
-   * Checks if the chapter context changed
-   * @param prevContext
-   * @param nextContext
-   * @return {boolean}
-   */
-  // static chapterContextChanged(prevContext, nextContext) {
-  //   if (!prevContext && nextContext) {
-  //     return true;
-  //   }
-  //   if (prevContext && nextContext) {
-  //     const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
-  //     const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
-  //     if (prevBook !== nextBook || prevChapter !== nextChapter) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  /**
-   * Performs necessary clean up operations if the current verse is invalid.
-   * @param props
-   * @return {Promise<void>}
-   */
-  async validate(props) {
-    const {
-      verseIsValid,
-      alignedTokens,
-      sourceTokens,
-      targetTokens,
-      repairVerse,
-      tc: {
-        showDialog,
-        contextId
-      },
-      translate
-    } = props;
-
-    this.setState({
-      validating: true
-    });
-
-    if (!verseIsValid) {
-      const {reference: {chapter, verse}} = contextId;
-      if (alignedTokens.length) {
-        await showDialog(translate('alignments_reset'),
-          translate('buttons.ok_button'));
-      }
-      // console.error('repairing verse', chapter, verse, sourceTokens, targetTokens);
-      repairVerse(chapter, verse, sourceTokens, targetTokens);
-    }
-
-    this.setState({
-      validating: false
-    });
-  }
-
-  /**
-   * Loads alignment data
-   * @param {object} props - the container props
-   * @return {Promise}
-   */
-  async loadAlignments(props) {
-    const {
-      tc: {
-        contextId,
-        readGlobalToolData,
-        targetChapter,
-        sourceChapter,
-        showDialog,
-        showLoading,
-        closeLoading
-      },
-      indexChapterAlignments,
-      sourceTokens,
-      targetTokens,
-      resetVerse,
-      translate
-    } = props;
-
-    if (!contextId) {
-      console.warn('Missing context id. Alignments not loaded.');
-      return;
-    }
-
-    const {reference: {bookId, chapter, verse}} = contextId;
-
-    this.setState({
-      loading: true
-    });
-
-    try {
-      showLoading(translate('loading_alignments'));
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      const data = await readGlobalToolData(dataPath);
-      const json = JSON.parse(data);
-      await indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
-      // TRICKY: validate the latest state
-      const {store} = this.context;
-      const newState = mapStateToProps(store.getState(), props);
-      closeLoading();
-      await this.validate({...props, ...newState});
-    } catch (e) {
-      // TODO: give the user an option to reset the data or recover from it.
-      console.error('The alignment data is corrupt', e);
-      await showDialog(translate('alignments_corrupt'),
-        translate('buttons.ok_button'));
-      resetVerse(chapter, verse, sourceTokens, targetTokens);
-    } finally {
-      this.setState({
-        loading: false
-      });
-    }
-  }
-
   componentWillMount() {
-    // this.loadAlignments(this.props);
-
     // TODO: the following code needs to be cleaned up
 
     // current panes persisted in the scripture pane settings.
@@ -200,19 +81,14 @@ class Container extends Component {
       desiredPanes);
   }
 
-  componentWillUnmount() {
-    const {clearState} = this.props;
-    clearState();
-  }
-
   componentWillReceiveProps(nextProps) {
     const {
       tc: {
-        contextId: nextContextId,
+        contextId: nextContextId
       }
     } = nextProps;
     const {
-      tc: {contextId: prevContextId},
+      tc: {contextId: prevContextId}
     } = this.props;
     // const {loading, validating} = this.state;
 

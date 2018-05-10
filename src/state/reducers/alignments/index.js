@@ -102,15 +102,9 @@ export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
   const chapterId = chapter + '';
   if(chapterId in state) {
     return fromChapter.getVerseAlignedTargetTokens(state[chapterId], verse);
+  } else {
+    return [];
   }
-  // const verseAlignments = getVerseAlignments(state, chapter, verse);
-  // const tokens = [];
-  // for (const alignment of verseAlignments) {
-  //   for (const token of alignment.targetNgram) {
-  //     tokens.push(token);
-  //   }
-  // }
-  // return tokens;
 };
 
 /**

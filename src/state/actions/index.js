@@ -18,6 +18,7 @@ export const setChapterAlignments = (chapter, data) => ({
 
 /**
  * Loads the alignment data from the disk
+ * @deprecated
  * @param {func} dataReader
  * @param {string} bookId
  * @param {number} chapter
@@ -27,13 +28,15 @@ export const setChapterAlignments = (chapter, data) => ({
  */
 export const loadChapterAlignments = (
   dataReader, bookId, chapter, sourceChapter, targetChapter) => {
-  return dispatch => {
-    const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-    const data = dataReader(dataPath);
-    const rawChapterData = JSON.parse(data);
-    dispatch(indexChapterAlignments(chapter, rawChapterData, sourceChapter,
-      targetChapter));
-  };
+  throw new Error('This method is deprecated');
+  // return dispatch => {
+  //   const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+  //   const data = dataReader(dataPath);
+  //   console.error('read data', data);
+  //   const rawChapterData = JSON.parse(data);
+  //   dispatch(indexChapterAlignments(chapter, rawChapterData, sourceChapter,
+  //     targetChapter));
+  // };
 };
 
 /**

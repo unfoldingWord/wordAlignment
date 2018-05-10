@@ -13,7 +13,7 @@ import {tokenizeVerseObjects} from './utils/verseObjects';
 import {
   alignTargetToken,
   clearState,
-  loadChapterAlignments,
+  indexChapterAlignments,
   moveSourceToken,
   repairVerse,
   resetVerse,
@@ -86,7 +86,7 @@ export default class Api extends ToolApi {
         showLoading,
         closeLoading
       },
-      loadChapterAlignments,
+      indexChapterAlignments,
       sourceTokens,
       targetTokens,
       resetVerse,
@@ -103,8 +103,10 @@ export default class Api extends ToolApi {
 
     try {
       showLoading(translate('loading_alignments'));
-      loadChapterAlignments(readGlobalToolDataSync, bookId, chapter,
-        sourceChapter, targetChapter);
+      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      const data = readGlobalToolDataSync(dataPath);
+      const json = JSON.parse(data);
+      indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
       // TRICKY: validate the latest state
       const {store} = this.context;
       const newState = this.mapStateToProps(store.getState(), props);
@@ -166,7 +168,7 @@ export default class Api extends ToolApi {
       resetVerse,
       repairVerse,
       clearState,
-      loadChapterAlignments
+      indexChapterAlignments
     };
 
     const dispatchedMethods = {};

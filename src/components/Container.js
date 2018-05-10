@@ -10,7 +10,7 @@ import Lexer from 'word-map/Lexer';
 import {
   alignTargetToken,
   clearState,
-  loadChapterAlignments,
+  indexChapterAlignments,
   moveSourceToken,
   repairVerse,
   resetVerse,
@@ -24,6 +24,7 @@ import {
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import Token from 'word-map/structures/Token';
+import path from 'path-extra';
 
 /**
  * The base container for this tool
@@ -96,6 +97,7 @@ class Container extends Component {
         await showDialog(translate('alignments_reset'),
           translate('buttons.ok_button'));
       }
+      // console.error('repairing verse', chapter, verse, sourceTokens, targetTokens);
       repairVerse(chapter, verse, sourceTokens, targetTokens);
     }
 
@@ -120,7 +122,7 @@ class Container extends Component {
         showLoading,
         closeLoading
       },
-      loadChapterAlignments,
+      indexChapterAlignments,
       sourceTokens,
       targetTokens,
       resetVerse,
@@ -140,8 +142,10 @@ class Container extends Component {
 
     try {
       showLoading(translate('loading_alignments'));
-      await loadChapterAlignments(readGlobalToolData, bookId, chapter,
-        sourceChapter, targetChapter);
+      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      const data = await readGlobalToolData(dataPath);
+      const json = JSON.parse(data);
+      await indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
       // TRICKY: validate the latest state
       const {store} = this.context;
       const newState = mapStateToProps(store.getState(), props);
@@ -440,7 +444,7 @@ Container.propTypes = {
   clearState: PropTypes.func.isRequired,
   resetVerse: PropTypes.func.isRequired,
   repairVerse: PropTypes.func.isRequired,
-  loadChapterAlignments: PropTypes.func.isRequired,
+  indexChapterAlignments: PropTypes.func.isRequired,
 
   // state props
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -476,7 +480,7 @@ const mapDispatchToProps = ({
   resetVerse,
   repairVerse,
   clearState,
-  loadChapterAlignments
+  indexChapterAlignments
 });
 
 const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {

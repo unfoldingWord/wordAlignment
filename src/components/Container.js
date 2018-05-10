@@ -54,19 +54,19 @@ class Container extends Component {
    * @param nextContext
    * @return {boolean}
    */
-  static chapterContextChanged(prevContext, nextContext) {
-    if (!prevContext && nextContext) {
-      return true;
-    }
-    if (prevContext && nextContext) {
-      const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
-      const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
-      if (prevBook !== nextBook || prevChapter !== nextChapter) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // static chapterContextChanged(prevContext, nextContext) {
+  //   if (!prevContext && nextContext) {
+  //     return true;
+  //   }
+  //   if (prevContext && nextContext) {
+  //     const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
+  //     const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
+  //     if (prevBook !== nextBook || prevChapter !== nextChapter) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
   /**
    * Performs necessary clean up operations if the current verse is invalid.
@@ -208,26 +208,37 @@ class Container extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      tc: {contextId: nextContextId}
+      toolIsReady: nextReady,
+      tc: {
+        contextId: nextContextId,
+        showLoading,
+        closeLoading
+      }
     } = nextProps;
     const {
-      tc: {contextId: prevContextId}
+      tc: {contextId: prevContextId},
+      toolIsReady: prevReady
     } = this.props;
-    const {loading, validating} = this.state;
+    // const {loading, validating} = this.state;
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
 
-      if (Container.chapterContextChanged(prevContextId, nextContextId)) {
-        this.loadAlignments(nextProps);
-      }
+      // if (Container.chapterContextChanged(prevContextId, nextContextId)) {
+      //   this.loadAlignments(nextProps);
+      // }
+    }
+    if(prevReady && !nextReady) {
+      showLoading();
+    } else if(!prevReady && nextReady) {
+      closeLoading();
     }
 
-    if (!loading && !validating) {
-      this.validate(nextProps);
-    }
+    // if (!loading && !validating) {
+    //   this.validate(nextProps);
+    // }
   }
 
   /**
@@ -436,6 +447,7 @@ Container.propTypes = {
     targetChapter: PropTypes.object.isRequired,
     appLanguage: PropTypes.string.isRequired
   }).isRequired,
+  toolIsReady: PropTypes.bool.isRequired,
 
   // dispatch props
   alignTargetToken: PropTypes.func.isRequired,

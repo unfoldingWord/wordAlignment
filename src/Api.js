@@ -22,23 +22,24 @@ import {
 
 export default class Api extends ToolApi {
 
-  stateChangeThrottled(nextState, prevState) {
-    const {
-      tc: {
-        writeGlobalToolData,
-        contextId: {reference: {bookId, chapter}}
-      }
-    } = this.props;
-    const writableChange = Boolean(prevState) && Boolean(nextState) &&
-      !isEqual(prevState.tool, nextState.tool);
-    if (writableChange) {
-      // write alignment data to the project folder
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      const data = getLegacyChapterAlignments(nextState, chapter);
-      if (data) {
-        return writeGlobalToolData(dataPath, JSON.stringify(data));
+  /**
+   * Checks if the chapter context changed
+   * @param prevContext
+   * @param nextContext
+   * @return {boolean}
+   */
+  static _didChapterContextChanged(prevContext, nextContext) {
+    if (!prevContext && nextContext) {
+      return true;
+    }
+    if (prevContext && nextContext) {
+      const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
+      const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
+      if (prevBook !== nextBook || prevChapter !== nextChapter) {
+        return true;
       }
     }
+    return false;
   }
 
   /**
@@ -123,6 +124,25 @@ export default class Api extends ToolApi {
     }
   }
 
+  stateChangeThrottled(nextState, prevState) {
+    const {
+      tc: {
+        writeGlobalToolData,
+        contextId: {reference: {bookId, chapter}}
+      }
+    } = this.props;
+    const writableChange = Boolean(prevState) && Boolean(nextState) &&
+      !isEqual(prevState.tool, nextState.tool);
+    if (writableChange) {
+      // write alignment data to the project folder
+      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      const data = getLegacyChapterAlignments(nextState, chapter);
+      if (data) {
+        return writeGlobalToolData(dataPath, JSON.stringify(data));
+      }
+    }
+  }
+
   toolWillConnect() {
     console.warn('Tool connecting');
     const {setToolLoading} = this.props;
@@ -183,8 +203,15 @@ export default class Api extends ToolApi {
     console.warn('tool is disconnecting');
   }
 
-  toolWillReceiveProps(nextProps, prevProps) {
-    console.warn('tool received props', nextProps, prevProps);
+  toolWillReceiveProps(nextProps) {
+    console.warn('tool received props', nextProps, this.props);
+    const {tc: {contextId: nextContext}} = nextProps;
+    const {tc: {contextId: prevContext}} = this.props;
+    if (Api._didChapterContextChanged(prevContext, nextContext)) {
+      this._loadAlignments(nextProps);
+    } else {
+      this._validate(nextProps);
+    }
   }
 
   getIsVerseFinished(chapter, verse) {

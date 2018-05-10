@@ -27,13 +27,12 @@ export const setChapterAlignments = (chapter, data) => ({
  */
 export const loadChapterAlignments = (
   dataReader, bookId, chapter, sourceChapter, targetChapter) => {
-  return async dispatch => {
+  return dispatch => {
     const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-    const data = await dataReader(dataPath);
+    const data = dataReader(dataPath);
     const rawChapterData = JSON.parse(data);
-    await dispatch(
-      indexChapterAlignments(chapter, rawChapterData, sourceChapter,
-        targetChapter));
+    dispatch(indexChapterAlignments(chapter, rawChapterData, sourceChapter,
+      targetChapter));
   };
 };
 
@@ -65,30 +64,27 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
 export const indexChapterAlignments = (
   chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
   return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      try {
-        // tokenize baseline chapters
-        const targetChapterTokens = {};
-        const sourceChapterTokens = {};
-        for (const verse of Object.keys(targetChapter)) {
-          targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
-        }
-        for (const verse of Object.keys(sourceChapter)) {
-          sourceChapterTokens[verse] = tokenizeVerseObjects(
-            sourceChapter[verse].verseObjects);
-        }
-
-        // migrate alignment data
-        const alignmentData = migrateChapterAlignments(rawAlignmentData,
-          sourceChapterTokens, targetChapterTokens);
-
-        // set the loaded alignments
-        dispatch(setChapterAlignments(chapterId, alignmentData));
-        resolve();
-      } catch (e) {
-        reject(e);
+    // try {
+      // tokenize baseline chapters
+      const targetChapterTokens = {};
+      const sourceChapterTokens = {};
+      for (const verse of Object.keys(targetChapter)) {
+        targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
       }
-    });
+      for (const verse of Object.keys(sourceChapter)) {
+        sourceChapterTokens[verse] = tokenizeVerseObjects(
+          sourceChapter[verse].verseObjects);
+      }
+
+      // migrate alignment data
+      const alignmentData = migrateChapterAlignments(rawAlignmentData,
+        sourceChapterTokens, targetChapterTokens);
+
+      // set the loaded alignments
+      dispatch(setChapterAlignments(chapterId, alignmentData));
+    // } catch (e) {
+    //   console.error('Failed to index chapter alignments');
+    // }
   };
 };
 

@@ -1,18 +1,21 @@
 import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
+  getIsVerseAligned,
   getIsVerseValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
-  getVerseAlignments,
-  getIsVerseAligned
+  getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
 import Lexer from 'word-map/Lexer';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {
-  alignTargetToken, clearState, loadChapterAlignments,
-  moveSourceToken, repairVerse,
+  alignTargetToken,
+  clearState,
+  loadChapterAlignments,
+  moveSourceToken,
+  repairVerse,
   resetVerse,
   unalignTargetToken
 } from './state/actions';
@@ -43,7 +46,7 @@ export default class Api extends ToolApi {
    * @param props
    * @return {Promise<void>}
    */
-  async _validate(props) {
+  _validate(props) {
     const {
       verseIsValid,
       alignedTokens,
@@ -60,7 +63,7 @@ export default class Api extends ToolApi {
     if (!verseIsValid) {
       const {reference: {chapter, verse}} = contextId;
       if (alignedTokens.length) {
-        await showDialog(translate('alignments_reset'),
+        showDialog(translate('alignments_reset'),
           translate('buttons.ok_button'));
       }
       repairVerse(chapter, verse, sourceTokens, targetTokens);
@@ -72,11 +75,11 @@ export default class Api extends ToolApi {
    * @param {object} props - the container props
    * @return {Promise}
    */
-  async _loadAlignments(props) {
+  _loadAlignments(props) {
     const {
       tc: {
         contextId,
-        readGlobalToolData,
+        readGlobalToolDataSync,
         targetChapter,
         sourceChapter,
         showDialog,
@@ -100,17 +103,17 @@ export default class Api extends ToolApi {
 
     try {
       showLoading(translate('loading_alignments'));
-      await loadChapterAlignments(readGlobalToolData, bookId, chapter,
+      loadChapterAlignments(readGlobalToolDataSync, bookId, chapter,
         sourceChapter, targetChapter);
       // TRICKY: validate the latest state
       const {store} = this.context;
       const newState = this.mapStateToProps(store.getState(), props);
       closeLoading();
-      await this._validate({...props, ...newState});
+      this._validate({...props, ...newState});
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
       console.error('The alignment data is corrupt', e);
-      await showDialog(translate('alignments_corrupt'),
+      showDialog(translate('alignments_corrupt'),
         translate('buttons.ok_button'));
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     } finally {
@@ -119,6 +122,7 @@ export default class Api extends ToolApi {
   }
 
   toolWillConnect() {
+    console.warn('Tool connecting');
     const {setToolLoading} = this.props;
     setToolLoading();
     this._loadAlignments(this.props);
@@ -184,7 +188,8 @@ export default class Api extends ToolApi {
   getIsVerseFinished(chapter, verse) {
     const {store} = this.context;
     const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
-    console.log('checking if verse is finished', store.getState(), chapter, verse, isAligned);
+    console.log('checking if verse is finished', store.getState(), chapter,
+      verse, isAligned);
     return isAligned;
   }
 }

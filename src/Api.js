@@ -5,7 +5,8 @@ import {
   getIsVerseValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
-  getVerseAlignments
+  getVerseAlignments,
+  getIsChapterLoaded
 } from './state/reducers';
 import path from 'path-extra';
 import Lexer from 'word-map/Lexer';
@@ -83,16 +84,16 @@ export default class Api extends ToolApi {
         readGlobalToolDataSync,
         targetChapter,
         sourceChapter,
-        showDialog,
-        showLoading,
-        closeLoading
+        showDialog
       },
       indexChapterAlignments,
       sourceTokens,
       targetTokens,
       resetVerse,
       translate,
-      setToolReady
+      setToolReady,
+      setToolLoading,
+      chapterIsLoaded
     } = props;
 
     if (!contextId) {
@@ -100,10 +101,12 @@ export default class Api extends ToolApi {
       return;
     }
 
+    if(chapterIsLoaded) return;
+
     const {reference: {bookId, chapter, verse}} = contextId;
 
     try {
-      showLoading(translate('loading_alignments'));
+      setToolLoading();
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
       const data = readGlobalToolDataSync(dataPath);
       const json = JSON.parse(data);
@@ -111,7 +114,6 @@ export default class Api extends ToolApi {
       // TRICKY: validate the latest state
       const {store} = this.context;
       const newState = this.mapStateToProps(store.getState(), props);
-      closeLoading();
       this._validate({...props, ...newState});
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
@@ -145,8 +147,6 @@ export default class Api extends ToolApi {
 
   toolWillConnect() {
     console.warn('Tool connecting');
-    const {setToolLoading} = this.props;
-    setToolLoading();
     this._loadAlignments(this.props);
   }
 
@@ -162,6 +162,7 @@ export default class Api extends ToolApi {
       const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
         join(' ');
       return {
+        chapterIsLoaded: getIsChapterLoaded(state, chapter),
         targetTokens,
         sourceTokens,
         alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
@@ -175,7 +176,8 @@ export default class Api extends ToolApi {
         sourceTokens: [],
         alignedTokens: [],
         verseAlignments: [],
-        verseIsValid: true
+        verseIsValid: true,
+        chapterIsLoaded: false
       };
     }
   }
@@ -204,7 +206,6 @@ export default class Api extends ToolApi {
   }
 
   toolWillReceiveProps(nextProps) {
-    console.warn('tool received props', nextProps, this.props);
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
     if (Api._didChapterContextChanged(prevContext, nextContext)) {

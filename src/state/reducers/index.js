@@ -6,6 +6,15 @@ export default combineReducers({
 });
 
 /**
+ * Checks if data for the chapter has been loaded
+ * @param state
+ * @param {number} chapter
+ * @return {boolean}
+ */
+export const getIsChapterLoaded = (state, chapter) =>
+  fromAlignments.getIsChapterLoaded(state.tool.alignments, chapter);
+
+/**
  * Returns alignments for a verse
  * @param state
  * @param chapter

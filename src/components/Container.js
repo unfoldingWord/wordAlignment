@@ -39,7 +39,6 @@ class Container extends Component {
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
-    this.loadAlignments = this.loadAlignments.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -208,16 +207,12 @@ class Container extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      toolIsReady: nextReady,
       tc: {
         contextId: nextContextId,
-        showLoading,
-        closeLoading
       }
     } = nextProps;
     const {
       tc: {contextId: prevContextId},
-      toolIsReady: prevReady
     } = this.props;
     // const {loading, validating} = this.state;
 
@@ -225,20 +220,7 @@ class Container extends Component {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
-
-      // if (Container.chapterContextChanged(prevContextId, nextContextId)) {
-      //   this.loadAlignments(nextProps);
-      // }
     }
-    if(prevReady && !nextReady) {
-      showLoading();
-    } else if(!prevReady && nextReady) {
-      closeLoading();
-    }
-
-    // if (!loading && !validating) {
-    //   this.validate(nextProps);
-    // }
   }
 
   /**

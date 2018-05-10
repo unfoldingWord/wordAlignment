@@ -92,6 +92,22 @@ export const getVerseAlignments = (state, chapter, verse) => {
 };
 
 /**
+ * Checks if data for the chapter has been loaded
+ * @param state
+ * @param {number} chapter
+ * @return {boolean}
+ */
+export const getIsChapterLoaded = (state, chapter) => {
+  const chapterId = chapter + '';
+  if(chapterId in state) {
+    // make sure we have some verses
+    return Object.keys(state[chapterId]).length > 0;
+  } else {
+    return false;
+  }
+};
+
+/**
  * Returns tokens that have been aligned to the verse
  * @param state
  * @param chapter

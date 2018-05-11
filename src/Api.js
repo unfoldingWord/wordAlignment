@@ -221,4 +221,8 @@ export default class Api extends ToolApi {
     const {store} = this.context;
     return getIsVerseAligned(store.getState(), chapter, verse);
   }
+
+  hello() {
+    console.error('Hello world!!');
+  }
 }

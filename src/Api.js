@@ -44,27 +44,59 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * Performs necessary clean up operations if the current verse is invalid.
-   * @param props
-   * @return {Promise<void>}
+   * Validates a verse
+   * @param {number} chapter
+   * @param {number} verse
    */
-  _validate(props) {
+  validateVerse(chapter, verse) {
+    this._validate(this.props, chapter, verse);
+  }
+
+  /**
+   * Validates a specific verse and performs necessary clean up operations.
+   * @param props
+   * @param chapter
+   * @param verse
+   * @private
+   */
+  _validate(props, chapter, verse) {
+    console.warn(`validating ${chapter}:${verse}`);
     const {
-      verseIsValid,
-      alignedTokens,
-      sourceTokens,
-      targetTokens,
       repairVerse,
       tc: {
         showDialog,
-        contextId
+        targetChapter,
+        sourceChapter
       },
       translate
     } = props;
+    const {store} = this.context;
+    const verseId = verse + '';
 
-    if (!verseIsValid) {
-      const {reference: {chapter, verse}} = contextId;
+    if (!(verseId in targetChapter && verseId in sourceChapter)) {
+      console.warn(`Could not validate missing verse ${chapter}:${verse}`);
+      return;
+    }
+
+    const targetText = targetChapter[verseId];
+    const sourceObjects = sourceChapter[verseId];
+
+    const targetTokens = Lexer.tokenize(targetText);
+    const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
+
+    const sourceTokens = tokenizeVerseObjects(sourceObjects.verseObjects);
+    const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
+
+    const isValid = getIsVerseValid(store.getState(), chapter, verse,
+      normalizedSource,
+      normalizedTarget);
+
+    if (!isValid) {
+      console.error('the verse is not valid');
+      const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
+        chapter, verse);
       if (alignedTokens.length) {
+        console.error('notifying user');
         showDialog(translate('alignments_reset'),
           translate('buttons.ok_button'));
       }
@@ -113,8 +145,8 @@ export default class Api extends ToolApi {
       indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
       // TRICKY: validate the latest state
       const {store} = this.context;
-      const newState = this.mapStateToProps(store.getState(), props);
-      this._validate({...props, ...newState});
+      const updatedProps = this.mapStateToProps(store.getState(), props);
+      this._validate({...props, ...updatedProps}, chapter, verse);
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
       console.error('The alignment data is corrupt', e);
@@ -154,21 +186,14 @@ export default class Api extends ToolApi {
     const {tc: {contextId, targetVerseText, sourceVerse}} = props;
     if (contextId) {
       const {reference: {chapter, verse}} = contextId;
-      // TRICKY: the target verse contains punctuation we need to remove
       const targetTokens = Lexer.tokenize(targetVerseText);
       const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
-      const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
-        join(' ');
-      const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
-        join(' ');
       return {
         chapterIsLoaded: getIsChapterLoaded(state, chapter),
         targetTokens,
         sourceTokens,
         alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
-        verseAlignments: getVerseAlignments(state, chapter, verse),
-        verseIsValid: getIsVerseValid(state, chapter, verse,
-          normalizedSourceVerseText, normalizedTargetVerseText)
+        verseAlignments: getVerseAlignments(state, chapter, verse)
       };
     } else {
       return {
@@ -176,7 +201,6 @@ export default class Api extends ToolApi {
         sourceTokens: [],
         alignedTokens: [],
         verseAlignments: [],
-        verseIsValid: true,
         chapterIsLoaded: false
       };
     }
@@ -208,15 +232,23 @@ export default class Api extends ToolApi {
   }
 
   toolWillReceiveProps(nextProps) {
+    console.warn('wA is receiving props', nextProps);
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
     if (Api._didChapterContextChanged(prevContext, nextContext)) {
       this._loadAlignments(nextProps);
     } else {
-      this._validate(nextProps);
+      const {reference: {chapter, verse}} = nextContext;
+      this._validate(nextProps, chapter, verse);
     }
   }
 
+  /**
+   * Checks if a verse has been completed.
+   * @param {number} chapter
+   * @param {number} verse
+   * @return {*}
+   */
   getIsVerseFinished(chapter, verse) {
     const {store} = this.context;
     return getIsVerseAligned(store.getState(), chapter, verse);

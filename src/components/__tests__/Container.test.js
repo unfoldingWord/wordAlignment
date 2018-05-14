@@ -12,7 +12,6 @@ test('Container renders', () => {
   const props = {
     actions: {
       setToolSettings: jest.fn(),
-      moveBackToWordBank: jest.fn(),
       getWordListForVerse: jest.fn(),
       loadLexiconEntry: jest.fn(),
       showPopover: jest.fn()

@@ -339,7 +339,6 @@ Container.propTypes = {
   settingsReducer: PropTypes.shape({
     toolsSettings: PropTypes.object.required
   }).isRequired,
-  wordAlignmentReducer: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 

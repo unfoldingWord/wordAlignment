@@ -90,7 +90,6 @@ class Container extends Component {
     const {
       tc: {contextId: prevContextId}
     } = this.props;
-    // const {loading, validating} = this.state;
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -101,6 +100,7 @@ class Container extends Component {
 
   /**
    * Initializes the prediction engine
+   * TODO: finish this when we add MAP
    * @param alignmentData
    */
   initMAP(alignmentData) {
@@ -123,9 +123,9 @@ class Container extends Component {
 
   /**
    * Predicts alignments
+   * TODO: finish this when we add MAP
    * @param primaryVerse - the primary verse text
    * @param secondaryVerse - the secondary verse text
-   * @param [currentAlignments] - a list of existing alignments
    */
   predictAlignments(primaryVerse, secondaryVerse) {
     const suggestions = this.map.predict(primaryVerse, secondaryVerse);

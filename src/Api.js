@@ -44,7 +44,7 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * Validates a verse
+   * API method to validate a verse
    * @param {number} chapter
    * @param {number} verse
    */
@@ -158,6 +158,12 @@ export default class Api extends ToolApi {
     }
   }
 
+  /**
+   * Lifecycle method
+   * @param nextState
+   * @param prevState
+   * @return {*}
+   */
   stateChangeThrottled(nextState, prevState) {
     const {
       tc: {
@@ -177,11 +183,19 @@ export default class Api extends ToolApi {
     }
   }
 
+  /**
+   * Lifecycle method
+   */
   toolWillConnect() {
-    console.warn('Tool connecting');
     this._loadAlignments(this.props);
   }
 
+  /**
+   * Lifecycle method
+   * @param state
+   * @param props
+   * @return {*}
+   */
   mapStateToProps(state, props) {
     const {tc: {contextId, targetVerseText, sourceVerse}} = props;
     if (contextId) {
@@ -206,6 +220,10 @@ export default class Api extends ToolApi {
     }
   }
 
+  /**
+   * Lifecycle method
+   * @param dispatch
+   */
   mapDispatchToProps(dispatch) {
     const methods = {
       alignTargetToken,
@@ -225,14 +243,19 @@ export default class Api extends ToolApi {
     return dispatchedMethods;
   }
 
+  /**
+   * Lifecycle method
+   */
   toolWillDisconnect() {
-    console.warn('tool is disconnecting');
     const {clearState} = this.props;
     clearState();
   }
 
+  /**
+   * Lifecycle method
+   * @param nextProps
+   */
   toolWillReceiveProps(nextProps) {
-    console.warn('wA is receiving props', nextProps);
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
     if (Api._didChapterContextChanged(prevContext, nextContext)) {
@@ -252,9 +275,5 @@ export default class Api extends ToolApi {
   getIsVerseFinished(chapter, verse) {
     const {store} = this.context;
     return getIsVerseAligned(store.getState(), chapter, verse);
-  }
-
-  hello() {
-    console.error('Hello world!!');
   }
 }

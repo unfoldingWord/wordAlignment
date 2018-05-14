@@ -6,7 +6,6 @@ exports[`Container renders 1`] = `
     Object {
       "getWordListForVerse": [Function],
       "loadLexiconEntry": [Function],
-      "moveBackToWordBank": [Function],
       "setToolSettings": [Function],
       "showPopover": [Function],
     }
@@ -63,7 +62,6 @@ exports[`Container renders 1`] = `
       Object {
         "getWordListForVerse": [Function],
         "loadLexiconEntry": [Function],
-        "moveBackToWordBank": [Function],
         "setToolSettings": [Function],
         "showPopover": [Function],
       }
@@ -131,7 +129,6 @@ exports[`Container renders 1`] = `
           Object {
             "getWordListForVerse": [Function],
             "loadLexiconEntry": [Function],
-            "moveBackToWordBank": [Function],
             "setToolSettings": [Function],
             "showPopover": [Function],
           }
@@ -176,6 +173,7 @@ exports[`Container renders 1`] = `
             "writeGlobalToolData": [Function],
           }
         }
+        toolIsReady={true}
         translate={[Function]}
         wordAlignmentReducer={
           Object {
@@ -188,7 +186,6 @@ exports[`Container renders 1`] = `
             Object {
               "getWordListForVerse": [Function],
               "loadLexiconEntry": [Function],
-              "moveBackToWordBank": [Function],
               "setToolSettings": [Function],
               "showPopover": [Function],
             }
@@ -233,6 +230,7 @@ exports[`Container renders 1`] = `
               "writeGlobalToolData": [Function],
             }
           }
+          toolIsReady={true}
           translate={[Function]}
           wordAlignmentReducer={
             Object {
@@ -245,7 +243,6 @@ exports[`Container renders 1`] = `
               Object {
                 "getWordListForVerse": [Function],
                 "loadLexiconEntry": [Function],
-                "moveBackToWordBank": [Function],
                 "setToolSettings": [Function],
                 "showPopover": [Function],
               }
@@ -290,6 +287,7 @@ exports[`Container renders 1`] = `
                 "writeGlobalToolData": [Function],
               }
             }
+            toolIsReady={true}
             translate={[Function]}
             wordAlignmentReducer={
               Object {
@@ -302,7 +300,6 @@ exports[`Container renders 1`] = `
                 Object {
                   "getWordListForVerse": [Function],
                   "loadLexiconEntry": [Function],
-                  "moveBackToWordBank": [Function],
                   "setToolSettings": [Function],
                   "showPopover": [Function],
                 }
@@ -313,7 +310,7 @@ exports[`Container renders 1`] = `
               clearState={[Function]}
               contextIdReducer={Object {}}
               currentToolViews={Object {}}
-              loadChapterAlignments={[Function]}
+              indexChapterAlignments={[Function]}
               moveSourceToken={[Function]}
               projectDetailsReducer={Object {}}
               repairVerse={[Function]}
@@ -356,6 +353,7 @@ exports[`Container renders 1`] = `
                   "writeGlobalToolData": [Function],
                 }
               }
+              toolIsReady={true}
               translate={[Function]}
               unalignTargetToken={[Function]}
               verseAlignments={Array []}

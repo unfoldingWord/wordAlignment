@@ -1,6 +1,5 @@
 import * as types from './actionTypes';
 import {migrateChapterAlignments} from '../../utils/migrations';
-import path from 'path';
 import Lexer from 'word-map/Lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 
@@ -15,29 +14,6 @@ export const setChapterAlignments = (chapter, data) => ({
   chapter,
   alignments: data
 });
-
-/**
- * Loads the alignment data from the disk
- * @deprecated
- * @param {func} dataReader
- * @param {string} bookId
- * @param {number} chapter
- * @param {object} sourceChapter - the source chapter data used as a baseline for sorting
- * @param {object} targetChapter - the target chapter data used as a baseline for sorting
- * @return {Function}
- */
-export const loadChapterAlignments = (
-  dataReader, bookId, chapter, sourceChapter, targetChapter) => {
-  throw new Error('This method is deprecated');
-  // return dispatch => {
-  //   const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-  //   const data = dataReader(dataPath);
-  //   console.error('read data', data);
-  //   const rawChapterData = JSON.parse(data);
-  //   dispatch(indexChapterAlignments(chapter, rawChapterData, sourceChapter,
-  //     targetChapter));
-  // };
-};
 
 /**
  * Updates the verse tokens and resets the alignment data.

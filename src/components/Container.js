@@ -292,8 +292,8 @@ Container.contextTypes = {
 
 Container.propTypes = {
   tc: PropTypes.shape({
-    writeGlobalToolData: PropTypes.func.isRequired,
-    readGlobalToolData: PropTypes.func.isRequired,
+    writeProjectData: PropTypes.func.isRequired,
+    readProjectData: PropTypes.func.isRequired,
     showDialog: PropTypes.func.isRequired,
     showLoading: PropTypes.func.isRequired,
     closeLoading: PropTypes.func.isRequired,

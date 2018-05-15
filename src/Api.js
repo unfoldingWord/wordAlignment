@@ -113,7 +113,8 @@ export default class Api extends ToolApi {
     const {
       tc: {
         contextId,
-        readGlobalToolDataSync,
+        readProjectDataSync,
+        projectFileExistsSync,
         targetChapter,
         sourceChapter,
         showDialog
@@ -140,13 +141,18 @@ export default class Api extends ToolApi {
     try {
       setToolLoading();
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      const data = readGlobalToolDataSync(dataPath);
-      const json = JSON.parse(data);
-      indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
-      // TRICKY: validate the latest state
-      const {store} = this.context;
-      const updatedProps = this.mapStateToProps(store.getState(), props);
-      this._validate({...props, ...updatedProps}, chapter, verse);
+      if(projectFileExistsSync(dataPath)) {
+        const data = readProjectDataSync(dataPath);
+        const json = JSON.parse(data);
+        indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
+        // TRICKY: validate the latest state
+        const {store} = this.context;
+        const updatedProps = this.mapStateToProps(store.getState(), props);
+        this._validate({...props, ...updatedProps}, chapter, verse);
+      } else {
+        // init new alignments
+        resetVerse(chapter, verse, sourceTokens, targetTokens);
+      }
     } catch (e) {
       // TODO: give the user an option to reset the data or recover from it.
       console.error('The alignment data is corrupt', e);
@@ -167,7 +173,7 @@ export default class Api extends ToolApi {
   stateChangeThrottled(nextState, prevState) {
     const {
       tc: {
-        writeGlobalToolData,
+        writeProjectData,
         contextId: {reference: {bookId, chapter}}
       }
     } = this.props;
@@ -178,7 +184,7 @@ export default class Api extends ToolApi {
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
       const data = getLegacyChapterAlignments(nextState, chapter);
       if (data) {
-        return writeGlobalToolData(dataPath, JSON.stringify(data));
+        return writeProjectData(dataPath, JSON.stringify(data));
       }
     }
   }

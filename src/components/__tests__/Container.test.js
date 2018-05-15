@@ -41,8 +41,8 @@ test('Container renders', () => {
       sourceChapter: {},
       targetChapter: {},
       showDialog: jest.fn(),
-      writeGlobalToolData: jest.fn(),
-      readGlobalToolData: jest.fn(),
+      writeProjectData: jest.fn(),
+      readProjectData: jest.fn(),
       appLanguage: 'en',
       showLoading: jest.fn(),
       closeLoading: jest.fn()

@@ -29,7 +29,7 @@ export default class Api extends ToolApi {
    * @param nextContext
    * @return {boolean}
    */
-  static _didChapterContextChanged(prevContext, nextContext) {
+  static _didChapterContextChange(prevContext, nextContext) {
     if (!prevContext && nextContext) {
       return true;
     }
@@ -264,7 +264,7 @@ export default class Api extends ToolApi {
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
-    if (Api._didChapterContextChanged(prevContext, nextContext)) {
+    if (Api._didChapterContextChange(prevContext, nextContext)) {
       this._loadAlignments(nextProps);
     } else {
       const {reference: {chapter, verse}} = nextContext;

@@ -1,17 +1,17 @@
-import {canDropPrimaryWord} from '../dragDrop';
+import {canDropPrimaryToken} from '../index';
 
 describe('acceptable drops', () => {
   test('single to single left', () => {
     const source = makeSingleSource('move left');
     const target = makeSingleTarget();
-    const result = canDropPrimaryWord(target, source);
+    const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
 
   it('single to single right', () => {
     const source = makeSingleSource('move right');
     const target = makeSingleTarget();
-    const result = canDropPrimaryWord(target, source);
+    const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
 
@@ -20,7 +20,7 @@ describe('acceptable drops', () => {
     const target = makeEmptyTarget();
     // TRICKY: valid empty targets will have the same alignment index
     target.alignmentIndex = source.alignmentIndex;
-    const result = canDropPrimaryWord(target, source);
+    const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
 
@@ -29,21 +29,21 @@ describe('acceptable drops', () => {
     const target = makeEmptyTarget();
     // TRICKY: valid empty targets will have the same alignment index
     target.alignmentIndex = source.alignmentIndex;
-    const result = canDropPrimaryWord(target, source);
+    const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
 
   test('single to merged right', () => {
     const source = makeSingleSource('move right');
     const target = makeMergedTarget();
-    const result = canDropPrimaryWord(target, source);
+    const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
 
   test('single to merged left', () => {
     const source = makeSingleSource('move left');
     const target = makeMergedTarget();
-    const result = canDropPrimaryWord(target, source);
+    const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
 });
@@ -58,12 +58,11 @@ describe('unacceptable drops', () => {
         alignmentLength: 1
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
       };
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
 
@@ -75,12 +74,11 @@ describe('unacceptable drops', () => {
         alignmentLength: 1
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
       };
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
 
@@ -91,12 +89,11 @@ describe('unacceptable drops', () => {
         alignmentLength: 1
       };
       const target = {
-        topWords: [],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: [],
+        targetNgram: [],
+        alignmentIndex: 1
       };
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
   });
@@ -105,7 +102,7 @@ describe('unacceptable drops', () => {
     test('last word is dropped on a previous adjacent alignment', () => {
       const source = makeMergedSource('move left', 'right word');
       const target = makeMergedTarget();
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
 
@@ -116,12 +113,11 @@ describe('unacceptable drops', () => {
         alignmentLength: 2
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 2,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 2
       };
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
 
@@ -132,12 +128,11 @@ describe('unacceptable drops', () => {
         alignmentLength: 2
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 2,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 2
       };
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
 
@@ -148,12 +143,11 @@ describe('unacceptable drops', () => {
         alignmentLength: 2
       };
       const target = {
-        topWords: ['word'],
-        bottomWords: [],
-        alignmentIndex: 1,
-        siblingTopWords: []
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
       };
-      const result = canDropPrimaryWord(target, source);
+      const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
   });
@@ -177,24 +171,24 @@ function makeSingleSource(movement) {
 
 function makeMergedTarget() {
   return {
-    topWords: ['word1', 'word2'],
-    bottomWords: [],
+    sourceNgram: ['word1', 'word2'],
+    targetNgram: [],
     alignmentIndex: 2
   };
 }
 
 function makeEmptyTarget() {
   return {
-    topWords: [],
-    bottomWords: [],
+    sourceNgram: [],
+    targetNgram: [],
     alignmentIndex: 2
   };
 }
 
 function makeSingleTarget() {
   return {
-    topWords: ['word1'],
-    bottomWords: [],
+    sourceNgram: ['word1'],
+    targetNgram: [],
     alignmentIndex: 2
   };
 }

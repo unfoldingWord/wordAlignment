@@ -72,7 +72,55 @@ exports[`has a bottom word 1`] = `
             "transition": "0.1s",
           }
         }
-      />
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord
+              </span>
+            </span>
+            <sup
+              style={
+                Object {
+                  "marginTop": "2px",
+                  "opacity": "0.8",
+                  "top": 0,
+                }
+              }
+            >
+              1
+            </sup>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -97,37 +145,6 @@ exports[`has a top and bottom word 1`] = `
         "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
-        "fontSize": "20px",
-        "height": "100px",
-        "padding": "5px",
-        "width": "280px",
-      }
-    }
-  >
-    [WARNING: This Bible version does not include text for this reference.]
-  </div>
-</div>
-`;
-
-exports[`has a top word 1`] = `
-<div
-  style={
-    Object {
-      "backgroundColor": "#DCDCDC",
-      "flexGrow": 0,
-      "margin": "0px 10px 10px 0px",
-      "minWidth": "calc(115px/2)",
-      "padding": "7px",
-      "transition": "0.1s",
-    }
-  }
->
-  <div
-    style={
-      Object {
-        "backgroundColor": "#DCDCDC",
-        "display": "flex",
-        "flexDirection": "column",
         "height": "100%",
       }
     }
@@ -135,7 +152,7 @@ exports[`has a top word 1`] = `
     <div
       style={
         Object {
-          "border": "3px dashed #ffffff",
+          "border": "3px dashed transparent",
           "boxSizing": "border-box",
           "flexGrow": 1,
           "marginBottom": "7px",
@@ -156,7 +173,207 @@ exports[`has a top word 1`] = `
             "transition": "0.1s",
           }
         }
-      />
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                topWord
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "border": "3px dashed transparent",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord
+              </span>
+            </span>
+            <sup
+              style={
+                Object {
+                  "marginTop": "2px",
+                  "opacity": "0.8",
+                  "top": 0,
+                }
+              }
+            >
+              1
+            </sup>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`has a top word 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#DCDCDC",
+      "flexGrow": 0,
+      "margin": "0px 10px 10px 0px",
+      "minWidth": "115px",
+      "padding": "7px",
+      "transition": "0.1s",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#DCDCDC",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "border": "3px dashed transparent",
+          "boxSizing": "border-box",
+          "flexGrow": 1,
+          "marginBottom": "7px",
+          "minHeight": "45px",
+          "transition": "0.1s",
+          "width": "100%",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "left": 0,
+            "opacity": 1,
+            "position": "relative",
+            "top": 0,
+            "transition": "0.1s",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                topWord
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       style={
@@ -259,7 +476,91 @@ exports[`has multiple bottom words 1`] = `
             "transition": "0.1s",
           }
         }
-      />
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord2
+              </span>
+            </span>
+            <sup
+              style={
+                Object {
+                  "marginTop": "2px",
+                  "opacity": "0.8",
+                  "top": 0,
+                }
+              }
+            >
+              1
+            </sup>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -312,7 +613,80 @@ exports[`has multiple top and bottom words 1`] = `
             "transition": "0.1s",
           }
         }
-      />
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                topWord1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                topWord2
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       style={
@@ -337,7 +711,91 @@ exports[`has multiple top and bottom words 1`] = `
             "transition": "0.1s",
           }
         }
-      />
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                bottomWord2
+              </span>
+            </span>
+            <sup
+              style={
+                Object {
+                  "marginTop": "2px",
+                  "opacity": "0.8",
+                  "top": 0,
+                }
+              }
+            >
+              1
+            </sup>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -390,7 +848,80 @@ exports[`has multiple top words 1`] = `
             "transition": "0.1s",
           }
         }
-      />
+      >
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                topWord1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
+                "display": "flex",
+                "flexDirection": "row",
+                "padding": "10px",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "flex": 1,
+                }
+              }
+            >
+              <span
+                onClick={[Function]}
+                style={Object {}}
+              >
+                topWord2
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       style={

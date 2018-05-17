@@ -4,32 +4,29 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
 <DragDropContext(TestContextContainer)
   chapter={1}
   moveBackToWordBank={[Function]}
+  onDropTargetToken={[Function]}
   verse={1}
   words={
     Array [
-      Word {
-        "_enabled": true,
+      Object {
+        "index": 0,
         "occurrence": 1,
         "occurrences": 1,
-        "token": "w1",
       },
-      Word {
-        "_enabled": true,
+      Object {
+        "index": 0,
         "occurrence": 1,
         "occurrences": 2,
-        "token": "w2",
       },
-      Word {
-        "_enabled": true,
+      Object {
+        "index": 0,
         "occurrence": 2,
         "occurrences": 2,
-        "token": "w2",
       },
-      Word {
-        "_enabled": false,
+      Object {
+        "index": 0,
         "occurrence": 1,
         "occurrences": 1,
-        "token": "w3",
       },
     ]
   }
@@ -37,32 +34,29 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   <TestContextContainer
     chapter={1}
     moveBackToWordBank={[Function]}
+    onDropTargetToken={[Function]}
     verse={1}
     words={
       Array [
-        Word {
-          "_enabled": true,
+        Object {
+          "index": 0,
           "occurrence": 1,
           "occurrences": 1,
-          "token": "w1",
         },
-        Word {
-          "_enabled": true,
+        Object {
+          "index": 0,
           "occurrence": 1,
           "occurrences": 2,
-          "token": "w2",
         },
-        Word {
-          "_enabled": true,
+        Object {
+          "index": 0,
           "occurrence": 2,
           "occurrences": 2,
-          "token": "w2",
         },
-        Word {
-          "_enabled": false,
+        Object {
+          "index": 0,
           "occurrence": 1,
           "occurrences": 1,
-          "token": "w3",
         },
       ]
     }
@@ -70,32 +64,29 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     <DropTarget(DroppableWordList)
       chapter={1}
       moveBackToWordBank={[Function]}
+      onDropTargetToken={[Function]}
       verse={1}
       words={
         Array [
-          Word {
-            "_enabled": true,
+          Object {
+            "index": 0,
             "occurrence": 1,
             "occurrences": 1,
-            "token": "w1",
           },
-          Word {
-            "_enabled": true,
+          Object {
+            "index": 0,
             "occurrence": 1,
             "occurrences": 2,
-            "token": "w2",
           },
-          Word {
-            "_enabled": true,
+          Object {
+            "index": 0,
             "occurrence": 2,
             "occurrences": 2,
-            "token": "w2",
           },
-          Word {
-            "_enabled": false,
+          Object {
+            "index": 0,
             "occurrence": 1,
             "occurrences": 1,
-            "token": "w3",
           },
         ]
       }
@@ -106,32 +97,29 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         isOver={false}
         moveBackToWordBank={[Function]}
+        onDropTargetToken={[Function]}
         verse={1}
         words={
           Array [
-            Word {
-              "_enabled": true,
+            Object {
+              "index": 0,
               "occurrence": 1,
               "occurrences": 1,
-              "token": "w1",
             },
-            Word {
-              "_enabled": true,
+            Object {
+              "index": 0,
               "occurrence": 1,
               "occurrences": 2,
-              "token": "w2",
             },
-            Word {
-              "_enabled": true,
+            Object {
+              "index": 0,
               "occurrence": 2,
               "occurrences": 2,
-              "token": "w2",
             },
-            Word {
-              "_enabled": false,
+            Object {
+              "index": 0,
               "occurrence": 1,
               "occurrences": 1,
-              "token": "w3",
             },
           ]
         }
@@ -154,29 +142,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             verse={1}
             words={
               Array [
-                Word {
-                  "_enabled": true,
+                Object {
+                  "index": 0,
                   "occurrence": 1,
                   "occurrences": 1,
-                  "token": "w1",
                 },
-                Word {
-                  "_enabled": true,
+                Object {
+                  "index": 0,
                   "occurrence": 1,
                   "occurrences": 2,
-                  "token": "w2",
                 },
-                Word {
-                  "_enabled": true,
+                Object {
+                  "index": 0,
                   "occurrence": 2,
                   "occurrences": 2,
-                  "token": "w2",
                 },
-                Word {
-                  "_enabled": false,
+                Object {
+                  "index": 0,
                   "occurrence": 1,
                   "occurrences": 1,
-                  "token": "w3",
                 },
               ]
             }
@@ -189,19 +173,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={false}
-                occurrence={1}
-                occurrences={1}
-                word="w1"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 1,
+                    "occurrences": 1,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
-                  occurrence={1}
-                  occurrences={1}
-                  word="w1"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 1,
+                      "occurrences": 1,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -264,8 +256,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
             <div
               key="1"
@@ -275,19 +267,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={false}
-                occurrence={1}
-                occurrences={2}
-                word="w2"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 1,
+                    "occurrences": 2,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
-                  occurrence={1}
-                  occurrences={2}
-                  word="w2"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 1,
+                      "occurrences": 2,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -362,8 +362,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
             <div
               key="2"
@@ -373,19 +373,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={false}
-                occurrence={2}
-                occurrences={2}
-                word="w2"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 2,
+                    "occurrences": 2,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
-                  occurrence={2}
-                  occurrences={2}
-                  word="w2"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 2,
+                      "occurrences": 2,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -460,8 +468,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
             <div
               key="3"
@@ -471,19 +479,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={true}
-                occurrence={1}
-                occurrences={1}
-                word="w3"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 1,
+                    "occurrences": 1,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={true}
                   isDragging={false}
-                  occurrence={1}
-                  occurrences={1}
-                  word="w3"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 1,
+                      "occurrences": 1,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -547,8 +563,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
           </WordList>
         </div>
@@ -563,6 +579,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   chapter={2}
   isOver={false}
   moveBackToWordBank={[Function]}
+  onDropTargetToken={[Function]}
   verse={1}
   wordList={
     Object {
@@ -571,29 +588,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   }
   words={
     Array [
-      Word {
-        "_enabled": true,
+      Object {
+        "index": 0,
         "occurrence": 1,
         "occurrences": 1,
-        "token": "w1",
       },
-      Word {
-        "_enabled": true,
+      Object {
+        "index": 0,
         "occurrence": 1,
         "occurrences": 2,
-        "token": "w2",
       },
-      Word {
-        "_enabled": true,
+      Object {
+        "index": 0,
         "occurrence": 2,
         "occurrences": 2,
-        "token": "w2",
       },
-      Word {
-        "_enabled": false,
+      Object {
+        "index": 0,
         "occurrence": 1,
         "occurrences": 1,
-        "token": "w3",
       },
     ]
   }
@@ -602,6 +615,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     chapter={2}
     isOver={false}
     moveBackToWordBank={[Function]}
+    onDropTargetToken={[Function]}
     verse={1}
     wordList={
       Object {
@@ -610,29 +624,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     }
     words={
       Array [
-        Word {
-          "_enabled": true,
+        Object {
+          "index": 0,
           "occurrence": 1,
           "occurrences": 1,
-          "token": "w1",
         },
-        Word {
-          "_enabled": true,
+        Object {
+          "index": 0,
           "occurrence": 1,
           "occurrences": 2,
-          "token": "w2",
         },
-        Word {
-          "_enabled": true,
+        Object {
+          "index": 0,
           "occurrence": 2,
           "occurrences": 2,
-          "token": "w2",
         },
-        Word {
-          "_enabled": false,
+        Object {
+          "index": 0,
           "occurrence": 1,
           "occurrences": 1,
-          "token": "w3",
         },
       ]
     }
@@ -641,6 +651,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       chapter={2}
       isOver={false}
       moveBackToWordBank={[Function]}
+      onDropTargetToken={[Function]}
       verse={1}
       wordList={
         Object {
@@ -649,29 +660,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       }
       words={
         Array [
-          Word {
-            "_enabled": true,
+          Object {
+            "index": 0,
             "occurrence": 1,
             "occurrences": 1,
-            "token": "w1",
           },
-          Word {
-            "_enabled": true,
+          Object {
+            "index": 0,
             "occurrence": 1,
             "occurrences": 2,
-            "token": "w2",
           },
-          Word {
-            "_enabled": true,
+          Object {
+            "index": 0,
             "occurrence": 2,
             "occurrences": 2,
-            "token": "w2",
           },
-          Word {
-            "_enabled": false,
+          Object {
+            "index": 0,
             "occurrence": 1,
             "occurrences": 1,
-            "token": "w3",
           },
         ]
       }
@@ -682,6 +689,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         isOver={false}
         moveBackToWordBank={[Function]}
+        onDropTargetToken={[Function]}
         verse={1}
         wordList={
           Object {
@@ -690,29 +698,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         }
         words={
           Array [
-            Word {
-              "_enabled": true,
+            Object {
+              "index": 0,
               "occurrence": 1,
               "occurrences": 1,
-              "token": "w1",
             },
-            Word {
-              "_enabled": true,
+            Object {
+              "index": 0,
               "occurrence": 1,
               "occurrences": 2,
-              "token": "w2",
             },
-            Word {
-              "_enabled": true,
+            Object {
+              "index": 0,
               "occurrence": 2,
               "occurrences": 2,
-              "token": "w2",
             },
-            Word {
-              "_enabled": false,
+            Object {
+              "index": 0,
               "occurrence": 1,
               "occurrences": 1,
-              "token": "w3",
             },
           ]
         }
@@ -735,29 +739,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             verse={1}
             words={
               Array [
-                Word {
-                  "_enabled": true,
+                Object {
+                  "index": 0,
                   "occurrence": 1,
                   "occurrences": 1,
-                  "token": "w1",
                 },
-                Word {
-                  "_enabled": true,
+                Object {
+                  "index": 0,
                   "occurrence": 1,
                   "occurrences": 2,
-                  "token": "w2",
                 },
-                Word {
-                  "_enabled": true,
+                Object {
+                  "index": 0,
                   "occurrence": 2,
                   "occurrences": 2,
-                  "token": "w2",
                 },
-                Word {
-                  "_enabled": false,
+                Object {
+                  "index": 0,
                   "occurrence": 1,
                   "occurrences": 1,
-                  "token": "w3",
                 },
               ]
             }
@@ -770,19 +770,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={false}
-                occurrence={1}
-                occurrences={1}
-                word="w1"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 1,
+                    "occurrences": 1,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
-                  occurrence={1}
-                  occurrences={1}
-                  word="w1"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 1,
+                      "occurrences": 1,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -845,8 +853,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
             <div
               key="1"
@@ -856,19 +864,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={false}
-                occurrence={1}
-                occurrences={2}
-                word="w2"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 1,
+                    "occurrences": 2,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
-                  occurrence={1}
-                  occurrences={2}
-                  word="w2"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 1,
+                      "occurrences": 2,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -943,8 +959,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
             <div
               key="2"
@@ -954,19 +970,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={false}
-                occurrence={2}
-                occurrences={2}
-                word="w2"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 2,
+                    "occurrences": 2,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
-                  occurrence={2}
-                  occurrences={2}
-                  word="w2"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 2,
+                      "occurrences": 2,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -1041,8 +1065,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
             <div
               key="3"
@@ -1052,19 +1076,27 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
-              <DragSource(SecondaryWord)
+              <DragSource(SecondaryToken)
                 disabled={true}
-                occurrence={1}
-                occurrences={1}
-                word="w3"
+                token={
+                  Object {
+                    "index": 0,
+                    "occurrence": 1,
+                    "occurrences": 1,
+                  }
+                }
               >
-                <SecondaryWord
+                <SecondaryToken
                   connectDragSource={[Function]}
                   disabled={true}
                   isDragging={false}
-                  occurrence={1}
-                  occurrences={1}
-                  word="w3"
+                  token={
+                    Object {
+                      "index": 0,
+                      "occurrence": 1,
+                      "occurrences": 1,
+                    }
+                  }
                 >
                   <div
                     style={
@@ -1128,8 +1160,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       </div>
                     </WordCard>
                   </div>
-                </SecondaryWord>
-              </DragSource(SecondaryWord)>
+                </SecondaryToken>
+              </DragSource(SecondaryToken)>
             </div>
           </WordList>
         </div>

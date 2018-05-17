@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
@@ -6,48 +5,196 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
-import {getWords, getAlignedWords, disableAlignedWords} from '../utils/words';
+import WordMap from 'word-map';
+import Lexer from 'word-map/Lexer';
+import {
+  alignTargetToken,
+  clearState,
+  indexChapterAlignments,
+  moveSourceToken,
+  repairVerse,
+  resetVerse,
+  unalignTargetToken
+} from '../state/actions';
+import {
+  getIsVerseValid,
+  getVerseAlignedTargetTokens,
+  getVerseAlignments
+} from '../state/reducers';
+import {connect} from 'react-redux';
+import {tokenizeVerseObjects} from '../utils/verseObjects';
+import Token from 'word-map/structures/Token';
 
 /**
  * The base container for this tool
  */
 class Container extends Component {
 
+  constructor(props) {
+    super(props);
+    this.map = new WordMap();
+    this.predictAlignments = this.predictAlignments.bind(this);
+    this.initMAP = this.initMAP.bind(this);
+    this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
+    this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
+    this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
+    this.state = {
+      loading: false,
+      validating: false,
+      prevState: undefined,
+      writing: false
+    };
+  }
+
   componentWillMount() {
+    // TODO: the following code needs to be cleaned up
+
     // current panes persisted in the scripture pane settings.
     const {ScripturePane} = this.props.settingsReducer.toolsSettings;
     let panes = [];
     if (ScripturePane) panes = ScripturePane.currentPaneSettings;
     // filter out targetLanguage and bhp
     panes = panes.filter((pane) => {
-      return pane.languageId !== "targetLanguage" && pane.bibleId !== "bhp" && pane.bibleId !== "ugnt";
+      return pane.languageId !== 'targetLanguage' && pane.bibleId !== 'bhp' &&
+        pane.bibleId !== 'ugnt';
     });
     // getting the last pane from the panes array if it exist otherwise equal to null.
     const lastPane = panes[panes.length - 1] ? panes[panes.length - 1] : null;
     // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
     let desiredPanes = [
       {
-        languageId: "targetLanguage",
-        bibleId: "targetBible"
+        languageId: 'targetLanguage',
+        bibleId: 'targetBible'
       },
       {
-        languageId: "originalLanguage",
-        bibleId: "ugnt"
+        languageId: 'originalLanguage',
+        bibleId: 'ugnt'
       }
     ];
     // if last pane found in previous scripture pane settings then carry it over to new settings in wordAlignment.
-    const carryOverPane = lastPane && lastPane.languageId !== "targetLanguage" && lastPane.bibleId !== "bhp" && lastPane.bibleId !== "ugnt";
+    const carryOverPane = lastPane && lastPane.languageId !==
+      'targetLanguage' && lastPane.bibleId !== 'bhp' && lastPane.bibleId !==
+      'ugnt';
     if (carryOverPane) desiredPanes.push(lastPane);
     // set new pane settings
-    this.props.actions.setToolSettings("ScripturePane", "currentPaneSettings", desiredPanes);
+    this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
+      desiredPanes);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.contextIdReducer.contextId,
-        nextProps.contextIdReducer.contextId)) {
+    const {
+      tc: {
+        contextId: nextContextId
+      }
+    } = nextProps;
+    const {
+      tc: {contextId: prevContextId}
+    } = this.props;
+
+    if (!isEqual(prevContextId, nextContextId)) {
+      // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
     }
+  }
+
+  /**
+   * Initializes the prediction engine
+   * TODO: finish this when we add MAP
+   * @param alignmentData
+   */
+  initMAP(alignmentData) {
+    // TODO: warm the index asynchronously
+    for (const chapter of Object.keys(alignmentData)) {
+      for (const verse of Object.keys(alignmentData[chapter])) {
+        if (alignmentData[chapter][verse].alignment) {
+          for (const alignment of alignmentData[chapter][verse]) {
+            if (alignment.topWords.length && alignment.bottomWords.length) {
+              const sourceText = alignment.topWords.map(w => w.word).join(' ');
+              const targetText = alignment.bottomWords.map(w => w.word).
+                join(' ');
+              this.map.appendSavedAlignmentsString(sourceText, targetText);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Predicts alignments
+   * TODO: finish this when we add MAP
+   * @param primaryVerse - the primary verse text
+   * @param secondaryVerse - the secondary verse text
+   */
+  predictAlignments(primaryVerse, secondaryVerse) {
+    const suggestions = this.map.predict(primaryVerse, secondaryVerse);
+    for (const p of suggestions[0].predictions) {
+      if (p.confidence > 1) {
+        // TODO:  find the unused alignment index
+        const alignmentIndex = -1;
+        if (alignmentIndex >= 0) {
+          // TODO: check if the secondary word has already been aligned.
+          console.log('valid alignment!', p.toString());
+          for (const token of p.target.getTokens()) {
+            this.handleAlignTargetToken(alignmentIndex, {
+              alignmentIndex: undefined,
+              occurrence: 1, // TODO: get token occurrence
+              occurrences: 1, // TODO: get token occurrences
+              word: token.toString()
+            });
+            // TODO: inject suggestions into alignments
+          }
+        } else {
+          // TODO: if all the source words are available but not merged we need to merge them!
+        }
+      }
+    }
+  }
+
+  /**
+   * Handles adding secondary words to an alignment
+   * @param {Token} token - the secondary word to move
+   * @param {number} nextIndex - the index to which the token will be moved
+   * @param {number} [prevIndex=-1] - the index from which the token will be moved
+   */
+  handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
+    const {
+      tc: {contextId: {reference: {chapter, verse}}},
+      alignTargetToken,
+      unalignTargetToken
+    } = this.props;
+    if (prevIndex >= 0) {
+      unalignTargetToken(chapter, verse, prevIndex, token);
+    }
+    alignTargetToken(chapter, verse, nextIndex, token);
+  }
+
+  /**
+   * Handles removing secondary words from an alignment
+   * @param {Token} token - the secondary word to remove
+   * @param {number} prevIndex - the index from which this token will be moved
+   */
+  handleUnalignTargetToken(token, prevIndex) {
+    const {
+      tc: {contextId: {reference: {chapter, verse}}},
+      unalignTargetToken
+    } = this.props;
+    unalignTargetToken(chapter, verse, prevIndex, token);
+  }
+
+  /**
+   * Handles (un)merging primary words
+   * @param {Token} token - the primary word to move
+   * @param {number} prevIndex - the previous alignment index
+   * @param {number} nextIndex - the next alignment index
+   */
+  handleAlignPrimaryToken(token, nextIndex, prevIndex) {
+    const {
+      moveSourceToken,
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
   }
 
   render() {
@@ -60,42 +207,54 @@ class Container extends Component {
       settingsReducer,
       resourcesReducer,
       selectionsReducer,
+      targetTokens,
+      alignedTokens,
       contextIdReducer,
-      wordAlignmentReducer,
+      verseAlignments,
       projectDetailsReducer,
-      appLanguage,
+      tc: {
+        appLanguage,
+        contextId
+      },
       currentToolViews
     } = this.props;
+
+    if (!contextId) {
+      return null;
+    }
+
     const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
-    if (Object.keys(this.props.resourcesReducer.bibles).length > 0) {
-      scripturePane = <ScripturePane projectDetailsReducer={projectDetailsReducer}
-                                     appLanguage={appLanguage}
-                                     selectionsReducer={selectionsReducer}
-                                     currentToolViews={currentToolViews}
-                                     resourcesReducer={resourcesReducer}
-                                     contextIdReducer={contextIdReducer}
-                                     settingsReducer={settingsReducer}
-                                     actions={actions} />;
+    if (Object.keys(resourcesReducer.bibles).length > 0) {
+      scripturePane =
+        <ScripturePane projectDetailsReducer={projectDetailsReducer}
+                       appLanguage={appLanguage}
+                       selectionsReducer={selectionsReducer}
+                       currentToolViews={currentToolViews}
+                       resourcesReducer={resourcesReducer}
+                       contextIdReducer={contextIdReducer}
+                       settingsReducer={settingsReducer}
+                       actions={actions}/>;
     }
 
-    const {moveBackToWordBank} = actions;
-    const {alignmentData} = wordAlignmentReducer;
-    const {contextId} = contextIdReducer;
-    const {lexicons, bibles: {targetLanguage}} = resourcesReducer;
-    let chapter, verse;
-    let words = [];
-    if (contextId) {
-      chapter = contextId.reference.chapter;
-      verse = contextId.reference.verse;
+    const {lexicons} = resourcesReducer;
+    const {reference: {chapter, verse}} = contextId;
 
-      // parse secondary text words
-      const secondaryChapterText = targetLanguage['targetBible'][chapter];
-      words = getWords(secondaryChapterText[verse]);
-      const alignedWords = getAlignedWords(alignmentData, chapter, verse);
-      words = disableAlignedWords(words, alignedWords);
-    }
+    // disabled aligned target tokens
+    const words = targetTokens.map(token => {
+      let isUsed = false;
+      for (const usedToken of alignedTokens) {
+        if (token.toString() === usedToken.toString()
+          && token.occurrence === usedToken.occurrence
+          && token.occurrences === usedToken.occurrences) {
+          isUsed = true;
+          break;
+        }
+      }
+      token.disabled = isUsed;
+      return token;
+    });
 
     return (
       <div style={{display: 'flex', width: '100%', height: '100%'}}>
@@ -103,9 +262,9 @@ class Container extends Component {
           chapter={chapter}
           verse={verse}
           words={words}
-          moveBackToWordBank={moveBackToWordBank}
+          onDropTargetToken={this.handleUnalignTargetToken}
           connectDropTarget={connectDropTarget}
-          isOver={isOver} />
+          isOver={isOver}/>
         <div style={{
           flex: 0.8,
           display: 'flex',
@@ -114,19 +273,64 @@ class Container extends Component {
           height: '100%'
         }}>
           {scripturePane}
-          <AlignmentGrid alignmentData={alignmentData}
-            translate={translate}
-            lexicons={lexicons}
-            actions={actions}
-            contextId={contextId}/>
+          <AlignmentGrid alignments={verseAlignments}
+                         translate={translate}
+                         lexicons={lexicons}
+                         onDropTargetToken={this.handleAlignTargetToken}
+                         onDropSourceToken={this.handleAlignPrimaryToken}
+                         actions={actions}
+                         contextId={contextId}/>
         </div>
       </div>
     );
   }
 }
 
+Container.contextTypes = {
+  store: PropTypes.any.isRequired
+};
+
 Container.propTypes = {
-  appLanguage: PropTypes.string.isRequired,
+  tc: PropTypes.shape({
+    writeProjectData: PropTypes.func.isRequired,
+    readProjectData: PropTypes.func.isRequired,
+    showDialog: PropTypes.func.isRequired,
+    showLoading: PropTypes.func.isRequired,
+    closeLoading: PropTypes.func.isRequired,
+
+    targetVerseText: PropTypes.string,
+    contextId: PropTypes.object,
+    sourceVerse: PropTypes.object,
+    sourceChapter: PropTypes.object.isRequired,
+    targetChapter: PropTypes.object.isRequired,
+    appLanguage: PropTypes.string.isRequired
+  }).isRequired,
+  toolIsReady: PropTypes.bool.isRequired,
+
+  // dispatch props
+  alignTargetToken: PropTypes.func.isRequired,
+  unalignTargetToken: PropTypes.func.isRequired,
+  moveSourceToken: PropTypes.func.isRequired,
+  clearState: PropTypes.func.isRequired,
+  resetVerse: PropTypes.func.isRequired,
+  repairVerse: PropTypes.func.isRequired,
+  indexChapterAlignments: PropTypes.func.isRequired,
+
+  // state props
+  sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
+  targetTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
+  verseAlignments: PropTypes.array.isRequired,
+  alignedTokens: PropTypes.array.isRequired,
+  verseIsValid: PropTypes.bool.isRequired,
+
+  // tc-tool props
+  translate: PropTypes.func,
+
+  // drag props
+  isOver: PropTypes.bool,
+  connectDropTarget: PropTypes.func,
+
+  // old properties
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
   currentToolViews: PropTypes.object.isRequired,
@@ -135,11 +339,47 @@ Container.propTypes = {
   settingsReducer: PropTypes.shape({
     toolsSettings: PropTypes.object.required
   }).isRequired,
-  wordAlignmentReducer: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-  translate: PropTypes.func,
-  isOver: PropTypes.bool,
-  connectDropTarget: PropTypes.func
+  actions: PropTypes.object.isRequired
 };
 
-export default DragDropContext(HTML5Backend)(Container);
+const mapDispatchToProps = ({
+  alignTargetToken,
+  unalignTargetToken,
+  moveSourceToken,
+  resetVerse,
+  repairVerse,
+  clearState,
+  indexChapterAlignments
+});
+
+const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
+  if (contextId) {
+    const {reference: {chapter, verse}} = contextId;
+    // TRICKY: the target verse contains punctuation we need to remove
+    const targetTokens = Lexer.tokenize(targetVerseText);
+    const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
+    const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
+      join(' ');
+    const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
+      join(' ');
+    return {
+      targetTokens,
+      sourceTokens,
+      alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
+      verseAlignments: getVerseAlignments(state, chapter, verse),
+      verseIsValid: getIsVerseValid(state, chapter, verse,
+        normalizedSourceVerseText, normalizedTargetVerseText)
+    };
+  } else {
+    return {
+      targetTokens: [],
+      sourceTokens: [],
+      alignedTokens: [],
+      verseAlignments: [],
+      verseIsValid: true
+    };
+  }
+};
+
+export default DragDropContext(HTML5Backend)(
+  connect(mapStateToProps, mapDispatchToProps)(Container));

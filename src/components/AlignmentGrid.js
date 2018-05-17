@@ -26,18 +26,13 @@ class AlignmentGrid extends Component {
       translate,
       actions,
       lexicons,
-      alignmentData,
+      alignments,
       contextId
     } = this.props;
 
     if (!contextId) {
       return <div/>;
     }
-    const {chapter, verse} = contextId.reference;
-    const alignments = alignmentData && alignmentData[chapter] &&
-    alignmentData[chapter][verse] ?
-      alignmentData[chapter][verse].alignments :
-      [];
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
       <div id='AlignmentGrid' style={styles.root}>
@@ -61,8 +56,8 @@ class AlignmentGrid extends Component {
                 <AlignmentCard
                   translate={translate}
                   alignmentIndex={index}
-                  bottomWords={alignment.bottomWords}
-                  topWords={alignment.topWords}
+                  targetNgram={alignment.targetNgram}
+                  sourceNgram={alignment.sourceNgram}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   lexicons={lexicons}
@@ -72,8 +67,8 @@ class AlignmentGrid extends Component {
                   translate={translate}
                   alignmentIndex={index}
                   placeholderPosition="right"
-                  bottomWords={[]}
-                  topWords={[]}
+                  targetNgram={[]}
+                  sourceNgram={[]}
                   onDrop={item => this.handleDrop(index, item)}
                   actions={actions}
                   lexicons={lexicons}
@@ -87,18 +82,20 @@ class AlignmentGrid extends Component {
   }
 
   handleDrop(index, item) {
+    const {onDropTargetToken, onDropSourceToken} = this.props;
     if (item.type === types.SECONDARY_WORD) {
-      this.props.actions.moveWordBankItemToAlignment(index, item);
+      onDropTargetToken(item.token, index, item.alignmentIndex);
     }
     if (item.type === types.PRIMARY_WORD) {
-      this.props.actions.moveTopWordItemToAlignment(item, item.alignmentIndex,
-        index);
+      onDropSourceToken(item.token, index, item.alignmentIndex);
     }
   }
 }
 
 AlignmentGrid.propTypes = {
-  alignmentData: PropTypes.object,
+  onDropTargetToken: PropTypes.func.isRequired,
+  onDropSourceToken: PropTypes.func.isRequired,
+  alignments: PropTypes.array.isRequired,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,

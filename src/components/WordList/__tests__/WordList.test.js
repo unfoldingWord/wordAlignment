@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import Word from '../../../specs/Word';
+import Token from 'word-map/structures/Token';
 import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
@@ -18,11 +18,11 @@ describe('snapshot', () => {
 
   it('has words', () => {
     const WrappedWordList = wrapInTestContext(WordList);
-    const w3 = new Word('w3');
-    w3.disable();
+    const w3 = new Token({text: 'w3'});
+    w3.disabled = true;
     const words = [
-      new Word('w1'),
-      new Word('w2'),
+      new Token({text: 'w1'}),
+      new Token({text: 'w2'}),
       w3
     ];
     const wrapper = renderer.create(

@@ -24,7 +24,7 @@ import {
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import Token from 'word-map/structures/Token';
-
+import { ScripturePane } from 'tc-ui-toolkit';
 /**
  * The base container for this tool
  */
@@ -203,6 +203,12 @@ class Container extends Component {
       connectDropTarget,
       isOver,
       actions,
+      actions: {
+        showPopover,
+        editTargetVerse,
+        getLexiconData,
+        setToolSettings
+      },
       translate,
       settingsReducer,
       resourcesReducer,
@@ -216,26 +222,35 @@ class Container extends Component {
         appLanguage,
         contextId
       },
-      currentToolViews
     } = this.props;
 
     if (!contextId) {
       return null;
     }
 
-    const {ScripturePane} = currentToolViews;
     let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
       scripturePane =
-        <ScripturePane projectDetailsReducer={projectDetailsReducer}
-                       appLanguage={appLanguage}
-                       selectionsReducer={selectionsReducer}
-                       currentToolViews={currentToolViews}
-                       resourcesReducer={resourcesReducer}
-                       contextIdReducer={contextIdReducer}
-                       settingsReducer={settingsReducer}
-                       actions={actions}/>;
+        <ScripturePane contextId={contextIdReducer.contextId}
+                      titleLabel="Step 1. Read"
+                      closeButtonLabel="Close"
+                      expandedScripturePaneTitle="Matthew"
+                      expandButtonHoverText="Click to show expanded resource panes"
+                      clickToRemoveResourceLabel="Click to remove resource"
+                      clickAddResource="Click to add a resource"
+                      addResourceLabel="Add Resources"
+                      selectLanguageLabel="Select language"
+                      selectLabel="Select"
+                      bibles={resourcesReducer.bibles}
+                      currentPaneSettings={settingsReducer.currentPaneSettings}
+                      showPopover={showPopover}
+                      editTargetVerse={editTargetVerse}
+                      projectDetailsReducer={projectDetailsReducer}
+                      translate={translate}
+                      getLexiconData={getLexiconData}
+                      selections={selectionsReducer.selections}
+                      setToolSettings={setToolSettings} />;
     }
 
     const {lexicons} = resourcesReducer;

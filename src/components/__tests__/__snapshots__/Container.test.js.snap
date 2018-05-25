@@ -42,11 +42,21 @@ exports[`Container renders 1`] = `
     Object {
       "appLanguage": "en",
       "closeLoading": [Function],
+      "contextId": Object {
+        "reference": Object {
+          "chapter": 1,
+          "verse": 1,
+        },
+      },
       "readProjectData": [Function],
       "showDialog": [Function],
       "showLoading": [Function],
       "sourceChapter": Object {},
+      "sourceVerse": Object {
+        "verseObjects": Array [],
+      },
       "targetChapter": Object {},
+      "targetVerseText": "",
       "writeProjectData": [Function],
     }
   }
@@ -98,11 +108,21 @@ exports[`Container renders 1`] = `
       Object {
         "appLanguage": "en",
         "closeLoading": [Function],
+        "contextId": Object {
+          "reference": Object {
+            "chapter": 1,
+            "verse": 1,
+          },
+        },
         "readProjectData": [Function],
         "showDialog": [Function],
         "showLoading": [Function],
         "sourceChapter": Object {},
+        "sourceVerse": Object {
+          "verseObjects": Array [],
+        },
         "targetChapter": Object {},
+        "targetVerseText": "",
         "writeProjectData": [Function],
       }
     }
@@ -165,11 +185,21 @@ exports[`Container renders 1`] = `
           Object {
             "appLanguage": "en",
             "closeLoading": [Function],
+            "contextId": Object {
+              "reference": Object {
+                "chapter": 1,
+                "verse": 1,
+              },
+            },
             "readProjectData": [Function],
             "showDialog": [Function],
             "showLoading": [Function],
             "sourceChapter": Object {},
+            "sourceVerse": Object {
+              "verseObjects": Array [],
+            },
             "targetChapter": Object {},
+            "targetVerseText": "",
             "writeProjectData": [Function],
           }
         }
@@ -222,11 +252,21 @@ exports[`Container renders 1`] = `
             Object {
               "appLanguage": "en",
               "closeLoading": [Function],
+              "contextId": Object {
+                "reference": Object {
+                  "chapter": 1,
+                  "verse": 1,
+                },
+              },
               "readProjectData": [Function],
               "showDialog": [Function],
               "showLoading": [Function],
               "sourceChapter": Object {},
+              "sourceVerse": Object {
+                "verseObjects": Array [],
+              },
               "targetChapter": Object {},
+              "targetVerseText": "",
               "writeProjectData": [Function],
             }
           }
@@ -279,11 +319,21 @@ exports[`Container renders 1`] = `
               Object {
                 "appLanguage": "en",
                 "closeLoading": [Function],
+                "contextId": Object {
+                  "reference": Object {
+                    "chapter": 1,
+                    "verse": 1,
+                  },
+                },
                 "readProjectData": [Function],
                 "showDialog": [Function],
                 "showLoading": [Function],
                 "sourceChapter": Object {},
+                "sourceVerse": Object {
+                  "verseObjects": Array [],
+                },
                 "targetChapter": Object {},
+                "targetVerseText": "",
                 "writeProjectData": [Function],
               }
             }
@@ -307,11 +357,14 @@ exports[`Container renders 1`] = `
               alignTargetToken={[Function]}
               alignedTokens={Array []}
               appLanguage="en"
+              chapterAlignments={Object {}}
               clearState={[Function]}
               contextIdReducer={Object {}}
               currentToolViews={Object {}}
               indexChapterAlignments={[Function]}
               moveSourceToken={[Function]}
+              normalizedSourceVerseText=""
+              normalizedTargetVerseText=""
               projectDetailsReducer={Object {}}
               repairVerse={[Function]}
               resetVerse={[Function]}
@@ -345,11 +398,21 @@ exports[`Container renders 1`] = `
                 Object {
                   "appLanguage": "en",
                   "closeLoading": [Function],
+                  "contextId": Object {
+                    "reference": Object {
+                      "chapter": 1,
+                      "verse": 1,
+                    },
+                  },
                   "readProjectData": [Function],
                   "showDialog": [Function],
                   "showLoading": [Function],
                   "sourceChapter": Object {},
+                  "sourceVerse": Object {
+                    "verseObjects": Array [],
+                  },
                   "targetChapter": Object {},
+                  "targetVerseText": "",
                   "writeProjectData": [Function],
                 }
               }
@@ -357,13 +420,111 @@ exports[`Container renders 1`] = `
               translate={[Function]}
               unalignTargetToken={[Function]}
               verseAlignments={Array []}
-              verseIsValid={true}
+              verseIsValid={false}
               wordAlignmentReducer={
                 Object {
                   "alignmentData": Object {},
                 }
               }
-            />
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              >
+                <DropTarget(DroppableWordList)
+                  chapter={1}
+                  onDropTargetToken={[Function]}
+                  verse={1}
+                  words={Array []}
+                >
+                  <DroppableWordList
+                    canDrop={false}
+                    chapter={1}
+                    connectDropTarget={[Function]}
+                    isOver={false}
+                    onDropTargetToken={[Function]}
+                    verse={1}
+                    words={Array []}
+                  >
+                    <div
+                      id="wordList"
+                      style={
+                        Object {
+                          "backgroundColor": "#DCDCDC",
+                          "flex": 0.2,
+                          "overflowY": "auto",
+                          "padding": "5px 8px 5px 5px",
+                          "width": "100%",
+                        }
+                      }
+                    >
+                      <WordList
+                        chapter={1}
+                        isOver={false}
+                        verse={1}
+                        words={Array []}
+                      />
+                    </div>
+                  </DroppableWordList>
+                </DropTarget(DroppableWordList)>
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "flex": 0.8,
+                      "flexDirection": "column",
+                      "height": "100%",
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <div />
+                  <AlignmentGrid
+                    actions={
+                      Object {
+                        "getWordListForVerse": [Function],
+                        "loadLexiconEntry": [Function],
+                        "setToolSettings": [Function],
+                        "showPopover": [Function],
+                      }
+                    }
+                    alignments={Array []}
+                    contextId={
+                      Object {
+                        "reference": Object {
+                          "chapter": 1,
+                          "verse": 1,
+                        },
+                      }
+                    }
+                    lexicons={Object {}}
+                    onDropSourceToken={[Function]}
+                    onDropTargetToken={[Function]}
+                    translate={[Function]}
+                  >
+                    <div
+                      id="AlignmentGrid"
+                      style={
+                        Object {
+                          "alignContent": "flex-start",
+                          "backgroundColor": "#ffffff",
+                          "display": "flex",
+                          "flexGrow": 2,
+                          "flexWrap": "wrap",
+                          "overflowY": "auto",
+                          "padding": "0px 10px 10px",
+                        }
+                      }
+                    />
+                  </AlignmentGrid>
+                </div>
+              </div>
+            </Container>
           </Connect(Container)>
         </DragDropContext(Connect(Container))>
       </TestContextContainer>

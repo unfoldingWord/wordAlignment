@@ -5,6 +5,10 @@ export default combineReducers({
   alignments
 });
 
+export const getChapterAlignments = (state, chapter) => {
+  return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
+};
+
 /**
  * Checks if data for the chapter has been loaded
  * @param state

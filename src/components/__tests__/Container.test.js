@@ -7,6 +7,7 @@ import Container from '../Container';
 import {mount} from 'enzyme';
 import toJson from 'enzyme-to-json';
 import {connectTool} from 'tc-tool';
+import reducer from '../../state/reducers';
 
 test('Container renders', () => {
   const props = {
@@ -38,9 +39,14 @@ test('Container renders', () => {
     },
     appLanguage: 'en',
     tc: {
+      contextId: {reference: {chapter: 1, verse: 1}},
       sourceChapter: {},
       targetChapter: {},
       showDialog: jest.fn(),
+      targetVerseText: '',
+      sourceVerse: {
+        verseObjects: []
+      },
       writeProjectData: jest.fn(),
       readProjectData: jest.fn(),
       appLanguage: 'en',
@@ -65,5 +71,7 @@ function wrapInTestContext(DecoratedComponent) {
     }
   }
 
-  return DragDropContext(TestBackend)(connectTool()(TestContextContainer).container);
+  return DragDropContext(TestBackend)(connectTool('hello', {
+    reducer
+  })(TestContextContainer).container);
 }

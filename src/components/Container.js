@@ -17,6 +17,7 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {
+  getChapterAlignments,
   getIsVerseValid,
   getVerseAlignedTargetTokens,
   getVerseAlignments
@@ -47,6 +48,7 @@ class Container extends Component {
   }
 
   componentWillMount() {
+    const {chapterAlignments} = this.props;
     // TODO: the following code needs to be cleaned up
 
     // current panes persisted in the scripture pane settings.
@@ -79,6 +81,8 @@ class Container extends Component {
     // set new pane settings
     this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
       desiredPanes);
+
+    this.initMAP(chapterAlignments);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,27 +99,26 @@ class Container extends Component {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
+
+      this.predictAlignments();
     }
   }
 
   /**
    * Initializes the prediction engine
    * TODO: finish this when we add MAP
-   * @param alignmentData
+   * @param chapterAlignments
    */
-  initMAP(alignmentData) {
-    // TODO: warm the index asynchronously
-    for (const chapter of Object.keys(alignmentData)) {
-      for (const verse of Object.keys(alignmentData[chapter])) {
-        if (alignmentData[chapter][verse].alignment) {
-          for (const alignment of alignmentData[chapter][verse]) {
-            if (alignment.topWords.length && alignment.bottomWords.length) {
-              const sourceText = alignment.topWords.map(w => w.word).join(' ');
-              const targetText = alignment.bottomWords.map(w => w.word).
-                join(' ');
-              this.map.appendSavedAlignmentsString(sourceText, targetText);
-            }
-          }
+  initMAP(chapterAlignments) {
+    // TODO: eventually we'll want to load alignments from the entire book
+    // not just the current chapter
+
+    for (const verse of Object.keys(chapterAlignments)) {
+      for (const a of chapterAlignments[verse]) {
+        if (a.sourceNgram.length && a.targetNgram.length) {
+          const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
+          const targetText = a.targetNgram.map(t => t.toString()).join(' ');
+          this.map.appendSavedAlignmentsString(sourceText, targetText);
         }
       }
     }
@@ -123,31 +126,34 @@ class Container extends Component {
 
   /**
    * Predicts alignments
-   * TODO: finish this when we add MAP
-   * @param primaryVerse - the primary verse text
-   * @param secondaryVerse - the secondary verse text
    */
-  predictAlignments(primaryVerse, secondaryVerse) {
-    const suggestions = this.map.predict(primaryVerse, secondaryVerse);
+  predictAlignments() {
+    const {
+      normalizedTargetVerseText,
+      normalizedSourceVerseText
+    } = this.props;
+    const suggestions = this.map.predict(normalizedSourceVerseText,
+      normalizedTargetVerseText);
+
     for (const p of suggestions[0].predictions) {
       if (p.confidence > 1) {
         // TODO:  find the unused alignment index
-        const alignmentIndex = -1;
-        if (alignmentIndex >= 0) {
+        // const alignmentIndex = -1;
+        // if (alignmentIndex >= 0) {
           // TODO: check if the secondary word has already been aligned.
           console.log('valid alignment!', p.toString());
-          for (const token of p.target.getTokens()) {
-            this.handleAlignTargetToken(alignmentIndex, {
-              alignmentIndex: undefined,
-              occurrence: 1, // TODO: get token occurrence
-              occurrences: 1, // TODO: get token occurrences
-              word: token.toString()
-            });
+          // for (const token of p.target.getTokens()) {
+            // this.handleAlignTargetToken(alignmentIndex, {
+            //   alignmentIndex: undefined,
+            //   occurrence: 1, // TODO: get token occurrence
+            //   occurrences: 1, // TODO: get token occurrences
+            //   word: token.toString()
+            // });
             // TODO: inject suggestions into alignments
-          }
-        } else {
+          // }
+        // } else {
           // TODO: if all the source words are available but not merged we need to merge them!
-        }
+        // }
       }
     }
   }
@@ -322,6 +328,9 @@ Container.propTypes = {
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   verseIsValid: PropTypes.bool.isRequired,
+  chapterAlignments: PropTypes.object.isRequired,
+  normalizedTargetVerseText: PropTypes.string.isRequired,
+  normalizedSourceVerseText: PropTypes.string.isRequired,
 
   // tc-tool props
   translate: PropTypes.func,
@@ -352,33 +361,27 @@ const mapDispatchToProps = ({
   indexChapterAlignments
 });
 
-const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
-  if (contextId) {
-    const {reference: {chapter, verse}} = contextId;
-    // TRICKY: the target verse contains punctuation we need to remove
-    const targetTokens = Lexer.tokenize(targetVerseText);
-    const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
-    const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
-      join(' ');
-    const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
-      join(' ');
-    return {
-      targetTokens,
-      sourceTokens,
-      alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
-      verseAlignments: getVerseAlignments(state, chapter, verse),
-      verseIsValid: getIsVerseValid(state, chapter, verse,
-        normalizedSourceVerseText, normalizedTargetVerseText)
-    };
-  } else {
-    return {
-      targetTokens: [],
-      sourceTokens: [],
-      alignedTokens: [],
-      verseAlignments: [],
-      verseIsValid: true
-    };
-  }
+const mapStateToProps = (state, props) => {
+  const {tc: {contextId, targetVerseText, sourceVerse}} = props;
+  const {reference: {chapter, verse}} = contextId;
+  // TRICKY: the target verse contains punctuation we need to remove
+  const targetTokens = Lexer.tokenize(targetVerseText);
+  const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
+  const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
+    join(' ');
+  const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
+    join(' ');
+  return {
+    chapterAlignments: getChapterAlignments(state, chapter),
+    targetTokens,
+    sourceTokens,
+    alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
+    verseAlignments: getVerseAlignments(state, chapter, verse),
+    verseIsValid: getIsVerseValid(state, chapter, verse,
+      normalizedSourceVerseText, normalizedTargetVerseText),
+    normalizedTargetVerseText,
+    normalizedSourceVerseText
+  };
 };
 
 export default DragDropContext(HTML5Backend)(

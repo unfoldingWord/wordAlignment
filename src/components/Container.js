@@ -100,7 +100,7 @@ class Container extends Component {
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
 
-      this.predictAlignments();
+      this.predictAlignments(nextProps);
     }
   }
 
@@ -127,17 +127,18 @@ class Container extends Component {
   /**
    * Predicts alignments
    */
-  predictAlignments() {
+  predictAlignments(props) {
     const {
       normalizedTargetVerseText,
       normalizedSourceVerseText
-    } = this.props;
+    } = props;
     const suggestions = this.map.predict(normalizedSourceVerseText,
       normalizedTargetVerseText);
 
     for (const p of suggestions[0].predictions) {
       if (p.confidence > 1) {
-        // TODO:  find the unused alignment index
+        // TODO: look up the alignment index
+
         // const alignmentIndex = -1;
         // if (alignmentIndex >= 0) {
           // TODO: check if the secondary word has already been aligned.

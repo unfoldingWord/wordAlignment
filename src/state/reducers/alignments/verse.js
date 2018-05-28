@@ -1,4 +1,5 @@
 import {
+  ADD_ALIGNMENT_SUGGESTION,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
@@ -8,7 +9,8 @@ import {
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
   UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN
+  UNALIGN_TARGET_TOKEN,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS
 } from '../../actions/actionTypes';
 import alignment, * as fromAlignment from './alignment';
 import Token from 'word-map/structures/Token';
@@ -84,7 +86,12 @@ const formatTargetToken = (token) => ({
   position: token.position
 });
 
-const defaultState = {sourceTokens: [], targetTokens: [], alignments: []};
+const defaultState = {
+  sourceTokens: [],
+  targetTokens: [],
+  alignments: [],
+  suggestions: []
+};
 
 /**
  * Reduces the verse alignment state
@@ -110,6 +117,19 @@ const verse = (state = defaultState, action) => {
         alignments: newAlignments
       };
     }
+    case ADD_ALIGNMENT_SUGGESTION:
+    return {
+      ...state,
+      suggestions: [...state.suggestions, {
+        sourceNgram: action.alignment.sourceNgram.map(t => t.position),
+        targetNgram: action.alignment.targetNgram.map(t => t.position)
+      }]
+    };
+    case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
+      return {
+        ...state,
+        suggestions: []
+      };
     case RESET_VERSE_ALIGNMENTS: {
       const alignments = [];
       for (let i = 0; i < state.sourceTokens.length; i++) {
@@ -280,7 +300,7 @@ export const getIsAligned = state => {
   }
   const tokens = getAlignedTargetTokens(state);
   return tokens.length === state.targetTokens.length;
-  
+
 };
 
 /**
@@ -316,6 +336,38 @@ export const getTokenizedAlignments = state => {
   return alignments;
 };
 
+/**
+ * Checks if the machine alignment is valid.
+ * In particular the ensures the alignment does not conflict with a human alignment
+ * @param state
+ * @param {object} machineAlignment
+ * @return {boolean}
+ */
+export const getIsMachineAlignmentValid = (state, machineAlignment) => {
+  for (const alignment of state.alignments) {
+    const tokenizedAlignment = fromAlignment.getTokenizedAlignment(alignment,
+      state.sourceTokens,
+      state.targetTokens);
+
+    if (tokenizedAlignment.sourceNgram.length ===
+      machineAlignment.sourceNgram.length) {
+      for (let i = 0; i < machineAlignment.sourceNgram.length; i++) {
+        if (!tokenizedAlignment.sourceNgram[i].equals(
+          machineAlignment.sourceNgram[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * Returns alignments for the verse in the legacy format
+ * @param state
+ * @return {*}
+ */
 export const getLegacyAlignments = state => {
   const alignments = getTokenizedAlignments(state);
   const targetTokens = getTargetTokens(state);

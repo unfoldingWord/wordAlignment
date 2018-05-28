@@ -1,14 +1,16 @@
 import {
+  ADD_ALIGNMENT_SUGGESTION,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
+  REPAIR_VERSE_ALIGNMENTS,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
   UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN,
-  REPAIR_VERSE_ALIGNMENTS
+  UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import verse, * as fromVerse from './verse';
 
@@ -26,7 +28,9 @@ const chapter = (state = {}, action) => {
     case UNALIGN_TARGET_TOKEN:
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
+    case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case REPAIR_VERSE_ALIGNMENTS:
+    case ADD_ALIGNMENT_SUGGESTION:
     case RESET_VERSE_ALIGNMENTS:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';
@@ -48,6 +52,24 @@ const chapter = (state = {}, action) => {
 };
 
 export default chapter;
+
+/**
+ * Checks if the machine alignment is valid.
+ * In particular the ensures the alignment does not conflict with a human alignment
+ * @param state
+ * @param {number} verse
+ * @param {object} machineAlignment
+ * @return {*}
+ */
+export const getIsMachineAlignmentValid = (state, verse, machineAlignment) => {
+  const verseId = verse + '';
+  if (verseId in state) {
+    return fromVerse.getIsMachineAlignmentValid(state[verseId],
+      machineAlignment);
+  } else {
+    return true;
+  }
+};
 
 /**
  * Checks if the verses being aligned are valid
@@ -104,7 +126,7 @@ export const getVerseAlignments = (state, verse) => {
  */
 export const getVerseAlignedTargetTokens = (state, verse) => {
   const verseId = verse + '';
-  if(verseId in state) {
+  if (verseId in state) {
     return fromVerse.getAlignedTargetTokens(state[verseId]);
   } else {
     return [];
@@ -117,7 +139,7 @@ export const getVerseAlignedTargetTokens = (state, verse) => {
  */
 export const getLegacyAlignments = state => {
   const alignments = {};
-  for(const verseId of Object.keys(state)) {
+  for (const verseId of Object.keys(state)) {
     alignments[verseId] = fromVerse.getLegacyAlignments(state[verseId]);
   }
   return alignments;

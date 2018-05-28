@@ -89,4 +89,25 @@ describe('async actions', () => {
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });
+
+  it('adds an alignment suggestion', () => {
+    const expectedActions = [
+      {
+        type: 'ADD_ALIGNMENT_SUGGESTION',
+        chapter: 1,
+        verse: 1,
+        alignment: {
+          sourceNgram: ['hello'],
+          targetNgram: ['world']
+        }
+      }
+    ];
+    const store = mockStore();
+    const action = actions.addAlignmentSuggestion(1, 1, {
+      sourceNgram: ['hello'],
+      targetNgram: ['world']
+    });
+    store.dispatch(action);
+    expect(store.getActions()).toEqual(expectedActions);
+  });
 });

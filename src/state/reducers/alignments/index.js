@@ -1,11 +1,13 @@
 import chapter, * as fromChapter from './chapter';
 
 import {
+  ADD_ALIGNMENT_SUGGESTION,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   CLEAR_STATE,
   INSERT_ALIGNMENT,
   REPAIR_VERSE_ALIGNMENTS,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
@@ -39,7 +41,9 @@ const alignments = (state = {}, action) => {
     case ALIGN_SOURCE_TOKEN:
     case RESET_VERSE_ALIGNMENTS:
     case UNALIGN_TARGET_TOKEN:
+    case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case REPAIR_VERSE_ALIGNMENTS:
+    case ADD_ALIGNMENT_SUGGESTION:
     case ALIGN_TARGET_TOKEN: {
       const chapterId = action.chapter + '';
       return {
@@ -55,6 +59,27 @@ const alignments = (state = {}, action) => {
 };
 
 export default alignments;
+
+/**
+ * Checks if the machine alignment is valid.
+ * In particular the ensures the alignment does not conflict with a human alignment
+ * @deprecated
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {object} machineAlignment
+ * @return {*}
+ */
+export const getIsMachineAlignmentValid = (
+  state, chapter, verse, machineAlignment) => {
+  const chapterId = chapter + '';
+  if (chapterId in state) {
+    return fromChapter.getIsMachineAlignmentValid(state[chapterId], verse,
+      machineAlignment);
+  } else {
+    return true;
+  }
+};
 
 /**
  * Returns verse alignments for an entire chapter
@@ -99,7 +124,7 @@ export const getVerseAlignments = (state, chapter, verse) => {
  */
 export const getIsChapterLoaded = (state, chapter) => {
   const chapterId = chapter + '';
-  if(chapterId in state) {
+  if (chapterId in state) {
     // make sure we have some verses
     return Object.keys(state[chapterId]).length > 0;
   } else {
@@ -116,7 +141,7 @@ export const getIsChapterLoaded = (state, chapter) => {
  */
 export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
   const chapterId = chapter + '';
-  if(chapterId in state) {
+  if (chapterId in state) {
     return fromChapter.getVerseAlignedTargetTokens(state[chapterId], verse);
   } else {
     return [];
@@ -151,7 +176,7 @@ export const getIsVerseValid = (
  */
 export const getIsVerseAligned = (state, chapter, verse) => {
   const chapterId = chapter + '';
-  if(state && chapterId in state) {
+  if (state && chapterId in state) {
     return fromChapter.getIsVerseAligned(state[chapterId], verse);
   } else {
     return false;

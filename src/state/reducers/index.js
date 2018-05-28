@@ -5,6 +5,9 @@ export default combineReducers({
   alignments
 });
 
+export const getIsMachineAlignmentValid = (state, chapter, verse, alignment) =>
+  fromAlignments.getIsMachineAlignmentValid(state.tool.alignments, chapter, verse, alignment);
+
 export const getChapterAlignments = (state, chapter) => {
   return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
 };

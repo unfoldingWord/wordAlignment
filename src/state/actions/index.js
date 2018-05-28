@@ -229,3 +229,24 @@ export const repairVerse = (chapter, verse, sourceTokens, targetTokens) => ({
 export const clearState = () => ({
   type: types.CLEAR_STATE
 });
+
+/**
+ * Adds an alignment suggestion.
+ * Suggestions must be approved by the user.
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {Alignment} alignment
+ */
+export const addAlignmentSuggestion = (chapter, verse, alignment) => ({
+  type: types.ADD_ALIGNMENT_SUGGESTION,
+  chapter,
+  verse,
+  alignment
+});
+
+
+export const clearAlignmentSuggestions = (chapter, verse) => ({
+  type: types.RESET_VERSE_ALIGNMENT_SUGGESTIONS,
+  chapter,
+  verse
+});

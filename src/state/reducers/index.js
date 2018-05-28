@@ -5,6 +5,14 @@ export default combineReducers({
   alignments
 });
 
+/**
+ * @deprecated
+ * @param state
+ * @param chapter
+ * @param verse
+ * @param alignment
+ * @return {*}
+ */
 export const getIsMachineAlignmentValid = (state, chapter, verse, alignment) =>
   fromAlignments.getIsMachineAlignmentValid(state.tool.alignments, chapter, verse, alignment);
 

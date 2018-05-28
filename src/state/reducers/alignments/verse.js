@@ -217,6 +217,7 @@ const verse = (state = defaultState, action) => {
         alignments.push(alignment(state[i], {...action, index: i}));
       }
       return {
+        ...defaultState,
         sourceTokens: action.alignments[vid].sourceTokens.map(
           formatSourceToken),
         targetTokens: action.alignments[vid].targetTokens.map(
@@ -292,7 +293,6 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
  * @param state
  */
 export const getIsAligned = state => {
-  // check if source has been aligned
   for (const alignment of state.alignments) {
     if (!fromAlignment.getIsAligned(alignment)) {
       return false;

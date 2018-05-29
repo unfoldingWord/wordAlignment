@@ -229,29 +229,30 @@ class Container extends Component {
     }
 
     let scripturePane = <div/>;
+    const { currentPaneSettings } = settingsReducer.toolsSettings.ScripturePane;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
       scripturePane =
-        <ScripturePane contextId={contextIdReducer.contextId}
-                      titleLabel="Step 1. Read"
-                      closeButtonLabel="Close"
-                      expandedScripturePaneTitle="Matthew"
-                      expandButtonHoverText="Click to show expanded resource panes"
-                      clickToRemoveResourceLabel="Click to remove resource"
-                      clickAddResource="Click to add a resource"
-                      addResourceLabel="Add Resources"
-                      selectLanguageLabel="Select language"
-                      selectLabel="Select"
-                      bibles={resourcesReducer.bibles}
-                      currentPaneSettings={settingsReducer.currentPaneSettings}
-                      showPopover={showPopover}
-                      editTargetVerse={editTargetVerse}
-                      projectDetailsReducer={projectDetailsReducer}
-                      translate={translate}
-                      getLexiconData={getLexiconData}
-                      selections={selectionsReducer.selections}
-                      setToolSettings={setToolSettings} />;
-    }
+          <ScripturePane contextId={contextIdReducer.contextId}
+                        titleLabel="Step 1. Read"
+                        closeButtonLabel="Close"
+                        expandedScripturePaneTitle="Matthew"
+                        expandButtonHoverText="Click to show expanded resource panes"
+                        clickToRemoveResourceLabel="Click to remove resource"
+                        clickAddResource="Click to add a resource"
+                        addResourceLabel="Add Resources"
+                        selectLanguageLabel="Select language"
+                        selectLabel="Select"
+                        bibles={resourcesReducer.bibles}
+                        currentPaneSettings={currentPaneSettings}
+                        showPopover={showPopover}
+                        editTargetVerse={editTargetVerse}
+                        projectDetailsReducer={projectDetailsReducer}
+                        translate={translate}
+                        getLexiconData={getLexiconData}
+                        selections={selectionsReducer.selections}
+                        setToolSettings={setToolSettings} />;
+      }
 
     const {lexicons} = resourcesReducer;
     const {reference: {chapter, verse}} = contextId;

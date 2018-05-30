@@ -221,6 +221,63 @@ describe('clear alignment suggestions', () => {
   reducerTest('Resets the verse alignment suggestions', alignments, stateBefore, action, stateAfter);
 });
 
+describe('get suggestions', () => {
+  it('has no alignments', () => {
+    const state = {
+      alignments: [
+        {sourceNgram: [0], targetNgram: []},
+        {sourceNgram: [1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: []},
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: []}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0, 1], targetNgram: []},
+      {sourceNgram: [2], targetNgram: []}
+    ]);
+  });
+
+  it('has a prefect match', () => {
+    const state = {
+      alignments: [
+        {sourceNgram: [0], targetNgram: []},
+        {sourceNgram: [1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: [0]},
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: []}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0, 1], targetNgram: []},
+      {sourceNgram: [2], targetNgram: [0]}
+    ]);
+  });
+
+  it('has no suggestions', () => {
+    const state = {
+      alignments: [
+        {sourceNgram: [0], targetNgram: []},
+        {sourceNgram: [1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: [0]},
+      ],
+      suggestions: []
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0], targetNgram: []},
+      {sourceNgram: [1], targetNgram: []},
+      {sourceNgram: [2], targetNgram: [0]},
+    ]);
+  });
+});
+
 // TODO: test aligning a target token to a pseudo merged source n-gram actually merges the source n-gram
 
 // TODO: test merging a source token with a suggestion merges all source tokens in the suggestion.

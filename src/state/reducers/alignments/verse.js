@@ -121,10 +121,11 @@ const verse = (state = defaultState, action) => {
     case ADD_ALIGNMENT_SUGGESTION:
     return {
       ...state,
-      suggestions: [...state.suggestions, {
+      suggestions: [
+        ...state.suggestions, {
         sourceNgram: action.alignment.sourceNgram.map(t => t.position),
         targetNgram: action.alignment.targetNgram.map(t => t.position)
-      }]
+      }].sort(alignmentComparator)
     };
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
       return {
@@ -337,6 +338,36 @@ export const getAlignments = state => {
     alignments.push(alignment);
   }
   return alignments;
+};
+
+/**
+ * Returns alignments combined with suggestions
+ * @param state
+ * @return {Array}
+ */
+export const getSuggestions = state => {
+  const alignments = [...state.alignments];
+  const suggestedAlignments = [];
+  for(const suggestion of state.suggestions) {
+    let foundMatch = false;
+    for(const a of alignments) {
+      if(getAlignmentMatchesSuggestion(a, suggestion)) {
+        for(const token of suggestion.targetNgram) {
+          if(!(token in a.targetNgram)) {
+            a.targetNgram.push(token);
+          }
+        }
+        a.targetNgram = a.targetNgram.sort();
+        suggestedAlignments.push(a);
+        foundMatch = true;
+        break;
+      }
+    }
+    if(!foundMatch) {
+      suggestedAlignments.push(suggestion);
+    }
+  }
+  return suggestedAlignments;
 };
 
 /**

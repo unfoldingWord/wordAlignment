@@ -1273,6 +1273,7 @@ describe('selectors', () => {
     expect(JSON.parse(JSON.stringify(result))).toEqual({
       '1': [
         {
+          index: 0,
           sourceNgram: [
             {
               text: 'olleh',
@@ -1295,6 +1296,7 @@ describe('selectors', () => {
     const result = fromAlignments.getVerseAlignments(state, 1, 1);
     expect(JSON.parse(JSON.stringify(result))).toEqual([
       {
+        index: 0,
         sourceNgram: [
           {
             text: 'olleh',

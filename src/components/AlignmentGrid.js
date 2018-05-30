@@ -37,9 +37,9 @@ class AlignmentGrid extends Component {
     return (
       <div id='AlignmentGrid' style={styles.root}>
         {
-          alignments.map((alignment, index) => {
+          alignments.map((alignment, key) => {
             return (
-              <React.Fragment key={index}>
+              <React.Fragment key={key}>
                 {/* placeholder for un-merging primary words */}
                 {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
                 {/*<AlignmentCard*/}
@@ -55,21 +55,21 @@ class AlignmentGrid extends Component {
 
                 <AlignmentCard
                   translate={translate}
-                  alignmentIndex={index}
+                  alignmentIndex={alignment.index}
                   targetNgram={alignment.targetNgram}
                   sourceNgram={alignment.sourceNgram}
-                  onDrop={item => this.handleDrop(index, item)}
+                  onDrop={item => this.handleDrop(alignment.index, item)}
                   actions={actions}
                   lexicons={lexicons}
                 />
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
                   translate={translate}
-                  alignmentIndex={index}
+                  alignmentIndex={alignment.index}
                   placeholderPosition="right"
                   targetNgram={[]}
                   sourceNgram={[]}
-                  onDrop={item => this.handleDrop(index, item)}
+                  onDrop={item => this.handleDrop(alignment.index, item)}
                   actions={actions}
                   lexicons={lexicons}
                 />

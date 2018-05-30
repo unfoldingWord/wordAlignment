@@ -1,6 +1,7 @@
 import {reducerTest} from 'redux-jest';
 import * as types from '../../../actions/actionTypes';
 import alignments from '../index';
+import * as fromVerse from '../verse';
 import Token from 'word-map/structures/Token';
 
 describe('add alignment suggestion', () => {
@@ -226,3 +227,133 @@ describe('clear alignment suggestions', () => {
 
 // TODO: test un-merging a token in a suggestion merges all source tokens in the resulting alignments (target tokens will still be cleared).
 
+describe('alignments with suggestions', () => {
+  it('returns alignments', () => {
+
+    // const alignments = fromVerse.getAlignmentsWithSuggestions();
+  });
+});
+
+describe('alignment matches suggestion', () => {
+  it('matches', () => {
+    const alignment = {
+      sourceNgram: [0],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('matches with alignments', () => {
+    const alignment = {
+      sourceNgram: [0],
+      targetNgram: [0]
+    };
+    const suggestion = {
+      sourceNgram: [0],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('is a large match', () => {
+    const alignment = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('does not match', () => {
+    const alignment = {
+      sourceNgram: [0],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(false);
+  });
+});
+
+describe('alignment subsets suggestion', () => {
+  it('is a subset', () => {
+    const alignment = {
+      sourceNgram: [0],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('is a middle subset', () => {
+    const alignment = {
+      sourceNgram: [1],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1, 2],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('is an end subset', () => {
+    const alignment = {
+      sourceNgram: [1],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('is a large subset', () => {
+    const alignment = {
+      sourceNgram: [1, 2],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1, 2],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+  });
+
+  it('is full match', () => {
+    const alignment = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    const suggestion = {
+      sourceNgram: [0, 1],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(false);
+  });
+
+  it('is aligned', () => {
+    const alignment = {
+      sourceNgram: [1],
+      targetNgram: [0]
+    };
+    const suggestion = {
+      sourceNgram: [0, 1, 2],
+      targetNgram: []
+    };
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(false);
+  });
+});

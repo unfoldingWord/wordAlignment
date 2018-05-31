@@ -119,14 +119,14 @@ const verse = (state = defaultState, action) => {
       };
     }
     case ADD_ALIGNMENT_SUGGESTION:
-    return {
-      ...state,
-      suggestions: [
-        ...state.suggestions, {
-        sourceNgram: action.alignment.sourceNgram.map(t => t.position),
-        targetNgram: action.alignment.targetNgram.map(t => t.position)
-      }].sort(alignmentComparator)
-    };
+      return {
+        ...state,
+        suggestions: [
+          ...state.suggestions, {
+            sourceNgram: action.alignment.sourceNgram.map(t => t.position),
+            targetNgram: action.alignment.targetNgram.map(t => t.position)
+          }].sort(alignmentComparator)
+      };
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
       return {
         ...state,
@@ -346,28 +346,82 @@ export const getAlignments = state => {
  * @return {Array}
  */
 export const getSuggestions = state => {
-  const alignments = [...state.alignments];
-  const suggestedAlignments = [];
-  for(const suggestion of state.suggestions) {
-    let foundMatch = false;
-    for(const a of alignments) {
-      if(getAlignmentMatchesSuggestion(a, suggestion)) {
-        for(const token of suggestion.targetNgram) {
-          if(!(token in a.targetNgram)) {
-            a.targetNgram.push(token);
-          }
-        }
-        a.targetNgram = a.targetNgram.sort();
-        suggestedAlignments.push(a);
-        foundMatch = true;
-        break;
-      }
-    }
-    if(!foundMatch) {
-      suggestedAlignments.push(suggestion);
+  // index things
+  const alignmentIndex = [];
+  const suggestionIndex = [];
+  for (let i = 0; i < state.alignments.length; i++) {
+    for (const t of state.alignments[i].sourceNgram) {
+      alignmentIndex.push({
+        index: i,
+        aligned: state.alignments[i].targetNgram.length > 0,
+        sourceLength: state.alignments[i].sourceNgram.length,
+        targetLength: state.alignments[i].targetNgram.length
+      });
     }
   }
-  return suggestedAlignments;
+  for (let i = 0; i < state.suggestions.length; i++) {
+    for (const t of state.suggestions[i].sourceNgram) {
+      suggestionIndex.push(i);
+    }
+  }
+
+  // build output
+  const suggestedAlignments = [];
+  let tokenQueue = [];
+  let seenAlignments = [];
+  let currentSuggestion = -1;
+  for (let i = 0; i < state.sourceTokens.length; i++) {
+    const alignmentIsAligned = alignmentIndex[i].aligned;
+    const finishedReadingAlignment = false;
+    const finishedReadingSuggestion = false;
+    const suggestionSpansMultiple = false;
+    const suggestionIsSuperset = false;
+
+    // determine suggestion validity
+    let suggestionIsValid = false;
+    if (!alignmentIsAligned) {
+      suggestionIsValid = true;
+    } else if (finishedReadingAlignment &&
+      finishedReadingSuggestion &&
+      !suggestionSpansMultiple &&
+      suggestionIsSuperset) {
+      suggestionIsValid = true;
+    } else if (!finishedReadingAlignment && !finishedReadingSuggestion &&
+      !suggestionSpansMultiple && suggestionIsSuperset) {
+      suggestionIsValid = true;
+    }
+
+    if(suggestionIsValid) {
+      // TODO: keep it
+    } else {
+      // TODO: discard it
+    }
+
+    // update state
+  }
+
+  // const alignments = [...state.alignments];
+  // const suggestedAlignments = [];
+  // for (const suggestion of state.suggestions) {
+  //   let foundMatch = false;
+  //   for (const a of alignments) {
+  //     if (getAlignmentMatchesSuggestion(a, suggestion)) {
+  //       for (const token of suggestion.targetNgram) {
+  //         if (!(token in a.targetNgram)) {
+  //           a.targetNgram.push(token);
+  //         }
+  //       }
+  //       a.targetNgram = a.targetNgram.sort();
+  //       suggestedAlignments.push(a);
+  //       foundMatch = true;
+  //       break;
+  //     }
+  //   }
+  //   if (!foundMatch) {
+  //     suggestedAlignments.push(suggestion);
+  //   }
+  // }
+  // return suggestedAlignments;
 };
 
 /**

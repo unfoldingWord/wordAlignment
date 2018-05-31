@@ -531,6 +531,7 @@ export const getSuggestions = state => {
 /**
  * Returns alignments like {@link getAlignments} but also
  * includes suggested alignments
+ * @deprecated
  * @param state
  */
 export const getAlignmentsWithSuggestions = state => {
@@ -561,6 +562,7 @@ export const getAlignmentsWithSuggestions = state => {
 
 /**
  * Checks if an alignment intersects with a suggestion
+ * @deprecated
  * @param alignment
  * @param suggestion
  */
@@ -571,6 +573,7 @@ const alignmentIntersectsSuggestion = (alignment, suggestion) => {
 
 /**
  * Checks if the alignment sourceNgram exactly matches a suggestion
+ * @deprecated
  * @param alignment
  * @param suggestion
  * @return {boolean}
@@ -590,6 +593,7 @@ export const getAlignmentMatchesSuggestion = (alignment, suggestion) => {
 /**
  * Checks if the alignment sourceNgram is a subset of the suggestion
  * and is not aligned
+ * @deprecated
  * @param alignment
  * @param suggestion
  */
@@ -626,6 +630,7 @@ export const getAlignmentSubsetsSuggestion = (alignment, suggestion) => {
 /**
  * Checks if the machine alignment is valid.
  * In particular the ensures the alignment does not conflict with a human alignment
+ * @deprecated
  * @param state
  * @param {object} machineAlignment
  * @return {boolean}

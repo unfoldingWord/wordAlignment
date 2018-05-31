@@ -56,6 +56,7 @@ export default chapter;
 /**
  * Checks if the machine alignment is valid.
  * In particular the ensures the alignment does not conflict with a human alignment
+ * @deprecated
  * @param state
  * @param {number} verse
  * @param {object} machineAlignment

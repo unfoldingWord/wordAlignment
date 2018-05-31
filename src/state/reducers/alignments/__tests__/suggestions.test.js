@@ -55,8 +55,12 @@ describe('add alignment suggestion', () => {
     chapter: 1,
     verse: 1,
     alignment: {
-      sourceNgram: [new Token({text: 'olleh', position: 0}), new Token({text: 'dlrow', position: 1})],
-      targetNgram: [new Token({text: 'hello', position: 0}), new Token({text: 'world', position: 1})]
+      sourceNgram: [
+        new Token({text: 'olleh', position: 0}),
+        new Token({text: 'dlrow', position: 1})],
+      targetNgram: [
+        new Token({text: 'hello', position: 0}),
+        new Token({text: 'world', position: 1})]
     }
   };
 
@@ -111,9 +115,9 @@ describe('add alignment suggestion', () => {
       }
     }
   };
-  reducerTest('Adds an alignment suggestion', alignments, stateBefore, action, stateAfter);
+  reducerTest('Adds an alignment suggestion', alignments, stateBefore, action,
+    stateAfter);
 });
-
 
 describe('clear alignment suggestions', () => {
   const stateBefore = {
@@ -218,192 +222,236 @@ describe('clear alignment suggestions', () => {
       }
     }
   };
-  reducerTest('Resets the verse alignment suggestions', alignments, stateBefore, action, stateAfter);
+  reducerTest('Resets the verse alignment suggestions', alignments, stateBefore,
+    action, stateAfter);
 });
 
 describe('get suggestions', () => {
-  it('has no alignments', () => {
-    const state = {
-      sourceTokens: [{}, {}, {}],
-      targetTokens: [{}, {}, {}],
-      alignments: [
-        {sourceNgram: [0], targetNgram: []},
-        {sourceNgram: [1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: []},
-      ],
-      suggestions: [
-        {sourceNgram: [0, 1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: []}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0, 1], targetNgram: []},
-      {sourceNgram: [2], targetNgram: []}
-    ]);
-  });
-
-  it('has a match', () => {
-    const state = {
-      sourceTokens: [{}, {}],
-      targetTokens: [{}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: [0]},
-      ],
-      suggestions: [
+  describe('matches', () => {
+    it('matches an aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: [0]}
+        ],
+        suggestions: [
+          {sourceNgram: [0, 1], targetNgram: [0, 1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
         {sourceNgram: [0, 1], targetNgram: [0, 1]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0, 1], targetNgram: [0, 1]},
-    ]);
-  });
+      ]);
+    });
 
-  it('spans multiple with one aligned', () => {
-    const state = {
-      sourceTokens: [{}, {}],
-      targetTokens: [{}, {}],
-      alignments: [
-        {sourceNgram: [0], targetNgram: [0]},
-        {sourceNgram: [1], targetNgram: []},
-      ],
-      suggestions: [
+    it('matches an un-aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: []}
+        ],
+        suggestions: [
+          {sourceNgram: [0, 1], targetNgram: [0, 1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
         {sourceNgram: [0, 1], targetNgram: [0, 1]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0], targetNgram: [0]},
-      {sourceNgram: [1], targetNgram: []},
-    ]);
-  });
+      ]);
+    });
 
-  it('has a prefect match', () => {
-    const state = {
-      sourceTokens: [{}, {}],
-      targetTokens: [{}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: [0]},
-      ],
-      suggestions: [
+    it('does not match an aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: [0]}
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: [1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
         {sourceNgram: [0, 1], targetNgram: [0]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0, 1], targetNgram: [0]},
-    ]);
+      ]);
+    });
+
+    it('is not a superset of an aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: [0]}
+        ],
+        suggestions: [
+          {sourceNgram: [0, 1], targetNgram: [1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
+        {sourceNgram: [0, 1], targetNgram: [0]}
+      ]);
+    });
+
+    it('matches an aligned alignment perfectly', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: [0]}
+        ],
+        suggestions: [
+          {sourceNgram: [0, 1], targetNgram: [0]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
+        {sourceNgram: [0, 1], targetNgram: [0]}
+      ]);
+    });
   });
 
-  it('has a split alignment', () => {
-    const state = {
-      sourceTokens: [{}, {}, {}],
-      targetTokens: [{}, {}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: []},
-      ],
-      suggestions: [
+  describe('merges', () => {
+    it('cannot merge an aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: []}
+        ],
+        suggestions: [
+          {sourceNgram: [0, 1], targetNgram: [0, 1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
         {sourceNgram: [0], targetNgram: [0]},
-        {sourceNgram: [1], targetNgram: [1]},
-        {sourceNgram: [2], targetNgram: [2]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0], targetNgram: [0]},
-      {sourceNgram: [1], targetNgram: [1]},
-      {sourceNgram: [2], targetNgram: [2]}
-    ]);
+        {sourceNgram: [1], targetNgram: []}
+      ]);
+    });
+
+    it('merges un-aligned alignments', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: []},
+          {sourceNgram: [1], targetNgram: []}
+        ],
+        suggestions: [
+          {sourceNgram: [0, 1], targetNgram: [0, 1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
+        {sourceNgram: [0, 1], targetNgram: [0, 1]}
+      ]);
+    });
   });
 
-  it('has a split and merged alignment', () => {
-    const state = {
-      sourceTokens: [{}, {}, {}],
-      targetTokens: [{}, {}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: []},
-      ],
-      suggestions: [
-        {sourceNgram: [0], targetNgram: []},
-        {sourceNgram: [1, 2], targetNgram: [0]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0], targetNgram: []},
-      {sourceNgram: [1, 2], targetNgram: [0]}
-    ]);
+  describe('splits', () => {
+    it('splits an un-aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: []},
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: [1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
+        {sourceNgram: [0], targetNgram: [0]},
+        {sourceNgram: [1], targetNgram: [1]}
+      ]);
+    });
+
+    it('cannot split an aligned alignment', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: [0]},
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: [1]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
+        {sourceNgram: [0, 1], targetNgram: [0]}
+      ]);
+    });
   });
 
-  it('has a merged alignment', () => {
-    const state = {
-      sourceTokens: [{}, {}, {}],
-      targetTokens: [{}, {}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: []},
-      ],
-      suggestions: [
-        {sourceNgram: [0, 1, 2], targetNgram: [0]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0, 1, 2], targetNgram: [0]}
-    ]);
-  });
+  describe('corner cases', () => {
+    it('has partial suggestions', () => {
+      const state = {
+        sourceTokens: [{}, {}, {}],
+        targetTokens: [{}, {}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: []},
+          {sourceNgram: [2], targetNgram: [0]}
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [0]}
+        ]
+      };
+      expect(fromVerse.getSuggestions.bind(state)).toThrow();
+      // partial suggestions are not currently supported
+    });
 
-  it('has partial suggestions', () => {
-    const state = {
-      sourceTokens: [{}, {}, {}],
-      targetTokens: [{}, {}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: [0]},
-      ],
-      suggestions: [
-        {sourceNgram: [0], targetNgram: [0]}
-      ]
-    };
-    expect(fromVerse.getSuggestions.bind(state)).toThrow();
-    // partial suggestions are not currently supported
-  });
+    it('cannot use a token twice', () => {
+      // we try to trick the algorithm to use a token after it has already been used.
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: []},
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [1]},
+          {sourceNgram: [1], targetNgram: [0]}
+        ]
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
+        {sourceNgram: [0], targetNgram: [0]},
+        {sourceNgram: [1], targetNgram: []}
+      ]);
+    });
 
-  it('has no suggestions', () => {
-    const state = {
-      sourceTokens: [{}, {}, {}],
-      targetTokens: [{}, {}, {}],
-      alignments: [
+    it('has no suggestions', () => {
+      const state = {
+        sourceTokens: [{}, {}, {}],
+        targetTokens: [{}, {}, {}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: []},
+          {sourceNgram: [1], targetNgram: []},
+          {sourceNgram: [2], targetNgram: [0]}
+        ],
+        suggestions: []
+      };
+      const result = fromVerse.getSuggestions(state);
+      expect(result).toEqual([
         {sourceNgram: [0], targetNgram: []},
         {sourceNgram: [1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: [0]},
-      ],
-      suggestions: []
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(result).toEqual([
-      {sourceNgram: [0], targetNgram: []},
-      {sourceNgram: [1], targetNgram: []},
-      {sourceNgram: [2], targetNgram: [0]},
-    ]);
+        {sourceNgram: [2], targetNgram: [0]}
+      ]);
+    });
   });
 });
 
-// TODO: test aligning a target token to a pseudo merged source n-gram actually merges the source n-gram
-
-// TODO: test merging a source token with a suggestion merges all source tokens in the suggestion.
-
-// TODO: test un-merging a token in a suggestion merges all source tokens in the resulting alignments (target tokens will still be cleared).
-
-describe('alignments with suggestions', () => {
-  it('returns alignments', () => {
-
-    // const alignments = fromVerse.getAlignmentsWithSuggestions();
-  });
-});
 
 describe('alignment matches suggestion', () => {
   it('matches', () => {
@@ -415,7 +463,8 @@ describe('alignment matches suggestion', () => {
       sourceNgram: [0],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('matches with alignments', () => {
@@ -427,7 +476,8 @@ describe('alignment matches suggestion', () => {
       sourceNgram: [0],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('is a large match', () => {
@@ -439,7 +489,8 @@ describe('alignment matches suggestion', () => {
       sourceNgram: [0, 1],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('does not match', () => {
@@ -451,7 +502,8 @@ describe('alignment matches suggestion', () => {
       sourceNgram: [0, 1],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).toEqual(false);
+    expect(fromVerse.getAlignmentMatchesSuggestion(alignment, suggestion)).
+      toEqual(false);
   });
 });
 
@@ -465,7 +517,8 @@ describe('alignment subsets suggestion', () => {
       sourceNgram: [0, 1],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('is a middle subset', () => {
@@ -477,7 +530,8 @@ describe('alignment subsets suggestion', () => {
       sourceNgram: [0, 1, 2],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('is an end subset', () => {
@@ -489,7 +543,8 @@ describe('alignment subsets suggestion', () => {
       sourceNgram: [0, 1],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('is a large subset', () => {
@@ -501,7 +556,8 @@ describe('alignment subsets suggestion', () => {
       sourceNgram: [0, 1, 2],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(true);
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
+      toEqual(true);
   });
 
   it('is full match', () => {
@@ -513,7 +569,8 @@ describe('alignment subsets suggestion', () => {
       sourceNgram: [0, 1],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(false);
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
+      toEqual(false);
   });
 
   it('is aligned', () => {
@@ -525,6 +582,7 @@ describe('alignment subsets suggestion', () => {
       sourceNgram: [0, 1, 2],
       targetNgram: []
     };
-    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).toEqual(false);
+    expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
+      toEqual(false);
   });
 });

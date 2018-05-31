@@ -313,7 +313,7 @@ export const getIsAligned = state => {
  * @return {Token[]}
  */
 export const getAlignedTargetTokens = state => {
-  const alignments = getAlignments(state);
+  const alignments = getSuggestions(state);
   const tokens = [];
   for (const alignment of alignments) {
     for (const token of alignment.targetNgram) {
@@ -367,7 +367,7 @@ export const getSuggestions = state => {
   const alignments = [];
   for(const suggestion of suggestions) {
     const alignment = fromAlignment.getTokenizedAlignment(
-      suggestions,
+      suggestion,
       state.sourceTokens,
       state.targetTokens
     );

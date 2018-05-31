@@ -14,11 +14,11 @@ import {
   moveSourceToken,
   repairVerse,
   resetVerse,
-  unalignTargetToken
+  unalignTargetToken,
+  addAlignmentSuggestion
 } from '../state/actions';
 import {
   getChapterAlignments,
-  getIsMachineAlignmentValid,
   getIsVerseValid,
   getVerseAlignedTargetTokens,
   getVerseAlignments
@@ -132,48 +132,46 @@ class Container extends Component {
     const {
       normalizedTargetVerseText,
       normalizedSourceVerseText,
+      addAlignmentSuggestion,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
-    const {store} = this.context;
+    // const {store} = this.context;
     const suggestions = this.map.predict(normalizedSourceVerseText,
       normalizedTargetVerseText);
 
     for (const p of suggestions[0].predictions) {
-      if (p.confidence > 1) {
-        const predictedAlignment = {
-          sourceNgram: p.alignment.source,
-          targetNgram: p.alignment.target
-        };
-        
-        const valid = getIsMachineAlignmentValid(store.getState(),
-          chapter,
-          verse,
-          predictedAlignment);
-        if (valid) {
-          console.log('valid alignment!', p.toString());
-        }
-        // TODO: look up the alignment index
-        // - exclude merged source words
-        // basically I'm looking for target tokens that have not been used,
-        // and an existing source n-gram.
+      // if (p.confidence > 1) {
+      addAlignmentSuggestion(chapter, verse, p.alignment);
+      // const valid = getIsMachineAlignmentValid(store.getState(),
+      //   chapter,
+      //   verse,
+      //   predictedAlignment);
+      // if (valid) {
+      //   console.log('valid alignment!', p.toString());
+      // }
 
-        // const alignmentIndex = -1;
-        // if (alignmentIndex >= 0) {
-        // TODO: check if the secondary word has already been aligned.
+      // TODO: look up the alignment index
+      // - exclude merged source words
+      // basically I'm looking for target tokens that have not been used,
+      // and an existing source n-gram.
 
-        // for (const token of p.target.getTokens()) {
-        // this.handleAlignTargetToken(alignmentIndex, {
-        //   alignmentIndex: undefined,
-        //   occurrence: 1, // TODO: get token occurrence
-        //   occurrences: 1, // TODO: get token occurrences
-        //   word: token.toString()
-        // });
-        // TODO: inject suggestions into alignments
-        // }
-        // } else {
-        // TODO: if all the source words are available but not merged we need to merge them!
-        // }
-      }
+      // const alignmentIndex = -1;
+      // if (alignmentIndex >= 0) {
+      // TODO: check if the secondary word has already been aligned.
+
+      // for (const token of p.target.getTokens()) {
+      // this.handleAlignTargetToken(alignmentIndex, {
+      //   alignmentIndex: undefined,
+      //   occurrence: 1, // TODO: get token occurrence
+      //   occurrences: 1, // TODO: get token occurrences
+      //   word: token.toString()
+      // });
+      // TODO: inject suggestions into alignments
+      // }
+      // } else {
+      // TODO: if all the source words are available but not merged we need to merge them!
+      // }
+      // }
     }
   }
 
@@ -340,6 +338,7 @@ Container.propTypes = {
   resetVerse: PropTypes.func.isRequired,
   repairVerse: PropTypes.func.isRequired,
   indexChapterAlignments: PropTypes.func.isRequired,
+  addAlignmentSuggestion: PropTypes.func.isRequired,
 
   // state props
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -377,7 +376,8 @@ const mapDispatchToProps = ({
   resetVerse,
   repairVerse,
   clearState,
-  indexChapterAlignments
+  indexChapterAlignments,
+  addAlignmentSuggestion
 });
 
 const mapStateToProps = (state, props) => {

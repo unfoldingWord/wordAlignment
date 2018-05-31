@@ -241,7 +241,10 @@ export const addAlignmentSuggestion = (chapter, verse, alignment) => ({
   type: types.ADD_ALIGNMENT_SUGGESTION,
   chapter,
   verse,
-  alignment
+  alignment: {
+    sourceNgram: alignment.source.tokens,
+    targetNgram: alignment.target.tokens
+  }
 });
 
 

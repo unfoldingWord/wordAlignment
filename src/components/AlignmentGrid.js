@@ -38,6 +38,9 @@ class AlignmentGrid extends Component {
       <div id='AlignmentGrid' style={styles.root}>
         {
           alignments.map((alignment, key) => {
+            if(alignment.suggestion) {
+              console.warn('found a suggestion', alignment);
+            }
             return (
               <React.Fragment key={key}>
                 {/* placeholder for un-merging primary words */}

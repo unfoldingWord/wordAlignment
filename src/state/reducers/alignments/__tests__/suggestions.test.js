@@ -224,6 +224,8 @@ describe('clear alignment suggestions', () => {
 describe('get suggestions', () => {
   it('has no alignments', () => {
     const state = {
+      sourceTokens: [{}, {}, {}],
+      targetTokens: [{}, {}, {}],
       alignments: [
         {sourceNgram: [0], targetNgram: []},
         {sourceNgram: [1], targetNgram: []},
@@ -241,27 +243,139 @@ describe('get suggestions', () => {
     ]);
   });
 
-  it('has a prefect match', () => {
+  it('has a match', () => {
     const state = {
+      sourceTokens: [{}, {}],
+      targetTokens: [{}, {}],
       alignments: [
-        {sourceNgram: [0], targetNgram: []},
-        {sourceNgram: [1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: [0]},
+        {sourceNgram: [0, 1], targetNgram: [0]},
       ],
       suggestions: [
-        {sourceNgram: [0, 1], targetNgram: []},
-        {sourceNgram: [2], targetNgram: []}
+        {sourceNgram: [0, 1], targetNgram: [0, 1]}
       ]
     };
     const result = fromVerse.getSuggestions(state);
     expect(result).toEqual([
-      {sourceNgram: [0, 1], targetNgram: []},
-      {sourceNgram: [2], targetNgram: [0]}
+      {sourceNgram: [0, 1], targetNgram: [0, 1]},
     ]);
+  });
+
+  it('spans multiple with one aligned', () => {
+    const state = {
+      sourceTokens: [{}, {}],
+      targetTokens: [{}, {}],
+      alignments: [
+        {sourceNgram: [0], targetNgram: [0]},
+        {sourceNgram: [1], targetNgram: []},
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1], targetNgram: [0, 1]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: []},
+    ]);
+  });
+
+  it('has a prefect match', () => {
+    const state = {
+      sourceTokens: [{}, {}],
+      targetTokens: [{}, {}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: [0]},
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1], targetNgram: [0]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0, 1], targetNgram: [0]},
+    ]);
+  });
+
+  it('has a split alignment', () => {
+    const state = {
+      sourceTokens: [{}, {}, {}],
+      targetTokens: [{}, {}, {}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: []},
+      ],
+      suggestions: [
+        {sourceNgram: [0], targetNgram: [0]},
+        {sourceNgram: [1], targetNgram: [1]},
+        {sourceNgram: [2], targetNgram: [2]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: [1]},
+      {sourceNgram: [2], targetNgram: [2]}
+    ]);
+  });
+
+  it('has a split and merged alignment', () => {
+    const state = {
+      sourceTokens: [{}, {}, {}],
+      targetTokens: [{}, {}, {}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: []},
+      ],
+      suggestions: [
+        {sourceNgram: [0], targetNgram: []},
+        {sourceNgram: [1, 2], targetNgram: [0]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0], targetNgram: []},
+      {sourceNgram: [1, 2], targetNgram: [0]}
+    ]);
+  });
+
+  it('has a merged alignment', () => {
+    const state = {
+      sourceTokens: [{}, {}, {}],
+      targetTokens: [{}, {}, {}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: []},
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1, 2], targetNgram: [0]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(result).toEqual([
+      {sourceNgram: [0, 1, 2], targetNgram: [0]}
+    ]);
+  });
+
+  it('has partial suggestions', () => {
+    const state = {
+      sourceTokens: [{}, {}, {}],
+      targetTokens: [{}, {}, {}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: []},
+        {sourceNgram: [2], targetNgram: [0]},
+      ],
+      suggestions: [
+        {sourceNgram: [0], targetNgram: [0]}
+      ]
+    };
+    expect(fromVerse.getSuggestions.bind(state)).toThrow();
+    // partial suggestions are not currently supported
   });
 
   it('has no suggestions', () => {
     const state = {
+      sourceTokens: [{}, {}, {}],
+      targetTokens: [{}, {}, {}],
       alignments: [
         {sourceNgram: [0], targetNgram: []},
         {sourceNgram: [1], targetNgram: []},

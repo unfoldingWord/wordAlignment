@@ -788,7 +788,8 @@ describe('repair alignments', () => {
           alignments: [
             {sourceNgram: [0], targetNgram: [0]},
             {sourceNgram: [1], targetNgram: [2]}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -859,7 +860,8 @@ describe('repair alignments', () => {
             {sourceNgram: [0], targetNgram: [0]},
             {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: [1]}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -896,7 +898,8 @@ describe('repair alignments', () => {
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -930,7 +933,8 @@ describe('repair alignments', () => {
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -968,7 +972,8 @@ describe('repair alignments', () => {
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -1004,7 +1009,8 @@ describe('repair alignments', () => {
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -1040,7 +1046,8 @@ describe('repair alignments', () => {
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -1121,7 +1128,8 @@ describe('reset alignments', () => {
           {
             sourceNgram: [1],
             targetNgram: []
-          }]
+          }],
+        suggestions: []
       }
     }
   };

@@ -227,6 +227,39 @@ describe('clear alignment suggestions', () => {
     action, stateAfter);
 });
 
+describe('get tokenized suggestions', () => {
+  it('matches an aligned alignment', () => {
+    const state = {
+      sourceTokens: [{position: 0}, {position: 1}],
+      targetTokens: [{position: 0}, {position: 1}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: [0]}
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1], targetNgram: [0, 1]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(JSON.parse(JSON.stringify(result))).toEqual([
+      {
+        index: 0,
+        position: 0,
+        suggestion: true,
+        sourceNgram: [
+          {index: 0, occurrence: 1, occurrences: 1, text: ''},
+          {index: 1, occurrence: 1, occurrences: 1, text: ''}
+        ],
+        targetNgram: [
+          {index: 0, occurrence: 1, occurrences: 1, text: ''},
+          {index: 1, occurrence: 1, occurrences: 1, text: ''}
+        ]
+      }
+    ]);
+    expect(result[0].targetNgram[0].meta.suggestion).toEqual(undefined);
+    expect(result[0].targetNgram[1].meta.suggestion).toEqual(true);
+  });
+});
+
 describe('get raw suggestions', () => {
   describe('matches', () => {
     it('matches an aligned alignment', () => {
@@ -326,6 +359,52 @@ describe('get raw suggestions', () => {
         {index: 0, position: 0, sourceNgram: [0, 1], targetNgram: [0]}
       ]);
     });
+
+    it('matches an aligned alignment perfectly but with extra target tokens',
+      () => {
+        const state = {
+          sourceTokens: [{}, {}],
+          targetTokens: [{}, {}],
+          alignments: [
+            {sourceNgram: [0, 1], targetNgram: [0]}
+          ],
+          suggestions: [
+            {sourceNgram: [0, 1], targetNgram: [0, 1]}
+          ]
+        };
+        const result = fromVerse.getRawSuggestions(state);
+        expect(result).toEqual([
+          {
+            index: 0,
+            position: 0,
+            sourceNgram: [0, 1],
+            targetNgram: [0, 1],
+            suggestedTargetTokens: [1]
+          }
+        ]);
+      });
+
+    it('matches an aligned alignment perfectly with partial coverage', () => {
+        const state = {
+          sourceTokens: [{}],
+          targetTokens: [{}, {}],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [0, 1]}
+          ],
+          suggestions: [
+            {sourceNgram: [0], targetNgram: [0]}
+          ]
+        };
+        const result = fromVerse.getRawSuggestions(state);
+        expect(result).toEqual([
+          {
+            index: 0,
+            position: 0,
+            sourceNgram: [0],
+            targetNgram: [0, 1]
+          }
+        ]);
+      });
   });
 
   describe('merges', () => {
@@ -529,31 +608,6 @@ describe('get raw suggestions', () => {
         {index: 1, position: 1, sourceNgram: [1], targetNgram: [0]}
       ]);
     });
-  });
-});
-
-describe('get tokenized suggestions', () => {
-  it('matches an un-aligned alignment', () => {
-    const state = {
-      sourceTokens: [{}, {}],
-      targetTokens: [{}, {}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: []}
-      ],
-      suggestions: [
-        {sourceNgram: [0, 1], targetNgram: [0, 1]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(JSON.parse(result.toString())).toEqual([
-      {
-        index: 0,
-        position: 0,
-        sourceNgram: [0, 1],
-        targetNgram: [0, 1],
-        suggestedTargetTokens: [0, 1]
-      }
-    ]);
   });
 });
 

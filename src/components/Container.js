@@ -142,38 +142,6 @@ class Container extends Component {
     const alignmentSuggestions = [];
     for (const p of suggestions[0].predictions) {
       alignmentSuggestions.push(p.alignment);
-      // if (p.confidence > 1) {
-
-      // const valid = getIsMachineAlignmentValid(store.getState(),
-      //   chapter,
-      //   verse,
-      //   predictedAlignment);
-      // if (valid) {
-      //   console.log('valid alignment!', p.toString());
-      // }
-
-      // TODO: look up the alignment index
-      // - exclude merged source words
-      // basically I'm looking for target tokens that have not been used,
-      // and an existing source n-gram.
-
-      // const alignmentIndex = -1;
-      // if (alignmentIndex >= 0) {
-      // TODO: check if the secondary word has already been aligned.
-
-      // for (const token of p.target.getTokens()) {
-      // this.handleAlignTargetToken(alignmentIndex, {
-      //   alignmentIndex: undefined,
-      //   occurrence: 1, // TODO: get token occurrence
-      //   occurrences: 1, // TODO: get token occurrences
-      //   word: token.toString()
-      // });
-      // TODO: inject suggestions into alignments
-      // }
-      // } else {
-      // TODO: if all the source words are available but not merged we need to merge them!
-      // }
-      // }
     }
     setAlignmentSuggestions(chapter, verse, alignmentSuggestions);
   }

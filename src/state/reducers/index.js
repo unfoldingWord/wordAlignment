@@ -63,3 +63,27 @@ export const getLegacyChapterAlignments = (state, chapter) =>
  */
 export const getIsVerseAligned = (state, chapter, verse) =>
   fromAlignments.getIsVerseAligned(state.tool.alignments, chapter, verse);
+
+export function getManifest(state) {
+  return state.projectDetailsReducer.manifest;
+}
+
+export function getProjectSaveLocation(state) {
+  return state.projectDetailsReducer.projectSaveLocation;
+}
+
+export function getContextId(state) {
+  return state.contextIdReducer.contextId;
+}
+
+export function getIsVerseFinished(toolName, state, chapter, verse) {
+  const {toolsReducer: {apis}} = state;
+  const toolApi = apis[toolName];
+  if (toolApi && toolApi.triggerForced && chapter && verse) {
+    const verseFinished = toolApi.triggerForced('getIsVerseFinished', chapter,
+      verse);
+    return verseFinished;
+  } else {
+    return false;
+  }
+}

@@ -72,6 +72,7 @@
     "react-localize-redux": "^2.15.1",
     "reselect": "^3.0.1",
     "tc-tool": "^1.5.0",
+    "tc-ui-toolkit": "translationCoreApps/tc-ui-toolkit#bugfix-jay-verse-finished",
     "usfm-js": "^1.0.0-beta.30",
     "word-aligner": "0.0.1",
     "word-map": "^0.1.5",

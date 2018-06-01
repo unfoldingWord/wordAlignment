@@ -19,11 +19,17 @@ import {
 import {
   getIsVerseValid,
   getVerseAlignedTargetTokens,
-  getVerseAlignments
+  getVerseAlignments,
+  getContextId,
+  getManifest,
+  getProjectSaveLocation,
+  getIsVerseFinished
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import Token from 'word-map/structures/Token';
+//containers
+import GroupMenuContainer from '../containers/GroupMenuContainer';
 
 /**
  * The base container for this tool
@@ -224,18 +230,18 @@ class Container extends Component {
     }
 
     const {ScripturePane} = currentToolViews;
-    let scripturePane = <div/>;
+    let scripturePane = <div />;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
       scripturePane =
         <ScripturePane projectDetailsReducer={projectDetailsReducer}
-                       appLanguage={appLanguage}
-                       selectionsReducer={selectionsReducer}
-                       currentToolViews={currentToolViews}
-                       resourcesReducer={resourcesReducer}
-                       contextIdReducer={contextIdReducer}
-                       settingsReducer={settingsReducer}
-                       actions={actions}/>;
+          appLanguage={appLanguage}
+          selectionsReducer={selectionsReducer}
+          currentToolViews={currentToolViews}
+          resourcesReducer={resourcesReducer}
+          contextIdReducer={contextIdReducer}
+          settingsReducer={settingsReducer}
+          actions={actions} />;
     }
 
     const {lexicons} = resourcesReducer;
@@ -258,13 +264,14 @@ class Container extends Component {
 
     return (
       <div style={{display: 'flex', width: '100%', height: '100%'}}>
+        <GroupMenuContainer {...this.props.groupMenu} />
         <WordList
           chapter={chapter}
           verse={verse}
           words={words}
           onDropTargetToken={this.handleUnalignTargetToken}
           connectDropTarget={connectDropTarget}
-          isOver={isOver}/>
+          isOver={isOver} />
         <div style={{
           flex: 0.8,
           display: 'flex',
@@ -273,13 +280,14 @@ class Container extends Component {
           height: '100%'
         }}>
           {scripturePane}
-          <AlignmentGrid alignments={verseAlignments}
-                         translate={translate}
-                         lexicons={lexicons}
-                         onDropTargetToken={this.handleAlignTargetToken}
-                         onDropSourceToken={this.handleAlignPrimaryToken}
-                         actions={actions}
-                         contextId={contextId}/>
+          <AlignmentGrid
+            alignments={verseAlignments}
+            translate={translate}
+            lexicons={lexicons}
+            onDropTargetToken={this.handleAlignTargetToken}
+            onDropSourceToken={this.handleAlignPrimaryToken}
+            actions={actions}
+            contextId={contextId} />
         </div>
       </div>
     );
@@ -352,7 +360,8 @@ const mapDispatchToProps = ({
   indexChapterAlignments
 });
 
-const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
+const mapStateToProps = (state, ownProps) => {
+  const {contextId, targetVerseText, sourceVerse} = ownProps;
   if (contextId) {
     const {reference: {chapter, verse}} = contextId;
     // TRICKY: the target verse contains punctuation we need to remove
@@ -368,7 +377,19 @@ const mapStateToProps = (state, {contextId, targetVerseText, sourceVerse}) => {
       alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
       verseAlignments: getVerseAlignments(state, chapter, verse),
       verseIsValid: getIsVerseValid(state, chapter, verse,
-        normalizedSourceVerseText, normalizedTargetVerseText)
+        normalizedSourceVerseText, normalizedTargetVerseText),
+      groupMenu: {
+        toolsReducer: ownProps.tc.toolsReducer,
+        groupsDataReducer: ownProps.tc.groupsDataReducer,
+        groupsIndexReducer: ownProps.tc.groupsIndexReducer,
+        groupMenuReducer: ownProps.tc.groupMenuReducer,
+        translate: ownProps.translate,
+        actions: ownProps.tc.actions,
+        isVerseFinished: (chapter, verse) => getIsVerseFinished('wordAlignment', ownProps, chapter, verse),
+        contextId: getContextId(ownProps),
+        manifest: getManifest(ownProps),
+        projectSaveLocation: getProjectSaveLocation(ownProps)
+      },
     };
   } else {
     return {

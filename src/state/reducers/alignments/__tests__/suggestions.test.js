@@ -257,6 +257,37 @@ describe('get tokenized suggestions', () => {
     ]);
     expect(result[0].targetNgram[0].meta.suggestion).toEqual(undefined);
     expect(result[0].targetNgram[1].meta.suggestion).toEqual(true);
+    expect(state.targetTokens[1].suggestion).not.toBeDefined();
+  });
+
+  it('does not an aligned alignment', () => {
+    const state = {
+      sourceTokens: [{position: 0}],
+      targetTokens: [{position: 0}, {position: 1}],
+      alignments: [
+        {sourceNgram: [0], targetNgram: [0, 1]}
+      ],
+      suggestions: [
+        {sourceNgram: [0], targetNgram: [1]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(JSON.parse(JSON.stringify(result))).toEqual([
+      {
+        index: 0,
+        position: 0,
+        suggestion: false,
+        sourceNgram: [
+          {index: 0, occurrence: 1, occurrences: 1, text: ''}
+        ],
+        targetNgram: [
+          {index: 0, occurrence: 1, occurrences: 1, text: ''},
+          {index: 1, occurrence: 1, occurrences: 1, text: ''}
+        ]
+      }
+    ]);
+    expect(result[0].targetNgram[0].meta.suggestion).toEqual(undefined);
+    expect(result[0].targetNgram[1].meta.suggestion).toEqual(undefined);
   });
 });
 

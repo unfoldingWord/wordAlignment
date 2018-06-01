@@ -101,9 +101,10 @@ export default alignment;
  * @return {{sourceNgram: Token[], targetNgram: Token[]}}
  */
 export const getTokenizedAlignment = (state, sourceTokens, targetTokens) => {
+  // TRICKY: we deep copy the token to prevent tampering with the token data
   return {
-    sourceNgram: state.sourceNgram.map(pos => new Token(sourceTokens[pos])),
-    targetNgram: state.targetNgram.map(pos => new Token(targetTokens[pos]))
+    sourceNgram: state.sourceNgram.map(pos => new Token(Object.assign({}, sourceTokens[pos]))),
+    targetNgram: state.targetNgram.map(pos => new Token(Object.assign({}, targetTokens[pos])))
   };
 };
 

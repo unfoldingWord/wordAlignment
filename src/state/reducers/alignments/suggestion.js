@@ -24,6 +24,7 @@ export default suggestion;
 
 /**
  * Returns the tokenized suggestion
+ * @deprecated
  * @param state
  * @param {Token[]} sourceTokens
  * @param {Token[]} targetTokens

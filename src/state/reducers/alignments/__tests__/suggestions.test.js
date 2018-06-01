@@ -4,7 +4,7 @@ import alignments from '../index';
 import * as fromVerse from '../verse';
 import Token from 'word-map/structures/Token';
 
-describe('add alignment suggestion', () => {
+describe('set alignment suggestions', () => {
   const stateBefore = {
     '1': {
       '1': {
@@ -54,14 +54,15 @@ describe('add alignment suggestion', () => {
     type: types.SET_ALIGNMENT_SUGGESTIONS,
     chapter: 1,
     verse: 1,
-    alignment: {
-      sourceNgram: [
-        new Token({text: 'olleh', position: 0}),
-        new Token({text: 'dlrow', position: 1})],
-      targetNgram: [
-        new Token({text: 'hello', position: 0}),
-        new Token({text: 'world', position: 1})]
-    }
+    alignments: [
+      {
+        sourceNgram: [
+          new Token({text: 'olleh', position: 0}),
+          new Token({text: 'dlrow', position: 1})],
+        targetNgram: [
+          new Token({text: 'hello', position: 0}),
+          new Token({text: 'world', position: 1})]
+      }]
   };
 
   const stateAfter = {
@@ -241,7 +242,14 @@ describe('get suggestions', () => {
       };
       const result = fromVerse.getRawSuggestions(state);
       expect(result).toEqual([
-        { index: 0, position: 0, suggestion: true, sourceNgram: [0, 1], targetNgram: [0, 1]}
+        {
+          index: 0,
+          position: 0,
+          suggestion: true,
+          sourceNgram: [0, 1],
+          targetNgram: [0, 1],
+          suggestedTargetTokens: [1]
+        }
       ]);
     });
 
@@ -258,7 +266,14 @@ describe('get suggestions', () => {
       };
       const result = fromVerse.getRawSuggestions(state);
       expect(result).toEqual([
-        {index: 0, position: 0, suggestion: true, sourceNgram: [0, 1], targetNgram: [0, 1]}
+        {
+          index: 0,
+          position: 0,
+          suggestion: true,
+          sourceNgram: [0, 1],
+          targetNgram: [0, 1],
+          suggestedTargetTokens: [0, 1]
+        }
       ]);
     });
 
@@ -349,7 +364,14 @@ describe('get suggestions', () => {
       };
       const result = fromVerse.getRawSuggestions(state);
       expect(result).toEqual([
-        {index: 0, position: 0, suggestion: true, sourceNgram: [0, 1], targetNgram: [0, 1]}
+        {
+          index: 0,
+          position: 0,
+          suggestion: true,
+          sourceNgram: [0, 1],
+          targetNgram: [0, 1],
+          suggestedTargetTokens: [0, 1]
+        }
       ]);
     });
 
@@ -361,7 +383,7 @@ describe('get suggestions', () => {
           {sourceNgram: [0], targetNgram: [0]},
           {sourceNgram: [1], targetNgram: []},
           {sourceNgram: [2], targetNgram: []},
-          {sourceNgram: [3], targetNgram: [3]},
+          {sourceNgram: [3], targetNgram: [3]}
         ],
         suggestions: [
           {sourceNgram: [0], targetNgram: [0]},
@@ -372,7 +394,14 @@ describe('get suggestions', () => {
       const result = fromVerse.getRawSuggestions(state);
       expect(result).toEqual([
         {index: 0, position: 0, sourceNgram: [0], targetNgram: [0]},
-        {index: 1, position: 1, suggestion: true, sourceNgram: [1, 2], targetNgram: [1, 2]},
+        {
+          index: 1,
+          position: 1,
+          suggestion: true,
+          sourceNgram: [1, 2],
+          targetNgram: [1, 2],
+          suggestedTargetTokens: [1, 2]
+        },
         {index: 3, position: 2, sourceNgram: [3], targetNgram: [3]}
       ]);
     });
@@ -384,7 +413,7 @@ describe('get suggestions', () => {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
         alignments: [
-          {sourceNgram: [0, 1], targetNgram: []},
+          {sourceNgram: [0, 1], targetNgram: []}
         ],
         suggestions: [
           {sourceNgram: [0], targetNgram: [0]},
@@ -393,8 +422,22 @@ describe('get suggestions', () => {
       };
       const result = fromVerse.getRawSuggestions(state);
       expect(result).toEqual([
-        {index: 0, position: 0, suggestion: true, sourceNgram: [0], targetNgram: [0]},
-        {index: 1, position: 1, suggestion: true, sourceNgram: [1], targetNgram: [1]}
+        {
+          index: 0,
+          position: 0,
+          suggestion: true,
+          sourceNgram: [0],
+          targetNgram: [0],
+          suggestedTargetTokens: [0]
+        },
+        {
+          index: 1,
+          position: 1,
+          suggestion: true,
+          sourceNgram: [1],
+          targetNgram: [1],
+          suggestedTargetTokens: [1]
+        }
       ]);
     });
 
@@ -403,7 +446,7 @@ describe('get suggestions', () => {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
         alignments: [
-          {sourceNgram: [0, 1], targetNgram: [0]},
+          {sourceNgram: [0, 1], targetNgram: [0]}
         ],
         suggestions: [
           {sourceNgram: [0], targetNgram: [0]},
@@ -441,7 +484,7 @@ describe('get suggestions', () => {
         targetTokens: [{}, {}],
         alignments: [
           {sourceNgram: [0], targetNgram: [0]},
-          {sourceNgram: [1], targetNgram: []},
+          {sourceNgram: [1], targetNgram: []}
         ],
         suggestions: [
           {sourceNgram: [0], targetNgram: [1]},
@@ -462,7 +505,7 @@ describe('get suggestions', () => {
         targetTokens: [{}, {}],
         alignments: [
           {sourceNgram: [0], targetNgram: []},
-          {sourceNgram: [1], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: [0]}
         ],
         suggestions: [
           {sourceNgram: [0], targetNgram: [1]},
@@ -482,7 +525,7 @@ describe('get suggestions', () => {
         targetTokens: [{}, {}],
         alignments: [
           {sourceNgram: [0], targetNgram: []},
-          {sourceNgram: [1], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: [0]}
         ],
         suggestions: []
       };
@@ -494,7 +537,6 @@ describe('get suggestions', () => {
     });
   });
 });
-
 
 describe('alignment matches suggestion', () => {
   it('matches', () => {

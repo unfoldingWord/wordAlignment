@@ -488,8 +488,16 @@ export const getRawSuggestions = state => {
         const index = suggestionIndex[tIndex].index;
         // merge target n-grams
         const rawSuggestion = Object.assign({}, state.suggestions[index]);
+        rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
         for (const aIndex of alignmentQueue) {
           const rawAlignment = state.alignments[aIndex];
+          for(const t of rawAlignment.targetNgram) {
+            if(!(t in rawSuggestion.targetNgram)) {
+              rawSuggestion.targetNgram.push(t);
+            } else {
+              _.pull(rawSuggestion.suggestedTargetTokens, t);
+            }
+          }
           rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
             rawAlignment.targetNgram);
         }
@@ -503,7 +511,6 @@ export const getRawSuggestions = state => {
         rawSuggestion.index = index;
         rawSuggestion.position = suggestedAlignments.length;
         rawSuggestion.suggestion = true;
-        // suggestedAlignments.push(suggestion);
         suggestedAlignments.push(rawSuggestion);
       }
     } else {
@@ -511,15 +518,8 @@ export const getRawSuggestions = state => {
         // use the alignment
         const index = alignmentQueue.pop();
         const rawAlignment = Object.assign({}, state.alignments[index]);
-        // usedTargetTokens = usedTargetTokens.concat(rawAlignment.targetNgram);
-        // const alignment = fromAlignment.getTokenizedAlignment(
-        //   state.alignments[index],
-        //   state.sourceTokens,
-        //   state.targetTokens
-        // );
         rawAlignment.index = index;
         rawAlignment.position = suggestedAlignments.length;
-        // suggestedAlignments.push(alignment);
         suggestedAlignments.push(rawAlignment);
       }
     }
@@ -535,29 +535,6 @@ export const getRawSuggestions = state => {
   }
 
   return suggestedAlignments;
-
-  // const alignments = [...state.alignments];
-  // const suggestedAlignments = [];
-  // for (const suggestion of state.suggestions) {
-  //   let foundMatch = false;
-  //   for (const a of alignments) {
-  //     if (getAlignmentMatchesSuggestion(a, suggestion)) {
-  //       for (const token of suggestion.targetNgram) {
-  //         if (!(token in a.targetNgram)) {
-  //           a.targetNgram.push(token);
-  //         }
-  //       }
-  //       a.targetNgram = a.targetNgram.sort();
-  //       suggestedAlignments.push(a);
-  //       foundMatch = true;
-  //       break;
-  //     }
-  //   }
-  //   if (!foundMatch) {
-  //     suggestedAlignments.push(suggestion);
-  //   }
-  // }
-  // return suggestedAlignments;
 };
 
 /**

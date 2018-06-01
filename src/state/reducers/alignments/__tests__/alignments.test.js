@@ -1205,7 +1205,8 @@ describe('selectors', () => {
               sourceNgram: [0],
               targetNgram: [0]
             }
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -1234,7 +1235,8 @@ describe('selectors', () => {
               sourceNgram: [0],
               targetNgram: [0]
             }
-          ]
+          ],
+          suggestions: []
         }
       }
     };
@@ -1282,12 +1284,13 @@ describe('selectors', () => {
       '1': [
         {
           index: 0,
+          position: 0,
           sourceNgram: [
             {
               text: 'olleh',
               occurrence: 1,
               occurrences: 1,
-              index: 0
+              index: 0,
             }],
           targetNgram: [
             {
@@ -1305,6 +1308,7 @@ describe('selectors', () => {
     expect(JSON.parse(JSON.stringify(result))).toEqual([
       {
         index: 0,
+        position: 0,
         sourceNgram: [
           {
             text: 'olleh',

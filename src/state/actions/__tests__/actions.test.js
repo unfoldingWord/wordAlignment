@@ -90,23 +90,25 @@ describe('async actions', () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('adds an alignment suggestion', () => {
+  it('sets alignment suggestions', () => {
     const expectedActions = [
       {
-        type: 'ADD_ALIGNMENT_SUGGESTION',
+        type: 'SET_ALIGNMENT_SUGGESTIONS',
         chapter: 1,
         verse: 1,
-        alignment: {
-          sourceNgram: ['hello'],
-          targetNgram: ['world']
-        }
+        alignments: [
+          {
+            sourceNgram: ['hello'],
+            targetNgram: ['world']
+          }]
       }
     ];
     const store = mockStore();
-    const action = actions.setAlignmentSuggestions(1, 1, {
-      sourceNgram: ['hello'],
-      targetNgram: ['world']
-    });
+    const suggestion = {
+      source: {tokens: ['hello']},
+      target: {tokens: ['world']}
+    };
+    const action = actions.setAlignmentSuggestions(1, 1, [suggestion]);
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });

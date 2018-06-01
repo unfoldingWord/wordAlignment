@@ -39,7 +39,7 @@ class AlignmentGrid extends Component {
         {
           alignments.map((alignment, key) => {
             if(alignment.suggestion) {
-              console.warn('found a suggestion', alignment);
+              console.warn('suggestion', alignment);
             }
             return (
               <React.Fragment key={key}>

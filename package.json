@@ -74,7 +74,7 @@
     "tc-tool": "^1.5.0",
     "usfm-js": "^1.0.0-beta.30",
     "word-aligner": "0.0.1",
-    "word-map": "^0.1.7",
+    "word-map": "^0.1.8",
     "xregexp": "^4.1.1"
   },
   "peerDependencies": {

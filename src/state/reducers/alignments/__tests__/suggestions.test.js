@@ -227,7 +227,7 @@ describe('clear alignment suggestions', () => {
     action, stateAfter);
 });
 
-describe('get suggestions', () => {
+describe('get raw suggestions', () => {
   describe('matches', () => {
     it('matches an aligned alignment', () => {
       const state = {
@@ -245,7 +245,6 @@ describe('get suggestions', () => {
         {
           index: 0,
           position: 0,
-          suggestion: true,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestedTargetTokens: [1]
@@ -269,7 +268,6 @@ describe('get suggestions', () => {
         {
           index: 0,
           position: 0,
-          suggestion: true,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestedTargetTokens: [0, 1]
@@ -367,7 +365,6 @@ describe('get suggestions', () => {
         {
           index: 0,
           position: 0,
-          suggestion: true,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestedTargetTokens: [0, 1]
@@ -397,7 +394,6 @@ describe('get suggestions', () => {
         {
           index: 1,
           position: 1,
-          suggestion: true,
           sourceNgram: [1, 2],
           targetNgram: [1, 2],
           suggestedTargetTokens: [1, 2]
@@ -425,7 +421,6 @@ describe('get suggestions', () => {
         {
           index: 0,
           position: 0,
-          suggestion: true,
           sourceNgram: [0],
           targetNgram: [0],
           suggestedTargetTokens: [0]
@@ -433,7 +428,6 @@ describe('get suggestions', () => {
         {
           index: 1,
           position: 1,
-          suggestion: true,
           sourceNgram: [1],
           targetNgram: [1],
           suggestedTargetTokens: [1]
@@ -538,6 +532,34 @@ describe('get suggestions', () => {
   });
 });
 
+describe('get tokenized suggestions', () => {
+  it('matches an un-aligned alignment', () => {
+    const state = {
+      sourceTokens: [{}, {}],
+      targetTokens: [{}, {}],
+      alignments: [
+        {sourceNgram: [0, 1], targetNgram: []}
+      ],
+      suggestions: [
+        {sourceNgram: [0, 1], targetNgram: [0, 1]}
+      ]
+    };
+    const result = fromVerse.getSuggestions(state);
+    expect(JSON.parse(result.toString())).toEqual([
+      {
+        index: 0,
+        position: 0,
+        sourceNgram: [0, 1],
+        targetNgram: [0, 1],
+        suggestedTargetTokens: [0, 1]
+      }
+    ]);
+  });
+});
+
+/**
+ * @deprecated
+ */
 describe('alignment matches suggestion', () => {
   it('matches', () => {
     const alignment = {
@@ -592,6 +614,9 @@ describe('alignment matches suggestion', () => {
   });
 });
 
+/**
+ * @deprecated
+ */
 describe('alignment subsets suggestion', () => {
   it('is a subset', () => {
     const alignment = {

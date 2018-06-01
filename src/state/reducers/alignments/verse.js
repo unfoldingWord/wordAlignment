@@ -367,14 +367,24 @@ export const getSuggestions = state => {
   const suggestions = getRawSuggestions(state);
   const alignments = [];
   for(const suggestion of suggestions) {
+    // indicate suggested tokens
+    const targetTokens = [...state.targetTokens];
+    if(suggestion.suggestedTargetTokens) {
+      for (const index of suggestion.suggestedTargetTokens) {
+        targetTokens[index].suggestion = true;
+      }
+    }
+
+    // tokenize alignment
     const alignment = fromAlignment.getTokenizedAlignment(
       suggestion,
       state.sourceTokens,
-      state.targetTokens
+      targetTokens
     );
+
     alignment.index = suggestion.index;
     alignment.position = suggestion.position;
-    alignment.suggestion = suggestion.suggestion;
+    alignment.suggestion = !!suggestion.suggestedTargetTokens;
     alignments.push(alignment);
   }
   return alignments;
@@ -510,7 +520,6 @@ export const getRawSuggestions = state => {
         // );
         rawSuggestion.index = index;
         rawSuggestion.position = suggestedAlignments.length;
-        rawSuggestion.suggestion = true;
         suggestedAlignments.push(rawSuggestion);
       }
     } else {

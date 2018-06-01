@@ -32,6 +32,7 @@ class SecondaryToken extends React.Component {
           word={token.text}
           disabled={disabled}
           style={{opacity}}
+          isSuggestion={token.meta.suggestion}
           occurrence={token.occurrence}
           occurrences={token.occurrences}/>
       </div>

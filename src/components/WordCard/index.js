@@ -8,7 +8,7 @@ import WordOccurrence from './WordOccurrence';
  * @return {object}
  */
 const makeStyles = (props) => {
-  const {onClick, disabled, style} = props;
+  const {onClick, disabled, style, isSuggestion} = props;
 
   const styles = {
     root: {
@@ -23,6 +23,10 @@ const makeStyles = (props) => {
     },
     word: {}
   };
+
+  if(isSuggestion) {
+    styles.root.borderLeft = '5px solid #1b7729';
+  }
 
   if(disabled) {
     styles.root = {
@@ -100,14 +104,16 @@ WordCard.propTypes = {
   style: PropTypes.object,
   occurrence: PropTypes.number,
   occurrences: PropTypes.number,
-  word: PropTypes.string.isRequired
+  word: PropTypes.string.isRequired,
+  isSuggestion: PropTypes.bool
 };
 
 WordCard.defaultProps = {
   style: {},
   occurrence: 1,
   occurrences: 1,
-  disabled: false
+  disabled: false,
+  isSuggestion: false
 };
 
 export default WordCard;

@@ -204,6 +204,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
                       style={
@@ -298,6 +299,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={2}
                       style={
@@ -404,6 +406,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={2}
                       occurrences={2}
                       style={
@@ -510,6 +513,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={true}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
                       style={
@@ -801,6 +805,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
                       style={
@@ -895,6 +900,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={2}
                       style={
@@ -1001,6 +1007,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={2}
                       occurrences={2}
                       style={
@@ -1107,6 +1114,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={true}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
                       style={

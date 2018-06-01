@@ -367,20 +367,21 @@ export const getSuggestions = state => {
   const suggestions = getRawSuggestions(state);
   const alignments = [];
   for(const suggestion of suggestions) {
-    // indicate suggested tokens
-    const targetTokens = [...state.targetTokens];
-    if(suggestion.suggestedTargetTokens) {
-      for (const index of suggestion.suggestedTargetTokens) {
-        targetTokens[index].suggestion = true;
-      }
-    }
-
     // tokenize alignment
     const alignment = fromAlignment.getTokenizedAlignment(
       suggestion,
       state.sourceTokens,
-      targetTokens
+      state.targetTokens
     );
+
+    // indicate suggested tokens
+    if(suggestion.suggestedTargetTokens) {
+      for(const token of alignment.targetNgram) {
+        if(suggestion.suggestedTargetTokens.indexOf(token.position) >= 0) {
+          token.metadata.suggestion = true;
+        }
+      }
+    }
 
     alignment.index = suggestion.index;
     alignment.position = suggestion.position;
@@ -444,7 +445,7 @@ export const getRawSuggestions = state => {
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < state.sourceTokens.length; tIndex++) {
     tokenQueue.push(tIndex);
-    if (!(alignmentIndex[tIndex].index in alignmentQueue)) {
+    if (alignmentQueue.indexOf(alignmentIndex[tIndex].index) === -1) {
       alignmentQueue.push(alignmentIndex[tIndex].index);
     }
 
@@ -502,7 +503,7 @@ export const getRawSuggestions = state => {
         for (const aIndex of alignmentQueue) {
           const rawAlignment = state.alignments[aIndex];
           for(const t of rawAlignment.targetNgram) {
-            if(!(t in rawSuggestion.targetNgram)) {
+            if(rawSuggestion.targetNgram.indexOf(t) === -1) {
               rawSuggestion.targetNgram.push(t);
             } else {
               _.pull(rawSuggestion.suggestedTargetTokens, t);

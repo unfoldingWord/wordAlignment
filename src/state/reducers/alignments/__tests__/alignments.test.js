@@ -1285,6 +1285,7 @@ describe('selectors', () => {
         {
           index: 0,
           position: 0,
+          suggestion: false,
           sourceNgram: [
             {
               text: 'olleh',
@@ -1309,6 +1310,7 @@ describe('selectors', () => {
       {
         index: 0,
         position: 0,
+        suggestion: false,
         sourceNgram: [
           {
             text: 'olleh',

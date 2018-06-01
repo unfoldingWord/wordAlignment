@@ -231,20 +231,20 @@ export const clearState = () => ({
 });
 
 /**
- * Adds an alignment suggestion.
+ * Sets the alignment suggestions for a verse
  * Suggestions must be approved by the user.
  * @param {number} chapter
  * @param {number} verse
- * @param {Alignment} alignment
+ * @param {Alignment[]} alignments
  */
-export const addAlignmentSuggestion = (chapter, verse, alignment) => ({
-  type: types.ADD_ALIGNMENT_SUGGESTION,
+export const setAlignmentSuggestions = (chapter, verse, alignments) => ({
+  type: types.SET_ALIGNMENT_SUGGESTIONS,
   chapter,
   verse,
-  alignment: {
-    sourceNgram: alignment.source.tokens,
-    targetNgram: alignment.target.tokens
-  }
+  alignments: alignments.map(a => ({
+    sourceNgram: a.source.tokens,
+    targetNgram: a.target.tokens
+  }))
 });
 
 

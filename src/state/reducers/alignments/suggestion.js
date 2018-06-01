@@ -1,4 +1,4 @@
-import {ADD_ALIGNMENT_SUGGESTION} from '../../actions/actionTypes';
+import {SET_ALIGNMENT_SUGGESTIONS} from '../../actions/actionTypes';
 import Token from 'word-map/structures/Token';
 
 const defaultState = {sourceNgram: [], targetNgram: []};
@@ -11,7 +11,7 @@ const defaultState = {sourceNgram: [], targetNgram: []};
  */
 const suggestion = (state=defaultState, action) => {
   switch(action.type) {
-    case ADD_ALIGNMENT_SUGGESTION:
+    case SET_ALIGNMENT_SUGGESTIONS:
       return {
         sourceNgram: action.alignment.sourceNgram.map(t => t.position),
         targetNgram: action.alignment.targetNgram.map(t => t.position)

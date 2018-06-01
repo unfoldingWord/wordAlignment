@@ -1,5 +1,5 @@
 import {
-  ADD_ALIGNMENT_SUGGESTION,
+  SET_ALIGNMENT_SUGGESTIONS,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
@@ -119,15 +119,16 @@ const verse = (state = defaultState, action) => {
         alignments: newAlignments
       };
     }
-    case ADD_ALIGNMENT_SUGGESTION:
+    case SET_ALIGNMENT_SUGGESTIONS: {
+      const suggestions = action.alignments.map(a => ({
+        sourceNgram: a.sourceNgram.map(t => t.position),
+        targetNgram: a.targetNgram.map(t => t.position)
+      }));
       return {
         ...state,
-        suggestions: [
-          ...state.suggestions, {
-            sourceNgram: action.alignment.sourceNgram.map(t => t.position),
-            targetNgram: action.alignment.targetNgram.map(t => t.position)
-          }].sort(alignmentComparator)
+        suggestions: suggestions.sort(alignmentComparator)
       };
+    }
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
       return {
         ...state,

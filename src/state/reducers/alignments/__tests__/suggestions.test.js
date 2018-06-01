@@ -51,7 +51,7 @@ describe('add alignment suggestion', () => {
     }
   };
   const action = {
-    type: types.ADD_ALIGNMENT_SUGGESTION,
+    type: types.SET_ALIGNMENT_SUGGESTIONS,
     chapter: 1,
     verse: 1,
     alignment: {

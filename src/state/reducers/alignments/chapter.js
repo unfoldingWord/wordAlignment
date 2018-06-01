@@ -1,5 +1,5 @@
 import {
-  ADD_ALIGNMENT_SUGGESTION,
+  SET_ALIGNMENT_SUGGESTIONS,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
@@ -30,7 +30,7 @@ const chapter = (state = {}, action) => {
     case SET_SOURCE_TOKENS:
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case REPAIR_VERSE_ALIGNMENTS:
-    case ADD_ALIGNMENT_SUGGESTION:
+    case SET_ALIGNMENT_SUGGESTIONS:
     case RESET_VERSE_ALIGNMENTS:
     case ALIGN_TARGET_TOKEN: {
       const vid = action.verse + '';

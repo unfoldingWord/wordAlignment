@@ -103,7 +103,7 @@ describe('async actions', () => {
       }
     ];
     const store = mockStore();
-    const action = actions.addAlignmentSuggestion(1, 1, {
+    const action = actions.setAlignmentSuggestions(1, 1, {
       sourceNgram: ['hello'],
       targetNgram: ['world']
     });

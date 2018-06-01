@@ -1,7 +1,7 @@
 import chapter, * as fromChapter from './chapter';
 
 import {
-  ADD_ALIGNMENT_SUGGESTION,
+  SET_ALIGNMENT_SUGGESTIONS,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   CLEAR_STATE,
@@ -43,7 +43,7 @@ const alignments = (state = {}, action) => {
     case UNALIGN_TARGET_TOKEN:
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case REPAIR_VERSE_ALIGNMENTS:
-    case ADD_ALIGNMENT_SUGGESTION:
+    case SET_ALIGNMENT_SUGGESTIONS:
     case ALIGN_TARGET_TOKEN: {
       const chapterId = action.chapter + '';
       return {

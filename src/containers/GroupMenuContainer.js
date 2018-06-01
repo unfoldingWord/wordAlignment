@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {GroupMenu} from 'tc-ui-toolkit';
+import PropTypes from 'prop-types';
 
 class GroupMenuContainer extends React.Component {
   getGroupProgress(groupIndex, groupsData) {
@@ -43,5 +44,18 @@ class GroupMenuContainer extends React.Component {
     );
   }
 }
+
+GroupMenuContainer.propTypes = {
+  translate: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
+  isVerseFinished: PropTypes.func.isRequired,
+  groupsDataReducer: PropTypes.object.isRequired,
+  groupsIndexReducer: PropTypes.object.isRequired,
+  groupMenuReducer: PropTypes.object.isRequired,
+  toolsReducer: PropTypes.object.isRequired,
+  contextId:PropTypes.object.isRequired,
+  manifest: PropTypes.object.isRequired,
+  projectSaveLocation: PropTypes.string.isRequired,
+};
 
 export default connect()(GroupMenuContainer);

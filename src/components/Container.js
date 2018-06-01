@@ -347,7 +347,9 @@ Container.propTypes = {
   settingsReducer: PropTypes.shape({
     toolsSettings: PropTypes.object.required
   }).isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  //group menu
+  groupMenu: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = ({

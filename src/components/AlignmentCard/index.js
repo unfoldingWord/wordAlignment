@@ -34,7 +34,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   const mergedTarget = dropTargetProps.sourceNgram.length > 1;
   const singleSource  = dragSourceProps.alignmentLength === 1;
   const mergedSource = dragSourceProps.alignmentLength > 1;
-  const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;
+  const alignmentDelta = dropTargetProps.alignmentPosition - dragSourceProps.alignmentPosition;
   // const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
   // const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
   const moved = alignmentDelta !== 0;
@@ -77,6 +77,7 @@ class DroppableAlignmentCard extends Component {
     const {
       translate,
       lexicons,
+      alignmentPosition,
       alignmentIndex,
       canDrop,
       dragItemType,
@@ -103,6 +104,7 @@ class DroppableAlignmentCard extends Component {
         wordIndex={index}
         alignmentLength={alignmentLength}
         token={token}
+        alignmentPosition={alignmentPosition}
         alignmentIndex={alignmentIndex}
         lexicons={lexicons}
         actions={actions}
@@ -112,6 +114,7 @@ class DroppableAlignmentCard extends Component {
       <SecondaryToken
         key={index}
         token={token}
+        alignmentPosition={alignmentPosition}
         alignmentIndex={alignmentIndex}
       />
     ));
@@ -142,6 +145,7 @@ DroppableAlignmentCard.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   sourceNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   targetNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
+  alignmentPosition: PropTypes.number.isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
@@ -158,8 +162,8 @@ const dragHandler = {
       props.targetNgram.length === 0);
     let canDrop = false;
     if (item.type === types.SECONDARY_WORD) {
-      const alignmentIndexDelta = props.alignmentIndex - item.alignmentIndex;
-      canDrop = alignmentIndexDelta !== 0 && !alignmentEmpty;
+      const alignmentPositionDelta = props.alignmentPosition - item.alignmentPosition;
+      canDrop = alignmentPositionDelta !== 0 && !alignmentEmpty;
       return canDrop;
     }
     if (item.type === types.PRIMARY_WORD) {

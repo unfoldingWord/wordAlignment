@@ -51,11 +51,13 @@ SecondaryToken.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   alignmentIndex: PropTypes.number,
+  alignmentPosition: PropTypes.number,
   disabled: PropTypes.bool
 };
 
 SecondaryToken.defaultProps = {
-  alignmentIndex: undefined, // just to be explicit
+  alignmentIndex: undefined,
+  alignmentPosition: undefined,
   disabled: false
 };
 
@@ -73,6 +75,7 @@ const dragHandler = {
       // occurrence: props.token.occurrence,
       // occurrences: props.token.occurrences,
       alignmentIndex: props.alignmentIndex,
+      alignmentPosition: props.alignmentPosition,
       type: types.SECONDARY_WORD
     };
   }

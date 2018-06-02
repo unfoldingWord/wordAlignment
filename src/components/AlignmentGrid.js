@@ -55,6 +55,7 @@ class AlignmentGrid extends Component {
 
                 <AlignmentCard
                   translate={translate}
+                  alignmentPosition={alignment.position}
                   alignmentIndex={alignment.index}
                   targetNgram={alignment.targetNgram}
                   sourceNgram={alignment.sourceNgram}
@@ -65,6 +66,7 @@ class AlignmentGrid extends Component {
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
                   translate={translate}
+                  alignmentPosition={alignment.position}
                   alignmentIndex={alignment.index}
                   placeholderPosition="right"
                   targetNgram={[]}

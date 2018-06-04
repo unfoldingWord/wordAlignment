@@ -149,46 +149,46 @@ class Container extends Component {
   /**
    * Handles adding secondary words to an alignment
    * @param {Token} token - the secondary word to move
-   * @param {number} nextIndex - the index to which the token will be moved
-   * @param {number} [prevIndex=-1] - the index from which the token will be moved
+   * @param {number} nextAlignment - the index to which the token will be moved
+   * @param {number} [prevAlignment=null] - the index from which the token will be moved
    */
-  handleAlignTargetToken(token, nextIndex, prevIndex = -1) {
+  handleAlignTargetToken(token, nextAlignment, prevAlignment = null) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
       alignTargetToken,
       unalignTargetToken
     } = this.props;
-    if (prevIndex >= 0) {
-      unalignTargetToken(chapter, verse, prevIndex, token);
+    if (prevAlignment && prevAlignment.index >= 0) {
+      unalignTargetToken(chapter, verse, prevAlignment.index, token);
     }
-    alignTargetToken(chapter, verse, nextIndex, token);
+    alignTargetToken(chapter, verse, nextAlignment.index, token);
   }
 
   /**
    * Handles removing secondary words from an alignment
    * @param {Token} token - the secondary word to remove
-   * @param {number} prevIndex - the index from which this token will be moved
+   * @param {number} prevAlignment - the index from which this token will be moved
    */
-  handleUnalignTargetToken(token, prevIndex) {
+  handleUnalignTargetToken(token, prevAlignment) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
       unalignTargetToken
     } = this.props;
-    unalignTargetToken(chapter, verse, prevIndex, token);
+    unalignTargetToken(chapter, verse, prevAlignment.index, token);
   }
 
   /**
    * Handles (un)merging primary words
    * @param {Token} token - the primary word to move
-   * @param {number} prevIndex - the previous alignment index
-   * @param {number} nextIndex - the next alignment index
+   * @param {number} prevAlignment - the previous alignment index
+   * @param {number} nextAlignment - the next alignment index
    */
-  handleAlignPrimaryToken(token, nextIndex, prevIndex) {
+  handleAlignPrimaryToken(token, nextAlignment, prevAlignment) {
     const {
       moveSourceToken,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
-    moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
+    moveSourceToken({chapter, verse, nextIndex: nextAlignment.index, prevIndex: prevAlignment.index, token});
   }
 
   render() {

@@ -84,6 +84,7 @@ class DroppableAlignmentCard extends Component {
       isOver,
       actions,
       targetNgram,
+      alignment,
       connectDropTarget,
       sourceNgram
     } = this.props;
@@ -102,6 +103,7 @@ class DroppableAlignmentCard extends Component {
         key={index}
         translate={translate}
         wordIndex={index}
+        alignment={alignment}
         alignmentLength={alignmentLength}
         token={token}
         alignmentPosition={alignmentPosition}
@@ -114,6 +116,7 @@ class DroppableAlignmentCard extends Component {
       <SecondaryToken
         key={index}
         token={token}
+        alignment={alignment}
         alignmentPosition={alignmentPosition}
         alignmentIndex={alignmentIndex}
       />
@@ -145,6 +148,7 @@ DroppableAlignmentCard.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   sourceNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   targetNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
+  alignment: PropTypes.object.isRequired,
   alignmentPosition: PropTypes.number.isRequired,
   alignmentIndex: PropTypes.number.isRequired,
   onDrop: PropTypes.func.isRequired,

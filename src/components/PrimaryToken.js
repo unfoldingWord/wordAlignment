@@ -121,6 +121,7 @@ class PrimaryToken extends Component {
 PrimaryToken.propTypes = {
   translate: PropTypes.func.isRequired,
   wordIndex: PropTypes.number,
+  alignment: PropTypes.object.isRequired,
   alignmentLength: PropTypes.number,
   canDrag: PropTypes.bool,
   token: PropTypes.instanceOf(Token),
@@ -155,10 +156,13 @@ const dragHandler = {
       // strong: props.token.strong,
       // occurrence: props.token.occurrence,
       // occurrences: props.token.occurrences,
+      alignment: props.alignment,
+
       alignmentPosition: props.alignmentPosition,
       alignmentIndex: props.alignmentIndex,
-      wordIndex: props.wordIndex,
       alignmentLength: props.alignmentLength,
+
+      wordIndex: props.wordIndex,
       type: types.PRIMARY_WORD
     };
   },

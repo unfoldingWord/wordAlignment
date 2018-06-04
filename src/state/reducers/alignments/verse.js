@@ -442,7 +442,6 @@ export const getRawSuggestions = state => {
   const suggestedAlignments = [];
   let tokenQueue = [];
   let alignmentQueue = [];
-  // let usedTargetTokens = [];
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < state.sourceTokens.length; tIndex++) {
     tokenQueue.push(tIndex);

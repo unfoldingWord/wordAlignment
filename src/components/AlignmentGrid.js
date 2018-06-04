@@ -55,23 +55,25 @@ class AlignmentGrid extends Component {
 
                 <AlignmentCard
                   translate={translate}
+                  alignment={alignment}
                   alignmentPosition={alignment.position}
                   alignmentIndex={alignment.index}
                   targetNgram={alignment.targetNgram}
                   sourceNgram={alignment.sourceNgram}
-                  onDrop={item => this.handleDrop(alignment.index, item)}
+                  onDrop={item => this.handleDrop(alignment, item)}
                   actions={actions}
                   lexicons={lexicons}
                 />
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
                   translate={translate}
+                  alignment={alignment}
                   alignmentPosition={alignment.position}
                   alignmentIndex={alignment.index}
                   placeholderPosition="right"
                   targetNgram={[]}
                   sourceNgram={[]}
-                  onDrop={item => this.handleDrop(alignment.index, item)}
+                  onDrop={item => this.handleDrop(alignment, item)}
                   actions={actions}
                   lexicons={lexicons}
                 />
@@ -83,13 +85,13 @@ class AlignmentGrid extends Component {
     );
   }
 
-  handleDrop(index, item) {
+  handleDrop(alignment, item) {
     const {onDropTargetToken, onDropSourceToken} = this.props;
     if (item.type === types.SECONDARY_WORD) {
-      onDropTargetToken(item.token, index, item.alignmentIndex);
+      onDropTargetToken(item.token, alignment, item.alignment);
     }
     if (item.type === types.PRIMARY_WORD) {
-      onDropSourceToken(item.token, index, item.alignmentIndex);
+      onDropSourceToken(item.token, alignment, item.alignment);
     }
   }
 }

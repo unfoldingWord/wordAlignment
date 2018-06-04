@@ -71,15 +71,16 @@ export const indexChapterAlignments = (
  * Adds a target token to an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {number} index - the alignment index
+ * @param {object} alignment - the alignment to which the token will be moved.
  * @param {Token} token - the target token being added to the alignment
  * @return {{}}
  */
-export const alignTargetToken = (chapter, verse, index, token) => ({
+export const alignTargetToken = (chapter, verse, alignment, token) => ({
   type: types.ALIGN_TARGET_TOKEN,
   chapter,
   verse,
-  index,
+  index: alignment.index,
+  suggestion: alignment.suggestion,
   token
 });
 
@@ -87,47 +88,50 @@ export const alignTargetToken = (chapter, verse, index, token) => ({
  * Removes a target token from an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {number} index - the alignment index
+ * @param {object} alignment - the alignment from which the token will be removed
  * @param {Token} token - the target token being removed from the alignment
  * @return {{}}
  */
-export const unalignTargetToken = (chapter, verse, index, token) => ({
+export const unalignTargetToken = (chapter, verse, alignment, token) => ({
   type: types.UNALIGN_TARGET_TOKEN,
   chapter,
   verse,
-  index,
+  index: alignment.index,
+  suggestion: alignment.suggestion,
   token
 });
 
 /**
- * Adds a target token to an alignment
+ * Adds a source token to an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {number} index - the alignment index
- * @param {Token} token - the target token being added to the alignment
+ * @param {number} alignment - the alignment to which the source token will be moved.
+ * @param {Token} token - the source token being added to the alignment
  * @return {{}}
  */
-const alignSourceToken = (chapter, verse, index, token) => ({
+const alignSourceToken = (chapter, verse, alignment, token) => ({
   type: types.ALIGN_SOURCE_TOKEN,
   chapter,
   verse,
-  index,
+  index: alignment.index,
+  suggestion: alignment.suggestion,
   token
 });
 
 /**
- * Removes a target token from an alignment
+ * Removes a source token from an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {number} index - the alignment index
- * @param {Token} token - the target token being removed from the alignment
+ * @param {object} alignment - the alignment from which the source token will be removed.
+ * @param {Token} token - the source token being removed from the alignment
  * @return {{}}
  */
-const unalignSourceToken = (chapter, verse, index, token) => ({
+const unalignSourceToken = (chapter, verse, alignment, token) => ({
   type: types.UNALIGN_SOURCE_TOKEN,
   chapter,
   verse,
-  index,
+  index: alignment.index,
+  suggestion: alignment.suggestion,
   token
 });
 
@@ -149,21 +153,25 @@ export const insertSourceToken = (chapter, verse, token) => ({
  * This thunk moves a source token between alignments
  * @param {number} chapter
  * @param {number} verse
- * @param {number} nextIndex - the token to which the token will be moved
- * @param {number} prevIndex - the index from which the token will be moved
+ * @param {object} nextAlignment - the alignment to which the token will be moved
+ * @param {object} prevAlignment - the alignment from which the token will be moved
  * @param {Token} token - the source token to move
  * @return {Function}
  */
 export const moveSourceToken = (
-  {chapter, verse, nextIndex, prevIndex, token}) => {
+  {chapter, verse, nextAlignment, prevAlignment, token}) => {
   return dispatch => {
-    dispatch(unalignSourceToken(chapter, verse, prevIndex, token));
-    if (prevIndex === nextIndex) {
+    dispatch(unalignSourceToken(chapter, verse, prevAlignment, token));
+    if (prevAlignment.index === nextAlignment.index) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
       // TRICKY: shift the next index since we removed an alignment
-      const index = prevIndex < nextIndex ? nextIndex - 1 : nextIndex;
-      dispatch(alignSourceToken(chapter, verse, index, token));
+      const index = prevAlignment.index < nextAlignment.index ? nextAlignment.index - 1 : nextAlignment.index;
+      const shiftedAlignment = {
+        ...nextAlignment,
+        index
+      };
+      dispatch(alignSourceToken(chapter, verse, shiftedAlignment, token));
     }
   };
 };

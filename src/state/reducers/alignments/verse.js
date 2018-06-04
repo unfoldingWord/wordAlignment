@@ -339,6 +339,8 @@ export const getAlignments = state => {
       state.targetTokens
     );
     alignment.index = i;
+    alignment.position = i;
+    alignment.suggestion = false;
     alignments.push(alignment);
   }
   return alignments;
@@ -436,6 +438,11 @@ export const getRawSuggestions = state => {
     state.sourceTokens.length) {
     throw new Error(
       'Index out of bounds. We currently do not support partial suggestions.');
+  }
+
+  // TRICKY: react may update before all movement actions have completed.
+  if(alignmentIndex.length !== state.sourceTokens.length) {
+    return getAlignments(state);
   }
 
   // build output

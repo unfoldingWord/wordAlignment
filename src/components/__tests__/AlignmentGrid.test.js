@@ -43,6 +43,8 @@ describe('AlignmentGrid', () => {
       '1': {
         '1': [
           {
+            'position': 0,
+            'index': 0,
             'sourceNgram': [
               new Token({
                 'text': 'ἐπειδήπερ',
@@ -56,6 +58,8 @@ describe('AlignmentGrid', () => {
             'targetNgram': []
           },
           {
+            'position': 1,
+            'index': 1,
             'sourceNgram': [
               new Token({
                 'text': 'πολλοὶ',
@@ -69,6 +73,8 @@ describe('AlignmentGrid', () => {
             'targetNgram': []
           },
           {
+            'position': 2,
+            'index': 2,
             'sourceNgram': [
               new Token({
                 'text': 'ἐπεχείρησαν',

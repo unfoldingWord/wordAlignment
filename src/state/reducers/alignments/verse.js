@@ -107,6 +107,7 @@ const verse = (state = defaultState, action) => {
     case ALIGN_SOURCE_TOKEN:
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
+      // TODO: if this is a suggestion we must do some extra processing
       const index = action.index;
       const newAlignments = [...state.alignments];
       newAlignments[index] = alignment(state.alignments[index], action);
@@ -513,12 +514,6 @@ export const getRawSuggestions = state => {
             rawAlignment.targetNgram);
         }
         rawSuggestion.targetNgram.sort(numberComparator);
-        // usedTargetTokens = usedTargetTokens.concat(rawSuggestion.targetNgram);
-        // const suggestion = fromAlignment.getTokenizedAlignment(
-        //   rawSuggestion,
-        //   state.sourceTokens,
-        //   state.targetTokens
-        // );
         rawSuggestion.index = index;
         rawSuggestion.position = suggestedAlignments.length;
         suggestedAlignments.push(rawSuggestion);

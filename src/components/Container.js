@@ -19,11 +19,7 @@ import {
 import {
   getIsVerseValid,
   getVerseAlignedTargetTokens,
-  getVerseAlignments,
-  getContextId,
-  getManifest,
-  getProjectSaveLocation,
-  getIsVerseFinished
+  getVerseAlignments
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';

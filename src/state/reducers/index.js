@@ -63,15 +63,3 @@ export const getLegacyChapterAlignments = (state, chapter) =>
  */
 export const getIsVerseAligned = (state, chapter, verse) =>
   fromAlignments.getIsVerseAligned(state.tool.alignments, chapter, verse);
-
-export function getManifest(state) {
-  return state.projectDetailsReducer.manifest;
-}
-
-export function getProjectSaveLocation(state) {
-  return state.projectDetailsReducer.projectSaveLocation;
-}
-
-export function getContextId(state) {
-  return state.contextIdReducer.contextId;
-}

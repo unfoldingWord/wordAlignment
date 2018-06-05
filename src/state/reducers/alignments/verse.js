@@ -230,19 +230,33 @@ const verse = (state = defaultState, action) => {
           targetTokenPositionMap
         }));
 
-      // remove duplicate source tokens
+      // remove duplicate tokens
       let usedSourceTokens = [];
-      fixedAlignments = fixedAlignments.filter(a => {
-        const tokens = fromAlignment.getSourceTokenPositions(a);
-        for (const t of tokens) {
-          if(usedSourceTokens.indexOf(t) >= 0) {
-            return false;
+      let usedTargetTokens = [];
+      fixedAlignments = fixedAlignments.map(a => {
+        // source
+        const locallyUsedSourceTokens = [];
+        for (const t of a.sourceNgram) {
+          if (usedSourceTokens.indexOf(t) >= 0 ||
+            locallyUsedSourceTokens.indexOf(t) >= 0) {
+            return null;
+          } else {
+            locallyUsedSourceTokens.push(t);
           }
         }
-        // find used tokens
-        usedSourceTokens = usedSourceTokens.concat(tokens);
-        return true;
+        // target
+        for (const t of a.targetNgram) {
+          if (usedTargetTokens.indexOf(t) >= 0) {
+            _.pullAt(a.targetNgram, a.targetNgram.indexOf(t));
+          } else {
+            usedTargetTokens.push(t);
+          }
+        }
+        // find used source tokens
+        usedSourceTokens = usedSourceTokens.concat(a.sourceNgram);
+        return a;
       });
+      fixedAlignments = _.compact(fixedAlignments);
 
       // insert missing source tokens
       for (const t of action.sourceTokens) {

@@ -122,3 +122,10 @@ export const getIsAligned = state => {
  * @return {number[]}
  */
 export const getSourceTokenPositions = (state) => [...state.sourceNgram];
+
+/**
+ * Returns the positions of the target tokens used in the alignment
+ * @param state
+ * @return {*[]}
+ */
+export const getTargetTokenPositions = state => [...state.targetNgram];

@@ -1123,16 +1123,21 @@ describe('repair alignments', () => {
     const stateBefore = {
       '1': {
         '1': {
-          sourceTokens: [{text: '0', position: 0}, {text: '1', position: 1}],
-          targetTokens: [
+          sourceTokens: [
             {text: '0', position: 0},
             {text: '1', position: 1},
             {text: '2', position: 2}],
+          targetTokens: [
+            {text: '0', position: 0},
+            {text: '1', position: 1},
+            {text: '2', position: 2},
+            {text: '3', position: 3}],
           alignments: [
             {sourceNgram: [0], targetNgram: [1, 1, 2]},
             {sourceNgram: [1], targetNgram: [0, 2]},
             {sourceNgram: [1], targetNgram: [1]},
             {sourceNgram: [1], targetNgram: []},
+            {sourceNgram: [2, 2], targetNgram: [3]},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
           ]
@@ -1145,11 +1150,14 @@ describe('repair alignments', () => {
       verse: 1,
       sourceTokens: [
         new Token({text: '0', position: 0}),
-        new Token({text: '1', position: 1})
+        new Token({text: '1', position: 1}),
+        new Token({text: '2', position: 2})
       ],
       targetTokens: [
         new Token({text: '0', position: 0}),
-        new Token({text: '1', position: 1})
+        new Token({text: '1', position: 1}),
+        new Token({text: '2', position: 2}),
+        new Token({text: '3', position: 3})
       ]
     };
     const stateAfter = {
@@ -1163,19 +1171,27 @@ describe('repair alignments', () => {
             {
               text: '1', position: 1, occurrence: 1, occurrences: 1,
               lemma: '', morph: '', strong: ''
+            },
+            {
+              text: '2', position: 2, occurrence: 1, occurrences: 1,
+              lemma: '', morph: '', strong: ''
             }
           ],
           targetTokens: [
             {text: '0', position: 0, occurrence: 1, occurrences: 1},
-            {text: '1', position: 1, occurrence: 1, occurrences: 1}
+            {text: '1', position: 1, occurrence: 1, occurrences: 1},
+            {text: '2', position: 2, occurrence: 1, occurrences: 1},
+            {text: '3', position: 3, occurrence: 1, occurrences: 1}
           ],
           alignments: [
             {sourceNgram: [0], targetNgram: [1, 2]},
-            {sourceNgram: [1], targetNgram: [0, 2]}
+            {sourceNgram: [1], targetNgram: [0, 2]},
+            {sourceNgram: [2], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: [1]},
-            {sourceNgram: [1], targetNgram: [0]}
+            {sourceNgram: [0], targetNgram: [1, 2]},
+            {sourceNgram: [1], targetNgram: [0, 2]},
+            {sourceNgram: [2], targetNgram: []}
           ],
           suggestions: []
         }

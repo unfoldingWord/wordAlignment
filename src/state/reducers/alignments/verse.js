@@ -222,7 +222,7 @@ const verse = (state = defaultState, action) => {
         targetTokenPositionMap.push(newPos);
       }
 
-      // repair
+      // repair alignments
       let fixedAlignments = state.alignments.map(
         a => alignmentReducer(a, {
           ...action,
@@ -230,12 +230,21 @@ const verse = (state = defaultState, action) => {
           targetTokenPositionMap
         }));
 
-      // hydrate alignments
+      // remove duplicate source tokens
       let usedSourceTokens = [];
-      fixedAlignments.map(a => {
-        usedSourceTokens = usedSourceTokens.concat(
-          fromAlignment.getSourceTokenPositions(a));
+      fixedAlignments = fixedAlignments.filter(a => {
+        const tokens = fromAlignment.getSourceTokenPositions(a);
+        for (const t of tokens) {
+          if(usedSourceTokens.indexOf(t) >= 0) {
+            return false;
+          }
+        }
+        // find used tokens
+        usedSourceTokens = usedSourceTokens.concat(tokens);
+        return true;
       });
+
+      // insert missing source tokens
       for (const t of action.sourceTokens) {
         if (!usedSourceTokens.includes(t.position)) {
           const insertAction = insertSourceToken(action.chapter, action.verse,

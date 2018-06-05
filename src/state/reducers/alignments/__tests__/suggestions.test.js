@@ -14,6 +14,12 @@ describe('set alignment suggestions', () => {
             occurrence: 1,
             occurrences: 1,
             position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
           }
         ],
         targetTokens: [
@@ -28,9 +34,32 @@ describe('set alignment suggestions', () => {
           {
             sourceNgram: [0],
             targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
           }
         ],
-        suggestions: []
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ]
       }
     }
   };
@@ -41,10 +70,17 @@ describe('set alignment suggestions', () => {
     alignments: [
       {
         sourceNgram: [
-          new Token({text: 'olleh', position: 0})],
+          new Token({text: 'hello', position: 0})],
         targetNgram: [
-          new Token({text: 'hello', position: 0})]
-      }]
+          new Token({text: 'olleh', position: 0})]
+      },
+      {
+        sourceNgram: [
+          new Token({text: 'world', position: 1})],
+        targetNgram: [
+          new Token({text: 'dlrow', position: 1})]
+      }
+    ]
   };
 
   const stateAfter = {
@@ -56,6 +92,12 @@ describe('set alignment suggestions', () => {
             occurrence: 1,
             occurrences: 1,
             position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
           }
         ],
         targetTokens: [
@@ -70,6 +112,20 @@ describe('set alignment suggestions', () => {
           {
             sourceNgram: [0],
             targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [1]
           }
         ],
         renderedAlignments: [
@@ -78,12 +134,12 @@ describe('set alignment suggestions', () => {
             targetNgram: [0],
             suggestedTargetTokens: [0],
             suggestionAlignments: [0]
-          }
-        ],
-        suggestions: [
+          },
           {
-            sourceNgram: [0],
-            targetNgram: [0]
+            sourceNgram: [1],
+            targetNgram: [1],
+            suggestedTargetTokens: [1],
+            suggestionAlignments: [1]
           }
         ]
       }

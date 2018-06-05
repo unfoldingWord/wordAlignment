@@ -920,9 +920,7 @@ describe('repair alignments', () => {
           ...tokensAfter,
           alignments: [
             {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [0, 1], targetNgram: [0]},
-            {sourceNgram: [0], targetNgram: [0, 1]},
-            {sourceNgram: [0, 1], targetNgram: [0, 1]},
+            {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
@@ -930,9 +928,7 @@ describe('repair alignments', () => {
           ],
           renderedAlignments: [
             {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [0, 1], targetNgram: [0]},
-            {sourceNgram: [0], targetNgram: [0, 1]},
-            {sourceNgram: [0, 1], targetNgram: [0, 1]},
+            {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
@@ -1056,20 +1052,16 @@ describe('repair alignments', () => {
         '1': {
           ...tokensAfter,
           alignments: [
-            {targetNgram: [], sourceNgram: [0]},
-            {targetNgram: [0], sourceNgram: [0]},
-            {targetNgram: [], sourceNgram: [0, 1]},
-            {targetNgram: [0], sourceNgram: [0, 1]},
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {targetNgram: [], sourceNgram: [0]},
-            {targetNgram: [0], sourceNgram: [0]},
-            {targetNgram: [], sourceNgram: [0, 1]},
-            {targetNgram: [0], sourceNgram: [0, 1]},
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
@@ -1103,24 +1095,87 @@ describe('repair alignments', () => {
         '1': {
           ...tokensAfter,
           alignments: [
-            {targetNgram: [], sourceNgram: [0]},
-            {targetNgram: [0], sourceNgram: [0]},
-            {targetNgram: [], sourceNgram: [0, 1]},
-            {targetNgram: [0], sourceNgram: [0, 1]},
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {targetNgram: [], sourceNgram: [0]},
-            {targetNgram: [0], sourceNgram: [0]},
-            {targetNgram: [], sourceNgram: [0, 1]},
-            {targetNgram: [0], sourceNgram: [0, 1]},
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: []},
             {sourceNgram: [2], targetNgram: []},
             {sourceNgram: [3], targetNgram: []},
             {sourceNgram: [4], targetNgram: []},
             {sourceNgram: [5], targetNgram: []}
+          ],
+          suggestions: []
+        }
+      }
+    };
+    reducerTest('repairs deleted target tokens', alignments, stateBefore,
+      action,
+      stateAfter);
+  });
+
+  describe('removes duplicate tokens', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [{text: '0', position: 0}, {text: '1', position: 1}],
+          targetTokens: [
+            {text: '0', position: 0},
+            {text: '1', position: 1},
+            {text: '2', position: 2}],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [1, 1, 2]},
+            {sourceNgram: [1], targetNgram: [0, 2]},
+            {sourceNgram: [1], targetNgram: [1]},
+            {sourceNgram: [1], targetNgram: []},
+            {sourceNgram: [4], targetNgram: []},
+            {sourceNgram: [5], targetNgram: []}
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.REPAIR_VERSE_ALIGNMENTS,
+      chapter: 1,
+      verse: 1,
+      sourceTokens: [
+        new Token({text: '0', position: 0}),
+        new Token({text: '1', position: 1})
+      ],
+      targetTokens: [
+        new Token({text: '0', position: 0}),
+        new Token({text: '1', position: 1})
+      ]
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: '0', position: 0, occurrence: 1, occurrences: 1,
+              lemma: '', morph: '', strong: ''
+            },
+            {
+              text: '1', position: 1, occurrence: 1, occurrences: 1,
+              lemma: '', morph: '', strong: ''
+            }
+          ],
+          targetTokens: [
+            {text: '0', position: 0, occurrence: 1, occurrences: 1},
+            {text: '1', position: 1, occurrence: 1, occurrences: 1}
+          ],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [1, 2]},
+            {sourceNgram: [1], targetNgram: [0, 2]}
+          ],
+          renderedAlignments: [
+            {sourceNgram: [0], targetNgram: [1]},
+            {sourceNgram: [1], targetNgram: [0]}
           ],
           suggestions: []
         }

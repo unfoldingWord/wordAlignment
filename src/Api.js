@@ -92,11 +92,9 @@ export default class Api extends ToolApi {
       normalizedTarget);
 
     if (!isValid) {
-      console.error('the verse is not valid');
       const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
         chapter, verse);
       if (alignedTokens.length) {
-        console.error('notifying user');
         showDialog(translate('alignments_reset'),
           translate('buttons.ok_button'));
       }

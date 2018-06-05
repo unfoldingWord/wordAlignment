@@ -81,6 +81,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
 
   // TRICKY: short circuit invalid alignments
   if (alignmentIndex.length !== numSourceTokens) {
+    console.error('Alignments are corrupt');
     return [...alignments.map(_.cloneDeep)];
   }
 
@@ -144,7 +145,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         // use the suggestion
         const index = suggestionIndex[tIndex].index;
         // merge target n-grams
-        const rawSuggestion = Object.assign({}, suggestions[index]);
+        const rawSuggestion = _.cloneDeep(suggestions[index]);
         rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
         for (const aIndex of alignmentQueue) {
           const rawAlignment = alignments[aIndex];
@@ -168,7 +169,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
       if (finishedReadingAlignment) {
         // use the alignment
         const index = alignmentQueue.pop();
-        const rawAlignment = Object.assign({}, alignments[index]);
+        const rawAlignment = _.cloneDeep(alignments[index]);
         // rawAlignment.index = index;
         // rawAlignment.position = suggestedAlignments.length;
         suggestedAlignments.push(rawAlignment);

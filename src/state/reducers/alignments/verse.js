@@ -92,7 +92,8 @@ const defaultState = {
   sourceTokens: [],
   targetTokens: [],
   alignments: [],
-  suggestions: []
+  suggestions: [],
+  renderedAlignments: []
 };
 
 /**
@@ -198,6 +199,7 @@ const verse = (state = defaultState, action) => {
       };
     }
     case REPAIR_VERSE_ALIGNMENTS: {
+      // TODO: re-render alignments after this
 
       // calculate operations
       const sourceTokenPositionMap = [];
@@ -237,12 +239,14 @@ const verse = (state = defaultState, action) => {
 
       // clean broken alignments
       fixedAlignments = fixedAlignments.filter(a => a.sourceNgram.length > 0);
+      fixedAlignments.sort(alignmentComparator);
 
       return {
+        ...defaultState,
         targetTokens: action.targetTokens.map(formatTargetToken),
         sourceTokens: action.sourceTokens.map(formatSourceToken),
-        alignments: fixedAlignments.sort(alignmentComparator),
-        suggestions: []
+        alignments: fixedAlignments,
+        renderedAlignments: [...fixedAlignments.map(_.cloneDeep)]
       };
     }
     case SET_CHAPTER_ALIGNMENTS: {
@@ -257,7 +261,8 @@ const verse = (state = defaultState, action) => {
           formatSourceToken),
         targetTokens: action.alignments[vid].targetTokens.map(
           formatTargetToken),
-        alignments
+        alignments,
+        renderedAlignments: [...alignments.map(_.cloneDeep)]
       };
     }
     default:

@@ -43,27 +43,23 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
 export const indexChapterAlignments = (
   chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
   return (dispatch) => {
-    // try {
-      // tokenize baseline chapters
-      const targetChapterTokens = {};
-      const sourceChapterTokens = {};
-      for (const verse of Object.keys(targetChapter)) {
-        targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
-      }
-      for (const verse of Object.keys(sourceChapter)) {
-        sourceChapterTokens[verse] = tokenizeVerseObjects(
-          sourceChapter[verse].verseObjects);
-      }
+    // tokenize baseline chapters
+    const targetChapterTokens = {};
+    const sourceChapterTokens = {};
+    for (const verse of Object.keys(targetChapter)) {
+      targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
+    }
+    for (const verse of Object.keys(sourceChapter)) {
+      sourceChapterTokens[verse] = tokenizeVerseObjects(
+        sourceChapter[verse].verseObjects);
+    }
 
-      // migrate alignment data
-      const alignmentData = migrateChapterAlignments(rawAlignmentData,
-        sourceChapterTokens, targetChapterTokens);
+    // migrate alignment data
+    const alignmentData = migrateChapterAlignments(rawAlignmentData,
+      sourceChapterTokens, targetChapterTokens);
 
-      // set the loaded alignments
-      dispatch(setChapterAlignments(chapterId, alignmentData));
-    // } catch (e) {
-    //   console.error('Failed to index chapter alignments');
-    // }
+    // set the loaded alignments
+    dispatch(setChapterAlignments(chapterId, alignmentData));
   };
 };
 
@@ -166,11 +162,21 @@ export const moveSourceToken = (
   {chapter, verse, nextAlignment, prevAlignment, token}) => {
   return dispatch => {
     dispatch(unalignSourceToken(chapter, verse, prevAlignment, token));
+    // TRICKY: shift the affected alignment indices as needed
+    if (nextAlignment.suggestionAlignments) {
+      for (let i = 0; i < nextAlignment.suggestionAlignments.length; i++) {
+        const affectedIndex = nextAlignment.suggestionAlignments[i];
+        nextAlignment.suggestionAlignments[i] = shiftRelativeToRemoved(
+          affectedIndex, prevAlignment.index);
+      }
+    }
+
     if (prevAlignment.index === nextAlignment.index) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
       // TRICKY: shift the next index since we removed an alignment
-      const index = prevAlignment.index < nextAlignment.index ? nextAlignment.index - 1 : nextAlignment.index;
+      const index = shiftRelativeToRemoved(nextAlignment.index, prevAlignment.index);
+
       const shiftedAlignment = {
         ...nextAlignment,
         index
@@ -178,6 +184,10 @@ export const moveSourceToken = (
       dispatch(alignSourceToken(chapter, verse, shiftedAlignment, token));
     }
   };
+};
+
+const shiftRelativeToRemoved = (index, removedIndex) => {
+  return removedIndex < index ? index - 1 : index;
 };
 
 /**
@@ -258,7 +268,6 @@ export const setAlignmentSuggestions = (chapter, verse, alignments) => ({
     targetNgram: a.target.tokens
   }))
 });
-
 
 export const clearAlignmentSuggestions = (chapter, verse) => ({
   type: types.RESET_VERSE_ALIGNMENT_SUGGESTIONS,

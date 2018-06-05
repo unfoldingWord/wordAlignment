@@ -387,7 +387,7 @@ const mapStateToProps = (state, ownProps) => {
         groupMenuReducer: ownProps.tc.groupMenuReducer,
         translate: ownProps.translate,
         actions: ownProps.tc.actions,
-        isVerseFinished: (chapter, verse) => getIsVerseFinished('wordAlignment', ownProps, chapter, verse),
+        isVerseFinished: ownProps.toolApi.getIsVerseFinished,
         contextId: getContextId(ownProps),
         manifest: getManifest(ownProps),
         projectSaveLocation: getProjectSaveLocation(ownProps)

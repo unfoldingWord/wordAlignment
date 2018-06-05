@@ -13,10 +13,12 @@ import {
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import alignmentReducer, * as fromAlignment from './alignment';
-import suggestionReducer, * as fromSuggestion from './suggestion';
+import suggestionReducer from './suggestion';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
 import {insertSourceToken} from '../../actions';
+import renderedAlignmentsReducer, * as fromRenderedAlignments
+  from './renderedAlignments';
 import _ from 'lodash';
 
 /**
@@ -114,7 +116,8 @@ const verse = (state = defaultState, action) => {
 
       if (!action.suggestion) {
         // update alignment
-        newAlignments[index] = alignmentReducer(state.alignments[index], action);
+        newAlignments[index] = alignmentReducer(state.alignments[index],
+          action);
         // TRICKY: remove empty alignments
         if (newAlignments[index].sourceNgram.length === 0) {
           newAlignments.splice(index, 1);
@@ -155,9 +158,15 @@ const verse = (state = defaultState, action) => {
         sourceNgram: a.sourceNgram.map(t => t.position),
         targetNgram: a.targetNgram.map(t => t.position)
       }));
+      suggestions.sort(alignmentComparator);
       return {
         ...state,
-        suggestions: suggestions.sort(alignmentComparator)
+        suggestions,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action,
+          state.alignments,
+          suggestions,
+          state.sourceTokens.length)
       };
     }
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
@@ -199,8 +208,6 @@ const verse = (state = defaultState, action) => {
       };
     }
     case REPAIR_VERSE_ALIGNMENTS: {
-      // TODO: re-render alignments after this
-
       // calculate operations
       const sourceTokenPositionMap = [];
       const targetTokenPositionMap = [];
@@ -246,7 +253,8 @@ const verse = (state = defaultState, action) => {
         targetTokens: action.targetTokens.map(formatTargetToken),
         sourceTokens: action.sourceTokens.map(formatSourceToken),
         alignments: fixedAlignments,
-        renderedAlignments: [...fixedAlignments.map(_.cloneDeep)]
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, fixedAlignments)
       };
     }
     case SET_CHAPTER_ALIGNMENTS: {
@@ -262,7 +270,8 @@ const verse = (state = defaultState, action) => {
         targetTokens: action.alignments[vid].targetTokens.map(
           formatTargetToken),
         alignments,
-        renderedAlignments: [...alignments.map(_.cloneDeep)]
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, alignments)
       };
     }
     default:
@@ -333,14 +342,18 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
  * @param state
  */
 export const getIsAligned = state => {
+  let alignedTargetTokens = 0;
   for (const alignment of state.alignments) {
+    // check source tokens
     if (!fromAlignment.getIsAligned(alignment)) {
       return false;
     }
-  }
-  const tokens = getAlignedTargetTokens(state);
-  return tokens.length === state.targetTokens.length;
 
+    // check target tokens
+    alignedTargetTokens += alignment.targetNgram.length;
+  }
+
+  return alignedTargetTokens === state.targetTokens.length;
 };
 
 /**
@@ -349,7 +362,7 @@ export const getIsAligned = state => {
  * @return {Token[]}
  */
 export const getAlignedTargetTokens = state => {
-  const alignments = getSuggestions(state);
+  const alignments = getAlignments(state);
   const tokens = [];
   for (const alignment of alignments) {
     for (const token of alignment.targetNgram) {
@@ -359,6 +372,7 @@ export const getAlignedTargetTokens = state => {
   return tokens;
 };
 
+
 /**
  * Returns the tokenized alignments for the verse.
  * @param state
@@ -367,65 +381,14 @@ export const getAlignedTargetTokens = state => {
 export const getAlignments = state => {
   const alignments = [];
   for (let i = 0; i < state.alignments.length; i++) {
-    const alignment = fromAlignment.getTokenizedAlignment(
+    const a = fromAlignment.getTokenizedAlignment(
       state.alignments[i],
       state.sourceTokens,
       state.targetTokens
     );
-    alignment.index = i;
-    alignment.position = i;
-    alignment.suggestion = false;
-    alignment.affectedAlignments = [];
-    alignments.push(alignment);
-  }
-  return alignments;
-};
-
-/**
- * Checks if an array if a subset of another
- * @param superset
- * @param subset
- * @return {boolean}
- */
-const isSubArray = (superset, subset) => {
-  for (const val of subset) {
-    if (!_.includes(superset, val)) {
-      return false;
-    }
-  }
-  return true;
-};
-
-/**
- * Returns the tokenized alignment suggestions
- * @param state
- * @return {Array}
- */
-export const getSuggestions = state => {
-  const suggestions = getRawSuggestions(state);
-  const alignments = [];
-  for (const suggestion of suggestions) {
-    // tokenize alignment
-    const alignment = fromAlignment.getTokenizedAlignment(
-      suggestion,
-      state.sourceTokens,
-      state.targetTokens
-    );
-
-    // indicate suggested tokens
-    if (suggestion.suggestedTargetTokens) {
-      for (const token of alignment.targetNgram) {
-        if (suggestion.suggestedTargetTokens.indexOf(token.position) >= 0) {
-          token.metadata.suggestion = true;
-        }
-      }
-    }
-
-    alignment.index = suggestion.index;
-    alignment.position = suggestion.position;
-    alignment.suggestion = !!suggestion.suggestedTargetTokens;
-    alignment.suggestionAlignments = suggestion.suggestionAlignments || [];
-    alignments.push(alignment);
+    a.index = i;
+    a.position = i; // TODO: deprecated
+    alignments.push(a);
   }
   return alignments;
 };
@@ -435,199 +398,11 @@ export const getSuggestions = state => {
  * @param state
  * @return {Array}
  */
-export const getRawSuggestions = state => {
-  // index things
-  const alignmentIndex = [];
-  const suggestionIndex = [];
-  for (let aIndex = 0; aIndex < state.alignments.length; aIndex++) {
-    for (let i = 0; i < state.alignments[aIndex].sourceNgram.length; i++) {
-      const sourceLength = state.alignments[aIndex].sourceNgram.length;
-      alignmentIndex.push({
-        index: aIndex,
-        aligned: state.alignments[aIndex].targetNgram.length > 0,
-        sourceLength,
-        targetLength: state.alignments[aIndex].targetNgram.length,
-        sourceId: state.alignments[aIndex].sourceNgram.join(),
-        targetId: state.alignments[aIndex].targetNgram.join(),
-        targetNgram: state.alignments[aIndex].targetNgram,
-        lastSourceToken: state.alignments[aIndex].sourceNgram[sourceLength - 1]
-      });
-    }
-  }
-  for (let sIndex = 0; sIndex < state.suggestions.length; sIndex++) {
-    for (let i = 0; i < state.suggestions[sIndex].sourceNgram.length; i++) {
-      const sourceLength = state.suggestions[sIndex].sourceNgram.length;
-      suggestionIndex.push({
-        index: sIndex,
-        sourceLength,
-        targetLength: state.suggestions[sIndex].targetNgram.length,
-
-        sourceId: state.suggestions[sIndex].sourceNgram.join(),
-        targetId: state.suggestions[sIndex].targetNgram.join(),
-        targetNgram: state.suggestions[sIndex].targetNgram,
-        lastSourceToken: state.suggestions[sIndex].sourceNgram[sourceLength - 1]
-      });
-    }
-  }
-
-  if (suggestionIndex.length > 0 && suggestionIndex.length !==
-    state.sourceTokens.length) {
-    throw new Error(
-      'Index out of bounds. We currently do not support partial suggestions.');
-  }
-
-  // TRICKY: react may update before all movement actions have completed.
-  if (alignmentIndex.length !== state.sourceTokens.length) {
-    return [...state.alignments];
-  }
-
-  // build output
-  const suggestedAlignments = [];
-  let tokenQueue = [];
-  let alignmentQueue = [];
-  let suggestionStateIsValid = true;
-  for (let tIndex = 0; tIndex < state.sourceTokens.length; tIndex++) {
-    tokenQueue.push(tIndex);
-    if (alignmentQueue.indexOf(alignmentIndex[tIndex].index) === -1) {
-      alignmentQueue.push(alignmentIndex[tIndex].index);
-    }
-
-    const alignmentIsAligned = alignmentIndex[tIndex].aligned;
-    const finishedReadingAlignment = alignmentIndex[tIndex].lastSourceToken ===
-      tIndex;
-    const suggestionSpansMultiple = alignmentQueue.length > 1;
-
-    // determine suggestion validity
-    let suggestionIsValid = false;
-    let finishedReadingSuggestion = false;
-    // TRICKY: we may not  have suggestions for everything
-    if (tIndex < suggestionIndex.length) {
-      finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
-        tIndex;
-      const suggestionTargetIsSuperset = isSubArray(
-        suggestionIndex[tIndex].targetNgram,
-        alignmentIndex[tIndex].targetNgram);
-
-      const sourceNgramsMatch = alignmentIndex[tIndex].sourceId ===
-        suggestionIndex[tIndex].sourceId;
-      const targetNgramsMatch = alignmentIndex[tIndex].targetId ===
-        suggestionIndex[tIndex].targetId;
-      const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
-
-      if (!alignmentIsAligned) {
-        // un-aligned alignments are valid
-        suggestionIsValid = true;
-      } else if (!isPerfectMatch && finishedReadingAlignment &&
-        finishedReadingSuggestion && !suggestionSpansMultiple &&
-        suggestionTargetIsSuperset) {
-        // identical source n-grams are valid
-        suggestionIsValid = true;
-      } else if (!isPerfectMatch && !finishedReadingAlignment &&
-        !finishedReadingSuggestion && !suggestionSpansMultiple &&
-        suggestionTargetIsSuperset) {
-        // incomplete readings are valid until proven otherwise
-        suggestionIsValid = true;
-      }
-    }
-
-    // TRICKY: persist invalid state through the entire suggestion.
-    if (!suggestionIsValid) {
-      suggestionStateIsValid = suggestionIsValid;
-    }
-
-    // append finished readings
-    if (suggestionStateIsValid) {
-      if (finishedReadingSuggestion) {
-        // use the suggestion
-        const index = suggestionIndex[tIndex].index;
-        // merge target n-grams
-        const rawSuggestion = Object.assign({}, state.suggestions[index]);
-        rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
-        for (const aIndex of alignmentQueue) {
-          const rawAlignment = state.alignments[aIndex];
-          for (const t of rawAlignment.targetNgram) {
-            if (rawSuggestion.targetNgram.indexOf(t) === -1) {
-              rawSuggestion.targetNgram.push(t);
-            } else {
-              _.pull(rawSuggestion.suggestedTargetTokens, t);
-            }
-          }
-          rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
-            rawAlignment.targetNgram);
-        }
-        rawSuggestion.suggestionAlignments = [...alignmentQueue];
-        rawSuggestion.targetNgram.sort(numberComparator);
-        rawSuggestion.index = index;
-        rawSuggestion.position = suggestedAlignments.length;
-        suggestedAlignments.push(rawSuggestion);
-      }
-    } else {
-      if (finishedReadingAlignment) {
-        // use the alignment
-        const index = alignmentQueue.pop();
-        const rawAlignment = Object.assign({}, state.alignments[index]);
-        rawAlignment.index = index;
-        rawAlignment.position = suggestedAlignments.length;
-        suggestedAlignments.push(rawAlignment);
-      }
-    }
-
-    // clean up
-    if (!suggestionStateIsValid && finishedReadingAlignment ||
-      suggestionStateIsValid && finishedReadingSuggestion) {
-      tokenQueue = [];
-      alignmentQueue = [];
-    }
-    if (finishedReadingSuggestion) {
-      suggestionStateIsValid = true;
-    }
-  }
-
-  return suggestedAlignments;
+export const getRenderedAlignments = state => {
+  return fromRenderedAlignments.getTokenizedAlignments(state.renderedAlignments,
+    state.sourceTokens, state.targetTokens);
 };
 
-/**
- * Returns alignments like {@link getAlignments} but also
- * includes suggested alignments
- * @deprecated
- * @param state
- */
-export const getAlignmentsWithSuggestions = state => {
-  const alignments = [];
-  for (let i = 0; i < state.alignments.length; i++) {
-    const alignment = fromAlignment.getTokenizedAlignment(
-      state.alignments[i],
-      state.sourceTokens,
-      state.targetTokens
-    );
-    alignment.index = i;
-    alignments.push(alignment);
-  }
-  for (let i = 0; i < state.suggestions.length; i++) {
-    const suggestion = fromSuggestion.getTokenizedSuggestion(
-      state.suggestions[i],
-      state.sourceTokens,
-      state.targetTokens
-    );
-    for (const a of alignments) {
-      if (alignmentIntersectsSuggestion(a, suggestion)) {
-        // apply suggestion
-      }
-    }
-  }
-  return alignments;
-};
-
-/**
- * Checks if an alignment intersects with a suggestion
- * @deprecated
- * @param alignment
- * @param suggestion
- */
-const alignmentIntersectsSuggestion = (alignment, suggestion) => {
-  return getAlignmentMatchesSuggestion(alignment, suggestion) ||
-    getAlignmentSubsetsSuggestion(alignment, suggestion);
-};
 
 /**
  * Checks if the alignment sourceNgram exactly matches a suggestion

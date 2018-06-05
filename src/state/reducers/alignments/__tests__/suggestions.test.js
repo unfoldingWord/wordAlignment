@@ -2,6 +2,7 @@ import {reducerTest} from 'redux-jest';
 import * as types from '../../../actions/actionTypes';
 import alignments from '../index';
 import * as fromVerse from '../verse';
+import * as fromRenderedAlignments from '../renderedAlignments';
 import Token from 'word-map/structures/Token';
 
 describe('set alignment suggestions', () => {
@@ -14,12 +15,6 @@ describe('set alignment suggestions', () => {
             occurrence: 1,
             occurrences: 1,
             position: 0
-          },
-          {
-            text: 'world',
-            occurrence: 1,
-            occurrences: 1,
-            position: 1
           }
         ],
         targetTokens: [
@@ -28,21 +23,11 @@ describe('set alignment suggestions', () => {
             occurrence: 1,
             occurrences: 1,
             position: 0
-          },
-          {
-            text: 'dlrow',
-            occurrence: 1,
-            occurrences: 1,
-            position: 1
           }
         ],
         alignments: [
           {
             sourceNgram: [0],
-            targetNgram: []
-          },
-          {
-            sourceNgram: [1],
             targetNgram: []
           }
         ],
@@ -57,11 +42,9 @@ describe('set alignment suggestions', () => {
     alignments: [
       {
         sourceNgram: [
-          new Token({text: 'olleh', position: 0}),
-          new Token({text: 'dlrow', position: 1})],
+          new Token({text: 'olleh', position: 0})],
         targetNgram: [
-          new Token({text: 'hello', position: 0}),
-          new Token({text: 'world', position: 1})]
+          new Token({text: 'hello', position: 0})]
       }]
   };
 
@@ -74,12 +57,6 @@ describe('set alignment suggestions', () => {
             occurrence: 1,
             occurrences: 1,
             position: 0
-          },
-          {
-            text: 'world',
-            occurrence: 1,
-            occurrences: 1,
-            position: 1
           }
         ],
         targetTokens: [
@@ -88,29 +65,26 @@ describe('set alignment suggestions', () => {
             occurrence: 1,
             occurrences: 1,
             position: 0
-          },
-          {
-            text: 'dlrow',
-            occurrence: 1,
-            occurrences: 1,
-            position: 1
           }
         ],
         alignments: [
           {
             sourceNgram: [0],
             targetNgram: []
-          },
+          }
+        ],
+        renderedAlignments: [
           {
-            sourceNgram: [1],
-            targetNgram: []
+            sourceNgram: [0],
+            targetNgram: [0],
+            suggestedTargetTokens: [0],
+            suggestionAlignments: [0]
           }
         ],
         suggestions: [
           {
-            // alignmentIndices: [0, 1],
-            sourceNgram: [0, 1],
-            targetNgram: [0, 1]
+            sourceNgram: [0],
+            targetNgram: [0]
           }
         ]
       }
@@ -227,73 +201,11 @@ describe('clear alignment suggestions', () => {
     action, stateAfter);
 });
 
-describe('get tokenized suggestions', () => {
-  it('matches an aligned alignment', () => {
-    const state = {
-      sourceTokens: [{position: 0}, {position: 1}],
-      targetTokens: [{position: 0}, {position: 1}],
-      alignments: [
-        {sourceNgram: [0, 1], targetNgram: [0]}
-      ],
-      suggestions: [
-        {sourceNgram: [0, 1], targetNgram: [0, 1]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(JSON.parse(JSON.stringify(result))).toEqual([
-      {
-        index: 0,
-        position: 0,
-        suggestion: true,
-        suggestionAlignments: [0],
-        sourceNgram: [
-          {index: 0, occurrence: 1, occurrences: 1, text: ''},
-          {index: 1, occurrence: 1, occurrences: 1, text: ''}
-        ],
-        targetNgram: [
-          {index: 0, occurrence: 1, occurrences: 1, text: ''},
-          {index: 1, occurrence: 1, occurrences: 1, text: ''}
-        ]
-      }
-    ]);
-    expect(result[0].targetNgram[0].meta.suggestion).toEqual(undefined);
-    expect(result[0].targetNgram[1].meta.suggestion).toEqual(true);
-    expect(state.targetTokens[1].suggestion).not.toBeDefined();
-  });
+describe('render alignments', () => {
+  const testRenderer = state =>
+    fromRenderedAlignments.render(state.alignments, state.suggestions,
+      state.sourceTokens.length);
 
-  it('does not an aligned alignment', () => {
-    const state = {
-      sourceTokens: [{position: 0}],
-      targetTokens: [{position: 0}, {position: 1}],
-      alignments: [
-        {sourceNgram: [0], targetNgram: [0, 1]}
-      ],
-      suggestions: [
-        {sourceNgram: [0], targetNgram: [1]}
-      ]
-    };
-    const result = fromVerse.getSuggestions(state);
-    expect(JSON.parse(JSON.stringify(result))).toEqual([
-      {
-        index: 0,
-        position: 0,
-        suggestion: false,
-        suggestionAlignments: [],
-        sourceNgram: [
-          {index: 0, occurrence: 1, occurrences: 1, text: ''}
-        ],
-        targetNgram: [
-          {index: 0, occurrence: 1, occurrences: 1, text: ''},
-          {index: 1, occurrence: 1, occurrences: 1, text: ''}
-        ]
-      }
-    ]);
-    expect(result[0].targetNgram[0].meta.suggestion).toEqual(undefined);
-    expect(result[0].targetNgram[1].meta.suggestion).toEqual(undefined);
-  });
-});
-
-describe('get raw suggestions', () => {
   describe('matches', () => {
     it('matches an aligned alignment', () => {
       const state = {
@@ -306,11 +218,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0, 1], targetNgram: [0, 1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {
-          index: 0,
-          position: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestionAlignments: [0],
@@ -330,11 +240,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0, 1], targetNgram: [0, 1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {
-          index: 0,
-          position: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestionAlignments: [0],
@@ -355,9 +263,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [1], targetNgram: [1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0, 1], targetNgram: [0]}
+        {sourceNgram: [0, 1], targetNgram: [0]}
       ]);
     });
 
@@ -372,9 +280,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0, 1], targetNgram: [1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0, 1], targetNgram: [0]}
+        {sourceNgram: [0, 1], targetNgram: [0]}
       ]);
     });
 
@@ -389,9 +297,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0, 1], targetNgram: [0]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0, 1], targetNgram: [0]}
+        {sourceNgram: [0, 1], targetNgram: [0]}
       ]);
     });
 
@@ -407,11 +315,9 @@ describe('get raw suggestions', () => {
             {sourceNgram: [0, 1], targetNgram: [0, 1]}
           ]
         };
-        const result = fromVerse.getRawSuggestions(state);
+        const result = testRenderer(state);
         expect(result).toEqual([
           {
-            index: 0,
-            position: 0,
             sourceNgram: [0, 1],
             targetNgram: [0, 1],
             suggestionAlignments: [0],
@@ -431,11 +337,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0], targetNgram: [0]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {
-          index: 0,
-          position: 0,
           sourceNgram: [0],
           targetNgram: [0, 1]
         }
@@ -456,10 +360,10 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0, 1], targetNgram: [0, 1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0], targetNgram: [0]},
-        {index: 1, position: 1, sourceNgram: [1], targetNgram: []}
+        {sourceNgram: [0], targetNgram: [0]},
+        {sourceNgram: [1], targetNgram: []}
       ]);
     });
 
@@ -475,11 +379,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0, 1], targetNgram: [0, 1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {
-          index: 0,
-          position: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestionAlignments: [0, 1],
@@ -504,18 +406,16 @@ describe('get raw suggestions', () => {
           {sourceNgram: [3], targetNgram: [3]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0], targetNgram: [0]},
+        {sourceNgram: [0], targetNgram: [0]},
         {
-          index: 1,
-          position: 1,
           sourceNgram: [1, 2],
           targetNgram: [1, 2],
           suggestionAlignments: [1, 2],
           suggestedTargetTokens: [1, 2]
         },
-        {index: 3, position: 2, sourceNgram: [3], targetNgram: [3]}
+        {sourceNgram: [3], targetNgram: [3]}
       ]);
     });
   });
@@ -533,19 +433,15 @@ describe('get raw suggestions', () => {
           {sourceNgram: [1], targetNgram: [1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {
-          index: 0,
-          position: 0,
           sourceNgram: [0],
           targetNgram: [0],
           suggestionAlignments: [0],
           suggestedTargetTokens: [0]
         },
         {
-          index: 1,
-          position: 1,
           sourceNgram: [1],
           targetNgram: [1],
           suggestionAlignments: [0],
@@ -566,9 +462,9 @@ describe('get raw suggestions', () => {
           {sourceNgram: [1], targetNgram: [1]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0, 1], targetNgram: [0]}
+        {sourceNgram: [0, 1], targetNgram: [0]}
       ]);
     });
   });
@@ -586,7 +482,7 @@ describe('get raw suggestions', () => {
           {sourceNgram: [0], targetNgram: [0]}
         ]
       };
-      expect(fromVerse.getRawSuggestions.bind(state)).toThrow();
+      expect(testRenderer.bind(state)).toThrow();
       // partial suggestions are not currently supported
     });
 
@@ -604,18 +500,13 @@ describe('get raw suggestions', () => {
           {sourceNgram: [1], targetNgram: [0]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {
-          index: 0,
-          position: 0,
           sourceNgram: [0],
           targetNgram: [0]
         },
         {
-          index: 1,
-          position: 1,
-          suggestionAlignments: [],
           sourceNgram: [1],
           targetNgram: []
         }
@@ -636,7 +527,7 @@ describe('get raw suggestions', () => {
           {sourceNgram: [1], targetNgram: [0]}
         ]
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
         {index: 0, position: 0, sourceNgram: [0], targetNgram: [0]},
         {index: 1, position: 1, sourceNgram: [1], targetNgram: []}
@@ -653,10 +544,10 @@ describe('get raw suggestions', () => {
         ],
         suggestions: []
       };
-      const result = fromVerse.getRawSuggestions(state);
+      const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0], targetNgram: []},
-        {index: 1, position: 1, sourceNgram: [1], targetNgram: [0]}
+        {sourceNgram: [0], targetNgram: []},
+        {sourceNgram: [1], targetNgram: [0]}
       ]);
     });
   });

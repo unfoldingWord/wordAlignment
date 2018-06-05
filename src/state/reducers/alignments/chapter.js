@@ -113,7 +113,7 @@ export const getIsVerseAligned = (state, verse) => {
 export const getVerseAlignments = (state, verse) => {
   const verseId = verse + '';
   if (verseId in state) {
-    return fromVerse.getSuggestions(state[verseId]);
+    return fromVerse.getAlignments(state[verseId]);
   } else {
     return [];
   }

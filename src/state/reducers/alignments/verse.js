@@ -131,8 +131,14 @@ const verse = (state = defaultState, action) => {
         suggestions[index] = suggestionReducer(suggestion, action);
 
         // insert accepted alignment
-        targetTokens.push(action.token.position);
-        targetTokens = _.uniq(targetTokens.concat(suggestion.targetNgram));
+        targetTokens = targetTokens.concat(suggestion.targetNgram);
+        targetTokens = _.uniq(targetTokens);
+        if(action.type === ALIGN_SOURCE_TOKEN ||
+          action.type === ALIGN_TARGET_TOKEN) {
+          targetTokens.push(action.token.position);
+        } else {
+          _.pull(targetTokens, action.token.position);
+        }
         targetTokens.sort(numberComparator);
 
         newAlignments.push({

@@ -902,7 +902,7 @@ describe('actions', () => {
           suggestions: [
             {
               sourceNgram: [0, 1],
-              targetNgram: [0]
+              targetNgram: []
             }
           ]
         }
@@ -910,5 +910,85 @@ describe('actions', () => {
     };
     reducerTest('Add Alignment', alignments, stateBefore, action,
       stateAfter);
+  });
+
+  describe('remove target token alignment', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          targetTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            }],
+          suggestions: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            }
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.UNALIGN_TARGET_TOKEN,
+      chapter: 1,
+      verse: 1,
+      index: 0,
+      suggestion: true,
+      suggestionAlignments: [0],
+      token: new Token({
+        text: 'olleh',
+        occurrence: 1,
+        occurrences: 1,
+        position: 0
+      })
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          targetTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            }],
+          suggestions: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            }
+          ]
+        }
+      }
+    };
+    reducerTest('Remove Alignment', alignments, stateBefore, action, stateAfter);
   });
 });

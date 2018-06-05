@@ -388,9 +388,9 @@ const mapStateToProps = (state, ownProps) => {
         translate: ownProps.translate,
         actions: ownProps.tc.actions,
         isVerseFinished: ownProps.toolApi.getIsVerseFinished,
-        contextId: getContextId(ownProps),
-        manifest: getManifest(ownProps),
-        projectSaveLocation: getProjectSaveLocation(ownProps)
+        contextId,
+        manifest: ownProps.projectDetailsReducer.manifest,
+        projectSaveLocation: ownProps.projectDetailsReducer.projectSaveLocation
       },
     };
   } else {

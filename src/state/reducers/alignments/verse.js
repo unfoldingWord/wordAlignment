@@ -12,7 +12,7 @@ import {
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
-import alignment, * as fromAlignment from './alignment';
+import alignmentReducer, * as fromAlignment from './alignment';
 import suggestionReducer, * as fromSuggestion from './suggestion';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
@@ -107,44 +107,40 @@ const verse = (state = defaultState, action) => {
     case ALIGN_SOURCE_TOKEN: // merge suggestions
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
-      const newAlignments = [...state.alignments];
+      let newAlignments = [...state.alignments];
       const suggestions = [...state.suggestions];
       const index = action.index;
 
       if (!action.suggestion) {
         // update alignment
-        newAlignments[index] = alignment(state.alignments[index], action);
+        newAlignments[index] = alignmentReducer(state.alignments[index], action);
         // TRICKY: remove empty alignments
         if (newAlignments[index].sourceNgram.length === 0) {
           newAlignments.splice(index, 1);
         }
       } else {
         let targetTokens = [];
-        // update alignment
+        // remove affected alignments
         for (const alignmentIndex of action.suggestionAlignments) {
           const alignment = state.alignments[alignmentIndex];
           targetTokens = targetTokens.concat(alignment.targetNgram);
-          newAlignments.splice(index, 1);
+          newAlignments[alignmentIndex] = null;
         }
+        newAlignments = _.compact(newAlignments);
+
         // update suggestion
         const suggestion = state.suggestions[index];
         suggestions[index] = suggestionReducer(suggestion, action);
 
-        // insert accepted alignment
+        // build new alignment
         targetTokens = targetTokens.concat(suggestion.targetNgram);
         targetTokens = _.uniq(targetTokens);
-        if(action.type === ALIGN_SOURCE_TOKEN ||
-          action.type === ALIGN_TARGET_TOKEN) {
-          targetTokens.push(action.token.position);
-        } else {
-          _.pull(targetTokens, action.token.position);
-        }
         targetTokens.sort(numberComparator);
-
-        newAlignments.push({
+        const newAlignment = {
           sourceNgram: [...suggestion.sourceNgram],
           targetNgram: targetTokens
-        });
+        };
+        newAlignments.push(alignmentReducer(newAlignment, action));
       }
 
       return {
@@ -171,7 +167,7 @@ const verse = (state = defaultState, action) => {
     case RESET_VERSE_ALIGNMENTS: {
       const alignments = [];
       for (let i = 0; i < state.sourceTokens.length; i++) {
-        alignments.push(alignment(undefined, {...action, position: i}));
+        alignments.push(alignmentReducer(undefined, {...action, position: i}));
       }
       return {
         ...state,
@@ -184,7 +180,7 @@ const verse = (state = defaultState, action) => {
         ...state,
         alignments: [
           ...state.alignments,
-          alignment(undefined, action)
+          alignmentReducer(undefined, action)
         ].sort(alignmentComparator)
       };
     case SET_SOURCE_TOKENS: {
@@ -219,7 +215,7 @@ const verse = (state = defaultState, action) => {
 
       // repair
       let fixedAlignments = state.alignments.map(
-        a => alignment(a, {
+        a => alignmentReducer(a, {
           ...action,
           sourceTokenPositionMap,
           targetTokenPositionMap
@@ -235,7 +231,7 @@ const verse = (state = defaultState, action) => {
         if (!usedSourceTokens.includes(t.position)) {
           const insertAction = insertSourceToken(action.chapter, action.verse,
             t);
-          fixedAlignments.push(alignment(undefined, insertAction));
+          fixedAlignments.push(alignmentReducer(undefined, insertAction));
         }
       }
 
@@ -253,7 +249,7 @@ const verse = (state = defaultState, action) => {
       const vid = action.verse + '';
       const alignments = [];
       for (let i = 0; i < action.alignments[vid].alignments.length; i++) {
-        alignments.push(alignment(state[i], {...action, index: i}));
+        alignments.push(alignmentReducer(state[i], {...action, index: i}));
       }
       return {
         ...defaultState,

@@ -337,6 +337,16 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
 };
 
 /**
+ * Check if the verse alignments are valid.
+ * @param state
+ * @return {boolean}
+ */
+export const getAreAlignmentsValid = () => {
+  // TODO: implement
+  return true;
+};
+
+/**
  * Checks if the verse is aligned.
  * All source and target tokens must be aligned.
  * @param state
@@ -372,6 +382,21 @@ export const getAlignedTargetTokens = state => {
   return tokens;
 };
 
+/**
+ * Returns tokens that have been visually aligned to the verse.
+ * @param state
+ * @return {Array}
+ */
+export const getRenderedAlignedTargetTokens = state => {
+  const alignments = getRenderedAlignments(state);
+  const tokens = [];
+  for (const alignment of alignments) {
+    for (const token of alignment.targetNgram) {
+      tokens.push(token);
+    }
+  }
+  return tokens;
+};
 
 /**
  * Returns the tokenized alignments for the verse.
@@ -401,91 +426,6 @@ export const getAlignments = state => {
 export const getRenderedAlignments = state => {
   return fromRenderedAlignments.getTokenizedAlignments(state.renderedAlignments,
     state.sourceTokens, state.targetTokens);
-};
-
-
-/**
- * Checks if the alignment sourceNgram exactly matches a suggestion
- * @deprecated
- * @param alignment
- * @param suggestion
- * @return {boolean}
- */
-export const getAlignmentMatchesSuggestion = (alignment, suggestion) => {
-  if (alignment.sourceNgram.length === suggestion.sourceNgram.length) {
-    for (let i = 0; i < alignment.sourceNgram.length; i++) {
-      if (alignment.sourceNgram[i] !== suggestion.sourceNgram[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-  return false;
-};
-
-/**
- * Checks if the alignment sourceNgram is a subset of the suggestion
- * and is not aligned
- * @deprecated
- * @param alignment
- * @param suggestion
- */
-export const getAlignmentSubsetsSuggestion = (alignment, suggestion) => {
-  if (alignment.sourceNgram.length < suggestion.sourceNgram.length &&
-    alignment.targetNgram.length === 0) {
-    // find subset start index
-    const firstToken = alignment.sourceNgram[0];
-    let subsetIndex = -1;
-    for (let i = 0; i < suggestion.sourceNgram.length; i++) {
-      if (suggestion.sourceNgram[i] === firstToken) {
-        subsetIndex = i;
-        break;
-      }
-    }
-
-    if (subsetIndex === -1) {
-      return false;
-    }
-
-    // compare subset
-    // TRICKY: the first token was already compared
-    for (let i = 1; i < alignment.sourceNgram.length; i++) {
-      subsetIndex++;
-      if (suggestion.sourceNgram[subsetIndex] !== alignment.sourceNgram[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-  return false;
-};
-
-/**
- * Checks if the machine alignment is valid.
- * In particular the ensures the alignment does not conflict with a human alignment
- * @deprecated
- * @param state
- * @param {object} machineAlignment
- * @return {boolean}
- */
-export const getIsMachineAlignmentValid = (state, machineAlignment) => {
-  for (const alignment of state.alignments) {
-    const tokenizedAlignment = fromAlignment.getTokenizedAlignment(alignment,
-      state.sourceTokens,
-      state.targetTokens);
-
-    if (tokenizedAlignment.sourceNgram.length ===
-      machineAlignment.sourceNgram.length) {
-      for (let i = 0; i < machineAlignment.sourceNgram.length; i++) {
-        if (!tokenizedAlignment.sourceNgram[i].equals(
-          machineAlignment.sourceNgram[i])) {
-          return false;
-        }
-      }
-      return true;
-    }
-  }
-  return false;
 };
 
 /**

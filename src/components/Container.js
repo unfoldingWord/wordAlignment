@@ -20,8 +20,8 @@ import {
 import {
   getChapterAlignments,
   getIsVerseValid,
-  getVerseAlignedTargetTokens,
-  getVerseAlignments
+  getRenderedVerseAlignedTargetTokens,
+  getRenderedVerseAlignments
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -365,8 +365,8 @@ const mapStateToProps = (state, props) => {
     chapterAlignments: getChapterAlignments(state, chapter),
     targetTokens,
     sourceTokens,
-    alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
-    verseAlignments: getVerseAlignments(state, chapter, verse),
+    alignedTokens: getRenderedVerseAlignedTargetTokens(state, chapter, verse),
+    verseAlignments: getRenderedVerseAlignments(state, chapter, verse),
     verseIsValid: getIsVerseValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,

@@ -5,17 +5,6 @@ export default combineReducers({
   alignments
 });
 
-/**
- * @deprecated
- * @param state
- * @param chapter
- * @param verse
- * @param alignment
- * @return {*}
- */
-export const getIsMachineAlignmentValid = (state, chapter, verse, alignment) =>
-  fromAlignments.getIsMachineAlignmentValid(state.tool.alignments, chapter, verse, alignment);
-
 export const getChapterAlignments = (state, chapter) => {
   return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
 };
@@ -40,6 +29,17 @@ export const getVerseAlignments = (state, chapter, verse) =>
   fromAlignments.getVerseAlignments(state.tool.alignments, chapter, verse);
 
 /**
+ * Returns rendered alignments for a verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getRenderedVerseAlignments = (state, chapter, verse) =>
+  fromAlignments.getRenderedVerseAlignments(state.tool.alignments, chapter,
+    verse);
+
+/**
  * Returns an array of target tokens that have been aligned to the verse
  * @param state
  * @param {number} chapter
@@ -47,7 +47,19 @@ export const getVerseAlignments = (state, chapter, verse) =>
  * @return {Array}
  */
 export const getVerseAlignedTargetTokens = (state, chapter, verse) =>
-  fromAlignments.getVerseAlignedTargetTokens(state.tool.alignments, chapter, verse);
+  fromAlignments.getVerseAlignedTargetTokens(state.tool.alignments, chapter,
+    verse);
+
+/**
+ * Returns an array of target tokens that have been visually aligned to the verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getRenderedVerseAlignedTargetTokens = (state, chapter, verse) =>
+  fromAlignments.getRenderedVerseAlignedTargetTokens(state.tool.alignments,
+    chapter, verse);
 
 /**
  * Checks if the verses being aligned are valid
@@ -58,8 +70,10 @@ export const getVerseAlignedTargetTokens = (state, chapter, verse) =>
  * @param {number} verse
  * @return {*}
  */
-export const getIsVerseValid = (state, chapter, verse, sourceText, targetText) =>
-  fromAlignments.getIsVerseValid(state.tool.alignments, chapter, verse, sourceText, targetText);
+export const getIsVerseValid = (
+  state, chapter, verse, sourceText, targetText) =>
+  fromAlignments.getIsVerseValid(state.tool.alignments, chapter, verse,
+    sourceText, targetText);
 
 /**
  * Returns the chapter alignments in the legacy format

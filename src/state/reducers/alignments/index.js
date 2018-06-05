@@ -61,27 +61,6 @@ const alignments = (state = {}, action) => {
 export default alignments;
 
 /**
- * Checks if the machine alignment is valid.
- * In particular the ensures the alignment does not conflict with a human alignment
- * @deprecated
- * @param state
- * @param {number} chapter
- * @param {number} verse
- * @param {object} machineAlignment
- * @return {*}
- */
-export const getIsMachineAlignmentValid = (
-  state, chapter, verse, machineAlignment) => {
-  const chapterId = chapter + '';
-  if (chapterId in state) {
-    return fromChapter.getIsMachineAlignmentValid(state[chapterId], verse,
-      machineAlignment);
-  } else {
-    return true;
-  }
-};
-
-/**
  * Returns verse alignments for an entire chapter
  * @param state
  * @param {number} chapter
@@ -117,6 +96,21 @@ export const getVerseAlignments = (state, chapter, verse) => {
 };
 
 /**
+ * Returns rendered alignments for a single verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getRenderedVerseAlignments = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  if (chapterId in state) {
+    return fromChapter.getRenderedVerseAlignments(state[chapterId], verse);
+  }
+  return [];
+};
+
+/**
  * Checks if data for the chapter has been loaded
  * @param state
  * @param {number} chapter
@@ -143,6 +137,22 @@ export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
   const chapterId = chapter + '';
   if (chapterId in state) {
     return fromChapter.getVerseAlignedTargetTokens(state[chapterId], verse);
+  } else {
+    return [];
+  }
+};
+
+/**
+ * Returns tokens that have been visually aligned to the verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getRenderedVerseAlignedTargetTokens = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  if (chapterId in state) {
+    return fromChapter.getRenderedVerseAlignedTargetTokens(state[chapterId], verse);
   } else {
     return [];
   }

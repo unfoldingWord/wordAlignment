@@ -473,7 +473,7 @@ export const getRawSuggestions = state => {
 
   // TRICKY: react may update before all movement actions have completed.
   if (alignmentIndex.length !== state.sourceTokens.length) {
-    return getAlignments(state);
+    return [...state.alignments];
   }
 
   // build output

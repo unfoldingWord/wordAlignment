@@ -1,11 +1,11 @@
 import {
-  SET_ALIGNMENT_SUGGESTIONS,
   ALIGN_SOURCE_TOKEN,
   ALIGN_TARGET_TOKEN,
   INSERT_ALIGNMENT,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
+  SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
@@ -13,7 +13,7 @@ import {
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import alignment, * as fromAlignment from './alignment';
-import * as fromSuggestion from './suggestion';
+import suggestionReducer, * as fromSuggestion from './suggestion';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
 import {insertSourceToken} from '../../actions';
@@ -103,21 +103,48 @@ const defaultState = {
  */
 const verse = (state = defaultState, action) => {
   switch (action.type) {
-    case UNALIGN_SOURCE_TOKEN:
-    case ALIGN_SOURCE_TOKEN:
+    case UNALIGN_SOURCE_TOKEN: // destroy suggestion, clear target n-gram
+    case ALIGN_SOURCE_TOKEN: // merge suggestions
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
-      // TODO: if this is a suggestion we must do some extra processing
-      const index = action.index;
       const newAlignments = [...state.alignments];
-      newAlignments[index] = alignment(state.alignments[index], action);
-      // TRICKY: remove empty alignments
-      if (newAlignments[index].sourceNgram.length === 0) {
-        newAlignments.splice(index, 1);
+      const suggestions = [...state.suggestions];
+      const index = action.index;
+
+      if (!action.suggestion) {
+        // update alignment
+        newAlignments[index] = alignment(state.alignments[index], action);
+        // TRICKY: remove empty alignments
+        if (newAlignments[index].sourceNgram.length === 0) {
+          newAlignments.splice(index, 1);
+        }
+      } else {
+        let targetTokens = [];
+        // update alignment
+        for (const alignmentIndex of action.suggestionAlignments) {
+          const alignment = state.alignments[alignmentIndex];
+          targetTokens = targetTokens.concat(alignment.targetNgram);
+          newAlignments.splice(index, 1);
+        }
+        // update suggestion
+        const suggestion = state.suggestions[index];
+        suggestions[index] = suggestionReducer(suggestion, action);
+
+        // insert accepted alignment
+        targetTokens.push(action.token.position);
+        targetTokens = _.uniq(targetTokens.concat(suggestion.targetNgram));
+        targetTokens.sort(numberComparator);
+
+        newAlignments.push({
+          sourceNgram: [...suggestion.sourceNgram],
+          targetNgram: targetTokens
+        });
       }
+
       return {
         ...state,
-        alignments: newAlignments
+        alignments: newAlignments.sort(alignmentComparator),
+        suggestions: suggestions.sort(alignmentComparator)
       };
     }
     case SET_ALIGNMENT_SUGGESTIONS: {
@@ -341,6 +368,7 @@ export const getAlignments = state => {
     alignment.index = i;
     alignment.position = i;
     alignment.suggestion = false;
+    alignment.affectedAlignments = [];
     alignments.push(alignment);
   }
   return alignments;
@@ -369,7 +397,7 @@ const isSubArray = (superset, subset) => {
 export const getSuggestions = state => {
   const suggestions = getRawSuggestions(state);
   const alignments = [];
-  for(const suggestion of suggestions) {
+  for (const suggestion of suggestions) {
     // tokenize alignment
     const alignment = fromAlignment.getTokenizedAlignment(
       suggestion,
@@ -378,9 +406,9 @@ export const getSuggestions = state => {
     );
 
     // indicate suggested tokens
-    if(suggestion.suggestedTargetTokens) {
-      for(const token of alignment.targetNgram) {
-        if(suggestion.suggestedTargetTokens.indexOf(token.position) >= 0) {
+    if (suggestion.suggestedTargetTokens) {
+      for (const token of alignment.targetNgram) {
+        if (suggestion.suggestedTargetTokens.indexOf(token.position) >= 0) {
           token.metadata.suggestion = true;
         }
       }
@@ -389,6 +417,7 @@ export const getSuggestions = state => {
     alignment.index = suggestion.index;
     alignment.position = suggestion.position;
     alignment.suggestion = !!suggestion.suggestedTargetTokens;
+    alignment.suggestionAlignments = suggestion.suggestionAlignments || [];
     alignments.push(alignment);
   }
   return alignments;
@@ -441,7 +470,7 @@ export const getRawSuggestions = state => {
   }
 
   // TRICKY: react may update before all movement actions have completed.
-  if(alignmentIndex.length !== state.sourceTokens.length) {
+  if (alignmentIndex.length !== state.sourceTokens.length) {
     return getAlignments(state);
   }
 
@@ -495,7 +524,7 @@ export const getRawSuggestions = state => {
     }
 
     // TRICKY: persist invalid state through the entire suggestion.
-    if(!suggestionIsValid) {
+    if (!suggestionIsValid) {
       suggestionStateIsValid = suggestionIsValid;
     }
 
@@ -509,8 +538,8 @@ export const getRawSuggestions = state => {
         rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
         for (const aIndex of alignmentQueue) {
           const rawAlignment = state.alignments[aIndex];
-          for(const t of rawAlignment.targetNgram) {
-            if(rawSuggestion.targetNgram.indexOf(t) === -1) {
+          for (const t of rawAlignment.targetNgram) {
+            if (rawSuggestion.targetNgram.indexOf(t) === -1) {
               rawSuggestion.targetNgram.push(t);
             } else {
               _.pull(rawSuggestion.suggestedTargetTokens, t);
@@ -519,6 +548,7 @@ export const getRawSuggestions = state => {
           rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
             rawAlignment.targetNgram);
         }
+        rawSuggestion.suggestionAlignments = [...alignmentQueue];
         rawSuggestion.targetNgram.sort(numberComparator);
         rawSuggestion.index = index;
         rawSuggestion.position = suggestedAlignments.length;
@@ -536,11 +566,12 @@ export const getRawSuggestions = state => {
     }
 
     // clean up
-    if (finishedReadingAlignment || finishedReadingSuggestion) {
+    if (!suggestionStateIsValid && finishedReadingAlignment ||
+      suggestionStateIsValid && finishedReadingSuggestion) {
       tokenQueue = [];
       alignmentQueue = [];
     }
-    if(finishedReadingSuggestion) {
+    if (finishedReadingSuggestion) {
       suggestionStateIsValid = true;
     }
   }

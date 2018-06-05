@@ -81,6 +81,7 @@ export const alignTargetToken = (chapter, verse, alignment, token) => ({
   verse,
   index: alignment.index,
   suggestion: alignment.suggestion,
+  suggestionAlignments: alignment.suggestionAlignments,
   token
 });
 
@@ -98,6 +99,7 @@ export const unalignTargetToken = (chapter, verse, alignment, token) => ({
   verse,
   index: alignment.index,
   suggestion: alignment.suggestion,
+  suggestionAlignments: alignment.suggestionAlignments,
   token
 });
 
@@ -115,6 +117,7 @@ const alignSourceToken = (chapter, verse, alignment, token) => ({
   verse,
   index: alignment.index,
   suggestion: alignment.suggestion,
+  suggestionAlignments: alignment.suggestionAlignments,
   token
 });
 
@@ -132,6 +135,7 @@ const unalignSourceToken = (chapter, verse, alignment, token) => ({
   verse,
   index: alignment.index,
   suggestion: alignment.suggestion,
+  suggestionAlignments: alignment.suggestionAlignments,
   token
 });
 

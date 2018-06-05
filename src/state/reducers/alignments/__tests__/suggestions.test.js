@@ -245,6 +245,7 @@ describe('get tokenized suggestions', () => {
         index: 0,
         position: 0,
         suggestion: true,
+        suggestionAlignments: [0],
         sourceNgram: [
           {index: 0, occurrence: 1, occurrences: 1, text: ''},
           {index: 1, occurrence: 1, occurrences: 1, text: ''}
@@ -277,6 +278,7 @@ describe('get tokenized suggestions', () => {
         index: 0,
         position: 0,
         suggestion: false,
+        suggestionAlignments: [],
         sourceNgram: [
           {index: 0, occurrence: 1, occurrences: 1, text: ''}
         ],
@@ -311,6 +313,7 @@ describe('get raw suggestions', () => {
           position: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
+          suggestionAlignments: [0],
           suggestedTargetTokens: [1]
         }
       ]);
@@ -334,6 +337,7 @@ describe('get raw suggestions', () => {
           position: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
+          suggestionAlignments: [0],
           suggestedTargetTokens: [0, 1]
         }
       ]);
@@ -410,32 +414,33 @@ describe('get raw suggestions', () => {
             position: 0,
             sourceNgram: [0, 1],
             targetNgram: [0, 1],
+            suggestionAlignments: [0],
             suggestedTargetTokens: [1]
           }
         ]);
       });
 
     it('matches an aligned alignment perfectly with partial coverage', () => {
-        const state = {
-          sourceTokens: [{}],
-          targetTokens: [{}, {}],
-          alignments: [
-            {sourceNgram: [0], targetNgram: [0, 1]}
-          ],
-          suggestions: [
-            {sourceNgram: [0], targetNgram: [0]}
-          ]
-        };
-        const result = fromVerse.getRawSuggestions(state);
-        expect(result).toEqual([
-          {
-            index: 0,
-            position: 0,
-            sourceNgram: [0],
-            targetNgram: [0, 1]
-          }
-        ]);
-      });
+      const state = {
+        sourceTokens: [{}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: [0, 1]}
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [0]}
+        ]
+      };
+      const result = fromVerse.getRawSuggestions(state);
+      expect(result).toEqual([
+        {
+          index: 0,
+          position: 0,
+          sourceNgram: [0],
+          targetNgram: [0, 1]
+        }
+      ]);
+    });
   });
 
   describe('merges', () => {
@@ -477,6 +482,7 @@ describe('get raw suggestions', () => {
           position: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
+          suggestionAlignments: [0, 1],
           suggestedTargetTokens: [0, 1]
         }
       ]);
@@ -506,6 +512,7 @@ describe('get raw suggestions', () => {
           position: 1,
           sourceNgram: [1, 2],
           targetNgram: [1, 2],
+          suggestionAlignments: [1, 2],
           suggestedTargetTokens: [1, 2]
         },
         {index: 3, position: 2, sourceNgram: [3], targetNgram: [3]}
@@ -533,6 +540,7 @@ describe('get raw suggestions', () => {
           position: 0,
           sourceNgram: [0],
           targetNgram: [0],
+          suggestionAlignments: [0],
           suggestedTargetTokens: [0]
         },
         {
@@ -540,6 +548,7 @@ describe('get raw suggestions', () => {
           position: 1,
           sourceNgram: [1],
           targetNgram: [1],
+          suggestionAlignments: [0],
           suggestedTargetTokens: [1]
         }
       ]);
@@ -597,8 +606,19 @@ describe('get raw suggestions', () => {
       };
       const result = fromVerse.getRawSuggestions(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0], targetNgram: [0]},
-        {index: 1, position: 1, sourceNgram: [1], targetNgram: []}
+        {
+          index: 0,
+          position: 0,
+          sourceNgram: [0],
+          targetNgram: [0]
+        },
+        {
+          index: 1,
+          position: 1,
+          suggestionAlignments: [],
+          sourceNgram: [1],
+          targetNgram: []
+        }
       ]);
     });
 
@@ -779,5 +799,116 @@ describe('alignment subsets suggestion', () => {
     };
     expect(fromVerse.getAlignmentSubsetsSuggestion(alignment, suggestion)).
       toEqual(false);
+  });
+});
+
+describe('actions', () => {
+  describe('align target token from second alignment', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            },
+            {
+              sourceNgram: [1],
+              targetNgram: []
+            }],
+          suggestions: [
+            {
+              sourceNgram: [0, 1],
+              targetNgram: [0]
+            },
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.ALIGN_TARGET_TOKEN,
+      chapter: 1,
+      verse: 1,
+      index: 0,
+      suggestion: true,
+      suggestionAlignments: [0, 1],
+      token: new Token({
+        text: 'world',
+        position: 1,
+        occurrence: 1,
+        occurrences: 1
+      })
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            }],
+          alignments: [
+            {
+              sourceNgram: [0, 1],
+              targetNgram: [0, 1]
+            }],
+          suggestions: [
+            {
+              sourceNgram: [0, 1],
+              targetNgram: [0]
+            }
+          ]
+        }
+      }
+    };
+    reducerTest('Add Alignment', alignments, stateBefore, action,
+      stateAfter);
   });
 });

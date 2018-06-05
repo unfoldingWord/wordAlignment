@@ -1,4 +1,7 @@
-import {SET_ALIGNMENT_SUGGESTIONS} from '../../actions/actionTypes';
+import {
+  SET_ALIGNMENT_SUGGESTIONS,
+  UNALIGN_SOURCE_TOKEN
+} from '../../actions/actionTypes';
 import Token from 'word-map/structures/Token';
 
 const defaultState = {sourceNgram: [], targetNgram: []};
@@ -15,6 +18,11 @@ const suggestion = (state=defaultState, action) => {
       return {
         sourceNgram: action.alignment.sourceNgram.map(t => t.position),
         targetNgram: action.alignment.targetNgram.map(t => t.position)
+      };
+    case UNALIGN_SOURCE_TOKEN:
+      return {
+        sourceNgram: [...state.sourceNgram],
+        targetNgram: []
       };
     default:
       return state;

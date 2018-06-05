@@ -356,7 +356,9 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
   const targetText = getTargetText(state);
   // console.warn('source text:\n', sourceText, '\n', sourceBaselineText);
   // console.warn('target text:\n', targetText, '\n', targetBaselineText);
-  return sourceText === sourceBaselineText && targetText === targetBaselineText;
+  const textIsValid = sourceText === sourceBaselineText && targetText ===
+    targetBaselineText;
+  return textIsValid && getAreAlignmentsValid(state);
 };
 
 /**
@@ -364,9 +366,27 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
  * @param state
  * @return {boolean}
  */
-export const getAreAlignmentsValid = () => {
-  // TODO: implement
-  return true;
+export const getAreAlignmentsValid = state => {
+  const usedSourceTokens = [];
+  const usedTargetTokens = [];
+  for (const a of state.alignments) {
+    // validate tokens are unique
+    for (const t of a.sourceNgram) {
+      if(usedSourceTokens.indexOf(t) >= 0) {
+        return false;
+      } else {
+        usedSourceTokens.push(t);
+      }
+    }
+    for (const t of a.targetNgram) {
+      if(usedTargetTokens.indexOf(t) >= 0) {
+        return false;
+      } else {
+        usedTargetTokens.push(t);
+      }
+    }
+  }
+  return usedSourceTokens.length === state.sourceTokens.length;
 };
 
 /**

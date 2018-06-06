@@ -133,7 +133,7 @@ AlignmentCard.propTypes = {
   acceptsTargetTokens: PropTypes.bool
 };
 AlignmentCard.defaultProps = {
-  isSuggestion: true
+  isSuggestion: false
 };
 
 export default AlignmentCard;

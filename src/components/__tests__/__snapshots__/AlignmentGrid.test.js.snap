@@ -31,7 +31,6 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       <div
         style={
           Object {
-            "backgroundColor": "#DCDCDC",
             "display": "flex",
             "flexDirection": "column",
             "height": "100%",
@@ -169,7 +168,6 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       <div
         style={
           Object {
-            "backgroundColor": "#DCDCDC",
             "display": "flex",
             "flexDirection": "column",
             "height": "100%",
@@ -307,7 +305,6 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       <div
         style={
           Object {
-            "backgroundColor": "#DCDCDC",
             "display": "flex",
             "flexDirection": "column",
             "height": "100%",

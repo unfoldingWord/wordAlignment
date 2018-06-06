@@ -93,8 +93,13 @@ describe('align target token to empty source token', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [],
-        suggestions: []
+        alignments: [
+          {
+            sourceNgram: [],
+            targetNgram: [1]
+          }],
+        suggestions: [],
+        renderedAlignments: []
       }
     }
   };
@@ -126,7 +131,7 @@ describe('align target token', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: [1]
@@ -170,7 +175,7 @@ describe('align target token', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: [0, 1]
@@ -213,7 +218,7 @@ describe('align target token from second alignment', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: [0]
@@ -267,7 +272,7 @@ describe('align target token from second alignment', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: [0]
@@ -302,7 +307,7 @@ describe('insert source token', () => {
             position: 1
           }],
         targetTokens: [],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: []
@@ -341,7 +346,7 @@ describe('insert source token', () => {
             position: 1
           }],
         targetTokens: [],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: []
@@ -381,7 +386,7 @@ describe('align source token', () => {
             position: 2
           }],
         targetTokens: [],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [2, 1],
             targetNgram: []
@@ -428,7 +433,7 @@ describe('align source token', () => {
             position: 2
           }],
         targetTokens: [],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0, 1, 2],
             targetNgram: []
@@ -465,7 +470,7 @@ describe('remove target token alignment', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: [1]
@@ -509,7 +514,7 @@ describe('remove target token alignment', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: []
@@ -539,7 +544,7 @@ describe('remove source token alignment', () => {
             position: 1
           }],
         targetTokens: [],
-        alignments: [
+        renderedAlignments: [
           {
             sourceNgram: [0],
             targetNgram: []
@@ -577,7 +582,7 @@ describe('remove source token alignment', () => {
             position: 1
           }],
         targetTokens: [],
-        alignments: [],
+        renderedAlignments: [],
         suggestions: []
       }
     }

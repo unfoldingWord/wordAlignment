@@ -16,7 +16,6 @@ exports[`has a bottom word 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -142,7 +141,6 @@ exports[`has a top and bottom word 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -305,7 +303,6 @@ exports[`has a top word 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -420,7 +417,6 @@ exports[`has multiple bottom words 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -582,7 +578,6 @@ exports[`has multiple top and bottom words 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -817,7 +812,6 @@ exports[`has multiple top words 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -968,7 +962,6 @@ exports[`is empty 1`] = `
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",

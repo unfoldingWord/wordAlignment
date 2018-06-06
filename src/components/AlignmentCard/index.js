@@ -77,8 +77,6 @@ class DroppableAlignmentCard extends Component {
     const {
       translate,
       lexicons,
-      alignmentPosition,
-      alignmentIndex,
       canDrop,
       dragItemType,
       isOver,
@@ -150,8 +148,6 @@ DroppableAlignmentCard.propTypes = {
   sourceNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   targetNgram: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   alignment: PropTypes.object.isRequired,
-  alignmentPosition: PropTypes.number.isRequired,
-  alignmentIndex: PropTypes.number.isRequired,
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
   actions: PropTypes.shape({

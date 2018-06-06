@@ -19,7 +19,7 @@ describe('acceptable drops', () => {
     const source = makeMergedSource('move right', 'right word');
     const target = makeEmptyTarget();
     // TRICKY: valid empty targets will have the same alignment position
-    target.alignmentPosition = source.alignmentPosition;
+    target.alignment.position = source.alignment.position;
     const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
@@ -28,7 +28,7 @@ describe('acceptable drops', () => {
     const source = makeMergedSource('move left', 'left word');
     const target = makeEmptyTarget();
     // TRICKY: valid empty targets will have the same alignment index
-    target.alignmentPosition = source.alignmentPosition;
+    target.alignment.position = source.alignment.position;
     const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);
   });
@@ -53,14 +53,18 @@ describe('unacceptable drops', () => {
   describe('single word alignments', () => {
     it('is dropped on it\'s current alignment', () => {
       const source = {
-        alignmentPosition: 1,
+        alignment: {
+          position: 1
+        },
         wordIndex: 1,
         alignmentLength: 1
       };
       const target = {
         sourceNgram: ['word'],
         targetNgram: [],
-        alignmentPosition: 1
+        alignment: {
+          position: 1
+        }
       };
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
@@ -69,14 +73,18 @@ describe('unacceptable drops', () => {
 
     it('is dropped on a non-adjacent alignment', () => {
       const source = {
-        alignmentPosition: 3,
+        alignment: {
+          position: 3
+        },
         wordIndex: 1,
         alignmentLength: 1
       };
       const target = {
         sourceNgram: ['word'],
         targetNgram: [],
-        alignmentPosition: 1
+        alignment: {
+          position: 1
+        }
       };
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
@@ -84,14 +92,18 @@ describe('unacceptable drops', () => {
 
     it('is dropped on an empty alignment', () => {
       const source = {
-        alignmentPosition: 2,
+        alignment: {
+          position: 2
+        },
         wordIndex: 1,
         alignmentLength: 1
       };
       const target = {
         sourceNgram: [],
         targetNgram: [],
-        alignmentPosition: 1
+        alignment: {
+          position: 1
+        }
       };
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
@@ -108,14 +120,18 @@ describe('unacceptable drops', () => {
 
     test('first word is dropped on a next adjacent alignment', () => {
       const source = {
-        alignmentPosition: 1,
+        alignment: {
+          position: 1
+        },
         wordIndex: 0,
         alignmentLength: 2
       };
       const target = {
         sourceNgram: ['word'],
         targetNgram: [],
-        alignmentPosition: 2
+        alignment: {
+          position: 2
+        }
       };
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
@@ -123,14 +139,18 @@ describe('unacceptable drops', () => {
 
     test('last word is dropped on a next adjacent alignment', () => {
       const source = {
-        alignmentPosition: 1,
+        alignment: {
+          position: 1
+        },
         wordIndex: 1,
         alignmentLength: 2
       };
       const target = {
         sourceNgram: ['word'],
         targetNgram: [],
-        alignmentPosition: 2
+        alignment: {
+          position: 2
+        }
       };
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
@@ -138,14 +158,18 @@ describe('unacceptable drops', () => {
 
     test('first word is dropped on a previous adjacent alignment', () => {
       const source = {
-        alignmentPosition: 2,
+        alignment: {
+          position: 2
+        },
         wordIndex: 0,
         alignmentLength: 2
       };
       const target = {
         sourceNgram: ['word'],
         targetNgram: [],
-        alignmentPosition: 1
+        alignment: {
+          position: 1
+        }
       };
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
@@ -155,7 +179,9 @@ describe('unacceptable drops', () => {
 
 function makeMergedSource(movement, wordPosition) {
   return {
-    alignmentPosition: parseMovement(movement),
+    alignment: {
+      position: parseMovement(movement)
+    },
     wordIndex: parseWordPosition(wordPosition),
     alignmentLength: 2
   };
@@ -163,7 +189,9 @@ function makeMergedSource(movement, wordPosition) {
 
 function makeSingleSource(movement) {
   return {
-    alignmentPosition: parseMovement(movement),
+    alignment: {
+      position: parseMovement(movement)
+    },
     wordIndex: 0,
     alignmentLength: 1
   };
@@ -173,7 +201,9 @@ function makeMergedTarget() {
   return {
     sourceNgram: ['word1', 'word2'],
     targetNgram: [],
-    alignmentPosition: 2
+    alignment: {
+      position: 2
+    }
   };
 }
 
@@ -181,7 +211,9 @@ function makeEmptyTarget() {
   return {
     sourceNgram: [],
     targetNgram: [],
-    alignmentPosition: 2
+    alignment: {
+      position: 2
+    }
   };
 }
 
@@ -189,7 +221,9 @@ function makeSingleTarget() {
   return {
     sourceNgram: ['word1'],
     targetNgram: [],
-    alignmentPosition: 2
+    alignment: {
+      position: 2
+    }
   };
 }
 

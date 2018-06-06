@@ -110,6 +110,9 @@ const verse = (state = defaultState, action) => {
     case ALIGN_SOURCE_TOKEN: // merge suggestions
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
+      // TODO: accept rendered alignment first.
+      // const renderedAlignment = state.renderedAlignments(action.index);
+      
       let newAlignments = [...state.alignments];
       const suggestions = [...state.suggestions];
       const index = action.index;
@@ -189,14 +192,18 @@ const verse = (state = defaultState, action) => {
           action, alignments)
       };
     }
-    case INSERT_ALIGNMENT:
+    case INSERT_ALIGNMENT: {
+      const alignments = [
+        ...state.alignments,
+        alignmentReducer(undefined, action)
+      ].sort(alignmentComparator);
       return {
         ...state,
-        alignments: [
-          ...state.alignments,
-          alignmentReducer(undefined, action)
-        ].sort(alignmentComparator)
+        alignments,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, alignments, state.suggestions, state.sourceTokens.length)
       };
+    }
     case SET_SOURCE_TOKENS: {
       return {
         sourceTokens: action.tokens.map(formatSourceToken),

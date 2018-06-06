@@ -150,7 +150,7 @@ export const insertSourceToken = (chapter, verse, token) => ({
 });
 
 /**
- * This thunk moves a source token between alignments
+ * Moves a source token between alignments
  * @param {number} chapter
  * @param {number} verse
  * @param {object} nextAlignment - the alignment to which the token will be moved
@@ -160,16 +160,24 @@ export const insertSourceToken = (chapter, verse, token) => ({
  */
 export const moveSourceToken = (
   {chapter, verse, nextAlignment, prevAlignment, token}) => {
+  // return {
+  //   type: types.MOVE_SOURCE_TOKEN,
+  //   chapter,
+  //   verse,
+  //   token,
+  //   nextIndex: nextAlignment.index,
+  //   prevIndex: prevAlignment.index
+  // };
   return dispatch => {
     dispatch(unalignSourceToken(chapter, verse, prevAlignment, token));
     // TRICKY: shift the affected alignment indices as needed
-    if (nextAlignment.suggestionAlignments) {
-      for (let i = 0; i < nextAlignment.suggestionAlignments.length; i++) {
-        const affectedIndex = nextAlignment.suggestionAlignments[i];
-        nextAlignment.suggestionAlignments[i] = shiftRelativeToRemoved(
-          affectedIndex, prevAlignment.index);
-      }
-    }
+    // if (nextAlignment.suggestionAlignments) {
+    //   for (let i = 0; i < nextAlignment.suggestionAlignments.length; i++) {
+    //     const affectedIndex = nextAlignment.suggestionAlignments[i];
+    //     nextAlignment.suggestionAlignments[i] = shiftRelativeToRemoved(
+    //       affectedIndex, prevAlignment.index);
+    //   }
+    // }
 
     if (prevAlignment.index === nextAlignment.index) {
       dispatch(insertSourceToken(chapter, verse, token));

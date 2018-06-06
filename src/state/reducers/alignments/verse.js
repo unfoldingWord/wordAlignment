@@ -9,16 +9,17 @@ import {
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
+  MOVE_SOURCE_TOKEN,
   UNALIGN_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import alignmentReducer, * as fromAlignment from './alignment';
-import suggestionReducer from './suggestion';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
 import {insertSourceToken} from '../../actions';
 import renderedAlignmentsReducer, * as fromRenderedAlignments
   from './renderedAlignments';
+import renderedAlignmentReducer from './renderedAlignment';
 import _ from 'lodash';
 
 /**
@@ -106,54 +107,56 @@ const defaultState = {
  */
 const verse = (state = defaultState, action) => {
   switch (action.type) {
+    case MOVE_SOURCE_TOKEN:
     case UNALIGN_SOURCE_TOKEN: // destroy suggestion, clear target n-gram
     case ALIGN_SOURCE_TOKEN: // merge suggestions
     case UNALIGN_TARGET_TOKEN:
     case ALIGN_TARGET_TOKEN: {
-      // TODO: accept rendered alignment first.
-      // const renderedAlignment = state.renderedAlignments(action.index);
-      
-      let newAlignments = [...state.alignments];
-      const suggestions = [...state.suggestions];
+      const renderedAlignment = state.renderedAlignments[action.index];
+      if (renderedAlignment.suggestedTargetTokens) {
+        // TODO: accept suggestion
+        // TODO: clear suggestion
+      }
+
+      let newAlignments = [...state.renderedAlignments];
+      // const suggestions = [...state.suggestions];
       const index = action.index;
 
-      if (!action.suggestion) {
-        // update alignment
-        newAlignments[index] = alignmentReducer(state.alignments[index],
-          action);
-        // TRICKY: remove empty alignments
-        if (newAlignments[index].sourceNgram.length === 0) {
-          newAlignments.splice(index, 1);
-        }
-      } else {
-        let targetTokens = [];
-        // remove affected alignments
-        for (const alignmentIndex of action.suggestionAlignments) {
-          const alignment = state.alignments[alignmentIndex];
-          targetTokens = targetTokens.concat(alignment.targetNgram);
-          newAlignments[alignmentIndex] = null;
-        }
-        newAlignments = _.compact(newAlignments);
-
-        // update suggestion
-        const suggestion = state.suggestions[index];
-        suggestions[index] = suggestionReducer(suggestion, action);
-
-        // build new alignment
-        targetTokens = targetTokens.concat(suggestion.targetNgram);
-        targetTokens = _.uniq(targetTokens);
-        targetTokens.sort(numberComparator);
-        const newAlignment = {
-          sourceNgram: [...suggestion.sourceNgram],
-          targetNgram: targetTokens
-        };
-        newAlignments.push(alignmentReducer(newAlignment, action));
+      // if (!action.suggestion) {
+      // update alignment
+      newAlignments[index] = renderedAlignmentReducer(renderedAlignment, action);
+      // TRICKY: remove empty alignments
+      if (newAlignments[index].sourceNgram.length === 0) {
+        newAlignments.splice(index, 1);
       }
+      // } else {
+      //   let targetTokens = [];
+      //   // remove affected alignments
+      //   for (const alignmentIndex of action.suggestionAlignments) {
+      //     const alignment = state.alignments[alignmentIndex];
+      //     targetTokens = targetTokens.concat(alignment.targetNgram);
+      //     newAlignments[alignmentIndex] = null;
+      //   }
+      //   newAlignments = _.compact(newAlignments);
+      //
+      //   // update suggestion
+      //   const suggestion = state.suggestions[index];
+      //   suggestions[index] = suggestionReducer(suggestion, action);
+      //
+      //   // build new alignment
+      //   targetTokens = targetTokens.concat(suggestion.targetNgram);
+      //   targetTokens = _.uniq(targetTokens);
+      //   targetTokens.sort(numberComparator);
+      //   const newAlignment = {
+      //     sourceNgram: [...suggestion.sourceNgram],
+      //     targetNgram: targetTokens
+      //   };
+      //   newAlignments.push(alignmentReducer(newAlignment, action));
+      // }
 
       return {
         ...state,
-        alignments: newAlignments.sort(alignmentComparator),
-        suggestions: suggestions.sort(alignmentComparator)
+        renderedAlignments: newAlignments.sort(alignmentComparator)
       };
     }
     case SET_ALIGNMENT_SUGGESTIONS: {
@@ -193,15 +196,15 @@ const verse = (state = defaultState, action) => {
       };
     }
     case INSERT_ALIGNMENT: {
-      const alignments = [
-        ...state.alignments,
-        alignmentReducer(undefined, action)
+      const renderedAlignments = [
+        ...state.renderedAlignments,
+        renderedAlignmentReducer(undefined, action)
       ].sort(alignmentComparator);
       return {
         ...state,
-        alignments,
-        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
-          action, alignments, state.suggestions, state.sourceTokens.length)
+        renderedAlignments
+        // renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+        //   action, renderedAlignments, state.suggestions, state.sourceTokens.length)
       };
     }
     case SET_SOURCE_TOKENS: {

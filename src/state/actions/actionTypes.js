@@ -1,9 +1,23 @@
+/**
+ * @deprecated
+ * @type {string}
+ */
 export const ALIGN_SOURCE_TOKEN = 'ALIGN_SOURCE_TOKEN';
+/**
+ * @deprecated
+ * @type {string}
+ */
 export const UNALIGN_SOURCE_TOKEN = 'UNALIGN_SOURCE_TOKEN';
+/**
+ * @deprecated
+ * @type {string}
+ */
+export const INSERT_ALIGNMENT = 'INSERT_ALIGNMENT';
+export const MOVE_SOURCE_TOKEN = 'MOVE_SOURCE_TOKEN';
+
 export const ALIGN_TARGET_TOKEN = 'ALIGN_TARGET_TOKEN';
 export const UNALIGN_TARGET_TOKEN = 'UNALIGN_TARGET_TOKEN';
 export const SET_CHAPTER_ALIGNMENTS = 'SET_CHAPTER_ALIGNMENTS';
-export const INSERT_ALIGNMENT = 'INSERT_ALIGNMENT';
 export const SET_SOURCE_TOKENS = 'SET_SOURCE_TOKENS';
 export const SET_TARGET_TOKENS = 'SET_TARGET_TOKENS';
 export const CLEAR_STATE = 'CLEAR_STATE';

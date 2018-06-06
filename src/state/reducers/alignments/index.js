@@ -13,6 +13,7 @@ import {
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
   UNALIGN_SOURCE_TOKEN,
+  MOVE_SOURCE_TOKEN,
   UNALIGN_TARGET_TOKEN
 } from '../../actions/actionTypes';
 
@@ -38,6 +39,7 @@ const alignments = (state = {}, action) => {
     case UNALIGN_SOURCE_TOKEN:
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
+    case MOVE_SOURCE_TOKEN:
     case ALIGN_SOURCE_TOKEN:
     case RESET_VERSE_ALIGNMENTS:
     case UNALIGN_TARGET_TOKEN:

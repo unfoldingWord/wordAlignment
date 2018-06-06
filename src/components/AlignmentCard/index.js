@@ -34,7 +34,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   const mergedTarget = dropTargetProps.sourceNgram.length > 1;
   const singleSource  = dragSourceProps.alignmentLength === 1;
   const mergedSource = dragSourceProps.alignmentLength > 1;
-  const alignmentDelta = dropTargetProps.alignmentPosition - dragSourceProps.alignmentPosition;
+  const alignmentDelta = dropTargetProps.alignment.position - dragSourceProps.alignment.position;
   // const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
   // const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
   const moved = alignmentDelta !== 0;
@@ -106,8 +106,8 @@ class DroppableAlignmentCard extends Component {
         alignment={alignment}
         alignmentLength={alignmentLength}
         token={token}
-        alignmentPosition={alignmentPosition}
-        alignmentIndex={alignmentIndex}
+        alignmentPosition={alignment.position}
+        alignmentIndex={alignment.index}
         lexicons={lexicons}
         actions={actions}
       />
@@ -117,8 +117,8 @@ class DroppableAlignmentCard extends Component {
         key={index}
         token={token}
         alignment={alignment}
-        alignmentPosition={alignmentPosition}
-        alignmentIndex={alignmentIndex}
+        alignmentPosition={alignment.position}
+        alignmentIndex={alignment.index}
       />
     ));
 
@@ -130,6 +130,7 @@ class DroppableAlignmentCard extends Component {
           <AlignmentCard targetTokenCards={bottomWordCards}
                          hoverBottom={hoverBottom}
                          hoverTop={hoverTop}
+                         isSuggestion={alignment.isSuggestion}
                          acceptsTargetTokens={acceptsBottom}
                          acceptsSourceTokens={acceptsTop}
                          sourceTokenCards={topWordCards}/>
@@ -166,8 +167,13 @@ const dragHandler = {
       props.targetNgram.length === 0);
     let canDrop = false;
     if (item.type === types.SECONDARY_WORD) {
-      const alignmentPositionDelta = props.alignmentPosition - item.alignmentPosition;
-      canDrop = alignmentPositionDelta !== 0 && !alignmentEmpty;
+      if(!item.alignment) {
+        // TRICKY: tokens from the word list will not have an alignment
+        canDrop = !alignmentEmpty;
+      } else {
+        const alignmentPositionDelta = props.alignment.position - item.alignment.position;
+        canDrop = alignmentPositionDelta !== 0 && !alignmentEmpty;
+      }
       return canDrop;
     }
     if (item.type === types.PRIMARY_WORD) {

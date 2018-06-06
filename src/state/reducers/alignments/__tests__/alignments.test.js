@@ -55,7 +55,12 @@ describe('align target token to empty source token', () => {
             sourceNgram: [],
             targetNgram: [1]
           }],
-        suggestions: []
+        suggestions: [],
+        renderedAlignments: [
+          {
+            sourceNgram: [],
+            targetNgram: [1]
+          }]
       }
     }
   };

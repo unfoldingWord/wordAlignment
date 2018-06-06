@@ -7,7 +7,15 @@ import PropTypes from 'prop-types';
  * @return {*}
  */
 const makeStyles = (props) => {
-  const {sourceTokenCards, hoverTop, hoverBottom, targetTokenCards, acceptsSourceTokens, acceptsTargetTokens} = props;
+  const {
+    isSuggestion,
+    sourceTokenCards,
+    hoverTop,
+    hoverBottom,
+    targetTokenCards,
+    acceptsSourceTokens,
+    acceptsTargetTokens
+  } = props;
   const emptyTop = !sourceTokenCards || sourceTokenCards.length === 0;
   const emptyBottom = !targetTokenCards || targetTokenCards.length === 0;
   const emptyAlignment = emptyTop && emptyBottom;
@@ -29,7 +37,7 @@ const makeStyles = (props) => {
     root: {
       transition: transitionSpeed,
       padding: '7px',
-      backgroundColor: '#DCDCDC',
+      backgroundColor: isSuggestion ? '#b8e5bc' : '#DCDCDC',
       margin: '0px 10px 10px 0px',
       minWidth: emptyAlignment ?
         `calc(${defaultAlignmentWidth}/2)` :
@@ -40,7 +48,7 @@ const makeStyles = (props) => {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      backgroundColor: '#DCDCDC'
+      // backgroundColor: '#DCDCDC'
     },
     top: {
       transition: transitionSpeed,
@@ -116,12 +124,16 @@ class AlignmentCard extends Component {
 }
 
 AlignmentCard.propTypes = {
+  isSuggestion: PropTypes.bool,
   sourceTokenCards: PropTypes.array.isRequired,
   targetTokenCards: PropTypes.array.isRequired,
   hoverBottom: PropTypes.bool,
   hoverTop: PropTypes.bool,
   acceptsSourceTokens: PropTypes.bool,
   acceptsTargetTokens: PropTypes.bool
+};
+AlignmentCard.defaultProps = {
+  isSuggestion: true
 };
 
 export default AlignmentCard;

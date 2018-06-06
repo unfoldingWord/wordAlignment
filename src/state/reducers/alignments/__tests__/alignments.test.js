@@ -1275,7 +1275,17 @@ describe('reset alignments', () => {
             sourceNgram: [1],
             targetNgram: []
           }],
-        suggestions: []
+        suggestions: [],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ]
       }
     }
   };

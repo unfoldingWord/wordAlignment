@@ -172,7 +172,9 @@ const verse = (state = defaultState, action) => {
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
       return {
         ...state,
-        suggestions: []
+        suggestions: [],
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, state.alignments)
       };
     case RESET_VERSE_ALIGNMENTS: {
       const alignments = [];
@@ -182,7 +184,9 @@ const verse = (state = defaultState, action) => {
       return {
         ...state,
         alignments,
-        suggestions: []
+        suggestions: [],
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, alignments)
       };
     }
     case INSERT_ALIGNMENT:
@@ -372,14 +376,14 @@ export const getAreAlignmentsValid = state => {
   for (const a of state.alignments) {
     // validate tokens are unique
     for (const t of a.sourceNgram) {
-      if(usedSourceTokens.indexOf(t) >= 0) {
+      if (usedSourceTokens.indexOf(t) >= 0) {
         return false;
       } else {
         usedSourceTokens.push(t);
       }
     }
     for (const t of a.targetNgram) {
-      if(usedTargetTokens.indexOf(t) >= 0) {
+      if (usedTargetTokens.indexOf(t) >= 0) {
         return false;
       } else {
         usedTargetTokens.push(t);

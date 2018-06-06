@@ -2,7 +2,8 @@ import {numberComparator} from './index';
 import {
   REPAIR_VERSE_ALIGNMENTS,
   SET_ALIGNMENT_SUGGESTIONS,
-  SET_CHAPTER_ALIGNMENTS
+  SET_CHAPTER_ALIGNMENTS,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS, RESET_VERSE_ALIGNMENTS
 } from '../../actions/actionTypes';
 import _ from 'lodash';
 import Token from 'word-map/structures/Token';
@@ -23,6 +24,8 @@ const renderedAlignments = (
     case SET_ALIGNMENT_SUGGESTIONS:
       return render(alignments, suggestions, numSourceTokens);
     case SET_CHAPTER_ALIGNMENTS:
+    case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
+    case RESET_VERSE_ALIGNMENTS:
     case REPAIR_VERSE_ALIGNMENTS:
       return [...alignments.map(_.cloneDeep)];
     default:

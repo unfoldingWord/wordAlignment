@@ -248,7 +248,17 @@ describe('clear alignment suggestions', () => {
             targetNgram: []
           }
         ],
-        suggestions: []
+        suggestions: [],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ]
       }
     }
   };

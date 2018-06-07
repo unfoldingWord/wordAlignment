@@ -9,5 +9,8 @@
   "alignments_corrupt": "The alignments for this chapter could not be loaded and have been reset.",
   "buttons": {
     "ok_button": "OK"
+  },
+  "menu":{
+    "menu": "Menu"
   }
 }

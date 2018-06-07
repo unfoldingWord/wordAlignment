@@ -47,7 +47,8 @@ test('Container renders', () => {
       showLoading: jest.fn(),
       closeLoading: jest.fn()
     },
-    translate: k => k
+    translate: k => k,
+    groupMenu: {}
   };
 
   const WrappedContainer = wrapInTestContext(Container);

@@ -28,6 +28,30 @@ import { ScripturePane } from 'tc-ui-toolkit';
 //containers
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 
+const styles = {
+  container: {
+    display: 'flex',
+    width: '100%',
+    height: '100%'
+  },
+  groupMenuContainer: {
+    width: '250px',
+    height: '100%'
+  },
+  wordListContainer: {
+    width: '160px',
+    height: '100%'
+  },
+  alignmentAreaContainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    width: 'calc(100vw - 410px)',
+    height: '100%'
+  }
+};
+
+
 /**
  * The base container for this tool
  */
@@ -200,6 +224,15 @@ class Container extends Component {
     moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
   }
 
+  makeTitle(manifest) {
+    const {target_language, project} = manifest;
+    if (target_language && target_language.book && target_language.book.name) {
+      return target_language.book.name;
+    } else {
+      return project.name;
+    }
+  }
+
   render() {
     // Modules not defined within translationWords
     const {
@@ -233,28 +266,24 @@ class Container extends Component {
 
     let scripturePane = <div/>;
     const { currentPaneSettings } = settingsReducer.toolsSettings.ScripturePane;
+    const expandedScripturePaneTitle = this.makeTitle(projectDetailsReducer.manifest);
+
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
-      scripturePane =
-          <ScripturePane contextId={contextIdReducer.contextId}
-                        titleLabel="Step 1. Read"
-                        closeButtonLabel="Close"
-                        expandedScripturePaneTitle="Matthew"
-                        expandButtonHoverText="Click to show expanded resource panes"
-                        clickToRemoveResourceLabel="Click to remove resource"
-                        clickAddResource="Click to add a resource"
-                        addResourceLabel="Add Resources"
-                        selectLanguageLabel="Select language"
-                        selectLabel="Select"
-                        bibles={resourcesReducer.bibles}
-                        currentPaneSettings={currentPaneSettings}
-                        showPopover={showPopover}
-                        editTargetVerse={editTargetVerse}
-                        projectDetailsReducer={projectDetailsReducer}
-                        translate={translate}
-                        getLexiconData={getLexiconData}
-                        selections={selectionsReducer.selections}
-                        setToolSettings={setToolSettings} />;
+      scripturePane = (
+          <ScripturePane
+            currentPaneSettings={currentPaneSettings}
+            contextId={contextIdReducer.contextId}
+            bibles={resourcesReducer.bibles}
+            expandedScripturePaneTitle={expandedScripturePaneTitle}
+            showPopover={showPopover}
+            editTargetVerse={editTargetVerse}
+            projectDetailsReducer={projectDetailsReducer}
+            translate={translate}
+            getLexiconData={getLexiconData}
+            selections={selectionsReducer.selections}
+            setToolSettings={setToolSettings} />
+      );
     }
 
     const {lexicons} = resourcesReducer;
@@ -276,22 +305,20 @@ class Container extends Component {
     });
 
     return (
-      <div style={{display: 'flex', width: '100%', height: '100%'}}>
-        <GroupMenuContainer {...this.props.groupMenu} />
-        <WordList
-          chapter={chapter}
-          verse={verse}
-          words={words}
-          onDropTargetToken={this.handleUnalignTargetToken}
-          connectDropTarget={connectDropTarget}
-          isOver={isOver} />
-        <div style={{
-          flex: 0.8,
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          height: '100%'
-        }}>
+      <div style={styles.container}>
+        <div style={styles.groupMenuContainer}>
+          <GroupMenuContainer {...this.props.groupMenu} />
+        </div>
+        <div style={styles.wordListContainer}>
+          <WordList
+            chapter={chapter}
+            verse={verse}
+            words={words}
+            onDropTargetToken={this.handleUnalignTargetToken}
+            connectDropTarget={connectDropTarget}
+            isOver={isOver} />
+        </div>
+        <div style={styles.alignmentAreaContainer}>
           {scripturePane}
           <AlignmentGrid
             alignments={verseAlignments}

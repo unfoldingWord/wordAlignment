@@ -58,6 +58,7 @@ describe('align target token to empty source token', () => {
         suggestions: [],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [],
             targetNgram: [1]
           }]
@@ -65,7 +66,7 @@ describe('align target token to empty source token', () => {
     }
   };
   const action = {
-    type: types.ALIGN_TARGET_TOKEN,
+    type: types.ALIGN_RENDERED_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
     index: 0,
@@ -93,11 +94,7 @@ describe('align target token to empty source token', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [
-          {
-            sourceNgram: [],
-            targetNgram: [1]
-          }],
+        alignments: [],
         suggestions: [],
         renderedAlignments: []
       }
@@ -131,8 +128,14 @@ describe('align target token', () => {
             occurrences: 1,
             position: 1
           }],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [1]
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: [1]
           }],
@@ -141,7 +144,7 @@ describe('align target token', () => {
     }
   };
   const action = {
-    type: types.ALIGN_TARGET_TOKEN,
+    type: types.ALIGN_RENDERED_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
     index: 0,
@@ -175,8 +178,14 @@ describe('align target token', () => {
             occurrences: 1,
             position: 1
           }],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1]
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: [0, 1]
           }],
@@ -218,7 +227,7 @@ describe('align target token from second alignment', () => {
             occurrences: 1,
             position: 1
           }],
-        renderedAlignments: [
+        alignments: [
           {
             sourceNgram: [0],
             targetNgram: [0]
@@ -227,12 +236,23 @@ describe('align target token from second alignment', () => {
             sourceNgram: [1],
             targetNgram: []
           }],
+        renderedAlignments: [
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: []
+          }],
         suggestions: []
       }
     }
   };
   const action = {
-    type: types.ALIGN_TARGET_TOKEN,
+    type: types.ALIGN_RENDERED_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
     index: 1,
@@ -272,12 +292,23 @@ describe('align target token from second alignment', () => {
             occurrences: 1,
             position: 1
           }],
-        renderedAlignments: [
+        alignments: [
           {
             sourceNgram: [0],
             targetNgram: [0]
           },
           {
+            sourceNgram: [1],
+            targetNgram: [1]
+          }],
+        renderedAlignments: [
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            alignments: [1],
             sourceNgram: [1],
             targetNgram: [1]
           }],
@@ -316,7 +347,7 @@ describe('insert source token', () => {
     }
   };
   const action = {
-    type: types.INSERT_ALIGNMENT,
+    type: types.INSERT_RENDERED_ALIGNMENT,
     chapter: 1,
     verse: 1,
     token: new Token({
@@ -386,8 +417,14 @@ describe('align source token', () => {
             position: 2
           }],
         targetTokens: [],
+        alignments: [
+          {
+            sourceNgram: [2, 1],
+            targetNgram: []
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [2, 1],
             targetNgram: []
           }],
@@ -396,7 +433,7 @@ describe('align source token', () => {
     }
   };
   const action = {
-    type: types.ALIGN_SOURCE_TOKEN,
+    type: types.ALIGN_RENDERED_SOURCE_TOKEN,
     chapter: 1,
     verse: 1,
     index: 0,
@@ -433,8 +470,14 @@ describe('align source token', () => {
             position: 2
           }],
         targetTokens: [],
+        alignments: [
+          {
+            sourceNgram: [0, 1, 2],
+            targetNgram: []
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0, 1, 2],
             targetNgram: []
           }],
@@ -470,8 +513,14 @@ describe('remove target token alignment', () => {
             occurrences: 1,
             position: 1
           }],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [1]
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: [1]
           }],
@@ -480,7 +529,7 @@ describe('remove target token alignment', () => {
     }
   };
   const action = {
-    type: types.UNALIGN_TARGET_TOKEN,
+    type: types.UNALIGN_RENDERED_TARGET_TOKEN,
     chapter: 1,
     verse: 1,
     index: 0,
@@ -514,8 +563,14 @@ describe('remove target token alignment', () => {
             occurrences: 1,
             position: 1
           }],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: []
           }],
@@ -544,8 +599,14 @@ describe('remove source token alignment', () => {
             position: 1
           }],
         targetTokens: [],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          }],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: []
           }],
@@ -554,7 +615,7 @@ describe('remove source token alignment', () => {
     }
   };
   const action = {
-    type: types.UNALIGN_SOURCE_TOKEN,
+    type: types.UNALIGN_RENDERED_SOURCE_TOKEN,
     chapter: 1,
     verse: 1,
     index: 0,
@@ -582,6 +643,7 @@ describe('remove source token alignment', () => {
             position: 1
           }],
         targetTokens: [],
+        alignments: [],
         renderedAlignments: [],
         suggestions: []
       }

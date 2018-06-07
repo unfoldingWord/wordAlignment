@@ -1,10 +1,9 @@
 import {
-  ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
-  UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN,
-  INSERT_ALIGNMENT,
-  // MOVE_SOURCE_TOKEN
+  ALIGN_RENDERED_SOURCE_TOKEN,
+  ALIGN_RENDERED_TARGET_TOKEN,
+  UNALIGN_RENDERED_SOURCE_TOKEN,
+  UNALIGN_RENDERED_TARGET_TOKEN,
+  INSERT_RENDERED_ALIGNMENT,
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
 
@@ -18,36 +17,29 @@ const defaultState = {sourceNgram: [], targetNgram: []};
  */
 const renderedAlignment = (state = defaultState, action) => {
   switch (action.type) {
-    // case MOVE_SOURCE_TOKEN: {
-    //
-    // }
-    case ALIGN_TARGET_TOKEN: {
+    case ALIGN_RENDERED_TARGET_TOKEN: {
       return {
-        ...state,
         sourceNgram: [...state.sourceNgram],
         targetNgram: [...state.targetNgram, action.token.position].sort(
           numberComparator)
       };
     }
-    case UNALIGN_TARGET_TOKEN:
+    case UNALIGN_RENDERED_TARGET_TOKEN:
       return {
-        ...state,
         sourceNgram: [...state.sourceNgram],
         targetNgram: state.targetNgram.filter(position => {
           return position !== action.token.position;
         })
       };
-    case INSERT_ALIGNMENT:
-    case ALIGN_SOURCE_TOKEN:
+    case INSERT_RENDERED_ALIGNMENT:
+    case ALIGN_RENDERED_SOURCE_TOKEN:
       return {
-        ...state,
         sourceNgram: [...state.sourceNgram, action.token.position].sort(
           numberComparator),
         targetNgram: [...state.targetNgram]
       };
-    case UNALIGN_SOURCE_TOKEN:
+    case UNALIGN_RENDERED_SOURCE_TOKEN:
       return {
-        ...state,
         sourceNgram: state.sourceNgram.filter(position => {
           return position !== action.token.position;
         }),

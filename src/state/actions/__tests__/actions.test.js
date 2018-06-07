@@ -2,6 +2,12 @@ import * as actions from '../index';
 import Token from 'word-map/structures/Token';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import {
+  UNALIGN_RENDERED_SOURCE_TOKEN,
+  INSERT_RENDERED_ALIGNMENT,
+  SET_ALIGNMENT_SUGGESTIONS,
+  ALIGN_RENDERED_SOURCE_TOKEN
+} from '../actionTypes';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -15,7 +21,7 @@ describe('async actions', () => {
         'suggestion': false,
         'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
-        'type': 'UNALIGN_SOURCE_TOKEN',
+        'type': UNALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
       },
       {
@@ -24,7 +30,7 @@ describe('async actions', () => {
         'suggestion': false,
         'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
-        'type': 'ALIGN_SOURCE_TOKEN',
+        'type': ALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
       }];
     const store = mockStore();
@@ -55,7 +61,7 @@ describe('async actions', () => {
         'suggestion': false,
         'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
-        'type': 'UNALIGN_SOURCE_TOKEN',
+        'type': UNALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
       },
       {
@@ -64,7 +70,7 @@ describe('async actions', () => {
         'suggestion': false,
         'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
-        'type': 'ALIGN_SOURCE_TOKEN',
+        'type': ALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
       }];
     const store = mockStore();
@@ -95,13 +101,13 @@ describe('async actions', () => {
         'suggestion': false,
         'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
-        'type': 'UNALIGN_SOURCE_TOKEN',
+        'type': UNALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
       },
       {
         'chapter': 1,
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
-        'type': 'INSERT_ALIGNMENT',
+        'type': INSERT_RENDERED_ALIGNMENT,
         'verse': 1
       }];
     const store = mockStore();
@@ -127,7 +133,7 @@ describe('async actions', () => {
   it('sets alignment suggestions', () => {
     const expectedActions = [
       {
-        type: 'SET_ALIGNMENT_SUGGESTIONS',
+        type: SET_ALIGNMENT_SUGGESTIONS,
         chapter: 1,
         verse: 1,
         alignments: [

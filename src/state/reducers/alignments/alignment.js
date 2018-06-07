@@ -1,12 +1,12 @@
 import {
-  ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
-  INSERT_ALIGNMENT,
+  ALIGN_RENDERED_SOURCE_TOKEN,
+  ALIGN_RENDERED_TARGET_TOKEN,
+  INSERT_RENDERED_ALIGNMENT,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
-  UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN
+  UNALIGN_RENDERED_SOURCE_TOKEN,
+  UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
 import Token from 'word-map/structures/Token';
@@ -19,34 +19,34 @@ const defaultState = {sourceNgram: [], targetNgram: []};
  * @param action
  * @return {*}
  */
-const alignment = (state = defaultState, action) => {
+const alignment = (state = defaultState, action, ) => {
   switch (action.type) {
     case RESET_VERSE_ALIGNMENTS:
       return {
         sourceNgram: [action.position],
         targetNgram: []
       };
-    case ALIGN_TARGET_TOKEN:
+    case ALIGN_RENDERED_TARGET_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram],
         targetNgram: [...state.targetNgram, action.token.position].sort(
           numberComparator)
       };
-    case UNALIGN_TARGET_TOKEN:
+    case UNALIGN_RENDERED_TARGET_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram],
         targetNgram: state.targetNgram.filter(position => {
           return position !== action.token.position;
         })
       };
-    case INSERT_ALIGNMENT:
-    case ALIGN_SOURCE_TOKEN:
+    case INSERT_RENDERED_ALIGNMENT:
+    case ALIGN_RENDERED_SOURCE_TOKEN:
       return {
         sourceNgram: [...state.sourceNgram, action.token.position].sort(
           numberComparator),
         targetNgram: [...state.targetNgram]
       };
-    case UNALIGN_SOURCE_TOKEN:
+    case UNALIGN_RENDERED_SOURCE_TOKEN:
       return {
         sourceNgram: state.sourceNgram.filter(position => {
           return position !== action.token.position;

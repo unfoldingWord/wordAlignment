@@ -4,7 +4,7 @@ import {
   SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
-  INSERT_ALIGNMENT,
+  INSERT_RENDERED_ALIGNMENT,
   RESET_VERSE_ALIGNMENTS
 } from '../../actions/actionTypes';
 import _ from 'lodash';
@@ -23,7 +23,7 @@ const renderedAlignments = (
   state = [], action, alignments = [], suggestions = [],
   numSourceTokens = 0) => {
   switch (action.type) {
-    case INSERT_ALIGNMENT:
+    case INSERT_RENDERED_ALIGNMENT:
     case SET_ALIGNMENT_SUGGESTIONS:
       return render(alignments, suggestions, numSourceTokens);
     case SET_CHAPTER_ALIGNMENTS:
@@ -166,6 +166,8 @@ export const render = (alignments, suggestions, numSourceTokens) => {
             rawAlignment.targetNgram);
         }
         rawSuggestion.suggestionAlignments = [...alignmentQueue];
+        rawSuggestion.alignments = [...alignmentQueue];
+        rawSuggestion.suggestion = index;
         rawSuggestion.targetNgram.sort(numberComparator);
         // rawSuggestion.index = index;
         // rawSuggestion.position = suggestedAlignments.length;
@@ -178,6 +180,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         const rawAlignment = _.cloneDeep(alignments[index]);
         // rawAlignment.index = index;
         // rawAlignment.position = suggestedAlignments.length;
+        rawAlignment.alignments = [index];
         suggestedAlignments.push(rawAlignment);
       }
     }

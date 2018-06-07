@@ -72,7 +72,7 @@ export const indexChapterAlignments = (
  * @return {{}}
  */
 export const alignTargetToken = (chapter, verse, alignment, token) => ({
-  type: types.ALIGN_TARGET_TOKEN,
+  type: types.ALIGN_RENDERED_TARGET_TOKEN,
   chapter,
   verse,
   index: alignment.index,
@@ -90,7 +90,7 @@ export const alignTargetToken = (chapter, verse, alignment, token) => ({
  * @return {{}}
  */
 export const unalignTargetToken = (chapter, verse, alignment, token) => ({
-  type: types.UNALIGN_TARGET_TOKEN,
+  type: types.UNALIGN_RENDERED_TARGET_TOKEN,
   chapter,
   verse,
   index: alignment.index,
@@ -108,7 +108,7 @@ export const unalignTargetToken = (chapter, verse, alignment, token) => ({
  * @return {{}}
  */
 const alignSourceToken = (chapter, verse, alignment, token) => ({
-  type: types.ALIGN_SOURCE_TOKEN,
+  type: types.ALIGN_RENDERED_SOURCE_TOKEN,
   chapter,
   verse,
   index: alignment.index,
@@ -126,7 +126,7 @@ const alignSourceToken = (chapter, verse, alignment, token) => ({
  * @return {{}}
  */
 const unalignSourceToken = (chapter, verse, alignment, token) => ({
-  type: types.UNALIGN_SOURCE_TOKEN,
+  type: types.UNALIGN_RENDERED_SOURCE_TOKEN,
   chapter,
   verse,
   index: alignment.index,
@@ -143,7 +143,7 @@ const unalignSourceToken = (chapter, verse, alignment, token) => ({
  * @return {{type: *, chapter: *, verse: *, token: *}}
  */
 export const insertSourceToken = (chapter, verse, token) => ({
-  type: types.INSERT_ALIGNMENT,
+  type: types.INSERT_RENDERED_ALIGNMENT,
   chapter,
   verse,
   token

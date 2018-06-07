@@ -255,7 +255,6 @@ class Container extends Component {
       verseAlignments,
       projectDetailsReducer,
       tc: {
-        appLanguage,
         contextId
       },
     } = this.props;

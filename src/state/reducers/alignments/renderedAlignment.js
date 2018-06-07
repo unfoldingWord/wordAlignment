@@ -19,6 +19,7 @@ const renderedAlignment = (state = defaultState, action) => {
   switch (action.type) {
     case ALIGN_RENDERED_TARGET_TOKEN: {
       return {
+        alignments: [state.alignments[0]],
         sourceNgram: [...state.sourceNgram],
         targetNgram: [...state.targetNgram, action.token.position].sort(
           numberComparator)
@@ -26,20 +27,29 @@ const renderedAlignment = (state = defaultState, action) => {
     }
     case UNALIGN_RENDERED_TARGET_TOKEN:
       return {
+        alignments: [state.alignments[0]],
         sourceNgram: [...state.sourceNgram],
         targetNgram: state.targetNgram.filter(position => {
           return position !== action.token.position;
         })
       };
     case INSERT_RENDERED_ALIGNMENT:
+      return {
+        alignments: [], // TODO: we need to get this value from somewhere
+        sourceNgram: [...state.sourceNgram, action.token.position].sort(
+          numberComparator),
+        targetNgram: [...state.targetNgram]
+      };
     case ALIGN_RENDERED_SOURCE_TOKEN:
       return {
+        alignments: [state.alignments[0]],
         sourceNgram: [...state.sourceNgram, action.token.position].sort(
           numberComparator),
         targetNgram: [...state.targetNgram]
       };
     case UNALIGN_RENDERED_SOURCE_TOKEN:
       return {
+        alignments: [state.alignments[0]],
         sourceNgram: state.sourceNgram.filter(position => {
           return position !== action.token.position;
         }),

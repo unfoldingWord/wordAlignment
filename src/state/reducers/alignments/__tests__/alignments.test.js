@@ -338,8 +338,15 @@ describe('insert source token', () => {
             position: 1
           }],
         targetTokens: [],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          }
+        ],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: []
           }]
@@ -377,7 +384,7 @@ describe('insert source token', () => {
             position: 1
           }],
         targetTokens: [],
-        renderedAlignments: [
+        alignments: [
           {
             sourceNgram: [0],
             targetNgram: []
@@ -385,7 +392,20 @@ describe('insert source token', () => {
           {
             sourceNgram: [1],
             targetNgram: []
-          }]
+          }
+        ],
+        renderedAlignments: [
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ]
       }
     }
   };

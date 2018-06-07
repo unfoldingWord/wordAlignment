@@ -110,15 +110,23 @@ const verse = (state = defaultState, action) => {
     case ALIGN_RENDERED_SOURCE_TOKEN:
     case UNALIGN_RENDERED_TARGET_TOKEN:
     case ALIGN_RENDERED_TARGET_TOKEN: {
-      let newAlignments = [...state.alignments];
-      const newSuggestions = [...state.suggestions];
-      const newRenderedAlignments = [...state.renderedAlignments];
+      let newAlignments = _.cloneDeep(state.alignments);
+      const newSuggestions = _.cloneDeep(state.suggestions);
+      const newRenderedAlignments = _.cloneDeep(state.renderedAlignments);
 
       // update rendered alignment
       const renderedAlignment = state.renderedAlignments[action.index];
       const newRenderedAlignment = renderedAlignmentReducer(renderedAlignment,
         action);
       newRenderedAlignments[action.index] = newRenderedAlignment;
+
+      // propagate alignment index changes to other rendered alignments.
+      for(let i = action.index + 1; i < newRenderedAlignments.length; i ++) {
+        const shiftedAlignment = newRenderedAlignments[i];
+        shiftedAlignment.alignments = shiftedAlignment.alignments.map(a => a - 1);
+        newRenderedAlignments[i] = shiftedAlignment;
+      }
+
       // TRICKY: remove empty alignments
       if (newRenderedAlignments[action.index].sourceNgram.length === 0) {
         newRenderedAlignments.splice(action.index, 1);
@@ -138,8 +146,6 @@ const verse = (state = defaultState, action) => {
         };
         newAlignments.push(newAlignment);
         newAlignments.sort(alignmentComparator);
-        const newAlignmentIndex = newAlignments.indexOf(newAlignment);
-        newRenderedAlignments[action.index].alignments = [newAlignmentIndex];
       }
 
       // clear suggestion
@@ -194,9 +200,11 @@ const verse = (state = defaultState, action) => {
     }
     case INSERT_RENDERED_ALIGNMENT: {
       // TODO: persist to alignments
+      // TODO: we probably want to insert the alignment first then add the rendered alignment
+      const newRenderedAlignment = renderedAlignmentReducer(undefined, action);
       const renderedAlignments = [
         ...state.renderedAlignments,
-        renderedAlignmentReducer(undefined, action)
+        newRenderedAlignment
       ].sort(alignmentComparator);
       return {
         ...state,

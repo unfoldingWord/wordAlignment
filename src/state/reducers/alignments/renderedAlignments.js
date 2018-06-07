@@ -165,7 +165,6 @@ export const render = (alignments, suggestions, numSourceTokens) => {
           rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
             rawAlignment.targetNgram);
         }
-        rawSuggestion.suggestionAlignments = [...alignmentQueue];
         rawSuggestion.alignments = [...alignmentQueue];
         rawSuggestion.suggestion = index;
         rawSuggestion.targetNgram.sort(numberComparator);

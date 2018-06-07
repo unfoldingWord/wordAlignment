@@ -138,16 +138,14 @@ describe('set alignment suggestions', () => {
             alignments: [0],
             sourceNgram: [0],
             targetNgram: [0],
-            suggestedTargetTokens: [0],
-            suggestionAlignments: [0]
+            suggestedTargetTokens: [0]
           },
           {
             suggestion: 1,
             alignments: [1],
             sourceNgram: [1],
             targetNgram: [1],
-            suggestedTargetTokens: [1],
-            suggestionAlignments: [1]
+            suggestedTargetTokens: [1]
           }
         ]
       }
@@ -298,7 +296,6 @@ describe('render alignments', () => {
           suggestion: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
-          suggestionAlignments: [0],
           suggestedTargetTokens: [1]
         }
       ]);
@@ -322,7 +319,6 @@ describe('render alignments', () => {
           suggestion: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
-          suggestionAlignments: [0],
           suggestedTargetTokens: [0, 1]
         }
       ]);
@@ -411,7 +407,6 @@ describe('render alignments', () => {
             suggestion: 0,
             sourceNgram: [0, 1],
             targetNgram: [0, 1],
-            suggestionAlignments: [0],
             suggestedTargetTokens: [1]
           }
         ]);
@@ -486,7 +481,6 @@ describe('render alignments', () => {
           targetNgram: [0, 1],
           alignments: [0, 1],
           suggestion: 0,
-          suggestionAlignments: [0, 1],
           suggestedTargetTokens: [0, 1]
         }
       ]);
@@ -520,7 +514,6 @@ describe('render alignments', () => {
           targetNgram: [1, 2],
           alignments: [1, 2],
           suggestion: 1,
-          suggestionAlignments: [1, 2],
           suggestedTargetTokens: [1, 2]
         },
         {
@@ -552,7 +545,6 @@ describe('render alignments', () => {
           targetNgram: [0],
           alignments: [0],
           suggestion: 0,
-          suggestionAlignments: [0],
           suggestedTargetTokens: [0]
         },
         {
@@ -560,7 +552,6 @@ describe('render alignments', () => {
           targetNgram: [1],
           alignments: [0],
           suggestion: 1,
-          suggestionAlignments: [0],
           suggestedTargetTokens: [1]
         }
       ]);
@@ -744,8 +735,6 @@ describe('actions', () => {
       chapter: 1,
       verse: 1,
       index: 0,
-      suggestion: true,
-      suggestionAlignments: [0, 1],
       token: new Token({
         text: 'world',
         position: 1,
@@ -1088,8 +1077,6 @@ describe('actions', () => {
       chapter: 1,
       verse: 1,
       index: 0,
-      suggestion: true,
-      suggestionAlignments: [0],
       token: new Token({
         text: 'olleh',
         occurrence: 1,
@@ -1196,8 +1183,6 @@ describe('actions', () => {
       chapter: 1,
       verse: 1,
       index: 0,
-      suggestion: true,
-      suggestionAlignments: [0, 1],
       token: new Token({
         text: 'olleh',
         occurrence: 1,

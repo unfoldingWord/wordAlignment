@@ -7,15 +7,16 @@ import {
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
 
-const defaultState = {sourceNgram: [], targetNgram: []};
+const defaultState = {sourceNgram: [], targetNgram: [], alignments: []};
 
 /**
  * Reduces the alignment state
  * @param state
  * @param action
+ * @param [alignmentIndex] - the index of the related alignment. Used when inserting a new alignment.
  * @return {*}
  */
-const renderedAlignment = (state = defaultState, action) => {
+const renderedAlignment = (state = defaultState, action, alignmentIndex = undefined) => {
   switch (action.type) {
     case ALIGN_RENDERED_TARGET_TOKEN: {
       return {
@@ -35,7 +36,7 @@ const renderedAlignment = (state = defaultState, action) => {
       };
     case INSERT_RENDERED_ALIGNMENT:
       return {
-        alignments: [], // TODO: we need to get this value from somewhere
+        alignments: [alignmentIndex],
         sourceNgram: [...state.sourceNgram, action.token.position].sort(
           numberComparator),
         targetNgram: [...state.targetNgram]

@@ -18,8 +18,6 @@ describe('async actions', () => {
       {
         'chapter': 1,
         'index': 0,
-        'suggestion': false,
-        'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
         'type': UNALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
@@ -27,8 +25,6 @@ describe('async actions', () => {
       {
         'chapter': 1,
         'index': 0, // NOTE: this is nextIndex - 1
-        'suggestion': false,
-        'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
         'type': ALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
@@ -38,14 +34,10 @@ describe('async actions', () => {
       chapter: 1,
       verse: 1,
       nextAlignment: {
-        index: 1,
-        suggestion: false,
-        suggestionAlignments: []
+        index: 1
       },
       prevAlignment: {
-        index: 0,
-        suggestion: false,
-        suggestionAlignments: []
+        index: 0
       },
       token: new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
     });
@@ -58,8 +50,6 @@ describe('async actions', () => {
       {
         'chapter': 1,
         'index': 1,
-        'suggestion': false,
-        'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
         'type': UNALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
@@ -67,8 +57,6 @@ describe('async actions', () => {
       {
         'chapter': 1,
         'index': 0, // NOTE: this remains nextIndex
-        'suggestion': false,
-        'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
         'type': ALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
@@ -78,14 +66,10 @@ describe('async actions', () => {
       chapter: 1,
       verse: 1,
       nextAlignment: {
-        index: 0,
-        suggestion: false,
-        suggestionAlignments: []
+        index: 0
       },
       prevAlignment: {
-        index: 1,
-        suggestion: false,
-        suggestionAlignments: []
+        index: 1
       },
       token: new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
     });
@@ -98,8 +82,6 @@ describe('async actions', () => {
       {
         'chapter': 1,
         'index': 1,
-        'suggestion': false,
-        'suggestionAlignments': [],
         'token': {'index': 0, 'occurrence': 1, 'occurrences': 1},
         'type': UNALIGN_RENDERED_SOURCE_TOKEN,
         'verse': 1
@@ -115,14 +97,10 @@ describe('async actions', () => {
       chapter: 1,
       verse: 1,
       nextAlignment: {
-        index: 1,
-        suggestion: false,
-        suggestionAlignments: []
+        index: 1
       },
       prevAlignment: {
-        index: 1,
-        suggestion: false,
-        suggestionAlignments: []
+        index: 1
       },
       token: new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
     });

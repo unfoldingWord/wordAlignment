@@ -199,16 +199,25 @@ const verse = (state = defaultState, action) => {
       };
     }
     case INSERT_RENDERED_ALIGNMENT: {
-      // TODO: persist to alignments
-      // TODO: we probably want to insert the alignment first then add the rendered alignment
-      const newRenderedAlignment = renderedAlignmentReducer(undefined, action);
+      // add alignment
+      const a = alignmentReducer(undefined, action);
+      const alignments = [
+        ...state.alignments,
+        a
+      ].sort(alignmentComparator);
+
+      // render alignment
+      const index = alignments.indexOf(a);
+      const newRenderedAlignment = renderedAlignmentReducer(undefined, action, index);
       const renderedAlignments = [
         ...state.renderedAlignments,
         newRenderedAlignment
       ].sort(alignmentComparator);
+
       return {
         ...state,
-        renderedAlignments
+        renderedAlignments,
+        alignments
       };
     }
     case SET_SOURCE_TOKENS: {

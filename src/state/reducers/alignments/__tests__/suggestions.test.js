@@ -294,6 +294,8 @@ describe('render alignments', () => {
       const result = testRenderer(state);
       expect(result).toEqual([
         {
+          alignments: [0],
+          suggestion: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestionAlignments: [0],
@@ -316,6 +318,8 @@ describe('render alignments', () => {
       const result = testRenderer(state);
       expect(result).toEqual([
         {
+          alignments: [0],
+          suggestion: 0,
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
           suggestionAlignments: [0],
@@ -338,7 +342,11 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0, 1], targetNgram: [0]}
+        {
+          alignments: [0],
+          sourceNgram: [0, 1],
+          targetNgram: [0]
+        }
       ]);
     });
 
@@ -355,7 +363,11 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0, 1], targetNgram: [0]}
+        {
+          alignments: [0],
+          sourceNgram: [0, 1],
+          targetNgram: [0]
+        }
       ]);
     });
 
@@ -372,7 +384,11 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0, 1], targetNgram: [0]}
+        {
+          alignments: [0],
+          sourceNgram: [0, 1],
+          targetNgram: [0]
+        }
       ]);
     });
 
@@ -391,6 +407,8 @@ describe('render alignments', () => {
         const result = testRenderer(state);
         expect(result).toEqual([
           {
+            alignments: [0],
+            suggestion: 0,
             sourceNgram: [0, 1],
             targetNgram: [0, 1],
             suggestionAlignments: [0],
@@ -413,6 +431,7 @@ describe('render alignments', () => {
       const result = testRenderer(state);
       expect(result).toEqual([
         {
+          alignments: [0],
           sourceNgram: [0],
           targetNgram: [0, 1]
         }
@@ -435,8 +454,16 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0], targetNgram: [0]},
-        {sourceNgram: [1], targetNgram: []}
+        {
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: [0]
+        },
+        {
+          alignments: [1],
+          sourceNgram: [1],
+          targetNgram: []
+        }
       ]);
     });
 
@@ -457,6 +484,8 @@ describe('render alignments', () => {
         {
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
+          alignments: [0, 1],
+          suggestion: 0,
           suggestionAlignments: [0, 1],
           suggestedTargetTokens: [0, 1]
         }
@@ -481,14 +510,24 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0], targetNgram: [0]},
+        {
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: [0]
+        },
         {
           sourceNgram: [1, 2],
           targetNgram: [1, 2],
+          alignments: [1, 2],
+          suggestion: 1,
           suggestionAlignments: [1, 2],
           suggestedTargetTokens: [1, 2]
         },
-        {sourceNgram: [3], targetNgram: [3]}
+        {
+          alignments: [3],
+          sourceNgram: [3],
+          targetNgram: [3]
+        }
       ]);
     });
   });
@@ -511,12 +550,16 @@ describe('render alignments', () => {
         {
           sourceNgram: [0],
           targetNgram: [0],
+          alignments: [0],
+          suggestion: 0,
           suggestionAlignments: [0],
           suggestedTargetTokens: [0]
         },
         {
           sourceNgram: [1],
           targetNgram: [1],
+          alignments: [0],
+          suggestion: 1,
           suggestionAlignments: [0],
           suggestedTargetTokens: [1]
         }
@@ -537,7 +580,11 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0, 1], targetNgram: [0]}
+        {
+          alignments: [0],
+          sourceNgram: [0, 1],
+          targetNgram: [0]
+        }
       ]);
     });
   });
@@ -619,8 +666,16 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {sourceNgram: [0], targetNgram: []},
-        {sourceNgram: [1], targetNgram: [0]}
+        {
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: []
+        },
+        {
+          alignments: [1],
+          sourceNgram: [1],
+          targetNgram: [0]
+        }
       ]);
     });
   });
@@ -986,10 +1041,22 @@ describe('actions', () => {
               position: 0
             }
           ],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            },
+            {
+              sourceNgram: [1],
+              targetNgram: []
+            }],
           renderedAlignments: [
             {
+              alignments: [0, 1],
+              suggestion: 0,
               sourceNgram: [0, 1],
-              targetNgram: []
+              targetNgram: [0],
+              suggestedTargetTokens: [0]
             }],
           suggestions: [
             {
@@ -1005,8 +1072,6 @@ describe('actions', () => {
       chapter: 1,
       verse: 1,
       index: 0,
-      suggestion: true,
-      suggestionAlignments: [0],
       token: new Token({
         text: 'olleh',
         occurrence: 1,
@@ -1038,8 +1103,14 @@ describe('actions', () => {
               position: 0
             }
           ],
+          alignments: [
+            {
+              sourceNgram: [1],
+              targetNgram: []
+            }],
           renderedAlignments: [
             {
+              alignments: [0],
               sourceNgram: [1],
               targetNgram: []
             }],
@@ -1088,10 +1159,18 @@ describe('actions', () => {
               position: 1
             }
           ],
-          renderedAlignments: [
+          alignments: [
             {
               sourceNgram: [1],
-              targetNgram: []
+              targetNgram: [1]
+            }
+          ],
+          renderedAlignments: [
+            {
+              alignments: [0],
+              suggestion: 1,
+              sourceNgram: [1],
+              targetNgram: [1]
             }
           ],
           suggestions: [
@@ -1153,8 +1232,15 @@ describe('actions', () => {
               position: 1
             }
           ],
+          alignments: [
+            {
+              sourceNgram: [0, 1],
+              targetNgram: [1]
+            }
+          ],
           renderedAlignments: [
             {
+              alignments: [0],
               sourceNgram: [0, 1],
               targetNgram: [1]
             }],

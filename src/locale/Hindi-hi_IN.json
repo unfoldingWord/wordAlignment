@@ -1,11 +1,16 @@
 {
   "cannot_drag_middle": "मध्य शब्द को अन-मर्ज नहीं कर सकते",
   "lemma": "लेम्मा:",
+  "loading_alignments": "Loading alignment data",
   "morphology": "आकृति विज्ञान:",
   "strongs": "मजबूत की:",
   "lexicon": "शब्दकोश:",
-  "alignments_reset": "मौजूदा कविता में बदलाव हुए हैं जो आपके संरेखणों में हस्तक्षेप करते हैं। मौजूदा कविता के लिए संरेखण रीसेट कर दिया गया है।",
+  "alignments_reset": "There have been changes to the current verse which interfere with your alignments.\nThe alignments for the current verse have been reset.",
+  "alignments_corrupt": "The alignments for this chapter could not be loaded and have been reset.",
   "buttons": {
-    "ok_button": "ठीक"
+    "ok_button": "OK"
+  },
+  "menu": {
+    "menu": "Menu"
   }
 }

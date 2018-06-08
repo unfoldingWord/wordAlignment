@@ -86,7 +86,7 @@ class Container extends Component {
         pane.bibleId !== 'ugnt';
     });
     // getting the last pane from the panes array if it exist otherwise equal to null.
-    const lastPane = panes[panes.length - 1] ? panes[panes.length - 1] : null;
+    const lastPane = panes.length > 0 && panes[panes.length - 1] ? panes[panes.length - 1] : null;
     // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
     let desiredPanes = [
       {

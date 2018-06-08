@@ -795,6 +795,235 @@ describe('actions', () => {
       stateAfter);
   });
 
+  describe('align target token to split alignment', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            },
+            {
+              text: 'oof',
+              occurrence: 1,
+              occurrences: 1,
+              position: 2
+            },
+            {
+              text: 'rab',
+              occurrence: 1,
+              occurrences: 1,
+              position: 3
+            }
+          ],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            },
+            {
+              text: 'foo',
+              occurrence: 1,
+              occurrences: 1,
+              position: 2
+            },
+            {
+              text: 'bar',
+              occurrence: 1,
+              occurrences: 1,
+              position: 3
+            }
+          ],
+          alignments: [
+            {
+              sourceNgram: [0, 1],
+              targetNgram: []
+            },
+            {
+              sourceNgram: [2],
+              targetNgram: []
+            }
+          ],
+          renderedAlignments: [
+            {
+              alignments: [0],
+              suggestion: 0,
+              sourceNgram: [0],
+              targetNgram: [0],
+              suggestedTargetTokens: [0]
+            },
+            {
+              alignments: [0],
+              suggestion: 1,
+              sourceNgram: [1],
+              targetNgram: [1],
+              suggestedTargetTokens: [1]
+            },
+            {
+              alignments: [1],
+              suggestion: 2,
+              sourceNgram: [2],
+              targetNgram: [2],
+              suggestedTargetTokens: [2]
+            }
+          ],
+          suggestions: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            },
+            {
+              sourceNgram: [1],
+              targetNgram: [1]
+            },
+            {
+              sourceNgram: [2],
+              targetNgram: [2]
+            }
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.ALIGN_RENDERED_TARGET_TOKEN,
+      chapter: 1,
+      verse: 1,
+      index: 0,
+      token: new Token({
+        text: 'bar',
+        position: 3,
+        occurrence: 1,
+        occurrences: 1
+      })
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'dlrow',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            },
+            {
+              text: 'oof',
+              occurrence: 1,
+              occurrences: 1,
+              position: 2
+            },
+            {
+              text: 'rab',
+              occurrence: 1,
+              occurrences: 1,
+              position: 3
+            }
+          ],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            },
+            {
+              text: 'world',
+              occurrence: 1,
+              occurrences: 1,
+              position: 1
+            },
+            {
+              text: 'foo',
+              occurrence: 1,
+              occurrences: 1,
+              position: 2
+            },
+            {
+              text: 'bar',
+              occurrence: 1,
+              occurrences: 1,
+              position: 3
+            }
+          ],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0, 3]
+            },
+            {
+              sourceNgram: [1],
+              targetNgram: []
+            },
+            {
+              sourceNgram: [2],
+              targetNgram: []
+            }
+          ],
+          renderedAlignments: [
+            {
+              alignments: [0],
+              sourceNgram: [0],
+              targetNgram: [0, 3]
+            },
+            {
+              alignments: [1],
+              suggestion: 1,
+              sourceNgram: [1],
+              targetNgram: [1],
+              suggestedTargetTokens: [1]
+            },
+            {
+              alignments: [2],
+              suggestion: 2,
+              sourceNgram: [2],
+              targetNgram: [2],
+              suggestedTargetTokens: [2]
+            }
+          ],
+          suggestions: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            },
+            {
+              sourceNgram: [1],
+              targetNgram: [1]
+            },
+            {
+              sourceNgram: [2],
+              targetNgram: [2]
+            }
+          ]
+        }
+      }
+    };
+    reducerTest('Add Alignment', alignments, stateBefore, action,
+      stateAfter);
+  });
+
   describe('align target token to middle alignment', () => {
     const stateBefore = {
       '1': {

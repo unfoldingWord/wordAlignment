@@ -1,11 +1,11 @@
 import {numberComparator} from './index';
 import {
-  REPAIR_VERSE_ALIGNMENTS,
-  SET_ALIGNMENT_SUGGESTIONS,
-  SET_CHAPTER_ALIGNMENTS,
-  RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   INSERT_RENDERED_ALIGNMENT,
-  RESET_VERSE_ALIGNMENTS
+  REPAIR_VERSE_ALIGNMENTS,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS,
+  RESET_VERSE_ALIGNMENTS,
+  SET_ALIGNMENT_SUGGESTIONS,
+  SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
 import _ from 'lodash';
 import Token from 'word-map/structures/Token';
@@ -221,7 +221,7 @@ const isSubArray = (superset, subset) => {
  */
 export const getTokenizedAlignments = (state, sourceTokens, targetTokens) => {
   const alignments = [];
-  if(!state) {
+  if (!state) {
     return [];
   }
   for (const rendered of state) {

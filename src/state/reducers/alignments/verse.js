@@ -110,7 +110,7 @@ const verse = (state = defaultState, action) => {
     case ALIGN_RENDERED_SOURCE_TOKEN:
     case UNALIGN_RENDERED_TARGET_TOKEN:
     case ALIGN_RENDERED_TARGET_TOKEN: {
-      let newAlignments = _.cloneDeep(state.alignments);
+      // let newAlignments = _.cloneDeep(state.alignments);
       const newSuggestions = _.cloneDeep(state.suggestions);
       const newRenderedAlignments = _.cloneDeep(state.renderedAlignments);
 
@@ -121,36 +121,48 @@ const verse = (state = defaultState, action) => {
       newRenderedAlignments[action.index] = newRenderedAlignment;
 
       // propagate alignment index changes to other rendered alignments.
-      for(let i = action.index + 1; i < newRenderedAlignments.length; i ++) {
-        const shiftedAlignment = newRenderedAlignments[i];
-        shiftedAlignment.alignments = shiftedAlignment.alignments.map(a => a - 1);
-        newRenderedAlignments[i] = shiftedAlignment;
-      }
+      // for(let i = action.index + 1; i < newRenderedAlignments.length; i ++) {
+      //   const shiftedAlignment = newRenderedAlignments[i];
+      //   shiftedAlignment.alignments = shiftedAlignment.alignments.map(a => a - 1);
+      //   newRenderedAlignments[i] = shiftedAlignment;
+      // }
 
-      // TRICKY: remove empty alignments
+      // TRICKY: remove empty rendered alignments
       if (newRenderedAlignments[action.index].sourceNgram.length === 0) {
         newRenderedAlignments.splice(action.index, 1);
       }
+      newRenderedAlignments.sort(alignmentComparator);
 
       // remove affected alignments
-      for (const index of renderedAlignment.alignments) {
-        newAlignments[index] = null;
-      }
-      newAlignments = _.compact(newAlignments);
+      // for (const index of renderedAlignment.alignments) {
+      //   newAlignments[index] = null;
+      // }
+      // newAlignments = _.compact(newAlignments);
 
       // persist to alignments (if it wasn't removed)
-      if (newRenderedAlignment.sourceNgram.length > 0) {
-        const newAlignment = {
-          sourceNgram: newRenderedAlignment.sourceNgram,
-            targetNgram: newRenderedAlignment.targetNgram
-        };
-        newAlignments.push(newAlignment);
-        newAlignments.sort(alignmentComparator);
+      // if (newRenderedAlignment.sourceNgram.length > 0) {
+      //   const newAlignment = {
+      //     sourceNgram: newRenderedAlignment.sourceNgram,
+      //       targetNgram: newRenderedAlignment.targetNgram
+      //   };
+      //   newAlignments.push(newAlignment);
+      //   newAlignments.sort(alignmentComparator);
+      // }
+
+      // compile alignments
+      const {alignments, indicies} = compile(newRenderedAlignments,
+        state.alignments);
+
+      // update index mapping
+      for (let i = 0; i < newRenderedAlignments.length; i++) {
+        newRenderedAlignments[i].alignments = indicies[i].sort(
+          numberComparator);
       }
 
       // clear suggestion
       if ('suggestion' in renderedAlignment) {
-        const suggestion = _.cloneDeep(newSuggestions[renderedAlignment.suggestion]);
+        const suggestion = _.cloneDeep(
+          newSuggestions[renderedAlignment.suggestion]);
         suggestion.targetNgram = [];
         newSuggestions[renderedAlignment.suggestion] = suggestion;
       }
@@ -158,8 +170,8 @@ const verse = (state = defaultState, action) => {
       return {
         ...state,
         suggestions: newSuggestions,
-        alignments: newAlignments,
-        renderedAlignments: newRenderedAlignments.sort(alignmentComparator)
+        alignments,
+        renderedAlignments: newRenderedAlignments
       };
     }
     case SET_ALIGNMENT_SUGGESTIONS: {
@@ -208,7 +220,8 @@ const verse = (state = defaultState, action) => {
 
       // render alignment
       const index = alignments.indexOf(a);
-      const newRenderedAlignment = renderedAlignmentReducer(undefined, action, index);
+      const newRenderedAlignment = renderedAlignmentReducer(undefined, action,
+        index);
       const renderedAlignments = [
         ...state.renderedAlignments,
         newRenderedAlignment
@@ -332,6 +345,71 @@ const verse = (state = defaultState, action) => {
 export default verse;
 
 // TODO: change these to memoized selectors
+
+/**
+ * Compiles rendered alignments to standard alignments
+ * @param rendered - an array of rendered alignments
+ * @param alignments - an array of matching alignments
+ * @return an array of newly compiled alignments
+ */
+const compile = (rendered, alignments) => {
+  const compiledAlignments = [];
+  const compiledIndicies = {};
+  const processedAlignments = [];
+  const approvedRenders = [];
+  for (let rIndex = 0; rIndex < rendered.length; rIndex++) {
+    const r = rendered[rIndex];
+    for (const aIndex of r.alignments) {
+      const alignment = alignments[aIndex];
+      const aID = alignment.sourceNgram.join('');
+      if (!compiledIndicies[rIndex]) {
+        compiledIndicies[rIndex] = [];
+      }
+
+      const isSuggestion = r.suggestion !== undefined;
+      const alreadyCompiled = processedAlignments.indexOf(aID) >= 0;
+
+      // identify fully accepted rendered alignments
+      if (!isSuggestion) {
+        approvedRenders.push(aID);
+      }
+
+      const isApproved = approvedRenders.indexOf(aID) >= 0;
+
+      // update index mapping
+      if (alreadyCompiled && !isApproved) {
+        compiledIndicies[rIndex].push(processedAlignments.indexOf(aID));
+        // TRICKY: suggested alignment splits will cause the alignment to appear multiple times
+        continue;
+      } else {
+        compiledIndicies[rIndex].push(processedAlignments.length);
+        processedAlignments.push(aID);
+      }
+
+      // compile
+      if (!isApproved) {
+        // compile un-approved renders
+        compiledAlignments.push(_.cloneDeep(alignment));
+      } else if (isSuggestion) {
+        // compile partially approved suggestions (splits)
+        compiledAlignments.push({
+          sourceNgram: [...r.sourceNgram],
+          targetNgram: []
+        });
+      } else {
+        // compile approved suggestions
+        compiledAlignments.push({
+          sourceNgram: [...r.sourceNgram],
+          targetNgram: [...r.targetNgram]
+        });
+      }
+    }
+  }
+  return {
+    alignments: compiledAlignments,
+    indicies: compiledIndicies
+  };
+};
 
 /**
  * Returns the source tokens being aligned.

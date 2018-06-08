@@ -30,17 +30,26 @@ const renderedAlignments = (
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case RESET_VERSE_ALIGNMENTS:
     case REPAIR_VERSE_ALIGNMENTS:
-      return [...alignments.map((a, index) => {
-        const newA = _.cloneDeep(a);
-        newA.alignments = [index];
-        return newA;
-      })]; // TODO: include extra metadata: alignments
+      return [...convertToRendered(alignments)];
     default:
       return state;
   }
 };
 
 export default renderedAlignments;
+
+/**
+ * Converts some alignments to rendered alignments.
+ * @param alignments
+ * @return {*}
+ */
+const convertToRendered = (alignments) => {
+  return alignments.map((a, index) => {
+    const newA = _.cloneDeep(a);
+    newA.alignments = [index];
+    return newA;
+  });
+};
 
 /**
  * Renders the verse alignments with the suggestions
@@ -83,20 +92,18 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     }
   }
 
+  // TRICKY: we don't support partial suggestion coverage at the moment
   if (suggestionIndex.length > 0 && suggestionIndex.length !==
     numSourceTokens) {
-    throw new Error(
+    console.error(
       'Index out of bounds. We currently do not support partial suggestions.');
+    return [...convertToRendered(alignments)];
   }
 
   // TRICKY: short circuit invalid alignments
   if (alignmentIndex.length !== numSourceTokens) {
     console.error('Alignments are corrupt');
-    return [...alignments.map((a, index) => {
-      const newA = _.cloneDeep(a);
-      newA.alignments = [index];
-      return newA;
-    })];
+    return [...convertToRendered(alignments)];
   }
 
   // build output
@@ -122,7 +129,8 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     if (tIndex < suggestionIndex.length) {
       finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
         tIndex;
-      const suggestionIsEmpty = suggestionIndex[tIndex].targetNgram.length === 0;
+      const suggestionIsEmpty = suggestionIndex[tIndex].targetNgram.length ===
+        0;
       const suggestionTargetIsSuperset = isSubArray(
         suggestionIndex[tIndex].targetNgram,
         alignmentIndex[tIndex].targetNgram);
@@ -148,11 +156,10 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         suggestionIsValid = true;
       }
 
-      if(suggestionIsEmpty) {
+      if (suggestionIsEmpty) {
         suggestionIsValid = false;
       }
     }
-
 
     // TRICKY: persist invalid state through the entire suggestion.
     if (!suggestionIsValid) {

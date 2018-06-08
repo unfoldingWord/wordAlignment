@@ -759,6 +759,7 @@ describe('set chapter alignments', () => {
         ],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [],
             targetNgram: [1]
           }
@@ -902,8 +903,8 @@ describe('repair alignments', () => {
             {sourceNgram: [1], targetNgram: [2]}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [1], targetNgram: [2]}
+            {alignments: [0], sourceNgram: [0], targetNgram: [0]},
+            {alignments: [1], sourceNgram: [1], targetNgram: [2]}
           ],
           suggestions: []
         }
@@ -978,9 +979,9 @@ describe('repair alignments', () => {
             {sourceNgram: [2], targetNgram: [1]}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: [1]}
+            {alignments: [0], sourceNgram: [0], targetNgram: [0]},
+            {alignments: [1], sourceNgram: [1], targetNgram: []},
+            {alignments: [2], sourceNgram: [2], targetNgram: [1]}
           ],
           suggestions: []
         }
@@ -1019,12 +1020,12 @@ describe('repair alignments', () => {
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: []},
-            {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []},
-            {sourceNgram: [5], targetNgram: []}
+            {alignments: [0], sourceNgram: [0], targetNgram: [0]},
+            {alignments: [1], sourceNgram: [1], targetNgram: []},
+            {alignments: [2], sourceNgram: [2], targetNgram: []},
+            {alignments: [3], sourceNgram: [3], targetNgram: []},
+            {alignments: [4], sourceNgram: [4], targetNgram: []},
+            {alignments: [5], sourceNgram: [5], targetNgram: []}
           ],
           suggestions: []
         }
@@ -1062,12 +1063,12 @@ describe('repair alignments', () => {
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: []},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: []},
-            {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []},
-            {sourceNgram: [5], targetNgram: []}
+            {alignments: [0], sourceNgram: [0], targetNgram: []},
+            {alignments: [1], sourceNgram: [1], targetNgram: []},
+            {alignments: [2], sourceNgram: [2], targetNgram: []},
+            {alignments: [3], sourceNgram: [3], targetNgram: []},
+            {alignments: [4], sourceNgram: [4], targetNgram: []},
+            {alignments: [5], sourceNgram: [5], targetNgram: []}
           ],
           suggestions: []
         }
@@ -1109,12 +1110,12 @@ describe('repair alignments', () => {
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: []},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: []},
-            {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []},
-            {sourceNgram: [5], targetNgram: []}
+            {alignments: [0], sourceNgram: [0], targetNgram: []},
+            {alignments: [1], sourceNgram: [1], targetNgram: []},
+            {alignments: [2], sourceNgram: [2], targetNgram: []},
+            {alignments: [3], sourceNgram: [3], targetNgram: []},
+            {alignments: [4], sourceNgram: [4], targetNgram: []},
+            {alignments: [5], sourceNgram: [5], targetNgram: []}
           ],
           suggestions: []
         }
@@ -1152,12 +1153,12 @@ describe('repair alignments', () => {
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: []},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: []},
-            {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []},
-            {sourceNgram: [5], targetNgram: []}
+            {alignments: [0], sourceNgram: [0], targetNgram: []},
+            {alignments: [1], sourceNgram: [1], targetNgram: []},
+            {alignments: [2], sourceNgram: [2], targetNgram: []},
+            {alignments: [3], sourceNgram: [3], targetNgram: []},
+            {alignments: [4], sourceNgram: [4], targetNgram: []},
+            {alignments: [5], sourceNgram: [5], targetNgram: []}
           ],
           suggestions: []
         }
@@ -1195,12 +1196,12 @@ describe('repair alignments', () => {
             {sourceNgram: [5], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: []},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: []},
-            {sourceNgram: [3], targetNgram: []},
-            {sourceNgram: [4], targetNgram: []},
-            {sourceNgram: [5], targetNgram: []}
+            {alignments: [0], sourceNgram: [0], targetNgram: []},
+            {alignments: [1], sourceNgram: [1], targetNgram: []},
+            {alignments: [2], sourceNgram: [2], targetNgram: []},
+            {alignments: [3], sourceNgram: [3], targetNgram: []},
+            {alignments: [4], sourceNgram: [4], targetNgram: []},
+            {alignments: [5], sourceNgram: [5], targetNgram: []}
           ],
           suggestions: []
         }
@@ -1281,9 +1282,9 @@ describe('repair alignments', () => {
             {sourceNgram: [2], targetNgram: []}
           ],
           renderedAlignments: [
-            {sourceNgram: [0], targetNgram: [1, 2]},
-            {sourceNgram: [1], targetNgram: [0, 2]},
-            {sourceNgram: [2], targetNgram: []}
+            {alignments: [0], sourceNgram: [0], targetNgram: [1, 2]},
+            {alignments: [1], sourceNgram: [1], targetNgram: [0, 2]},
+            {alignments: [2], sourceNgram: [2], targetNgram: []}
           ],
           suggestions: []
         }
@@ -1370,10 +1371,12 @@ describe('reset alignments', () => {
         suggestions: [],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: []
           },
           {
+            alignments: [1],
             sourceNgram: [1],
             targetNgram: []
           }

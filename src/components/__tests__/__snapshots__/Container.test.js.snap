@@ -358,6 +358,7 @@ exports[`Container renders 1`] = `
               alignedTokens={Array []}
               appLanguage="en"
               chapterAlignments={Object {}}
+              clearAlignmentSuggestions={[Function]}
               clearState={[Function]}
               contextIdReducer={Object {}}
               currentToolViews={Object {}}
@@ -523,6 +524,142 @@ exports[`Container renders 1`] = `
                       }
                     />
                   </AlignmentGrid>
+                  <MAPControls
+                    onAccept={[Function]}
+                    onRefresh={[Function]}
+                    onReject={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "boxShadow": "rgba(0, 0, 0, 0.21) 0px -5px 5px 0px",
+                          "padding": "0 10px",
+                          "textAlign": "center",
+                          "width": "100%",
+                        }
+                      }
+                    >
+                      <MuiThemeProvider>
+                        <ActionInfo
+                          style={
+                            Object {
+                              "color": "var(--accent-color-dark)",
+                              "cursor": "pointer",
+                              "height": 30,
+                              "marginRight": "5px",
+                              "verticalAlign": "middle",
+                              "width": 30,
+                            }
+                          }
+                        >
+                          <ActionInfo
+                            style={
+                              Object {
+                                "color": "var(--accent-color-dark)",
+                                "cursor": "pointer",
+                                "height": 30,
+                                "marginRight": "5px",
+                                "verticalAlign": "middle",
+                                "width": 30,
+                              }
+                            }
+                          >
+                            <SvgIcon
+                              onMouseEnter={[Function]}
+                              onMouseLeave={[Function]}
+                              style={
+                                Object {
+                                  "color": "var(--accent-color-dark)",
+                                  "cursor": "pointer",
+                                  "height": 30,
+                                  "marginRight": "5px",
+                                  "verticalAlign": "middle",
+                                  "width": 30,
+                                }
+                              }
+                              viewBox="0 0 24 24"
+                            >
+                              <svg
+                                onMouseEnter={[Function]}
+                                onMouseLeave={[Function]}
+                                style={
+                                  Object {
+                                    "color": "var(--accent-color-dark)",
+                                    "cursor": "pointer",
+                                    "display": "inline-block",
+                                    "fill": "currentColor",
+                                    "height": 30,
+                                    "marginRight": "5px",
+                                    "muiPrepared": true,
+                                    "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",
+                                    "userSelect": "none",
+                                    "verticalAlign": "middle",
+                                    "width": 30,
+                                  }
+                                }
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+                                />
+                              </svg>
+                            </SvgIcon>
+                          </ActionInfo>
+                        </ActionInfo>
+                      </MuiThemeProvider>
+                      <SecondaryButton
+                        disabled={false}
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "marginLeft": 10,
+                          }
+                        }
+                      >
+                        <button
+                          className="btn-second"
+                          disabled={false}
+                          onClick={[Function]}
+                        >
+                          Refresh suggestions
+                        </button>
+                      </SecondaryButton>
+                      <SecondaryButton
+                        disabled={false}
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "marginLeft": 10,
+                          }
+                        }
+                      >
+                        <button
+                          className="btn-second"
+                          disabled={false}
+                          onClick={[Function]}
+                        >
+                          Accept suggestions
+                        </button>
+                      </SecondaryButton>
+                      <SecondaryButton
+                        disabled={false}
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "marginLeft": 10,
+                          }
+                        }
+                      >
+                        <button
+                          className="btn-second"
+                          disabled={false}
+                          onClick={[Function]}
+                        >
+                          Reject suggestions
+                        </button>
+                      </SecondaryButton>
+                    </div>
+                  </MAPControls>
                 </div>
               </div>
             </Container>

@@ -256,10 +256,12 @@ describe('clear alignment suggestions', () => {
         suggestions: [],
         renderedAlignments: [
           {
+            alignments: [0],
             sourceNgram: [0],
             targetNgram: []
           },
           {
+            alignments: [1],
             sourceNgram: [1],
             targetNgram: []
           }

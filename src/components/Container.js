@@ -84,6 +84,7 @@ class Container extends Component {
       desiredPanes);
 
     this.initMAP(chapterAlignments);
+    this.predictAlignments(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -135,14 +136,8 @@ class Container extends Component {
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
-    // const {store} = this.context;
     const suggestions = this.map.predict(normalizedSourceVerseText,
       normalizedTargetVerseText);
-
-    // const alignmentSuggestions = [];
-    // for (const p of suggestions[0].predictions) {
-    //   alignmentSuggestions.push(p.alignment);
-    // }
     setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
   }
 

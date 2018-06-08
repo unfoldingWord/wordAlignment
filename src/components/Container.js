@@ -24,16 +24,11 @@ import {
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import Token from 'word-map/structures/Token';
-import { ScripturePane } from 'tc-ui-toolkit';
+import {ScripturePane} from 'tc-ui-toolkit';
 //containers
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 
 const styles = {
-  container: {
-    display: 'flex',
-    width: '100%',
-    height: '100%'
-  },
   groupMenuContainer: {
     width: '250px',
     height: '100%'
@@ -263,25 +258,25 @@ class Container extends Component {
       return null;
     }
 
-    let scripturePane = <div/>;
-    const { currentPaneSettings } = settingsReducer.toolsSettings.ScripturePane;
+    let scripturePane = <div />;
+    const {currentPaneSettings} = settingsReducer.toolsSettings.ScripturePane;
     const expandedScripturePaneTitle = this.makeTitle(projectDetailsReducer.manifest);
 
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
       scripturePane = (
-          <ScripturePane
-            currentPaneSettings={currentPaneSettings}
-            contextId={contextIdReducer.contextId}
-            bibles={resourcesReducer.bibles}
-            expandedScripturePaneTitle={expandedScripturePaneTitle}
-            showPopover={showPopover}
-            editTargetVerse={editTargetVerse}
-            projectDetailsReducer={projectDetailsReducer}
-            translate={translate}
-            getLexiconData={getLexiconData}
-            selections={selectionsReducer.selections}
-            setToolSettings={setToolSettings} />
+        <ScripturePane
+          currentPaneSettings={currentPaneSettings}
+          contextId={contextIdReducer.contextId}
+          bibles={resourcesReducer.bibles}
+          expandedScripturePaneTitle={expandedScripturePaneTitle}
+          showPopover={showPopover}
+          editTargetVerse={editTargetVerse}
+          projectDetailsReducer={projectDetailsReducer}
+          translate={translate}
+          getLexiconData={getLexiconData}
+          selections={selectionsReducer.selections}
+          setToolSettings={setToolSettings} />
       );
     }
 
@@ -304,10 +299,8 @@ class Container extends Component {
     });
 
     return (
-      <div style={styles.container}>
-        <div style={styles.groupMenuContainer}>
-          <GroupMenuContainer {...this.props.groupMenu} />
-        </div>
+      <div style={{display: 'flex', flexDirection: 'row', width: '100vw', height: 'var(--tool-max-height)'}}>
+        <GroupMenuContainer {...this.props.groupMenu} />
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}

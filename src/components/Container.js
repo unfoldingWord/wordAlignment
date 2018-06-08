@@ -29,11 +29,6 @@ import {ScripturePane} from 'tc-ui-toolkit';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 
 const styles = {
-  container: {
-    display: 'flex',
-    width: '100%',
-    height: '100%'
-  },
   groupMenuContainer: {
     width: '250px',
     height: '100%'

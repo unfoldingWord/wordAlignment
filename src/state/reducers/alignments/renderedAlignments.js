@@ -114,6 +114,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     if (tIndex < suggestionIndex.length) {
       finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
         tIndex;
+      const suggestionIsEmpty = suggestionIndex[tIndex].targetNgram.length === 0;
       const suggestionTargetIsSuperset = isSubArray(
         suggestionIndex[tIndex].targetNgram,
         alignmentIndex[tIndex].targetNgram);
@@ -124,7 +125,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         suggestionIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
 
-      if (!alignmentIsAligned && !isPerfectMatch) {
+      if (!alignmentIsAligned) {
         // un-aligned alignments are valid unless a perfect match
         suggestionIsValid = true;
       } else if (!isPerfectMatch && finishedReadingAlignment &&
@@ -138,7 +139,12 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         // incomplete readings are valid until proven otherwise
         suggestionIsValid = true;
       }
+
+      if(suggestionIsEmpty) {
+        suggestionIsValid = false;
+      }
     }
+
 
     // TRICKY: persist invalid state through the entire suggestion.
     if (!suggestionIsValid) {

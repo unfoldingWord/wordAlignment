@@ -6,6 +6,22 @@ describe('render alignments', () => {
       state.sourceTokens.length);
 
   describe('matches', () => {
+
+    it('has an empty suggestion that matches perfectly', () => {
+      const state = {
+        sourceTokens: [{}],
+        targetTokens: [{}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: []},
+        ],
+        suggestions: [{sourceNgram: [0], targetNgram: []}]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {alignments: [0], sourceNgram: [0], targetNgram: []}
+      ]);
+    });
+
     it('matches an aligned alignment', () => {
       const state = {
         sourceTokens: [{}, {}],
@@ -163,6 +179,24 @@ describe('render alignments', () => {
   });
 
   describe('merges', () => {
+
+    it('has an empty merge suggestion that matches perfectly', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0], targetNgram: []},
+          {sourceNgram: [1], targetNgram: []},
+        ],
+        suggestions: [{sourceNgram: [0, 1], targetNgram: []}]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {alignments: [0], sourceNgram: [0], targetNgram: []},
+        {alignments: [1], sourceNgram: [1], targetNgram: []}
+      ]);
+    });
+
     it('cannot merge an aligned alignment', () => {
       const state = {
         sourceTokens: [{}, {}],
@@ -254,6 +288,25 @@ describe('render alignments', () => {
   });
 
   describe('splits', () => {
+
+    it('has an empty split suggestion that matches perfectly', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: []},
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: []},
+          {sourceNgram: [1], targetNgram: []}
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {alignments: [0], sourceNgram: [0, 1], targetNgram: []}
+      ]);
+    });
+
     it('splits an un-aligned alignment', () => {
       const state = {
         sourceTokens: [{}, {}],
@@ -309,21 +362,6 @@ describe('render alignments', () => {
   });
 
   describe('corner cases', () => {
-
-    it('has an empty suggestion that matches perfectly', () => {
-      const state = {
-        sourceTokens: [{}],
-        targetTokens: [{}],
-        alignments: [
-          {sourceNgram: [0], targetNgram: []},
-        ],
-        suggestions: [{sourceNgram: [0], targetNgram: []}]
-      };
-      const result = testRenderer(state);
-      expect(result).toEqual([
-        {alignments: [0], sourceNgram: [0], targetNgram: []}
-      ]);
-    });
 
     it('has partial suggestions', () => {
       const state = {

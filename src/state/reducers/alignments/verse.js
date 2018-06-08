@@ -150,12 +150,12 @@ const verse = (state = defaultState, action) => {
       // }
 
       // compile alignments
-      const {alignments, indicies} = compile(newRenderedAlignments,
+      const {alignments, indices: indices} = compile(newRenderedAlignments,
         state.alignments);
 
       // update index mapping
       for (let i = 0; i < newRenderedAlignments.length; i++) {
-        newRenderedAlignments[i].alignments = indicies[i].sort(
+        newRenderedAlignments[i].alignments = indices[i].sort(
           numberComparator);
       }
 
@@ -352,18 +352,19 @@ export default verse;
  * @param alignments - an array of matching alignments
  * @return an array of newly compiled alignments
  */
-const compile = (rendered, alignments) => {
+export const compile = (rendered, alignments) => {
   const compiledAlignments = [];
-  const compiledIndicies = {};
+  const compiledIndices = {};
   const processedAlignments = [];
   const approvedRenders = [];
+  const compiledRenders = [];
   for (let rIndex = 0; rIndex < rendered.length; rIndex++) {
     const r = rendered[rIndex];
     for (const aIndex of r.alignments) {
       const alignment = alignments[aIndex];
       const aID = alignment.sourceNgram.join('');
-      if (!compiledIndicies[rIndex]) {
-        compiledIndicies[rIndex] = [];
+      if (!compiledIndices[rIndex]) {
+        compiledIndices[rIndex] = [];
       }
 
       const isSuggestion = r.suggestion !== undefined;
@@ -378,11 +379,11 @@ const compile = (rendered, alignments) => {
 
       // update index mapping
       if (alreadyCompiled && !isApproved) {
-        compiledIndicies[rIndex].push(processedAlignments.indexOf(aID));
+        compiledIndices[rIndex].push(processedAlignments.indexOf(aID));
         // TRICKY: suggested alignment splits will cause the alignment to appear multiple times
         continue;
       } else {
-        compiledIndicies[rIndex].push(processedAlignments.length);
+        compiledIndices[rIndex].push(processedAlignments.length);
         processedAlignments.push(aID);
       }
 
@@ -402,12 +403,14 @@ const compile = (rendered, alignments) => {
           sourceNgram: [...r.sourceNgram],
           targetNgram: [...r.targetNgram]
         });
+        // TRICKY: discard remaining alignments
+        break;
       }
     }
   }
   return {
     alignments: compiledAlignments,
-    indicies: compiledIndicies
+    indices: compiledIndices
   };
 };
 

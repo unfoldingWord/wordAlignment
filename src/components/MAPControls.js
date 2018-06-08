@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InfoIcon from 'material-ui/svg-icons/action/info';
-// import CheckIcon from 'material-ui/svg-icons/action/check-circle';
-// import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
-// import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import CheckIcon from 'material-ui/svg-icons/action/check-circle';
+import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /**
@@ -45,8 +45,14 @@ const styles = {
     verticalAlign: 'middle',
     marginRight: '5px',
     width: 30,
-    height: 30,
-    cursor: 'pointer'
+    height: 30
+  },
+  buttonIcon: {
+    color: 'var(--accent-color-dark)',
+    verticalAlign: 'middle',
+    marginRight: '5px',
+    width: 15,
+    height: 15
   }
 };
 
@@ -60,26 +66,27 @@ class MAPControls extends React.Component {
   render() {
     const {onRefresh, onAccept, onReject} = this.props;
     return (
-      <div style={styles.root}>
-        <MuiThemeProvider>
+      <MuiThemeProvider>
+        <div style={styles.root}>
           <InfoIcon style={styles.icon}/>
-        </MuiThemeProvider>
-        <SecondaryButton style={styles.button} onClick={onRefresh}>
-          {/*<RefreshIcon/>*/}
-          Refresh suggestions
-        </SecondaryButton>
-        <SecondaryButton style={styles.button} onClick={onAccept}>
-          {/*<CheckIcon/>*/}
-          Accept suggestions
-        </SecondaryButton>
-        <SecondaryButton style={styles.button} onClick={onReject}>
-          {/*<CancelIcon/>*/}
-          Reject suggestions
-        </SecondaryButton>
-      </div>
+          <SecondaryButton style={styles.button} onClick={onRefresh}>
+            <RefreshIcon style={styles.buttonIcon}/>
+            Refresh suggestions
+          </SecondaryButton>
+          <SecondaryButton style={styles.button} onClick={onAccept}>
+            <CheckIcon style={styles.buttonIcon}/>
+            Accept suggestions
+          </SecondaryButton>
+          <SecondaryButton style={styles.button} onClick={onReject}>
+            <CancelIcon style={styles.buttonIcon}/>
+            Reject suggestions
+          </SecondaryButton>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
+
 MAPControls.propTypes = {
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,

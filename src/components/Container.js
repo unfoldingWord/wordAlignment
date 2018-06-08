@@ -36,6 +36,7 @@ class Container extends Component {
     super(props);
     this.map = new WordMap();
     this.predictAlignments = this.predictAlignments.bind(this);
+    this.runMAP = this.runMAP.bind(this);
     this.initMAP = this.initMAP.bind(this);
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
@@ -49,7 +50,6 @@ class Container extends Component {
   }
 
   componentWillMount() {
-    const {chapterAlignments} = this.props;
     // TODO: the following code needs to be cleaned up
 
     // current panes persisted in the scripture pane settings.
@@ -83,8 +83,7 @@ class Container extends Component {
     this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
       desiredPanes);
 
-    this.initMAP(chapterAlignments);
-    this.predictAlignments(this.props);
+    this.runMAP(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -102,28 +101,39 @@ class Container extends Component {
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
 
-      this.predictAlignments(nextProps);
+      this.runMAP(nextProps);
     }
+  }
+
+  runMAP(props) {
+    const {chapterAlignments} = props;
+    return this.initMAP(chapterAlignments).then(() => {
+      return this.predictAlignments(props);
+    });
   }
 
   /**
    * Initializes the prediction engine
-   * TODO: finish this when we add MAP
    * @param chapterAlignments
    */
   initMAP(chapterAlignments) {
     // TODO: eventually we'll want to load alignments from the entire book
     // not just the current chapter
-
-    for (const verse of Object.keys(chapterAlignments)) {
-      for (const a of chapterAlignments[verse]) {
-        if (a.sourceNgram.length && a.targetNgram.length) {
-          const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
-          const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-          this.map.appendSavedAlignmentsString(sourceText, targetText);
+    return new Promise(resolve => {
+      const map = new WordMap();
+      for (const verse of Object.keys(chapterAlignments)) {
+        for (const a of chapterAlignments[verse]) {
+          if (a.sourceNgram.length && a.targetNgram.length) {
+            const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
+            const targetText = a.targetNgram.map(t => t.toString()).join(' ');
+            map.appendSavedAlignmentsString(sourceText, targetText);
+          }
         }
       }
-    }
+      this.map = map;
+      resolve(map);
+    });
+
   }
 
   /**
@@ -136,9 +146,12 @@ class Container extends Component {
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
-    const suggestions = this.map.predict(normalizedSourceVerseText,
-      normalizedTargetVerseText);
-    setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
+    return new Promise(resolve => {
+      const suggestions = this.map.predict(normalizedSourceVerseText,
+        normalizedTargetVerseText);
+      setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
+      resolve();
+    });
   }
 
   /**

@@ -357,7 +357,6 @@ export const compile = (rendered, alignments) => {
   const compiledIndices = {};
   const processedAlignments = [];
   const approvedRenders = [];
-  const compiledRenders = [];
   for (let rIndex = 0; rIndex < rendered.length; rIndex++) {
     const r = rendered[rIndex];
     for (const aIndex of r.alignments) {

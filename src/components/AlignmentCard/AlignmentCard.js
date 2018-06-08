@@ -37,7 +37,7 @@ const makeStyles = (props) => {
     root: {
       transition: transitionSpeed,
       padding: '7px',
-      backgroundColor: isSuggestion ? '#b8e5bc' : '#DCDCDC',
+      backgroundColor: isSuggestion ? '#bedac2' : '#DCDCDC',
       margin: '0px 10px 10px 0px',
       minWidth: emptyAlignment ?
         `calc(${defaultAlignmentWidth}/2)` :
@@ -47,8 +47,7 @@ const makeStyles = (props) => {
     content: {
       display: 'flex',
       flexDirection: 'column',
-      height: '100%',
-      // backgroundColor: '#DCDCDC'
+      height: '100%'
     },
     top: {
       transition: transitionSpeed,

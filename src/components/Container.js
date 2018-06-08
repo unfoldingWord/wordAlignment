@@ -15,7 +15,7 @@ import {
   repairVerse,
   resetVerse,
   unalignTargetToken,
-  setAlignmentSuggestions
+  setAlignmentPredictions
 } from '../state/actions';
 import {
   getChapterAlignments,
@@ -132,18 +132,18 @@ class Container extends Component {
     const {
       normalizedTargetVerseText,
       normalizedSourceVerseText,
-      setAlignmentSuggestions,
+      setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
     // const {store} = this.context;
     const suggestions = this.map.predict(normalizedSourceVerseText,
       normalizedTargetVerseText);
 
-    const alignmentSuggestions = [];
-    for (const p of suggestions[0].predictions) {
-      alignmentSuggestions.push(p.alignment);
-    }
-    setAlignmentSuggestions(chapter, verse, alignmentSuggestions);
+    // const alignmentSuggestions = [];
+    // for (const p of suggestions[0].predictions) {
+    //   alignmentSuggestions.push(p.alignment);
+    // }
+    setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
   }
 
   /**
@@ -309,7 +309,7 @@ Container.propTypes = {
   resetVerse: PropTypes.func.isRequired,
   repairVerse: PropTypes.func.isRequired,
   indexChapterAlignments: PropTypes.func.isRequired,
-  setAlignmentSuggestions: PropTypes.func.isRequired,
+  setAlignmentPredictions: PropTypes.func.isRequired,
 
   // state props
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -348,7 +348,7 @@ const mapDispatchToProps = ({
   repairVerse,
   clearState,
   indexChapterAlignments,
-  setAlignmentSuggestions
+  setAlignmentPredictions
 });
 
 const mapStateToProps = (state, props) => {

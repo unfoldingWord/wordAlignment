@@ -124,8 +124,8 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         suggestionIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
 
-      if (!alignmentIsAligned) {
-        // un-aligned alignments are valid
+      if (!alignmentIsAligned && !isPerfectMatch) {
+        // un-aligned alignments are valid unless a perfect match
         suggestionIsValid = true;
       } else if (!isPerfectMatch && finishedReadingAlignment &&
         finishedReadingSuggestion && !suggestionSpansMultiple &&

@@ -383,7 +383,7 @@ exports[`Container renders 1`] = `
                   ],
                 }
               }
-              setAlignmentSuggestions={[Function]}
+              setAlignmentPredictions={[Function]}
               settingsReducer={
                 Object {
                   "toolsSettings": Object {

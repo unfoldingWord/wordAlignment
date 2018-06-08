@@ -257,17 +257,32 @@ export const clearState = () => ({
  * Suggestions must be approved by the user.
  * @param {number} chapter
  * @param {number} verse
- * @param {Alignment[]} alignments
+ * @param {Alignment[]} predictions
  */
-export const setAlignmentSuggestions = (chapter, verse, alignments) => ({
-  type: types.SET_ALIGNMENT_SUGGESTIONS,
-  chapter,
-  verse,
-  alignments: alignments.map(a => ({
-    sourceNgram: a.source.tokens,
-    targetNgram: a.target.tokens
-  }))
-});
+export const setAlignmentPredictions = (chapter, verse, predictions) => {
+  const alignments = [];
+  const minConfidence = 1;
+  for (const p of predictions) {
+    if(p.confidence >= minConfidence) {
+      alignments.push({
+        sourceNgram: p.alignment.source.tokens,
+        targetNgram: p.alignment.target.tokens
+      });
+    } else {
+      // exclude predictions with a low confidence
+      alignments.push({
+        sourceNgram: p.alignment.source.tokens,
+        targetNgram: []
+      });
+    }
+  }
+  return {
+    type: types.SET_ALIGNMENT_SUGGESTIONS,
+    chapter,
+    verse,
+    alignments
+  };
+};
 
 export const clearAlignmentSuggestions = (chapter, verse) => ({
   type: types.RESET_VERSE_ALIGNMENT_SUGGESTIONS,

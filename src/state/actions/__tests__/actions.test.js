@@ -1,5 +1,8 @@
 import * as actions from '../index';
 import Token from 'word-map/structures/Token';
+import Prediction from 'word-map/structures/Prediction';
+import Alignment from 'word-map/structures/Alignment';
+import Ngram from 'word-map/structures/Ngram';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
@@ -109,6 +112,8 @@ describe('async actions', () => {
   });
 
   it('sets alignment suggestions', () => {
+    const sourceTokens = [new Token({text: 'hello'})];
+    const targetTokens = [new Token({text: 'world'})];
     const expectedActions = [
       {
         type: SET_ALIGNMENT_SUGGESTIONS,
@@ -116,17 +121,18 @@ describe('async actions', () => {
         verse: 1,
         alignments: [
           {
-            sourceNgram: ['hello'],
-            targetNgram: ['world']
+            sourceNgram: sourceTokens,
+            targetNgram: targetTokens
           }]
       }
     ];
     const store = mockStore();
-    const suggestion = {
-      source: {tokens: ['hello']},
-      target: {tokens: ['world']}
-    };
-    const action = actions.setAlignmentSuggestions(1, 1, [suggestion]);
+    const source = new Ngram(sourceTokens);
+    const target = new Ngram(targetTokens);
+
+    const prediction = new Prediction(new Alignment(source, target));
+    prediction.setScore('confidence', 1);
+    const action = actions.setAlignmentPredictions(1, 1, [prediction]);
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });

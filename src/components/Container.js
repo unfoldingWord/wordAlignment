@@ -9,13 +9,14 @@ import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
 import {
   alignTargetToken,
+  clearAlignmentSuggestions,
   clearState,
   indexChapterAlignments,
   moveSourceToken,
   repairVerse,
   resetVerse,
-  unalignTargetToken,
-  setAlignmentPredictions
+  setAlignmentPredictions,
+  unalignTargetToken
 } from '../state/actions';
 import {
   getChapterAlignments,
@@ -26,6 +27,7 @@ import {
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import Token from 'word-map/structures/Token';
+import MAPControls from './MAPControls';
 
 /**
  * The base container for this tool
@@ -41,6 +43,9 @@ class Container extends Component {
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
+    this.handleRefreshSuggestions = this.handleRefreshSuggestions.bind(this);
+    this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
+    this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -199,6 +204,22 @@ class Container extends Component {
     moveSourceToken({chapter, verse, nextAlignment, prevAlignment, token});
   }
 
+  handleRefreshSuggestions() {
+    this.runMAP(this.props);
+  }
+
+  handleAcceptSuggestions() {
+    // TODO: accept suggestions
+  }
+
+  handleRejectSuggestions() {
+    const {
+      clearAlignmentSuggestions,
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    clearAlignmentSuggestions(chapter, verse);
+  }
+
   render() {
     // Modules not defined within translationWords
     const {
@@ -282,6 +303,9 @@ class Container extends Component {
                          onDropSourceToken={this.handleAlignPrimaryToken}
                          actions={actions}
                          contextId={contextId}/>
+          <MAPControls onAccept={this.handleAcceptSuggestions}
+                       onRefresh={this.handleRefreshSuggestions}
+                       onReject={this.handleRejectSuggestions}/>
         </div>
       </div>
     );
@@ -318,6 +342,7 @@ Container.propTypes = {
   repairVerse: PropTypes.func.isRequired,
   indexChapterAlignments: PropTypes.func.isRequired,
   setAlignmentPredictions: PropTypes.func.isRequired,
+  clearAlignmentSuggestions: PropTypes.func.isRequired,
 
   // state props
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -356,7 +381,8 @@ const mapDispatchToProps = ({
   repairVerse,
   clearState,
   indexChapterAlignments,
-  setAlignmentPredictions
+  setAlignmentPredictions,
+  clearAlignmentSuggestions
 });
 
 const mapStateToProps = (state, props) => {

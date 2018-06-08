@@ -30,7 +30,11 @@ const renderedAlignments = (
     case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case RESET_VERSE_ALIGNMENTS:
     case REPAIR_VERSE_ALIGNMENTS:
-      return [...alignments.map(_.cloneDeep)];
+      return [...alignments.map((a, index) => {
+        const newA = _.cloneDeep(a);
+        newA.alignments = [index];
+        return newA;
+      })]; // TODO: include extra metadata: alignments
     default:
       return state;
   }
@@ -88,7 +92,11 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   // TRICKY: short circuit invalid alignments
   if (alignmentIndex.length !== numSourceTokens) {
     console.error('Alignments are corrupt');
-    return [...alignments.map(_.cloneDeep)];
+    return [...alignments.map((a, index) => {
+      const newA = _.cloneDeep(a);
+      newA.alignments = [index];
+      return newA;
+    })];
   }
 
   // build output

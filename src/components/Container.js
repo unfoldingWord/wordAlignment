@@ -50,6 +50,10 @@ const styles = {
     flexDirection: 'column',
     width: 'calc(100vw - 410px)',
     height: '100%'
+  },
+  scripturePaneWrapper: {
+    height: '250px',
+    marginBottom: '20px',
   }
 };
 
@@ -293,7 +297,9 @@ class Container extends Component {
             isOver={isOver} />
         </div>
         <div style={styles.alignmentAreaContainer}>
-          {scripturePane}
+          <div style={styles.scripturePaneWrapper}>
+            {scripturePane}
+          </div>
           <AlignmentGrid
             alignments={verseAlignments}
             translate={translate}

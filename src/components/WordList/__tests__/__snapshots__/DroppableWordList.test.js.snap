@@ -129,6 +129,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
           style={
             Object {
               "backgroundColor": "#DCDCDC",
+              "height": "100%",
               "overflowY": "auto",
               "padding": "5px 8px 5px 5px",
               "width": "100%",
@@ -725,6 +726,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
           style={
             Object {
               "backgroundColor": "#DCDCDC",
+              "height": "100%",
               "overflowY": "auto",
               "padding": "5px 8px 5px 5px",
               "width": "100%",

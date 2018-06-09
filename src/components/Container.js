@@ -23,12 +23,19 @@ import {
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
+import {sortPanesSettings} from '../utils/panesSettingsHelper';
 import Token from 'word-map/structures/Token';
 import {ScripturePane} from 'tc-ui-toolkit';
 //containers
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100vw',
+    height: 'var(--tool-max-height)'
+  },
   groupMenuContainer: {
     width: '250px',
     height: '100%'
@@ -69,38 +76,13 @@ class Container extends Component {
   }
 
   componentWillMount() {
-    // TODO: the following code needs to be cleaned up
-
     // current panes persisted in the scripture pane settings.
-    const {ScripturePane} = this.props.settingsReducer.toolsSettings;
-    let panes = [];
-    if (ScripturePane) panes = ScripturePane.currentPaneSettings;
-    // filter out targetLanguage and bhp
-    panes = panes.filter((pane) => {
-      return pane.languageId !== 'targetLanguage' && pane.bibleId !== 'bhp' &&
-        pane.bibleId !== 'ugnt';
-    });
-    // getting the last pane from the panes array if it exist otherwise equal to null.
-    const lastPane = panes.length > 0 && panes[panes.length - 1] ? panes[panes.length - 1] : null;
-    // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
-    let desiredPanes = [
-      {
-        languageId: 'targetLanguage',
-        bibleId: 'targetBible'
-      },
-      {
-        languageId: 'originalLanguage',
-        bibleId: 'ugnt'
-      }
-    ];
-    // if last pane found in previous scripture pane settings then carry it over to new settings in wordAlignment.
-    const carryOverPane = lastPane && lastPane.languageId !==
-      'targetLanguage' && lastPane.bibleId !== 'bhp' && lastPane.bibleId !==
-      'ugnt';
-    if (carryOverPane) desiredPanes.push(lastPane);
-    // set new pane settings
-    this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
-      desiredPanes);
+    const { actions: { setToolSettings }, settingsReducer } = this.props;
+    const {ScripturePane} = settingsReducer.toolsSettings;
+    const {currentPaneSettings} = ScripturePane;
+    const panes = ScripturePane && currentPaneSettings ? currentPaneSettings : [];
+
+    sortPanesSettings(panes, setToolSettings);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -299,7 +281,7 @@ class Container extends Component {
     });
 
     return (
-      <div style={{display: 'flex', flexDirection: 'row', width: '100vw', height: 'var(--tool-max-height)'}}>
+      <div style={styles.container}>
         <GroupMenuContainer {...this.props.groupMenu} />
         <div style={styles.wordListContainer}>
           <WordList

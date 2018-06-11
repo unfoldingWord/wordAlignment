@@ -67,15 +67,15 @@ export const indexChapterAlignments = (
  * Adds a target token to an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {object} alignment - the alignment to which the token will be moved.
+ * @param {object} alignmentIndex - the alignment index to which the token will be moved.
  * @param {Token} token - the target token being added to the alignment
  * @return {{}}
  */
-export const alignTargetToken = (chapter, verse, alignment, token) => ({
+export const alignTargetToken = (chapter, verse, alignmentIndex, token) => ({
   type: types.ALIGN_RENDERED_TARGET_TOKEN,
   chapter,
   verse,
-  index: alignment.index,
+  index: alignmentIndex,
   token
 });
 
@@ -83,15 +83,15 @@ export const alignTargetToken = (chapter, verse, alignment, token) => ({
  * Removes a target token from an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {object} alignment - the alignment from which the token will be removed
+ * @param {object} alignmentIndex - the alignment index from which the token will be removed
  * @param {Token} token - the target token being removed from the alignment
  * @return {{}}
  */
-export const unalignTargetToken = (chapter, verse, alignment, token) => ({
+export const unalignTargetToken = (chapter, verse, alignmentIndex, token) => ({
   type: types.UNALIGN_RENDERED_TARGET_TOKEN,
   chapter,
   verse,
-  index: alignment.index,
+  index: alignmentIndex,
   token
 });
 
@@ -99,15 +99,15 @@ export const unalignTargetToken = (chapter, verse, alignment, token) => ({
  * Adds a source token to an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {number} alignment - the alignment to which the source token will be moved.
+ * @param {number} alignmentIndex - the alignment index to which the source token will be moved.
  * @param {Token} token - the source token being added to the alignment
  * @return {{}}
  */
-const alignSourceToken = (chapter, verse, alignment, token) => ({
+const alignSourceToken = (chapter, verse, alignmentIndex, token) => ({
   type: types.ALIGN_RENDERED_SOURCE_TOKEN,
   chapter,
   verse,
-  index: alignment.index,
+  index: alignmentIndex,
   token
 });
 
@@ -115,15 +115,15 @@ const alignSourceToken = (chapter, verse, alignment, token) => ({
  * Removes a source token from an alignment
  * @param {number} chapter
  * @param {number} verse
- * @param {object} alignment - the alignment from which the source token will be removed.
+ * @param {object} alignmentIndex - the alignment index from which the source token will be removed.
  * @param {Token} token - the source token being removed from the alignment
  * @return {{}}
  */
-const unalignSourceToken = (chapter, verse, alignment, token) => ({
+const unalignSourceToken = (chapter, verse, alignmentIndex, token) => ({
   type: types.UNALIGN_RENDERED_SOURCE_TOKEN,
   chapter,
   verse,
-  index: alignment.index,
+  index: alignmentIndex,
   token
 });
 
@@ -145,13 +145,13 @@ export const insertSourceToken = (chapter, verse, token) => ({
  * Moves a source token between alignments
  * @param {number} chapter
  * @param {number} verse
- * @param {object} nextAlignment - the alignment to which the token will be moved
- * @param {object} prevAlignment - the alignment from which the token will be moved
+ * @param {object} nextAlignmentIndex - the alignment index to which the token will be moved
+ * @param {object} prevAlignmentIndex - the alignment index from which the token will be moved
  * @param {Token} token - the source token to move
  * @return {Function}
  */
 export const moveSourceToken = (
-  {chapter, verse, nextAlignment, prevAlignment, token}) => {
+  chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token) => {
   // return {
   //   type: types.MOVE_SOURCE_TOKEN,
   //   chapter,
@@ -161,7 +161,7 @@ export const moveSourceToken = (
   //   prevIndex: prevAlignment.index
   // };
   return dispatch => {
-    dispatch(unalignSourceToken(chapter, verse, prevAlignment, token));
+    dispatch(unalignSourceToken(chapter, verse, prevAlignmentIndex, token));
     // TRICKY: shift the affected alignment indices as needed
     // if (nextAlignment.suggestionAlignments) {
     //   for (let i = 0; i < nextAlignment.suggestionAlignments.length; i++) {
@@ -171,17 +171,13 @@ export const moveSourceToken = (
     //   }
     // }
 
-    if (prevAlignment.index === nextAlignment.index) {
+    if (prevAlignmentIndex === nextAlignmentIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
       // TRICKY: shift the next index since we removed an alignment
-      const index = shiftRelativeToRemoved(nextAlignment.index, prevAlignment.index);
-
-      const shiftedAlignment = {
-        ...nextAlignment,
-        index
-      };
-      dispatch(alignSourceToken(chapter, verse, shiftedAlignment, token));
+      const index = shiftRelativeToRemoved(nextAlignmentIndex,
+        prevAlignmentIndex);
+      dispatch(alignSourceToken(chapter, verse, index, token));
     }
   };
 };
@@ -263,7 +259,7 @@ export const setAlignmentPredictions = (chapter, verse, predictions) => {
   const alignments = [];
   const minConfidence = 1;
   for (const p of predictions) {
-    if(p.confidence >= minConfidence) {
+    if (p.confidence >= minConfidence) {
       alignments.push({
         sourceNgram: p.alignment.source.tokens,
         targetNgram: p.alignment.target.tokens

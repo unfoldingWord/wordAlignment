@@ -163,46 +163,46 @@ class Container extends Component {
   /**
    * Handles adding secondary words to an alignment
    * @param {Token} token - the secondary word to move
-   * @param {object} nextAlignment - the alignment to which the token will be moved
-   * @param {object} [prevAlignment=null] - the alignment from which the token will be removed.
+   * @param {object} nextAlignmentIndex - the alignment to which the token will be moved
+   * @param {object} [prevAlignmentIndex=null] - the alignment from which the token will be removed.
    */
-  handleAlignTargetToken(token, nextAlignment, prevAlignment = null) {
+  handleAlignTargetToken(token, nextAlignmentIndex, prevAlignmentIndex = null) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
       alignTargetToken,
       unalignTargetToken
     } = this.props;
-    if (prevAlignment && prevAlignment.index >= 0) {
-      unalignTargetToken(chapter, verse, prevAlignment, token);
+    if (prevAlignmentIndex && prevAlignmentIndex.index >= 0) {
+      unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
     }
-    alignTargetToken(chapter, verse, nextAlignment, token);
+    alignTargetToken(chapter, verse, nextAlignmentIndex, token);
   }
 
   /**
    * Handles removing secondary words from an alignment
    * @param {Token} token - the secondary word to remove
-   * @param {object} prevAlignment - the alignment from which the token will be removed.
+   * @param {object} prevAlignmentIndex - the alignment from which the token will be removed.
    */
-  handleUnalignTargetToken(token, prevAlignment) {
+  handleUnalignTargetToken(token, prevAlignmentIndex) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
       unalignTargetToken
     } = this.props;
-    unalignTargetToken(chapter, verse, prevAlignment, token);
+    unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
   }
 
   /**
    * Handles (un)merging primary words
    * @param {Token} token - the primary word to move
-   * @param {object} nextAlignment - the alignment to which the token will be moved.
-   * @param {object} prevAlignment - the alignment from which the token will be removed.
+   * @param {object} nextAlignmentIndex - the alignment to which the token will be moved.
+   * @param {object} prevAlignmentIndex - the alignment from which the token will be removed.
    */
-  handleAlignPrimaryToken(token, nextAlignment, prevAlignment) {
+  handleAlignPrimaryToken(token, nextAlignmentIndex, prevAlignmentIndex) {
     const {
       moveSourceToken,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
-    moveSourceToken({chapter, verse, nextAlignment, prevAlignment, token});
+    moveSourceToken(chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token);
   }
 
   handleRefreshSuggestions() {

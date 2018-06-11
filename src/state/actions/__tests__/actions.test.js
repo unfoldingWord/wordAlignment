@@ -6,10 +6,10 @@ import Ngram from 'word-map/structures/Ngram';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
-  UNALIGN_RENDERED_SOURCE_TOKEN,
+  ALIGN_RENDERED_SOURCE_TOKEN,
   INSERT_RENDERED_ALIGNMENT,
   SET_ALIGNMENT_SUGGESTIONS,
-  ALIGN_RENDERED_SOURCE_TOKEN
+  UNALIGN_RENDERED_SOURCE_TOKEN
 } from '../actionTypes';
 
 const middlewares = [thunk];
@@ -33,17 +33,9 @@ describe('async actions', () => {
         'verse': 1
       }];
     const store = mockStore();
-    const action = actions.moveSourceToken({
-      chapter: 1,
-      verse: 1,
-      nextAlignment: {
-        index: 1
-      },
-      prevAlignment: {
-        index: 0
-      },
-      token: new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
-    });
+    const action = actions.moveSourceToken(1, 1, 1, 0,
+      new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
+    );
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });
@@ -65,17 +57,9 @@ describe('async actions', () => {
         'verse': 1
       }];
     const store = mockStore();
-    const action = actions.moveSourceToken({
-      chapter: 1,
-      verse: 1,
-      nextAlignment: {
-        index: 0
-      },
-      prevAlignment: {
-        index: 1
-      },
-      token: new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
-    });
+    const action = actions.moveSourceToken(1, 1, 0, 1,
+      new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
+    );
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });
@@ -96,17 +80,9 @@ describe('async actions', () => {
         'verse': 1
       }];
     const store = mockStore();
-    const action = actions.moveSourceToken({
-      chapter: 1,
-      verse: 1,
-      nextAlignment: {
-        index: 1
-      },
-      prevAlignment: {
-        index: 1
-      },
-      token: new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
-    });
+    const action = actions.moveSourceToken(1, 1, 1, 1,
+      new Token({text: 'hello'}).toJSON() // TRICKY: simplifies test output
+    );
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });

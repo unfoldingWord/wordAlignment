@@ -86,7 +86,7 @@ const dragHandler = {
   drop(props, monitor) {
     const item = monitor.getItem();
     if(item.alignmentIndex !== undefined) {
-      props.onDropTargetToken(item.token, item.alignment);
+      props.onDropTargetToken(item.token, item.alignmentIndex);
     }
   }
 };

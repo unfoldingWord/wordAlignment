@@ -172,7 +172,7 @@ class Container extends Component {
       alignTargetToken,
       unalignTargetToken
     } = this.props;
-    if (prevAlignmentIndex && prevAlignmentIndex.index >= 0) {
+    if (prevAlignmentIndex && prevAlignmentIndex >= 0) {
       unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
     }
     alignTargetToken(chapter, verse, nextAlignmentIndex, token);

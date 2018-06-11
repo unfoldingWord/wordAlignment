@@ -85,7 +85,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         index: sIndex,
         sourceLength,
         targetLength: suggestions[sIndex].targetNgram.length,
-
+        isEmpty: suggestions[sIndex].targetNgram.length === 0,
         sourceId: suggestions[sIndex].sourceNgram.join(),
         targetId: suggestions[sIndex].targetNgram.join(),
         targetNgram: suggestions[sIndex].targetNgram,
@@ -111,28 +111,33 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   // build output
   const suggestedAlignments = [];
   let tokenQueue = [];
-  let alignmentQueue = [];
+  let alignmentQueue = []; // track how many alignments span a suggestion
+  // let suggestionQueue = []; // track how many suggestions span an alignment
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < numSourceTokens; tIndex++) {
     tokenQueue.push(tIndex);
     if (alignmentQueue.indexOf(alignmentIndex[tIndex].index) === -1) {
       alignmentQueue.push(alignmentIndex[tIndex].index);
     }
+    // if (suggestionQueue.indexOf(suggestionIndex[tIndex].index) === -1) {
+    //   suggestionQueue.push(suggestionIndex[tIndex].index);
+    // }
 
     const alignmentIsAligned = alignmentIndex[tIndex].aligned;
     const finishedReadingAlignment = alignmentIndex[tIndex].lastSourceToken ===
       tIndex;
     const suggestionSpansMultiple = alignmentQueue.length > 1;
+    // const alignmentSpansMultiple = suggestionQueue.length > 1;
 
     // determine suggestion validity
     let suggestionIsValid = false;
     let finishedReadingSuggestion = false;
+    let suggestionIsEmpty = false;
     // TRICKY: we may not  have suggestions for everything
     if (tIndex < suggestionIndex.length) {
       finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
         tIndex;
-      const suggestionIsEmpty = suggestionIndex[tIndex].targetNgram.length ===
-        0;
+      suggestionIsEmpty = suggestionIndex[tIndex].isEmpty;
       const suggestionTargetIsSuperset = isSubArray(
         suggestionIndex[tIndex].targetNgram,
         alignmentIndex[tIndex].targetNgram);
@@ -168,43 +173,53 @@ export const render = (alignments, suggestions, numSourceTokens) => {
       suggestionStateIsValid = suggestionIsValid;
     }
 
-    // append finished readings
-    if (suggestionStateIsValid) {
-      if (finishedReadingSuggestion) {
-        // use the suggestion
-        const index = suggestionIndex[tIndex].index;
-        // merge target n-grams
-        const rawSuggestion = _.cloneDeep(suggestions[index]);
-        rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
-        for (const aIndex of alignmentQueue) {
-          const rawAlignment = alignments[aIndex];
-          for (const t of rawAlignment.targetNgram) {
-            if (rawSuggestion.targetNgram.indexOf(t) === -1) {
-              rawSuggestion.targetNgram.push(t);
-            } else {
-              _.pull(rawSuggestion.suggestedTargetTokens, t);
-            }
+    // renders a finished alignment
+    const renderAlignment = () => {
+      // use the alignment
+      const index = alignmentQueue.pop();
+      const rawAlignment = _.cloneDeep(alignments[index]);
+      rawAlignment.alignments = [index];
+      return rawAlignment;
+    };
+
+    // renders a finished suggestion
+    const renderSuggestion = () => {
+      const index = suggestionIndex[tIndex].index;
+      // merge target n-grams
+      const rawSuggestion = _.cloneDeep(suggestions[index]);
+      rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
+      for (const aIndex of alignmentQueue) {
+        const rawAlignment = alignments[aIndex];
+        for (const t of rawAlignment.targetNgram) {
+          if (rawSuggestion.targetNgram.indexOf(t) === -1) {
+            rawSuggestion.targetNgram.push(t);
+          } else {
+            _.pull(rawSuggestion.suggestedTargetTokens, t);
           }
-          rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
-            rawAlignment.targetNgram);
         }
-        rawSuggestion.alignments = [...alignmentQueue];
-        rawSuggestion.suggestion = index;
-        rawSuggestion.targetNgram.sort(numberComparator);
-        // rawSuggestion.index = index;
-        // rawSuggestion.position = suggestedAlignments.length;
-        suggestedAlignments.push(rawSuggestion);
+        rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
+          rawAlignment.targetNgram);
       }
-    } else {
-      if (finishedReadingAlignment) {
-        // use the alignment
-        const index = alignmentQueue.pop();
-        const rawAlignment = _.cloneDeep(alignments[index]);
-        // rawAlignment.index = index;
-        // rawAlignment.position = suggestedAlignments.length;
-        rawAlignment.alignments = [index];
-        suggestedAlignments.push(rawAlignment);
+      rawSuggestion.alignments = [...alignmentQueue];
+      rawSuggestion.suggestion = index;
+      rawSuggestion.targetNgram.sort(numberComparator);
+      if(suggestionIndex[tIndex].isEmpty) {
+        // TRICKY: render empty suggestions as an alignment
+        return {
+          alignments: rawSuggestion.alignments,
+          sourceNgram: rawSuggestion.sourceNgram,
+          targetNgram: rawSuggestion.targetNgram
+        };
+      } else {
+        return rawSuggestion;
       }
+    };
+
+    // append finished readings
+    if (suggestionStateIsValid && finishedReadingSuggestion) {
+      suggestedAlignments.push(renderSuggestion());
+    } else if (!suggestionStateIsValid && finishedReadingAlignment) {
+      suggestedAlignments.push(renderAlignment());
     }
 
     // clean up

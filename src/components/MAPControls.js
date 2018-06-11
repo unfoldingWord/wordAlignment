@@ -51,8 +51,9 @@ const styles = {
     color: 'var(--accent-color-dark)',
     verticalAlign: 'middle',
     marginRight: '5px',
-    width: 15,
-    height: 15
+
+    width: 20,
+    height: 20
   }
 };
 

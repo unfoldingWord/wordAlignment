@@ -338,6 +338,68 @@ describe('render alignments', () => {
       ]);
     });
 
+    it('splits an un-aligned alignment incompletely on the left', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: []}
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: []}
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {
+          sourceNgram: [0],
+          targetNgram: [0],
+          alignments: [0],
+          suggestion: 0,
+          suggestedTargetTokens: [0]
+        },
+        {
+          sourceNgram: [1],
+          targetNgram: [],
+          alignments: [0],
+          suggestion: 1,
+          suggestedTargetTokens: []
+        }
+      ]);
+    });
+
+    it('splits an un-aligned alignment incompletely on the right', () => {
+      const state = {
+        sourceTokens: [{}, {}],
+        targetTokens: [{}, {}],
+        alignments: [
+          {sourceNgram: [0, 1], targetNgram: []}
+        ],
+        suggestions: [
+          {sourceNgram: [0], targetNgram: []},
+          {sourceNgram: [1], targetNgram: [1]}
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {
+          sourceNgram: [0],
+          targetNgram: [],
+          alignments: [0],
+          suggestion: 0,
+          suggestedTargetTokens: []
+        },
+        {
+          sourceNgram: [1],
+          targetNgram: [1],
+          alignments: [0],
+          suggestion: 1,
+          suggestedTargetTokens: [1]
+        }
+      ]);
+    });
+
     it('cannot split an aligned alignment', () => {
       const state = {
         sourceTokens: [{}, {}],

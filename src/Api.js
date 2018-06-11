@@ -22,7 +22,10 @@ import {
 } from './state/actions';
 
 export default class Api extends ToolApi {
-
+  constructor() {
+    super();
+    this.getIsVerseFinished = this.getIsVerseFinished.bind(this);
+  }
   /**
    * Checks if the chapter context changed
    * @param prevContext

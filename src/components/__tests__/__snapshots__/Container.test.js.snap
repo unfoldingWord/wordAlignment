@@ -13,6 +13,7 @@ exports[`Container renders 1`] = `
   appLanguage="en"
   contextIdReducer={Object {}}
   currentToolViews={Object {}}
+  groupMenu={Object {}}
   projectDetailsReducer={Object {}}
   resourcesReducer={
     Object {
@@ -79,6 +80,7 @@ exports[`Container renders 1`] = `
     appLanguage="en"
     contextIdReducer={Object {}}
     currentToolViews={Object {}}
+    groupMenu={Object {}}
     projectDetailsReducer={Object {}}
     resourcesReducer={
       Object {
@@ -156,6 +158,7 @@ exports[`Container renders 1`] = `
         appLanguage="en"
         contextIdReducer={Object {}}
         currentToolViews={Object {}}
+        groupMenu={Object {}}
         projectDetailsReducer={Object {}}
         resourcesReducer={
           Object {
@@ -223,6 +226,7 @@ exports[`Container renders 1`] = `
           appLanguage="en"
           contextIdReducer={Object {}}
           currentToolViews={Object {}}
+          groupMenu={Object {}}
           projectDetailsReducer={Object {}}
           resourcesReducer={
             Object {
@@ -290,6 +294,7 @@ exports[`Container renders 1`] = `
             appLanguage="en"
             contextIdReducer={Object {}}
             currentToolViews={Object {}}
+            groupMenu={Object {}}
             projectDetailsReducer={Object {}}
             resourcesReducer={
               Object {
@@ -362,6 +367,7 @@ exports[`Container renders 1`] = `
               clearState={[Function]}
               contextIdReducer={Object {}}
               currentToolViews={Object {}}
+              groupMenu={Object {}}
               indexChapterAlignments={[Function]}
               moveSourceToken={[Function]}
               normalizedSourceVerseText=""

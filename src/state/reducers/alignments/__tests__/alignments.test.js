@@ -1535,7 +1535,6 @@ describe('selectors', () => {
       '1': [
         {
           index: 0,
-          position: 0,
           sourceNgram: [
             {
               text: 'olleh',
@@ -1559,7 +1558,6 @@ describe('selectors', () => {
     expect(JSON.parse(JSON.stringify(result))).toEqual([
       {
         index: 0,
-        position: 0,
         sourceNgram: [
           {
             text: 'olleh',

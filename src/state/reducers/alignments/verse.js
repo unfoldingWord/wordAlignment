@@ -562,7 +562,6 @@ export const getAlignments = state => {
       state.targetTokens
     );
     a.index = i;
-    a.position = i; // TODO: deprecated
     alignments.push(a);
   }
   return alignments;

@@ -257,7 +257,6 @@ export const getTokenizedAlignments = (state, sourceTokens, targetTokens) => {
     };
 
     a.index = alignments.length;
-    a.position = alignments.length; // TODO: deprecated
     a.isSuggestion = !!rendered.suggestedTargetTokens;
     alignments.push(a);
   }

@@ -1,5 +1,6 @@
 import {numberComparator} from './index';
 import {
+  ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   INSERT_RENDERED_ALIGNMENT,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
@@ -23,6 +24,7 @@ const renderedAlignments = (
   state = [], action, alignments = [], suggestions = [],
   numSourceTokens = 0) => {
   switch (action.type) {
+    case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS:
     case INSERT_RENDERED_ALIGNMENT:
     case SET_ALIGNMENT_SUGGESTIONS:
       return render(alignments, suggestions, numSourceTokens);

@@ -2,6 +2,7 @@ import {reducerTest} from 'redux-jest';
 import * as types from '../../../actions/actionTypes';
 import alignments from '../index';
 import Token from 'word-map/structures/Token';
+import {ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS} from '../../../actions/actionTypes';
 
 describe('set alignment suggestions', () => {
   const stateBefore = {
@@ -274,6 +275,89 @@ describe('clear alignment suggestions', () => {
 });
 
 describe('actions', () => {
+
+  describe('accept all verse suggestions', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            }],
+          renderedAlignments: [
+            {
+              alignments: [0],
+              suggestion: 0,
+              sourceNgram: [0],
+              targetNgram: [0],
+              suggestedTargetTokens: [0]
+            }
+          ],
+          suggestions: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            }
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
+      chapter: 1,
+      verse: 1
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: 'olleh',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          targetTokens: [
+            {
+              text: 'hello',
+              occurrence: 1,
+              occurrences: 1,
+              position: 0
+            }],
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            }],
+          renderedAlignments: [
+            {
+              alignments: [0],
+              sourceNgram: [0],
+              targetNgram: [0]
+            }],
+          suggestions: []
+        }
+      }
+    };
+    reducerTest('Accept suggested alignments', alignments, stateBefore, action,
+      stateAfter);
+  });
+
   describe('align target token from second alignment', () => {
     const stateBefore = {
       '1': {

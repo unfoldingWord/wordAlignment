@@ -3,7 +3,7 @@ import {
   ALIGN_RENDERED_TARGET_TOKEN,
   UNALIGN_RENDERED_SOURCE_TOKEN,
   UNALIGN_RENDERED_TARGET_TOKEN,
-  INSERT_RENDERED_ALIGNMENT,
+  INSERT_RENDERED_ALIGNMENT, ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
 
@@ -55,6 +55,12 @@ const renderedAlignment = (state = defaultState, action, alignmentIndex = undefi
           return position !== action.token.position;
         }),
         targetNgram: []
+      };
+    case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS:
+      return {
+        alignments: [state.alignments[0]],
+        sourceNgram: [...state.sourceNgram],
+        targetNgram: [...state.targetNgram]
       };
     default:
       return state;

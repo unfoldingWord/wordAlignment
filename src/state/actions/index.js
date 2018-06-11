@@ -280,8 +280,26 @@ export const setAlignmentPredictions = (chapter, verse, predictions) => {
   };
 };
 
+/**
+ * Removes all alignment suggestions for a verse
+ * @param chapter
+ * @param verse
+ * @return {{type: string, chapter: *, verse: *}}
+ */
 export const clearAlignmentSuggestions = (chapter, verse) => ({
   type: types.RESET_VERSE_ALIGNMENT_SUGGESTIONS,
+  chapter,
+  verse
+});
+
+/**
+ * Accepts all alignment suggestions for a verse
+ * @param chapter
+ * @param verse
+ * @return {{type: *, chapter: *, verse: *}}
+ */
+export const acceptAlignmentSuggestions = (chapter, verse) => ({
+  type: types.ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   chapter,
   verse
 });

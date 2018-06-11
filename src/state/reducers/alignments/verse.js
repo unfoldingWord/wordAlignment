@@ -1,4 +1,5 @@
 import {
+  ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   ALIGN_RENDERED_SOURCE_TOKEN,
   ALIGN_RENDERED_TARGET_TOKEN,
   INSERT_RENDERED_ALIGNMENT,
@@ -120,37 +121,14 @@ const verse = (state = defaultState, action) => {
         action);
       newRenderedAlignments[action.index] = newRenderedAlignment;
 
-      // propagate alignment index changes to other rendered alignments.
-      // for(let i = action.index + 1; i < newRenderedAlignments.length; i ++) {
-      //   const shiftedAlignment = newRenderedAlignments[i];
-      //   shiftedAlignment.alignments = shiftedAlignment.alignments.map(a => a - 1);
-      //   newRenderedAlignments[i] = shiftedAlignment;
-      // }
-
       // TRICKY: remove empty rendered alignments
       if (newRenderedAlignments[action.index].sourceNgram.length === 0) {
         newRenderedAlignments.splice(action.index, 1);
       }
       newRenderedAlignments.sort(alignmentComparator);
 
-      // remove affected alignments
-      // for (const index of renderedAlignment.alignments) {
-      //   newAlignments[index] = null;
-      // }
-      // newAlignments = _.compact(newAlignments);
-
-      // persist to alignments (if it wasn't removed)
-      // if (newRenderedAlignment.sourceNgram.length > 0) {
-      //   const newAlignment = {
-      //     sourceNgram: newRenderedAlignment.sourceNgram,
-      //       targetNgram: newRenderedAlignment.targetNgram
-      //   };
-      //   newAlignments.push(newAlignment);
-      //   newAlignments.sort(alignmentComparator);
-      // }
-
       // compile alignments
-      const {alignments, indices: indices} = compile(newRenderedAlignments,
+      const {alignments, indices} = compile(newRenderedAlignments,
         state.alignments);
 
       // update index mapping
@@ -172,6 +150,23 @@ const verse = (state = defaultState, action) => {
         suggestions: newSuggestions,
         alignments,
         renderedAlignments: newRenderedAlignments
+      };
+    }
+    case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS: {
+      const renderedAlignments = [];
+      for (let i = 0; i < state.renderedAlignments.length; i++) {
+        const currentRender = state.renderedAlignments[i];
+        renderedAlignments.push(
+          renderedAlignmentReducer(currentRender, action));
+      }
+      const {alignments} = compile(renderedAlignments,
+        state.alignments);
+      return {
+        ...state,
+        suggestions: [],
+        alignments,
+        renderedAlignments: renderedAlignmentsReducer(renderedAlignments,
+          action, alignments, [], state.sourceTokens.length)
       };
     }
     case SET_ALIGNMENT_SUGGESTIONS: {

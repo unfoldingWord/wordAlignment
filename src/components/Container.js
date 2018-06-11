@@ -15,6 +15,7 @@ import {
   moveSourceToken,
   repairVerse,
   resetVerse,
+  acceptAlignmentSuggestions,
   setAlignmentPredictions,
   unalignTargetToken
 } from '../state/actions';
@@ -202,7 +203,8 @@ class Container extends Component {
       moveSourceToken,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
-    moveSourceToken(chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token);
+    moveSourceToken(chapter, verse, nextAlignmentIndex, prevAlignmentIndex,
+      token);
   }
 
   handleRefreshSuggestions() {
@@ -210,7 +212,11 @@ class Container extends Component {
   }
 
   handleAcceptSuggestions() {
-    // TODO: accept suggestions
+    const {
+      acceptAlignmentSuggestions,
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    acceptAlignmentSuggestions(chapter, verse);
   }
 
   handleRejectSuggestions() {
@@ -248,18 +254,18 @@ class Container extends Component {
     }
 
     const {ScripturePane} = currentToolViews;
-    let scripturePane = <div />;
+    let scripturePane = <div/>;
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
       scripturePane =
         <ScripturePane projectDetailsReducer={projectDetailsReducer}
-          appLanguage={appLanguage}
-          selectionsReducer={selectionsReducer}
-          currentToolViews={currentToolViews}
-          resourcesReducer={resourcesReducer}
-          contextIdReducer={contextIdReducer}
-          settingsReducer={settingsReducer}
-          actions={actions} />;
+                       appLanguage={appLanguage}
+                       selectionsReducer={selectionsReducer}
+                       currentToolViews={currentToolViews}
+                       resourcesReducer={resourcesReducer}
+                       contextIdReducer={contextIdReducer}
+                       settingsReducer={settingsReducer}
+                       actions={actions}/>;
     }
 
     const {lexicons} = resourcesReducer;
@@ -289,7 +295,7 @@ class Container extends Component {
           words={words}
           onDropTargetToken={this.handleUnalignTargetToken}
           connectDropTarget={connectDropTarget}
-          isOver={isOver} />
+          isOver={isOver}/>
         <div style={{
           flex: 0.8,
           display: 'flex',
@@ -345,6 +351,7 @@ Container.propTypes = {
   indexChapterAlignments: PropTypes.func.isRequired,
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
+  acceptAlignmentSuggestions: PropTypes.func.isRequired,
 
   // state props
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -385,6 +392,7 @@ const mapDispatchToProps = ({
   repairVerse,
   clearState,
   indexChapterAlignments,
+  acceptAlignmentSuggestions,
   setAlignmentPredictions,
   clearAlignmentSuggestions
 });

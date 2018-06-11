@@ -23,9 +23,40 @@ import {
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
+import {sortPanesSettings} from '../utils/panesSettingsHelper';
 import Token from 'word-map/structures/Token';
+import {ScripturePane} from 'tc-ui-toolkit';
 //containers
 import GroupMenuContainer from '../containers/GroupMenuContainer';
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100vw',
+    height: 'var(--tool-max-height)'
+  },
+  groupMenuContainer: {
+    width: '250px',
+    height: '100%'
+  },
+  wordListContainer: {
+    width: '160px',
+    height: '100%'
+  },
+  alignmentAreaContainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    width: 'calc(100vw - 410px)',
+    height: '100%'
+  },
+  scripturePaneWrapper: {
+    height: '250px',
+    marginBottom: '20px',
+  }
+};
+
 
 /**
  * The base container for this tool
@@ -49,38 +80,13 @@ class Container extends Component {
   }
 
   componentWillMount() {
-    // TODO: the following code needs to be cleaned up
-
     // current panes persisted in the scripture pane settings.
-    const {ScripturePane} = this.props.settingsReducer.toolsSettings;
-    let panes = [];
-    if (ScripturePane) panes = ScripturePane.currentPaneSettings;
-    // filter out targetLanguage and bhp
-    panes = panes.filter((pane) => {
-      return pane.languageId !== 'targetLanguage' && pane.bibleId !== 'bhp' &&
-        pane.bibleId !== 'ugnt';
-    });
-    // getting the last pane from the panes array if it exist otherwise equal to null.
-    const lastPane = panes[panes.length - 1] ? panes[panes.length - 1] : null;
-    // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
-    let desiredPanes = [
-      {
-        languageId: 'targetLanguage',
-        bibleId: 'targetBible'
-      },
-      {
-        languageId: 'originalLanguage',
-        bibleId: 'ugnt'
-      }
-    ];
-    // if last pane found in previous scripture pane settings then carry it over to new settings in wordAlignment.
-    const carryOverPane = lastPane && lastPane.languageId !==
-      'targetLanguage' && lastPane.bibleId !== 'bhp' && lastPane.bibleId !==
-      'ugnt';
-    if (carryOverPane) desiredPanes.push(lastPane);
-    // set new pane settings
-    this.props.actions.setToolSettings('ScripturePane', 'currentPaneSettings',
-      desiredPanes);
+    const { actions: { setToolSettings }, settingsReducer } = this.props;
+    const {ScripturePane} = settingsReducer.toolsSettings;
+    const {currentPaneSettings} = ScripturePane;
+    const panes = ScripturePane && currentPaneSettings ? currentPaneSettings : [];
+
+    sortPanesSettings(panes, setToolSettings);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -199,12 +205,27 @@ class Container extends Component {
     moveSourceToken({chapter, verse, nextIndex, prevIndex, token});
   }
 
+  makeTitle(manifest) {
+    const {target_language, project} = manifest;
+    if (target_language && target_language.book && target_language.book.name) {
+      return target_language.book.name;
+    } else {
+      return project.name;
+    }
+  }
+
   render() {
     // Modules not defined within translationWords
     const {
       connectDropTarget,
       isOver,
       actions,
+      actions: {
+        showPopover,
+        editTargetVerse,
+        getLexiconData,
+        setToolSettings
+      },
       translate,
       settingsReducer,
       resourcesReducer,
@@ -215,29 +236,34 @@ class Container extends Component {
       verseAlignments,
       projectDetailsReducer,
       tc: {
-        appLanguage,
         contextId
       },
-      currentToolViews
     } = this.props;
 
     if (!contextId) {
       return null;
     }
 
-    const {ScripturePane} = currentToolViews;
     let scripturePane = <div />;
+    const {currentPaneSettings} = settingsReducer.toolsSettings.ScripturePane;
+    const expandedScripturePaneTitle = this.makeTitle(projectDetailsReducer.manifest);
+
     // populate scripturePane so that when required data is preset that it renders as intended.
     if (Object.keys(resourcesReducer.bibles).length > 0) {
-      scripturePane =
-        <ScripturePane projectDetailsReducer={projectDetailsReducer}
-          appLanguage={appLanguage}
-          selectionsReducer={selectionsReducer}
-          currentToolViews={currentToolViews}
-          resourcesReducer={resourcesReducer}
-          contextIdReducer={contextIdReducer}
-          settingsReducer={settingsReducer}
-          actions={actions} />;
+      scripturePane = (
+        <ScripturePane
+          currentPaneSettings={currentPaneSettings}
+          contextId={contextIdReducer.contextId}
+          bibles={resourcesReducer.bibles}
+          expandedScripturePaneTitle={expandedScripturePaneTitle}
+          showPopover={showPopover}
+          editTargetVerse={editTargetVerse}
+          projectDetailsReducer={projectDetailsReducer}
+          translate={translate}
+          getLexiconData={getLexiconData}
+          selections={selectionsReducer.selections}
+          setToolSettings={setToolSettings} />
+      );
     }
 
     const {lexicons} = resourcesReducer;
@@ -259,23 +285,21 @@ class Container extends Component {
     });
 
     return (
-      <div style={{display: 'flex', width: '100%', height: '100%'}}>
+      <div style={styles.container}>
         <GroupMenuContainer {...this.props.groupMenu} />
-        <WordList
-          chapter={chapter}
-          verse={verse}
-          words={words}
-          onDropTargetToken={this.handleUnalignTargetToken}
-          connectDropTarget={connectDropTarget}
-          isOver={isOver} />
-        <div style={{
-          flex: 0.8,
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          height: '100%'
-        }}>
-          {scripturePane}
+        <div style={styles.wordListContainer}>
+          <WordList
+            chapter={chapter}
+            verse={verse}
+            words={words}
+            onDropTargetToken={this.handleUnalignTargetToken}
+            connectDropTarget={connectDropTarget}
+            isOver={isOver} />
+        </div>
+        <div style={styles.alignmentAreaContainer}>
+          <div style={styles.scripturePaneWrapper}>
+            {scripturePane}
+          </div>
           <AlignmentGrid
             alignments={verseAlignments}
             translate={translate}

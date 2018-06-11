@@ -1,16 +1,41 @@
 {
   "cannot_drag_middle": "Cannot un-merge a middle word",
-  "lemma": "Lemma:",
   "loading_alignments": "Loading alignment data",
+  "lemma": "Lemma:",
   "morphology": "Morphology:",
   "strongs": "Strongs:",
   "lexicon": "Lexicon:",
+  "close": "Close",
+  "select": "Select",
+  "spelling": "Spelling",
+  "punctuation": "Punctuation",
+  "word_choice": "Word Choice",
+  "meaning": "Meaning",
+  "grammar": "Grammar",
+  "other": "Other",
   "alignments_reset": "There have been changes to the current verse which interfere with your alignments.\nThe alignments for the current verse have been reset.",
   "alignments_corrupt": "The alignments for this chapter could not be loaded and have been reset.",
+  "edit_verse": "Edit Verse",
+  "edit_verse_title": "Edit Verse - ${passage}",
+  "select_reasons": "Select reason(s) for change",
   "buttons": {
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "back_button": "Go Back",
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "next_button": "Next"
   },
   "menu":{
     "menu": "Menu"
+  },
+  "pane": {
+    "current_project": "Current project",
+    "missing_bible": "[WARNING: This Bible version does not include text for this reference.]",
+    "title": "Step 1. Read",
+    "expand_hover": "Click to show expanded resource panes",
+    "remove_resource": "Click to remove resource",
+    "add_resource": "Click to add a resource",
+    "add_resource_label": "Add Resources",
+    "select_language": "Select language"
   }
 }

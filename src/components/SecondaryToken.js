@@ -15,6 +15,16 @@ import Token from 'word-map/structures/Token';
  * @property {int} occurrences
  */
 class SecondaryToken extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+
+  handleCancel() {
+    console.log(`clicking cancel on ${this.props.token.text}`);
+  }
+
   render() {
     const {
       connectDragSource,
@@ -32,6 +42,7 @@ class SecondaryToken extends React.Component {
           word={token.text}
           disabled={disabled}
           style={{opacity}}
+          onCancel={this.handleCancel}
           isSuggestion={token.meta.suggestion}
           occurrence={token.occurrence}
           occurrences={token.occurrences}/>

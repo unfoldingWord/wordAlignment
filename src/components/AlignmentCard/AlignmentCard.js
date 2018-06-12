@@ -35,7 +35,6 @@ const makeStyles = (props) => {
   };
   const styles = {
     root: {
-      // transition: transitionSpeed,
       padding: '7px',
       backgroundColor: isSuggestion ? '#bedac2' : '#DCDCDC',
       margin: '0px 10px 10px 0px',

@@ -95,13 +95,18 @@ exports[`has a bottom word 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord
               </span>
@@ -195,13 +200,18 @@ exports[`has a top and bottom word 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord
               </span>
@@ -257,13 +267,18 @@ exports[`has a top and bottom word 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord
               </span>
@@ -357,13 +372,18 @@ exports[`has a top word 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord
               </span>
@@ -496,13 +516,18 @@ exports[`has multiple bottom words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord1
               </span>
@@ -532,13 +557,18 @@ exports[`has multiple bottom words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord2
               </span>
@@ -632,13 +662,18 @@ exports[`has multiple top and bottom words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord1
               </span>
@@ -668,13 +703,18 @@ exports[`has multiple top and bottom words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord2
               </span>
@@ -730,13 +770,18 @@ exports[`has multiple top and bottom words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord1
               </span>
@@ -766,13 +811,18 @@ exports[`has multiple top and bottom words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord2
               </span>
@@ -866,13 +916,18 @@ exports[`has multiple top words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord1
               </span>
@@ -902,13 +957,18 @@ exports[`has multiple top words 1`] = `
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord2
               </span>

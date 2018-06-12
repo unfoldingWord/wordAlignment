@@ -303,3 +303,19 @@ export const acceptAlignmentSuggestions = (chapter, verse) => ({
   chapter,
   verse
 });
+
+/**
+ * Removes a single alignment suggestion
+ * @param chapter
+ * @param verse
+ * @param alignmentIndex
+ * @param token
+ * @return {{type: string, chapter: *, verse: *, alignmentIndex: *, tokenIndex: *}}
+ */
+export const removeTokenSuggestion = (chapter, verse, alignmentIndex, token) => ({
+  type: types.REMOVE_TOKEN_SUGGESTION,
+  chapter,
+  verse,
+  index: alignmentIndex,
+  token
+});

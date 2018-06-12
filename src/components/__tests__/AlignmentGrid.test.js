@@ -11,6 +11,7 @@ test('empty snapshot', () => {
     <AlignmentGrid lexicons={{}}
                    alignments={[]}
                    onDropSourceToken={jest.fn()}
+                   onCancelSuggestion={jest.fn()}
                    onDropTargetToken={jest.fn()}
                    translate={k => k}
                    actions={{
@@ -45,6 +46,7 @@ describe('AlignmentGrid', () => {
           {
             'position': 0,
             'index': 0,
+            'isSuggestion': false,
             'sourceNgram': [
               new Token({
                 'text': 'ἐπειδήπερ',
@@ -60,6 +62,7 @@ describe('AlignmentGrid', () => {
           {
             'position': 1,
             'index': 1,
+            'isSuggestion': false,
             'sourceNgram': [
               new Token({
                 'text': 'πολλοὶ',
@@ -75,6 +78,7 @@ describe('AlignmentGrid', () => {
           {
             'position': 2,
             'index': 2,
+            'isSuggestion': false,
             'sourceNgram': [
               new Token({
                 'text': 'ἐπεχείρησαν',
@@ -103,6 +107,7 @@ describe('AlignmentGrid', () => {
         contextId={contextId}
         onDropSourceToken={jest.fn()}
         onDropTargetToken={jest.fn()}
+        onCancelSuggestion={jest.fn()}
         translate={k => k}
         actions={{
           showPopover: jest.fn(),
@@ -131,6 +136,7 @@ describe('AlignmentGrid', () => {
         alignments={alignmentData['1']['1']}
         contextId={contextId}
         onDropSourceToken={jest.fn()}
+        onCancelSuggestion={jest.fn()}
         onDropTargetToken={jest.fn()}
         translate={k => k}
         actions={{

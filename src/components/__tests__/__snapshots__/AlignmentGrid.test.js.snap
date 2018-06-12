@@ -98,13 +98,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                     <span
                       style={
                         Object {
+                          "display": "flex",
                           "flex": 1,
                         }
                       }
                     >
                       <span
                         onClick={[Function]}
-                        style={Object {}}
+                        style={
+                          Object {
+                            "flexGrow": 2,
+                          }
+                        }
                       >
                         ἐπειδήπερ
                       </span>
@@ -235,13 +240,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                     <span
                       style={
                         Object {
+                          "display": "flex",
                           "flex": 1,
                         }
                       }
                     >
                       <span
                         onClick={[Function]}
-                        style={Object {}}
+                        style={
+                          Object {
+                            "flexGrow": 2,
+                          }
+                        }
                       >
                         πολλοὶ
                       </span>
@@ -372,13 +382,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                     <span
                       style={
                         Object {
+                          "display": "flex",
                           "flex": 1,
                         }
                       }
                     >
                       <span
                         onClick={[Function]}
-                        style={Object {}}
+                        style={
+                          Object {
+                            "flexGrow": 2,
+                          }
+                        }
                       >
                         ἐπεχείρησαν
                       </span>

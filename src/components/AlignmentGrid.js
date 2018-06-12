@@ -26,6 +26,7 @@ class AlignmentGrid extends Component {
       translate,
       actions,
       lexicons,
+      onCancelSuggestion,
       alignments,
       contextId
     } = this.props;
@@ -55,6 +56,7 @@ class AlignmentGrid extends Component {
 
                 <AlignmentCard
                   translate={translate}
+                  onCancelSuggestion={onCancelSuggestion}
                   alignmentIndex={alignment.index}
                   isSuggestion={alignment.isSuggestion}
                   targetNgram={alignment.targetNgram}
@@ -97,6 +99,7 @@ class AlignmentGrid extends Component {
 AlignmentGrid.propTypes = {
   onDropTargetToken: PropTypes.func.isRequired,
   onDropSourceToken: PropTypes.func.isRequired,
+  onCancelSuggestion: PropTypes.func.isRequired,
   alignments: PropTypes.array.isRequired,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,

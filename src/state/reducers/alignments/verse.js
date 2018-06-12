@@ -3,6 +3,7 @@ import {
   ALIGN_RENDERED_SOURCE_TOKEN,
   ALIGN_RENDERED_TARGET_TOKEN,
   INSERT_RENDERED_ALIGNMENT,
+  REMOVE_TOKEN_SUGGESTION,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
@@ -21,6 +22,7 @@ import renderedAlignmentsReducer, * as fromRenderedAlignments
   from './renderedAlignments';
 import renderedAlignmentReducer from './renderedAlignment';
 import _ from 'lodash';
+import suggestionReducer from './suggestion';
 
 /**
  * Compares two alignments for sorting
@@ -111,15 +113,13 @@ const verse = (state = defaultState, action) => {
     case ALIGN_RENDERED_SOURCE_TOKEN:
     case UNALIGN_RENDERED_TARGET_TOKEN:
     case ALIGN_RENDERED_TARGET_TOKEN: {
-      // let newAlignments = _.cloneDeep(state.alignments);
       const newSuggestions = _.cloneDeep(state.suggestions);
       const newRenderedAlignments = _.cloneDeep(state.renderedAlignments);
 
       // update rendered alignment
       const renderedAlignment = state.renderedAlignments[action.index];
-      const newRenderedAlignment = renderedAlignmentReducer(renderedAlignment,
-        action);
-      newRenderedAlignments[action.index] = newRenderedAlignment;
+      newRenderedAlignments[action.index] = renderedAlignmentReducer(
+        renderedAlignment, action);
 
       // TRICKY: remove empty rendered alignments
       if (newRenderedAlignments[action.index].sourceNgram.length === 0) {
@@ -192,6 +192,21 @@ const verse = (state = defaultState, action) => {
         renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
           action, state.alignments)
       };
+    case REMOVE_TOKEN_SUGGESTION: {
+      const renderedAlignment = state.renderedAlignments[action.index];
+      const suggestionIndex = renderedAlignment.suggestion;
+      const suggestions = [
+        ...state.suggestions
+      ];
+      suggestions[suggestionIndex] = suggestionReducer(
+        state.suggestions[suggestionIndex], action);
+      return {
+        ...state,
+        suggestions,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, state.alignments, suggestions, state.sourceTokens.length)
+      };
+    }
     case RESET_VERSE_ALIGNMENTS: {
       const alignments = [];
       for (let i = 0; i < state.sourceTokens.length; i++) {

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WordOccurrence from './WordOccurrence';
-import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Controls from './Controls';
 
 /**
  * Generates the component styles
@@ -53,31 +52,6 @@ const makeStyles = (props) => {
 };
 
 /**
- * Renders controls for suggestions
- * @param {bool} isSuggestion
- * @param {func} onClick
- * @return {*}
- * @constructor
- */
-const SuggestionControls = ({isSuggestion, onClick}) => {
-  if (isSuggestion) {
-    return (
-      <MuiThemeProvider>
-        <CancelIcon onClick={onClick} style={{
-          width: 20,
-          height: 20,
-          verticalAlign: 'middle',
-          marginLeft: 5,
-          color: '#808080'
-        }}/>
-      </MuiThemeProvider>
-    );
-  } else {
-    return null;
-  }
-};
-
-/**
  * Renders a standard word.
  *
  * @param {string} word - the represented word
@@ -116,7 +90,7 @@ class WordCard extends React.Component {
    */
   _handleCancelClick(e) {
     const {onCancel} = this.props;
-    if(typeof onCancel === 'function') {
+    if (typeof onCancel === 'function') {
       onCancel(e);
     }
   }
@@ -131,8 +105,10 @@ class WordCard extends React.Component {
           <span onClick={this._handleClick} style={styles.word}>
             {word}
           </span>
-          <SuggestionControls isSuggestion={isSuggestion}
-                              onClick={this._handleCancelClick}/>
+          {isSuggestion ? (
+            <Controls onCancel={this._handleCancelClick}/>
+          ) : null}
+
         </span>
           <WordOccurrence occurrence={occurrence}
                           occurrences={occurrences}/>

@@ -8,14 +8,15 @@ import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
 import {
+  acceptAlignmentSuggestions,
   alignTargetToken,
   clearAlignmentSuggestions,
   clearState,
   indexChapterAlignments,
   moveSourceToken,
+  removeTokenSuggestion,
   repairVerse,
   resetVerse,
-  acceptAlignmentSuggestions,
   setAlignmentPredictions,
   unalignTargetToken
 } from '../state/actions';
@@ -48,6 +49,7 @@ class Container extends Component {
     this.handleRefreshSuggestions = this.handleRefreshSuggestions.bind(this);
     this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
     this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
+    this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -227,6 +229,14 @@ class Container extends Component {
     clearAlignmentSuggestions(chapter, verse);
   }
 
+  handleRemoveSuggestion(alignmentIndex, token) {
+    const {
+      removeTokenSuggestion,
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    removeTokenSuggestion(chapter, verse, alignmentIndex, token);
+  }
+
   render() {
     // Modules not defined within translationWords
     const {
@@ -309,6 +319,7 @@ class Container extends Component {
                          lexicons={lexicons}
                          onDropTargetToken={this.handleAlignTargetToken}
                          onDropSourceToken={this.handleAlignPrimaryToken}
+                         onCancelSuggestion={this.handleRemoveSuggestion}
                          actions={actions}
                          contextId={contextId}/>
           <MAPControls onAccept={this.handleAcceptSuggestions}
@@ -342,6 +353,7 @@ Container.propTypes = {
   toolIsReady: PropTypes.bool.isRequired,
 
   // dispatch props
+  removeTokenSuggestion: PropTypes.func.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
   moveSourceToken: PropTypes.func.isRequired,
@@ -392,6 +404,7 @@ const mapDispatchToProps = ({
   repairVerse,
   clearState,
   indexChapterAlignments,
+  removeTokenSuggestion,
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
   clearAlignmentSuggestions

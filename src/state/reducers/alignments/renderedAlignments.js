@@ -5,6 +5,7 @@ import {
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
+  REMOVE_TOKEN_SUGGESTION,
   SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
@@ -26,6 +27,7 @@ const renderedAlignments = (
   switch (action.type) {
     case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS:
     case INSERT_RENDERED_ALIGNMENT:
+    case REMOVE_TOKEN_SUGGESTION:
     case SET_ALIGNMENT_SUGGESTIONS:
       return render(alignments, suggestions, numSourceTokens);
     case SET_CHAPTER_ALIGNMENTS:
@@ -112,33 +114,27 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   const suggestedAlignments = [];
   let tokenQueue = [];
   let alignmentQueue = []; // track how many alignments span a suggestion
-  // let suggestionQueue = []; // track how many suggestions span an alignment
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < numSourceTokens; tIndex++) {
     tokenQueue.push(tIndex);
     if (alignmentQueue.indexOf(alignmentIndex[tIndex].index) === -1) {
       alignmentQueue.push(alignmentIndex[tIndex].index);
     }
-    // if (suggestionQueue.indexOf(suggestionIndex[tIndex].index) === -1) {
-    //   suggestionQueue.push(suggestionIndex[tIndex].index);
-    // }
 
     const alignmentIsAligned = alignmentIndex[tIndex].aligned;
     const finishedReadingAlignment = alignmentIndex[tIndex].lastSourceToken ===
       tIndex;
     const suggestionSpansMultiple = alignmentQueue.length > 1;
-    // const alignmentSpansMultiple = suggestionQueue.length > 1;
 
     // determine suggestion validity
     let suggestionIsValid = false;
     let finishedReadingSuggestion = false;
-    let suggestionIsEmpty = false;
+    // let suggestionIsEmpty = false;
     let sourceNgramsMatch = false;
     // TRICKY: we may not  have suggestions for everything
     if (tIndex < suggestionIndex.length) {
       finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
         tIndex;
-      suggestionIsEmpty = suggestionIndex[tIndex].isEmpty;
       const suggestionTargetIsSuperset = isSubArray(
         suggestionIndex[tIndex].targetNgram,
         alignmentIndex[tIndex].targetNgram);
@@ -163,10 +159,6 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         // incomplete readings are valid until proven otherwise
         suggestionIsValid = true;
       }
-      // if this is not a split this is fine. otherwise we have problems.
-      // if (suggestionIsEmpty) {
-      //   suggestionIsValid = false;
-      // }
     }
 
     // TRICKY: persist invalid state through the entire suggestion.

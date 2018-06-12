@@ -22,7 +22,10 @@ class SecondaryToken extends React.Component {
   }
 
   handleCancel() {
-    console.log(`clicking cancel on ${this.props.token.text}`);
+    const {onCancel, token} = this.props;
+    if(typeof onCancel === 'function') {
+      onCancel(token);
+    }
   }
 
   render() {
@@ -58,6 +61,7 @@ class SecondaryToken extends React.Component {
 }
 
 SecondaryToken.propTypes = {
+  onCancel: PropTypes.func,
   token: PropTypes.instanceOf(Token).isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,

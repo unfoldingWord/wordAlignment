@@ -42,13 +42,18 @@ Array [
           <span
             style={
               Object {
+                "display": "flex",
                 "flex": 1,
               }
             }
           >
             <span
               onClick={[Function]}
-              style={Object {}}
+              style={
+                Object {
+                  "flexGrow": 2,
+                }
+              }
             >
               w1
             </span>
@@ -95,13 +100,18 @@ Array [
           <span
             style={
               Object {
+                "display": "flex",
                 "flex": 1,
               }
             }
           >
             <span
               onClick={[Function]}
-              style={Object {}}
+              style={
+                Object {
+                  "flexGrow": 2,
+                }
+              }
             >
               w2
             </span>
@@ -149,13 +159,18 @@ Array [
           <span
             style={
               Object {
+                "display": "flex",
                 "flex": 1,
               }
             }
           >
             <span
               onClick={[Function]}
-              style={Object {}}
+              style={
+                Object {
+                  "flexGrow": 2,
+                }
+              }
             >
               w3
             </span>

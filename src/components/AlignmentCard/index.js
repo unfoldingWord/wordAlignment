@@ -73,6 +73,18 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
  * Renders the alignment of primary and secondary words/phrases
  */
 class DroppableAlignmentCard extends Component {
+  constructor(props) {
+    super(props);
+    this._handleCancelSuggestion = this._handleCancelSuggestion.bind(this);
+  }
+
+  _handleCancelSuggestion(token) {
+    const {onCancelSuggestion, alignmentIndex} = this.props;
+    if(typeof onCancelSuggestion === 'function') {
+      onCancelSuggestion(alignmentIndex, token);
+    }
+  }
+
   render() {
     const {
       translate,
@@ -112,6 +124,7 @@ class DroppableAlignmentCard extends Component {
       <SecondaryToken
         key={index}
         token={token}
+        onCancel={this._handleCancelSuggestion}
         alignmentIndex={alignmentIndex}
       />
     ));
@@ -135,6 +148,7 @@ class DroppableAlignmentCard extends Component {
 }
 
 DroppableAlignmentCard.propTypes = {
+  onCancelSuggestion: PropTypes.func,
   translate: PropTypes.func.isRequired,
   placeholderPosition: PropTypes.string,
   dragItemType: PropTypes.string,

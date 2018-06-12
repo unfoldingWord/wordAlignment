@@ -5,9 +5,6 @@
   "title": "Word Alignment",
   "main": "index.js",
   "display": "app",
-  "include": {
-    "ScripturePane": "1.0.2"
-  },
   "scripts": {
     "test": "eslint ./src && jest"
   },

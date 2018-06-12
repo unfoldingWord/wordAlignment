@@ -476,10 +476,12 @@ describe('render alignments', () => {
       const result = testRenderer(state);
       expect(result).toEqual([
         {
+          alignments: [0],
           sourceNgram: [0],
           targetNgram: [0]
         },
         {
+          alignments: [1],
           sourceNgram: [1],
           targetNgram: []
         }
@@ -496,14 +498,22 @@ describe('render alignments', () => {
           {sourceNgram: [1], targetNgram: [0]}
         ],
         suggestions: [
-          {sourceNgram: [0], targetNgram: [1]},
-          {sourceNgram: [1], targetNgram: [0]}
+          {sourceNgram: [0], targetNgram: [0]},
+          {sourceNgram: [1], targetNgram: [1]}
         ]
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {index: 0, position: 0, sourceNgram: [0], targetNgram: [0]},
-        {index: 1, position: 1, sourceNgram: [1], targetNgram: []}
+        {
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: []
+        },
+        {
+          alignments: [1],
+          sourceNgram: [1],
+          targetNgram: [0]
+        }
       ]);
     });
 

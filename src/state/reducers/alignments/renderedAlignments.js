@@ -2,10 +2,10 @@ import {numberComparator} from './index';
 import {
   ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   INSERT_RENDERED_ALIGNMENT,
+  REMOVE_TOKEN_SUGGESTION,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
-  REMOVE_TOKEN_SUGGESTION,
   SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
@@ -63,12 +63,18 @@ const convertToRendered = (alignments) => {
  */
 export const render = (alignments, suggestions, numSourceTokens) => {
   // index things
-  const alignmentIndex = [];
-  const suggestionIndex = [];
+  const alignmentSourceIndex = [];
+  const suggestionSourceIndex = [];
+  const alignmentTargetIndex = {};
+  // const suggestionTargetIndex = {};
   for (let aIndex = 0; aIndex < alignments.length; aIndex++) {
+    for (const pos of alignments[aIndex].targetNgram) {
+      alignmentTargetIndex[pos] = aIndex;
+    }
     for (let i = 0; i < alignments[aIndex].sourceNgram.length; i++) {
       const sourceLength = alignments[aIndex].sourceNgram.length;
-      alignmentIndex.push({
+      // TRICKY: the source tokens will be in order spread over the alignments
+      alignmentSourceIndex.push({
         index: aIndex,
         aligned: alignments[aIndex].targetNgram.length > 0,
         sourceLength,
@@ -81,9 +87,13 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     }
   }
   for (let sIndex = 0; sIndex < suggestions.length; sIndex++) {
+    // for (const pos of suggestions[sIndex].targetNgram) {
+    //   suggestionTargetIndex[pos] = sIndex;
+    // }
     for (let i = 0; i < suggestions[sIndex].sourceNgram.length; i++) {
       const sourceLength = suggestions[sIndex].sourceNgram.length;
-      suggestionIndex.push({
+      // TRICKY: the source tokens will be in order spread over the suggestions
+      suggestionSourceIndex.push({
         index: sIndex,
         sourceLength,
         targetLength: suggestions[sIndex].targetNgram.length,
@@ -97,7 +107,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   }
 
   // TRICKY: we don't support partial suggestion coverage at the moment
-  if (suggestionIndex.length > 0 && suggestionIndex.length !==
+  if (suggestionSourceIndex.length > 0 && suggestionSourceIndex.length !==
     numSourceTokens) {
     console.error(
       'Index out of bounds. We currently do not support partial suggestions.');
@@ -105,7 +115,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   }
 
   // TRICKY: short circuit invalid alignments
-  if (alignmentIndex.length !== numSourceTokens) {
+  if (alignmentSourceIndex.length !== numSourceTokens) {
     console.error('Alignments are corrupt');
     return [...convertToRendered(alignments)];
   }
@@ -117,40 +127,51 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < numSourceTokens; tIndex++) {
     tokenQueue.push(tIndex);
-    if (alignmentQueue.indexOf(alignmentIndex[tIndex].index) === -1) {
-      alignmentQueue.push(alignmentIndex[tIndex].index);
+    if (alignmentQueue.indexOf(alignmentSourceIndex[tIndex].index) === -1) {
+      alignmentQueue.push(alignmentSourceIndex[tIndex].index);
     }
 
-    const alignmentIsAligned = alignmentIndex[tIndex].aligned;
-    const finishedReadingAlignment = alignmentIndex[tIndex].lastSourceToken ===
+    const alignmentIsAligned = alignmentSourceIndex[tIndex].aligned;
+    const finishedReadingAlignment = alignmentSourceIndex[tIndex].lastSourceToken ===
       tIndex;
     const suggestionSpansMultiple = alignmentQueue.length > 1;
+
+    let targetUsedElsewhere = false;
 
     // determine suggestion validity
     let suggestionIsValid = false;
     let finishedReadingSuggestion = false;
     // let suggestionIsEmpty = false;
     let sourceNgramsMatch = false;
-    // TRICKY: we may not  have suggestions for everything
-    if (tIndex < suggestionIndex.length) {
-      finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
+    // TRICKY: we may not have suggestions for everything
+    if (tIndex < suggestionSourceIndex.length) {
+      // check if suggested target tokens are already used
+      for (const targetPos of suggestionSourceIndex[tIndex].targetNgram) {
+        if (targetPos in alignmentTargetIndex) {
+          const index = alignmentTargetIndex[targetPos];
+          targetUsedElsewhere = alignmentQueue.indexOf(index) === -1;
+          break;
+        }
+      }
+
+      finishedReadingSuggestion = suggestionSourceIndex[tIndex].lastSourceToken ===
         tIndex;
       const suggestionTargetIsSuperset = isSubArray(
-        suggestionIndex[tIndex].targetNgram,
-        alignmentIndex[tIndex].targetNgram);
+        suggestionSourceIndex[tIndex].targetNgram,
+        alignmentSourceIndex[tIndex].targetNgram);
 
-      sourceNgramsMatch = alignmentIndex[tIndex].sourceId ===
-        suggestionIndex[tIndex].sourceId;
-      const targetNgramsMatch = alignmentIndex[tIndex].targetId ===
-        suggestionIndex[tIndex].targetId;
+      sourceNgramsMatch = alignmentSourceIndex[tIndex].sourceId ===
+        suggestionSourceIndex[tIndex].sourceId;
+      const targetNgramsMatch = alignmentSourceIndex[tIndex].targetId ===
+        suggestionSourceIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
 
       if (!alignmentIsAligned) {
-        // un-aligned alignments are valid unless a perfect match
+        // un-aligned alignments are valid
         suggestionIsValid = true;
       } else if (!isPerfectMatch && finishedReadingAlignment &&
         finishedReadingSuggestion && !suggestionSpansMultiple &&
-        suggestionTargetIsSuperset) {
+        suggestionTargetIsSuperset && sourceNgramsMatch) {
         // identical source n-grams are valid
         suggestionIsValid = true;
       } else if (!isPerfectMatch && !finishedReadingAlignment &&
@@ -177,7 +198,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
 
     // renders a finished suggestion
     const renderSuggestion = () => {
-      const index = suggestionIndex[tIndex].index;
+      const index = suggestionSourceIndex[tIndex].index;
       // merge target n-grams
       const rawSuggestion = _.cloneDeep(suggestions[index]);
       rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
@@ -196,7 +217,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
       rawSuggestion.alignments = [...alignmentQueue];
       rawSuggestion.suggestion = index;
       rawSuggestion.targetNgram.sort(numberComparator);
-      if(suggestionIndex[tIndex].isEmpty && sourceNgramsMatch) {
+      if (suggestionSourceIndex[tIndex].isEmpty && sourceNgramsMatch) {
         // TRICKY: render empty suggestions as an alignment
         return {
           alignments: rawSuggestion.alignments,
@@ -208,10 +229,16 @@ export const render = (alignments, suggestions, numSourceTokens) => {
       }
     };
 
+    // TRICKY: if the suggested target tokens are used elsewhere we render the alignment
+    const shouldRenderSuggestion = suggestionStateIsValid &&
+      finishedReadingSuggestion && !targetUsedElsewhere;
+    const shouldRenderAlignment = (!suggestionStateIsValid ||
+      targetUsedElsewhere) && finishedReadingAlignment;
+
     // append finished readings
-    if (suggestionStateIsValid && finishedReadingSuggestion) {
+    if (shouldRenderSuggestion) {
       suggestedAlignments.push(renderSuggestion());
-    } else if (!suggestionStateIsValid && finishedReadingAlignment) {
+    } else if (shouldRenderAlignment) {
       suggestedAlignments.push(renderAlignment());
     }
 

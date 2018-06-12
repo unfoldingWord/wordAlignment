@@ -19,12 +19,20 @@ class SecondaryToken extends React.Component {
   constructor(props) {
     super(props);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleCancel() {
     const {onCancel, token} = this.props;
     if(typeof onCancel === 'function') {
       onCancel(token);
+    }
+  }
+
+  handleClick() {
+    const {token, onAccept} = this.props;
+    if(token.meta.suggestion && typeof onAccept === 'function') {
+      onAccept(token);
     }
   }
 
@@ -40,6 +48,7 @@ class SecondaryToken extends React.Component {
     const wordComponent = (
       <div
         style={{flex: 1}}
+        onClick={this.handleClick}
       >
         <Word
           word={token.text}
@@ -62,6 +71,7 @@ class SecondaryToken extends React.Component {
 
 SecondaryToken.propTypes = {
   onCancel: PropTypes.func,
+  onAccept: PropTypes.func,
   token: PropTypes.instanceOf(Token).isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,

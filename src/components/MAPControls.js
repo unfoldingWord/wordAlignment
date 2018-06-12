@@ -65,22 +65,22 @@ const styles = {
  */
 class MAPControls extends React.Component {
   render() {
-    const {onRefresh, onAccept, onReject} = this.props;
+    const {onRefresh, onAccept, onReject, translate} = this.props;
     return (
       <MuiThemeProvider>
         <div style={styles.root}>
           <InfoIcon style={styles.icon}/>
           <SecondaryButton style={styles.button} onClick={onRefresh}>
             <RefreshIcon style={styles.buttonIcon}/>
-            Refresh suggestions
+            {translate('suggestions.refresh')}
           </SecondaryButton>
           <SecondaryButton style={styles.button} onClick={onAccept}>
             <CheckIcon style={styles.buttonIcon}/>
-            Accept suggestions
+            {translate('suggestions.accept')}
           </SecondaryButton>
           <SecondaryButton style={styles.button} onClick={onReject}>
             <CancelIcon style={styles.buttonIcon}/>
-            Reject suggestions
+            {translate('suggestions.reject')}
           </SecondaryButton>
         </div>
       </MuiThemeProvider>
@@ -91,6 +91,7 @@ class MAPControls extends React.Component {
 MAPControls.propTypes = {
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
-  onReject: PropTypes.func.isRequired
+  onReject: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 };
 export default MAPControls;

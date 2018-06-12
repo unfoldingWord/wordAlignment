@@ -76,12 +76,20 @@ class DroppableAlignmentCard extends Component {
   constructor(props) {
     super(props);
     this._handleCancelSuggestion = this._handleCancelSuggestion.bind(this);
+    this._handleAcceptSuggestion = this._handleAcceptSuggestion.bind(this);
   }
 
   _handleCancelSuggestion(token) {
-    const {onCancelSuggestion, alignmentIndex} = this.props;
-    if(typeof onCancelSuggestion === 'function') {
-      onCancelSuggestion(alignmentIndex, token);
+    const {onCancelTokenSuggestion, alignmentIndex} = this.props;
+    if(typeof onCancelTokenSuggestion === 'function') {
+      onCancelTokenSuggestion(alignmentIndex, token);
+    }
+  }
+
+  _handleAcceptSuggestion(token) {
+    const {onAcceptTokenSuggestion, alignmentIndex} = this.props;
+    if(typeof onAcceptTokenSuggestion === 'function') {
+      onAcceptTokenSuggestion(alignmentIndex, token);
     }
   }
 
@@ -125,6 +133,7 @@ class DroppableAlignmentCard extends Component {
         key={index}
         token={token}
         onCancel={this._handleCancelSuggestion}
+        onAccept={this._handleAcceptSuggestion}
         alignmentIndex={alignmentIndex}
       />
     ));
@@ -148,7 +157,8 @@ class DroppableAlignmentCard extends Component {
 }
 
 DroppableAlignmentCard.propTypes = {
-  onCancelSuggestion: PropTypes.func,
+  onCancelTokenSuggestion: PropTypes.func,
+  onAcceptTokenSuggestion: PropTypes.func,
   translate: PropTypes.func.isRequired,
   placeholderPosition: PropTypes.string,
   dragItemType: PropTypes.string,

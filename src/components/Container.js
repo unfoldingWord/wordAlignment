@@ -50,6 +50,7 @@ class Container extends Component {
     this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
     this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
+    this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -240,6 +241,10 @@ class Container extends Component {
     removeTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
+  handleAcceptTokenSuggestion(alignmentIndex, token) {
+    console.log(`accepting token ${token.position} in alignment ${alignmentIndex}`);
+  }
+
   render() {
     // Modules not defined within translationWords
     const {
@@ -323,11 +328,13 @@ class Container extends Component {
                          onDropTargetToken={this.handleAlignTargetToken}
                          onDropSourceToken={this.handleAlignPrimaryToken}
                          onCancelSuggestion={this.handleRemoveSuggestion}
+                         onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
                          actions={actions}
                          contextId={contextId}/>
           <MAPControls onAccept={this.handleAcceptSuggestions}
                        onRefresh={this.handleRefreshSuggestions}
-                       onReject={this.handleRejectSuggestions}/>
+                       onReject={this.handleRejectSuggestions}
+                       translate={translate}/>
         </div>
       </div>
     );

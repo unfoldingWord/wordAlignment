@@ -79,6 +79,7 @@ class WordCard extends React.Component {
   _handleClick(e) {
     const {disabled, onClick} = this.props;
     if (!disabled && typeof onClick === 'function') {
+      e.stopPropagation();
       onClick(e);
     }
   }
@@ -91,6 +92,7 @@ class WordCard extends React.Component {
   _handleCancelClick(e) {
     const {onCancel} = this.props;
     if (typeof onCancel === 'function') {
+      e.stopPropagation();
       onCancel(e);
     }
   }

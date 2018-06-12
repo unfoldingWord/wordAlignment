@@ -17,7 +17,7 @@ exports[`is a suggestion 1`] = `
         "cursor": "pointer",
         "display": "flex",
         "flexDirection": "row",
-        "padding": "10px",
+        "padding": "9px",
       }
     }
   >
@@ -99,7 +99,7 @@ exports[`occurs multiple times 1`] = `
         "cursor": "pointer",
         "display": "flex",
         "flexDirection": "row",
-        "padding": "10px",
+        "padding": "9px",
       }
     }
   >
@@ -154,7 +154,7 @@ exports[`occurs once 1`] = `
         "cursor": "pointer",
         "display": "flex",
         "flexDirection": "row",
-        "padding": "10px",
+        "padding": "9px",
       }
     }
   >

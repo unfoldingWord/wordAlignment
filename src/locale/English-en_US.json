@@ -12,5 +12,10 @@
   },
   "menu":{
     "menu": "Menu"
+  },
+  "suggestions": {
+    "refresh": "Refresh suggestions",
+    "accept": "Accept suggestions",
+    "reject": "Reject suggestions"
   }
 }

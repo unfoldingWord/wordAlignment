@@ -50,7 +50,8 @@ class Container extends Component {
     this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
     this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
-    this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(this);
+    this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
+      this);
     this.state = {
       loading: false,
       validating: false,
@@ -116,23 +117,30 @@ class Container extends Component {
   }
 
   runMAP(props) {
-    const {chapterAlignments} = props;
-    return this.initMAP(chapterAlignments).then(() => {
+    return this.initMAP(props).then(() => {
       return this.predictAlignments(props);
     });
   }
 
   /**
    * Initializes the prediction engine
-   * @param chapterAlignments
+   * @param props
    */
-  initMAP(chapterAlignments) {
+  initMAP(props) {
+    const {
+      chapterAlignments,
+      tc: {contextId: {reference: {chapter, verse: selectedVerse}}}
+    } = props;
     // TODO: eventually we'll want to load alignments from the entire book
     // not just the current chapter
     return new Promise(resolve => {
       setTimeout(() => {
         const map = new WordMap();
         for (const verse of Object.keys(chapterAlignments)) {
+          if (parseInt(verse) === selectedVerse) {
+            // exclude current verse from saved alignments
+            continue;
+          }
           for (const a of chapterAlignments[verse]) {
             if (a.sourceNgram.length && a.targetNgram.length) {
               const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
@@ -242,7 +250,8 @@ class Container extends Component {
   }
 
   handleAcceptTokenSuggestion(alignmentIndex, token) {
-    console.log(`accepting token ${token.position} in alignment ${alignmentIndex}`);
+    console.log(
+      `accepting token ${token.position} in alignment ${alignmentIndex}`);
   }
 
   render() {

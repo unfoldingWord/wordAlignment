@@ -133,6 +133,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     let suggestionIsValid = false;
     let finishedReadingSuggestion = false;
     let suggestionIsEmpty = false;
+    let sourceNgramsMatch = false;
     // TRICKY: we may not  have suggestions for everything
     if (tIndex < suggestionIndex.length) {
       finishedReadingSuggestion = suggestionIndex[tIndex].lastSourceToken ===
@@ -142,7 +143,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         suggestionIndex[tIndex].targetNgram,
         alignmentIndex[tIndex].targetNgram);
 
-      const sourceNgramsMatch = alignmentIndex[tIndex].sourceId ===
+      sourceNgramsMatch = alignmentIndex[tIndex].sourceId ===
         suggestionIndex[tIndex].sourceId;
       const targetNgramsMatch = alignmentIndex[tIndex].targetId ===
         suggestionIndex[tIndex].targetId;
@@ -162,10 +163,10 @@ export const render = (alignments, suggestions, numSourceTokens) => {
         // incomplete readings are valid until proven otherwise
         suggestionIsValid = true;
       }
-
-      if (suggestionIsEmpty) {
-        suggestionIsValid = false;
-      }
+      // if this is not a split this is fine. otherwise we have problems.
+      // if (suggestionIsEmpty) {
+      //   suggestionIsValid = false;
+      // }
     }
 
     // TRICKY: persist invalid state through the entire suggestion.
@@ -203,7 +204,7 @@ export const render = (alignments, suggestions, numSourceTokens) => {
       rawSuggestion.alignments = [...alignmentQueue];
       rawSuggestion.suggestion = index;
       rawSuggestion.targetNgram.sort(numberComparator);
-      if(suggestionIndex[tIndex].isEmpty) {
+      if(suggestionIndex[tIndex].isEmpty && sourceNgramsMatch) {
         // TRICKY: render empty suggestions as an alignment
         return {
           alignments: rawSuggestion.alignments,

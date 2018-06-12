@@ -12,7 +12,7 @@ describe('render alignments', () => {
         sourceTokens: [{}],
         targetTokens: [{}],
         alignments: [
-          {sourceNgram: [0], targetNgram: []},
+          {sourceNgram: [0], targetNgram: []}
         ],
         suggestions: [{sourceNgram: [0], targetNgram: []}]
       };
@@ -186,14 +186,19 @@ describe('render alignments', () => {
         targetTokens: [{}, {}],
         alignments: [
           {sourceNgram: [0], targetNgram: []},
-          {sourceNgram: [1], targetNgram: []},
+          {sourceNgram: [1], targetNgram: []}
         ],
         suggestions: [{sourceNgram: [0, 1], targetNgram: []}]
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {alignments: [0], sourceNgram: [0], targetNgram: []},
-        {alignments: [1], sourceNgram: [1], targetNgram: []}
+        {
+          alignments: [0, 1],
+          sourceNgram: [0, 1],
+          targetNgram: [],
+          suggestedTargetTokens: [],
+          suggestion: 0
+        }
       ]);
     });
 
@@ -294,7 +299,7 @@ describe('render alignments', () => {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
         alignments: [
-          {sourceNgram: [0, 1], targetNgram: []},
+          {sourceNgram: [0, 1], targetNgram: []}
         ],
         suggestions: [
           {sourceNgram: [0], targetNgram: []},
@@ -303,7 +308,20 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result).toEqual([
-        {alignments: [0], sourceNgram: [0, 1], targetNgram: []}
+        {
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: [],
+          suggestion: 0,
+          suggestedTargetTokens: []
+        },
+        {
+          alignments: [0],
+          sourceNgram: [1],
+          targetNgram: [],
+          suggestion: 1,
+          suggestedTargetTokens: []
+        }
       ]);
     });
 

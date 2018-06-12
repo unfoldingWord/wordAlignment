@@ -12,6 +12,7 @@ Array [
     }
   >
     <div
+      onClick={[Function]}
       style={
         Object {
           "flex": 1,
@@ -70,6 +71,7 @@ Array [
     }
   >
     <div
+      onClick={[Function]}
       style={
         Object {
           "flex": 1,
@@ -128,6 +130,7 @@ Array [
     }
   >
     <div
+      onClick={[Function]}
       style={
         Object {
           "flex": 1,

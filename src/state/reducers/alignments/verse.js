@@ -1,4 +1,5 @@
 import {
+  ACCEPT_TOKEN_SUGGESTION,
   ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   ALIGN_RENDERED_SOURCE_TOKEN,
   ALIGN_RENDERED_TARGET_TOKEN,
@@ -112,8 +113,9 @@ const verse = (state = defaultState, action) => {
     case UNALIGN_RENDERED_SOURCE_TOKEN:
     case ALIGN_RENDERED_SOURCE_TOKEN:
     case UNALIGN_RENDERED_TARGET_TOKEN:
+    case ACCEPT_TOKEN_SUGGESTION:
     case ALIGN_RENDERED_TARGET_TOKEN: {
-      const newSuggestions = _.cloneDeep(state.suggestions);
+      const newSuggestions = [...state.suggestions];
       const newRenderedAlignments = _.cloneDeep(state.renderedAlignments);
 
       // update rendered alignment
@@ -122,11 +124,11 @@ const verse = (state = defaultState, action) => {
         renderedAlignment, action);
 
       // TRICKY: remove empty rendered alignments
-      if (newRenderedAlignments[action.index].sourceNgram.length === 0) {
+      let renderIsEmpty = newRenderedAlignments[action.index].sourceNgram.length ===
+        0;
+      if (renderIsEmpty) {
         newRenderedAlignments.splice(action.index, 1);
       }
-      newRenderedAlignments.sort(alignmentComparator);
-
       // compile alignments
       const {alignments, indices} = compile(newRenderedAlignments,
         state.alignments);
@@ -137,12 +139,17 @@ const verse = (state = defaultState, action) => {
           numberComparator);
       }
 
-      // clear suggestion
+      // update new alignment
+      if (!renderIsEmpty) {
+        const newAlignmentIndex = newRenderedAlignments[action.index].alignments[0];
+        alignments[newAlignmentIndex] = alignmentReducer(
+          alignments[newAlignmentIndex], action);
+      }
+
+      // update suggestion
       if ('suggestion' in renderedAlignment) {
-        const suggestion = _.cloneDeep(
-          newSuggestions[renderedAlignment.suggestion]);
-        suggestion.targetNgram = [];
-        newSuggestions[renderedAlignment.suggestion] = suggestion;
+        newSuggestions[renderedAlignment.suggestion] = suggestionReducer(
+          state.suggestions[renderedAlignment.suggestion], action);
       }
 
       return {

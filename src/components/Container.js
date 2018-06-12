@@ -17,6 +17,7 @@ import {
   removeTokenSuggestion,
   repairVerse,
   resetVerse,
+  acceptTokenSuggestion,
   setAlignmentPredictions,
   unalignTargetToken
 } from '../state/actions';
@@ -129,7 +130,7 @@ class Container extends Component {
   initMAP(props) {
     const {
       chapterAlignments,
-      tc: {contextId: {reference: {chapter, verse: selectedVerse}}}
+      tc: {contextId: {reference: {verse: selectedVerse}}}
     } = props;
     // TODO: eventually we'll want to load alignments from the entire book
     // not just the current chapter
@@ -250,8 +251,11 @@ class Container extends Component {
   }
 
   handleAcceptTokenSuggestion(alignmentIndex, token) {
-    console.log(
-      `accepting token ${token.position} in alignment ${alignmentIndex}`);
+    const {
+      acceptTokenSuggestion,
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
   render() {
@@ -372,6 +376,7 @@ Container.propTypes = {
   toolIsReady: PropTypes.bool.isRequired,
 
   // dispatch props
+  acceptTokenSuggestion: PropTypes.func.isRequired,
   removeTokenSuggestion: PropTypes.func.isRequired,
   alignTargetToken: PropTypes.func.isRequired,
   unalignTargetToken: PropTypes.func.isRequired,
@@ -422,6 +427,7 @@ const mapDispatchToProps = ({
   resetVerse,
   repairVerse,
   clearState,
+  acceptTokenSuggestion,
   indexChapterAlignments,
   removeTokenSuggestion,
   acceptAlignmentSuggestions,

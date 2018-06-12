@@ -319,3 +319,11 @@ export const removeTokenSuggestion = (chapter, verse, alignmentIndex, token) => 
   index: alignmentIndex,
   token
 });
+
+export const acceptTokenSuggestion = (chapter, verse, alignmentIndex, token) => ({
+  type: types.ACCEPT_TOKEN_SUGGESTION,
+  chapter,
+  verse,
+  index: alignmentIndex,
+  token
+});

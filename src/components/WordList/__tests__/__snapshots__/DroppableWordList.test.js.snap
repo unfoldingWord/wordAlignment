@@ -196,6 +196,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -297,6 +298,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -410,6 +412,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -523,6 +526,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -821,6 +825,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -922,6 +927,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -1035,6 +1041,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -1148,6 +1155,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,

@@ -1,5 +1,9 @@
 import {
-  REMOVE_TOKEN_SUGGESTION
+  ALIGN_RENDERED_SOURCE_TOKEN,
+  ALIGN_RENDERED_TARGET_TOKEN,
+  REMOVE_TOKEN_SUGGESTION,
+  UNALIGN_RENDERED_SOURCE_TOKEN,
+  UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
 
 const defaultState = {sourceNgram: [], targetNgram: []};
@@ -22,6 +26,14 @@ const suggestion = (state = defaultState, action) => {
         targetNgram
       };
     }
+    case UNALIGN_RENDERED_SOURCE_TOKEN:
+    case ALIGN_RENDERED_SOURCE_TOKEN:
+    case UNALIGN_RENDERED_TARGET_TOKEN:
+    case ALIGN_RENDERED_TARGET_TOKEN:
+    return {
+      sourceNgram: [...state.sourceNgram],
+      targetNgram: []
+    };
     default:
       return state;
   }

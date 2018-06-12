@@ -65,11 +65,10 @@ export const render = (alignments, suggestions, numSourceTokens) => {
   // index things
   const alignmentSourceIndex = [];
   const suggestionSourceIndex = [];
-  const alignmentTargetIndex = {};
-  // const suggestionTargetIndex = {};
+  const targetIndex = {};
   for (let aIndex = 0; aIndex < alignments.length; aIndex++) {
     for (const pos of alignments[aIndex].targetNgram) {
-      alignmentTargetIndex[pos] = aIndex;
+      targetIndex[pos] = aIndex;
     }
     for (let i = 0; i < alignments[aIndex].sourceNgram.length; i++) {
       const sourceLength = alignments[aIndex].sourceNgram.length;
@@ -87,9 +86,6 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     }
   }
   for (let sIndex = 0; sIndex < suggestions.length; sIndex++) {
-    // for (const pos of suggestions[sIndex].targetNgram) {
-    //   suggestionTargetIndex[pos] = sIndex;
-    // }
     for (let i = 0; i < suggestions[sIndex].sourceNgram.length; i++) {
       const sourceLength = suggestions[sIndex].sourceNgram.length;
       // TRICKY: the source tokens will be in order spread over the suggestions
@@ -147,8 +143,8 @@ export const render = (alignments, suggestions, numSourceTokens) => {
     if (tIndex < suggestionSourceIndex.length) {
       // check if suggested target tokens are already used
       for (const targetPos of suggestionSourceIndex[tIndex].targetNgram) {
-        if (targetPos in alignmentTargetIndex) {
-          const index = alignmentTargetIndex[targetPos];
+        if (targetPos in targetIndex) {
+          const index = targetIndex[targetPos];
           targetUsedElsewhere = alignmentQueue.indexOf(index) === -1;
           break;
         }

@@ -129,18 +129,21 @@ class Container extends Component {
     // TODO: eventually we'll want to load alignments from the entire book
     // not just the current chapter
     return new Promise(resolve => {
-      const map = new WordMap();
-      for (const verse of Object.keys(chapterAlignments)) {
-        for (const a of chapterAlignments[verse]) {
-          if (a.sourceNgram.length && a.targetNgram.length) {
-            const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
-            const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-            map.appendSavedAlignmentsString(sourceText, targetText);
+      setTimeout(() => {
+        const map = new WordMap();
+        for (const verse of Object.keys(chapterAlignments)) {
+          for (const a of chapterAlignments[verse]) {
+            if (a.sourceNgram.length && a.targetNgram.length) {
+              const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
+              const targetText = a.targetNgram.map(t => t.toString()).join(' ');
+              map.appendSavedAlignmentsString(sourceText, targetText);
+            }
           }
         }
-      }
-      this.map = map;
-      resolve(map);
+        this.map = map;
+        resolve(map);
+      }, 0);
+
     });
 
   }

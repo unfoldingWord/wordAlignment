@@ -14,7 +14,7 @@ const makeStyles = (props) => {
   const styles = {
     root: {
       borderLeft: '5px solid #44C6FF',
-      padding: '10px',
+      padding: '9px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset',
       cursor: 'pointer',

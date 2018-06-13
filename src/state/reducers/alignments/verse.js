@@ -56,11 +56,16 @@ const isSameOccurrence = (t1, t2) => {
  * This ignores the token's position within the sentence.
  * @param {Token} t
  * @param {Token[]} tokens
+ * @param {number} [previouslyMappedPos] - the position of the previously mapped token
  * @return {number}
  */
-const findIndexOfOccurrence = (t, tokens) => {
+const findIndexOfOccurrence = (t, tokens, previouslyMappedPos = -1) => {
   for (let i = 0; i < tokens.length; i++) {
-    if (isSameOccurrence(t, tokens[i])) {
+    if (t.equals(tokens[i]) || isSameOccurrence(t, tokens[i])) {
+      return i;
+    } else if (previouslyMappedPos >= 0
+      && previouslyMappedPos === i - 1
+      && t.looksLike(tokens[i])) {
       return i;
     }
   }
@@ -274,8 +279,14 @@ const verse = (state = defaultState, action) => {
         sourceTokenPositionMap.push(newPos);
       }
       for (let i = 0; i < state.targetTokens.length; i++) {
+        let previousPos = -1;
+        if (targetTokenPositionMap.length > 0) {
+          const lastIndex = targetTokenPositionMap.length - 1;
+          previousPos = targetTokenPositionMap[lastIndex];
+        }
         const t = new Token(state.targetTokens[i]);
-        const newPos = findIndexOfOccurrence(t, action.targetTokens);
+        const newPos = findIndexOfOccurrence(t, action.targetTokens,
+          previousPos);
         targetTokenPositionMap.push(newPos);
       }
 

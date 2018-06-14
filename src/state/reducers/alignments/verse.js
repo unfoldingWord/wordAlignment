@@ -558,7 +558,7 @@ export const compile = (renders, alignments) => {
       continue;
     }
 
-    if (originalIndex) {
+    if (originalIndex && siblingIndex[originalIndex]) {
       // map old indices
       for (const renderedIndex of siblingIndex[originalIndex]) {
         if (!compiledIndices[renderedIndex]) {

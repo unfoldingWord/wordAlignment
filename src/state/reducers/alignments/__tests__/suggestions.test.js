@@ -1019,6 +1019,157 @@ describe('align target token to split alignment', () => {
     stateAfter);
 });
 
+describe('align target token to empty split of alignment suggestion', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          },
+        ],
+        alignments: [
+          {
+            sourceNgram: [0, 1],
+            targetNgram: []
+          },
+        ],
+        renderedAlignments: [
+          {
+            alignments: [0],
+            suggestion: 0,
+            sourceNgram: [0],
+            targetNgram: [0],
+            suggestedTargetTokens: [0]
+          },
+          {
+            alignments: [0],
+            suggestion: 1,
+            sourceNgram: [1],
+            targetNgram: [],
+            suggestedTargetTokens: []
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ]
+      }
+    }
+  };
+  const action = {
+    type: types.ALIGN_RENDERED_TARGET_TOKEN,
+    chapter: 1,
+    verse: 1,
+    index: 1,
+    token: new Token({
+      text: 'world',
+      position: 1,
+      occurrence: 1,
+      occurrences: 1
+    })
+  };
+  const stateAfter = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [1]
+          }
+        ],
+        renderedAlignments: [
+          {
+            alignments: [0],
+            suggestion: 0,
+            sourceNgram: [0],
+            targetNgram: [0],
+            suggestedTargetTokens: [0]
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: [1]
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          }
+        ]
+      }
+    }
+  };
+  reducerTest('Add Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
 describe('align target token to middle alignment', () => {
   const stateBefore = {
     '1': {

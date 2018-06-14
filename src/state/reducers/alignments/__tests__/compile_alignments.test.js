@@ -174,6 +174,44 @@ describe('compiles alignments', () => {
       expect(result).toEqual(expected);
     });
 
+    it('compiles a partially accepted split suggestion', () => {
+      const alignments = [
+        {
+          sourceNgram: [0, 1],
+          targetNgram: []
+        }
+      ];
+      const rendered = [
+        {
+          alignments: [0],
+          suggestion: 0,
+          sourceNgram: [0],
+          targetNgram: [0],
+          suggestedTargetTokens: [0]
+        },
+        {
+          alignments: [0],
+          sourceNgram: [1],
+          targetNgram: [1]
+        }
+      ];
+      const expected = {
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [1]
+          }
+        ],
+        indices: {'0': [0], '1': [1]}
+      };
+      const result = compile(rendered, alignments);
+      expect(result).toEqual(expected);
+    });
+
     it('compiles an accepted split suggestion', () => {
       const alignments = [
         {

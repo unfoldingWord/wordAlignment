@@ -385,6 +385,23 @@ export const compile = (rendered, alignments) => {
   const compiledIndices = {};
   const processedAlignments = [];
   const approvedRenders = [];
+
+  // index which alignments are split
+  const alignmentSplitIndex = {};
+  for (let rIndex = 0; rIndex < rendered.length; rIndex++) {
+    const r = rendered[rIndex];
+    for (const aIndex of r.alignments) {
+      const alignment = alignments[aIndex];
+      const aID = alignment.sourceNgram.join('');
+      if (!alignmentSplitIndex[aID]) {
+        alignmentSplitIndex[aID] = [];
+      }
+      alignmentSplitIndex[aID].push(rIndex);
+    }
+  }
+  // const renderSplitIndex =
+
+  // const compilerIndex = [];
   for (let rIndex = 0; rIndex < rendered.length; rIndex++) {
     const r = rendered[rIndex];
     for (const aIndex of r.alignments) {
@@ -396,6 +413,7 @@ export const compile = (rendered, alignments) => {
 
       const isSuggestion = r.suggestion !== undefined;
       const alreadyCompiled = processedAlignments.indexOf(aID) >= 0;
+      const isSplit = alignmentSplitIndex[aID].length > 1;
 
       // identify fully accepted rendered alignments
       if (!isSuggestion) {

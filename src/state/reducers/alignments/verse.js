@@ -475,10 +475,10 @@ export const compile = (renders, alignments) => {
     if (!isSuggestion) {
       // compile approved alignments
       approvedAlignments = approvedAlignments.concat(siblingIndex[rIndex]);
-      compiledAlignments.push({
-        sourceNgram: [...r.sourceNgram],
-        targetNgram: [...r.targetNgram]
-      });
+      // compiledRenders[rIndex] = {
+      //   sourceNgram: [...r.sourceNgram],
+      //   targetNgram: [...r.targetNgram]
+      // };
       compileApprovedRender(rIndex, renders, siblingIndex, compiledRenders);
 
       // approvedRenders.push(aID);
@@ -501,15 +501,29 @@ export const compile = (renders, alignments) => {
         }
 
         if (!isSiblingApproved) {
-          // compile un-approved renders
+          // compile un-approved suggestions
           const alignment = alignments[aIndex];
-          compiledAlignments.push(_.cloneDeep(alignment));
+          // TRICKY: as an un-approved suggestion there may be multiple alignments
+          let values = [];
+          if(compiledRenders[rIndex]) {
+            values = compiledRenders[rIndex].values;
+          }
+
+          compiledRenders[rIndex] = {
+            isSuggestion: true,
+            index: rIndex,
+            values: [...values, _.cloneDeep(alignment)]
+          };
         } else {
           // compile partially approved suggestions (splits)
-          compiledAlignments.push({
-            sourceNgram: [...r.sourceNgram],
-            targetNgram: []
-          });
+          compiledRenders[rIndex] = {
+            isSuggestion: false,
+            index: rIndex,
+            values: {
+              sourceNgram: [...r.sourceNgram],
+              targetNgram: []
+            }
+          };
         }
       }
     }
@@ -558,8 +572,9 @@ export const compile = (renders, alignments) => {
     //   }
     // }
   }
+
   return {
-    alignments: compiledAlignments,
+    alignments: _.flatten(_.sortBy(Object.values(compiledRenders), [o => o.index]).map(o => o.values)),
     indices: compiledIndices
   };
 };
@@ -576,10 +591,11 @@ const compileApprovedRender = (
   const r = renders[rIndex];
   compiledRenders[rIndex] = {
     isSuggestion: false,
-    value: {
+    index: rIndex,
+    values: [{
       sourceNgram: [...r.sourceNgram],
       targetNgram: [...r.targetNgram]
-    }
+    }]
   };
   for (const aIndex of r.alignments) {
     for (const sIndex of siblingIndex[aIndex]) {
@@ -602,17 +618,18 @@ const compileSplitSiblings = (
   const r = renders[rIndex];
 
   // only compile un-approved suggestions
-  if((rIndex in compiledRenders && !compiledRenders[rIndex].isSuggestion)
-  || (r.suggestion === undefined)) {
+  if ((rIndex in compiledRenders && !compiledRenders[rIndex].isSuggestion)
+    || (r.suggestion === undefined)) {
     return;
   }
 
   compiledRenders[rIndex] = {
     isSuggestion: false,
-    value: {
+    index: rIndex,
+    values: [{
       sourceNgram: [...r.sourceNgram],
       targetNgram: []
-    }
+    }]
   };
 
   for (const aIndex of r.alignments) {

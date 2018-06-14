@@ -442,19 +442,23 @@ export const compileLegacy = (rendered, alignments) => {
 };
 
 export const compile = (renders, alignments) => {
-  const compiledAlignments = [];
-  const compiledIndices = {};
+  // const compiledIndices = {};
   const processedAlignments = [];
   let approvedAlignments = [];
   const compiledRenders = {};
+
+  // index the alignment keys
+  // TODO: move this into the loop below.
+  const alignmentIndexMap = {};
+  for (let i = 0; i < alignments.length; i++) {
+    alignmentIndexMap[alignments[i].sourceNgram.join('|')] = i;
+  }
 
   // index renders by alignment
   const siblingIndex = {};
   for (let rIndex = 0; rIndex < renders.length; rIndex++) {
     const r = renders[rIndex];
     for (const aIndex of r.alignments) {
-      // const alignment = alignments[aIndex];
-      // const aID = alignment.sourceNgram.join('');
       if (!siblingIndex[aIndex]) {
         siblingIndex[aIndex] = [];
       }
@@ -465,39 +469,35 @@ export const compile = (renders, alignments) => {
   for (let rIndex = 0; rIndex < renders.length; rIndex++) {
     const r = renders[rIndex];
     const isSuggestion = r.suggestion !== undefined;
-    if (!compiledIndices[rIndex]) {
-      compiledIndices[rIndex] = [];
-    }
+    // if (!compiledIndices[rIndex]) {
+    //   compiledIndices[rIndex] = [];
+    // }
     if (rIndex in compiledRenders) {
       continue;
     }
 
     if (!isSuggestion) {
       // compile approved alignments
-      approvedAlignments = approvedAlignments.concat(siblingIndex[rIndex]);
-      // compiledRenders[rIndex] = {
-      //   sourceNgram: [...r.sourceNgram],
-      //   targetNgram: [...r.targetNgram]
-      // };
+      // TRICKY: approved suggestions only have a single alignment
+      approvedAlignments = approvedAlignments.concat(
+        siblingIndex[r.alignments[0]]);
       compileApprovedRender(rIndex, renders, siblingIndex, compiledRenders);
-
-      // approvedRenders.push(aID);
     } else {
       // compile everything else
       for (const aIndex of r.alignments) {
-        // const aID = alignment.sourceNgram.join('');
         // checks if a sibling of this render has been approved.
         const isSiblingApproved = approvedAlignments.indexOf(aIndex) >= 0;
         const alreadyCompiled = processedAlignments.indexOf(aIndex) >= 0;
 
         // update index mapping
         if (alreadyCompiled && !isSiblingApproved) {
-          compiledIndices[rIndex].push(processedAlignments.indexOf(aIndex));
+          // compiledIndices[rIndex].push(processedAlignments.indexOf(aIndex));
           // TRICKY: suggested alignment splits will cause the alignment to appear multiple times
+          // TODO: we need to add this to the listed renderedIndex of the alignment
           continue;
         } else {
-          compiledIndices[rIndex].push(processedAlignments.length);
-          processedAlignments.push(aIndex);
+          // compiledIndices[rIndex].push(processedAlignments.length);
+          // processedAlignments.push(aIndex);
         }
 
         if (!isSiblingApproved) {
@@ -505,14 +505,18 @@ export const compile = (renders, alignments) => {
           const alignment = alignments[aIndex];
           // TRICKY: as an un-approved suggestion there may be multiple alignments
           let values = [];
-          if(compiledRenders[rIndex]) {
+          if (compiledRenders[rIndex]) {
             values = compiledRenders[rIndex].values;
           }
 
           compiledRenders[rIndex] = {
             isSuggestion: true,
             index: rIndex,
-            values: [...values, _.cloneDeep(alignment)]
+            values: [
+              ...values, {
+                ..._.cloneDeep(alignment),
+                renderedIndex: rIndex
+              }]
           };
         } else {
           // compile partially approved suggestions (splits)
@@ -520,6 +524,7 @@ export const compile = (renders, alignments) => {
             isSuggestion: false,
             index: rIndex,
             values: {
+              renderedIndex: rIndex,
               sourceNgram: [...r.sourceNgram],
               targetNgram: []
             }
@@ -527,54 +532,65 @@ export const compile = (renders, alignments) => {
         }
       }
     }
+  }
 
-    // for (const aIndex of r.alignments) {
-    //   const alignment = alignments[aIndex];
-    //   const aID = alignment.sourceNgram.join('');
-    //   if (!compiledIndices[rIndex]) {
-    //     compiledIndices[rIndex] = [];
-    //   }
-    //
-    //   const alreadyCompiled = processedAlignments.indexOf(aID) >= 0;
-    //   // identify fully accepted rendered alignments
-    //   if (!isSuggestion) {
-    //     approvedRenders.push(aID);
-    //   }
-    //   const isApproved = approvedRenders.indexOf(aID) >= 0;
-    //
-    //   // update index mapping
-    //   if (alreadyCompiled && !isApproved) {
-    //     compiledIndices[rIndex].push(processedAlignments.indexOf(aID));
-    //     // TRICKY: suggested alignment splits will cause the alignment to appear multiple times
-    //     continue;
-    //   } else {
-    //     compiledIndices[rIndex].push(processedAlignments.length);
-    //     processedAlignments.push(aID);
-    //   }
-    //
-    //   // compile
-    //   if (!isApproved) {
-    //     // compile un-approved renders
-    //     compiledAlignments.push(_.cloneDeep(alignment));
-    //   } else if (isSuggestion) {
-    //     // compile partially approved suggestions (splits)
-    //     compiledAlignments.push({
-    //       sourceNgram: [...r.sourceNgram],
-    //       targetNgram: []
-    //     });
-    //   } else {
-    //     // compile approved suggestions
-    //     compiledAlignments.push({
-    //       sourceNgram: [...r.sourceNgram],
-    //       targetNgram: [...r.targetNgram]
-    //     });
-    //     break;
-    //   }
+  const compiledIndices = {};
+  const compiledAlignments = [];
+  const flattenedAlignments = _.flatten(
+    _.sortBy(Object.values(compiledRenders), [o => o.index]).
+      map(o => o.values));
+
+  // remove duplicates
+
+  // generate index map
+  const addedAlignments = [];
+  for (let i = 0; i < flattenedAlignments.length; i++) {
+    const a = {...flattenedAlignments[i]};
+    const id = a.sourceNgram.join('|');
+    const originalIndex = alignmentIndexMap[id];
+
+    if (!compiledIndices[a.renderedIndex]) {
+      compiledIndices[a.renderedIndex] = [];
+    }
+
+    if (addedAlignments.indexOf(id) >= 0) {
+      compiledIndices[a.renderedIndex].push(addedAlignments.indexOf(id));
+      continue;
+    }
+
+    if (originalIndex) {
+      // map old indices
+      for (const renderedIndex of siblingIndex[originalIndex]) {
+        if (!compiledIndices[renderedIndex]) {
+          compiledIndices[renderedIndex] = [];
+        }
+        compiledIndices[renderedIndex].push(i);
+      }
+    } else {
+      // TODO: only put a rendered index on the ones we need.
+      // map new indices
+      compiledIndices[a.renderedIndex].push(i);
+    }
+    delete a.renderedIndex;
+    // if(addedAlignments.indexOf(id) === -1) {
+    compiledAlignments.push(a);
+    addedAlignments.push(id);
+    // } else {
+    //   compiledIndices[addedAlignments.indexOf(id)].push(i);
     // }
   }
 
+  // const compiledAlignments = flattenedAlignments.map((a, i) => {
+  //   if (!compiledIndices[a.renderedIndex]) {
+  //     compiledIndices[a.renderedIndex] = [];
+  //   }
+  //   compiledIndices[a.renderedIndex].push(i);
+  //   delete a.renderedIndex;
+  //   return a;
+  // });
+
   return {
-    alignments: _.flatten(_.sortBy(Object.values(compiledRenders), [o => o.index]).map(o => o.values)),
+    alignments: compiledAlignments,
     indices: compiledIndices
   };
 };
@@ -592,10 +608,12 @@ const compileApprovedRender = (
   compiledRenders[rIndex] = {
     isSuggestion: false,
     index: rIndex,
-    values: [{
-      sourceNgram: [...r.sourceNgram],
-      targetNgram: [...r.targetNgram]
-    }]
+    values: [
+      {
+        renderedIndex: rIndex,
+        sourceNgram: [...r.sourceNgram],
+        targetNgram: [...r.targetNgram]
+      }]
   };
   for (const aIndex of r.alignments) {
     for (const sIndex of siblingIndex[aIndex]) {
@@ -626,10 +644,12 @@ const compileSplitSiblings = (
   compiledRenders[rIndex] = {
     isSuggestion: false,
     index: rIndex,
-    values: [{
-      sourceNgram: [...r.sourceNgram],
-      targetNgram: []
-    }]
+    values: [
+      {
+        renderedIndex: rIndex,
+        sourceNgram: [...r.sourceNgram],
+        targetNgram: []
+      }]
   };
 
   for (const aIndex of r.alignments) {

@@ -9,7 +9,7 @@ import _ from 'lodash';
 const compile = (renders, alignments) => {
   let approvedAlignments = [];
   const compiledRenders = {};
-  const processedAlignments = [];
+  // const processedAlignments = [];
 
   // index the alignment keys
   // TODO: move this into the loop below.
@@ -41,7 +41,8 @@ const compile = (renders, alignments) => {
       // TRICKY: approved suggestions only have a single alignment
       approvedAlignments = approvedAlignments.concat(
         siblingIndex[r.alignments[0]]);
-      compileApprovedRenderedAlignment(renderPos, renders, siblingIndex, compiledRenders);
+      compileApprovedSplitAlignment(renderPos, renders, siblingIndex,
+        compiledRenders);
     } else {
       // compile everything else
       for (const aIndex of r.alignments) {
@@ -51,30 +52,33 @@ const compile = (renders, alignments) => {
         const suggestedTargetTokens = _.difference(alignment.targetNgram,
           r.targetNgram);
         const isAlignmentUpdated = didAlignmentTargetChange(r, alignment);
-        const alreadyCompiled = processedAlignments.indexOf(aIndex) >= 0;
+        // const alreadyCompiled = processedAlignments.indexOf(aIndex) >= 0;
 
         // update index mapping
-        if (alreadyCompiled && !isSiblingApproved) {
+        // if (alreadyCompiled && !isSiblingApproved) {
         // compiledIndices[rIndex].push(processedAlignments.indexOf(aIndex));
         // TRICKY: suggested alignment splits will cause the alignment to appear multiple times
-        // TODO: we need to add this render index to the listed renderedIndex of the alignment
+
         // continue;
-        } else {
+        // } else {
         // compiledIndices[rIndex].push(processedAlignments.length);
         //   processedAlignments.push(aIndex);
-        }
+        // }
 
         if (isAlignmentUpdated) {
           // compile partially approved suggestions (splits)
-          compiledRenders[renderPos] = {
-            isSuggestion: false,
-            index: renderPos,
-            values: {
-              renderedIndex: renderPos,
-              sourceNgram: [...r.sourceNgram],
-              targetNgram: [...suggestedTargetTokens]
-            }
-          };
+          // TODO: we must recursively compile siblings.
+          // compiledRenders[renderPos] = {
+          //   isSuggestion: false,
+          //   index: renderPos,
+          //   values: {
+          //     renderedIndex: renderPos,
+          //     sourceNgram: [...r.sourceNgram],
+          //     targetNgram: [...suggestedTargetTokens]
+          //   }
+          // };
+          compileUpdatedSplitAlignment(renderPos, renders, aIndex, alignments,
+            siblingIndex, compiledRenders);
         } else if (isSiblingApproved) {
           // compile partially approved suggestions (splits)
           compiledRenders[renderPos] = {
@@ -164,7 +168,7 @@ export default compile;
  * @param siblingIndex
  * @param compiledRenders
  */
-const compileApprovedRenderedAlignment = (
+const compileApprovedSplitAlignment = (
   rIndex, renders, siblingIndex, compiledRenders) => {
   const r = renders[rIndex];
   compiledRenders[rIndex] = {
@@ -180,7 +184,41 @@ const compileApprovedRenderedAlignment = (
   for (const aIndex of r.alignments) {
     for (const sIndex of siblingIndex[aIndex]) {
       if (sIndex !== rIndex) {
-        compileSplitAlignmentSiblings(sIndex, renders, siblingIndex,
+        compileApprovedSplitAlignmentSiblings(sIndex, renders, siblingIndex,
+          compiledRenders);
+      }
+    }
+  }
+};
+
+/**
+ * Recursively compiles an approved rendered alignment
+ * @param rIndex
+ * @param renders
+ * @param aIndex
+ * @param alignments
+ * @param siblingIndex
+ * @param compiledRenders
+ */
+const compileUpdatedSplitAlignment = (
+  rIndex, renders, aIndex, alignments, siblingIndex, compiledRenders) => {
+  const r = renders[rIndex];
+  const a = alignments[aIndex];
+  const suggestedTargetTokens = _.difference(a.targetNgram, r.targetNgram);
+  compiledRenders[rIndex] = {
+    isSuggestion: false,
+    index: rIndex,
+    values: [
+      {
+        renderedIndex: rIndex,
+        sourceNgram: [...r.sourceNgram],
+        targetNgram: [...suggestedTargetTokens]
+      }]
+  };
+  for (const i of r.alignments) {
+    for (const sIndex of siblingIndex[i]) {
+      if (sIndex !== rIndex) {
+        compileUpdatedSplitAlignmentSiblings(sIndex, renders, siblingIndex,
           compiledRenders);
       }
     }
@@ -194,7 +232,7 @@ const compileApprovedRenderedAlignment = (
  * @param siblingIndex
  * @param compiledRenders
  */
-const compileSplitAlignmentSiblings = (
+const compileApprovedSplitAlignmentSiblings = (
   rIndex, renders, siblingIndex, compiledRenders) => {
   const r = renders[rIndex];
 
@@ -218,7 +256,45 @@ const compileSplitAlignmentSiblings = (
   for (const aIndex of r.alignments) {
     for (const sIndex of siblingIndex[aIndex]) {
       if (sIndex !== rIndex) {
-        compileSplitAlignmentSiblings(sIndex, renders, siblingIndex,
+        compileApprovedSplitAlignmentSiblings(sIndex, renders, siblingIndex,
+          compiledRenders);
+      }
+    }
+  }
+};
+
+/**
+ * Compiles the siblings of a split alignment suggestion
+ * @param rIndex
+ * @param renders
+ * @param siblingIndex
+ * @param compiledRenders
+ */
+const compileUpdatedSplitAlignmentSiblings = (
+  rIndex, renders, siblingIndex, compiledRenders) => {
+  const r = renders[rIndex];
+
+  // only compile un-approved suggestions
+  if ((rIndex in compiledRenders && !compiledRenders[rIndex].isSuggestion)
+    || (r.suggestion === undefined)) {
+    return;
+  }
+
+  compiledRenders[rIndex] = {
+    isSuggestion: false,
+    index: rIndex,
+    values: [
+      {
+        renderedIndex: rIndex,
+        sourceNgram: [...r.sourceNgram],
+        targetNgram: []
+      }]
+  };
+
+  for (const aIndex of r.alignments) {
+    for (const sIndex of siblingIndex[aIndex]) {
+      if (sIndex !== rIndex) {
+        compileUpdatedSplitAlignmentSiblings(sIndex, renders, siblingIndex,
           compiledRenders);
       }
     }

@@ -467,7 +467,7 @@ describe('accepts token suggestion', () => {
     action, stateAfter);
 });
 
-describe('accepts token on a split suggestion', () => {
+describe('accepts token on a left split suggestion', () => {
   const stateBefore = {
     '1': {
       '1': {
@@ -605,6 +605,153 @@ describe('accepts token on a split suggestion', () => {
           {
             sourceNgram: [1],
             targetNgram: []
+          }
+        ]
+      }
+    }
+  };
+  reducerTest('Accepts a single token suggestion', alignments, stateBefore,
+    action, stateAfter);
+});
+
+describe('accepts token on a right split suggestion', () => {
+  const stateBefore = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        alignments: [
+          {
+            sourceNgram: [0, 1],
+            targetNgram: []
+          }
+        ],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [],
+            alignments: [0],
+            suggestion: 0,
+            suggestedTargetTokens: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [0, 1],
+            alignments: [0],
+            suggestion: 1,
+            suggestedTargetTokens: [0, 1]
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [0, 1]
+          }
+        ]
+      }
+    }
+  };
+  const action = {
+    type: types.ACCEPT_TOKEN_SUGGESTION,
+    chapter: 1,
+    verse: 1,
+    index: 1,
+    token: new Token({text: 'hello', position: 0, occurrence: 1, occurrences: 1})
+  };
+
+  const stateAfter = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'world',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          }
+        ],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [0]
+          }
+        ],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [],
+            alignments: [0]
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [0, 1],
+            alignments: [1],
+            suggestion: 1,
+            suggestedTargetTokens: [1]
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: [0, 1]
           }
         ]
       }

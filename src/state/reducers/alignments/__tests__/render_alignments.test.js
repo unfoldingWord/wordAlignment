@@ -1,9 +1,8 @@
-import * as fromRenderedAlignments from '../renderedAlignments';
+import render from '../render';
 
 describe('render alignments', () => {
-  const testRenderer = state =>
-    fromRenderedAlignments.render(state.alignments, state.suggestions,
-      state.sourceTokens.length);
+  const testRenderer = state => render(state.alignments, state.suggestions,
+    state.sourceTokens.length);
 
   describe('matches', () => {
 

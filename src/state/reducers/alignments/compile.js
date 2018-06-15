@@ -49,34 +49,10 @@ const compile = (renders, alignments) => {
         // checks if a sibling of this render has been approved.
         const isSiblingApproved = approvedAlignments.indexOf(aIndex) >= 0;
         const alignment = alignments[aIndex];
-        // const suggestedTargetTokens = _.difference(alignment.targetNgram,
-        //   r.targetNgram);
         const isAlignmentUpdated = didAlignmentTargetChange(r, alignment);
-        // const alreadyCompiled = processedAlignments.indexOf(aIndex) >= 0;
-
-        // update index mapping
-        // if (alreadyCompiled && !isSiblingApproved) {
-        // compiledIndices[rIndex].push(processedAlignments.indexOf(aIndex));
-        // TRICKY: suggested alignment splits will cause the alignment to appear multiple times
-
-        // continue;
-        // } else {
-        // compiledIndices[rIndex].push(processedAlignments.length);
-        //   processedAlignments.push(aIndex);
-        // }
 
         if (isAlignmentUpdated) {
           // compile partially approved suggestions (splits)
-          // TODO: we must recursively compile siblings.
-          // compiledRenders[renderPos] = {
-          //   isSuggestion: false,
-          //   index: renderPos,
-          //   values: {
-          //     renderedIndex: renderPos,
-          //     sourceNgram: [...r.sourceNgram],
-          //     targetNgram: [...suggestedTargetTokens]
-          //   }
-          // };
           compileUpdatedSplitAlignment(renderPos, renders, aIndex, alignments,
             siblingIndex, compiledRenders);
         } else if (isSiblingApproved) {

@@ -1,5 +1,6 @@
 import {numberComparator} from './index';
 import {
+  ACCEPT_TOKEN_SUGGESTION,
   ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   INSERT_RENDERED_ALIGNMENT,
   REMOVE_TOKEN_SUGGESTION,
@@ -28,6 +29,7 @@ const renderedAlignments = (
     case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS:
     case INSERT_RENDERED_ALIGNMENT:
     case REMOVE_TOKEN_SUGGESTION:
+    case ACCEPT_TOKEN_SUGGESTION:
     case SET_ALIGNMENT_SUGGESTIONS:
       return render(alignments, suggestions, numSourceTokens);
     case SET_CHAPTER_ALIGNMENTS:

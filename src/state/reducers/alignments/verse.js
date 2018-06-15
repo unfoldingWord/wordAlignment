@@ -176,7 +176,8 @@ const verse = (state = defaultState, action) => {
         ...state,
         suggestions: newSuggestions,
         alignments,
-        renderedAlignments: newRenderedAlignments
+        renderedAlignments: renderedAlignmentsReducer(newRenderedAlignments,
+          action, alignments, newSuggestions, state.sourceTokens.length)//newRenderedAlignments
       };
     }
     case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS: {

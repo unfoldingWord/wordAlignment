@@ -49,8 +49,8 @@ const compile = (renders, alignments) => {
         // checks if a sibling of this render has been approved.
         const isSiblingApproved = approvedAlignments.indexOf(aIndex) >= 0;
         const alignment = alignments[aIndex];
-        const suggestedTargetTokens = _.difference(alignment.targetNgram,
-          r.targetNgram);
+        // const suggestedTargetTokens = _.difference(alignment.targetNgram,
+        //   r.targetNgram);
         const isAlignmentUpdated = didAlignmentTargetChange(r, alignment);
         // const alreadyCompiled = processedAlignments.indexOf(aIndex) >= 0;
 

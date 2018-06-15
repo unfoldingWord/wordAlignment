@@ -1,4 +1,4 @@
-import {compile} from '../verse';
+import compile, * as fromCompile from '../compile';
 
 describe('compiles alignments', () => {
   it('compiles nothing', () => {
@@ -246,6 +246,70 @@ describe('compiles alignments', () => {
       };
       const result = compile(rendered, alignments);
       expect(result).toEqual(expected);
+    });
+  });
+});
+
+describe('utility methods', () => {
+  describe('has alignment target changed', () => {
+    it('has a new token from the render', () => {
+      const rendered = {
+        targetNgram: [0, 1],
+        suggestedTargetTokens: [1]
+      };
+      const alignment = {
+        targetNgram: []
+      };
+      const result = fromCompile.didAlignmentTargetChange(rendered, alignment);
+      expect(result).toEqual(true);
+    });
+
+    it('has a suggestion with no change', () => {
+      const rendered = {
+        targetNgram: [0, 1],
+        suggestedTargetTokens: [1]
+      };
+      const alignment = {
+        targetNgram: [0]
+      };
+      const result = fromCompile.didAlignmentTargetChange(rendered, alignment);
+      expect(result).toEqual(false);
+    });
+
+    it('has no tokens in the alignment', () => {
+      const rendered = {
+        targetNgram: [0],
+        suggestedTargetTokens: [0]
+      };
+      const alignment = {
+        targetNgram: []
+      };
+      const result = fromCompile.didAlignmentTargetChange(rendered, alignment);
+      expect(result).toEqual(false);
+    });
+
+    it('has no tokens at all', () => {
+      const rendered = {
+        targetNgram: [],
+        suggestedTargetTokens: []
+      };
+      const alignment = {
+        targetNgram: []
+      };
+      const result = fromCompile.didAlignmentTargetChange(rendered, alignment);
+      expect(result).toEqual(false);
+    });
+
+    it('has no suggestions', () => {
+      const rendered = {
+        targetNgram: [0],
+        suggestedTargetTokens: []
+      };
+      const alignment = {
+        targetNgram: [0]
+      };
+      const result = fromCompile.didAlignmentTargetChange(rendered, alignment);
+      expect(result).toEqual(false);
     });
   });
 });

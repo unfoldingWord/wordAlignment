@@ -125,6 +125,20 @@ const verse = (state = defaultState, action) => {
 
       // update rendered alignment
       const renderedAlignment = state.renderedAlignments[action.index];
+      // TODO: we need to also render sibling splits
+      // this will require looping through all the rendered alignments to find siblings.
+      //
+      // for (let i = 0; i < state.renderedAlignments.length; i++) {
+      //   if (i !== action.index && _.intersection([
+      //     state.renderedAlignments[i].alignments,
+      //     renderedAlignment.alignments]).length > 0) {
+      //     // TODO: this should be done in one of the alignment reducers
+      //     newRenderedAlignments[i] = {
+      //       ...newRenderedAlignments[i],
+      //       targetNgram: []
+      //     };
+      //   }
+      // }
       newRenderedAlignments[action.index] = renderedAlignmentReducer(
         renderedAlignment, action);
 

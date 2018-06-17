@@ -81,12 +81,12 @@ class Container extends Component {
 
   componentWillMount() {
     // current panes persisted in the scripture pane settings.
-    const { actions: { setToolSettings }, settingsReducer } = this.props;
+    const { actions: { setToolSettings }, settingsReducer, resourcesReducer: { bibles } } = this.props;
     const {ScripturePane} = settingsReducer.toolsSettings;
     const {currentPaneSettings} = ScripturePane;
     const panes = ScripturePane && currentPaneSettings ? currentPaneSettings : [];
 
-    sortPanesSettings(panes, setToolSettings);
+    sortPanesSettings(panes, setToolSettings, bibles);
   }
 
   componentWillReceiveProps(nextProps) {

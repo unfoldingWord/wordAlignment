@@ -116,13 +116,9 @@ export default class Api extends ToolApi {
     const {
       tc: {
         contextId,
-        readProjectDataSync,
         projectFileExistsSync,
-        targetChapter,
-        sourceChapter,
         showDialog
       },
-      indexChapterAlignments,
       sourceTokens,
       targetTokens,
       resetVerse,
@@ -143,11 +139,19 @@ export default class Api extends ToolApi {
 
     try {
       setToolLoading();
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      let dataPath = path.join('alignmentData', bookId, chapter + '.json');
       if(projectFileExistsSync(dataPath)) {
-        const data = readProjectDataSync(dataPath);
-        const json = JSON.parse(data);
-        indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
+        this._loadChapterAlignments(props, dataPath, chapter); // load for selected chapter
+        
+        for(let c = 1; c <= 150; c++) { // load other chapters we hav alignments for
+          if (c != chapter) {
+            dataPath = path.join('alignmentData', bookId, c + '.json');
+            if(projectFileExistsSync(dataPath)) {
+              this._loadChapterAlignments(props, dataPath, c); // load for selected chapter
+            }
+          }
+        }
+        
         // TRICKY: validate the latest state
         const {store} = this.context;
         const updatedProps = this.mapStateToProps(store.getState(), props);
@@ -165,6 +169,20 @@ export default class Api extends ToolApi {
     } finally {
       setToolReady();
     }
+  }
+
+  _loadChapterAlignments(props, dataPath, chapter) {
+    const {
+      tc: {
+        readProjectDataSync,
+        targetChapter,
+        sourceChapter
+      },
+      indexChapterAlignments
+    } = props;
+    const data = readProjectDataSync(dataPath);
+    const json = JSON.parse(data);
+    indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
   }
 
   /**

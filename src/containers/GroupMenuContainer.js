@@ -4,17 +4,22 @@ import {GroupMenu} from 'tc-ui-toolkit';
 import PropTypes from 'prop-types';
 
 class GroupMenuContainer extends React.Component {
-  getGroupProgress(groupIndex, groupsData) {
+  getGroupProgress(groupIndex, groupsData, isVerseFinished) {
     let groupId = groupIndex.id;
     let totalChecks = groupsData[groupId].length;
-    const doneChecks = groupsData[groupId].filter(groupData =>
-      groupData.selections && !groupData.reminders
-    ).length;
+    const doneChecks = groupsData[groupId].filter(groupData => {
+      let verseFinished = false;
+      const reference = groupData && groupData.contextId && groupData.contextId.reference ? groupData.contextId.reference : null;
+      if (reference) {
+        verseFinished = isVerseFinished(reference.chapter, reference.verse);
+      }
+      return verseFinished && !groupData.reminders;
+    }).length;
 
     let progress = doneChecks / totalChecks;
-
     return progress;
   }
+
   render() {
     const {
       translate,
@@ -32,7 +37,7 @@ class GroupMenuContainer extends React.Component {
       <GroupMenu
         translate={translate}
         getSelections={(contextId) => actions.getSelectionsFromContextId(contextId, projectSaveLocation)}
-        getGroupProgress={this.getGroupProgress}
+        getGroupProgress={(groupIndex, groupsData) => (this.getGroupProgress(groupIndex, groupsData, isVerseFinished))}
         isVerseFinished={isVerseFinished}
         groupsDataReducer={groupsDataReducer}
         groupsIndexReducer={groupsIndexReducer}

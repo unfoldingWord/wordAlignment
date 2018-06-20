@@ -83,8 +83,9 @@ class Container extends Component {
     // current panes persisted in the scripture pane settings.
     const { actions: { setToolSettings }, settingsReducer, resourcesReducer: { bibles } } = this.props;
     const {ScripturePane} = settingsReducer.toolsSettings || {};
-    const {currentPaneSettings} = ScripturePane || {};
-    const panes = ScripturePane && currentPaneSettings ? currentPaneSettings : [];
+    const currentPaneSettings = ScripturePane && ScripturePane.currentPaneSettings ?
+      ScripturePane.currentPaneSettings : [];
+    const panes = currentPaneSettings;
 
     sortPanesSettings(panes, setToolSettings, bibles);
   }
@@ -245,7 +246,8 @@ class Container extends Component {
     }
 
     let scripturePane = <div />;
-    const {currentPaneSettings} = settingsReducer.toolsSettings.ScripturePane;
+    const currentPaneSettings = settingsReducer.toolsSettings && settingsReducer.toolsSettings.ScripturePane ?
+      settingsReducer.toolsSettings.ScripturePane.currentPaneSettings : [];
     const expandedScripturePaneTitle = this.makeTitle(projectDetailsReducer.manifest);
 
     // populate scripturePane so that when required data is preset that it renders as intended.

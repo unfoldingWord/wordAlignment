@@ -33,7 +33,7 @@ WordDetails.propTypes = {
     lemma: PropTypes.string.isRequired,
     morph: PropTypes.string.isRequired,
     strong: PropTypes.string.isRequired
-  }),
+  }).isRequired,
   lexiconData: PropTypes.object.isRequired
 };
 

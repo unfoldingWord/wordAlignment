@@ -10,6 +10,7 @@ test('empty snapshot', () => {
   const wrapper = renderer.create(
     <AlignmentGrid lexicons={{}}
                    alignments={[]}
+                   onAcceptTokenSuggestion={jest.fn()}
                    onDropSourceToken={jest.fn()}
                    onCancelSuggestion={jest.fn()}
                    onDropTargetToken={jest.fn()}
@@ -105,6 +106,7 @@ describe('AlignmentGrid', () => {
       <ConnectedAlignmentGrid
         alignments={alignmentData['1']['1']}
         contextId={contextId}
+        onAcceptTokenSuggestion={jest.fn()}
         onDropSourceToken={jest.fn()}
         onDropTargetToken={jest.fn()}
         onCancelSuggestion={jest.fn()}
@@ -133,6 +135,7 @@ describe('AlignmentGrid', () => {
     // when
     const enzymeWrapper = shallow(
       <AlignmentGrid
+        onAcceptTokenSuggestion={jest.fn()}
         alignments={alignmentData['1']['1']}
         contextId={contextId}
         onDropSourceToken={jest.fn()}

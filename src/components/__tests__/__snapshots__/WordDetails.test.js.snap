@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WordDetails renders 1`] = `
+<div
+  style={
+    Object {
+      "margin": "-10px 10px -20px",
+      "maxWidth": "400px",
+    }
+  }
+>
+  <span>
+    <strong>
+      lemma
+    </strong>
+     
+    lemma
+  </span>
+  <br />
+  <span>
+    <strong>
+      morphology
+    </strong>
+     
+    morph
+  </span>
+  <br />
+  <span>
+    <strong>
+      strongs
+    </strong>
+     
+    strong
+  </span>
+  <br />
+  <span>
+    <strong>
+      lexicon
+    </strong>
+     
+  </span>
+  <br />
+</div>
+`;

@@ -154,7 +154,6 @@ export const getIsVerseAligned = (state, chapter, verse) => {
   if(state && chapterId in state) {
     return fromChapter.getIsVerseAligned(state[chapterId], verse);
   } else {
-    const alignments = getVerseAlignments(state, chapter, verse);
     return false;
   }
 };

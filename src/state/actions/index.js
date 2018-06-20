@@ -266,10 +266,13 @@ export const setAlignmentPredictions = (chapter, verse, predictions) => {
       });
     } else {
       // exclude predictions with a low confidence
-      alignments.push({
-        sourceNgram: p.alignment.source.tokens,
-        targetNgram: []
-      });
+      // TRICKY: split ignored predictions to avoid suggesting merging.
+      for(const t of p.alignment.source.tokens) {
+        alignments.push({
+          sourceNgram: [t],
+          targetNgram: []
+        });
+      }
     }
   }
   return {

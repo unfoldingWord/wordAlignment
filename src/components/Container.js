@@ -231,7 +231,9 @@ class Container extends Component {
     return new Promise(resolve => {
       const suggestions = this.map.predict(normalizedSourceVerseText,
         normalizedTargetVerseText);
-      setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
+      if(suggestions[0]) {
+        setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
+      }
       resolve();
     });
   }

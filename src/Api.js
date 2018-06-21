@@ -26,6 +26,7 @@ export default class Api extends ToolApi {
     super();
     this.getIsVerseFinished = this.getIsVerseFinished.bind(this);
   }
+
   /**
    * Checks if the chapter context changed
    * @param prevContext
@@ -47,12 +48,60 @@ export default class Api extends ToolApi {
   }
 
   /**
+   * Generates an empty alignment structure for the chapter
+   * @param props
+   * @param chapter
+   * @private
+   */
+  static _initChapterAlignments(props, chapter) {
+    const {
+      tc: {
+        targetBible,
+        sourceBible
+      },
+      resetVerse
+    } = props;
+
+    for (const verse of Object.keys(targetBible[chapter])) {
+      const sourceTokens = tokenizeVerseObjects(
+        sourceBible[chapter][verse].verseObjects);
+      const targetTokens = Lexer.tokenize(targetBible[chapter][verse]);
+      resetVerse(chapter, verse, sourceTokens, targetTokens);
+    }
+  }
+
+  /**
    * API method to validate a verse
    * @param {number} chapter
    * @param {number} verse
    */
   validateVerse(chapter, verse) {
-    this._validate(this.props, chapter, verse);
+    const {
+      tc: {
+        showDialog
+      },
+      translate
+    } = this.props;
+    const isValid = this._validateVerse(this.props, chapter, verse);
+    if (!isValid) {
+      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+    }
+  }
+
+  /**
+   * API method to validate the entire book
+   */
+  validateBook() {
+    const {
+      tc: {
+        showDialog
+      },
+      translate
+    } = this.props;
+    const isValid = this._validateBook(this.props);
+    if (!isValid) {
+      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+    }
   }
 
   /**
@@ -105,6 +154,162 @@ export default class Api extends ToolApi {
     }
   }
 
+  _loadBookAlignments(props) {
+    const {
+      tc: {
+        contextId,
+        targetBible,
+        sourceBible,
+        showDialog,
+        projectFileExistsSync,
+        readProjectDataSync
+      },
+      translate,
+      setToolReady,
+      setToolLoading,
+      indexChapterAlignments
+    } = props;
+
+    if (!contextId) {
+      console.warn('Missing context id. alignments not loaded.');
+      return;
+    }
+
+    setToolLoading();
+
+    const {reference: {bookId}} = contextId;
+    const {store} = this.context;
+    const state = store.getState();
+    let alignmentsAreValid = true;
+    let hasCorruptChapters = false;
+    for (const chapter of Object.keys(targetBible)) {
+      const isChapterLoaded = getIsChapterLoaded(state, chapter);
+      if (isChapterLoaded) {
+        continue;
+      }
+      try {
+        const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+        if (projectFileExistsSync(dataPath)) {
+          // load chapter data
+          const data = readProjectDataSync(dataPath);
+          const json = JSON.parse(data);
+          indexChapterAlignments(chapter, json, sourceBible[chapter],
+            targetBible[chapter]);
+
+          // validate
+          const isValid = this._validateChapter(props, chapter);
+          if (!isValid) {
+            alignmentsAreValid = isValid;
+          }
+        } else {
+          Api._initChapterAlignments(props, chapter);
+        }
+      } catch (e) {
+        console.error('Failed to load alignment data', e);
+        hasCorruptChapters = true;
+        Api._initChapterAlignments(props, chapter);
+      }
+    }
+    if (hasCorruptChapters) {
+      showDialog(translate('alignments_corrupt'),
+        translate('buttons.ok_button'));
+    }
+    if (!alignmentsAreValid) {
+      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+    }
+
+    setToolReady();
+  }
+
+  /**
+   * Validates the entire book
+   * @param props
+   * @return {boolean}
+   * @private
+   */
+  _validateBook(props) {
+    const {
+      tc: {
+        targetBible
+      }
+    } = props;
+    let bookIsValid = true;
+    for (const chapter of Object.keys(targetBible)) {
+      const isValid = this._validateChapter(props, chapter);
+      if (!isValid) {
+        bookIsValid = isValid;
+      }
+    }
+    return bookIsValid;
+  }
+
+  /**
+   * Validates the chapter and repairs as needed.
+   * @param props
+   * @param chapter
+   * @return {boolean} true if alignments are valid
+   * @private
+   */
+  _validateChapter(props, chapter) {
+    const {
+      tc: {
+        targetBible
+      }
+    } = props;
+    let chapterIsValid = true;
+    if(!(chapter in targetBible)) {
+      console.warn(`Could not validate missing chapter ${chapter}`);
+      return true;
+    }
+    for (const verse of Object.keys(targetBible[chapter])) {
+      const isValid = this._validateVerse(props, chapter, verse);
+      if (!isValid) {
+        chapterIsValid = isValid;
+      }
+    }
+    return chapterIsValid;
+  }
+
+  /**
+   * Validates the verse and repairs as needed.
+   * @param props
+   * @param chapter
+   * @param verse
+   * @return {boolean} true is the alignments are valid
+   * @private
+   */
+  _validateVerse(props, chapter, verse) {
+    const {
+      tc: {
+        targetBible,
+        sourceBible
+      },
+      repairVerse
+    } = props;
+    const {store} = this.context;
+
+    if(!(verse in targetBible[chapter] && verse in sourceBible[chapter])) {
+      console.warn(`Could not validate missing verse ${chapter}:${verse}`);
+      return true;
+    }
+
+    const sourceTokens = tokenizeVerseObjects(
+      sourceBible[chapter][verse].verseObjects);
+    const targetTokens = Lexer.tokenize(targetBible[chapter][verse]);
+    const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
+    const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
+    const isValid = getIsVerseValid(store.getState(), chapter, verse,
+      normalizedSource, normalizedTarget);
+    if (!isValid) {
+      const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
+        chapter, verse);
+      repairVerse(chapter, verse, sourceTokens, targetTokens);
+      // TRICKY: if there were no alignments we fix silently
+      return alignedTokens.length === 0;
+    }
+    return true;
+  }
+
   /**
    * Loads alignment data
    * @param {object} props - the container props
@@ -142,7 +347,7 @@ export default class Api extends ToolApi {
     try {
       setToolLoading();
       const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      if(projectFileExistsSync(dataPath)) {
+      if (projectFileExistsSync(dataPath)) {
         const data = readProjectDataSync(dataPath);
         const json = JSON.parse(data);
         indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
@@ -194,7 +399,8 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillConnect() {
-    this._loadAlignments(this.props);
+    this._loadBookAlignments(this.props);
+    // this._loadAlignments(this.props);
   }
 
   /**
@@ -266,10 +472,21 @@ export default class Api extends ToolApi {
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
     if (Api._didChapterContextChange(prevContext, nextContext)) {
-      this._loadAlignments(nextProps);
+      this._loadBookAlignments(nextProps);
     } else {
-      const {reference: {chapter, verse}} = nextContext;
-      this._validate(nextProps, chapter, verse);
+      const {
+        tc: {
+          showDialog
+        },
+        translate
+      } = nextProps;
+      const isValid = this._validateBook(nextProps);
+      if (!isValid) {
+        showDialog(translate('alignments_reset'),
+          translate('buttons.ok_button'));
+      }
+      // const {reference: {chapter}} = nextContext;
+      // this._validate(nextProps, chapter, verse);
     }
   }
 

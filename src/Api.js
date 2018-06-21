@@ -104,56 +104,6 @@ export default class Api extends ToolApi {
     }
   }
 
-  /**
-   * Validates a specific verse and performs necessary clean up operations.
-   * @param props
-   * @param chapter
-   * @param verse
-   * @private
-   */
-  _validate(props, chapter, verse) {
-    console.warn(`validating ${chapter}:${verse}`);
-    const {
-      repairVerse,
-      tc: {
-        showDialog,
-        targetChapter,
-        sourceChapter
-      },
-      translate
-    } = props;
-    const {store} = this.context;
-    const verseId = verse + '';
-
-    if (!(verseId in targetChapter && verseId in sourceChapter)) {
-      console.warn(`Could not validate missing verse ${chapter}:${verse}`);
-      return;
-    }
-
-    const targetText = targetChapter[verseId];
-    const sourceObjects = sourceChapter[verseId];
-
-    const targetTokens = Lexer.tokenize(targetText);
-    const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
-
-    const sourceTokens = tokenizeVerseObjects(sourceObjects.verseObjects);
-    const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
-
-    const isValid = getIsVerseValid(store.getState(), chapter, verse,
-      normalizedSource,
-      normalizedTarget);
-
-    if (!isValid) {
-      const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
-        chapter, verse);
-      if (alignedTokens.length) {
-        showDialog(translate('alignments_reset'),
-          translate('buttons.ok_button'));
-      }
-      repairVerse(chapter, verse, sourceTokens, targetTokens);
-    }
-  }
-
   _loadBookAlignments(props) {
     const {
       tc: {
@@ -308,66 +258,6 @@ export default class Api extends ToolApi {
       return alignedTokens.length === 0;
     }
     return true;
-  }
-
-  /**
-   * Loads alignment data
-   * @param {object} props - the container props
-   * @return {Promise}
-   */
-  _loadAlignments(props) {
-    const {
-      tc: {
-        contextId,
-        readProjectDataSync,
-        projectFileExistsSync,
-        targetChapter,
-        sourceChapter,
-        showDialog
-      },
-      indexChapterAlignments,
-      sourceTokens,
-      targetTokens,
-      resetVerse,
-      translate,
-      setToolReady,
-      setToolLoading,
-      chapterIsLoaded
-    } = props;
-
-    if (!contextId) {
-      console.warn('Missing context id. Alignments not loaded.');
-      return;
-    }
-
-    if (chapterIsLoaded) return;
-
-    const {reference: {bookId, chapter, verse}} = contextId;
-
-    try {
-      setToolLoading();
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      if (projectFileExistsSync(dataPath)) {
-        const data = readProjectDataSync(dataPath);
-        const json = JSON.parse(data);
-        indexChapterAlignments(chapter, json, sourceChapter, targetChapter);
-        // TRICKY: validate the latest state
-        const {store} = this.context;
-        const updatedProps = this.mapStateToProps(store.getState(), props);
-        this._validate({...props, ...updatedProps}, chapter, verse);
-      } else {
-        // init new alignments
-        resetVerse(chapter, verse, sourceTokens, targetTokens);
-      }
-    } catch (e) {
-      // TODO: give the user an option to reset the data or recover from it.
-      console.error('The alignment data is corrupt', e);
-      showDialog(translate('alignments_corrupt'),
-        translate('buttons.ok_button'));
-      resetVerse(chapter, verse, sourceTokens, targetTokens);
-    } finally {
-      setToolReady();
-    }
   }
 
   /**

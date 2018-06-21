@@ -71,21 +71,25 @@ const styles = {
  */
 const ScripturePaneWrapper = props => {
   const {
-    actions: {
-      showPopover,
-      editTargetVerse,
-      getLexiconData,
-      setToolSettings
+    tc: {
+      actions: {
+        showPopover,
+        editTargetVerse,
+        getLexiconData,
+        setToolSettings
+      },
+      settingsReducer: {toolsSettings},
+      resourcesReducer: {bibles},
+      selectionsReducer: {selections},
+      contextId,
+      projectDetailsReducer
     },
-    translate,
-    settingsReducer: {toolsSettings: {ScripturePane: {currentPaneSettings}}},
-    resourcesReducer,
-    selectionsReducer,
-    contextIdReducer,
-    projectDetailsReducer
+    translate
   } = props;
 
-  // const {currentPaneSettings} = settingsReducer.toolsSettings.ScripturePane;
+  const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
+    ? toolsSettings.ScripturePane.currentPaneSettings
+    : [];
 
   // build the title
   const {target_language, project} = projectDetailsReducer.manifest;
@@ -94,19 +98,19 @@ const ScripturePaneWrapper = props => {
     expandedScripturePaneTitle = target_language.book.name;
   }
 
-  if (Object.keys(resourcesReducer.bibles).length > 0) {
+  if (Object.keys(bibles).length > 0) {
     return (
       <ScripturePane
         currentPaneSettings={currentPaneSettings}
-        contextId={contextIdReducer.contextId}
-        bibles={resourcesReducer.bibles}
+        contextId={contextId}
+        bibles={bibles}
         expandedScripturePaneTitle={expandedScripturePaneTitle}
         showPopover={showPopover}
         editTargetVerse={editTargetVerse}
         projectDetailsReducer={projectDetailsReducer}
         translate={translate}
         getLexiconData={getLexiconData}
-        selections={selectionsReducer.selections}
+        selections={selections}
         setToolSettings={setToolSettings}/>
     );
   } else {
@@ -144,14 +148,12 @@ class Container extends Component {
 
   componentWillMount() {
     // current panes persisted in the scripture pane settings.
-    const {actions: {setToolSettings}, settingsReducer} = this.props;
-    const {ScripturePane} = settingsReducer.toolsSettings;
-    const {currentPaneSettings} = ScripturePane;
-    const panes = ScripturePane && currentPaneSettings ?
-      currentPaneSettings :
-      [];
+    const { actions: { setToolSettings }, settingsReducer, resourcesReducer: { bibles } } = this.props;
+    const {ScripturePane} = settingsReducer.toolsSettings || {};
+    const currentPaneSettings = ScripturePane && ScripturePane.currentPaneSettings ?
+      ScripturePane.currentPaneSettings : [];
 
-    sortPanesSettings(panes, setToolSettings);
+    sortPanesSettings(currentPaneSettings, setToolSettings, bibles);
 
     this.runMAP(this.props);
   }

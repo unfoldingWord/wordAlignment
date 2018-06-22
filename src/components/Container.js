@@ -178,9 +178,14 @@ class Container extends Component {
   }
 
   runMAP(props) {
-    return this.initMAP(props).then(() => {
-      return this.predictAlignments(props);
-    });
+    const {
+      hasSourceText
+    } = props;
+    if(hasSourceText) {
+      return this.initMAP(props).then(() => {
+        return this.predictAlignments(props);
+      });
+    }
   }
 
   /**
@@ -325,6 +330,7 @@ class Container extends Component {
     const {
       connectDropTarget,
       isOver,
+      hasSourceText,
       actions,
       translate,
       resourcesReducer,
@@ -375,6 +381,7 @@ class Container extends Component {
             <ScripturePaneWrapper {...this.props}/>
           </div>
           <AlignmentGrid
+            isMissingBible={!hasSourceText}
             alignments={verseAlignments}
             translate={translate}
             lexicons={lexicons}
@@ -438,6 +445,7 @@ Container.propTypes = {
   chapterAlignments: PropTypes.object.isRequired,
   normalizedTargetVerseText: PropTypes.string.isRequired,
   normalizedSourceVerseText: PropTypes.string.isRequired,
+  hasSourceText: PropTypes.bool.isRequired,
 
   // tc-tool props
   translate: PropTypes.func,
@@ -486,7 +494,9 @@ const mapStateToProps = (state, props) => {
     join(' ');
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
     join(' ');
+  console.warn(`normalized source text "${normalizedSourceVerseText}"`);
   return {
+    hasSourceText: normalizedSourceVerseText !== '',
     chapterAlignments: getChapterAlignments(state, chapter),
     targetTokens,
     sourceTokens,

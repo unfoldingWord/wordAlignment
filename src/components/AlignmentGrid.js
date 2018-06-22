@@ -14,6 +14,11 @@ const styles = {
     overflowY: 'auto',
     flexGrow: 2,
     alignContent: 'flex-start'
+  },
+  warning: {
+    padding: '20px',
+    backgroundColor: '#ccc',
+    display: 'inline-block'
   }
 };
 
@@ -29,22 +34,34 @@ class AlignmentGrid extends Component {
       onCancelSuggestion,
       onAcceptTokenSuggestion,
       alignments,
-      contextId
+      contextId,
+      isMissingBible
     } = this.props;
 
     if (!contextId) {
       return <div/>;
     }
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
-    return (
-      <div id='AlignmentGrid' style={styles.root}>
-        {
-          alignments.map((alignment, key) => {
-            return (
-              <React.Fragment key={key}>
-                {/* placeholder for un-merging primary words */}
-                {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
-                {/*<AlignmentCard*/}
+    if (isMissingBible) {
+      return (
+        <div id='AlignmentGrid' style={styles.root}>
+          <div style={{flexGrow: 1}}>
+            <div style={styles.warning}>
+              {translate('pane.missing_bible')}
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div id='AlignmentGrid' style={styles.root}>
+          {
+            alignments.map((alignment, key) => {
+              return (
+                <React.Fragment key={key}>
+                  {/* placeholder for un-merging primary words */}
+                  {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
+                  {/*<AlignmentCard*/}
                   {/*translate={translate}*/}
                   {/*alignmentIndex={index}*/}
                   {/*placeholderPosition="left"*/}
@@ -53,38 +70,39 @@ class AlignmentGrid extends Component {
                   {/*onDrop={item => this.handleDrop(index, item)}*/}
                   {/*actions={actions}*/}
                   {/*lexicons={lexicons}*/}
-                {/*/>*/}
+                  {/*/>*/}
 
-                <AlignmentCard
-                  translate={translate}
-                  onCancelTokenSuggestion={onCancelSuggestion}
-                  onAcceptTokenSuggestion={onAcceptTokenSuggestion}
-                  alignmentIndex={alignment.index}
-                  isSuggestion={alignment.isSuggestion}
-                  targetNgram={alignment.targetNgram}
-                  sourceNgram={alignment.sourceNgram}
-                  onDrop={item => this.handleDrop(alignment.index, item)}
-                  actions={actions}
-                  lexicons={lexicons}
-                />
-                {/* placeholder for un-merging primary words */}
-                <AlignmentCard
-                  translate={translate}
-                  alignmentIndex={alignment.index}
-                  isSuggestion={alignment.isSuggestion}
-                  placeholderPosition="right"
-                  targetNgram={[]}
-                  sourceNgram={[]}
-                  onDrop={item => this.handleDrop(alignment.index, item)}
-                  actions={actions}
-                  lexicons={lexicons}
-                />
-              </React.Fragment>
-            );
-          })
-        }
-      </div>
-    );
+                  <AlignmentCard
+                    translate={translate}
+                    onCancelTokenSuggestion={onCancelSuggestion}
+                    onAcceptTokenSuggestion={onAcceptTokenSuggestion}
+                    alignmentIndex={alignment.index}
+                    isSuggestion={alignment.isSuggestion}
+                    targetNgram={alignment.targetNgram}
+                    sourceNgram={alignment.sourceNgram}
+                    onDrop={item => this.handleDrop(alignment.index, item)}
+                    actions={actions}
+                    lexicons={lexicons}
+                  />
+                  {/* placeholder for un-merging primary words */}
+                  <AlignmentCard
+                    translate={translate}
+                    alignmentIndex={alignment.index}
+                    isSuggestion={alignment.isSuggestion}
+                    placeholderPosition="right"
+                    targetNgram={[]}
+                    sourceNgram={[]}
+                    onDrop={item => this.handleDrop(alignment.index, item)}
+                    actions={actions}
+                    lexicons={lexicons}
+                  />
+                </React.Fragment>
+              );
+            })
+          }
+        </div>
+      );
+    }
   }
 
   handleDrop(alignmentIndex, item) {
@@ -99,6 +117,7 @@ class AlignmentGrid extends Component {
 }
 
 AlignmentGrid.propTypes = {
+  isMissingBible: PropTypes.bool,
   onDropTargetToken: PropTypes.func.isRequired,
   onDropSourceToken: PropTypes.func.isRequired,
   onCancelSuggestion: PropTypes.func.isRequired,
@@ -108,6 +127,9 @@ AlignmentGrid.propTypes = {
   translate: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
   lexicons: PropTypes.object.isRequired
+};
+AlignmentGrid.defaultProps = {
+  isMissingBible: false
 };
 
 export default AlignmentGrid;

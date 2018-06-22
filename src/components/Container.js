@@ -63,6 +63,31 @@ const styles = {
   }
 };
 
+const MissingBibleError = ({translate}) => (
+  <div id='AlignmentGrid' style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    backgroundColor: '#ffffff',
+    padding: '0px 10px 10px',
+    overflowY: 'auto',
+    flexGrow: 2,
+    alignContent: 'flex-start'
+  }}>
+    <div style={{flexGrow: 1}}>
+      <div style={{
+        padding: '20px',
+        backgroundColor: '#ccc',
+        display: 'inline-block'
+      }}>
+        {translate('pane.missing_bible')}
+      </div>
+    </div>
+  </div>
+);
+MissingBibleError.propTypes = {
+  translate: PropTypes.func.isRequired
+};
+
 /**
  * Injects necessary data into the scripture pane.
  * @param props
@@ -148,9 +173,10 @@ class Container extends Component {
 
   componentWillMount() {
     // current panes persisted in the scripture pane settings.
-    const { actions: { setToolSettings }, settingsReducer, resourcesReducer: { bibles } } = this.props;
+    const {actions: {setToolSettings}, settingsReducer, resourcesReducer: {bibles}} = this.props;
     const {ScripturePane} = settingsReducer.toolsSettings || {};
-    const currentPaneSettings = ScripturePane && ScripturePane.currentPaneSettings ?
+    const currentPaneSettings = ScripturePane &&
+    ScripturePane.currentPaneSettings ?
       ScripturePane.currentPaneSettings : [];
 
     sortPanesSettings(currentPaneSettings, setToolSettings, bibles);
@@ -181,7 +207,7 @@ class Container extends Component {
     const {
       hasSourceText
     } = props;
-    if(hasSourceText) {
+    if (hasSourceText) {
       return this.initMAP(props).then(() => {
         return this.predictAlignments(props);
       });
@@ -236,7 +262,7 @@ class Container extends Component {
     return new Promise(resolve => {
       const suggestions = this.map.predict(normalizedSourceVerseText,
         normalizedTargetVerseText);
-      if(suggestions[0]) {
+      if (suggestions[0]) {
         setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
       }
       resolve();
@@ -380,17 +406,20 @@ class Container extends Component {
           <div style={styles.scripturePaneWrapper}>
             <ScripturePaneWrapper {...this.props}/>
           </div>
-          <AlignmentGrid
-            isMissingBible={!hasSourceText}
-            alignments={verseAlignments}
-            translate={translate}
-            lexicons={lexicons}
-            onDropTargetToken={this.handleAlignTargetToken}
-            onDropSourceToken={this.handleAlignPrimaryToken}
-            onCancelSuggestion={this.handleRemoveSuggestion}
-            onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
-            actions={actions}
-            contextId={contextId}/>
+          {hasSourceText ? (
+            <AlignmentGrid
+              alignments={verseAlignments}
+              translate={translate}
+              lexicons={lexicons}
+              onDropTargetToken={this.handleAlignTargetToken}
+              onDropSourceToken={this.handleAlignPrimaryToken}
+              onCancelSuggestion={this.handleRemoveSuggestion}
+              onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
+              actions={actions}
+              contextId={contextId}/>
+          ) : (
+            <MissingBibleError translate={translate}/>
+          )}
           <MAPControls onAccept={this.handleAcceptSuggestions}
                        onRefresh={this.handleRefreshSuggestions}
                        onReject={this.handleRejectSuggestions}

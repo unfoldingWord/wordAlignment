@@ -375,20 +375,25 @@ class Container extends Component {
     const {lexicons} = resourcesReducer;
     const {reference: {chapter, verse}} = contextId;
 
-    // disabled aligned target tokens
-    const words = targetTokens.map(token => {
-      let isUsed = false;
-      for (const usedToken of alignedTokens) {
-        if (token.toString() === usedToken.toString()
-          && token.occurrence === usedToken.occurrence
-          && token.occurrences === usedToken.occurrences) {
-          isUsed = true;
-          break;
+    let words = [];
+
+    // TRICKY: do not show word list if there is no source bible.
+    if (hasSourceText) {
+      // disabled aligned target tokens
+      words = targetTokens.map(token => {
+        let isUsed = false;
+        for (const usedToken of alignedTokens) {
+          if (token.toString() === usedToken.toString()
+            && token.occurrence === usedToken.occurrence
+            && token.occurrences === usedToken.occurrences) {
+            isUsed = true;
+            break;
+          }
         }
-      }
-      token.disabled = isUsed;
-      return token;
-    });
+        token.disabled = isUsed;
+        return token;
+      });
+    }
 
     return (
       <div style={styles.container}>

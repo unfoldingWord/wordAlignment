@@ -124,14 +124,6 @@ PrimaryToken.propTypes = {
   alignmentLength: PropTypes.number,
   canDrag: PropTypes.bool,
   token: PropTypes.instanceOf(Token),
-  //   shape({
-  //   text: PropTypes.string.isRequired,
-  //   lemma: PropTypes.string.isRequired,
-  //   morph: PropTypes.string.isRequired,
-  //   strong: PropTypes.string.isRequired,
-  //   occurrence: PropTypes.number.isRequired,
-  //   occurrences: PropTypes.number.isRequired
-  // }),
   alignmentIndex: PropTypes.number.isRequired,
   style: PropTypes.object,
   actions: PropTypes.shape({
@@ -163,8 +155,9 @@ const dragHandler = {
       // occurrence: props.token.occurrence,
       // occurrences: props.token.occurrences,
       alignmentIndex: props.alignmentIndex,
-      wordIndex: props.wordIndex,
       alignmentLength: props.alignmentLength,
+
+      wordIndex: props.wordIndex,
       type: types.PRIMARY_WORD
     };
   },

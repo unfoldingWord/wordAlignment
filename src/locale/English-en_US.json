@@ -5,6 +5,7 @@
   "morphology": "Morphology:",
   "strongs": "Strongs:",
   "lexicon": "Lexicon:",
+  "alignments_reset": "There have been changes to the current verse which interfere with your alignments.\nSome alignments for the current verse have been reset.",
   "close": "Close",
   "select": "Select",
   "spelling": "Spelling",
@@ -13,7 +14,6 @@
   "meaning": "Meaning",
   "grammar": "Grammar",
   "other": "Other",
-  "alignments_reset": "There have been changes to the current verse which interfere with your alignments.\nThe alignments for the current verse have been reset.",
   "alignments_corrupt": "The alignments for this chapter could not be loaded and have been reset.",
   "edit_verse": "Edit Verse",
   "edit_verse_title": "Edit Verse - ${passage}",
@@ -27,6 +27,11 @@
   },
   "menu":{
     "menu": "Menu"
+  },
+  "suggestions": {
+    "refresh": "Refresh suggestions",
+    "accept": "Accept suggestions",
+    "reject": "Reject suggestions"
   },
   "pane": {
     "current_project": "Current project",

@@ -18,7 +18,7 @@ describe('acceptable drops', () => {
   test('merged (right word) to empty right', () => {
     const source = makeMergedSource('move right', 'right word');
     const target = makeEmptyTarget();
-    // TRICKY: valid empty targets will have the same alignment index
+    // TRICKY: valid empty targets will have the same alignment position
     target.alignmentIndex = source.alignmentIndex;
     const result = canDropPrimaryToken(target, source);
     expect(result).toEqual(true);

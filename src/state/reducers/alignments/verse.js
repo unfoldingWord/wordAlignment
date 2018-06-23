@@ -1,19 +1,30 @@
 import {
-  ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
-  INSERT_ALIGNMENT,
+  ACCEPT_TOKEN_SUGGESTION,
+  ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
+  ALIGN_RENDERED_SOURCE_TOKEN,
+  ALIGN_RENDERED_TARGET_TOKEN,
+  INSERT_RENDERED_ALIGNMENT,
+  REMOVE_TOKEN_SUGGESTION,
   REPAIR_VERSE_ALIGNMENTS,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
+  SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
-  UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN
+  UNALIGN_RENDERED_SOURCE_TOKEN,
+  UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
-import alignment, * as fromAlignment from './alignment';
+import alignmentReducer, * as fromAlignment from './alignment';
 import Token from 'word-map/structures/Token';
 import {numberComparator} from './index';
 import {insertSourceToken} from '../../actions';
+import renderedAlignmentsReducer, * as fromRenderedAlignments
+  from './renderedAlignments';
+import renderedAlignmentReducer from './renderedAlignment';
+import _ from 'lodash';
+import suggestionReducer from './suggestion';
+import compile from './compile';
 
 /**
  * Compares two alignments for sorting
@@ -46,11 +57,16 @@ const isSameOccurrence = (t1, t2) => {
  * This ignores the token's position within the sentence.
  * @param {Token} t
  * @param {Token[]} tokens
+ * @param {number} [previouslyMappedPos] - the position of the previously mapped token
  * @return {number}
  */
-const findIndexOfOccurrence = (t, tokens) => {
+const findIndexOfOccurrence = (t, tokens, previouslyMappedPos = -1) => {
   for (let i = 0; i < tokens.length; i++) {
-    if (isSameOccurrence(t, tokens[i])) {
+    if (t.equals(tokens[i]) || isSameOccurrence(t, tokens[i])) {
+      return i;
+    } else if (previouslyMappedPos >= 0
+      && previouslyMappedPos === i - 1
+      && t.looksLike(tokens[i])) {
       return i;
     }
   }
@@ -84,7 +100,13 @@ const formatTargetToken = (token) => ({
   position: token.position
 });
 
-const defaultState = {sourceTokens: [], targetTokens: [], alignments: []};
+const defaultState = {
+  sourceTokens: [],
+  targetTokens: [],
+  alignments: [],
+  suggestions: [],
+  renderedAlignments: []
+};
 
 /**
  * Reduces the verse alignment state
@@ -94,40 +116,161 @@ const defaultState = {sourceTokens: [], targetTokens: [], alignments: []};
  */
 const verse = (state = defaultState, action) => {
   switch (action.type) {
-    case UNALIGN_SOURCE_TOKEN:
-    case ALIGN_SOURCE_TOKEN:
-    case UNALIGN_TARGET_TOKEN:
-    case ALIGN_TARGET_TOKEN: {
-      const index = action.index;
-      const newAlignments = [...state.alignments];
-      newAlignments[index] = alignment(state.alignments[index], action);
-      // TRICKY: remove empty alignments
-      if (newAlignments[index].sourceNgram.length === 0) {
-        newAlignments.splice(index, 1);
+    case UNALIGN_RENDERED_SOURCE_TOKEN:
+    case ALIGN_RENDERED_SOURCE_TOKEN:
+    case UNALIGN_RENDERED_TARGET_TOKEN:
+    case ACCEPT_TOKEN_SUGGESTION:
+    case ALIGN_RENDERED_TARGET_TOKEN: {
+      const newSuggestions = [...state.suggestions];
+      const newRenderedAlignments = _.cloneDeep(state.renderedAlignments);
+
+      // update rendered alignment
+      const renderedAlignment = state.renderedAlignments[action.index];
+      // TODO: we need to also render sibling splits
+      // this will require looping through all the rendered alignments to find siblings.
+      //
+      // for (let i = 0; i < state.renderedAlignments.length; i++) {
+      //   if (i !== action.index && _.intersection([
+      //     state.renderedAlignments[i].alignments,
+      //     renderedAlignment.alignments]).length > 0) {
+      //     // TODO: this should be done in one of the alignment reducers
+      //     newRenderedAlignments[i] = {
+      //       ...newRenderedAlignments[i],
+      //       targetNgram: []
+      //     };
+      //   }
+      // }
+      newRenderedAlignments[action.index] = renderedAlignmentReducer(
+        renderedAlignment, action);
+
+      // TRICKY: remove empty rendered alignments
+      let renderIsEmpty = newRenderedAlignments[action.index].sourceNgram.length ===
+        0;
+      if (renderIsEmpty) {
+        newRenderedAlignments.splice(action.index, 1);
       }
+      // compile alignments
+      const {alignments, indices} = compile(newRenderedAlignments,
+        state.alignments);
+
+      // update index mapping
+      for (let i = 0; i < newRenderedAlignments.length; i++) {
+        newRenderedAlignments[i].alignments = indices[i].sort(
+          numberComparator);
+      }
+
+      // update new alignment
+      if (!renderIsEmpty) {
+        const newAlignmentIndex = newRenderedAlignments[action.index].alignments[0];
+        alignments[newAlignmentIndex] = alignmentReducer(
+          alignments[newAlignmentIndex], action);
+      }
+
+      // update suggestion
+      if ('suggestion' in renderedAlignment) {
+        newSuggestions[renderedAlignment.suggestion] = suggestionReducer(
+          state.suggestions[renderedAlignment.suggestion], action);
+      }
+
       return {
         ...state,
-        alignments: newAlignments
+        suggestions: newSuggestions,
+        alignments,
+        renderedAlignments: renderedAlignmentsReducer(newRenderedAlignments,
+          action, alignments, newSuggestions, state.sourceTokens.length)//newRenderedAlignments
+      };
+    }
+    case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS: {
+      const renderedAlignments = [];
+      for (let i = 0; i < state.renderedAlignments.length; i++) {
+        const currentRender = state.renderedAlignments[i];
+        renderedAlignments.push(
+          renderedAlignmentReducer(currentRender, action));
+      }
+      const {alignments} = compile(renderedAlignments,
+        state.alignments);
+      return {
+        ...state,
+        suggestions: [],
+        alignments,
+        renderedAlignments: renderedAlignmentsReducer(renderedAlignments,
+          action, alignments, [], state.sourceTokens.length)
+      };
+    }
+    case SET_ALIGNMENT_SUGGESTIONS: {
+      const suggestions = action.alignments.map(a => ({
+        sourceNgram: a.sourceNgram.map(t => t.position),
+        targetNgram: a.targetNgram.map(t => t.position)
+      }));
+      suggestions.sort(alignmentComparator);
+      return {
+        ...state,
+        suggestions,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action,
+          state.alignments,
+          suggestions,
+          state.sourceTokens.length)
+      };
+    }
+    case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
+      return {
+        ...state,
+        suggestions: [],
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, state.alignments)
+      };
+    case REMOVE_TOKEN_SUGGESTION: {
+      const renderedAlignment = state.renderedAlignments[action.index];
+      const suggestionIndex = renderedAlignment.suggestion;
+      const suggestions = [
+        ...state.suggestions
+      ];
+      suggestions[suggestionIndex] = suggestionReducer(
+        state.suggestions[suggestionIndex], action);
+      return {
+        ...state,
+        suggestions,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, state.alignments, suggestions, state.sourceTokens.length)
       };
     }
     case RESET_VERSE_ALIGNMENTS: {
       const alignments = [];
       for (let i = 0; i < state.sourceTokens.length; i++) {
-        alignments.push(alignment(undefined, {...action, position: i}));
+        alignments.push(alignmentReducer(undefined, {...action, position: i}));
       }
       return {
         ...state,
+        alignments,
+        suggestions: [],
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, alignments)
+      };
+    }
+    case INSERT_RENDERED_ALIGNMENT: {
+      // add alignment
+      const a = alignmentReducer(undefined, action);
+      const alignments = [
+        ...state.alignments,
+        a
+      ].sort(alignmentComparator);
+
+      // render alignment
+      const index = alignments.indexOf(a);
+      const newRenderedAlignment = renderedAlignmentReducer(undefined, action,
+        index);
+      const renderedAlignments = [
+        ...state.renderedAlignments,
+        newRenderedAlignment
+      ].sort(alignmentComparator);
+
+      return {
+        ...state,
+        renderedAlignments,
         alignments
       };
     }
-    case INSERT_ALIGNMENT:
-      return {
-        ...state,
-        alignments: [
-          ...state.alignments,
-          alignment(undefined, action)
-        ].sort(alignmentComparator)
-      };
     case SET_SOURCE_TOKENS: {
       return {
         sourceTokens: action.tokens.map(formatSourceToken),
@@ -143,8 +286,6 @@ const verse = (state = defaultState, action) => {
       };
     }
     case REPAIR_VERSE_ALIGNMENTS: {
-
-
       // calculate operations
       const sourceTokenPositionMap = [];
       const targetTokenPositionMap = [];
@@ -154,54 +295,90 @@ const verse = (state = defaultState, action) => {
         sourceTokenPositionMap.push(newPos);
       }
       for (let i = 0; i < state.targetTokens.length; i++) {
+        let previousPos = -1;
+        if (targetTokenPositionMap.length > 0) {
+          const lastIndex = targetTokenPositionMap.length - 1;
+          previousPos = targetTokenPositionMap[lastIndex];
+        }
         const t = new Token(state.targetTokens[i]);
-        const newPos = findIndexOfOccurrence(t, action.targetTokens);
+        const newPos = findIndexOfOccurrence(t, action.targetTokens,
+          previousPos);
         targetTokenPositionMap.push(newPos);
       }
 
-      // repair
+      // repair alignments
       let fixedAlignments = state.alignments.map(
-        a => alignment(a, {
+        a => alignmentReducer(a, {
           ...action,
           sourceTokenPositionMap,
           targetTokenPositionMap
         }));
 
-      // hydrate alignments
+      // remove duplicate tokens
       let usedSourceTokens = [];
-      fixedAlignments.map(a => {
-        usedSourceTokens = usedSourceTokens.concat(
-          fromAlignment.getSourceTokenPositions(a));
+      let usedTargetTokens = [];
+      fixedAlignments = fixedAlignments.map(a => {
+        // source
+        const locallyUsedSourceTokens = [];
+        for (const t of a.sourceNgram) {
+          if (usedSourceTokens.indexOf(t) >= 0 ||
+            locallyUsedSourceTokens.indexOf(t) >= 0) {
+            return null;
+          } else {
+            locallyUsedSourceTokens.push(t);
+          }
+        }
+        // target
+        for (const t of a.targetNgram) {
+          if (usedTargetTokens.indexOf(t) >= 0) {
+            _.pullAt(a.targetNgram, a.targetNgram.indexOf(t));
+          } else {
+            usedTargetTokens.push(t);
+          }
+        }
+        // find used source tokens
+        usedSourceTokens = usedSourceTokens.concat(a.sourceNgram);
+        return a;
       });
+      fixedAlignments = _.compact(fixedAlignments);
+
+      // insert missing source tokens
       for (const t of action.sourceTokens) {
         if (!usedSourceTokens.includes(t.position)) {
           const insertAction = insertSourceToken(action.chapter, action.verse,
             t);
-          fixedAlignments.push(alignment(undefined, insertAction));
+          fixedAlignments.push(alignmentReducer(undefined, insertAction));
         }
       }
 
       // clean broken alignments
       fixedAlignments = fixedAlignments.filter(a => a.sourceNgram.length > 0);
+      fixedAlignments.sort(alignmentComparator);
 
       return {
+        ...defaultState,
         targetTokens: action.targetTokens.map(formatTargetToken),
         sourceTokens: action.sourceTokens.map(formatSourceToken),
-        alignments: fixedAlignments.sort(alignmentComparator)
+        alignments: fixedAlignments,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, fixedAlignments)
       };
     }
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
       const alignments = [];
       for (let i = 0; i < action.alignments[vid].alignments.length; i++) {
-        alignments.push(alignment(state[i], {...action, index: i}));
+        alignments.push(alignmentReducer(state[i], {...action, index: i}));
       }
       return {
+        ...defaultState,
         sourceTokens: action.alignments[vid].sourceTokens.map(
           formatSourceToken),
         targetTokens: action.alignments[vid].targetTokens.map(
           formatTargetToken),
-        alignments
+        alignments,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments,
+          action, alignments)
       };
     }
     default:
@@ -263,7 +440,37 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
   const targetText = getTargetText(state);
   // console.warn('source text:\n', sourceText, '\n', sourceBaselineText);
   // console.warn('target text:\n', targetText, '\n', targetBaselineText);
-  return sourceText === sourceBaselineText && targetText === targetBaselineText;
+  const textIsValid = sourceText === sourceBaselineText && targetText ===
+    targetBaselineText;
+  return textIsValid && getAreAlignmentsValid(state);
+};
+
+/**
+ * Check if the verse alignments are valid.
+ * @param state
+ * @return {boolean}
+ */
+export const getAreAlignmentsValid = state => {
+  const usedSourceTokens = [];
+  const usedTargetTokens = [];
+  for (const a of state.alignments) {
+    // validate tokens are unique
+    for (const t of a.sourceNgram) {
+      if (usedSourceTokens.indexOf(t) >= 0) {
+        return false;
+      } else {
+        usedSourceTokens.push(t);
+      }
+    }
+    for (const t of a.targetNgram) {
+      if (usedTargetTokens.indexOf(t) >= 0) {
+        return false;
+      } else {
+        usedTargetTokens.push(t);
+      }
+    }
+  }
+  return usedSourceTokens.length === state.sourceTokens.length;
 };
 
 /**
@@ -272,15 +479,18 @@ export const getIsValid = (state, sourceBaselineText, targetBaselineText) => {
  * @param state
  */
 export const getIsAligned = state => {
-  // check if source has been aligned
+  let alignedTargetTokens = 0;
   for (const alignment of state.alignments) {
+    // check source tokens
     if (!fromAlignment.getIsAligned(alignment)) {
       return false;
     }
+
+    // check target tokens
+    alignedTargetTokens += alignment.targetNgram.length;
   }
-  const tokens = getAlignedTargetTokens(state);
-  return tokens.length === state.targetTokens.length;
-  
+
+  return alignedTargetTokens === state.targetTokens.length;
 };
 
 /**
@@ -289,7 +499,7 @@ export const getIsAligned = state => {
  * @return {Token[]}
  */
 export const getAlignedTargetTokens = state => {
-  const alignments = getTokenizedAlignments(state);
+  const alignments = getAlignments(state);
   const tokens = [];
   for (const alignment of alignments) {
     for (const token of alignment.targetNgram) {
@@ -300,24 +510,57 @@ export const getAlignedTargetTokens = state => {
 };
 
 /**
- * Returns the tokenized alignments for the verse
+ * Returns tokens that have been visually aligned to the verse.
  * @param state
  * @return {Array}
  */
-export const getTokenizedAlignments = state => {
+export const getRenderedAlignedTargetTokens = state => {
+  const alignments = getRenderedAlignments(state);
+  const tokens = [];
+  for (const alignment of alignments) {
+    for (const token of alignment.targetNgram) {
+      tokens.push(token);
+    }
+  }
+  return tokens;
+};
+
+/**
+ * Returns the tokenized alignments for the verse.
+ * @param state
+ * @return {Array}
+ */
+export const getAlignments = state => {
   const alignments = [];
-  for (const alignment of state.alignments) {
-    alignments.push(fromAlignment.getTokenizedAlignment(
-      alignment,
+  for (let i = 0; i < state.alignments.length; i++) {
+    const a = fromAlignment.getTokenizedAlignment(
+      state.alignments[i],
       state.sourceTokens,
       state.targetTokens
-    ));
+    );
+    a.index = i;
+    alignments.push(a);
   }
   return alignments;
 };
 
+/**
+ * Returns alignments combined with suggestions
+ * @param state
+ * @return {Array}
+ */
+export const getRenderedAlignments = state => {
+  return fromRenderedAlignments.getTokenizedAlignments(state.renderedAlignments,
+    state.sourceTokens, state.targetTokens);
+};
+
+/**
+ * Returns alignments for the verse in the legacy format
+ * @param state
+ * @return {*}
+ */
 export const getLegacyAlignments = state => {
-  const alignments = getTokenizedAlignments(state);
+  const alignments = getAlignments(state);
   const targetTokens = getTargetTokens(state);
   const legacyAlignments = [];
   let usedTargetTokens = [];

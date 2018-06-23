@@ -196,6 +196,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -204,8 +205,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -230,20 +233,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 1,
-                              "padding": "10px",
+                              "padding": "9px",
                             }
                           }
                         >
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w1
                             </span>
@@ -290,6 +298,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -298,8 +307,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={2}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -324,20 +335,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 1,
-                              "padding": "10px",
+                              "padding": "9px",
                             }
                           }
                         >
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w2
                             </span>
@@ -396,6 +412,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -404,8 +421,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={2}
                       occurrences={2}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -430,20 +449,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 1,
-                              "padding": "10px",
+                              "padding": "9px",
                             }
                           }
                         >
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w2
                             </span>
@@ -502,6 +526,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -510,8 +535,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={true}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -536,7 +563,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 0.3,
-                              "padding": "10px",
+                              "padding": "9px",
                               "userSelect": "none",
                             }
                           }
@@ -544,13 +571,18 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w3
                             </span>
@@ -793,6 +825,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -801,8 +834,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -827,20 +862,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 1,
-                              "padding": "10px",
+                              "padding": "9px",
                             }
                           }
                         >
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w1
                             </span>
@@ -887,6 +927,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -895,8 +936,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={2}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -921,20 +964,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 1,
-                              "padding": "10px",
+                              "padding": "9px",
                             }
                           }
                         >
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w2
                             </span>
@@ -993,6 +1041,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -1001,8 +1050,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={false}
+                      isSuggestion={false}
                       occurrence={2}
                       occurrences={2}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -1027,20 +1078,25 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 1,
-                              "padding": "10px",
+                              "padding": "9px",
                             }
                           }
                         >
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w2
                             </span>
@@ -1099,6 +1155,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   }
                 >
                   <div
+                    onClick={[Function]}
                     style={
                       Object {
                         "flex": 1,
@@ -1107,8 +1164,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                   >
                     <WordCard
                       disabled={true}
+                      isSuggestion={false}
                       occurrence={1}
                       occurrences={1}
+                      onCancel={[Function]}
                       style={
                         Object {
                           "opacity": 1,
@@ -1133,7 +1192,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               "display": "flex",
                               "flexDirection": "row",
                               "opacity": 0.3,
-                              "padding": "10px",
+                              "padding": "9px",
                               "userSelect": "none",
                             }
                           }
@@ -1141,13 +1200,18 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                           <span
                             style={
                               Object {
+                                "display": "flex",
                                 "flex": 1,
                               }
                             }
                           >
                             <span
                               onClick={[Function]}
-                              style={Object {}}
+                              style={
+                                Object {
+                                  "flexGrow": 2,
+                                }
+                              }
                             >
                               w3
                             </span>

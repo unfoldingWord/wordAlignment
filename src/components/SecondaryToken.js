@@ -15,6 +15,27 @@ import Token from 'word-map/structures/Token';
  * @property {int} occurrences
  */
 class SecondaryToken extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleCancel() {
+    const {onCancel, token} = this.props;
+    if(typeof onCancel === 'function') {
+      onCancel(token);
+    }
+  }
+
+  handleClick() {
+    const {token, onAccept} = this.props;
+    if(token.meta.suggestion && typeof onAccept === 'function') {
+      onAccept(token);
+    }
+  }
+
   render() {
     const {
       connectDragSource,
@@ -27,11 +48,14 @@ class SecondaryToken extends React.Component {
     const wordComponent = (
       <div
         style={{flex: 1}}
+        onClick={this.handleClick}
       >
         <Word
           word={token.text}
           disabled={disabled}
           style={{opacity}}
+          onCancel={this.handleCancel}
+          isSuggestion={token.meta.suggestion}
           occurrence={token.occurrence}
           occurrences={token.occurrences}/>
       </div>
@@ -46,6 +70,8 @@ class SecondaryToken extends React.Component {
 }
 
 SecondaryToken.propTypes = {
+  onCancel: PropTypes.func,
+  onAccept: PropTypes.func,
   token: PropTypes.instanceOf(Token).isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
@@ -54,7 +80,7 @@ SecondaryToken.propTypes = {
 };
 
 SecondaryToken.defaultProps = {
-  alignmentIndex: undefined, // just to be explicit
+  alignmentIndex: undefined,
   disabled: false
 };
 

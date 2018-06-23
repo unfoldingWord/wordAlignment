@@ -1,17 +1,21 @@
 import chapter, * as fromChapter from './chapter';
 
 import {
-  ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
+  SET_ALIGNMENT_SUGGESTIONS,
+  ALIGN_RENDERED_SOURCE_TOKEN,
+  ALIGN_RENDERED_TARGET_TOKEN,
   CLEAR_STATE,
-  INSERT_ALIGNMENT,
+  INSERT_RENDERED_ALIGNMENT,
+  ACCEPT_TOKEN_SUGGESTION,
   REPAIR_VERSE_ALIGNMENTS,
+  RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
-  UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN
+  UNALIGN_RENDERED_SOURCE_TOKEN,
+  REMOVE_TOKEN_SUGGESTION,
+  UNALIGN_RENDERED_TARGET_TOKEN, ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS
 } from '../../actions/actionTypes';
 
 /**
@@ -31,16 +35,21 @@ export const numberComparator = (a, b) => a - b;
  */
 const alignments = (state = {}, action) => {
   switch (action.type) {
-    case INSERT_ALIGNMENT:
+    case INSERT_RENDERED_ALIGNMENT:
     case SET_CHAPTER_ALIGNMENTS:
-    case UNALIGN_SOURCE_TOKEN:
+    case UNALIGN_RENDERED_SOURCE_TOKEN:
     case SET_TARGET_TOKENS:
     case SET_SOURCE_TOKENS:
-    case ALIGN_SOURCE_TOKEN:
+    case REMOVE_TOKEN_SUGGESTION:
+    case ALIGN_RENDERED_SOURCE_TOKEN:
     case RESET_VERSE_ALIGNMENTS:
-    case UNALIGN_TARGET_TOKEN:
+    case ACCEPT_TOKEN_SUGGESTION:
+    case ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS:
+    case UNALIGN_RENDERED_TARGET_TOKEN:
+    case RESET_VERSE_ALIGNMENT_SUGGESTIONS:
     case REPAIR_VERSE_ALIGNMENTS:
-    case ALIGN_TARGET_TOKEN: {
+    case SET_ALIGNMENT_SUGGESTIONS:
+    case ALIGN_RENDERED_TARGET_TOKEN: {
       const chapterId = action.chapter + '';
       return {
         ...state,
@@ -92,6 +101,21 @@ export const getVerseAlignments = (state, chapter, verse) => {
 };
 
 /**
+ * Returns rendered alignments for a single verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getRenderedVerseAlignments = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  if (chapterId in state) {
+    return fromChapter.getRenderedVerseAlignments(state[chapterId], verse);
+  }
+  return [];
+};
+
+/**
  * Checks if data for the chapter has been loaded
  * @param state
  * @param {number} chapter
@@ -99,7 +123,7 @@ export const getVerseAlignments = (state, chapter, verse) => {
  */
 export const getIsChapterLoaded = (state, chapter) => {
   const chapterId = chapter + '';
-  if(chapterId in state) {
+  if (chapterId in state) {
     // make sure we have some verses
     return Object.keys(state[chapterId]).length > 0;
   } else {
@@ -116,8 +140,24 @@ export const getIsChapterLoaded = (state, chapter) => {
  */
 export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
   const chapterId = chapter + '';
-  if(chapterId in state) {
+  if (chapterId in state) {
     return fromChapter.getVerseAlignedTargetTokens(state[chapterId], verse);
+  } else {
+    return [];
+  }
+};
+
+/**
+ * Returns tokens that have been visually aligned to the verse
+ * @param state
+ * @param chapter
+ * @param verse
+ * @return {Array}
+ */
+export const getRenderedVerseAlignedTargetTokens = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  if (chapterId in state) {
+    return fromChapter.getRenderedVerseAlignedTargetTokens(state[chapterId], verse);
   } else {
     return [];
   }
@@ -151,7 +191,7 @@ export const getIsVerseValid = (
  */
 export const getIsVerseAligned = (state, chapter, verse) => {
   const chapterId = chapter + '';
-  if(state && chapterId in state) {
+  if (state && chapterId in state) {
     return fromChapter.getIsVerseAligned(state[chapterId], verse);
   } else {
     return false;

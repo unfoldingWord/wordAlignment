@@ -24,14 +24,12 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.1s",
         }
       }
     >
       <div
         style={
           Object {
-            "backgroundColor": "#DCDCDC",
             "display": "flex",
             "flexDirection": "column",
             "height": "100%",
@@ -92,20 +90,25 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         "cursor": "pointer",
                         "display": "flex",
                         "flexDirection": "row",
-                        "padding": "10px",
+                        "padding": "9px",
                       }
                     }
                   >
                     <span
                       style={
                         Object {
+                          "display": "flex",
                           "flex": 1,
                         }
                       }
                     >
                       <span
                         onClick={[Function]}
-                        style={Object {}}
+                        style={
+                          Object {
+                            "flexGrow": 2,
+                          }
+                        }
                       >
                         ἐπειδήπερ
                       </span>
@@ -162,14 +165,12 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.1s",
         }
       }
     >
       <div
         style={
           Object {
-            "backgroundColor": "#DCDCDC",
             "display": "flex",
             "flexDirection": "column",
             "height": "100%",
@@ -230,20 +231,25 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         "cursor": "pointer",
                         "display": "flex",
                         "flexDirection": "row",
-                        "padding": "10px",
+                        "padding": "9px",
                       }
                     }
                   >
                     <span
                       style={
                         Object {
+                          "display": "flex",
                           "flex": 1,
                         }
                       }
                     >
                       <span
                         onClick={[Function]}
-                        style={Object {}}
+                        style={
+                          Object {
+                            "flexGrow": 2,
+                          }
+                        }
                       >
                         πολλοὶ
                       </span>
@@ -300,14 +306,12 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
           "margin": "0px 10px 10px 0px",
           "minWidth": "115px",
           "padding": "7px",
-          "transition": "0.1s",
         }
       }
     >
       <div
         style={
           Object {
-            "backgroundColor": "#DCDCDC",
             "display": "flex",
             "flexDirection": "column",
             "height": "100%",
@@ -368,20 +372,25 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         "cursor": "pointer",
                         "display": "flex",
                         "flexDirection": "row",
-                        "padding": "10px",
+                        "padding": "9px",
                       }
                     }
                   >
                     <span
                       style={
                         Object {
+                          "display": "flex",
                           "flex": 1,
                         }
                       }
                     >
                       <span
                         onClick={[Function]}
-                        style={Object {}}
+                        style={
+                          Object {
+                            "flexGrow": 2,
+                          }
+                        }
                       >
                         ἐπεχείρησαν
                       </span>

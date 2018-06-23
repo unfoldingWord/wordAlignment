@@ -10,7 +10,9 @@ test('empty snapshot', () => {
   const wrapper = renderer.create(
     <AlignmentGrid lexicons={{}}
                    alignments={[]}
+                   onAcceptTokenSuggestion={jest.fn()}
                    onDropSourceToken={jest.fn()}
+                   onCancelSuggestion={jest.fn()}
                    onDropTargetToken={jest.fn()}
                    translate={k => k}
                    actions={{
@@ -43,6 +45,9 @@ describe('AlignmentGrid', () => {
       '1': {
         '1': [
           {
+            'position': 0,
+            'index': 0,
+            'isSuggestion': false,
             'sourceNgram': [
               new Token({
                 'text': 'ἐπειδήπερ',
@@ -56,6 +61,9 @@ describe('AlignmentGrid', () => {
             'targetNgram': []
           },
           {
+            'position': 1,
+            'index': 1,
+            'isSuggestion': false,
             'sourceNgram': [
               new Token({
                 'text': 'πολλοὶ',
@@ -69,6 +77,9 @@ describe('AlignmentGrid', () => {
             'targetNgram': []
           },
           {
+            'position': 2,
+            'index': 2,
+            'isSuggestion': false,
             'sourceNgram': [
               new Token({
                 'text': 'ἐπεχείρησαν',
@@ -95,8 +106,10 @@ describe('AlignmentGrid', () => {
       <ConnectedAlignmentGrid
         alignments={alignmentData['1']['1']}
         contextId={contextId}
+        onAcceptTokenSuggestion={jest.fn()}
         onDropSourceToken={jest.fn()}
         onDropTargetToken={jest.fn()}
+        onCancelSuggestion={jest.fn()}
         translate={k => k}
         actions={{
           showPopover: jest.fn(),
@@ -122,9 +135,11 @@ describe('AlignmentGrid', () => {
     // when
     const enzymeWrapper = shallow(
       <AlignmentGrid
+        onAcceptTokenSuggestion={jest.fn()}
         alignments={alignmentData['1']['1']}
         contextId={contextId}
         onDropSourceToken={jest.fn()}
+        onCancelSuggestion={jest.fn()}
         onDropTargetToken={jest.fn()}
         translate={k => k}
         actions={{

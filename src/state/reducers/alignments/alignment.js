@@ -1,15 +1,13 @@
 import {
-  ALIGN_SOURCE_TOKEN,
-  ALIGN_TARGET_TOKEN,
-  INSERT_ALIGNMENT,
+  ACCEPT_TOKEN_SUGGESTION,
+  INSERT_RENDERED_ALIGNMENT,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENTS,
-  SET_CHAPTER_ALIGNMENTS,
-  UNALIGN_SOURCE_TOKEN,
-  UNALIGN_TARGET_TOKEN
+  SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
 import Token from 'word-map/structures/Token';
+import _ from 'lodash';
 
 const defaultState = {sourceNgram: [], targetNgram: []};
 
@@ -19,39 +17,23 @@ const defaultState = {sourceNgram: [], targetNgram: []};
  * @param action
  * @return {*}
  */
-const alignment = (state = defaultState, action) => {
+const alignment = (state = defaultState, action, ) => {
   switch (action.type) {
+    case ACCEPT_TOKEN_SUGGESTION:
+      return {
+        ...state,
+        targetNgram: _.uniq([...state.targetNgram, action.token.position])
+      };
     case RESET_VERSE_ALIGNMENTS:
       return {
         sourceNgram: [action.position],
         targetNgram: []
       };
-    case ALIGN_TARGET_TOKEN:
-      return {
-        sourceNgram: [...state.sourceNgram],
-        targetNgram: [...state.targetNgram, action.token.position].sort(
-          numberComparator)
-      };
-    case UNALIGN_TARGET_TOKEN:
-      return {
-        sourceNgram: [...state.sourceNgram],
-        targetNgram: state.targetNgram.filter(position => {
-          return position !== action.token.position;
-        })
-      };
-    case INSERT_ALIGNMENT:
-    case ALIGN_SOURCE_TOKEN:
+    case INSERT_RENDERED_ALIGNMENT:
       return {
         sourceNgram: [...state.sourceNgram, action.token.position].sort(
           numberComparator),
         targetNgram: [...state.targetNgram]
-      };
-    case UNALIGN_SOURCE_TOKEN:
-      return {
-        sourceNgram: state.sourceNgram.filter(position => {
-          return position !== action.token.position;
-        }),
-        targetNgram: []
       };
     case SET_CHAPTER_ALIGNMENTS: {
       const vid = action.verse + '';
@@ -101,9 +83,10 @@ export default alignment;
  * @return {{sourceNgram: Token[], targetNgram: Token[]}}
  */
 export const getTokenizedAlignment = (state, sourceTokens, targetTokens) => {
+  // TRICKY: we deep copy the token to prevent tampering with the token data
   return {
-    sourceNgram: state.sourceNgram.map(pos => new Token(sourceTokens[pos])),
-    targetNgram: state.targetNgram.map(pos => new Token(targetTokens[pos]))
+    sourceNgram: state.sourceNgram.map(pos => new Token(Object.assign({}, sourceTokens[pos]))),
+    targetNgram: state.targetNgram.map(pos => new Token(Object.assign({}, targetTokens[pos])))
   };
 };
 
@@ -114,10 +97,3 @@ export const getTokenizedAlignment = (state, sourceTokens, targetTokens) => {
 export const getIsAligned = state => {
   return state.targetNgram.length > 0;
 };
-
-/**
- * Returns the positions of the source tokens used in the alignment
- * @param state
- * @return {number[]}
- */
-export const getSourceTokenPositions = (state) => [...state.sourceNgram];

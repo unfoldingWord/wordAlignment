@@ -1,6 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`multiple occurrence 1`] = `
+exports[`is a suggestion 1`] = `
+<div
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderLeft": "5px solid #1b7729",
+        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+        "cursor": "pointer",
+        "display": "flex",
+        "flexDirection": "row",
+        "padding": "9px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+        }
+      }
+    >
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "flexGrow": 2,
+          }
+        }
+      >
+        hello
+      </span>
+      <svg
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        style={
+          Object {
+            "color": "#646464",
+            "display": "inline-block",
+            "fill": "currentColor",
+            "height": 20,
+            "marginLeft": 5,
+            "muiPrepared": true,
+            "opacity": 0.5,
+            "transition": "0.1s",
+            "userSelect": "none",
+            "verticalAlign": "middle",
+            "width": 20,
+          }
+        }
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+        />
+      </svg>
+    </span>
+    <sup
+      style={
+        Object {
+          "marginTop": "2px",
+          "opacity": "0.8",
+          "top": 0,
+        }
+      }
+    >
+      1
+    </sup>
+  </div>
+</div>
+`;
+
+exports[`occurs multiple times 1`] = `
 <div
   style={
     Object {
@@ -17,20 +99,25 @@ exports[`multiple occurrence 1`] = `
         "cursor": "pointer",
         "display": "flex",
         "flexDirection": "row",
-        "padding": "10px",
+        "padding": "9px",
       }
     }
   >
     <span
       style={
         Object {
+          "display": "flex",
           "flex": 1,
         }
       }
     >
       <span
         onClick={[Function]}
-        style={Object {}}
+        style={
+          Object {
+            "flexGrow": 2,
+          }
+        }
       >
         hello
       </span>
@@ -50,7 +137,7 @@ exports[`multiple occurrence 1`] = `
 </div>
 `;
 
-exports[`single occurrence 1`] = `
+exports[`occurs once 1`] = `
 <div
   style={
     Object {
@@ -67,20 +154,25 @@ exports[`single occurrence 1`] = `
         "cursor": "pointer",
         "display": "flex",
         "flexDirection": "row",
-        "padding": "10px",
+        "padding": "9px",
       }
     }
   >
     <span
       style={
         Object {
+          "display": "flex",
           "flex": 1,
         }
       }
     >
       <span
         onClick={[Function]}
-        style={Object {}}
+        style={
+          Object {
+            "flexGrow": 2,
+          }
+        }
       >
         hello
       </span>

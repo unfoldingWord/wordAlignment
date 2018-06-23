@@ -77,5 +77,62 @@ describe('saving', () => {
       expect(api.props.tc.writeProjectData).toBeCalled();
     });
   });
+});
 
+describe('context', () => {
+  it('has an empty previous context', () => {
+    const result = Api._didChapterContextChange(null, {});
+    expect(result).toEqual(true);
+  });
+
+  it('should identify a chapter change', () => {
+    const prevContext = {
+      reference: {
+        bookId: 'mat',
+        chapter: '1'
+      }
+    };
+    const nextContext = {
+      reference: {
+        bookId: 'mat',
+        chapter: '2'
+      }
+    };
+    const result = Api._didChapterContextChange(prevContext, nextContext);
+    expect(result).toEqual(true);
+  });
+
+  it('should identify a book change', () => {
+    const prevContext = {
+      reference: {
+        bookId: 'mat',
+        chapter: '1'
+      }
+    };
+    const nextContext = {
+      reference: {
+        bookId: 'jhn',
+        chapter: '1'
+      }
+    };
+    const result = Api._didChapterContextChange(prevContext, nextContext);
+    expect(result).toEqual(true);
+  });
+
+  it('should not change', () => {
+    const prevContext = {
+      reference: {
+        bookId: 'mat',
+        chapter: '1'
+      }
+    };
+    const nextContext = {
+      reference: {
+        bookId: 'mat',
+        chapter: '1'
+      }
+    };
+    const result = Api._didChapterContextChange(prevContext, nextContext);
+    expect(result).toEqual(false);
+  });
 });

@@ -9,14 +9,12 @@ exports[`has a bottom word 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -89,20 +87,25 @@ exports[`has a bottom word 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord
               </span>
@@ -135,14 +138,12 @@ exports[`has a top and bottom word 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -190,20 +191,25 @@ exports[`has a top and bottom word 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord
               </span>
@@ -252,20 +258,25 @@ exports[`has a top and bottom word 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord
               </span>
@@ -298,14 +309,12 @@ exports[`has a top word 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -353,20 +362,25 @@ exports[`has a top word 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord
               </span>
@@ -413,14 +427,12 @@ exports[`has multiple bottom words 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -493,20 +505,25 @@ exports[`has multiple bottom words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord1
               </span>
@@ -529,20 +546,25 @@ exports[`has multiple bottom words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord2
               </span>
@@ -575,14 +597,12 @@ exports[`has multiple top and bottom words 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -630,20 +650,25 @@ exports[`has multiple top and bottom words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord1
               </span>
@@ -666,20 +691,25 @@ exports[`has multiple top and bottom words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord2
               </span>
@@ -728,20 +758,25 @@ exports[`has multiple top and bottom words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord1
               </span>
@@ -764,20 +799,25 @@ exports[`has multiple top and bottom words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 bottomWord2
               </span>
@@ -810,14 +850,12 @@ exports[`has multiple top words 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "115px",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",
@@ -865,20 +903,25 @@ exports[`has multiple top words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord1
               </span>
@@ -901,20 +944,25 @@ exports[`has multiple top words 1`] = `
                 "cursor": "pointer",
                 "display": "flex",
                 "flexDirection": "row",
-                "padding": "10px",
+                "padding": "9px",
               }
             }
           >
             <span
               style={
                 Object {
+                  "display": "flex",
                   "flex": 1,
                 }
               }
             >
               <span
                 onClick={[Function]}
-                style={Object {}}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                  }
+                }
               >
                 topWord2
               </span>
@@ -961,14 +1009,12 @@ exports[`is empty 1`] = `
       "margin": "0px 10px 10px 0px",
       "minWidth": "calc(115px/2)",
       "padding": "7px",
-      "transition": "0.1s",
     }
   }
 >
   <div
     style={
       Object {
-        "backgroundColor": "#DCDCDC",
         "display": "flex",
         "flexDirection": "column",
         "height": "100%",

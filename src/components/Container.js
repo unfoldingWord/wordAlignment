@@ -160,9 +160,6 @@ class Container extends Component {
               // exclude current verse from saved alignments
               continue;
             }
-            if(chapterAlignments[verse].length) {
-              console.warn(`loading ${chapterAlignments[verse].length} alignments for ${chapter}:${verse}`);
-            }
             for (const a of chapterAlignments[verse]) {
               if (a.sourceNgram.length && a.targetNgram.length) {
                 const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');

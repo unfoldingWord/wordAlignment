@@ -13,7 +13,6 @@ import {
   alignTargetToken,
   clearAlignmentSuggestions,
   clearState,
-  indexChapterAlignments,
   moveSourceToken,
   removeTokenSuggestion,
   repairVerse,
@@ -22,10 +21,10 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {
-  getChapterAlignments,
   getIsVerseValid,
   getRenderedVerseAlignedTargetTokens,
-  getRenderedVerseAlignments
+  getRenderedVerseAlignments,
+  getChapterAlignments,
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -143,24 +142,33 @@ class Container extends Component {
    */
   initMAP(props) {
     const {
-      chapterAlignments,
-      tc: {contextId: {reference: {verse: selectedVerse}}}
+      tc: {
+        contextId: {reference: {verse: selectedVerse}},
+        targetBible
+      }
     } = props;
-    // TODO: eventually we'll want to load alignments from the entire book
-    // not just the current chapter
+
+    const {store} = this.context;
     return new Promise(resolve => {
       setTimeout(() => {
         const map = new WordMap();
-        for (const verse of Object.keys(chapterAlignments)) {
-          if (parseInt(verse) === selectedVerse) {
-            // exclude current verse from saved alignments
-            continue;
-          }
-          for (const a of chapterAlignments[verse]) {
-            if (a.sourceNgram.length && a.targetNgram.length) {
-              const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
-              const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-              map.appendSavedAlignmentsString(sourceText, targetText);
+        const state = store.getState();
+        for (const chapter of Object.keys(targetBible)) {
+          const chapterAlignments = getChapterAlignments(state, chapter);
+          for (const verse of Object.keys(chapterAlignments)) {
+            if (parseInt(verse) === selectedVerse) {
+              // exclude current verse from saved alignments
+              continue;
+            }
+            if(chapterAlignments[verse].length) {
+              console.warn(`loading ${chapterAlignments[verse].length} alignments for ${chapter}:${verse}`);
+            }
+            for (const a of chapterAlignments[verse]) {
+              if (a.sourceNgram.length && a.targetNgram.length) {
+                const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
+                const targetText = a.targetNgram.map(t => t.toString()).join(' ');
+                map.appendSavedAlignmentsString(sourceText, targetText);
+              }
             }
           }
         }
@@ -329,7 +337,7 @@ class Container extends Component {
 
     return (
       <div style={styles.container}>
-        <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate} />
+        <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
@@ -399,7 +407,6 @@ Container.propTypes = {
   clearState: PropTypes.func.isRequired,
   resetVerse: PropTypes.func.isRequired,
   repairVerse: PropTypes.func.isRequired,
-  indexChapterAlignments: PropTypes.func.isRequired,
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
@@ -410,7 +417,6 @@ Container.propTypes = {
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   verseIsValid: PropTypes.bool.isRequired,
-  chapterAlignments: PropTypes.object.isRequired,
   normalizedTargetVerseText: PropTypes.string.isRequired,
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
@@ -432,8 +438,6 @@ Container.propTypes = {
     toolsSettings: PropTypes.object.required
   }).isRequired,
   actions: PropTypes.object.isRequired,
-  //group menu
-  groupMenu: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = ({
@@ -444,7 +448,6 @@ const mapDispatchToProps = ({
   repairVerse,
   clearState,
   acceptTokenSuggestion,
-  indexChapterAlignments,
   removeTokenSuggestion,
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
@@ -463,7 +466,6 @@ const mapStateToProps = (state, props) => {
     join(' ');
   return {
     hasSourceText: normalizedSourceVerseText !== '',
-    chapterAlignments: getChapterAlignments(state, chapter),
     targetTokens,
     sourceTokens,
     alignedTokens: getRenderedVerseAlignedTargetTokens(state, chapter, verse),

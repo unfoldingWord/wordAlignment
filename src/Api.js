@@ -290,7 +290,6 @@ export default class Api extends ToolApi {
    */
   toolWillConnect() {
     this._loadBookAlignments(this.props);
-    // this._loadAlignments(this.props);
   }
 
   /**

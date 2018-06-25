@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {GroupMenu} from 'tc-ui-toolkit';
 import PropTypes from 'prop-types';
+import Api from '../Api';
 
 class GroupMenuContainer extends React.Component {
   getGroupProgress(groupIndex, groupsData, isVerseFinished) {
@@ -16,8 +17,7 @@ class GroupMenuContainer extends React.Component {
       return verseFinished && !groupData.reminders;
     }).length;
 
-    let progress = doneChecks / totalChecks;
-    return progress;
+    return doneChecks / totalChecks;
   }
 
   render() {
@@ -51,7 +51,11 @@ class GroupMenuContainer extends React.Component {
 }
 
 GroupMenuContainer.propTypes = {
+  tc: PropTypes.object.isRequired,
+  toolApi: PropTypes.instanceOf(Api),
   translate: PropTypes.func.isRequired,
+
+  // mapped from props
   actions: PropTypes.object.isRequired,
   isVerseFinished: PropTypes.func.isRequired,
   groupsDataReducer: PropTypes.object.isRequired,
@@ -63,4 +67,21 @@ GroupMenuContainer.propTypes = {
   projectSaveLocation: PropTypes.string.isRequired,
 };
 
-export default connect()(GroupMenuContainer);
+const mapStateToProps = (state, props) => {
+  const {tc, translate, toolApi} = props;
+
+  return {
+    toolsReducer: tc.toolsReducer,
+    groupsDataReducer: tc.groupsDataReducer,
+    groupsIndexReducer: tc.groupsIndexReducer,
+    groupMenuReducer: tc.groupMenuReducer,
+    translate,
+    actions: tc.actions,
+    isVerseFinished: toolApi.getIsVerseFinished,
+    contextId: tc.contextId,
+    manifest: tc.projectDetailsReducer.manifest,
+    projectSaveLocation: tc.projectDetailsReducer.projectSaveLocation
+  };
+};
+
+export default connect(mapStateToProps)(GroupMenuContainer);

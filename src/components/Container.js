@@ -32,8 +32,10 @@ import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
 import Token from 'word-map/structures/Token';
 import MAPControls from './MAPControls';
-import {ScripturePane} from 'tc-ui-toolkit';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
+import ScripturePaneContainer from '../containers/ScripturePaneContainer';
+import MissingBibleError from './MissingBibleError';
+import Api from '../Api';
 
 const styles = {
   container: {
@@ -63,86 +65,6 @@ const styles = {
   }
 };
 
-const MissingBibleError = ({translate}) => (
-  <div id='AlignmentGrid' style={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    backgroundColor: '#ffffff',
-    padding: '0px 10px 10px',
-    overflowY: 'auto',
-    flexGrow: 2,
-    alignContent: 'flex-start'
-  }}>
-    <div style={{flexGrow: 1}}>
-      <div style={{
-        padding: '20px',
-        backgroundColor: '#ccc',
-        display: 'inline-block'
-      }}>
-        {translate('pane.missing_bible')}
-      </div>
-    </div>
-  </div>
-);
-MissingBibleError.propTypes = {
-  translate: PropTypes.func.isRequired
-};
-
-/**
- * Injects necessary data into the scripture pane.
- * @param props
- * @return {*}
- * @constructor
- */
-const ScripturePaneWrapper = props => {
-  const {
-    tc: {
-      actions: {
-        showPopover,
-        editTargetVerse,
-        getLexiconData,
-        setToolSettings
-      },
-      settingsReducer: {toolsSettings},
-      resourcesReducer: {bibles},
-      selectionsReducer: {selections},
-      contextId,
-      projectDetailsReducer
-    },
-    translate
-  } = props;
-
-  const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
-    ? toolsSettings.ScripturePane.currentPaneSettings
-    : [];
-
-  // build the title
-  const {target_language, project} = projectDetailsReducer.manifest;
-  let expandedScripturePaneTitle = project.name;
-  if (target_language && target_language.book && target_language.book.name) {
-    expandedScripturePaneTitle = target_language.book.name;
-  }
-
-  if (Object.keys(bibles).length > 0) {
-    return (
-      <ScripturePane
-        currentPaneSettings={currentPaneSettings}
-        contextId={contextId}
-        bibles={bibles}
-        expandedScripturePaneTitle={expandedScripturePaneTitle}
-        showPopover={showPopover}
-        editTargetVerse={editTargetVerse}
-        projectDetailsReducer={projectDetailsReducer}
-        translate={translate}
-        getLexiconData={getLexiconData}
-        selections={selections}
-        setToolSettings={setToolSettings}/>
-    );
-  } else {
-    return <div/>;
-  }
-};
-
 /**
  * The base container for this tool
  */
@@ -163,6 +85,7 @@ class Container extends Component {
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
+    this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -351,21 +274,44 @@ class Container extends Component {
     acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
+  /**
+   * Returns the target tokens with used tokens labeled as disabled
+   * @return {*}
+   */
+  getLabeledTargetTokens() {
+    const {
+      targetTokens,
+      alignedTokens
+    } = this.props;
+    return targetTokens.map(token => {
+      let isUsed = false;
+      for (const usedToken of alignedTokens) {
+        if (token.toString() === usedToken.toString()
+          && token.occurrence === usedToken.occurrence
+          && token.occurrences === usedToken.occurrences) {
+          isUsed = true;
+          break;
+        }
+      }
+      token.disabled = isUsed;
+      return token;
+    });
+  }
+
   render() {
-    // Modules not defined within translationWords
     const {
       connectDropTarget,
       isOver,
       hasSourceText,
       actions,
+      toolApi,
       translate,
       resourcesReducer,
-      targetTokens,
-      alignedTokens,
       verseAlignments,
       tc: {
         contextId
-      }
+      },
+      tc
     } = this.props;
 
     if (!contextId) {
@@ -375,29 +321,15 @@ class Container extends Component {
     const {lexicons} = resourcesReducer;
     const {reference: {chapter, verse}} = contextId;
 
-    let words = [];
-
     // TRICKY: do not show word list if there is no source bible.
+    let words = [];
     if (hasSourceText) {
-      // disabled aligned target tokens
-      words = targetTokens.map(token => {
-        let isUsed = false;
-        for (const usedToken of alignedTokens) {
-          if (token.toString() === usedToken.toString()
-            && token.occurrence === usedToken.occurrence
-            && token.occurrences === usedToken.occurrences) {
-            isUsed = true;
-            break;
-          }
-        }
-        token.disabled = isUsed;
-        return token;
-      });
+      words = this.getLabeledTargetTokens();
     }
 
     return (
       <div style={styles.container}>
-        <GroupMenuContainer {...this.props.groupMenu} />
+        <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate} />
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
@@ -409,7 +341,7 @@ class Container extends Component {
         </div>
         <div style={styles.alignmentAreaContainer}>
           <div style={styles.scripturePaneWrapper}>
-            <ScripturePaneWrapper {...this.props}/>
+            <ScripturePaneContainer {...this.props}/>
           </div>
           {hasSourceText ? (
             <AlignmentGrid
@@ -455,6 +387,8 @@ Container.propTypes = {
     appLanguage: PropTypes.string.isRequired
   }).isRequired,
   toolIsReady: PropTypes.bool.isRequired,
+
+  toolApi: PropTypes.instanceOf(Api),
 
   // dispatch props
   acceptTokenSuggestion: PropTypes.func.isRequired,
@@ -518,8 +452,7 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {tc, translate, toolApi} = props;
-  const {contextId, targetVerseText, sourceVerse} = tc;
+  const {tc: {contextId, targetVerseText, sourceVerse}} = props;
   const {reference: {chapter, verse}} = contextId;
   // TRICKY: the target verse contains punctuation we need to remove
   const targetTokens = Lexer.tokenize(targetVerseText);
@@ -528,7 +461,6 @@ const mapStateToProps = (state, props) => {
     join(' ');
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
     join(' ');
-  console.warn(`normalized source text "${normalizedSourceVerseText}"`);
   return {
     hasSourceText: normalizedSourceVerseText !== '',
     chapterAlignments: getChapterAlignments(state, chapter),
@@ -539,19 +471,7 @@ const mapStateToProps = (state, props) => {
     verseIsValid: getIsVerseValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
-    normalizedSourceVerseText,
-    groupMenu: {
-      toolsReducer: tc.toolsReducer,
-      groupsDataReducer: tc.groupsDataReducer,
-      groupsIndexReducer: tc.groupsIndexReducer,
-      groupMenuReducer: tc.groupMenuReducer,
-      translate,
-      actions: tc.actions,
-      isVerseFinished: toolApi.getIsVerseFinished,
-      contextId,
-      manifest: tc.projectDetailsReducer.manifest,
-      projectSaveLocation: tc.projectDetailsReducer.projectSaveLocation
-    }
+    normalizedSourceVerseText
   };
 };
 

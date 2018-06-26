@@ -71,7 +71,8 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * API method to validate a verse
+   * API method to validate a verse.
+   * And fix things if needed
    * @param {number} chapter
    * @param {number} verse
    */
@@ -89,7 +90,8 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * API method to validate the entire book
+   * API method to validate the entire book.
+   * And fix things if needed
    */
   validateBook() {
     const {

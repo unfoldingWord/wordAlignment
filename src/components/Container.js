@@ -21,10 +21,10 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {
+  getChapterAlignments,
   getIsVerseValid,
   getRenderedVerseAlignedTargetTokens,
-  getRenderedVerseAlignments,
-  getChapterAlignments,
+  getRenderedVerseAlignments
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -65,6 +65,57 @@ const styles = {
 };
 
 /**
+ * Generates an indexed word map
+ * @param targetBible
+ * @param state
+ * @param currentVerse
+ * @return {Promise<WordMap>}
+ */
+const generateMAP = (targetBible, state, currentVerse) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const map = new WordMap();
+      for (const chapter of Object.keys(targetBible)) {
+        const chapterAlignments = getChapterAlignments(state, chapter);
+        for (const verse of Object.keys(chapterAlignments)) {
+          if (parseInt(verse) === currentVerse) {
+            // exclude current verse from saved alignments
+            continue;
+          }
+          for (const a of chapterAlignments[verse]) {
+            if (a.sourceNgram.length && a.targetNgram.length) {
+              const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
+              const targetText = a.targetNgram.map(t => t.toString()).join(' ');
+              map.appendSavedAlignmentsString(sourceText, targetText);
+            }
+          }
+        }
+      }
+      resolve(map);
+    }, 0);
+  });
+};
+
+/**
+ * Returns predictions based on the word map
+ * @param {WordMap} map
+ * @param sourceVerseText
+ * @param targetVerseText
+ * @return {Promise<any>}
+ */
+const getPredictions = (map, sourceVerseText, targetVerseText) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const suggestions = map.predict(sourceVerseText, targetVerseText);
+      if (suggestions[0]) {
+        resolve(suggestions[0].predictions);
+      }
+      resolve();
+    }, 0);
+  });
+};
+
+/**
  * The base container for this tool
  */
 class Container extends Component {
@@ -72,7 +123,7 @@ class Container extends Component {
   constructor(props) {
     super(props);
     this.map = new WordMap();
-    this.predictAlignments = this.predictAlignments.bind(this);
+    this.updatePredictions = this.updatePredictions.bind(this);
     this.runMAP = this.runMAP.bind(this);
     this.initMAP = this.initMAP.bind(this);
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
@@ -130,8 +181,9 @@ class Container extends Component {
       hasSourceText
     } = props;
     if (hasSourceText) {
-      return this.initMAP(props).then(() => {
-        return this.predictAlignments(props);
+      return this.initMAP(props).then(map => {
+        this.map = map;
+        return this.updatePredictions(props);
       });
     }
   }
@@ -143,57 +195,31 @@ class Container extends Component {
   initMAP(props) {
     const {
       tc: {
-        contextId: {reference: {verse: selectedVerse}},
+        contextId: {reference: {verse}},
         targetBible
       }
     } = props;
 
     const {store} = this.context;
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const map = new WordMap();
-        const state = store.getState();
-        for (const chapter of Object.keys(targetBible)) {
-          const chapterAlignments = getChapterAlignments(state, chapter);
-          for (const verse of Object.keys(chapterAlignments)) {
-            if (parseInt(verse) === selectedVerse) {
-              // exclude current verse from saved alignments
-              continue;
-            }
-            for (const a of chapterAlignments[verse]) {
-              if (a.sourceNgram.length && a.targetNgram.length) {
-                const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
-                const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-                map.appendSavedAlignmentsString(sourceText, targetText);
-              }
-            }
-          }
-        }
-        this.map = map;
-        resolve(map);
-      }, 0);
-
-    });
-
+    const state = store.getState();
+    return generateMAP(targetBible, state, verse);
   }
 
   /**
    * Predicts alignments
    */
-  predictAlignments(props) {
+  updatePredictions(props) {
     const {
       normalizedTargetVerseText,
       normalizedSourceVerseText,
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
-    return new Promise(resolve => {
-      const suggestions = this.map.predict(normalizedSourceVerseText,
-        normalizedTargetVerseText);
-      if (suggestions[0]) {
-        setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
+    return getPredictions(this.map, normalizedSourceVerseText,
+      normalizedTargetVerseText).then(predictions => {
+      if (predictions) {
+        setAlignmentPredictions(chapter, verse, predictions);
       }
-      resolve();
     });
   }
 
@@ -434,7 +460,7 @@ Container.propTypes = {
   settingsReducer: PropTypes.shape({
     toolsSettings: PropTypes.object.required
   }).isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = ({

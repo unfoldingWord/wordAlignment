@@ -45,7 +45,8 @@ const styles = {
     verticalAlign: 'middle',
     marginRight: '5px',
     width: 30,
-    height: 30
+    height: 30,
+    cursor: 'pointer'
   },
   buttonIcon: {
     color: 'var(--accent-color-dark)',
@@ -57,6 +58,18 @@ const styles = {
   }
 };
 
+const InfoPopup = ({translate}) => (
+  <div style={{width: '400px', padding: '0 10px'}}>
+    {translate('map_instructions', {
+      word_map: translate('_.word_map'),
+      icon: 'icon'
+    })}
+  </div>
+);
+InfoPopup.propTypes = {
+  translate: PropTypes.func.isRequired
+};
+
 /**
  * Renders controls for managing Word MAP predictions
  * @param {func} onRefresh
@@ -64,12 +77,35 @@ const styles = {
  * @param {func} nReject
  */
 class MAPControls extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this._handleOnInfoClick = this._handleOnInfoClick.bind(this);
+    this.state = {
+      infoHovered: false
+    };
+  }
+
+  /**
+   * Handles opening the info popup
+   * @private
+   */
+  _handleOnInfoClick(e) {
+    const {showPopover, translate} = this.props;
+    showPopover(
+      <strong>{translate('instructions')}</strong>,
+      <InfoPopup translate={translate}/>,
+      e.target
+    );
+  }
+
   render() {
     const {onRefresh, onAccept, onReject, translate} = this.props;
     return (
       <MuiThemeProvider>
         <div style={styles.root}>
-          <InfoIcon style={styles.icon}/>
+          <InfoIcon style={styles.icon}
+                    onClick={this._handleOnInfoClick}/>
           <SecondaryButton style={styles.button} onClick={onRefresh}>
             <RefreshIcon style={styles.buttonIcon}/>
             {translate('suggestions.refresh')}
@@ -89,6 +125,7 @@ class MAPControls extends React.Component {
 }
 
 MAPControls.propTypes = {
+  showPopover: PropTypes.func.isRequired,
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,

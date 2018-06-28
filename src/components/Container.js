@@ -341,7 +341,10 @@ class Container extends Component {
       resourcesReducer,
       verseAlignments,
       tc: {
-        contextId
+        contextId,
+        actions: {
+          showPopover
+        }
       },
       tc
     } = this.props;
@@ -390,6 +393,7 @@ class Container extends Component {
             <MissingBibleError translate={translate}/>
           )}
           <MAPControls onAccept={this.handleAcceptSuggestions}
+                       showPopover={showPopover}
                        onRefresh={this.handleRefreshSuggestions}
                        onReject={this.handleRejectSuggestions}
                        translate={translate}/>

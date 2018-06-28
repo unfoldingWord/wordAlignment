@@ -66,19 +66,20 @@ const styles = {
 
 /**
  * Generates an indexed word map
- * @param targetBible
+ * @param targetBook
  * @param state
- * @param currentVerse
+ * @param {number} currentChapter
+ * @param {number} currentVerse
  * @return {Promise<WordMap>}
  */
-const generateMAP = (targetBible, state, currentVerse) => {
+export const generateMAP = (targetBook, state, currentChapter, currentVerse) => {
   return new Promise(resolve => {
     setTimeout(() => {
       const map = new WordMap();
-      for (const chapter of Object.keys(targetBible)) {
+      for (const chapter of Object.keys(targetBook)) {
         const chapterAlignments = getChapterAlignments(state, chapter);
         for (const verse of Object.keys(chapterAlignments)) {
-          if (parseInt(verse) === currentVerse) {
+          if (parseInt(verse) === currentVerse && parseInt(chapter) === currentChapter) {
             // exclude current verse from saved alignments
             continue;
           }
@@ -103,7 +104,7 @@ const generateMAP = (targetBible, state, currentVerse) => {
  * @param targetVerseText
  * @return {Promise<any>}
  */
-const getPredictions = (map, sourceVerseText, targetVerseText) => {
+export const getPredictions = (map, sourceVerseText, targetVerseText) => {
   return new Promise(resolve => {
     setTimeout(() => {
       const suggestions = map.predict(sourceVerseText, targetVerseText);
@@ -195,14 +196,14 @@ class Container extends Component {
   initMAP(props) {
     const {
       tc: {
-        contextId: {reference: {verse}},
+        contextId: {reference: {chapter, verse}},
         targetBible
       }
     } = props;
 
     const {store} = this.context;
     const state = store.getState();
-    return generateMAP(targetBible, state, verse);
+    return generateMAP(targetBible, state, chapter, verse);
   }
 
   /**

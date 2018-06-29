@@ -7,6 +7,8 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
+import Snackbar from 'material-ui/Snackbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   acceptAlignmentSuggestions,
   acceptTokenSuggestion,
@@ -137,12 +139,20 @@ class Container extends Component {
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
+    this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.state = {
       loading: false,
       validating: false,
       prevState: undefined,
-      writing: false
+      writing: false,
+      snackText: null
     };
+  }
+
+  handleSnackbarClose() {
+    this.setState({
+      snackText: null
+    });
   }
 
   componentWillMount() {
@@ -216,10 +226,11 @@ class Container extends Component {
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
+
     return getPredictions(this.map, normalizedSourceVerseText,
       normalizedTargetVerseText).then(predictions => {
       if (predictions) {
-        setAlignmentPredictions(chapter, verse, predictions);
+        return setAlignmentPredictions(chapter, verse, predictions);
       }
     });
   }
@@ -271,7 +282,12 @@ class Container extends Component {
   }
 
   handleRefreshSuggestions() {
-    this.runMAP(this.props);
+    const {translate} = this.props;
+    this.runMAP(this.props).catch(() => {
+      this.setState({
+        snackText: translate('suggestions.none')
+      });
+    });
   }
 
   handleAcceptSuggestions() {
@@ -348,6 +364,8 @@ class Container extends Component {
       },
       tc
     } = this.props;
+    const {snackText} = this.state;
+    const snackOpen = snackText !== null;
 
     if (!contextId) {
       return null;
@@ -364,6 +382,13 @@ class Container extends Component {
 
     return (
       <div style={styles.container}>
+        <MuiThemeProvider>
+          <Snackbar
+            open={snackOpen}
+            message={snackText ? snackText : ''}
+            autoHideDuration={2000}
+            onRequestClose={this.handleSnackbarClose}/>
+        </MuiThemeProvider>
         <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList

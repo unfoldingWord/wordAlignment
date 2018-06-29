@@ -12,11 +12,13 @@ exports[`MAPControls renders 1`] = `
   }
 >
   <svg
+    onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
     style={
       Object {
         "color": "var(--accent-color-dark)",
+        "cursor": "pointer",
         "display": "inline-block",
         "fill": "currentColor",
         "height": 30,

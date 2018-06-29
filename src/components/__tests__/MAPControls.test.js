@@ -6,6 +6,7 @@ describe('MAPControls', () => {
   it('renders', () => {
     const wrapper = renderer.create(
       <MAPControls
+        showPopover={jest.fn()}
         translate={k=>k}
         onAccept={jest.fn()}
         onReject={jest.fn()}

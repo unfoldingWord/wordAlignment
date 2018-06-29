@@ -62,7 +62,7 @@ const InfoPopup = ({translate}) => (
   <div style={{width: '400px', padding: '0 10px'}}>
     {translate('map_instructions', {
       word_map: translate('_.word_map'),
-      icon: 'icon'
+      icon: '(x)'
     })}
   </div>
 );

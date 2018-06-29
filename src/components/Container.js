@@ -165,7 +165,7 @@ class Container extends Component {
 
     sortPanesSettings(currentPaneSettings, setToolSettings, bibles);
 
-    this.runMAP(this.props);
+    this.runMAP(this.props).catch(() => {});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -183,7 +183,7 @@ class Container extends Component {
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
 
-      this.runMAP(nextProps);
+      this.runMAP(nextProps).catch(() => {});
     }
   }
 

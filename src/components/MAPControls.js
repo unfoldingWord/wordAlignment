@@ -5,6 +5,8 @@ import CheckIcon from 'material-ui/svg-icons/action/check-circle';
 import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Toggle from 'material-ui/Toggle';
+import Checkbox from 'material-ui/Checkbox';
 
 /**
  * Renders a secondary styled button
@@ -100,7 +102,7 @@ class MAPControls extends React.Component {
   }
 
   render() {
-    const {onRefresh, onAccept, onReject, translate} = this.props;
+    const {onRefresh, onAccept, onReject, translate, complete, onToggleComplete} = this.props;
     return (
       <MuiThemeProvider>
         <div style={styles.root}>
@@ -118,6 +120,11 @@ class MAPControls extends React.Component {
             <CancelIcon style={styles.buttonIcon}/>
             {translate('suggestions.reject')}
           </SecondaryButton>
+          <Toggle
+            label={translate('alignment_complete')}
+            onToggle={onToggleComplete}
+            toggled={complete}
+          />
         </div>
       </MuiThemeProvider>
     );
@@ -129,6 +136,8 @@ MAPControls.propTypes = {
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  complete: PropTypes.bool.isRequired,
+  onToggleComplete: PropTypes.func.isRequired,
 };
 export default MAPControls;

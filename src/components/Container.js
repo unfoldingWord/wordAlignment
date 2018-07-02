@@ -136,6 +136,8 @@ class Container extends Component {
     this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
     this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
+    this.handleToggleComplete = this.handleToggleComplete.bind(this);
+    this._getIsComplete = this._getIsComplete.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
@@ -298,6 +300,22 @@ class Container extends Component {
     acceptAlignmentSuggestions(chapter, verse);
   }
 
+  handleToggleComplete(e, isChecked) {
+    const {
+      toolApi,
+      tc: {
+        contextId: {
+          reference: {chapter, verse}
+        }
+      }
+    } = this.props;
+    console.log('toggle alignments', chapter, verse, isChecked);
+    toolApi.setVerseFinished(chapter, verse, isChecked).then(() => {
+      console.log('forcing update');
+      this.forceUpdate();
+    });
+  }
+
   handleRejectSuggestions() {
     const {
       clearAlignmentSuggestions,
@@ -346,6 +364,21 @@ class Container extends Component {
     });
   }
 
+  /**
+   * Checks if the verse has been completed
+   * @return {Promise}
+   * @private
+   */
+  _getIsComplete() {
+    const {
+      toolApi,
+      tc: {
+        contextId: {reference: {chapter, verse}}
+      }
+    } = this.props;
+    return toolApi.getIsVerseFinished(chapter, verse);
+  }
+
   render() {
     const {
       connectDropTarget,
@@ -367,6 +400,8 @@ class Container extends Component {
     const {snackText} = this.state;
     const snackOpen = snackText !== null;
 
+    console.log('rendering');
+
     if (!contextId) {
       return null;
     }
@@ -379,6 +414,8 @@ class Container extends Component {
     if (hasSourceText) {
       words = this.getLabeledTargetTokens();
     }
+
+    const isComplete = this._getIsComplete();
 
     return (
       <div style={styles.container}>
@@ -418,6 +455,8 @@ class Container extends Component {
             <MissingBibleError translate={translate}/>
           )}
           <MAPControls onAccept={this.handleAcceptSuggestions}
+                       complete={isComplete}
+                       onToggleComplete={this.handleToggleComplete}
                        showPopover={showPopover}
                        onRefresh={this.handleRefreshSuggestions}
                        onReject={this.handleRejectSuggestions}
@@ -448,7 +487,6 @@ Container.propTypes = {
     appLanguage: PropTypes.string.isRequired
   }).isRequired,
   toolIsReady: PropTypes.bool.isRequired,
-
   toolApi: PropTypes.instanceOf(Api),
 
   // dispatch props
@@ -508,7 +546,9 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {tc: {contextId, targetVerseText, sourceVerse}} = props;
+  const {
+    tc: {contextId, targetVerseText, sourceVerse}
+  } = props;
   const {reference: {chapter, verse}} = contextId;
   // TRICKY: the target verse contains punctuation we need to remove
   const targetTokens = Lexer.tokenize(targetVerseText);

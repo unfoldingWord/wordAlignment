@@ -402,13 +402,14 @@ export default class Api extends ToolApi {
    * Sets the verse's completion state
    * @param {number} chapter
    * @param {number} verse
-   * @param {bool} finished - indicates if the verse has been finished
+   * @param {boolean} finished - indicates if the verse has been finished
+   * @return {Promise}
    */
   setVerseFinished(chapter, verse, finished) {
     const {
       tc: {
-        writeProjectDataSync,
-        deleteProjectFileSync,
+        writeProjectData,
+        deleteProjectFile,
         username,
         contextId: {reference: {bookId}}
       }
@@ -419,9 +420,9 @@ export default class Api extends ToolApi {
         username,
         modifiedTimestamp: (new Date()).toJSON()
       };
-      writeProjectDataSync(dataPath, JSON.stringify(data));
+      return writeProjectData(dataPath, JSON.stringify(data));
     } else {
-      deleteProjectFileSync(dataPath);
+      return deleteProjectFile(dataPath);
     }
   }
 }

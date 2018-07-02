@@ -309,9 +309,7 @@ class Container extends Component {
         }
       }
     } = this.props;
-    console.log('toggle alignments', chapter, verse, isChecked);
     toolApi.setVerseFinished(chapter, verse, isChecked).then(() => {
-      console.log('forcing update');
       this.forceUpdate();
     });
   }
@@ -399,8 +397,6 @@ class Container extends Component {
     } = this.props;
     const {snackText} = this.state;
     const snackOpen = snackText !== null;
-
-    console.log('rendering');
 
     if (!contextId) {
       return null;

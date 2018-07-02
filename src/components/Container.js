@@ -79,7 +79,7 @@ const MissingBibleError = ({translate}) => (
         backgroundColor: '#ccc',
         display: 'inline-block'
       }}>
-        {translate('pane.missing_bible')}
+        {translate('pane.missing_verse_warning')}
       </div>
     </div>
   </div>

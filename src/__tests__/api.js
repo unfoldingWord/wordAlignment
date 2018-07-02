@@ -136,3 +136,63 @@ describe('context', () => {
     expect(result).toEqual(false);
   });
 });
+
+describe('verse finished', () => {
+  it('is not finished', () => {
+    const api = new Api();
+    const fileExists = false;
+    api.props = {
+      tc: {
+        projectFileExistsSync: jest.fn(() => fileExists),
+        contextId: {reference: {bookId: 'somebook'}}
+      }
+    };
+    expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
+  });
+
+  it('is finished', () => {
+    const api = new Api();
+    const fileExists = true;
+    api.props = {
+      tc: {
+        projectFileExistsSync: jest.fn(() => fileExists),
+        contextId: {reference: {bookId: 'somebook'}}
+      }
+    };
+    expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
+  });
+
+  it('sets a verse as finished', () => {
+    const api = new Api();
+    const writeProjectDataSync = jest.fn();
+    const deleteProjectFileSync = jest.fn();
+    api.props = {
+      tc: {
+        writeProjectDataSync,
+        deleteProjectFileSync,
+        username: 'username',
+        contextId: {reference: {bookId: 'somebook'}}
+      }
+    };
+    api.setVerseFinished(1, 1, true);
+    expect(writeProjectDataSync).toBeCalled();
+    expect(deleteProjectFileSync).not.toBeCalled();
+  });
+
+  it('sets a verse has not finished', () => {
+    const api = new Api();
+    const writeProjectDataSync = jest.fn();
+    const deleteProjectFileSync = jest.fn();
+    api.props = {
+      tc: {
+        writeProjectDataSync,
+        deleteProjectFileSync,
+        username: 'username',
+        contextId: {reference: {bookId: 'somebook'}}
+      }
+    };
+    api.setVerseFinished(1, 1, false);
+    expect(writeProjectDataSync).not.toBeCalled();
+    expect(deleteProjectFileSync).toBeCalled();
+  });
+});

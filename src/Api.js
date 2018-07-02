@@ -413,7 +413,7 @@ export default class Api extends ToolApi {
         contextId: {reference: {bookId}}
       }
     } = this.props;
-    const dataPath = path.join('alignmentData', 'completed', bookId, chapter, verse + '.json');
+    const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
     if(finished) {
       const data = {
         username,

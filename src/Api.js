@@ -388,7 +388,40 @@ export default class Api extends ToolApi {
    * @return {*}
    */
   getIsVerseFinished(chapter, verse) {
-    const {store} = this.context;
-    return getIsVerseAligned(store.getState(), chapter, verse);
+    const {
+      tc: {
+        projectFileExistsSync,
+        contextId: {reference: {bookId}}
+      }
+    } = this.props;
+    const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
+    return projectFileExistsSync(dataPath);
+  }
+
+  /**
+   * Sets the verse's completion state
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {bool} finished - indicates if the verse has been finished
+   */
+  setVerseFinished(chapter, verse, finished) {
+    const {
+      tc: {
+        writeProjectDataSync,
+        deleteProjectFileSync,
+        username,
+        contextId: {reference: {bookId}}
+      }
+    } = this.props;
+    const dataPath = path.join('alignmentData', 'completed', bookId, chapter, verse + '.json');
+    if(finished) {
+      const data = {
+        username,
+        modifiedTimestamp: (new Date()).toJSON()
+      };
+      writeProjectDataSync(dataPath, JSON.stringify(data));
+    } else {
+      deleteProjectFileSync(dataPath);
+    }
   }
 }

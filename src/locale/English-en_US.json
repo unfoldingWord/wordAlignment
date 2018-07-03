@@ -39,7 +39,7 @@
   },
   "pane": {
     "current_project": "Current project",
-    "missing_bible": "[WARNING: This Bible version does not include text for this reference.]",
+    "missing_verse_warning": "[WARNING: This Bible version does not include text for this reference.]",
     "title": "Step 1. Read",
     "expand_hover": "Click to show expanded resource panes",
     "remove_resource": "Click to remove resource",

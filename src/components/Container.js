@@ -422,7 +422,10 @@ class Container extends Component {
             autoHideDuration={2000}
             onRequestClose={this.handleSnackbarClose}/>
         </MuiThemeProvider>
-        <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate}/>
+        <GroupMenuContainer tc={tc}
+                            toolApi={toolApi}
+                            key={isComplete} // HACK to workaround anti-pattern in GroupMenu
+                            translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}

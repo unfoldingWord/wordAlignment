@@ -196,6 +196,8 @@ class Container extends Component {
         this.map = map;
         return this.updatePredictions(props);
       });
+    } else {
+      return Promise.reject();
     }
   }
 

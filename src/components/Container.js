@@ -30,6 +30,7 @@ import {
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
+import {removeUsfmMarkers} from '../utils/usfmHelpers';
 import Token from 'word-map/structures/Token';
 import MAPControls from './MAPControls';
 import {ScripturePane} from 'tc-ui-toolkit';
@@ -519,10 +520,11 @@ const mapDispatchToProps = ({
 
 const mapStateToProps = (state, props) => {
   const {tc, translate, toolApi} = props;
-  const {contextId, targetVerseText, sourceVerse} = tc;
+  let {contextId, targetVerseText, sourceVerse} = tc;
   const {reference: {chapter, verse}} = contextId;
+  console.log(sourceVerse);
   // TRICKY: the target verse contains punctuation we need to remove
-  const targetTokens = Lexer.tokenize(targetVerseText);
+  const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
   const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
   const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
     join(' ');

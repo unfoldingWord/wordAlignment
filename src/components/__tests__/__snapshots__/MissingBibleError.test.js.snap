@@ -31,7 +31,7 @@ exports[`MissingBibleError renders 1`] = `
         }
       }
     >
-      pane.missing_bible
+      pane.missing_verse_warning
     </div>
   </div>
 </div>

@@ -7,13 +7,14 @@ import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
 import Lexer from 'word-map/Lexer';
+import Snackbar from 'material-ui/Snackbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   acceptAlignmentSuggestions,
   acceptTokenSuggestion,
   alignTargetToken,
   clearAlignmentSuggestions,
   clearState,
-  indexChapterAlignments,
   moveSourceToken,
   removeTokenSuggestion,
   repairVerse,
@@ -33,8 +34,10 @@ import {sortPanesSettings} from '../utils/panesSettingsHelper';
 import {removeUsfmMarkers} from '../utils/usfmHelpers';
 import Token from 'word-map/structures/Token';
 import MAPControls from './MAPControls';
-import {ScripturePane} from 'tc-ui-toolkit';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
+import ScripturePaneContainer from '../containers/ScripturePaneContainer';
+import MissingBibleError from './MissingBibleError';
+import Api from '../Api';
 
 const styles = {
   container: {
@@ -64,84 +67,56 @@ const styles = {
   }
 };
 
-const MissingBibleError = ({translate}) => (
-  <div id='AlignmentGrid' style={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    backgroundColor: '#ffffff',
-    padding: '0px 10px 10px',
-    overflowY: 'auto',
-    flexGrow: 2,
-    alignContent: 'flex-start'
-  }}>
-    <div style={{flexGrow: 1}}>
-      <div style={{
-        padding: '20px',
-        backgroundColor: '#ccc',
-        display: 'inline-block'
-      }}>
-        {translate('pane.missing_verse_warning')}
-      </div>
-    </div>
-  </div>
-);
-MissingBibleError.propTypes = {
-  translate: PropTypes.func.isRequired
+/**
+ * Generates an indexed word map
+ * @param targetBook
+ * @param state
+ * @param {number} currentChapter
+ * @param {number} currentVerse
+ * @return {Promise<WordMap>}
+ */
+export const generateMAP = (targetBook, state, currentChapter, currentVerse) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const map = new WordMap();
+      for (const chapter of Object.keys(targetBook)) {
+        const chapterAlignments = getChapterAlignments(state, chapter);
+        for (const verse of Object.keys(chapterAlignments)) {
+          if (parseInt(verse) === currentVerse && parseInt(chapter) === currentChapter) {
+            // exclude current verse from saved alignments
+            continue;
+          }
+          for (const a of chapterAlignments[verse]) {
+            if (a.sourceNgram.length && a.targetNgram.length) {
+              const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
+              const targetText = a.targetNgram.map(t => t.toString()).join(' ');
+              map.appendSavedAlignmentsString(sourceText, targetText);
+            }
+          }
+        }
+      }
+      resolve(map);
+    }, 0);
+  });
 };
 
 /**
- * Injects necessary data into the scripture pane.
- * @param props
- * @return {*}
- * @constructor
+ * Returns predictions based on the word map
+ * @param {WordMap} map
+ * @param sourceVerseText
+ * @param targetVerseText
+ * @return {Promise<any>}
  */
-const ScripturePaneWrapper = props => {
-  const {
-    tc: {
-      actions: {
-        showPopover,
-        editTargetVerse,
-        getLexiconData,
-        setToolSettings
-      },
-      settingsReducer: {toolsSettings},
-      resourcesReducer: {bibles},
-      selectionsReducer: {selections},
-      contextId,
-      projectDetailsReducer
-    },
-    translate
-  } = props;
-
-  const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
-    ? toolsSettings.ScripturePane.currentPaneSettings
-    : [];
-
-  // build the title
-  const {target_language, project} = projectDetailsReducer.manifest;
-  let expandedScripturePaneTitle = project.name;
-  if (target_language && target_language.book && target_language.book.name) {
-    expandedScripturePaneTitle = target_language.book.name;
-  }
-
-  if (Object.keys(bibles).length > 0) {
-    return (
-      <ScripturePane
-        currentPaneSettings={currentPaneSettings}
-        contextId={contextId}
-        bibles={bibles}
-        expandedScripturePaneTitle={expandedScripturePaneTitle}
-        showPopover={showPopover}
-        editTargetVerse={editTargetVerse}
-        projectDetailsReducer={projectDetailsReducer}
-        translate={translate}
-        getLexiconData={getLexiconData}
-        selections={selections}
-        setToolSettings={setToolSettings}/>
-    );
-  } else {
-    return <div/>;
-  }
+export const getPredictions = (map, sourceVerseText, targetVerseText) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const suggestions = map.predict(sourceVerseText, targetVerseText);
+      if (suggestions[0]) {
+        resolve(suggestions[0].predictions);
+      }
+      resolve();
+    }, 0);
+  });
 };
 
 /**
@@ -152,7 +127,7 @@ class Container extends Component {
   constructor(props) {
     super(props);
     this.map = new WordMap();
-    this.predictAlignments = this.predictAlignments.bind(this);
+    this.updatePredictions = this.updatePredictions.bind(this);
     this.runMAP = this.runMAP.bind(this);
     this.initMAP = this.initMAP.bind(this);
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
@@ -164,12 +139,21 @@ class Container extends Component {
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
+    this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
+    this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.state = {
       loading: false,
       validating: false,
       prevState: undefined,
-      writing: false
+      writing: false,
+      snackText: null
     };
+  }
+
+  handleSnackbarClose() {
+    this.setState({
+      snackText: null
+    });
   }
 
   componentWillMount() {
@@ -182,7 +166,7 @@ class Container extends Component {
 
     sortPanesSettings(currentPaneSettings, setToolSettings, bibles);
 
-    this.runMAP(this.props);
+    this.runMAP(this.props).catch(() => {});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -200,7 +184,7 @@ class Container extends Component {
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
 
-      this.runMAP(nextProps);
+      this.runMAP(nextProps).catch(() => {});
     }
   }
 
@@ -209,9 +193,12 @@ class Container extends Component {
       hasSourceText
     } = props;
     if (hasSourceText) {
-      return this.initMAP(props).then(() => {
-        return this.predictAlignments(props);
+      return this.initMAP(props).then(map => {
+        this.map = map;
+        return this.updatePredictions(props);
       });
+    } else {
+      return Promise.reject();
     }
   }
 
@@ -221,52 +208,33 @@ class Container extends Component {
    */
   initMAP(props) {
     const {
-      chapterAlignments,
-      tc: {contextId: {reference: {verse: selectedVerse}}}
+      tc: {
+        contextId: {reference: {chapter, verse}},
+        targetBible
+      }
     } = props;
-    // TODO: eventually we'll want to load alignments from the entire book
-    // not just the current chapter
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const map = new WordMap();
-        for (const verse of Object.keys(chapterAlignments)) {
-          if (parseInt(verse) === selectedVerse) {
-            // exclude current verse from saved alignments
-            continue;
-          }
-          for (const a of chapterAlignments[verse]) {
-            if (a.sourceNgram.length && a.targetNgram.length) {
-              const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
-              const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-              map.appendSavedAlignmentsString(sourceText, targetText);
-            }
-          }
-        }
-        this.map = map;
-        resolve(map);
-      }, 0);
 
-    });
-
+    const {store} = this.context;
+    const state = store.getState();
+    return generateMAP(targetBible, state, chapter, verse);
   }
 
   /**
    * Predicts alignments
    */
-  predictAlignments(props) {
+  updatePredictions(props) {
     const {
       normalizedTargetVerseText,
       normalizedSourceVerseText,
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
-    return new Promise(resolve => {
-      const suggestions = this.map.predict(normalizedSourceVerseText,
-        normalizedTargetVerseText);
-      if (suggestions[0]) {
-        setAlignmentPredictions(chapter, verse, suggestions[0].predictions);
+
+    return getPredictions(this.map, normalizedSourceVerseText,
+      normalizedTargetVerseText).then(predictions => {
+      if (predictions) {
+        return setAlignmentPredictions(chapter, verse, predictions);
       }
-      resolve();
     });
   }
 
@@ -282,7 +250,7 @@ class Container extends Component {
       alignTargetToken,
       unalignTargetToken
     } = this.props;
-    if (prevAlignmentIndex && prevAlignmentIndex >= 0) {
+    if (prevAlignmentIndex !== null && prevAlignmentIndex >= 0) {
       unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
     }
     alignTargetToken(chapter, verse, nextAlignmentIndex, token);
@@ -317,7 +285,12 @@ class Container extends Component {
   }
 
   handleRefreshSuggestions() {
-    this.runMAP(this.props);
+    const {translate} = this.props;
+    this.runMAP(this.props).catch(() => {
+      this.setState({
+        snackText: translate('suggestions.none')
+      });
+    });
   }
 
   handleAcceptSuggestions() {
@@ -352,22 +325,50 @@ class Container extends Component {
     acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
+  /**
+   * Returns the target tokens with used tokens labeled as disabled
+   * @return {*}
+   */
+  getLabeledTargetTokens() {
+    const {
+      targetTokens,
+      alignedTokens
+    } = this.props;
+    return targetTokens.map(token => {
+      let isUsed = false;
+      for (const usedToken of alignedTokens) {
+        if (token.toString() === usedToken.toString()
+          && token.occurrence === usedToken.occurrence
+          && token.occurrences === usedToken.occurrences) {
+          isUsed = true;
+          break;
+        }
+      }
+      token.disabled = isUsed;
+      return token;
+    });
+  }
+
   render() {
-    // Modules not defined within translationWords
     const {
       connectDropTarget,
       isOver,
       hasSourceText,
       actions,
+      toolApi,
       translate,
       resourcesReducer,
-      targetTokens,
-      alignedTokens,
       verseAlignments,
       tc: {
-        contextId
-      }
+        contextId,
+        actions: {
+          showPopover
+        }
+      },
+      tc
     } = this.props;
+    const {snackText} = this.state;
+    const snackOpen = snackText !== null;
 
     if (!contextId) {
       return null;
@@ -376,29 +377,22 @@ class Container extends Component {
     const {lexicons} = resourcesReducer;
     const {reference: {chapter, verse}} = contextId;
 
-    let words = [];
-
     // TRICKY: do not show word list if there is no source bible.
+    let words = [];
     if (hasSourceText) {
-      // disabled aligned target tokens
-      words = targetTokens.map(token => {
-        let isUsed = false;
-        for (const usedToken of alignedTokens) {
-          if (token.toString() === usedToken.toString()
-            && token.occurrence === usedToken.occurrence
-            && token.occurrences === usedToken.occurrences) {
-            isUsed = true;
-            break;
-          }
-        }
-        token.disabled = isUsed;
-        return token;
-      });
+      words = this.getLabeledTargetTokens();
     }
 
     return (
       <div style={styles.container}>
-        <GroupMenuContainer {...this.props.groupMenu} />
+        <MuiThemeProvider>
+          <Snackbar
+            open={snackOpen}
+            message={snackText ? snackText : ''}
+            autoHideDuration={2000}
+            onRequestClose={this.handleSnackbarClose}/>
+        </MuiThemeProvider>
+        <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
@@ -410,7 +404,7 @@ class Container extends Component {
         </div>
         <div style={styles.alignmentAreaContainer}>
           <div style={styles.scripturePaneWrapper}>
-            <ScripturePaneWrapper {...this.props}/>
+            <ScripturePaneContainer {...this.props}/>
           </div>
           {hasSourceText ? (
             <AlignmentGrid
@@ -427,6 +421,7 @@ class Container extends Component {
             <MissingBibleError translate={translate}/>
           )}
           <MAPControls onAccept={this.handleAcceptSuggestions}
+                       showPopover={showPopover}
                        onRefresh={this.handleRefreshSuggestions}
                        onReject={this.handleRejectSuggestions}
                        translate={translate}/>
@@ -457,6 +452,8 @@ Container.propTypes = {
   }).isRequired,
   toolIsReady: PropTypes.bool.isRequired,
 
+  toolApi: PropTypes.instanceOf(Api),
+
   // dispatch props
   acceptTokenSuggestion: PropTypes.func.isRequired,
   removeTokenSuggestion: PropTypes.func.isRequired,
@@ -466,7 +463,6 @@ Container.propTypes = {
   clearState: PropTypes.func.isRequired,
   resetVerse: PropTypes.func.isRequired,
   repairVerse: PropTypes.func.isRequired,
-  indexChapterAlignments: PropTypes.func.isRequired,
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
@@ -477,7 +473,6 @@ Container.propTypes = {
   verseAlignments: PropTypes.array.isRequired,
   alignedTokens: PropTypes.array.isRequired,
   verseIsValid: PropTypes.bool.isRequired,
-  chapterAlignments: PropTypes.object.isRequired,
   normalizedTargetVerseText: PropTypes.string.isRequired,
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
@@ -498,9 +493,7 @@ Container.propTypes = {
   settingsReducer: PropTypes.shape({
     toolsSettings: PropTypes.object.required
   }).isRequired,
-  actions: PropTypes.object.isRequired,
-  //group menu
-  groupMenu: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = ({
@@ -511,7 +504,6 @@ const mapDispatchToProps = ({
   repairVerse,
   clearState,
   acceptTokenSuggestion,
-  indexChapterAlignments,
   removeTokenSuggestion,
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
@@ -519,10 +511,8 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {tc, translate, toolApi} = props;
-  let {contextId, targetVerseText, sourceVerse} = tc;
+  let {tc: {contextId, targetVerseText, sourceVerse}} = props;
   const {reference: {chapter, verse}} = contextId;
-  console.log(sourceVerse);
   // TRICKY: the target verse contains punctuation we need to remove
   const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
   const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
@@ -530,10 +520,8 @@ const mapStateToProps = (state, props) => {
     join(' ');
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
     join(' ');
-  console.warn(`normalized source text "${normalizedSourceVerseText}"`);
   return {
     hasSourceText: normalizedSourceVerseText !== '',
-    chapterAlignments: getChapterAlignments(state, chapter),
     targetTokens,
     sourceTokens,
     alignedTokens: getRenderedVerseAlignedTargetTokens(state, chapter, verse),
@@ -541,19 +529,7 @@ const mapStateToProps = (state, props) => {
     verseIsValid: getIsVerseValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
-    normalizedSourceVerseText,
-    groupMenu: {
-      toolsReducer: tc.toolsReducer,
-      groupsDataReducer: tc.groupsDataReducer,
-      groupsIndexReducer: tc.groupsIndexReducer,
-      groupMenuReducer: tc.groupMenuReducer,
-      translate,
-      actions: tc.actions,
-      isVerseFinished: toolApi.getIsVerseFinished,
-      contextId,
-      manifest: tc.projectDetailsReducer.manifest,
-      projectSaveLocation: tc.projectDetailsReducer.projectSaveLocation
-    }
+    normalizedSourceVerseText
   };
 };
 

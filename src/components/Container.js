@@ -288,12 +288,10 @@ class Container extends Component {
   handleAlignTargetToken(token, nextAlignmentIndex, prevAlignmentIndex = null) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
-      alignTargetToken,
-      unalignTargetToken
+      alignTargetToken
     } = this.props;
     if (prevAlignmentIndex !== null && prevAlignmentIndex >= 0) {
-      //  remove from previous alignment
-      unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
+      this.handleUnalignTargetToken(token, prevAlignmentIndex);
     } else {
       // dragging an alignment from the word list can auto-complete the verse
       this.enableAutoComplete();
@@ -312,6 +310,7 @@ class Container extends Component {
       unalignTargetToken
     } = this.props;
     unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
+    this.handleToggleComplete(null, false);
   }
 
   /**
@@ -327,6 +326,7 @@ class Container extends Component {
     } = this.props;
     moveSourceToken(chapter, verse, nextAlignmentIndex, prevAlignmentIndex,
       token);
+    this.handleToggleComplete(null, false);
   }
 
   handleRefreshSuggestions() {
@@ -358,12 +358,8 @@ class Container extends Component {
     } = this.props;
 
     toolApi.setVerseFinished(chapter, verse, isChecked).then(() => {
-      // this.forceUpdate();
       this.disableAutoComplete();
       this.forceUpdate();
-      // this.setState({
-      //   canAutoComplete: false
-      // });
     });
   }
 

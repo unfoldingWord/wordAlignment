@@ -261,6 +261,8 @@ export default class Api extends ToolApi {
       const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
         chapter, verse);
       repairVerse(chapter, verse, sourceTokens, targetTokens);
+      // mark the verse as incomplete.
+      this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
       return alignedTokens.length === 0;
     }

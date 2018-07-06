@@ -11,6 +11,7 @@ import {
 import path from 'path-extra';
 import Lexer from 'word-map/Lexer';
 import {tokenizeVerseObjects} from './utils/verseObjects';
+import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {
   alignTargetToken,
   clearState,
@@ -69,7 +70,8 @@ export default class Api extends ToolApi {
       }
       const sourceTokens = tokenizeVerseObjects(
         sourceBible[chapter][verse].verseObjects);
-      const targetTokens = Lexer.tokenize(targetBible[chapter][verse]);
+      const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
+      const targetTokens = Lexer.tokenize(targetVerseText);
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
   }
@@ -249,9 +251,9 @@ export default class Api extends ToolApi {
       return true;
     }
 
-    const sourceTokens = tokenizeVerseObjects(
-      sourceBible[chapter][verse].verseObjects);
-    const targetTokens = Lexer.tokenize(targetBible[chapter][verse]);
+    const sourceTokens = tokenizeVerseObjects(sourceBible[chapter][verse].verseObjects);
+    const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
+    const targetTokens = Lexer.tokenize(targetVerseText);
     const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
     const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
     const isValid = getIsVerseValid(store.getState(), chapter, verse,
@@ -308,7 +310,7 @@ export default class Api extends ToolApi {
     const {tc: {contextId, targetVerseText, sourceVerse}} = props;
     if (contextId) {
       const {reference: {chapter, verse}} = contextId;
-      const targetTokens = Lexer.tokenize(targetVerseText);
+      const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
       const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
       return {
         chapterIsLoaded: getIsChapterLoaded(state, chapter),

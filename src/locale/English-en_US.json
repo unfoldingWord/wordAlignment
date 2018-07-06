@@ -33,9 +33,9 @@
   },
   "suggestions": {
     "none": "No suggestions found",
-    "refresh": "Refresh suggestions",
-    "accept": "Accept suggestions",
-    "reject": "Reject suggestions"
+    "refresh": "Refresh",
+    "accept": "Accept",
+    "reject": "Reject"
   },
   "pane": {
     "current_project": "Current project",

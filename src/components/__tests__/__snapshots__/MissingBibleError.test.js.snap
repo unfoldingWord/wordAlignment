@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MissingBibleError renders 1`] = `
+<div
+  id="AlignmentGrid"
+  style={
+    Object {
+      "alignContent": "flex-start",
+      "backgroundColor": "#ffffff",
+      "display": "flex",
+      "flexGrow": 2,
+      "flexWrap": "wrap",
+      "overflowY": "auto",
+      "padding": "0px 10px 10px",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "flexGrow": 1,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#ccc",
+          "display": "inline-block",
+          "padding": "20px",
+        }
+      }
+    >
+      pane.missing_verse_warning
+    </div>
+  </div>
+</div>
+`;

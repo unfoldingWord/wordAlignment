@@ -255,15 +255,19 @@ export const clearState = () => ({
  * @param {number} verse
  * @param {Alignment[]} predictions
  */
-export const setAlignmentPredictions = (chapter, verse, predictions) => {
+export const setAlignmentPredictions = (chapter, verse, predictions) => dispatch => {
   const alignments = [];
   const minConfidence = 1;
+  let hasSuggestions = false;
   for (const p of predictions) {
     if (p.confidence >= minConfidence) {
       alignments.push({
         sourceNgram: p.alignment.source.tokens,
         targetNgram: p.alignment.target.tokens
       });
+      if(p.alignment.target.tokens.length) {
+        hasSuggestions = true;
+      }
     } else {
       // exclude predictions with a low confidence
       // TRICKY: split ignored predictions to avoid suggesting merging.
@@ -275,12 +279,17 @@ export const setAlignmentPredictions = (chapter, verse, predictions) => {
       }
     }
   }
-  return {
+  dispatch({
     type: types.SET_ALIGNMENT_SUGGESTIONS,
     chapter,
     verse,
     alignments
-  };
+  });
+  if(hasSuggestions) {
+    return Promise.resolve();
+  } else {
+    return Promise.reject();
+  }
 };
 
 /**

@@ -63,6 +63,10 @@ export default class Api extends ToolApi {
     } = props;
 
     for (const verse of Object.keys(targetBible[chapter])) {
+      if(sourceBible[chapter][verse] === undefined) {
+        console.warn(`Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
+        continue;
+      }
       const sourceTokens = tokenizeVerseObjects(
         sourceBible[chapter][verse].verseObjects);
       const targetTokens = Lexer.tokenize(targetBible[chapter][verse]);
@@ -71,7 +75,8 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * API method to validate a verse
+   * API method to validate a verse.
+   * And fix things if needed
    * @param {number} chapter
    * @param {number} verse
    */
@@ -89,7 +94,8 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * API method to validate the entire book
+   * API method to validate the entire book.
+   * And fix things if needed
    */
   validateBook() {
     const {
@@ -290,7 +296,6 @@ export default class Api extends ToolApi {
    */
   toolWillConnect() {
     this._loadBookAlignments(this.props);
-    // this._loadAlignments(this.props);
   }
 
   /**

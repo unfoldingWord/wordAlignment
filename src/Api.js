@@ -63,6 +63,10 @@ export default class Api extends ToolApi {
     } = props;
 
     for (const verse of Object.keys(targetBible[chapter])) {
+      if(sourceBible[chapter][verse] === undefined) {
+        console.warn(`Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
+        continue;
+      }
       const sourceTokens = tokenizeVerseObjects(
         sourceBible[chapter][verse].verseObjects);
       const targetTokens = Lexer.tokenize(targetBible[chapter][verse]);

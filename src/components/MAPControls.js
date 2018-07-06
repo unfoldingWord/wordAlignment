@@ -49,6 +49,21 @@ const styles = {
     height: 30,
     cursor: 'pointer'
   },
+  toggle: {
+    display: 'inline-block',
+    width: 'auto',
+    margin: '10px',
+    verticalAlign: 'middle',
+    fontSize: '14px',
+  },
+  toggleIcon: {
+    marginTop: '8px'
+  },
+  toggleLabel: {
+    color: 'var(--accent-color-dark)',
+    lineHeight: '18px',
+    textAlign: 'left'
+  },
   buttonIcon: {
     color: 'var(--accent-color-dark)',
     verticalAlign: 'middle',
@@ -120,6 +135,10 @@ class MAPControls extends React.Component {
             {translate('suggestions.reject')}
           </SecondaryButton>
           <Toggle
+            style={styles.toggle}
+            iconStyle={styles.toggleIcon}
+            labelStyle={styles.toggleLabel}
+            labelPosition={'right'}
             label={translate('alignment_complete')}
             onToggle={onToggleComplete}
             toggled={complete}

@@ -164,35 +164,35 @@ describe('verse finished', () => {
 
   it('sets a verse as finished', () => {
     const api = new Api();
-    const writeProjectDataSync = jest.fn();
-    const deleteProjectFileSync = jest.fn();
+    const writeProjectData = jest.fn();
+    const deleteProjectFile = jest.fn();
     api.props = {
       tc: {
-        writeProjectDataSync,
-        deleteProjectFileSync,
+        writeProjectData,
+        deleteProjectFile,
         username: 'username',
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
     api.setVerseFinished(1, 1, true);
-    expect(writeProjectDataSync).toBeCalled();
-    expect(deleteProjectFileSync).not.toBeCalled();
+    expect(writeProjectData).toBeCalled();
+    expect(deleteProjectFile).not.toBeCalled();
   });
 
   it('sets a verse has not finished', () => {
     const api = new Api();
-    const writeProjectDataSync = jest.fn();
-    const deleteProjectFileSync = jest.fn();
+    const writeProjectData = jest.fn();
+    const deleteProjectFile = jest.fn();
     api.props = {
       tc: {
-        writeProjectDataSync,
-        deleteProjectFileSync,
+        writeProjectData,
+        deleteProjectFile,
         username: 'username',
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
     api.setVerseFinished(1, 1, false);
-    expect(writeProjectDataSync).not.toBeCalled();
-    expect(deleteProjectFileSync).toBeCalled();
+    expect(writeProjectData).not.toBeCalled();
+    expect(deleteProjectFile).toBeCalled();
   });
 });

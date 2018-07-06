@@ -6,7 +6,6 @@ import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Toggle from 'material-ui/Toggle';
-import Checkbox from 'material-ui/Checkbox';
 
 /**
  * Renders a secondary styled button

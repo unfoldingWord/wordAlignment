@@ -1,18 +1,19 @@
 import {
-  SET_ALIGNMENT_SUGGESTIONS,
+  ACCEPT_TOKEN_SUGGESTION,
+  ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   ALIGN_RENDERED_SOURCE_TOKEN,
   ALIGN_RENDERED_TARGET_TOKEN,
   INSERT_RENDERED_ALIGNMENT,
+  REMOVE_TOKEN_SUGGESTION,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
+  SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS,
-  ACCEPT_TOKEN_SUGGESTION,
-  REMOVE_TOKEN_SUGGESTION,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
   UNALIGN_RENDERED_SOURCE_TOKEN,
-  UNALIGN_RENDERED_TARGET_TOKEN, ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS
+  UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import verse, * as fromVerse from './verse';
 
@@ -160,4 +161,19 @@ export const getLegacyAlignments = state => {
     alignments[verseId] = fromVerse.getLegacyAlignments(state[verseId]);
   }
   return alignments;
+};
+
+/**
+ * Checks if the verse has any rendered (visible to the user) alignment suggestions
+ * @param state
+ * @param {number} verse
+ * @return {boolean}
+ */
+export const getVerseHasRenderedSuggestions = (state, verse) => {
+  const verseId = verse + '';
+  if (state && verseId in state) {
+    return fromVerse.getVerseHasRenderedSuggestions(state[verseId]);
+  } else {
+    return false;
+  }
 };

@@ -92,3 +92,13 @@ export const getLegacyChapterAlignments = (state, chapter) =>
  */
 export const getIsVerseAligned = (state, chapter, verse) =>
   fromAlignments.getIsVerseAligned(state.tool.alignments, chapter, verse);
+
+/**
+ * Checks if the verse has any rendered (display to the user) alignment suggestions.
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {boolean}
+ */
+export const getVerseHasRenderedSuggestions = (state, chapter, verse) =>
+  fromAlignments.getVerseHasRenderedSuggestions(state.tool.alignments, chapter, verse);

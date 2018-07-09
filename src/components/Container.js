@@ -23,11 +23,12 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {
-  getIsVerseAligned,
   getChapterAlignments,
+  getIsVerseAligned,
   getIsVerseValid,
   getRenderedVerseAlignedTargetTokens,
-  getRenderedVerseAlignments
+  getRenderedVerseAlignments,
+  getVerseHasRenderedSuggestions
 } from '../state/reducers';
 import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
@@ -76,14 +77,16 @@ const styles = {
  * @param {number} currentVerse
  * @return {Promise<WordMap>}
  */
-export const generateMAP = (targetBook, state, currentChapter, currentVerse) => {
+export const generateMAP = (
+  targetBook, state, currentChapter, currentVerse) => {
   return new Promise(resolve => {
     setTimeout(() => {
       const map = new WordMap();
       for (const chapter of Object.keys(targetBook)) {
         const chapterAlignments = getChapterAlignments(state, chapter);
         for (const verse of Object.keys(chapterAlignments)) {
-          if (parseInt(verse) === currentVerse && parseInt(chapter) === currentChapter) {
+          if (parseInt(verse) === currentVerse && parseInt(chapter) ===
+            currentChapter) {
             // exclude current verse from saved alignments
             continue;
           }
@@ -172,7 +175,8 @@ class Container extends Component {
 
     sortPanesSettings(currentPaneSettings, setToolSettings, bibles);
 
-    this.runMAP(this.props).catch(() => {});
+    this.runMAP(this.props).catch(() => {
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -193,11 +197,12 @@ class Container extends Component {
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
 
-      this.runMAP(nextProps).catch(() => {});
+      this.runMAP(nextProps).catch(() => {
+      });
       this.disableAutoComplete();
     } else {
       // auto complete the verse
-      if(verseIsAligned && canAutoComplete && !verseIsComplete) {
+      if (verseIsAligned && canAutoComplete && !verseIsComplete) {
         this.handleToggleComplete(null, true);
       }
     }
@@ -260,7 +265,7 @@ class Container extends Component {
     const {verseIsAligned} = this.props;
     const {canAutoComplete} = this.state;
 
-    if(!verseIsAligned && !canAutoComplete) {
+    if (!verseIsAligned && !canAutoComplete) {
       this.setState({
         canAutoComplete: true
       });
@@ -272,7 +277,7 @@ class Container extends Component {
    */
   disableAutoComplete() {
     const {canAutoComplete} = this.state;
-    if(canAutoComplete) {
+    if (canAutoComplete) {
       this.setState({
         canAutoComplete: false
       });
@@ -330,11 +335,23 @@ class Container extends Component {
   }
 
   handleRefreshSuggestions() {
-    const {translate} = this.props;
+    const {
+      translate,
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    const {store} = this.context;
     this.runMAP(this.props).catch(() => {
       this.setState({
         snackText: translate('suggestions.none')
       });
+    }).then(() => {
+      // TRICKY: suggestions may not be rendered
+      const hasSuggestions = getVerseHasRenderedSuggestions(store.getState(), chapter, verse);
+      if(!hasSuggestions) {
+        this.setState({
+          snackText: translate('suggestions.none')
+        });
+      }
     });
   }
 

@@ -21,7 +21,8 @@ import {numberComparator} from './index';
 import {insertSourceToken} from '../../actions';
 import renderedAlignmentsReducer, * as fromRenderedAlignments
   from './renderedAlignments';
-import renderedAlignmentReducer from './renderedAlignment';
+import renderedAlignmentReducer, * as fromRenderedAlignment
+  from './renderedAlignment';
 import _ from 'lodash';
 import suggestionReducer from './suggestion';
 import compile from './compile';
@@ -552,6 +553,26 @@ export const getAlignments = state => {
 export const getRenderedAlignments = state => {
   return fromRenderedAlignments.getTokenizedAlignments(state.renderedAlignments,
     state.sourceTokens, state.targetTokens);
+};
+
+/**
+ * Checks if the verse has any rendered (visible to the user) alignment suggestions
+ * @param state
+ * @return {boolean}
+ */
+export const getVerseHasRenderedSuggestions = state => {
+  if (state.renderedAlignments.length === state.alignments.length) {
+    for (let i = 0; i < state.alignments.length; i++) {
+      const rendered = fromRenderedAlignment.getAlignment(
+        state.renderedAlignments[i]);
+      const alignment = state.alignments[i];
+      if(!_.isEqual(rendered, alignment)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return true;
 };
 
 /**

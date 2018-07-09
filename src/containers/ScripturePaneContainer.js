@@ -58,6 +58,7 @@ const ScripturePaneContainer = (props) => {
 };
 
 ScripturePaneContainer.propTypes = {
+  translate: PropTypes.func.isRequired,
   tc: PropTypes.shape({
     actions: {
       showPopover: PropTypes.func.isRequired,

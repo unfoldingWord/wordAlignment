@@ -20,6 +20,7 @@
   "select_reasons": "Select reason(s) for change",
   "instructions": "Instructions",
   "map_instructions": "Drag the words from the word bank on the left to the correct source on the right.<br><br>Words suggested by ${word_map} have a green bar.<br>To confirm the suggestion, click on the suggested word. To reset the suggestion click on the ${icon} or drag the word to the correct spot.",
+  "alignment_complete": "Alignment complete",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",
@@ -32,9 +33,9 @@
   },
   "suggestions": {
     "none": "No suggestions found",
-    "refresh": "Refresh suggestions",
-    "accept": "Accept suggestions",
-    "reject": "Reject suggestions"
+    "refresh": "Refresh",
+    "accept": "Accept",
+    "reject": "Reject"
   },
   "pane": {
     "current_project": "Current project",

@@ -5,6 +5,7 @@ import CheckIcon from 'material-ui/svg-icons/action/check-circle';
 import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Toggle from 'material-ui/Toggle';
 
 /**
  * Renders a secondary styled button
@@ -47,6 +48,21 @@ const styles = {
     width: 30,
     height: 30,
     cursor: 'pointer'
+  },
+  toggle: {
+    display: 'inline-block',
+    width: 'auto',
+    margin: '10px',
+    verticalAlign: 'middle',
+    fontSize: '14px',
+  },
+  toggleIcon: {
+    marginTop: '8px'
+  },
+  toggleLabel: {
+    color: 'var(--accent-color-dark)',
+    lineHeight: '18px',
+    textAlign: 'left'
   },
   buttonIcon: {
     color: 'var(--accent-color-dark)',
@@ -100,7 +116,7 @@ class MAPControls extends React.Component {
   }
 
   render() {
-    const {onRefresh, onAccept, onReject, translate} = this.props;
+    const {onRefresh, onAccept, onReject, translate, complete, onToggleComplete} = this.props;
     return (
       <MuiThemeProvider>
         <div style={styles.root}>
@@ -118,6 +134,15 @@ class MAPControls extends React.Component {
             <CancelIcon style={styles.buttonIcon}/>
             {translate('suggestions.reject')}
           </SecondaryButton>
+          <Toggle
+            style={styles.toggle}
+            iconStyle={styles.toggleIcon}
+            labelStyle={styles.toggleLabel}
+            labelPosition={'right'}
+            label={translate('alignment_complete')}
+            onToggle={onToggleComplete}
+            toggled={complete}
+          />
         </div>
       </MuiThemeProvider>
     );
@@ -129,6 +154,8 @@ MAPControls.propTypes = {
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  complete: PropTypes.bool.isRequired,
+  onToggleComplete: PropTypes.func.isRequired,
 };
 export default MAPControls;

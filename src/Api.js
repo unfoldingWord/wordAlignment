@@ -2,7 +2,6 @@ import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
   getIsChapterLoaded,
-  getIsVerseAligned,
   getIsVerseValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
@@ -262,6 +261,8 @@ export default class Api extends ToolApi {
       const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
         chapter, verse);
       repairVerse(chapter, verse, sourceTokens, targetTokens);
+      // mark the verse as incomplete.
+      this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
       return alignedTokens.length === 0;
     }
@@ -394,7 +395,41 @@ export default class Api extends ToolApi {
    * @return {*}
    */
   getIsVerseFinished(chapter, verse) {
-    const {store} = this.context;
-    return getIsVerseAligned(store.getState(), chapter, verse);
+    const {
+      tc: {
+        projectFileExistsSync,
+        contextId: {reference: {bookId}}
+      }
+    } = this.props;
+    const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
+    return projectFileExistsSync(dataPath);
+  }
+
+  /**
+   * Sets the verse's completion state
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {boolean} finished - indicates if the verse has been finished
+   * @return {Promise}
+   */
+  setVerseFinished(chapter, verse, finished) {
+    const {
+      tc: {
+        writeProjectData,
+        deleteProjectFile,
+        username,
+        contextId: {reference: {bookId}}
+      }
+    } = this.props;
+    const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
+    if(finished) {
+      const data = {
+        username,
+        modifiedTimestamp: (new Date()).toJSON()
+      };
+      return writeProjectData(dataPath, JSON.stringify(data));
+    } else {
+      return deleteProjectFile(dataPath);
+    }
   }
 }

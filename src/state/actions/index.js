@@ -152,24 +152,9 @@ export const insertSourceToken = (chapter, verse, token) => ({
  */
 export const moveSourceToken = (
   chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token) => {
-  // return {
-  //   type: types.MOVE_SOURCE_TOKEN,
-  //   chapter,
-  //   verse,
-  //   token,
-  //   nextIndex: nextAlignment.index,
-  //   prevIndex: prevAlignment.index
-  // };
+
   return dispatch => {
     dispatch(unalignSourceToken(chapter, verse, prevAlignmentIndex, token));
-    // TRICKY: shift the affected alignment indices as needed
-    // if (nextAlignment.suggestionAlignments) {
-    //   for (let i = 0; i < nextAlignment.suggestionAlignments.length; i++) {
-    //     const affectedIndex = nextAlignment.suggestionAlignments[i];
-    //     nextAlignment.suggestionAlignments[i] = shiftRelativeToRemoved(
-    //       affectedIndex, prevAlignment.index);
-    //   }
-    // }
 
     if (prevAlignmentIndex === nextAlignmentIndex) {
       dispatch(insertSourceToken(chapter, verse, token));

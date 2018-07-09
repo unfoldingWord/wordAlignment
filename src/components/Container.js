@@ -23,6 +23,7 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {
+  getIsVerseAligned,
   getChapterAlignments,
   getIsVerseValid,
   getRenderedVerseAlignedTargetTokens,
@@ -137,6 +138,10 @@ class Container extends Component {
     this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
     this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
+    this.handleToggleComplete = this.handleToggleComplete.bind(this);
+    this.enableAutoComplete = this.enableAutoComplete.bind(this);
+    this.disableAutoComplete = this.disableAutoComplete.bind(this);
+    this._getIsComplete = this._getIsComplete.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
@@ -146,7 +151,8 @@ class Container extends Component {
       validating: false,
       prevState: undefined,
       writing: false,
-      snackText: null
+      snackText: null,
+      canAutoComplete: false
     };
   }
 
@@ -173,11 +179,14 @@ class Container extends Component {
     const {
       tc: {
         contextId: nextContextId
-      }
+      },
+      verseIsAligned,
+      verseIsComplete
     } = nextProps;
     const {
       tc: {contextId: prevContextId}
     } = this.props;
+    const {canAutoComplete} = this.state;
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -185,6 +194,12 @@ class Container extends Component {
       if (page) page.scrollTop = 0;
 
       this.runMAP(nextProps).catch(() => {});
+      this.disableAutoComplete();
+    } else {
+      // auto complete the verse
+      if(verseIsAligned && canAutoComplete && !verseIsComplete) {
+        this.handleToggleComplete(null, true);
+      }
     }
   }
 
@@ -239,6 +254,32 @@ class Container extends Component {
   }
 
   /**
+   * Allows the verse to be auto completed if it is fully aligned
+   */
+  enableAutoComplete() {
+    const {verseIsAligned} = this.props;
+    const {canAutoComplete} = this.state;
+
+    if(!verseIsAligned && !canAutoComplete) {
+      this.setState({
+        canAutoComplete: true
+      });
+    }
+  }
+
+  /**
+   * Disables the verse from being auto completed
+   */
+  disableAutoComplete() {
+    const {canAutoComplete} = this.state;
+    if(canAutoComplete) {
+      this.setState({
+        canAutoComplete: false
+      });
+    }
+  }
+
+  /**
    * Handles adding secondary words to an alignment
    * @param {Token} token - the secondary word to move
    * @param {object} nextAlignmentIndex - the alignment to which the token will be moved
@@ -247,11 +288,13 @@ class Container extends Component {
   handleAlignTargetToken(token, nextAlignmentIndex, prevAlignmentIndex = null) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
-      alignTargetToken,
-      unalignTargetToken
+      alignTargetToken
     } = this.props;
     if (prevAlignmentIndex !== null && prevAlignmentIndex >= 0) {
-      unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
+      this.handleUnalignTargetToken(token, prevAlignmentIndex);
+    } else {
+      // dragging an alignment from the word list can auto-complete the verse
+      this.enableAutoComplete();
     }
     alignTargetToken(chapter, verse, nextAlignmentIndex, token);
   }
@@ -267,6 +310,7 @@ class Container extends Component {
       unalignTargetToken
     } = this.props;
     unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
+    this.handleToggleComplete(null, false);
   }
 
   /**
@@ -282,6 +326,7 @@ class Container extends Component {
     } = this.props;
     moveSourceToken(chapter, verse, nextAlignmentIndex, prevAlignmentIndex,
       token);
+    this.handleToggleComplete(null, false);
   }
 
   handleRefreshSuggestions() {
@@ -298,7 +343,24 @@ class Container extends Component {
       acceptAlignmentSuggestions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
+    this.enableAutoComplete();
     acceptAlignmentSuggestions(chapter, verse);
+  }
+
+  handleToggleComplete(e, isChecked) {
+    const {
+      toolApi,
+      tc: {
+        contextId: {
+          reference: {chapter, verse}
+        }
+      }
+    } = this.props;
+
+    toolApi.setVerseFinished(chapter, verse, isChecked).then(() => {
+      this.disableAutoComplete();
+      this.forceUpdate();
+    });
   }
 
   handleRejectSuggestions() {
@@ -322,6 +384,7 @@ class Container extends Component {
       acceptTokenSuggestion,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
+    this.enableAutoComplete();
     acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
@@ -347,6 +410,21 @@ class Container extends Component {
       token.disabled = isUsed;
       return token;
     });
+  }
+
+  /**
+   * Checks if the verse has been completed
+   * @return {Promise}
+   * @private
+   */
+  _getIsComplete() {
+    const {
+      toolApi,
+      tc: {
+        contextId: {reference: {chapter, verse}}
+      }
+    } = this.props;
+    return toolApi.getIsVerseFinished(chapter, verse);
   }
 
   render() {
@@ -383,6 +461,8 @@ class Container extends Component {
       words = this.getLabeledTargetTokens();
     }
 
+    const isComplete = this._getIsComplete();
+
     return (
       <div style={styles.container}>
         <MuiThemeProvider>
@@ -392,7 +472,10 @@ class Container extends Component {
             autoHideDuration={2000}
             onRequestClose={this.handleSnackbarClose}/>
         </MuiThemeProvider>
-        <GroupMenuContainer tc={tc} toolApi={toolApi} translate={translate}/>
+        <GroupMenuContainer tc={tc}
+                            toolApi={toolApi}
+                            key={isComplete} // HACK to workaround anti-pattern in GroupMenu
+                            translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
@@ -421,6 +504,8 @@ class Container extends Component {
             <MissingBibleError translate={translate}/>
           )}
           <MAPControls onAccept={this.handleAcceptSuggestions}
+                       complete={isComplete}
+                       onToggleComplete={this.handleToggleComplete}
                        showPopover={showPopover}
                        onRefresh={this.handleRefreshSuggestions}
                        onReject={this.handleRejectSuggestions}
@@ -451,7 +536,6 @@ Container.propTypes = {
     appLanguage: PropTypes.string.isRequired
   }).isRequired,
   toolIsReady: PropTypes.bool.isRequired,
-
   toolApi: PropTypes.instanceOf(Api),
 
   // dispatch props
@@ -468,6 +552,8 @@ Container.propTypes = {
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
 
   // state props
+  verseIsAligned: PropTypes.bool.isRequired,
+  verseIsComplete: PropTypes.bool.isRequired,
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   targetTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   verseAlignments: PropTypes.array.isRequired,
@@ -511,7 +597,7 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  let {tc: {contextId, targetVerseText, sourceVerse}} = props;
+  const {tc: {contextId, targetVerseText, sourceVerse}, toolApi} = props;
   const {reference: {chapter, verse}} = contextId;
   // TRICKY: the target verse contains punctuation we need to remove
   const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
@@ -521,6 +607,8 @@ const mapStateToProps = (state, props) => {
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
     join(' ');
   return {
+    verseIsComplete: toolApi.getIsVerseFinished(chapter, verse),
+    verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
     targetTokens,
     sourceTokens,

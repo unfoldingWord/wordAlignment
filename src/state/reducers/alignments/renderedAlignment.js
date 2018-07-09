@@ -91,11 +91,11 @@ export default renderedAlignment;
 /**
  * Returns the rendered alignment structured as a non-rendered alignment
  * @param state
- * @return {{sourceNgram: *, targetNgram: *}}
+ * @return {*}
  */
 export const getAlignment = state => {
   return {
     sourceNgram: [...state.sourceNgram],
     targetNgram: [...state.targetNgram]
-  }
+  };
 };

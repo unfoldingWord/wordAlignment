@@ -552,6 +552,8 @@ Container.propTypes = {
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
 
   // state props
+  verseIsAligned: PropTypes.bool.isRequired,
+  verseIsComplete: PropTypes.bool.isRequired,
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   targetTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   verseAlignments: PropTypes.array.isRequired,

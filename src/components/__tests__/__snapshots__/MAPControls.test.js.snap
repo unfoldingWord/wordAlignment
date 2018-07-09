@@ -94,9 +94,30 @@ exports[`MAPControls renders 1`] = `
     <Toggle
       defaultToggled={false}
       disabled={false}
+      iconStyle={
+        Object {
+          "marginTop": "8px",
+        }
+      }
       label="alignment_complete"
-      labelPosition="left"
+      labelPosition="right"
+      labelStyle={
+        Object {
+          "color": "var(--accent-color-dark)",
+          "lineHeight": "18px",
+          "textAlign": "left",
+        }
+      }
       onToggle={[Function]}
+      style={
+        Object {
+          "display": "inline-block",
+          "fontSize": "14px",
+          "margin": "10px",
+          "verticalAlign": "middle",
+          "width": "auto",
+        }
+      }
       toggled={false}
     />
   </div>

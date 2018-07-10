@@ -6,6 +6,38 @@ import CancelIcon from 'material-ui/svg-icons/navigation/cancel';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Toggle from 'material-ui/Toggle';
+import ReactTooltip from 'react-tooltip';
+
+const Tooltip = ({children, tooltip, location, type, effect, delayHide, delayShow}) => (
+  <React.Fragment>
+    <span data-tip={tooltip}
+          data-place={location}
+          data-effect={effect}
+          data-type={type}
+          data-class="selection-tooltip"
+          data-delay-show={delayShow}
+          data-delay-hide={delayHide}>
+      {children}
+    </span>
+    <ReactTooltip/>
+  </React.Fragment>
+);
+Tooltip.propTypes = {
+  children: PropTypes.any.isRequired,
+  tooltip: PropTypes.string,
+  location: PropTypes.string,
+  type: PropTypes.string,
+  effect: PropTypes.string,
+  delayHide: PropTypes.number,
+  delayShow: PropTypes.number
+};
+Tooltip.defaultProps = {
+  location: "bottom",
+  type: "dark",
+  effect: "solid",
+  delayHide: 100,
+  delayShow: 1000
+};
 
 /**
  * Renders a secondary styled button
@@ -54,7 +86,7 @@ const styles = {
     width: 'auto',
     margin: '10px',
     verticalAlign: 'middle',
-    fontSize: '14px',
+    fontSize: '14px'
   },
   toggleIcon: {
     marginTop: '8px'
@@ -122,18 +154,27 @@ class MAPControls extends React.Component {
         <div style={styles.root}>
           <InfoIcon style={styles.icon}
                     onClick={this._handleOnInfoClick}/>
-          <SecondaryButton style={styles.button} onClick={onRefresh}>
-            <RefreshIcon style={styles.buttonIcon}/>
-            {translate('suggestions.refresh')}
-          </SecondaryButton>
-          <SecondaryButton style={styles.button} onClick={onAccept}>
-            <CheckIcon style={styles.buttonIcon}/>
-            {translate('suggestions.accept')}
-          </SecondaryButton>
-          <SecondaryButton style={styles.button} onClick={onReject}>
-            <CancelIcon style={styles.buttonIcon}/>
-            {translate('suggestions.reject')}
-          </SecondaryButton>
+          <Tooltip tooltip={translate('suggestions.refresh_suggestions', {word_map: translate('_.map')})}>
+            <SecondaryButton style={styles.button} onClick={onRefresh}>
+              <RefreshIcon style={styles.buttonIcon}/>
+              {translate('suggestions.refresh')}
+            </SecondaryButton>
+          </Tooltip>
+
+          <Tooltip tooltip={translate('suggestions.accept_suggestions', {word_map: translate('_.map')})}>
+            <SecondaryButton style={styles.button} onClick={onAccept}>
+              <CheckIcon style={styles.buttonIcon}/>
+              {translate('suggestions.accept')}
+            </SecondaryButton>
+          </Tooltip>
+
+          <Tooltip tooltip={translate('suggestions.reject_suggestions', {word_map: translate('_.map')})}>
+            <SecondaryButton style={styles.button} onClick={onReject}>
+              <CancelIcon style={styles.buttonIcon}/>
+              {translate('suggestions.reject')}
+            </SecondaryButton>
+          </Tooltip>
+
           <Toggle
             style={styles.toggle}
             iconStyle={styles.toggleIcon}
@@ -156,6 +197,6 @@ MAPControls.propTypes = {
   onReject: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   complete: PropTypes.bool.isRequired,
-  onToggleComplete: PropTypes.func.isRequired,
+  onToggleComplete: PropTypes.func.isRequired
 };
 export default MAPControls;

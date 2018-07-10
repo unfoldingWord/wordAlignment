@@ -1072,89 +1072,106 @@ describe('repair alignments', () => {
       stateAfter);
   });
 
-  describe('delete target token from the midst of identical tokens separated by other tokens', () => {
-    const stateBefore = {
-      '1': {
+  describe(
+    'delete target token from the midst of identical tokens separated by other tokens',
+    () => {
+      const stateBefore = {
         '1': {
-          sourceTokens: [
-            {text: '0', position: 0},
-            {text: '1', position: 1},
-            {text: '2', position: 2}
-          ],
-          targetTokens: [
-            {text: '0', position: 0, occurrence: 1, occurrences: 3},
-            {text: '1', position: 1, occurrence: 1, occurrences: 1},
-            {text: '0', position: 2, occurrence: 2, occurrences: 3},
-            {text: '2', position: 3, occurrence: 1, occurrences: 1},
-            {text: '0', position: 4, occurrence: 3, occurrences: 3}
-          ],
-          alignments: [
-            {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [1], targetNgram: [2]},
-            {sourceNgram: [2], targetNgram: [4]}
-          ]
+          '1': {
+            sourceTokens: [
+              {text: '0', position: 0},
+              {text: '1', position: 1},
+              {text: '2', position: 2}
+            ],
+            targetTokens: [
+              {text: '0', position: 0, occurrence: 1, occurrences: 3},
+              {text: '1', position: 1, occurrence: 1, occurrences: 1},
+              {text: '0', position: 2, occurrence: 2, occurrences: 3},
+              {text: '2', position: 3, occurrence: 1, occurrences: 1},
+              {text: '0', position: 4, occurrence: 3, occurrences: 3}
+            ],
+            alignments: [
+              {sourceNgram: [0], targetNgram: [0]},
+              {sourceNgram: [1], targetNgram: [2]},
+              {sourceNgram: [2], targetNgram: [4]}
+            ]
+          }
         }
-      }
-    };
-    const action = {
-      type: types.REPAIR_VERSE_ALIGNMENTS,
-      chapter: 1,
-      verse: 1,
-      sourceTokens: [
-        new Token({text: '0', position: 0}),
-        new Token({text: '1', position: 1}),
-        new Token({text: '2', position: 2})
-      ],
-      targetTokens: [
-        new Token({text: '0', position: 0, occurrence: 1, occurrences: 2}),
-        new Token({text: '1', position: 1, occurrence: 1, occurrences: 1}),
-        // deleted 0 here
-        new Token({text: '2', position: 2, occurrence: 1, occurrences: 1}),
-        new Token({text: '0', position: 3, occurrence: 2, occurrences: 2})
-      ]
-    };
-    const stateAfter = {
-      '1': {
+      };
+      const action = {
+        type: types.REPAIR_VERSE_ALIGNMENTS,
+        chapter: 1,
+        verse: 1,
+        sourceTokens: [
+          new Token({text: '0', position: 0}),
+          new Token({text: '1', position: 1}),
+          new Token({text: '2', position: 2})
+        ],
+        targetTokens: [
+          new Token({text: '0', position: 0, occurrence: 1, occurrences: 2}),
+          new Token({text: '1', position: 1, occurrence: 1, occurrences: 1}),
+          // deleted 0 here
+          new Token({text: '2', position: 2, occurrence: 1, occurrences: 1}),
+          new Token({text: '0', position: 3, occurrence: 2, occurrences: 2})
+        ]
+      };
+      const stateAfter = {
         '1': {
-          sourceTokens: [
-            {
-              text: '0', position: 0, occurrence: 1, occurrences: 1, lemma: '',
-              morph: '', strong: ''
-            },
-            {
-              text: '1', position: 1, occurrence: 1, occurrences: 1, lemma: '',
-              morph: '', strong: ''
-            },
-            {
-              text: '2', position: 2, occurrence: 1, occurrences: 1, lemma: '',
-              morph: '', strong: ''
-            }
-          ],
-          targetTokens: [
-            {text: '0', position: 0, occurrence: 1, occurrences: 2},
-            {text: '1', position: 1, occurrence: 1, occurrences: 1},
-            {text: '2', position: 2, occurrence: 1, occurrences: 1},
-            {text: '0', position: 3, occurrence: 2, occurrences: 2}
-          ],
-          alignments: [
-            {sourceNgram: [0], targetNgram: [0]},
-            {sourceNgram: [1], targetNgram: []},
-            {sourceNgram: [2], targetNgram: [3]}
-          ],
-          renderedAlignments: [
-            {alignments: [0], sourceNgram: [0], targetNgram: [0]},
-            {alignments: [1], sourceNgram: [1], targetNgram: []},
-            {alignments: [2], sourceNgram: [2], targetNgram: [3]}
-          ],
-          suggestions: []
+          '1': {
+            sourceTokens: [
+              {
+                text: '0',
+                position: 0,
+                occurrence: 1,
+                occurrences: 1,
+                lemma: '',
+                morph: '',
+                strong: ''
+              },
+              {
+                text: '1',
+                position: 1,
+                occurrence: 1,
+                occurrences: 1,
+                lemma: '',
+                morph: '',
+                strong: ''
+              },
+              {
+                text: '2',
+                position: 2,
+                occurrence: 1,
+                occurrences: 1,
+                lemma: '',
+                morph: '',
+                strong: ''
+              }
+            ],
+            targetTokens: [
+              {text: '0', position: 0, occurrence: 1, occurrences: 2},
+              {text: '1', position: 1, occurrence: 1, occurrences: 1},
+              {text: '2', position: 2, occurrence: 1, occurrences: 1},
+              {text: '0', position: 3, occurrence: 2, occurrences: 2}
+            ],
+            alignments: [
+              {sourceNgram: [0], targetNgram: [0]},
+              {sourceNgram: [1], targetNgram: []},
+              {sourceNgram: [2], targetNgram: [3]}
+            ],
+            renderedAlignments: [
+              {alignments: [0], sourceNgram: [0], targetNgram: [0]},
+              {alignments: [1], sourceNgram: [1], targetNgram: []},
+              {alignments: [2], sourceNgram: [2], targetNgram: [3]}
+            ],
+            suggestions: []
+          }
         }
-      }
-    };
-    reducerTest('fixes a middle alignment without breaking later alignments',
-      alignments, stateBefore,
-      action,
-      stateAfter);
-  });
+      };
+      reducerTest('fixes a middle alignment without breaking later alignments',
+        alignments, stateBefore,
+        action,
+        stateAfter);
+    });
 
   describe('delete target token from middle alignment', () => {
     const stateBefore = {
@@ -1835,6 +1852,69 @@ describe('selectors', () => {
   it('checks if the verse is valid (invalid)', () => {
     const result = fromAlignments.getIsVerseValid(state, 1, 1, 'foo', 'bar');
     expect(result).toEqual(false);
+  });
+
+});
+
+describe('has rendered verse alignments', () => {
+
+  it('has rendered suggestions', () => {
+    const state = {
+      1: {
+        1: {
+          alignments: [{
+            sourceNgram: [0],
+            targetNgram: []
+          }],
+          renderedAlignments: [{
+            sourceNgram: [0],
+            targetNgram: [0],
+            alignments: [0]
+          }]
+        }
+      }
+    };
+    expect(fromAlignments.getVerseHasRenderedSuggestions(state, 1, 1)).
+      toEqual(true);
+  });
+
+  it('has no alignments', () => {
+    const state = {
+      1: {
+        1: {
+          alignments: [],
+          renderedAlignments: []
+        }
+      }
+    };
+    expect(fromAlignments.getVerseHasRenderedSuggestions(state, 1, 1)).
+      toEqual(false);
+  });
+
+  it('does not have rendered suggestions', () => {
+    const state = {
+      1: {
+        1: {
+          alignments: [{
+            sourceNgram: [0],
+            targetNgram: [0]
+          }],
+          renderedAlignments: [{
+            sourceNgram: [0],
+            targetNgram: [0],
+            alignments: [0]
+          }]
+        }
+      }
+    };
+    expect(fromAlignments.getVerseHasRenderedSuggestions(state, 1, 1)).
+      toEqual(false);
+  });
+
+  it('has no state', () => {
+    const state = {};
+    expect(fromAlignments.getVerseHasRenderedSuggestions(state, 1, 1)).
+      toEqual(false);
   });
 });
 

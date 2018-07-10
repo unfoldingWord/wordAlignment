@@ -1,21 +1,22 @@
 import chapter, * as fromChapter from './chapter';
 
 import {
-  SET_ALIGNMENT_SUGGESTIONS,
+  ACCEPT_TOKEN_SUGGESTION,
+  ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
   ALIGN_RENDERED_SOURCE_TOKEN,
   ALIGN_RENDERED_TARGET_TOKEN,
   CLEAR_STATE,
   INSERT_RENDERED_ALIGNMENT,
-  ACCEPT_TOKEN_SUGGESTION,
+  REMOVE_TOKEN_SUGGESTION,
   REPAIR_VERSE_ALIGNMENTS,
   RESET_VERSE_ALIGNMENT_SUGGESTIONS,
   RESET_VERSE_ALIGNMENTS,
+  SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS,
   SET_SOURCE_TOKENS,
   SET_TARGET_TOKENS,
   UNALIGN_RENDERED_SOURCE_TOKEN,
-  REMOVE_TOKEN_SUGGESTION,
-  UNALIGN_RENDERED_TARGET_TOKEN, ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS
+  UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
 
 /**
@@ -157,7 +158,8 @@ export const getVerseAlignedTargetTokens = (state, chapter, verse) => {
 export const getRenderedVerseAlignedTargetTokens = (state, chapter, verse) => {
   const chapterId = chapter + '';
   if (chapterId in state) {
-    return fromChapter.getRenderedVerseAlignedTargetTokens(state[chapterId], verse);
+    return fromChapter.getRenderedVerseAlignedTargetTokens(state[chapterId],
+      verse);
   } else {
     return [];
   }
@@ -209,4 +211,20 @@ export const getLegacyChapterAlignments = (state, chapter) => {
     return fromChapter.getLegacyAlignments(state[chapterId]);
   }
   return {};
+};
+
+/**
+ * Checks if the verse has rendered (visible to the user) alignment suggestions
+ * @param state
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {boolean}
+ */
+export const getVerseHasRenderedSuggestions = (state, chapter, verse) => {
+  const chapterId = chapter + '';
+  if (state && chapterId in state) {
+    return fromChapter.getVerseHasRenderedSuggestions(state[chapterId], verse);
+  } else {
+    return false;
+  }
 };

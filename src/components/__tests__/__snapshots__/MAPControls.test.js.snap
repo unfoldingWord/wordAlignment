@@ -25,72 +25,99 @@ exports[`MAPControls renders 1`] = `
         }
       }
     />
-    <SecondaryButton
-      disabled={false}
-      onClick={[Function]}
-      style={
-        Object {
-          "marginLeft": 10,
-        }
-      }
+    <Tooltip
+      delayHide={100}
+      delayShow={1000}
+      effect="solid"
+      location="bottom"
+      tooltip="suggestions.refresh_suggestions"
+      type="dark"
     >
-      <NavigationRefresh
+      <SecondaryButton
+        disabled={false}
+        onClick={[Function]}
         style={
           Object {
-            "color": "var(--accent-color-dark)",
-            "height": 20,
-            "marginRight": "5px",
-            "verticalAlign": "middle",
-            "width": 20,
+            "marginLeft": 10,
           }
         }
-      />
-      suggestions.refresh
-    </SecondaryButton>
-    <SecondaryButton
-      disabled={false}
-      onClick={[Function]}
-      style={
-        Object {
-          "marginLeft": 10,
-        }
-      }
+      >
+        <NavigationRefresh
+          style={
+            Object {
+              "color": "var(--accent-color-dark)",
+              "height": 20,
+              "marginRight": "5px",
+              "verticalAlign": "middle",
+              "width": 20,
+            }
+          }
+        />
+        suggestions.refresh
+      </SecondaryButton>
+    </Tooltip>
+    <Tooltip
+      delayHide={100}
+      delayShow={1000}
+      effect="solid"
+      location="bottom"
+      tooltip="suggestions.accept_suggestions"
+      type="dark"
     >
-      <ActionCheckCircle
+      <SecondaryButton
+        disabled={false}
+        onClick={[Function]}
         style={
           Object {
-            "color": "var(--accent-color-dark)",
-            "height": 20,
-            "marginRight": "5px",
-            "verticalAlign": "middle",
-            "width": 20,
+            "marginLeft": 10,
           }
         }
-      />
-      suggestions.accept
-    </SecondaryButton>
-    <SecondaryButton
-      disabled={false}
-      onClick={[Function]}
-      style={
-        Object {
-          "marginLeft": 10,
-        }
-      }
+      >
+        <ActionCheckCircle
+          style={
+            Object {
+              "color": "var(--accent-color-dark)",
+              "height": 20,
+              "marginRight": "5px",
+              "verticalAlign": "middle",
+              "width": 20,
+            }
+          }
+        />
+        suggestions.accept
+      </SecondaryButton>
+    </Tooltip>
+    <Tooltip
+      delayHide={100}
+      delayShow={1000}
+      effect="solid"
+      location="bottom"
+      tooltip="suggestions.reject_suggestions"
+      type="dark"
     >
-      <NavigationCancel
+      <SecondaryButton
+        disabled={false}
+        onClick={[Function]}
         style={
           Object {
-            "color": "var(--accent-color-dark)",
-            "height": 20,
-            "marginRight": "5px",
-            "verticalAlign": "middle",
-            "width": 20,
+            "marginLeft": 10,
           }
         }
-      />
-      suggestions.reject
-    </SecondaryButton>
+      >
+        <NavigationCancel
+          style={
+            Object {
+              "color": "var(--accent-color-dark)",
+              "height": 20,
+              "marginRight": "5px",
+              "verticalAlign": "middle",
+              "width": 20,
+            }
+          }
+        />
+        suggestions.reject
+      </SecondaryButton>
+    </Tooltip>
     <Toggle
       defaultToggled={false}
       disabled={false}

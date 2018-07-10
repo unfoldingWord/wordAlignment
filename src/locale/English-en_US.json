@@ -32,7 +32,10 @@
     "menu": "Menu"
   },
   "suggestions": {
-    "none": "No suggestions found",
+    "refresh_suggestions": "Refresh ${word_map}-generated suggestions.",
+    "accept_suggestions": "Accept all ${word_map}-generated suggestions.",
+    "reject_suggestions": "Reject all ${word_map}-generated suggestions.",
+    "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"

@@ -32,7 +32,7 @@
     "menu": "Menu"
   },
   "suggestions": {
-    "none": "No suggestions found",
+    "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"

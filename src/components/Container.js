@@ -445,6 +445,7 @@ class Container extends Component {
 
   render() {
     const {
+      hasRenderedSuggestions,
       connectDropTarget,
       isOver,
       hasSourceText,
@@ -520,6 +521,7 @@ class Container extends Component {
             <MissingBibleError translate={translate}/>
           )}
           <MAPControls onAccept={this.handleAcceptSuggestions}
+                       hasSuggestions={hasRenderedSuggestions}
                        complete={isComplete}
                        onToggleComplete={this.handleToggleComplete}
                        showPopover={showPopover}
@@ -567,6 +569,7 @@ Container.propTypes = {
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
 
   // state props
+  hasRenderedSuggestions: PropTypes.bool.isRequired,
   verseIsAligned: PropTypes.bool.isRequired,
   verseIsComplete: PropTypes.bool.isRequired,
   sourceTokens: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
@@ -621,6 +624,7 @@ const mapStateToProps = (state, props) => {
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
     join(' ');
   return {
+    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
     verseIsComplete: toolApi.getIsVerseFinished(chapter, verse),
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',

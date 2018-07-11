@@ -15,7 +15,8 @@ import {
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('async actions', () => {
+describe('thunk actions', () => {
+
   it('moves source token to the left', () => {
     const expectedActions = [
       {

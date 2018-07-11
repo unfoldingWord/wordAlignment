@@ -285,7 +285,6 @@ describe('validate', () => {
 
   it('does not repair a verse', () => {
     reducers.__setIsVerseValid(true);
-    // reducers.__setVerseAlignedTargetTokens(['some', 'data']);
     const api = new Api();
     api.context = {
       store: {

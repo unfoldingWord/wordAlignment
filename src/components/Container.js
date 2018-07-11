@@ -17,7 +17,6 @@ import {
   clearState,
   moveSourceToken,
   removeTokenSuggestion,
-  repairVerse,
   resetVerse,
   setAlignmentPredictions,
   unalignTargetToken
@@ -563,7 +562,6 @@ Container.propTypes = {
   moveSourceToken: PropTypes.func.isRequired,
   clearState: PropTypes.func.isRequired,
   resetVerse: PropTypes.func.isRequired,
-  repairVerse: PropTypes.func.isRequired,
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
@@ -604,7 +602,6 @@ const mapDispatchToProps = ({
   unalignTargetToken,
   moveSourceToken,
   resetVerse,
-  repairVerse,
   clearState,
   acceptTokenSuggestion,
   removeTokenSuggestion,

@@ -5,7 +5,7 @@
   "morphology": "Morphology:",
   "strongs": "Strongs:",
   "lexicon": "Lexicon:",
-  "alignments_reset": "There have been changes to the current verse which interfere with your alignments.\nSome alignments for the current verse have been reset.",
+  "alignments_reset": "Changes have been detected in your project which have invalidated some of your alignments.\nThese verses display an icon of a broken chain next to the reference in the side menu.",
   "close": "Close",
   "select": "Select",
   "spelling": "Spelling",

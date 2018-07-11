@@ -42,4 +42,31 @@ const reducers = jest.genMockFromModule('../');
   });
 }
 
+// mock getVerseAlignments
+{
+  let alignments = [];
+  let once = false;
+
+  function __setVerseAlignments(verseAlignments) {
+    once = false;
+    alignments = verseAlignments;
+  }
+
+  function __setVerseAlignmentsOnce(verseAlignments) {
+    once = true;
+    alignments.push(verseAlignments);
+  }
+
+  reducers.__setVerseAlignments = __setVerseAlignments;
+  reducers.__setVerseAlignmentsOnce = __setVerseAlignmentsOnce;
+  reducers.getVerseAlignments = jest.fn(() => {
+    if (once) {
+      return alignments.shift();
+    } else {
+      return alignments;
+    }
+  });
+
+}
+
 module.exports = reducers;

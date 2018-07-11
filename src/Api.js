@@ -16,7 +16,7 @@ import {
   clearState,
   indexChapterAlignments,
   moveSourceToken,
-  repairVerse,
+  repairAndInspectVerse,
   resetVerse,
   unalignTargetToken
 } from './state/actions';
@@ -241,7 +241,7 @@ export default class Api extends ToolApi {
         targetBible,
         sourceBible
       },
-      repairVerse
+      repairAndInspectVerse
     } = props;
     const {store} = this.context;
 
@@ -258,13 +258,13 @@ export default class Api extends ToolApi {
     const isValid = getIsVerseValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
     if (!isValid) {
-      const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
-        chapter, verse);
-      repairVerse(chapter, verse, sourceTokens, targetTokens);
+      // const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
+      //   chapter, verse);
+      const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens, targetTokens);
       // mark the verse as incomplete.
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
-      return alignedTokens.length === 0;
+      return !wasChanged;// alignedTokens.length === 0;
     }
     return true;
   }
@@ -341,7 +341,7 @@ export default class Api extends ToolApi {
       unalignTargetToken,
       moveSourceToken,
       resetVerse,
-      repairVerse,
+      repairAndInspectVerse,
       clearState,
       indexChapterAlignments
     };

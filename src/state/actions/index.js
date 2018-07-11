@@ -2,6 +2,7 @@ import * as types from './actionTypes';
 import {migrateChapterAlignments} from '../../utils/migrations';
 import Lexer from 'word-map/Lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
+import {getVerseAlignments} from '../reducers';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
@@ -224,6 +225,25 @@ export const repairVerse = (chapter, verse, sourceTokens, targetTokens) => ({
   sourceTokens,
   targetTokens
 });
+
+/**
+ * Updates the verse tokens and repairs the alignment data.
+ * This will run asynchronously and give a boolean indicating if the alignments were changed.
+ * @param {number} chapter
+ * @param {number} verse
+ * @param {Token[]} sourceTokens - the correct verse source tokens
+ * @param {Token[]} targetTokens - the correct verse target tokens
+ * @return {Function}
+ */
+export const repairAndInspectVerse = (chapter, verse, sourceTokens, targetTokens) => {
+  return (dispatch, getState) => {
+    const prev = getVerseAlignments(getState(), chapter, verse);
+    dispatch(repairVerse(chapter, verse, sourceTokens, targetTokens));
+    const next = getVerseAlignments(getState(), chapter, verse);
+
+    return JSON.stringify(prev) !== JSON.stringify(next);
+  };
+};
 
 /**
  * Clears the tool's redux state

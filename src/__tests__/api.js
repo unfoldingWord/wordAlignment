@@ -235,11 +235,11 @@ describe('validate', () => {
           }
         }
       },
-      repairVerse: jest.fn()
+      repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
     expect(api._validateBook(props, 1, 1)).toEqual(false);
-    expect(props.repairVerse).toHaveBeenCalledTimes(1);
+    expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tc.writeProjectData).not.toBeCalled();
     expect(props.tc.deleteProjectFile).toBeCalledWith('alignmentData/completed/mybook/1/1.json');
   });
@@ -274,18 +274,18 @@ describe('validate', () => {
           }
         }
       },
-      repairVerse: jest.fn()
+      repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
-    expect(props.repairVerse).toHaveBeenCalledTimes(1);
+    expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tc.writeProjectData).not.toBeCalled();
     expect(props.tc.deleteProjectFile).toBeCalledWith('alignmentData/completed/mybook/1/1.json');
   });
 
-  it('does not repair a verse', () => {
-    reducers.__setIsVerseValid(true);
-    // reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+  it('repairs a verse without alignment changes', () => {
+    reducers.__setIsVerseValid(false);
+    reducers.__setVerseAlignedTargetTokens(['some', 'data']);
     const api = new Api();
     api.context = {
       store: {
@@ -313,11 +313,49 @@ describe('validate', () => {
           }
         }
       },
-      repairVerse: jest.fn()
+      repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
-    expect(props.repairVerse).not.toBeCalled();
+    expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
+    expect(props.tc.writeProjectData).not.toBeCalled();
+    expect(props.tc.deleteProjectFile).toBeCalledWith('alignmentData/completed/mybook/1/1.json');
+  });
+
+  it('does not repair a verse', () => {
+    reducers.__setIsVerseValid(true);
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn()
+      }
+    };
+    const props = {
+      tc: {
+        contextId: {reference: {bookId: 'mybook'}},
+        writeProjectData: jest.fn(),
+        deleteProjectFile: jest.fn(),
+        sourceBible: {
+          1: {
+            1: {
+              verseObjects: [{
+                type: 'text',
+                text: "olleh"
+              }]
+            }
+          }
+        },
+        targetBible: {
+          1: {
+            1: "hello"
+          }
+        }
+      },
+      repairAndInspectVerse: jest.fn(() => false),
+    };
+    api.props = props;
+    expect(api._validateVerse(props, 1, 1)).toEqual(true);
+    expect(props.repairAndInspectVerse).not.toBeCalled();
     expect(props.tc.writeProjectData).not.toBeCalled();
     expect(props.tc.deleteProjectFile).not.toBeCalled();
   });

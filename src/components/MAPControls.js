@@ -32,9 +32,9 @@ Tooltip.propTypes = {
   delayShow: PropTypes.number
 };
 Tooltip.defaultProps = {
-  location: "bottom",
-  type: "dark",
-  effect: "solid",
+  location: 'bottom',
+  type: 'dark',
+  effect: 'solid',
   delayHide: 100,
   delayShow: 1000
 };
@@ -148,28 +148,45 @@ class MAPControls extends React.Component {
   }
 
   render() {
-    const {onRefresh, onAccept, onReject, translate, complete, onToggleComplete} = this.props;
+    const {
+      onRefresh,
+      onAccept,
+      onReject,
+      translate,
+      complete,
+      onToggleComplete,
+      hasSuggestions
+    } = this.props;
+
     return (
       <MuiThemeProvider>
         <div style={styles.root}>
           <InfoIcon style={styles.icon}
                     onClick={this._handleOnInfoClick}/>
-          <Tooltip tooltip={translate('suggestions.refresh_suggestions', {word_map: translate('_.map')})}>
-            <SecondaryButton style={styles.button} onClick={onRefresh}>
+          <Tooltip tooltip={translate('suggestions.refresh_suggestions',
+            {word_map: translate('_.map')})}>
+            <SecondaryButton style={styles.button}
+                             onClick={onRefresh}>
               <RefreshIcon style={styles.buttonIcon}/>
               {translate('suggestions.refresh')}
             </SecondaryButton>
           </Tooltip>
 
-          <Tooltip tooltip={translate('suggestions.accept_suggestions', {word_map: translate('_.map')})}>
-            <SecondaryButton style={styles.button} onClick={onAccept}>
+          <Tooltip tooltip={translate('suggestions.accept_suggestions',
+            {word_map: translate('_.map')})}>
+            <SecondaryButton style={styles.button}
+                             onClick={onAccept}
+                             disabled={!hasSuggestions}>
               <CheckIcon style={styles.buttonIcon}/>
               {translate('suggestions.accept')}
             </SecondaryButton>
           </Tooltip>
 
-          <Tooltip tooltip={translate('suggestions.reject_suggestions', {word_map: translate('_.map')})}>
-            <SecondaryButton style={styles.button} onClick={onReject}>
+          <Tooltip tooltip={translate('suggestions.reject_suggestions',
+            {word_map: translate('_.map')})}>
+            <SecondaryButton style={styles.button}
+                             onClick={onReject}
+                             disabled={!hasSuggestions}>
               <CancelIcon style={styles.buttonIcon}/>
               {translate('suggestions.reject')}
             </SecondaryButton>
@@ -191,6 +208,7 @@ class MAPControls extends React.Component {
 }
 
 MAPControls.propTypes = {
+  hasSuggestions: PropTypes.bool,
   showPopover: PropTypes.func.isRequired,
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
@@ -198,5 +216,8 @@ MAPControls.propTypes = {
   translate: PropTypes.func.isRequired,
   complete: PropTypes.bool.isRequired,
   onToggleComplete: PropTypes.func.isRequired
+};
+MAPControls.defaultProps = {
+  hasSuggestions: true
 };
 export default MAPControls;

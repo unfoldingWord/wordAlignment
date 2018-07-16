@@ -183,6 +183,9 @@ class Container extends Component {
       tc: {
         contextId: nextContextId
       },
+      tool: {
+        api
+      },
       verseIsAligned,
       verseIsComplete
     } = nextProps;

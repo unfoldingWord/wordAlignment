@@ -196,7 +196,7 @@ class Container extends Component {
 
     const {reference: {chapter, verse}} = nextContextId;
 
-    api._setVerseValid(chapter, verse, true);
+    api.setVerseValid(chapter, verse, true);
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes

@@ -25,6 +25,12 @@ export default class Api extends ToolApi {
   constructor() {
     super();
     this.getIsVerseFinished = this.getIsVerseFinished.bind(this);
+    this._validateVerse = this._validateVerse.bind(this);
+    this._validateChapter = this._validateChapter.bind(this);
+    this._validateBook = this._validateBook.bind(this);
+    this.validateBook = this.validateBook.bind(this);
+    this.validateVerse = this.validateVerse.bind(this);
+    this._loadBookAlignments = this._loadBookAlignments.bind(this);
   }
 
   /**
@@ -258,13 +264,13 @@ export default class Api extends ToolApi {
     const isValid = getIsVerseValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
     if (!isValid) {
-      // const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
-      //   chapter, verse);
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens, targetTokens);
-      // mark the verse as incomplete.
+      if(wasChanged) {
+        this.setVerseValid(chapter, verse, false);
+      }
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
-      return !wasChanged;// alignedTokens.length === 0;
+      return !wasChanged;
     }
     return true;
   }
@@ -403,6 +409,30 @@ export default class Api extends ToolApi {
     } = this.props;
     const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
     return projectFileExistsSync(dataPath);
+  }
+
+  /**
+   * Labels a verse as valid or in-valid
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {boolean} valid - indicates if the verse is valid
+   * @return {Promise}
+   */
+  setVerseValid(chapter, verse, valid) {
+    const {
+      tool: {
+        writeToolData,
+        deleteToolFile
+      }
+    } = this.props;
+    const dataPath = path.join('invalid', chapter + '', verse + '.json');
+    if(valid) {
+      return deleteToolFile(dataPath);
+    } else {
+      return writeToolData(dataPath, {
+        timestamp: (new Date()).toISOString()
+      });
+    }
   }
 
   /**

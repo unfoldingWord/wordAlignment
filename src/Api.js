@@ -476,23 +476,23 @@ export default class Api extends ToolApi {
    */
   setVerseFinished(chapter, verse, finished) {
     const {
+      tool: {
+        writeToolData,
+        deleteToolFile
+      },
       tc: {
-        writeProjectData,
-        deleteProjectFile,
-        username,
-        contextId: {reference: {bookId}}
+        username
       }
     } = this.props;
-    const dataPath = path.join('alignmentData', 'completed', bookId, chapter +
-      '', verse + '.json');
+    const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {
       const data = {
         username,
         modifiedTimestamp: (new Date()).toJSON()
       };
-      return writeProjectData(dataPath, JSON.stringify(data));
+      return writeToolData(dataPath, JSON.stringify(data));
     } else {
-      return deleteProjectFile(dataPath);
+      return deleteToolFile(dataPath);
     }
   }
 }

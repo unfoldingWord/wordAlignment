@@ -343,7 +343,9 @@ class Container extends Component {
 
   handleRefreshSuggestions() {
     const {
-      translate,
+      tool: {
+        translate
+      },
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     const {store} = this.context;
@@ -373,7 +375,9 @@ class Container extends Component {
 
   handleToggleComplete(e, isChecked) {
     const {
-      toolApi,
+      tool: {
+        api
+      },
       tc: {
         contextId: {
           reference: {chapter, verse}
@@ -381,7 +385,7 @@ class Container extends Component {
       }
     } = this.props;
 
-    toolApi.setVerseFinished(chapter, verse, isChecked).then(() => {
+    api.setVerseFinished(chapter, verse, isChecked).then(() => {
       this.disableAutoComplete();
       this.forceUpdate();
     });
@@ -449,12 +453,14 @@ class Container extends Component {
    */
   _getIsComplete() {
     const {
-      toolApi,
+      tool: {
+        api
+      },
       tc: {
         contextId: {reference: {chapter, verse}}
       }
     } = this.props;
-    return toolApi.getIsVerseFinished(chapter, verse);
+    return api.getIsVerseFinished(chapter, verse);
   }
 
   render() {
@@ -556,7 +562,7 @@ Container.contextTypes = {
 
 Container.propTypes = {
   tc: PropTypes.shape({
-    writeProjectData: PropTypes.func.isRequired,
+    writeToolData: PropTypes.func.isRequired,
     readProjectData: PropTypes.func.isRequired,
     showDialog: PropTypes.func.isRequired,
     showLoading: PropTypes.func.isRequired,
@@ -569,8 +575,10 @@ Container.propTypes = {
     targetChapter: PropTypes.object.isRequired,
     appLanguage: PropTypes.string.isRequired
   }).isRequired,
-  toolIsReady: PropTypes.bool.isRequired,
-  toolApi: PropTypes.instanceOf(Api),
+  tool: PropTypes.shape({
+    api: PropTypes.instanceOf(Api),
+    translate: PropTypes.func
+  }),
 
   // dispatch props
   acceptTokenSuggestion: PropTypes.func.isRequired,
@@ -597,9 +605,6 @@ Container.propTypes = {
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
   hasTargetText: PropTypes.bool.isRequired,
-
-  // tc-tool props
-  translate: PropTypes.func,
 
   // drag props
   isOver: PropTypes.bool,
@@ -631,7 +636,7 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {tc: {contextId, targetVerseText, sourceVerse}, toolApi} = props;
+  const {tc: {contextId, targetVerseText, sourceVerse}, tool: {api}} = props;
   const {reference: {chapter, verse}} = contextId;
   // TRICKY: the target verse contains punctuation we need to remove
   const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
@@ -642,7 +647,7 @@ const mapStateToProps = (state, props) => {
     join(' ');
   return {
     hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
-    verseIsComplete: toolApi.getIsVerseFinished(chapter, verse),
+    verseIsComplete: api.getIsVerseFinished(chapter, verse),
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
     hasTargetText: normalizedTargetVerseText !== '',

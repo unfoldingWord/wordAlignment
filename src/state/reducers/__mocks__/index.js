@@ -1,6 +1,6 @@
 const reducers = jest.genMockFromModule('../');
 
-// mock getIsVerseValid
+// mock getIsVerseAlignmentsValid
 {
   let isVerseValid = false;
 
@@ -9,7 +9,7 @@ const reducers = jest.genMockFromModule('../');
   }
 
   reducers.__setIsVerseValid = __setIsVerseValid;
-  reducers.getIsVerseValid = jest.fn(() => {
+  reducers.getIsVerseAlignmentsValid = jest.fn(() => {
     return isVerseValid;
   });
 }

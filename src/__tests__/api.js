@@ -7,49 +7,49 @@ describe('saving', () => {
     const api = new Api();
     api.props = {
       tc: {
-        writeProjectData: jest.fn(),
+        writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
       }
     };
     const nextState = {};
     const prevState = {};
     expect(api.stateChangeThrottled(nextState, prevState)).toBeUndefined();
-    expect(api.props.tc.writeProjectData).not.toBeCalled();
+    expect(api.props.tc.writeToolData).not.toBeCalled();
   });
 
   it('should not save undefined prev state', () => {
     const api = new Api();
     api.props = {
       tc: {
-        writeProjectData: jest.fn(),
+        writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
       }
     };
     const nextState = {};
     const prevState = undefined;
     expect(api.stateChangeThrottled(nextState, prevState)).toBeUndefined();
-    expect(api.props.tc.writeProjectData).not.toBeCalled();
+    expect(api.props.tc.writeToolData).not.toBeCalled();
   });
 
   it('should not save undefined next state', () => {
     const api = new Api();
     api.props = {
       tc: {
-        writeProjectData: jest.fn(),
+        writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
       }
     };
     const nextState = undefined;
     const prevState = {};
     expect(api.stateChangeThrottled(nextState, prevState)).toBeUndefined();
-    expect(api.props.tc.writeProjectData).not.toBeCalled();
+    expect(api.props.tc.writeToolData).not.toBeCalled();
   });
 
   it('should not save identical state', () => {
     const api = new Api();
     api.props = {
       tc: {
-        writeProjectData: jest.fn(),
+        writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
       }
     };
@@ -58,7 +58,7 @@ describe('saving', () => {
     };
     const prevState = {...nextState};
     expect(api.stateChangeThrottled(nextState, prevState)).toBeUndefined();
-    expect(api.props.tc.writeProjectData).not.toBeCalled();
+    expect(api.props.tc.writeToolData).not.toBeCalled();
   });
 
   it('should save changed state', () => {
@@ -166,36 +166,40 @@ describe('verse finished', () => {
 
   it('sets a verse as finished', () => {
     const api = new Api();
-    const writeProjectData = jest.fn();
-    const deleteProjectFile = jest.fn();
+    const writeToolData = jest.fn();
+    const deleteToolFile = jest.fn();
     api.props = {
+      tool: {
+        writeToolData,
+        deleteToolFile,
+      },
       tc: {
-        writeProjectData,
-        deleteProjectFile,
         username: 'username',
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
     api.setVerseFinished(1, 1, true);
-    expect(writeProjectData).toBeCalled();
-    expect(deleteProjectFile).not.toBeCalled();
+    expect(writeToolData).toBeCalled();
+    expect(deleteToolFile).not.toBeCalled();
   });
 
   it('sets a verse has not finished', () => {
     const api = new Api();
-    const writeProjectData = jest.fn();
-    const deleteProjectFile = jest.fn();
+    const writeToolData = jest.fn();
+    const deleteToolFile = jest.fn();
     api.props = {
+      tool: {
+        writeToolData,
+        deleteToolFile
+      },
       tc: {
-        writeProjectData,
-        deleteProjectFile,
         username: 'username',
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
     api.setVerseFinished(1, 1, false);
-    expect(writeProjectData).not.toBeCalled();
-    expect(deleteProjectFile).toBeCalled();
+    expect(writeToolData).not.toBeCalled();
+    expect(deleteToolFile).toBeCalled();
   });
 });
 
@@ -215,10 +219,13 @@ describe('validate', () => {
       }
     };
     const props = {
+      tool: {
+        writeToolData: jest.fn(() => Promise.resolve()),
+        toolDataPathExists: jest.fn(() => Promise.resolve(false)),
+        deleteToolFile: jest.fn()
+      },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        writeProjectData: jest.fn(),
-        deleteProjectFile: jest.fn(),
         sourceBible: {
           1: {
             1: {
@@ -240,8 +247,8 @@ describe('validate', () => {
     api.props = props;
     expect(api._validateBook(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
-    expect(props.tc.writeProjectData).not.toBeCalled();
-    expect(props.tc.deleteProjectFile).toBeCalledWith('alignmentData/completed/mybook/1/1.json');
+    expect(props.tool.writeToolData).not.toBeCalled();
+    expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
   });
 
   it('repairs a verse', () => {
@@ -254,10 +261,13 @@ describe('validate', () => {
       }
     };
     const props = {
+      tool: {
+        writeToolData: jest.fn(() => Promise.resolve()),
+        deleteToolFile: jest.fn(),
+        toolDataPathExists: jest.fn(() => Promise.resolve(false))
+      },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        writeProjectData: jest.fn(),
-        deleteProjectFile: jest.fn(),
         sourceBible: {
           1: {
             1: {
@@ -279,8 +289,8 @@ describe('validate', () => {
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
-    expect(props.tc.writeProjectData).not.toBeCalled();
-    expect(props.tc.deleteProjectFile).toBeCalledWith('alignmentData/completed/mybook/1/1.json');
+    expect(props.tool.writeToolData).not.toBeCalled();
+    expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
   });
 
   it('repairs a verse without alignment changes', () => {
@@ -293,10 +303,12 @@ describe('validate', () => {
       }
     };
     const props = {
+      tool: {
+        writeToolData: jest.fn(),
+        deleteToolFile: jest.fn()
+      },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        writeProjectData: jest.fn(),
-        deleteProjectFile: jest.fn(),
         sourceBible: {
           1: {
             1: {
@@ -318,8 +330,8 @@ describe('validate', () => {
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
-    expect(props.tc.writeProjectData).not.toBeCalled();
-    expect(props.tc.deleteProjectFile).toBeCalledWith('alignmentData/completed/mybook/1/1.json');
+    expect(props.tool.writeToolData).not.toBeCalled();
+    expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
   });
 
   it('does not repair a verse', () => {
@@ -331,10 +343,13 @@ describe('validate', () => {
       }
     };
     const props = {
+      tool: {
+        writeToolData: jest.fn(() => Promise.resolve()),
+        toolDataPathExists: jest.fn(() => Promise.resolve(false)),
+        deleteToolFile: jest.fn(() => Promise.resolve())
+      },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        writeProjectData: jest.fn(),
-        deleteProjectFile: jest.fn(),
         sourceBible: {
           1: {
             1: {
@@ -356,7 +371,7 @@ describe('validate', () => {
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).not.toBeCalled();
-    expect(props.tc.writeProjectData).not.toBeCalled();
-    expect(props.tc.deleteProjectFile).not.toBeCalled();
+    expect(props.tool.writeToolData).not.toBeCalled();
+    expect(props.tool.deleteToolFile).not.toBeCalled();
   });
 });

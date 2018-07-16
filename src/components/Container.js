@@ -191,6 +191,10 @@ class Container extends Component {
     } = this.props;
     const {canAutoComplete} = this.state;
 
+    const {reference: {chapter, verse}} = nextContextId;
+
+    api._setVerseValid(chapter, verse, true);
+
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');

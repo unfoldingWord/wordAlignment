@@ -70,7 +70,7 @@ export const getRenderedVerseAlignedTargetTokens = (state, chapter, verse) =>
  * @param {number} verse
  * @return {*}
  */
-export const getIsVerseValid = (
+export const getIsVerseAlignmentsValid = (
   state, chapter, verse, sourceText, targetText) =>
   fromAlignments.getIsVerseValid(state.tool.alignments, chapter, verse,
     sourceText, targetText);

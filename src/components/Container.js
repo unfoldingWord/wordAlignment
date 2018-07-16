@@ -24,7 +24,7 @@ import {
 import {
   getChapterAlignments,
   getIsVerseAligned,
-  getIsVerseValid,
+  getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
   getRenderedVerseAlignments,
   getVerseHasRenderedSuggestions
@@ -196,7 +196,7 @@ class Container extends Component {
 
     const {reference: {chapter, verse}} = nextContextId;
 
-    api.setVerseValid(chapter, verse, true);
+    api.setVerseInvalid(chapter, verse, false);
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -412,6 +412,12 @@ class Container extends Component {
     acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
+  toolDidUpdate() {
+    super.toolDidUpdate();
+
+    console.warn('The tool updated');
+  }
+
   /**
    * Returns the target tokens with used tokens labeled as disabled
    * @return {*}
@@ -458,10 +464,12 @@ class Container extends Component {
       isOver,
       hasSourceText,
       actions,
-      toolApi,
-      translate,
       resourcesReducer,
       verseAlignments,
+      tool: {
+        api,
+        translate
+      },
       tc: {
         contextId,
         actions: {
@@ -498,7 +506,7 @@ class Container extends Component {
             onRequestClose={this.handleSnackbarClose}/>
         </MuiThemeProvider>
         <GroupMenuContainer tc={tc}
-                            toolApi={toolApi}
+                            toolApi={api}
                             key={isComplete} // HACK to workaround anti-pattern in GroupMenu
                             translate={translate}/>
         <div style={styles.wordListContainer}>
@@ -642,7 +650,7 @@ const mapStateToProps = (state, props) => {
     sourceTokens,
     alignedTokens: getRenderedVerseAlignedTargetTokens(state, chapter, verse),
     verseAlignments: getRenderedVerseAlignments(state, chapter, verse),
-    verseIsValid: getIsVerseValid(state, chapter, verse,
+    verseIsValid: getIsVerseAlignmentsValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
     normalizedSourceVerseText

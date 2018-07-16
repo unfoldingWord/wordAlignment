@@ -78,6 +78,7 @@ const mapStateToProps = (state, props) => {
     translate,
     actions: tc.actions,
     isVerseFinished: toolApi.getIsVerseFinished,
+    isVerseValid: toolApi.getIsVerseInvalid,
     contextId: tc.contextId,
     manifest: tc.projectDetailsReducer.manifest,
     projectSaveLocation: tc.projectDetailsReducer.projectSaveLocation

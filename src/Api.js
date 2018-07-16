@@ -399,24 +399,6 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * Checks if a verse has been completed.
-   * @param {number} chapter
-   * @param {number} verse
-   * @return {*}
-   */
-  getIsVerseFinished(chapter, verse) {
-    const {
-      tc: {
-        projectFileExistsSync,
-        contextId: {reference: {bookId}}
-      }
-    } = this.props;
-    const dataPath = path.join('alignmentData', 'completed', bookId, chapter +
-      '', verse + '.json');
-    return projectFileExistsSync(dataPath);
-  }
-
-  /**
    * Labels a verse as valid or in-valid.
    * This may trigger the tool to update
    * @param {number} chapter
@@ -494,5 +476,21 @@ export default class Api extends ToolApi {
     } else {
       return deleteToolFile(dataPath);
     }
+  }
+
+  /**
+   * Checks if a verse has been completed.
+   * @param {number} chapter
+   * @param {number} verse
+   * @return {*}
+   */
+  getIsVerseFinished(chapter, verse) {
+    const {
+      tool: {
+        toolDataPathExistsSync
+      }
+    } = this.props;
+    const dataPath = path.join('completed', chapter + '', verse + '.json');
+    return toolDataPathExistsSync(dataPath);
   }
 }

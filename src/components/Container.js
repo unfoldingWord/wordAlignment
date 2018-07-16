@@ -216,9 +216,10 @@ class Container extends Component {
 
   runMAP(props) {
     const {
-      hasSourceText
+      hasSourceText,
+      hasTargetText
     } = props;
-    if (hasSourceText) {
+    if (hasSourceText && hasTargetText) {
       return this.initMAP(props).then(map => {
         this.map = map;
         return this.updatePredictions(props);
@@ -587,6 +588,7 @@ Container.propTypes = {
   normalizedTargetVerseText: PropTypes.string.isRequired,
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
+  hasTargetText: PropTypes.bool.isRequired,
 
   // tc-tool props
   translate: PropTypes.func,
@@ -635,6 +637,7 @@ const mapStateToProps = (state, props) => {
     verseIsComplete: toolApi.getIsVerseFinished(chapter, verse),
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
+    hasTargetText: normalizedTargetVerseText !== '',
     targetTokens,
     sourceTokens,
     alignedTokens: getRenderedVerseAlignedTargetTokens(state, chapter, verse),

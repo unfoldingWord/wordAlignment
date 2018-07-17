@@ -144,9 +144,8 @@ describe('verse finished', () => {
     const api = new Api();
     const fileExists = false;
     api.props = {
-      tc: {
-        projectFileExistsSync: jest.fn(() => fileExists),
-        contextId: {reference: {bookId: 'somebook'}}
+      tool: {
+        toolDataPathExistsSync: jest.fn(() => fileExists)
       }
     };
     expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
@@ -156,9 +155,8 @@ describe('verse finished', () => {
     const api = new Api();
     const fileExists = true;
     api.props = {
-      tc: {
-        projectFileExistsSync: jest.fn(() => fileExists),
-        contextId: {reference: {bookId: 'somebook'}}
+      tool: {
+        toolDataPathExistsSync: jest.fn(() => fileExists)
       }
     };
     expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);

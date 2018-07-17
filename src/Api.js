@@ -379,22 +379,21 @@ export default class Api extends ToolApi {
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
-    if (Api._didChapterContextChange(prevContext, nextContext)) {
-      this._loadBookAlignments(nextProps);
-    } else {
+    if (!Api._didChapterContextChange(prevContext, nextContext)) {
       const {
         tc: {
           showDialog
         },
         translate
       } = nextProps;
-      const isValid = this._validateBook(nextProps);
-      if (!isValid) {
-        showDialog(translate('alignments_reset'),
-          translate('buttons.ok_button'));
-      }
-      // const {reference: {chapter}} = nextContext;
-      // this._validate(nextProps, chapter, verse);
+
+      setTimeout(() => {
+        const isValid = this._validateBook(nextProps);
+        if (!isValid) {
+          showDialog(translate('alignments_reset'),
+            translate('buttons.ok_button'));
+        }
+      }, 0);
     }
   }
 

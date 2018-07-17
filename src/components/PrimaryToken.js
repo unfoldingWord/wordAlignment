@@ -74,7 +74,6 @@ class PrimaryToken extends Component {
     } = this.props;
     const {hover} = this.state;
 
-    // TODO: fix the drag rendering to not display the tooltip
     const word = dragPreview(
       <div>
         <Word word={token.text}

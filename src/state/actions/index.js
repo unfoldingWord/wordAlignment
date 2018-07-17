@@ -256,7 +256,7 @@ export const clearState = () => ({
 
 /**
  * Sets the alignment suggestions for a verse
- * Suggestions must be approved by the user.
+ * The thunk will return a rejected Promise if there is no visible change in the alignments.
  * @param {number} chapter
  * @param {number} verse
  * @param {Alignment[]} predictions
@@ -266,8 +266,6 @@ export const setAlignmentPredictions = (chapter, verse, predictions) =>
     const alignments = [];
     const minConfidence = 1;
     const prev = getRenderedVerseAlignments(getState(), chapter, verse);
-    // TODO: use getRenderedVerseAlignments as baseline
-    // let hasSuggestions = false;
     for (const p of predictions) {
       if (p.confidence >= minConfidence) {
         alignments.push({
@@ -301,12 +299,6 @@ export const setAlignmentPredictions = (chapter, verse, predictions) =>
     } else {
       return Promise.reject();
     }
-    // TODO: use getRenderedVerseAlignments to compare changes
-    // if (hasSuggestions) {
-    //   return Promise.resolve();
-    // } else {
-    //   return Promise.reject();
-    // }
   };
 
 /**

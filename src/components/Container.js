@@ -24,7 +24,7 @@ import {
 import {
   getChapterAlignments,
   getIsVerseAligned,
-  getIsVerseValid,
+  getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
   getRenderedVerseAlignments,
   getVerseHasRenderedSuggestions
@@ -183,6 +183,9 @@ class Container extends Component {
       tc: {
         contextId: nextContextId
       },
+      tool: {
+        api
+      },
       verseIsAligned,
       verseIsComplete
     } = nextProps;
@@ -190,6 +193,10 @@ class Container extends Component {
       tc: {contextId: prevContextId}
     } = this.props;
     const {canAutoComplete} = this.state;
+
+    const {reference: {chapter, verse}} = nextContextId;
+
+    api.setVerseInvalid(chapter, verse, false);
 
     if (!isEqual(prevContextId, nextContextId)) {
       // scroll alignments to top when context changes
@@ -209,9 +216,10 @@ class Container extends Component {
 
   runMAP(props) {
     const {
-      hasSourceText
+      hasSourceText,
+      hasTargetText
     } = props;
-    if (hasSourceText) {
+    if (hasSourceText && hasTargetText) {
       return this.initMAP(props).then(map => {
         this.map = map;
         return this.updatePredictions(props);
@@ -335,7 +343,9 @@ class Container extends Component {
 
   handleRefreshSuggestions() {
     const {
-      translate,
+      tool: {
+        translate
+      },
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     const {store} = this.context;
@@ -365,7 +375,9 @@ class Container extends Component {
 
   handleToggleComplete(e, isChecked) {
     const {
-      toolApi,
+      tool: {
+        api
+      },
       tc: {
         contextId: {
           reference: {chapter, verse}
@@ -373,7 +385,7 @@ class Container extends Component {
       }
     } = this.props;
 
-    toolApi.setVerseFinished(chapter, verse, isChecked).then(() => {
+    api.setVerseFinished(chapter, verse, isChecked).then(() => {
       this.disableAutoComplete();
       this.forceUpdate();
     });
@@ -435,12 +447,14 @@ class Container extends Component {
    */
   _getIsComplete() {
     const {
-      toolApi,
+      tool: {
+        api
+      },
       tc: {
         contextId: {reference: {chapter, verse}}
       }
     } = this.props;
-    return toolApi.getIsVerseFinished(chapter, verse);
+    return api.getIsVerseFinished(chapter, verse);
   }
 
   render() {
@@ -450,10 +464,12 @@ class Container extends Component {
       isOver,
       hasSourceText,
       actions,
-      toolApi,
-      translate,
       resourcesReducer,
       verseAlignments,
+      tool: {
+        api,
+        translate
+      },
       tc: {
         contextId,
         actions: {
@@ -490,7 +506,7 @@ class Container extends Component {
             onRequestClose={this.handleSnackbarClose}/>
         </MuiThemeProvider>
         <GroupMenuContainer tc={tc}
-                            toolApi={toolApi}
+                            toolApi={api}
                             key={isComplete} // HACK to workaround anti-pattern in GroupMenu
                             translate={translate}/>
         <div style={styles.wordListContainer}>
@@ -540,12 +556,6 @@ Container.contextTypes = {
 
 Container.propTypes = {
   tc: PropTypes.shape({
-    writeProjectData: PropTypes.func.isRequired,
-    readProjectData: PropTypes.func.isRequired,
-    showDialog: PropTypes.func.isRequired,
-    showLoading: PropTypes.func.isRequired,
-    closeLoading: PropTypes.func.isRequired,
-
     targetVerseText: PropTypes.string,
     contextId: PropTypes.object,
     sourceVerse: PropTypes.object,
@@ -553,8 +563,10 @@ Container.propTypes = {
     targetChapter: PropTypes.object.isRequired,
     appLanguage: PropTypes.string.isRequired
   }).isRequired,
-  toolIsReady: PropTypes.bool.isRequired,
-  toolApi: PropTypes.instanceOf(Api),
+  tool: PropTypes.shape({
+    api: PropTypes.instanceOf(Api),
+    translate: PropTypes.func
+  }),
 
   // dispatch props
   acceptTokenSuggestion: PropTypes.func.isRequired,
@@ -580,9 +592,7 @@ Container.propTypes = {
   normalizedTargetVerseText: PropTypes.string.isRequired,
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
-
-  // tc-tool props
-  translate: PropTypes.func,
+  hasTargetText: PropTypes.bool.isRequired,
 
   // drag props
   isOver: PropTypes.bool,
@@ -614,7 +624,7 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {tc: {contextId, targetVerseText, sourceVerse}, toolApi} = props;
+  const {tc: {contextId, targetVerseText, sourceVerse}, tool: {api}} = props;
   const {reference: {chapter, verse}} = contextId;
   // TRICKY: the target verse contains punctuation we need to remove
   const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
@@ -625,14 +635,15 @@ const mapStateToProps = (state, props) => {
     join(' ');
   return {
     hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
-    verseIsComplete: toolApi.getIsVerseFinished(chapter, verse),
+    verseIsComplete: api.getIsVerseFinished(chapter, verse),
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
+    hasTargetText: normalizedTargetVerseText !== '',
     targetTokens,
     sourceTokens,
     alignedTokens: getRenderedVerseAlignedTargetTokens(state, chapter, verse),
     verseAlignments: getRenderedVerseAlignments(state, chapter, verse),
-    verseIsValid: getIsVerseValid(state, chapter, verse,
+    verseIsValid: getIsVerseAlignmentsValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
     normalizedSourceVerseText

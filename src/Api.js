@@ -2,7 +2,7 @@ import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
   getIsChapterLoaded,
-  getIsVerseValid,
+  getIsVerseAlignmentsValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
   getVerseAlignments
@@ -25,6 +25,13 @@ export default class Api extends ToolApi {
   constructor() {
     super();
     this.getIsVerseFinished = this.getIsVerseFinished.bind(this);
+    this._validateVerse = this._validateVerse.bind(this);
+    this._validateChapter = this._validateChapter.bind(this);
+    this._validateBook = this._validateBook.bind(this);
+    this.validateBook = this.validateBook.bind(this);
+    this.validateVerse = this.validateVerse.bind(this);
+    this._loadBookAlignments = this._loadBookAlignments.bind(this);
+    this.getIsVerseInvalid = this.getIsVerseInvalid.bind(this);
   }
 
   /**
@@ -63,8 +70,9 @@ export default class Api extends ToolApi {
     } = props;
 
     for (const verse of Object.keys(targetBible[chapter])) {
-      if(sourceBible[chapter][verse] === undefined) {
-        console.warn(`Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
+      if (sourceBible[chapter][verse] === undefined) {
+        console.warn(
+          `Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
         continue;
       }
       const sourceTokens = tokenizeVerseObjects(
@@ -214,7 +222,7 @@ export default class Api extends ToolApi {
       }
     } = props;
     let chapterIsValid = true;
-    if(!(chapter in targetBible)) {
+    if (!(chapter in targetBible)) {
       console.warn(`Could not validate missing chapter ${chapter}`);
       return true;
     }
@@ -245,26 +253,28 @@ export default class Api extends ToolApi {
     } = props;
     const {store} = this.context;
 
-    if(!(verse in targetBible[chapter] && verse in sourceBible[chapter])) {
+    if (!(verse in targetBible[chapter] && verse in sourceBible[chapter])) {
       console.warn(`Could not validate missing verse ${chapter}:${verse}`);
       return true;
     }
 
-    const sourceTokens = tokenizeVerseObjects(sourceBible[chapter][verse].verseObjects);
+    const sourceTokens = tokenizeVerseObjects(
+      sourceBible[chapter][verse].verseObjects);
     const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
     const targetTokens = Lexer.tokenize(targetVerseText);
     const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
     const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
-    const isValid = getIsVerseValid(store.getState(), chapter, verse,
+    const isValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
     if (!isValid) {
-      // const alignedTokens = getVerseAlignedTargetTokens(store.getState(),
-      //   chapter, verse);
-      const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens, targetTokens);
-      // mark the verse as incomplete.
+      const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
+        targetTokens);
+      if (wasChanged) {
+        this.setVerseInvalid(chapter, verse);
+      }
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
-      return !wasChanged;// alignedTokens.length === 0;
+      return !wasChanged;
     }
     return true;
   }
@@ -369,40 +379,73 @@ export default class Api extends ToolApi {
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
     const {tc: {contextId: prevContext}} = this.props;
-    if (Api._didChapterContextChange(prevContext, nextContext)) {
-      this._loadBookAlignments(nextProps);
-    } else {
+    if (!Api._didChapterContextChange(prevContext, nextContext)) {
       const {
         tc: {
           showDialog
         },
         translate
       } = nextProps;
-      const isValid = this._validateBook(nextProps);
-      if (!isValid) {
-        showDialog(translate('alignments_reset'),
-          translate('buttons.ok_button'));
-      }
-      // const {reference: {chapter}} = nextContext;
-      // this._validate(nextProps, chapter, verse);
+
+      setTimeout(() => {
+        const isValid = this._validateBook(nextProps);
+        if (!isValid) {
+          showDialog(translate('alignments_reset'),
+            translate('buttons.ok_button'));
+        }
+      }, 0);
     }
   }
 
   /**
-   * Checks if a verse has been completed.
+   * Labels a verse as valid or in-valid.
+   * This may trigger the tool to update
    * @param {number} chapter
    * @param {number} verse
-   * @return {*}
+   * @param {boolean} invalid - indicates if the verse is valid
+   * @return {Promise}
    */
-  getIsVerseFinished(chapter, verse) {
+  setVerseInvalid(chapter, verse, invalid=true) {
     const {
-      tc: {
-        projectFileExistsSync,
-        contextId: {reference: {bookId}}
+      tool: {
+        writeToolData,
+        deleteToolFile,
+        toolDataPathExists
       }
     } = this.props;
-    const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
-    return projectFileExistsSync(dataPath);
+    const dataPath = path.join('invalid', chapter + '', verse + '.json');
+    if (!invalid) {
+      return toolDataPathExists(dataPath).then(exists => {
+        if (exists) {
+          return deleteToolFile(dataPath).then(() => this.toolDidUpdate());
+        }
+      });
+    } else {
+      return toolDataPathExists(dataPath).then(exists => {
+        if (!exists) {
+          const data = {
+            timestamp: (new Date()).toISOString()
+          };
+          return writeToolData(dataPath, JSON.stringify(data)).then(() => this.toolDidUpdate());
+        }
+      });
+    }
+  }
+
+  /**
+   * Checks if the verse is labeled as invalid
+   * @param chapter
+   * @param verse
+   * @return {*}
+   */
+  getIsVerseInvalid(chapter, verse) {
+    const {
+      tool: {
+        toolDataPathExistsSync
+      }
+    } = this.props;
+    const dataPath = path.join('invalid', chapter + '', verse + '.json');
+    return toolDataPathExistsSync(dataPath);
   }
 
   /**
@@ -414,22 +457,39 @@ export default class Api extends ToolApi {
    */
   setVerseFinished(chapter, verse, finished) {
     const {
+      tool: {
+        writeToolData,
+        deleteToolFile
+      },
       tc: {
-        writeProjectData,
-        deleteProjectFile,
-        username,
-        contextId: {reference: {bookId}}
+        username
       }
     } = this.props;
-    const dataPath = path.join('alignmentData', 'completed', bookId, chapter + '', verse + '.json');
-    if(finished) {
+    const dataPath = path.join('completed', chapter + '', verse + '.json');
+    if (finished) {
       const data = {
         username,
         modifiedTimestamp: (new Date()).toJSON()
       };
-      return writeProjectData(dataPath, JSON.stringify(data));
+      return writeToolData(dataPath, JSON.stringify(data));
     } else {
-      return deleteProjectFile(dataPath);
+      return deleteToolFile(dataPath);
     }
+  }
+
+  /**
+   * Checks if a verse has been completed.
+   * @param {number} chapter
+   * @param {number} verse
+   * @return {*}
+   */
+  getIsVerseFinished(chapter, verse) {
+    const {
+      tool: {
+        toolDataPathExistsSync
+      }
+    } = this.props;
+    const dataPath = path.join('completed', chapter + '', verse + '.json');
+    return toolDataPathExistsSync(dataPath);
   }
 }

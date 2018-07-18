@@ -9,10 +9,8 @@ import _ from 'lodash';
 const compile = (renders, alignments) => {
   let approvedAlignments = [];
   const compiledRenders = {};
-  // const processedAlignments = [];
 
   // index the alignment keys
-  // TODO: move this into the loop below.
   const alignmentIndexMap = {};
   for (let i = 0; i < alignments.length; i++) {
     alignmentIndexMap[alignments[i].sourceNgram.join('|')] = i;

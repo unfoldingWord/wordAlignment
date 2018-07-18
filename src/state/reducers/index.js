@@ -35,9 +35,15 @@ export const getVerseAlignments = (state, chapter, verse) =>
  * @param verse
  * @return {Array}
  */
-export const getRenderedVerseAlignments = (state, chapter, verse) =>
-  fromAlignments.getRenderedVerseAlignments(state.tool.alignments, chapter,
-    verse);
+export const getRenderedVerseAlignments = (state, chapter, verse) => {
+  if (state.tool) {
+    return fromAlignments.getRenderedVerseAlignments(state.tool.alignments,
+      chapter,
+      verse);
+  } else {
+    return [];
+  }
+};
 
 /**
  * Returns an array of target tokens that have been aligned to the verse
@@ -70,7 +76,7 @@ export const getRenderedVerseAlignedTargetTokens = (state, chapter, verse) =>
  * @param {number} verse
  * @return {*}
  */
-export const getIsVerseValid = (
+export const getIsVerseAlignmentsValid = (
   state, chapter, verse, sourceText, targetText) =>
   fromAlignments.getIsVerseValid(state.tool.alignments, chapter, verse,
     sourceText, targetText);
@@ -101,4 +107,5 @@ export const getIsVerseAligned = (state, chapter, verse) =>
  * @return {boolean}
  */
 export const getVerseHasRenderedSuggestions = (state, chapter, verse) =>
-  fromAlignments.getVerseHasRenderedSuggestions(state.tool.alignments, chapter, verse);
+  fromAlignments.getVerseHasRenderedSuggestions(state.tool.alignments, chapter,
+    verse);

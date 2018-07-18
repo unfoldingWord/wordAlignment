@@ -562,12 +562,6 @@ Container.contextTypes = {
 
 Container.propTypes = {
   tc: PropTypes.shape({
-    writeToolData: PropTypes.func.isRequired,
-    readProjectData: PropTypes.func.isRequired,
-    showDialog: PropTypes.func.isRequired,
-    showLoading: PropTypes.func.isRequired,
-    closeLoading: PropTypes.func.isRequired,
-
     targetVerseText: PropTypes.string,
     contextId: PropTypes.object,
     sourceVerse: PropTypes.object,

@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 import Api from '../Api';
 
 class GroupMenuContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this._handleIsVerseValid = this._handleIsVerseValid.bind(this);
+  }
+
   getGroupProgress(groupIndex, groupsData, isVerseFinished) {
     let groupId = groupIndex.id;
     let totalChecks = groupsData[groupId].length;
@@ -18,6 +23,18 @@ class GroupMenuContainer extends React.Component {
     }).length;
 
     return doneChecks / totalChecks;
+  }
+
+  /**
+   * Handles check to determine if a verse is valid
+   * @param {number} chapter
+   * @param {number} verse
+   * @return {boolean}
+   * @private
+   */
+  _handleIsVerseValid(chapter, verse) {
+    const {toolApi} = this.props;
+    return !toolApi.getIsVerseInvalid(chapter, verse);
   }
 
   render() {
@@ -39,6 +56,7 @@ class GroupMenuContainer extends React.Component {
         getSelections={(contextId) => actions.getSelectionsFromContextId(contextId, projectSaveLocation)}
         getGroupProgress={(groupIndex, groupsData) => (this.getGroupProgress(groupIndex, groupsData, isVerseFinished))}
         isVerseFinished={isVerseFinished}
+        isVerseValid={this._handleIsVerseValid}
         groupsDataReducer={groupsDataReducer}
         groupsIndexReducer={groupsIndexReducer}
         groupMenuReducer={groupMenuReducer}

@@ -8,6 +8,8 @@ class GroupMenuContainer extends React.Component {
   constructor(props) {
     super(props);
     this._handleIsVerseValid = this._handleIsVerseValid.bind(this);
+    this._handleGetSelections = this._handleGetSelections.bind(this);
+    this._handleGetGroupProgress = this._handleGetGroupProgress.bind(this);
   }
 
   getGroupProgress(groupIndex, groupsData, isVerseFinished) {
@@ -37,6 +39,35 @@ class GroupMenuContainer extends React.Component {
     return !toolApi.getIsVerseInvalid(chapter, verse);
   }
 
+  /**
+   * Handles retrieving selections
+   * @param contextId
+   * @private
+   */
+  _handleGetSelections(contextId) {
+    const {
+      tc: {
+        actions: {getSelectionsFromContextId}
+      },
+      projectSaveLocation
+    } = this.props;
+    return getSelectionsFromContextId(contextId, projectSaveLocation);
+  }
+
+  /**
+   * Handles fetching the group progress
+   * @param groupIndex
+   * @param groupsData
+   * @return {*}
+   * @private
+   */
+  _handleGetGroupProgress(groupIndex, groupsData) {
+    const {
+      isVerseFinished
+    } = this.props;
+    return this.getGroupProgress(groupIndex, groupsData, isVerseFinished);
+  }
+
   render() {
     const {
       translate,
@@ -53,8 +84,8 @@ class GroupMenuContainer extends React.Component {
     return (
       <GroupMenu
         translate={translate}
-        getSelections={(contextId) => actions.getSelectionsFromContextId(contextId, projectSaveLocation)}
-        getGroupProgress={(groupIndex, groupsData) => (this.getGroupProgress(groupIndex, groupsData, isVerseFinished))}
+        getSelections={this._handleGetSelections}
+        getGroupProgress={this._handleGetGroupProgress}
         isVerseFinished={isVerseFinished}
         isVerseValid={this._handleIsVerseValid}
         groupsDataReducer={groupsDataReducer}

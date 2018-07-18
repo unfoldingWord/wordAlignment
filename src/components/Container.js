@@ -416,12 +416,6 @@ class Container extends Component {
     acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
 
-  toolDidUpdate() {
-    super.toolDidUpdate();
-
-    console.warn('The tool updated');
-  }
-
   /**
    * Returns the target tokens with used tokens labeled as disabled
    * @return {*}

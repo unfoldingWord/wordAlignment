@@ -71,7 +71,7 @@
     "react-tooltip": "^3.6.1",
     "reselect": "3.0.1",
     "tc-tool": "^1.6.3",
-    "tc-ui-toolkit": "0.9.14",
+    "tc-ui-toolkit": "0.9.18",
     "usfm-js": "1.0.0-beta.30",
     "word-aligner": "0.0.1",
     "word-map": "0.1.9",

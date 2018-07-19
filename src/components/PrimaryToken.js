@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
+import { WordLexiconDetails } from 'tc-ui-toolkit';
 import * as types from './WordCard/Types';
 // helpers
 import * as lexiconHelpers from '../utils/lexicon';
 // components
-import WordDetails from './WordDetails';
 import Word from './WordCard';
 import Tooltip from './Tooltip';
 import Token from 'word-map/structures/Token';
@@ -110,8 +110,7 @@ class PrimaryToken extends Component {
     );
     const {showPopover} = this.props.actions;
     const wordDetails = (
-      <WordDetails lexiconData={lexiconData} wordObject={token}
-                   translate={translate}/>
+      <WordLexiconDetails lexiconData={lexiconData} wordObject={token} translate={translate}/>
     );
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }

@@ -288,19 +288,29 @@ export default class Api extends ToolApi {
   stateChangeThrottled(nextState, prevState) {
     const {
       tc: {
+        targetBible,
         writeProjectData,
-        contextId: {reference: {bookId, chapter}}
+        contextId: {reference: {bookId}}
       }
     } = this.props;
     const writableChange = Boolean(prevState) && Boolean(nextState) &&
       !isEqual(prevState.tool, nextState.tool);
     if (writableChange) {
-      // write alignment data to the project folder
-      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-      const data = getLegacyChapterAlignments(nextState, chapter);
-      if (data) {
-        return writeProjectData(dataPath, JSON.stringify(data));
+      const promises = [];
+      // TRICKY: we validate the entire book so we must write all chapters
+      for (const chapter of Object.keys(targetBible)) {
+        if(isNaN(chapter)) {
+          // TRICKY: skip the 'manifest' key
+          continue;
+        }
+        // write alignment data to the project folder
+        const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+        const data = getLegacyChapterAlignments(nextState, chapter);
+        if (data) {
+            promises.push(writeProjectData(dataPath, JSON.stringify(data)));
+        }
       }
+      return Promise.all(promises);
     }
   }
 

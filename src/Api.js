@@ -228,7 +228,6 @@ export default class Api extends ToolApi {
       return true;
     }
     for (const verse of Object.keys(targetBible[chapter])) {
-      console.log(verse, removeUsfmMarkers(verse), removeUsfmMarkers(verse) === verse);
       const isValid = this._validateVerse(props, chapter, verse);
       if (!isValid) {
         chapterIsValid = isValid;

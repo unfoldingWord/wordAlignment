@@ -79,6 +79,7 @@ export default class Api extends ToolApi {
         sourceBible[chapter][verse].verseObjects);
       const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
       const targetTokens = Lexer.tokenize(targetVerseText);
+      console.log('targetTokens', targetTokens, 'targetVerseText', targetVerseText);
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
   }
@@ -227,6 +228,7 @@ export default class Api extends ToolApi {
       return true;
     }
     for (const verse of Object.keys(targetBible[chapter])) {
+      console.log(verse, removeUsfmMarkers(verse), removeUsfmMarkers(verse) === verse);
       const isValid = this._validateVerse(props, chapter, verse);
       if (!isValid) {
         chapterIsValid = isValid;

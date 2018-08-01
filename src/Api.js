@@ -79,7 +79,6 @@ export default class Api extends ToolApi {
         sourceBible[chapter][verse].verseObjects);
       const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
       const targetTokens = Lexer.tokenize(targetVerseText);
-      console.log('targetTokens', targetTokens, 'targetVerseText', targetVerseText);
       resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
   }

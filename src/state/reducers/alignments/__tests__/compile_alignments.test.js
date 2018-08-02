@@ -286,15 +286,15 @@ describe('compiles alignments', () => {
           "5": [4, 4], // not sure why there are two entries of the same value here, or why there should ever be more than one
           "6": [5]} // TODO: the current algorithm is putting a [6] here which is out of range and causes a later crash when you align a word back in
       };
-      const renderedAlignments_= [ // TODO: for reference only: expected output after call to verse
-        {"sourceNgram": [0], "targetNgram": [1], "alignments": [0]},
-        {"sourceNgram": [1], "targetNgram": [0], "alignments": [1]},
-        {"sourceNgram": [2], "targetNgram": [2], "alignments": [2]},
-        {"sourceNgram": [3], "targetNgram": [3], "alignments": [3]},
-        {"sourceNgram": [4], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4], "suggestion": 4},
-        {"sourceNgram": [5], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4, 4], "suggestion": 5},
-        {"sourceNgram": [6, 7], "targetNgram": [6, 7], "alignments": [5]} // TODO: the current algorithm is putting a [6] for alignment which is out of range and causes a later crash when you align a word back in
-      ];
+      // const renderedAlignments_= [ // TODO: for reference only: expected output after call to verse
+      //   {"sourceNgram": [0], "targetNgram": [1], "alignments": [0]},
+      //   {"sourceNgram": [1], "targetNgram": [0], "alignments": [1]},
+      //   {"sourceNgram": [2], "targetNgram": [2], "alignments": [2]},
+      //   {"sourceNgram": [3], "targetNgram": [3], "alignments": [3]},
+      //   {"sourceNgram": [4], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4], "suggestion": 4},
+      //   {"sourceNgram": [5], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4, 4], "suggestion": 5},
+      //   {"sourceNgram": [6, 7], "targetNgram": [6, 7], "alignments": [5]} // TODO: the current algorithm is putting a [6] for alignment which is out of range and causes a later crash when you align a word back in
+      // ];
       const result = compile(rendered, alignments);
       expect(result).toEqual(expected);
     });

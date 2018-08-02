@@ -116,7 +116,7 @@ const compile = (renders, alignments) => {
         if (!compiledIndices[renderedIndex]) {
           compiledIndices[renderedIndex] = [];
         }
-        compiledIndices[renderedIndex].push(originalIndex);
+        compiledIndices[renderedIndex].push(i);
       }
     } else {
       // map new indices

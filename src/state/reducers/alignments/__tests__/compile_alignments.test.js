@@ -284,9 +284,9 @@ describe('compiles alignments', () => {
           "3": [3], 
           "4": [4], 
           "5": [4, 4], // not sure why there are two entries of the same value here, or why there should ever be more than one
-          "6": [5]} // current algorithm is putting a 6 here which is out of range and causes a later crash when you align the word back in
+          "6": [5]} // TODO: the current algorithm is putting a [6] here which is out of range and causes a later crash when you align the word back in
       };
-      const renderedAlignments_= [ // expected output after call to verse
+      const renderedAlignments_= [ // TODO: for reference only: expected output after call to verse
         {"sourceNgram": [0], "targetNgram": [1], "alignments": [0]},
         {"sourceNgram": [1], "targetNgram": [0], "alignments": [1]},
         {"sourceNgram": [2], "targetNgram": [2], "alignments": [2]},

@@ -307,7 +307,6 @@ export default class Api extends ToolApi {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
         if (data) {
-          console.error(`saving alignment state to ${dataPath}`, data, nextState);
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         }
       }

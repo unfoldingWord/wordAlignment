@@ -250,54 +250,68 @@ describe('compiles alignments', () => {
   });
 
   describe('complex', () => {
-    it('compiles an unalignment where there is an unaccepted split suggestion', () => { // example from Titus 2:1
-      const alignments = [
-        {"sourceNgram": [0], "targetNgram": [1]},
-        {"sourceNgram": [1], "targetNgram": [0]},
-        {"sourceNgram": [2], "targetNgram": [2]},
-        {"sourceNgram": [3], "targetNgram": [3]},
-        {"sourceNgram": [4, 5], "targetNgram": []},
-        {"sourceNgram": [6, 7], "targetNgram": [5, 6, 7]}
-      ];
-      const rendered = [
-        {"sourceNgram": [0], "targetNgram": [1], "alignments": [0]},
-        {"sourceNgram": [1], "targetNgram": [0], "alignments": [1]},
-        {"sourceNgram": [2], "targetNgram": [2], "alignments": [2]},
-        {"sourceNgram": [3], "targetNgram": [3], "alignments": [3]},
-        {"sourceNgram": [4], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4], "suggestion": 4},
-        {"sourceNgram": [5], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4], "suggestion": 5},
-        {"sourceNgram": [6, 7], "targetNgram": [6, 7], "alignments": [5]} // removing target 5 from alignment 6
-      ];
-      const expected = {
-        "alignments": [
-          {"sourceNgram": [0], "targetNgram": [1]}, 
-          {"sourceNgram": [1], "targetNgram": [0]}, 
-          {"sourceNgram": [2], "targetNgram": [2]}, 
-          {"sourceNgram": [3], "targetNgram": [3]}, 
-          {"sourceNgram": [4, 5], "targetNgram": []}, 
-          {"sourceNgram": [6, 7], "targetNgram": [6, 7]}
+    it('compiles an un-alignment where there is an un-accepted split suggestion',
+      () => {
+        const alignments = [
+          {'sourceNgram': [0], 'targetNgram': [1]},
+          {'sourceNgram': [1], 'targetNgram': [0]},
+          {'sourceNgram': [2], 'targetNgram': [2]},
+          {'sourceNgram': [3], 'targetNgram': [3]},
+          {'sourceNgram': [4, 5], 'targetNgram': []},
+          {'sourceNgram': [6, 7], 'targetNgram': [5, 6, 7]}
+        ];
+        const rendered = [
+          {'sourceNgram': [0], 'targetNgram': [1], 'alignments': [0]},
+          {'sourceNgram': [1], 'targetNgram': [0], 'alignments': [1]},
+          {'sourceNgram': [2], 'targetNgram': [2], 'alignments': [2]},
+          {'sourceNgram': [3], 'targetNgram': [3], 'alignments': [3]},
+          {
+            'sourceNgram': [4],
+            'targetNgram': [],
+            'suggestedTargetTokens': [],
+            'alignments': [4],
+            'suggestion': 4
+          },
+          {
+            'sourceNgram': [5],
+            'targetNgram': [],
+            'suggestedTargetTokens': [],
+            'alignments': [4],
+            'suggestion': 5
+          },
+          {'sourceNgram': [6, 7], 'targetNgram': [6, 7], 'alignments': [5]} // removing target 5 from alignment 6
+        ];
+        const expected = {
+          'alignments': [
+            {'sourceNgram': [0], 'targetNgram': [1]},
+            {'sourceNgram': [1], 'targetNgram': [0]},
+            {'sourceNgram': [2], 'targetNgram': [2]},
+            {'sourceNgram': [3], 'targetNgram': [3]},
+            {'sourceNgram': [4, 5], 'targetNgram': []},
+            {'sourceNgram': [6, 7], 'targetNgram': [6, 7]}
           ],
-        "indices": {
-          "0": [0], 
-          "1": [1], 
-          "2": [2], 
-          "3": [3], 
-          "4": [4], 
-          "5": [4, 4], // not sure why there are two entries of the same value here, or why there should ever be more than one
-          "6": [5]} // TODO: the current algorithm is putting a [6] here which is out of range and causes a later crash when you align a word back in
-      };
-      // const renderedAlignments_= [ // TODO: for reference only: expected output after call to verse
-      //   {"sourceNgram": [0], "targetNgram": [1], "alignments": [0]},
-      //   {"sourceNgram": [1], "targetNgram": [0], "alignments": [1]},
-      //   {"sourceNgram": [2], "targetNgram": [2], "alignments": [2]},
-      //   {"sourceNgram": [3], "targetNgram": [3], "alignments": [3]},
-      //   {"sourceNgram": [4], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4], "suggestion": 4},
-      //   {"sourceNgram": [5], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4, 4], "suggestion": 5},
-      //   {"sourceNgram": [6, 7], "targetNgram": [6, 7], "alignments": [5]} // TODO: the current algorithm is putting a [6] for alignment which is out of range and causes a later crash when you align a word back in
-      // ];
-      const result = compile(rendered, alignments);
-      expect(result).toEqual(expected);
-    });
+          'indices': {
+            '0': [0],
+            '1': [1],
+            '2': [2],
+            '3': [3],
+            '4': [4],
+            '5': [4],
+            '6': [5]
+          }
+        };
+        // const renderedAlignments_= [ // TODO: for reference only: expected output after call to verse
+        //   {"sourceNgram": [0], "targetNgram": [1], "alignments": [0]},
+        //   {"sourceNgram": [1], "targetNgram": [0], "alignments": [1]},
+        //   {"sourceNgram": [2], "targetNgram": [2], "alignments": [2]},
+        //   {"sourceNgram": [3], "targetNgram": [3], "alignments": [3]},
+        //   {"sourceNgram": [4], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4], "suggestion": 4},
+        //   {"sourceNgram": [5], "targetNgram": [], "suggestedTargetTokens": [], "alignments": [4, 4], "suggestion": 5},
+        //   {"sourceNgram": [6, 7], "targetNgram": [6, 7], "alignments": [5]} // TODO: the current algorithm is putting a [6] for alignment which is out of range and causes a later crash when you align a word back in
+        // ];
+        const result = compile(rendered, alignments);
+        expect(result).toEqual(expected);
+      });
   });
 });
 

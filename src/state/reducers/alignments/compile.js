@@ -4,7 +4,7 @@ import _ from 'lodash';
  * Compiles rendered-alignments into alignments
  * @param {object[]} renders - an array of rendered-alignments
  * @param {object[]} alignments  - an array of original alignments
- * @return {{alignments: Array, indices: Object}}
+ * @return {{alignments: Array, indices: Object}} the compiled alignments and a dictionary mapping rendered alignment indices to compiled alignment indices.
  */
 const compile = (renders, alignments) => {
   let approvedAlignments = [];

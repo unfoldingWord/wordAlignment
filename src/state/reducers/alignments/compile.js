@@ -104,23 +104,28 @@ const compile = (renders, alignments) => {
       compiledIndices[a.renderedIndex] = [];
     }
 
+    const alignmentIndex = addedAlignments.length;
+
     // skip duplicates
     if (addedAlignments.indexOf(id) >= 0) {
-      compiledIndices[a.renderedIndex].push(addedAlignments.indexOf(id));
+      const duplicateAlignmentIndex = addedAlignments.indexOf(id);
+      if(compiledIndices[a.renderedIndex].indexOf(duplicateAlignmentIndex) === -1) {
+        compiledIndices[a.renderedIndex].push(duplicateAlignmentIndex);
+      }
       continue;
     }
 
-    if (originalIndex && siblingIndex[originalIndex]) {
+    if (originalIndex !== undefined && siblingIndex[originalIndex]) {
       // map old indices
       for (const renderedIndex of siblingIndex[originalIndex]) {
         if (!compiledIndices[renderedIndex]) {
           compiledIndices[renderedIndex] = [];
         }
-        compiledIndices[renderedIndex].push(i);
+        compiledIndices[renderedIndex].push(alignmentIndex);
       }
     } else {
       // map new indices
-      compiledIndices[a.renderedIndex].push(i);
+      compiledIndices[a.renderedIndex].push(alignmentIndex);
     }
     delete a.renderedIndex;
     compiledAlignments.push(a);

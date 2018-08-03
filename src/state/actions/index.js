@@ -2,6 +2,7 @@ import * as types from './actionTypes';
 import {migrateChapterAlignments} from '../../utils/migrations';
 import Lexer from 'word-map/Lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
+import {removeUsfmMarkers} from '../../utils/usfmHelpers';
 import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';
 
 /**
@@ -48,7 +49,8 @@ export const indexChapterAlignments = (
     const targetChapterTokens = {};
     const sourceChapterTokens = {};
     for (const verse of Object.keys(targetChapter)) {
-      targetChapterTokens[verse] = Lexer.tokenize(targetChapter[verse]);
+      const targetVerseText = removeUsfmMarkers(targetChapter[verse]);
+      targetChapterTokens[verse] = Lexer.tokenize(targetVerseText);
     }
     for (const verse of Object.keys(sourceChapter)) {
       sourceChapterTokens[verse] = tokenizeVerseObjects(

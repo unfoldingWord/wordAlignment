@@ -65,6 +65,11 @@ describe('saving', () => {
     const api = new Api();
     api.props = {
       tc: {
+        targetBible: {
+          1: {
+            1: "hello"
+          }
+        },
         writeProjectData: jest.fn(() => Promise.resolve()),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
       }

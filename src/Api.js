@@ -299,7 +299,7 @@ export default class Api extends ToolApi {
       const promises = [];
       // TRICKY: we validate the entire book so we must write all chapters
       for (const chapter of Object.keys(targetBible)) {
-        if(isNaN(chapter)) {
+        if (isNaN(chapter)) {
           // TRICKY: skip the 'manifest' key
           continue;
         }
@@ -307,7 +307,7 @@ export default class Api extends ToolApi {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
         if (data) {
-            promises.push(writeProjectData(dataPath, JSON.stringify(data)));
+          promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         }
       }
       return Promise.all(promises);
@@ -318,6 +318,8 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillConnect() {
+    const {clearState} = this.props;
+    clearState();
     this._loadBookAlignments(this.props);
   }
 
@@ -378,8 +380,6 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillDisconnect() {
-    const {clearState} = this.props;
-    clearState();
   }
 
   /**
@@ -415,7 +415,7 @@ export default class Api extends ToolApi {
    * @param {boolean} invalid - indicates if the verse is valid
    * @return {Promise}
    */
-  setVerseInvalid(chapter, verse, invalid=true) {
+  setVerseInvalid(chapter, verse, invalid = true) {
     const {
       tool: {
         writeToolData,
@@ -436,7 +436,8 @@ export default class Api extends ToolApi {
           const data = {
             timestamp: (new Date()).toISOString()
           };
-          return writeToolData(dataPath, JSON.stringify(data)).then(() => this.toolDidUpdate());
+          return writeToolData(dataPath, JSON.stringify(data)).
+            then(() => this.toolDidUpdate());
         }
       });
     }

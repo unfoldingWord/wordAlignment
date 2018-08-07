@@ -6,6 +6,7 @@ import _ from 'lodash';
  * @param {object[]} alignments - an array of alignments
  * @param {object[]} suggestions - an array of alignment suggestions
  * @param {number} numSourceTokens - the number of source tokens in the verse
+ * @return the alignments rendered with suggestions.
  */
 const render = (alignments, suggestions, numSourceTokens) => {
   // index things
@@ -83,7 +84,6 @@ const render = (alignments, suggestions, numSourceTokens) => {
     // determine suggestion validity
     let suggestionIsValid = false;
     let finishedReadingSuggestion = false;
-    // let suggestionIsEmpty = false;
     let sourceNgramsMatch = false;
     // TRICKY: we may not have suggestions for everything
     if (tIndex < suggestionSourceIndex.length) {
@@ -92,7 +92,9 @@ const render = (alignments, suggestions, numSourceTokens) => {
         if (targetPos in targetIndex) {
           const index = targetIndex[targetPos];
           targetUsedElsewhere = alignmentQueue.indexOf(index) === -1;
-          break;
+          if(targetUsedElsewhere) {
+            break;
+          }
         }
       }
 

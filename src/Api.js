@@ -288,27 +288,20 @@ export default class Api extends ToolApi {
   stateChangeThrottled(nextState, prevState) {
     const {
       tc: {
-        targetBible,
         writeProjectData,
-        contextId: {reference: {bookId}}
+        contextId: {reference: {bookId, chapter}}
       }
     } = this.props;
     const writableChange = Boolean(prevState) && Boolean(nextState) &&
       !isEqual(prevState.tool, nextState.tool);
     if (writableChange) {
       const promises = [];
-      // TRICKY: we validate the entire book so we must write all chapters
-      for (const chapter of Object.keys(targetBible)) {
-        if (isNaN(chapter)) {
-          // TRICKY: skip the 'manifest' key
-          continue;
-        }
-        // write alignment data to the project folder
-        const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-        const data = getLegacyChapterAlignments(nextState, chapter);
-        if (data) {
-          promises.push(writeProjectData(dataPath, JSON.stringify(data)));
-        }
+      // TRICKY: Do we still need to write to all chapters when all use cases are current chapter?
+      // write alignment data to the project folder
+      const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+      const data = getLegacyChapterAlignments(nextState, chapter);
+      if (data) {
+        promises.push(writeProjectData(dataPath, JSON.stringify(data)));
       }
       return Promise.all(promises);
     }

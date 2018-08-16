@@ -1,7 +1,11 @@
-import render, {indexSuggestionSiblings, indexTokens} from '../render';
+import render, {
+  indexAlignmentSuggestions,
+  indexSuggestionAlignments,
+  indexTokens
+} from '../render';
 
-describe('sibling index', () => {
-  it('indexes siblings', () => {
+describe('alignment suggestions index', () => {
+  it('indexes alignments', () => {
     const tokenIndex = {
       source: [
         {
@@ -28,10 +32,24 @@ describe('sibling index', () => {
         }
       ]
     };
-    const result = indexSuggestionSiblings(tokenIndex);
+    const result = indexAlignmentSuggestions(tokenIndex);
     expect(result).toEqual({
       0: [0, 1],
       1: [1]
+    });
+  });
+});
+
+describe('suggestion alignments index', () => {
+  it('indexes suggestions', () => {
+    const alignmentIndex = {
+      0: [0, 1],
+      1: [1]
+    };
+    const result = indexSuggestionAlignments(alignmentIndex);
+    expect(result).toEqual({
+      0: [0],
+      1: [0, 1]
     });
   });
 });

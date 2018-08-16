@@ -1,4 +1,98 @@
-import render from '../render';
+import render, {indexTokens} from '../render';
+
+describe('index', () => {
+  it('indexes a merge',  () => {
+    const alignments = [
+      {sourceNgram: [0], targetNgram: []},
+      {sourceNgram: [1], targetNgram: []}
+    ];
+    const suggestions = [
+      {sourceNgram: [0, 1], targetNgram: [0]}
+    ];
+    const result = indexTokens(alignments, suggestions);
+    expect(result).toEqual({
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 1,
+          suggestions: [0]
+        }
+      ],
+      target: [
+        {
+          alignment: null,
+          suggestions: [0]
+        }
+      ]
+    });
+  });
+
+  it('indexes a split',  () => {
+    const alignments = [
+      {sourceNgram: [0, 1], targetNgram: []}
+    ];
+    const suggestions = [
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: [1]}
+    ];
+    const result = indexTokens(alignments, suggestions);
+    expect(result).toEqual({
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 0,
+          suggestions: [1]
+        }
+      ],
+      target: [
+        {
+          alignment: null,
+          suggestions: [0]
+        },
+        {
+          alignment: null,
+          suggestions: [1]
+        }
+      ]
+    });
+  });
+
+  it('indexes a duplicate addition',  () => {
+    const alignments = [
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: []}
+    ];
+    const suggestions = [
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: [0]}
+    ];
+    const result = indexTokens(alignments, suggestions);
+    expect(result).toEqual({
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 1,
+          suggestions: [1]
+        }
+      ],
+      target: [
+        {
+          alignment: 0,
+          suggestions: [0, 1]
+        }
+      ]
+    });
+  });
+});
 
 describe('render alignments', () => {
   const testRenderer = state => render(state.alignments, state.suggestions,

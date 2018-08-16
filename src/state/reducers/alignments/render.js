@@ -2,6 +2,77 @@ import _ from 'lodash';
 import {numberComparator} from './index';
 
 /**
+ * Generates a index of tokens that will be rendered.
+ * @param {object[]} alignments - an array of alignments
+ * @param {object[]} suggestions - an array of suggestions
+ * @return {{sourceNgram: Array, targetNgram: Array}}
+ */
+export const indexTokens = (alignments, suggestions) => {
+  const sourceIndex = [];
+  const targetIndex = [];
+
+  // utility to initialize the token index
+  const hydrateIndex = (index, i) => {
+    if (!index[i]) {
+      index[i] = {
+        alignment: null,
+        // TRICKY: tokens may be suggested that have already been used resulting in multiple matches.
+        suggestions: []
+      };
+    }
+    return index;
+  };
+
+  // index to alignments
+  for (let a = 0; a < alignments.length; a++) {
+    // index source tokens
+    const sourceTokens = alignments[a].sourceNgram;
+    for (let t = 0; t < sourceTokens.length; t++) {
+      const position = sourceTokens[t];
+      hydrateIndex(sourceIndex, position);
+      sourceIndex[position].alignment = a;
+    }
+    // index target tokens
+    const targetTokens = alignments[a].targetNgram;
+    for (let t = 0; t < targetTokens.length; t++) {
+      const position = targetTokens[t];
+      hydrateIndex(targetIndex, position);
+      targetIndex[position].alignment = a;
+    }
+  }
+  // index to suggestions
+  for (let s = 0; s < suggestions.length; s++) {
+    // index source tokens
+    const sourceTokens = suggestions[s].sourceNgram;
+    for (let t = 0; t < sourceTokens.length; t++) {
+      const position = sourceTokens[t];
+      hydrateIndex(sourceIndex, position);
+      sourceIndex[position].suggestions.push(s);
+    }
+    // index target tokens
+    const targetTokens = suggestions[s].targetNgram;
+    for (let t = 0; t < targetTokens.length; t++) {
+      const position = targetTokens[t];
+      hydrateIndex(targetIndex, position);
+      targetIndex[position].suggestions.push(s);
+    }
+  }
+
+  return {
+    source: sourceIndex,
+    target: targetIndex
+  };
+};
+
+const newRender = (alignments, suggestions, numSourceTokens) => {
+  const renderedAlignments = [];
+  const index = indexTokens(alignments, suggestions);
+
+
+  return renderedAlignments;
+};
+
+/**
  * Renders the verse alignments with the suggestions
  * @param {object[]} alignments - an array of alignments
  * @param {object[]} suggestions - an array of alignment suggestions
@@ -25,6 +96,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
         aligned: alignments[aIndex].targetNgram.length > 0,
         sourceLength,
         targetLength: alignments[aIndex].targetNgram.length,
+        isEmpty: alignments[aIndex].targetNgram.length === 0,
         sourceId: alignments[aIndex].sourceNgram.join(),
         targetId: alignments[aIndex].targetNgram.join(),
         targetNgram: alignments[aIndex].targetNgram,
@@ -48,6 +120,9 @@ const render = (alignments, suggestions, numSourceTokens) => {
       });
     }
   }
+  // TODO: index suggestions by alignment. To do this we will need to match up
+  // suggestions to their affected alignments (like we do below).
+  // So basically we'll need to re-write most of the renderer.
 
   // TRICKY: we don't support partial suggestion coverage at the moment
   if (suggestionSourceIndex.length > 0 && suggestionSourceIndex.length !==
@@ -92,7 +167,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
         if (targetPos in targetIndex) {
           const index = targetIndex[targetPos];
           targetUsedElsewhere = alignmentQueue.indexOf(index) === -1;
-          if(targetUsedElsewhere) {
+          if (targetUsedElsewhere) {
             break;
           }
         }
@@ -109,8 +184,16 @@ const render = (alignments, suggestions, numSourceTokens) => {
       const targetNgramsMatch = alignmentSourceIndex[tIndex].targetId ===
         suggestionSourceIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
+      const suggestionIsEmpty = suggestionSourceIndex[tIndex].isEmpty;
 
-      if (!alignmentIsAligned) {
+      // TODO: We must check that the suggestion and all of it's siblings are empty.
+      // If this is true then all of the siblings are invalid.
+      // I do something like this in the compiler.
+      // I'll also need to index the suggestion siblings.
+      if (suggestionIsEmpty) {
+        // empty suggestions are always in-valid
+        suggestionIsValid = false;
+      } else if (!alignmentIsAligned) {
         // un-aligned alignments are valid
         suggestionIsValid = true;
       } else if (!isPerfectMatch && finishedReadingAlignment &&

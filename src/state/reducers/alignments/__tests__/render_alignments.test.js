@@ -1,7 +1,43 @@
-import render, {indexTokens} from '../render';
+import render, {indexSuggestionSiblings, indexTokens} from '../render';
 
-describe('index', () => {
-  it('indexes a merge',  () => {
+describe('sibling index', () => {
+  it('indexes siblings', () => {
+    const tokenIndex = {
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 0,
+          suggestions: [1]
+        },
+        {
+          alignment: 1,
+          suggestions: [1]
+        }
+      ],
+      target: [
+        {
+          alignment: null,
+          suggestions: [0]
+        },
+        {
+          alignment: null,
+          suggestions: [1]
+        }
+      ]
+    };
+    const result = indexSuggestionSiblings(tokenIndex);
+    expect(result).toEqual({
+      0: [0, 1],
+      1: [1]
+    });
+  });
+});
+
+describe('token index', () => {
+  it('indexes a merge', () => {
     const alignments = [
       {sourceNgram: [0], targetNgram: []},
       {sourceNgram: [1], targetNgram: []}
@@ -30,7 +66,7 @@ describe('index', () => {
     });
   });
 
-  it('indexes a split',  () => {
+  it('indexes a split', () => {
     const alignments = [
       {sourceNgram: [0, 1], targetNgram: []}
     ];
@@ -63,7 +99,7 @@ describe('index', () => {
     });
   });
 
-  it('indexes a duplicate addition',  () => {
+  it('indexes a duplicate addition', () => {
     const alignments = [
       {sourceNgram: [0], targetNgram: [0]},
       {sourceNgram: [1], targetNgram: []}
@@ -577,34 +613,36 @@ describe('render alignments', () => {
       ]);
     });
 
-    it('cannot suggest an additional token that has already been used in an alignment', () => {
-      // we try to trick the algorithm to use a token after it has already been used.
-      const state = {
-        sourceTokens: [{}, {}],
-        targetTokens: [{}, {}, {}],
-        alignments: [
-          {sourceNgram: [0], targetNgram: [0]},
-          {sourceNgram: [1], targetNgram: [2]}
-        ],
-        suggestions: [
-          {sourceNgram: [0], targetNgram: [1]},
-          {sourceNgram: [1], targetNgram: [2, 0]} // suggest adding 0
-        ]
-      };
-      const result = testRenderer(state);
-      expect(result).toEqual([
-        {
-          alignments: [0],
-          sourceNgram: [0],
-          targetNgram: [0]
-        },
-        {
-          alignments: [1],
-          sourceNgram: [1],
-          targetNgram: [2]
-        }
-      ]);
-    });
+    it(
+      'cannot suggest an additional token that has already been used in an alignment',
+      () => {
+        // we try to trick the algorithm to use a token after it has already been used.
+        const state = {
+          sourceTokens: [{}, {}],
+          targetTokens: [{}, {}, {}],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [0]},
+            {sourceNgram: [1], targetNgram: [2]}
+          ],
+          suggestions: [
+            {sourceNgram: [0], targetNgram: [1]},
+            {sourceNgram: [1], targetNgram: [2, 0]} // suggest adding 0
+          ]
+        };
+        const result = testRenderer(state);
+        expect(result).toEqual([
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: [2]
+          }
+        ]);
+      });
 
     it('cannot suggest a token that will later be used in an alignment', () => {
       // we try to trick the algorithm to use a token after it has already been used.
@@ -635,34 +673,36 @@ describe('render alignments', () => {
       ]);
     });
 
-    it('cannot suggest an additional token that will later be used in an alignment', () => {
-      // we try to trick the algorithm to use a token after it has already been used.
-      const state = {
-        sourceTokens: [{}, {}],
-        targetTokens: [{}, {}, {}],
-        alignments: [
-          {sourceNgram: [0], targetNgram: [2]},
-          {sourceNgram: [1], targetNgram: [0]}
-        ],
-        suggestions: [
-          {sourceNgram: [0], targetNgram: [0, 2]}, // suggest adding 0
-          {sourceNgram: [1], targetNgram: [1]}
-        ]
-      };
-      const result = testRenderer(state);
-      expect(result).toEqual([
-        {
-          alignments: [0],
-          sourceNgram: [0],
-          targetNgram: [2]
-        },
-        {
-          alignments: [1],
-          sourceNgram: [1],
-          targetNgram: [0]
-        }
-      ]);
-    });
+    it(
+      'cannot suggest an additional token that will later be used in an alignment',
+      () => {
+        // we try to trick the algorithm to use a token after it has already been used.
+        const state = {
+          sourceTokens: [{}, {}],
+          targetTokens: [{}, {}, {}],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [2]},
+            {sourceNgram: [1], targetNgram: [0]}
+          ],
+          suggestions: [
+            {sourceNgram: [0], targetNgram: [0, 2]}, // suggest adding 0
+            {sourceNgram: [1], targetNgram: [1]}
+          ]
+        };
+        const result = testRenderer(state);
+        expect(result).toEqual([
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: [2]
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: [0]
+          }
+        ]);
+      });
 
     it('has no suggestions', () => {
       const state = {

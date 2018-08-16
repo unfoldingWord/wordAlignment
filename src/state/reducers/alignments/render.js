@@ -140,164 +140,6 @@ export const indexSuggestionAlignments = alignmentSuggestionsIndex => {
 
   return suggestionIndex;
 };
-//
-// const newRender = (alignments, suggestions, numSourceTokens) => {
-//   const renderedAlignments = [];
-//   const tokenIndex = indexTokens(alignments, suggestions);
-//   const alignmentSuggestionsIndex = indexAlignmentSuggestions(tokenIndex);
-//   const suggestionAlignmentsIndex = indexSuggestionAlignments(alignmentSuggestionsIndex);
-//
-//   // TRICKY: we don't support partial suggestion coverage at the moment
-//   if (tokenIndex.suggestions.length > 0 && tokenIndex.suggestions.length !==
-//     numSourceTokens) {
-//     console.error(
-//       'Index out of bounds. We currently do not support partial suggestions.');
-//     return [...convertToRendered(alignments)];
-//   }
-//
-//   // validate source token quantity
-//   if (tokenIndex.source.length !== numSourceTokens) {
-//     console.log(
-//       `Alignments are corrupt. Expected ${numSourceTokens} but found ${tokenIndex.source.length}`);
-//     return [...convertToRendered(alignments)];
-//   }
-//
-//   // build output
-//   let suggestionStateIsValid = true;
-//   for (let t = 0; t < numSourceTokens; t++) {
-//     const suggestionPos = tokenIndex.suggestions[t].index;
-//     const alignmentIsAligned = tokenIndex.alignments[t].aligned;
-//     const finishedReadingAlignment = tokenIndex.alignments[t].lastSourceToken ===
-//       t;
-//     const suggestionSpansMultipleAlignments = suggestionAlignmentsIndex[suggestionPos].length > 1;
-//
-//     let targetUsedElsewhere = false;
-//
-//     // determine suggestion validity
-//     let suggestionIsValid = false;
-//     let finishedReadingSuggestion = false;
-//     let sourceNgramsMatch = false;
-//     // TRICKY: we may not have suggestions for everything
-//     if (t < tokenIndex.suggestions.length) {
-//       // check if suggested target tokens are already used
-//       // for (const targetPos of tokenIndex.suggestions[t].targetNgram) {
-//       //   if (targetPos in targetIndex) {
-//       //     const aIndex = targetIndex[targetPos];
-//       //     targetUsedElsewhere = alignmentQueue.indexOf(aIndex) === -1;
-//       //     if (targetUsedElsewhere) {
-//       //       break;
-//       //     }
-//       //   }
-//       // }
-//
-//       finishedReadingSuggestion = tokenIndex.suggestions[t].lastSourceToken ===
-//         t;
-//       const suggestionTargetIsSuperset = isSubArray(
-//         tokenIndex.suggestions[t].targetNgram,
-//         tokenIndex.alignments[t].targetNgram);
-//
-//       sourceNgramsMatch = tokenIndex.alignments[t].sourceId ===
-//         tokenIndex.suggestions[t].sourceId;
-//       const targetNgramsMatch = tokenIndex.alignments[t].targetId ===
-//         tokenIndex.suggestions[t].targetId;
-//       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
-//       const suggestionIsEmpty = tokenIndex.suggestions[t].isEmpty;
-//
-//       // TODO: We must check that the suggestion and all of it's siblings are empty.
-//       // If this is true then all of the siblings are invalid.
-//       // I do something like this in the compiler.
-//       // I'll also need to index the suggestion siblings.
-//       if (suggestionIsEmpty) {
-//         // empty suggestions are always in-valid
-//         suggestionIsValid = false;
-//       } else if (!alignmentIsAligned) {
-//         // un-aligned alignments are valid
-//         suggestionIsValid = true;
-//       } else if (!isPerfectMatch && finishedReadingAlignment &&
-//         finishedReadingSuggestion && !suggestionSpansMultipleAlignments &&
-//         suggestionTargetIsSuperset && sourceNgramsMatch) {
-//         // identical source n-grams are valid
-//         suggestionIsValid = true;
-//       } else if (!isPerfectMatch && !finishedReadingAlignment &&
-//         !finishedReadingSuggestion && !suggestionSpansMultipleAlignments &&
-//         suggestionTargetIsSuperset) {
-//         // incomplete readings are valid until proven otherwise
-//         suggestionIsValid = true;
-//       }
-//     }
-//
-//     // TRICKY: persist invalid state through the entire suggestion.
-//     if (!suggestionIsValid) {
-//       suggestionStateIsValid = suggestionIsValid;
-//     }
-//
-//     // renders a finished alignment
-//     const renderAlignment = () => {
-//       // use the alignment
-//       const index = tokenIndex.source[t].alignment;//alignmentQueue.pop();
-//       const rawAlignment = _.cloneDeep(alignments[index]);
-//       rawAlignment.alignments = [index];
-//       return rawAlignment;
-//     };
-//
-//     // renders a finished suggestion
-//     const renderSuggestion = () => {
-//       const index = tokenIndex.suggestions[t].index;
-//       // merge target n-grams
-//       const rawSuggestion = _.cloneDeep(suggestions[index]);
-//       rawSuggestion.suggestedTargetTokens = [...rawSuggestion.targetNgram];
-//       for (const aIndex of alignmentQueue) {
-//         const rawAlignment = alignments[aIndex];
-//         for (const t of rawAlignment.targetNgram) {
-//           if (rawSuggestion.targetNgram.indexOf(t) === -1) {
-//             rawSuggestion.targetNgram.push(t);
-//           } else {
-//             _.pull(rawSuggestion.suggestedTargetTokens, t);
-//           }
-//         }
-//         rawSuggestion.targetNgram = _.union(rawSuggestion.targetNgram,
-//           rawAlignment.targetNgram);
-//       }
-//       rawSuggestion.alignments = [...alignmentQueue];
-//       rawSuggestion.suggestion = index;
-//       if (tokenIndex.suggestions[t].isEmpty && sourceNgramsMatch) {
-//         // TRICKY: render empty matches as an alignment
-//         return {
-//           alignments: rawSuggestion.alignments,
-//           sourceNgram: rawSuggestion.sourceNgram,
-//           targetNgram: rawSuggestion.targetNgram
-//         };
-//       } else {
-//         return rawSuggestion;
-//       }
-//     };
-//
-//     // TRICKY: if the suggested target tokens are used elsewhere we render the alignment
-//     const shouldRenderSuggestion = suggestionStateIsValid &&
-//       finishedReadingSuggestion && !targetUsedElsewhere;
-//     const shouldRenderAlignment = (!suggestionStateIsValid ||
-//       targetUsedElsewhere) && finishedReadingAlignment;
-//
-//     // append finished readings
-//     if (shouldRenderSuggestion) {
-//       renderedAlignments.push(renderSuggestion());
-//     } else if (shouldRenderAlignment) {
-//       renderedAlignments.push(renderAlignment());
-//     }
-//
-//     // clean up
-//     if (!suggestionStateIsValid && finishedReadingAlignment ||
-//       suggestionStateIsValid && finishedReadingSuggestion) {
-//       // tokenQueue = [];
-//       alignmentQueue = [];
-//     }
-//     if (finishedReadingSuggestion) {
-//       suggestionStateIsValid = true;
-//     }
-//   }
-//
-//   return renderedAlignments;
-// };
 
 /**
  * Renders the verse alignments with the suggestions
@@ -310,8 +152,6 @@ const render = (alignments, suggestions, numSourceTokens) => {
   // index things
   const tokenIndex = indexTokens(alignments, suggestions);
   const alignmentSuggestionsIndex = indexAlignmentSuggestions(tokenIndex);
-  // const suggestionAlignmentsIndex = indexSuggestionAlignments(
-  //   alignmentSuggestionsIndex);
 
   const alignmentSourceIndex = [];
   const suggestionSourceIndex = [];
@@ -414,12 +254,8 @@ const render = (alignments, suggestions, numSourceTokens) => {
       const targetNgramsMatch = alignmentSourceIndex[tIndex].targetId ===
         suggestionSourceIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
+      
       const suggestionIsEmpty = suggestionSourceIndex[tIndex].isEmpty;
-
-      // TODO: We must check that the suggestion and all of it's siblings are empty.
-      // If this is true then all of the siblings are invalid.
-      // I do something like this in the compiler.
-      // I'll also need to index the suggestion siblings.
       let siblingSuggestionsAreEmpty = suggestionIsEmpty;
       const siblings = alignmentSuggestionsIndex[alignmentPos];
       if (suggestionIsEmpty && siblings) {

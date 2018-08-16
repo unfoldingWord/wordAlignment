@@ -180,6 +180,7 @@ describe('render alignments', () => {
   describe('merges', () => {
 
     it('has an empty merge suggestion that matches perfectly', () => {
+      // empty merge suggestions should be ignored
       const state = {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
@@ -192,11 +193,14 @@ describe('render alignments', () => {
       const result = testRenderer(state);
       expect(result).toEqual([
         {
-          alignments: [0, 1],
-          sourceNgram: [0, 1],
-          targetNgram: [],
-          suggestedTargetTokens: [],
-          suggestion: 0
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: []
+        },
+        {
+          alignments: [1],
+          sourceNgram: [1],
+          targetNgram: []
         }
       ]);
     });
@@ -294,6 +298,7 @@ describe('render alignments', () => {
   describe('splits', () => {
 
     it('has an empty split suggestion that matches perfectly', () => {
+      // empty split suggestions should be ignored
       const state = {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
@@ -309,17 +314,8 @@ describe('render alignments', () => {
       expect(result).toEqual([
         {
           alignments: [0],
-          sourceNgram: [0],
-          targetNgram: [],
-          suggestion: 0,
-          suggestedTargetTokens: []
-        },
-        {
-          alignments: [0],
-          sourceNgram: [1],
-          targetNgram: [],
-          suggestion: 1,
-          suggestedTargetTokens: []
+          sourceNgram: [0, 1],
+          targetNgram: []
         }
       ]);
     });

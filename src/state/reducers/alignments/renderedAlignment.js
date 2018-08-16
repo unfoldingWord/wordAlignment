@@ -41,8 +41,7 @@ const renderedAlignment = (
       return {
         alignments: [state.alignments[0]],
         sourceNgram: [...state.sourceNgram],
-        targetNgram: [...state.targetNgram, action.token.position].sort(
-          numberComparator)
+        targetNgram: [...state.targetNgram, action.token.position]
       };
     }
     case UNALIGN_RENDERED_TARGET_TOKEN:

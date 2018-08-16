@@ -160,7 +160,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       }
       rawSuggestion.alignments = [...alignmentQueue];
       rawSuggestion.suggestion = index;
-      rawSuggestion.targetNgram.sort(numberComparator);
+      rawSuggestion.targetNgram;
       if (suggestionSourceIndex[tIndex].isEmpty && sourceNgramsMatch) {
         // TRICKY: render empty matches as an alignment
         return {

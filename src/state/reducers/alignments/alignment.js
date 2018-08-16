@@ -42,7 +42,7 @@ const alignment = (state = defaultState, action, ) => {
       const targetNgram = [...alignment.targetNgram];
       return {
         sourceNgram: sourceNgram.sort(numberComparator),
-        targetNgram: targetNgram.sort(numberComparator)
+        targetNgram: targetNgram
       };
     }
     case REPAIR_VERSE_ALIGNMENTS: {

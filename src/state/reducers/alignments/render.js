@@ -1,4 +1,3 @@
-import {numberComparator} from './index';
 import _ from 'lodash';
 
 /**

@@ -1,5 +1,5 @@
-import {numberComparator} from './index';
 import _ from 'lodash';
+import {numberComparator} from './index';
 
 /**
  * Renders the verse alignments with the suggestions

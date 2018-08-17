@@ -11,7 +11,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
   });
 
   // set the ScripturePane to display targetLanguage and bhp for the word alignment tool from left to right.
-  let desiredPanes = [
+  const desiredPanes = [
     {
       languageId: 'targetLanguage',
       bibleId: 'targetBible'
@@ -24,7 +24,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
 
   // concat the remaining panes to the desiredPanes array
   if (panes.length > 0) {
-    desiredPanes = desiredPanes.concat(panes);
+    desiredPanes.push.apply(desiredPanes, panes);
   }
 
   setToolSettings('ScripturePane', 'currentPaneSettings', desiredPanes);

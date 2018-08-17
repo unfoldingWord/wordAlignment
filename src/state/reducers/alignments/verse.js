@@ -302,8 +302,8 @@ const verse = (state = defaultState, action) => {
         }));
 
       // remove duplicate tokens
-      let usedSourceTokens = [];
-      let usedTargetTokens = [];
+      const usedSourceTokens = [];
+      const usedTargetTokens = [];
       fixedAlignments = fixedAlignments.map(a => {
         // source
         const locallyUsedSourceTokens = [];
@@ -324,7 +324,7 @@ const verse = (state = defaultState, action) => {
           }
         }
         // find used source tokens
-        usedSourceTokens = usedSourceTokens.concat(a.sourceNgram);
+        usedSourceTokens.push.apply(usedSourceTokens, a.sourceNgram);
         return a;
       });
       fixedAlignments = _.compact(fixedAlignments);
@@ -568,9 +568,9 @@ export const getLegacyAlignments = state => {
   const alignments = getAlignments(state);
   const targetTokens = getTargetTokens(state);
   const legacyAlignments = [];
-  let usedTargetTokens = [];
+  const usedTargetTokens = [];
   for (const a of alignments) {
-    usedTargetTokens = usedTargetTokens.concat(a.targetNgram);
+    usedTargetTokens.push.apply(usedTargetTokens, a.targetNgram);
     legacyAlignments.push(makeLegacyAlignment(a));
   }
   const unusedTargetTokens = targetTokens.filter(t => {

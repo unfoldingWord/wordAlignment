@@ -181,13 +181,13 @@ describe('align target token', () => {
         alignments: [
           {
             sourceNgram: [0],
-            targetNgram: [1, 0] // TRICKY: tokens in the order they were added
+            targetNgram: [0, 1]
           }],
         renderedAlignments: [
           {
             alignments: [0],
             sourceNgram: [0],
-            targetNgram: [1, 0] // TRICKY: tokens in the order they were added
+            targetNgram: [0, 1]
           }],
         suggestions: []
       }

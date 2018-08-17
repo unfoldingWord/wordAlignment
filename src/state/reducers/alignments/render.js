@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {numberComparator} from './index';
 
 /**
  * Renders the verse alignments with the suggestions
@@ -159,7 +160,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       }
       rawSuggestion.alignments = [...alignmentQueue];
       rawSuggestion.suggestion = index;
-      rawSuggestion.targetNgram;
+      rawSuggestion.targetNgram.sort(numberComparator);
       if (suggestionSourceIndex[tIndex].isEmpty && sourceNgramsMatch) {
         // TRICKY: render empty matches as an alignment
         return {

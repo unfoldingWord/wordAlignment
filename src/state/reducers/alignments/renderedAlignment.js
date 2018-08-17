@@ -24,7 +24,7 @@ const renderedAlignment = (
     case ACCEPT_TOKEN_SUGGESTION: {
       const suggestedTargetTokens = state.suggestedTargetTokens.filter(
         pos => pos !== action.token.position);
-      if(suggestedTargetTokens.length > 0) {
+      if (suggestedTargetTokens.length > 0) {
         return {
           ...state,
           suggestedTargetTokens
@@ -41,7 +41,8 @@ const renderedAlignment = (
       return {
         alignments: [state.alignments[0]],
         sourceNgram: [...state.sourceNgram],
-        targetNgram: [...state.targetNgram, action.token.position]
+        targetNgram: [...state.targetNgram, action.token.position].sort(
+          numberComparator)
       };
     }
     case UNALIGN_RENDERED_TARGET_TOKEN:

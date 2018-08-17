@@ -74,6 +74,14 @@ const alignmentComparator = (a, b) => {
 };
 
 /**
+ * Compares two numbers for sorting
+ * @param a
+ * @param b
+ * @return {number}
+ */
+const numberComparator = (a, b) => a - b;
+
+/**
  * Returns the index of a token in the array that matches the given parameters
  * @param {object[]} tokens - an array of json tokens (not {@Token}'s)
  * @param {text} text
@@ -286,8 +294,8 @@ export const normalizeAlignmentData = (
       }
 
       // sort n-grams
-      sourceNgram.sort();
-      targetNgram.sort();
+      sourceNgram.sort(numberComparator);
+      targetNgram.sort(numberComparator);
 
       alignments.push({
         sourceNgram,

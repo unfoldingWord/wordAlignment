@@ -209,11 +209,9 @@ const render = (alignments, suggestions, numSourceTokens) => {
 
   // build output
   const suggestedAlignments = [];
-  // let tokenQueue = [];
   let alignmentQueue = []; // track how many alignments span a suggestion
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < numSourceTokens; tIndex++) {
-    // tokenQueue.push(tIndex);
     const alignmentPos = alignmentSourceIndex[tIndex].index;
     if (alignmentQueue.indexOf(alignmentSourceIndex[tIndex].index) === -1) {
       alignmentQueue.push(alignmentSourceIndex[tIndex].index);
@@ -254,12 +252,11 @@ const render = (alignments, suggestions, numSourceTokens) => {
       const targetNgramsMatch = alignmentSourceIndex[tIndex].targetId ===
         suggestionSourceIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
-      
+
       const suggestionIsEmpty = suggestionSourceIndex[tIndex].isEmpty;
       let siblingSuggestionsAreEmpty = suggestionIsEmpty;
       const siblings = alignmentSuggestionsIndex[alignmentPos];
       if (suggestionIsEmpty && siblings) {
-        // TODO: check if they are empty
         for (let i = 0; i < siblings.length; i++) {
           if(suggestions[siblings[i]].targetNgram.length > 0) {
             siblingSuggestionsAreEmpty = false;
@@ -349,7 +346,6 @@ const render = (alignments, suggestions, numSourceTokens) => {
     // clean up
     if (!suggestionStateIsValid && finishedReadingAlignment ||
       suggestionStateIsValid && finishedReadingSuggestion) {
-      // tokenQueue = [];
       alignmentQueue = [];
     }
     if (finishedReadingSuggestion) {

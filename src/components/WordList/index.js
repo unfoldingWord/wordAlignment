@@ -72,8 +72,6 @@ class DroppableWordList extends React.Component {
       selectedWords: words,
       selectedWordPositions: positions
     });
-
-    console.log(positions);
   }
 
   /**

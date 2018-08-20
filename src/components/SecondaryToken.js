@@ -89,8 +89,6 @@ SecondaryToken.defaultProps = {
   },
   onAccept: () => {
   },
-  onEndDrag: () => {
-  },
   alignmentIndex: undefined,
   disabled: false,
   selectedTokens: []
@@ -102,7 +100,6 @@ SecondaryToken.defaultProps = {
 const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
-    console.log(props);
     const {token} = props;
     token.type = types.SECONDARY_WORD;
     let tokens = [];
@@ -118,8 +115,8 @@ const dragHandler = {
   },
   endDrag(props, monitor) {
     const dropResult = monitor.getDropResult();
-    if (dropResult) {
-      // props.onEndDrag();
+    if (dropResult && typeof props.onEndDrag === 'function') {
+      props.onEndDrag();
     }
   }
 };

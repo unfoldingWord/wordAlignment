@@ -95,7 +95,19 @@ class AlignmentGrid extends Component {
   handleDrop(alignmentIndex, item) {
     const {onDropTargetToken, onDropSourceToken} = this.props;
     if (item.type === types.SECONDARY_WORD) {
+      // TRICKY: item.token is the token being dragged. item.tokens are selected tokens to be included.
+      // item.token may or may not be included in item.tokens.
       onDropTargetToken(item.token, alignmentIndex, item.alignmentIndex);
+      // also drop the selected tokens
+      if (item.tokens) {
+        for (let i = 0; i < item.tokens.length; i++) {
+          const token = item.tokens[i];
+          if(token.tokenPos === item.token.tokenPos) {
+            continue;
+          }
+          onDropTargetToken(item.tokens[i], alignmentIndex, item.alignmentIndex);
+        }
+      }
     }
     if (item.type === types.PRIMARY_WORD) {
       onDropSourceToken(item.token, alignmentIndex, item.alignmentIndex);

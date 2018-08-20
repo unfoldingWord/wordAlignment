@@ -71,7 +71,6 @@ class TokensDragLayer extends React.Component {
 
   render() {
     const {item, itemType, isDragging} = this.props;
-
     if (!isDragging) {
       return null;
     }

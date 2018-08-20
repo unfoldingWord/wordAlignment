@@ -25,7 +25,7 @@ class SecondaryToken extends React.Component {
 
   componentDidMount() {
     // Use empty image so we can draw the preview manually
-    this.props.connectDragPreview(getEmptyImage());
+    // this.props.connectDragPreview(getEmptyImage());
   }
 
   handleCancel() {

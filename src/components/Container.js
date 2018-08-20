@@ -510,7 +510,7 @@ class Container extends Component {
                             toolApi={api}
                             key={isComplete} // HACK to workaround anti-pattern in GroupMenu
                             translate={translate}/>
-        <TokensDragLayer/>
+        {/*<TokensDragLayer/>*/}
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}

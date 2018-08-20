@@ -12,8 +12,10 @@ class DroppableWordList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      wordListScrollTop: null
+      wordListScrollTop: null,
+      selectedWords: []
     };
+    this.handleWordSelection = this.handleWordSelection.bind(this);
   }
 
   setScrollState(wordList, nextProps) {
@@ -46,6 +48,28 @@ class DroppableWordList extends React.Component {
     this.setWordListScroll(wordList);
   }
 
+  /**
+   * maintains the list of selected words
+   * @param token
+   */
+  handleWordSelection(token) {
+    const { selectedWords } = this.state;
+    let words = [...selectedWords];
+
+    const index = words.indexOf(token.tokenPos);
+    if(index === -1) {
+      words.push(token.tokenPos);
+    } else {
+      words.splice(index, 1)
+    }
+
+    this.setState({
+      selectedWords: words
+    });
+
+    console.log(words);
+  }
+
   render() {
     const {words, chapter, verse, connectDropTarget, isOver} = this.props;
     return connectDropTarget(
@@ -60,6 +84,7 @@ class DroppableWordList extends React.Component {
         }}
       >
         <WordList
+          onWordClick={this.handleWordSelection}
           chapter={chapter}
           verse={verse}
           words={words}

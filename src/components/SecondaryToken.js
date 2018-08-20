@@ -24,15 +24,17 @@ class SecondaryToken extends React.Component {
 
   handleCancel() {
     const {onCancel, token} = this.props;
-    if(typeof onCancel === 'function') {
+    if (typeof onCancel === 'function') {
       onCancel(token);
     }
   }
 
   handleClick() {
-    const {token, onAccept} = this.props;
-    if(token.meta.suggestion && typeof onAccept === 'function') {
+    const {token, onAccept, onClick} = this.props;
+    if (token.meta.suggestion) {
       onAccept(token);
+    } else if (!token.disabled) {
+      onClick(token);
     }
   }
 
@@ -61,7 +63,7 @@ class SecondaryToken extends React.Component {
       </div>
     );
 
-    if(disabled) {
+    if (disabled) {
       return wordComponent;
     } else {
       return connectDragSource(wordComponent);
@@ -70,6 +72,7 @@ class SecondaryToken extends React.Component {
 }
 
 SecondaryToken.propTypes = {
+  onClick: PropTypes.func,
   onCancel: PropTypes.func,
   onAccept: PropTypes.func,
   token: PropTypes.instanceOf(Token).isRequired,
@@ -80,6 +83,10 @@ SecondaryToken.propTypes = {
 };
 
 SecondaryToken.defaultProps = {
+  onClick: () => {
+  },
+  onAccept: () => {
+  },
   alignmentIndex: undefined,
   disabled: false
 };

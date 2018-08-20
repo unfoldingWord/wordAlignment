@@ -4,6 +4,7 @@ import Word from './WordCard';
 import {DragSource} from 'react-dnd';
 import * as types from './WordCard/Types';
 import Token from 'word-map/structures/Token';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 /**
  * Renders a draggable secondary word.
@@ -20,6 +21,11 @@ class SecondaryToken extends React.Component {
     super(props);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    // Use empty image so we can draw the preview manually
+    this.props.connectDragPreview(getEmptyImage());
   }
 
   handleCancel() {
@@ -81,6 +87,7 @@ SecondaryToken.propTypes = {
   onCancel: PropTypes.func,
   onAccept: PropTypes.func,
   token: PropTypes.instanceOf(Token).isRequired,
+  connectDragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   alignmentIndex: PropTypes.number,
@@ -106,9 +113,22 @@ const dragHandler = {
     // Return the data describing the dragged item
     const {token} = props;
     token.type = types.SECONDARY_WORD;
-    let tokens = [];
-    if(props.selectedTokens) {
-      tokens = [...props.selectedTokens];
+    const tokens = [];
+    if (props.selectedTokens) {
+      let isSourceSelected = false;
+      for(let i = 0; i < props.selectedTokens.length; i ++) {
+        tokens.push(props.selectedTokens[i]);
+        if (props.selectedTokens[i].tokenPos === token.tokenPos) {
+          isSourceSelected = true;
+        }
+      }
+      // TRICKY: include the dragged token to the selection
+      if(!isSourceSelected) {
+        tokens.push(token);
+      }
+    } else {
+      // TRICKY: always populate tokens.
+      tokens.push(token);
     }
     return {
       tokens,
@@ -125,11 +145,19 @@ const dragHandler = {
   }
 };
 
+/**
+ * Specifies which props to inject into the component
+ * @param connect
+ * @param monitor
+ */
+const collect = (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+  connectDragPreview: connect.dragPreview()
+});
+
 export default DragSource(
   types.SECONDARY_WORD,
   dragHandler,
-  (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  })
+  collect
 )(SecondaryToken);

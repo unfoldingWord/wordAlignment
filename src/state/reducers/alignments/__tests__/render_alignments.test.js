@@ -1,4 +1,152 @@
-import render from '../render';
+import render, {
+  indexAlignmentSuggestions,
+  indexSuggestionAlignments,
+  indexTokens
+} from '../render';
+
+describe('alignment suggestions index', () => {
+  it('indexes alignments', () => {
+    const tokenIndex = {
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 0,
+          suggestions: [1]
+        },
+        {
+          alignment: 1,
+          suggestions: [1]
+        }
+      ],
+      target: [
+        {
+          alignment: null,
+          suggestions: [0]
+        },
+        {
+          alignment: null,
+          suggestions: [1]
+        }
+      ]
+    };
+    const result = indexAlignmentSuggestions(tokenIndex);
+    expect(result).toEqual({
+      0: [0, 1],
+      1: [1]
+    });
+  });
+});
+
+describe('suggestion alignments index', () => {
+  it('indexes suggestions', () => {
+    const alignmentIndex = {
+      0: [0, 1],
+      1: [1]
+    };
+    const result = indexSuggestionAlignments(alignmentIndex);
+    expect(result).toEqual({
+      0: [0],
+      1: [0, 1]
+    });
+  });
+});
+
+describe('token index', () => {
+  it('indexes a merge', () => {
+    const alignments = [
+      {sourceNgram: [0], targetNgram: []},
+      {sourceNgram: [1], targetNgram: []}
+    ];
+    const suggestions = [
+      {sourceNgram: [0, 1], targetNgram: [0]}
+    ];
+    const result = indexTokens(alignments, suggestions);
+    expect(result).toEqual({
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 1,
+          suggestions: [0]
+        }
+      ],
+      target: [
+        {
+          alignment: null,
+          suggestions: [0]
+        }
+      ]
+    });
+  });
+
+  it('indexes a split', () => {
+    const alignments = [
+      {sourceNgram: [0, 1], targetNgram: []}
+    ];
+    const suggestions = [
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: [1]}
+    ];
+    const result = indexTokens(alignments, suggestions);
+    expect(result).toEqual({
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 0,
+          suggestions: [1]
+        }
+      ],
+      target: [
+        {
+          alignment: null,
+          suggestions: [0]
+        },
+        {
+          alignment: null,
+          suggestions: [1]
+        }
+      ]
+    });
+  });
+
+  it('indexes a duplicate addition', () => {
+    const alignments = [
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: []}
+    ];
+    const suggestions = [
+      {sourceNgram: [0], targetNgram: [0]},
+      {sourceNgram: [1], targetNgram: [0]}
+    ];
+    const result = indexTokens(alignments, suggestions);
+    expect(result).toEqual({
+      source: [
+        {
+          alignment: 0,
+          suggestions: [0]
+        },
+        {
+          alignment: 1,
+          suggestions: [1]
+        }
+      ],
+      target: [
+        {
+          alignment: 0,
+          suggestions: [0, 1]
+        }
+      ]
+    });
+  });
+});
 
 describe('render alignments', () => {
   const testRenderer = state => render(state.alignments, state.suggestions,
@@ -180,6 +328,7 @@ describe('render alignments', () => {
   describe('merges', () => {
 
     it('has an empty merge suggestion that matches perfectly', () => {
+      // empty merge suggestions should be ignored
       const state = {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
@@ -192,11 +341,14 @@ describe('render alignments', () => {
       const result = testRenderer(state);
       expect(result).toEqual([
         {
-          alignments: [0, 1],
-          sourceNgram: [0, 1],
-          targetNgram: [],
-          suggestedTargetTokens: [],
-          suggestion: 0
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: []
+        },
+        {
+          alignments: [1],
+          sourceNgram: [1],
+          targetNgram: []
         }
       ]);
     });
@@ -294,6 +446,7 @@ describe('render alignments', () => {
   describe('splits', () => {
 
     it('has an empty split suggestion that matches perfectly', () => {
+      // empty split suggestions should be ignored
       const state = {
         sourceTokens: [{}, {}],
         targetTokens: [{}, {}],
@@ -309,17 +462,8 @@ describe('render alignments', () => {
       expect(result).toEqual([
         {
           alignments: [0],
-          sourceNgram: [0],
-          targetNgram: [],
-          suggestion: 0,
-          suggestedTargetTokens: []
-        },
-        {
-          alignments: [0],
-          sourceNgram: [1],
-          targetNgram: [],
-          suggestion: 1,
-          suggestedTargetTokens: []
+          sourceNgram: [0, 1],
+          targetNgram: []
         }
       ]);
     });
@@ -487,34 +631,36 @@ describe('render alignments', () => {
       ]);
     });
 
-    it('cannot suggest an additional token that has already been used in an alignment', () => {
-      // we try to trick the algorithm to use a token after it has already been used.
-      const state = {
-        sourceTokens: [{}, {}],
-        targetTokens: [{}, {}, {}],
-        alignments: [
-          {sourceNgram: [0], targetNgram: [0]},
-          {sourceNgram: [1], targetNgram: [2]}
-        ],
-        suggestions: [
-          {sourceNgram: [0], targetNgram: [1]},
-          {sourceNgram: [1], targetNgram: [2, 0]} // suggest adding 0
-        ]
-      };
-      const result = testRenderer(state);
-      expect(result).toEqual([
-        {
-          alignments: [0],
-          sourceNgram: [0],
-          targetNgram: [0]
-        },
-        {
-          alignments: [1],
-          sourceNgram: [1],
-          targetNgram: [2]
-        }
-      ]);
-    });
+    it(
+      'cannot suggest an additional token that has already been used in an alignment',
+      () => {
+        // we try to trick the algorithm to use a token after it has already been used.
+        const state = {
+          sourceTokens: [{}, {}],
+          targetTokens: [{}, {}, {}],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [0]},
+            {sourceNgram: [1], targetNgram: [2]}
+          ],
+          suggestions: [
+            {sourceNgram: [0], targetNgram: [1]},
+            {sourceNgram: [1], targetNgram: [2, 0]} // suggest adding 0
+          ]
+        };
+        const result = testRenderer(state);
+        expect(result).toEqual([
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: [0]
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: [2]
+          }
+        ]);
+      });
 
     it('cannot suggest a token that will later be used in an alignment', () => {
       // we try to trick the algorithm to use a token after it has already been used.
@@ -545,34 +691,36 @@ describe('render alignments', () => {
       ]);
     });
 
-    it('cannot suggest an additional token that will later be used in an alignment', () => {
-      // we try to trick the algorithm to use a token after it has already been used.
-      const state = {
-        sourceTokens: [{}, {}],
-        targetTokens: [{}, {}, {}],
-        alignments: [
-          {sourceNgram: [0], targetNgram: [2]},
-          {sourceNgram: [1], targetNgram: [0]}
-        ],
-        suggestions: [
-          {sourceNgram: [0], targetNgram: [0, 2]}, // suggest adding 0
-          {sourceNgram: [1], targetNgram: [1]}
-        ]
-      };
-      const result = testRenderer(state);
-      expect(result).toEqual([
-        {
-          alignments: [0],
-          sourceNgram: [0],
-          targetNgram: [2]
-        },
-        {
-          alignments: [1],
-          sourceNgram: [1],
-          targetNgram: [0]
-        }
-      ]);
-    });
+    it(
+      'cannot suggest an additional token that will later be used in an alignment',
+      () => {
+        // we try to trick the algorithm to use a token after it has already been used.
+        const state = {
+          sourceTokens: [{}, {}],
+          targetTokens: [{}, {}, {}],
+          alignments: [
+            {sourceNgram: [0], targetNgram: [2]},
+            {sourceNgram: [1], targetNgram: [0]}
+          ],
+          suggestions: [
+            {sourceNgram: [0], targetNgram: [0, 2]}, // suggest adding 0
+            {sourceNgram: [1], targetNgram: [1]}
+          ]
+        };
+        const result = testRenderer(state);
+        expect(result).toEqual([
+          {
+            alignments: [0],
+            sourceNgram: [0],
+            targetNgram: [2]
+          },
+          {
+            alignments: [1],
+            sourceNgram: [1],
+            targetNgram: [0]
+          }
+        ]);
+      });
 
     it('has no suggestions', () => {
       const state = {

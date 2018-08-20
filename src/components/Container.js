@@ -39,6 +39,7 @@ import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import MissingBibleError from './MissingBibleError';
 import Api from '../Api';
+import {batchActions} from 'redux-batched-actions';
 
 const styles = {
   container: {
@@ -300,15 +301,19 @@ class Container extends Component {
   handleAlignTargetToken(token, nextAlignmentIndex, prevAlignmentIndex = null) {
     const {
       tc: {contextId: {reference: {chapter, verse}}},
-      alignTargetToken
     } = this.props;
+    const {store} = this.context;
+    const actions = [];
     if (prevAlignmentIndex !== null && prevAlignmentIndex >= 0) {
-      this.handleUnalignTargetToken(token, prevAlignmentIndex);
+      // TRICKY: this does the same as {@link handleUnalignTargetToken} but is batchable
+      actions.push(unalignTargetToken(chapter, verse, prevAlignmentIndex, token));
+      this.handleToggleComplete(null, false);
     } else {
       // dragging an alignment from the word list can auto-complete the verse
       this.enableAutoComplete();
     }
-    alignTargetToken(chapter, verse, nextAlignmentIndex, token);
+    actions.push(alignTargetToken(chapter, verse, nextAlignmentIndex, token));
+    store.dispatch(batchActions(actions));
   }
 
   /**

@@ -7,7 +7,7 @@ import _ from 'lodash';
  * @return {{alignments: Array, indices: Object}} the compiled alignments and a dictionary mapping rendered alignment indices to compiled alignment indices.
  */
 const compile = (renders, alignments) => {
-  let approvedAlignments = [];
+  const approvedAlignments = [];
   const compiledRenders = {};
 
   // index the alignment keys
@@ -37,8 +37,7 @@ const compile = (renders, alignments) => {
     if (!isSuggestion) {
       // compile approved alignments
       // TRICKY: approved suggestions only have a single alignment
-      approvedAlignments = approvedAlignments.concat(
-        siblingIndex[r.alignments[0]]);
+      approvedAlignments.push.apply(approvedAlignments, siblingIndex[r.alignments[0]]);
       compileApprovedSplitAlignment(renderPos, renders, siblingIndex,
         compiledRenders);
     } else {

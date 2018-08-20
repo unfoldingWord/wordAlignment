@@ -61,7 +61,7 @@
   "dependencies": {
     "deep-equal": "1.0.1",
     "fs-extra": "4.0.3",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "material-ui": "0.20.0",
     "os-locale": "2.1.0",
     "path-extra": "3.0.0",
@@ -69,6 +69,7 @@
     "react-dnd-html5-backend": "2.5.4",
     "react-localize-redux": "2.15.1",
     "react-tooltip": "^3.6.1",
+    "redux-batched-actions": "^0.3.0",
     "reselect": "3.0.1",
     "tc-tool": "^1.6.3",
     "tc-ui-toolkit": "0.9.18",

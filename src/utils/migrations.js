@@ -74,6 +74,14 @@ const alignmentComparator = (a, b) => {
 };
 
 /**
+ * Compares two numbers for sorting
+ * @param a
+ * @param b
+ * @return {number}
+ */
+const numberComparator = (a, b) => a - b;
+
+/**
  * Returns the index of a token in the array that matches the given parameters
  * @param {object[]} tokens - an array of json tokens (not {@Token}'s)
  * @param {text} text
@@ -140,8 +148,8 @@ export const migrateChapterAlignments = (data, sourceTokens, targetTokens) => {
 export const formatAlignmentData = (data) => {
   const migratedData = {};
   for (const verse of Object.keys(data)) {
-    let targetTokens = [];
-    let sourceTokens = [];
+    const targetTokens = [];
+    const sourceTokens = [];
     const alignments = [];
 
     for (const alignment of data[verse].alignments) {
@@ -149,10 +157,10 @@ export const formatAlignmentData = (data) => {
       const targetNgram = alignment.bottomWords.map(migrateBottomWord);
 
       // organize source tokens
-      sourceTokens = sourceTokens.concat(sourceNgram);
+      sourceTokens.push.apply(sourceTokens, sourceNgram);
 
       // organize target tokens
-      targetTokens = targetTokens.concat(targetNgram);
+      targetTokens.push.apply(targetTokens, targetNgram);
 
       // organize alignments
       alignments.push({
@@ -162,7 +170,7 @@ export const formatAlignmentData = (data) => {
     }
 
     // merge word bank into target tokens
-    targetTokens = targetTokens.concat(
+    targetTokens.push.apply(targetTokens,
       data[verse].wordBank.map(migrateBottomWord));
 
     migratedData[verse] = {
@@ -204,7 +212,8 @@ export const formatAlignmentData = (data) => {
  *    "occurrences: 1
  * }
  */
-export const normalizeAlignmentData = (data, sourceTokensBaseline, targetTokensBaseline) => {
+export const normalizeAlignmentData = (
+  data, sourceTokensBaseline, targetTokensBaseline) => {
   const normalizedData = {};
   for (const verse of Object.keys(data)) {
     let targetTokens = [];
@@ -213,7 +222,8 @@ export const normalizeAlignmentData = (data, sourceTokensBaseline, targetTokensB
 
     // add position to source tokens
     for (const t of data[verse].sourceTokens) {
-      const baseline = findToken(sourceTokensBaseline[verse], t.text, t.occurrence,
+      const baseline = findToken(sourceTokensBaseline[verse], t.text,
+        t.occurrence,
         t.occurrences);
       if (baseline) {
         sourceTokens.push({
@@ -231,7 +241,8 @@ export const normalizeAlignmentData = (data, sourceTokensBaseline, targetTokensB
 
     // add position to target tokens
     for (const t of data[verse].targetTokens) {
-      const baseline = findToken(targetTokensBaseline[verse], t.text, t.occurrence,
+      const baseline = findToken(targetTokensBaseline[verse], t.text,
+        t.occurrence,
         t.occurrences);
       if (baseline) {
         targetTokens.push({
@@ -264,7 +275,8 @@ export const normalizeAlignmentData = (data, sourceTokensBaseline, targetTokensB
           sourceNgram.push(index);
         } else {
           // TRICKY: this should never happen
-          throw new Error(`Unexpected source token ${t.text} find in alignment.`);
+          throw new Error(
+            `Unexpected source token ${t.text} find in alignment.`);
         }
       }
 
@@ -276,13 +288,14 @@ export const normalizeAlignmentData = (data, sourceTokensBaseline, targetTokensB
           targetNgram.push(index);
         } else {
           // TRICKY: this should never happen
-          throw new Error(`Unexpected target token ${t.text} find in alignment.`);
+          throw new Error(
+            `Unexpected target token ${t.text} find in alignment.`);
         }
       }
 
       // sort n-grams
-      sourceNgram.sort();
-      targetNgram.sort();
+      sourceNgram.sort(numberComparator);
+      targetNgram.sort(numberComparator);
 
       alignments.push({
         sourceNgram,

@@ -43,7 +43,8 @@ class SecondaryToken extends React.Component {
       connectDragSource,
       token,
       disabled,
-      isDragging
+      isDragging,
+      selected
     } = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
@@ -53,6 +54,7 @@ class SecondaryToken extends React.Component {
         onClick={this.handleClick}
       >
         <Word
+          selected={selected}
           word={token.text}
           disabled={disabled}
           style={{opacity}}
@@ -72,6 +74,7 @@ class SecondaryToken extends React.Component {
 }
 
 SecondaryToken.propTypes = {
+  selected: PropTypes.bool,
   selectedTokens: PropTypes.array,
   onEndDrag: PropTypes.func,
   onClick: PropTypes.func,
@@ -85,6 +88,7 @@ SecondaryToken.propTypes = {
 };
 
 SecondaryToken.defaultProps = {
+  isSelected: false,
   onClick: () => {
   },
   onAccept: () => {

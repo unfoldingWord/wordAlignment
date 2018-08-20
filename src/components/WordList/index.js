@@ -18,19 +18,21 @@ class DroppableWordList extends React.Component {
     };
     this.handleWordSelection = this.handleWordSelection.bind(this);
     this.clearWordSelections = this.clearWordSelections.bind(this);
+    this.onEscapeKeyPressed = this.onEscapeKeyPressed.bind(this);
   }
 
   setScrollState(wordList, nextProps) {
-    if (this.props.chapter !== nextProps.chapter || this.props.verse !== nextProps.verse) {
+    if (this.props.chapter !== nextProps.chapter || this.props.verse !==
+      nextProps.verse) {
       wordList.scrollTop = 0;
       this.setState({wordListScrollTop: null});
-    } else if (! this.props.isOver) {
+    } else if (!this.props.isOver) {
       this.setState({wordListScrollTop: wordList.scrollTop});
     }
   }
 
   setWordListScroll(wordList) {
-    if (! this.props.isOver && this.state.wordListScrollTop) {
+    if (!this.props.isOver && this.state.wordListScrollTop) {
       wordList.scrollTop = this.state.wordListScrollTop;
       this.setState({wordListScrollTop: null});
     }
@@ -38,14 +40,28 @@ class DroppableWordList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let wordList = document.getElementById('wordList');
-    if(! wordList)
+    if (!wordList)
       wordList = this.props.wordList;
     this.setScrollState(wordList, nextProps);
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.onEscapeKeyPressed);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onEscapeKeyPressed);
+  }
+
+  onEscapeKeyPressed(event) {
+    if (event.key === 'Escape' || event.keyCode === 27) {
+      this.clearWordSelections();
+    }
+  }
+
   componentDidUpdate() {
     let wordList = document.getElementById('wordList');
-    if(! wordList)
+    if (!wordList)
       wordList = this.props.wordList;
     this.setWordListScroll(wordList);
   }
@@ -55,12 +71,12 @@ class DroppableWordList extends React.Component {
    * @param token
    */
   handleWordSelection(token) {
-    const { selectedWordPositions, selectedWords } = this.state;
+    const {selectedWordPositions, selectedWords} = this.state;
     let positions = [...selectedWordPositions];
     let words = [...selectedWords];
 
     const index = positions.indexOf(token.tokenPos);
-    if(index === -1) {
+    if (index === -1) {
       positions.push(token.tokenPos);
       words.push(token);
     } else {
@@ -86,12 +102,12 @@ class DroppableWordList extends React.Component {
 
   render() {
     const {words, chapter, verse, connectDropTarget, isOver} = this.props;
-    const {selectedWords} = this.state;
+    const {selectedWords, selectedWordPositions} = this.state;
     return connectDropTarget(
       <div
         id='wordList'
         style={{
-          height:'100%',
+          height: '100%',
           width: '100%',
           backgroundColor: '#DCDCDC',
           overflowY: 'auto',
@@ -101,11 +117,12 @@ class DroppableWordList extends React.Component {
         <WordList
           onWordDragged={this.clearWordSelections}
           onWordClick={this.handleWordSelection}
+          selectedWordPositions={selectedWordPositions}
           selectedWords={selectedWords}
           chapter={chapter}
           verse={verse}
           words={words}
-          isOver={isOver} />
+          isOver={isOver}/>
       </div>
     );
   }
@@ -127,7 +144,7 @@ DroppableWordList.propTypes = {
 const dragHandler = {
   drop(props, monitor) {
     const item = monitor.getItem();
-    if(item.alignmentIndex !== undefined) {
+    if (item.alignmentIndex !== undefined) {
       props.onDropTargetToken(item.token, item.alignmentIndex);
     }
   }

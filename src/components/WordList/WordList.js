@@ -6,6 +6,7 @@ import Token from 'word-map/structures/Token';
  * Renders a list of words that need to be aligned.
  * Previously known as the "WordBank".
  * @param {function} onWordDragged - executed when a word is dragged and dropped away from the word list
+ * @param {number[]} selectedWordPositions - an array of words that are selected
  * @param {object[]} selectedWords - an array of words that are selected
  * @param {function} onWordClick - called when a word in the list is clicked
  * @param {Token[]} words,
@@ -15,6 +16,7 @@ import Token from 'word-map/structures/Token';
  */
 const WordList = ({
   onWordDragged,
+  selectedWordPositions,
   selectedWords,
   onWordClick,
   words,
@@ -39,6 +41,7 @@ const WordList = ({
               style={{margin: '10px'}}>
               <SecondaryToken
                 onEndDrag={onWordDragged}
+                selected={selectedWordPositions.indexOf(token.tokenPos) !== -1}
                 selectedTokens={selectedWords}
                 onClick={onWordClick}
                 token={token}

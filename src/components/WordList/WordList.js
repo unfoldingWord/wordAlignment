@@ -5,13 +5,17 @@ import Token from 'word-map/structures/Token';
 /**
  * Renders a list of words that need to be aligned.
  * Previously known as the "WordBank".
- * @param {func} onWordClick - called when a word in the list is clicked
+ * @param {function} onWordDragged - executed when a word is dragged and dropped away from the word list
+ * @param {object[]} selectedWords - an array of words that are selected
+ * @param {function} onWordClick - called when a word in the list is clicked
  * @param {Token[]} words,
- * @param {bool} isOver
+ * @param {boolean} isOver
  * @return {*}
  * @constructor
  */
 const WordList = ({
+  onWordDragged,
+  selectedWords,
   onWordClick,
   words,
   isOver
@@ -34,6 +38,8 @@ const WordList = ({
               key={index}
               style={{margin: '10px'}}>
               <SecondaryToken
+                onEndDrag={onWordDragged}
+                selectedTokens={selectedWords}
                 onClick={onWordClick}
                 token={token}
                 disabled={token.disabled === true}
@@ -47,6 +53,8 @@ const WordList = ({
 };
 
 WordList.propTypes = {
+  onWordDragged: PropTypes.func.isRequired,
+  selectedWords: PropTypes.array,
   onWordClick: PropTypes.func.isRequired,
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   isOver: PropTypes.bool.isRequired

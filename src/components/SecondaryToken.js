@@ -72,6 +72,8 @@ class SecondaryToken extends React.Component {
 }
 
 SecondaryToken.propTypes = {
+  selectedTokens: PropTypes.array,
+  onEndDrag: PropTypes.func,
   onClick: PropTypes.func,
   onCancel: PropTypes.func,
   onAccept: PropTypes.func,
@@ -87,8 +89,11 @@ SecondaryToken.defaultProps = {
   },
   onAccept: () => {
   },
+  onEndDrag: () => {
+  },
   alignmentIndex: undefined,
-  disabled: false
+  disabled: false,
+  selectedTokens: []
 };
 
 /**
@@ -97,16 +102,25 @@ SecondaryToken.defaultProps = {
 const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
+    console.log(props);
     const {token} = props;
     token.type = types.SECONDARY_WORD;
+    let tokens = [];
+    if(props.selectedTokens) {
+      tokens = [...props.selectedTokens];
+    }
     return {
+      tokens,
       token: props.token,
-      // word: props.token.text,
-      // occurrence: props.token.occurrence,
-      // occurrences: props.token.occurrences,
       alignmentIndex: props.alignmentIndex,
       type: types.SECONDARY_WORD
     };
+  },
+  endDrag(props, monitor) {
+    const dropResult = monitor.getDropResult();
+    if (dropResult) {
+      // props.onEndDrag();
+    }
   }
 };
 

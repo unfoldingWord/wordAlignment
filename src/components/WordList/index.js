@@ -13,9 +13,11 @@ class DroppableWordList extends React.Component {
     super(props);
     this.state = {
       wordListScrollTop: null,
+      selectedWordPositions: [],
       selectedWords: []
     };
     this.handleWordSelection = this.handleWordSelection.bind(this);
+    this.clearWordSelections = this.clearWordSelections.bind(this);
   }
 
   setScrollState(wordList, nextProps) {
@@ -53,25 +55,40 @@ class DroppableWordList extends React.Component {
    * @param token
    */
   handleWordSelection(token) {
-    const { selectedWords } = this.state;
+    const { selectedWordPositions, selectedWords } = this.state;
+    let positions = [...selectedWordPositions];
     let words = [...selectedWords];
 
-    const index = words.indexOf(token.tokenPos);
+    const index = positions.indexOf(token.tokenPos);
     if(index === -1) {
-      words.push(token.tokenPos);
+      positions.push(token.tokenPos);
+      words.push(token);
     } else {
-      words.splice(index, 1)
+      positions.splice(index, 1);
+      words.splice(index, 1);
     }
 
     this.setState({
-      selectedWords: words
+      selectedWords: words,
+      selectedWordPositions: positions
     });
 
-    console.log(words);
+    console.log(positions);
+  }
+
+  /**
+   * Un-selects all words in the list
+   */
+  clearWordSelections() {
+    this.setState({
+      selectedWords: [],
+      selectedWordPositions: []
+    });
   }
 
   render() {
     const {words, chapter, verse, connectDropTarget, isOver} = this.props;
+    const {selectedWords} = this.state;
     return connectDropTarget(
       <div
         id='wordList'
@@ -84,7 +101,9 @@ class DroppableWordList extends React.Component {
         }}
       >
         <WordList
+          onWordDragged={this.clearWordSelections}
           onWordClick={this.handleWordSelection}
+          selectedWords={selectedWords}
           chapter={chapter}
           verse={verse}
           words={words}

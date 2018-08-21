@@ -333,8 +333,14 @@ export default class Api extends ToolApi {
     const {tc: {contextId, targetVerseText, sourceVerse}} = props;
     if (contextId) {
       const {reference: {chapter, verse}} = contextId;
-      const targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
-      const sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
+      let targetTokens = [];
+      let sourceTokens = [];
+      if(targetVerseText) {
+        targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
+      }
+      if(sourceVerse) {
+        sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
+      }
       return {
         chapterIsLoaded: getIsChapterLoaded(state, chapter),
         targetTokens,

@@ -39,7 +39,6 @@ import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import MissingBibleError from './MissingBibleError';
 import Api from '../Api';
-import TokensDragLayer from './TokensDragLayer';
 
 const styles = {
   container: {
@@ -510,7 +509,6 @@ class Container extends Component {
                             toolApi={api}
                             key={isComplete} // HACK to workaround anti-pattern in GroupMenu
                             translate={translate}/>
-        {/*<TokensDragLayer/>*/}
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}

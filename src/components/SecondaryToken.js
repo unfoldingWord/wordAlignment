@@ -4,7 +4,7 @@ import Word from './WordCard';
 import {DragSource} from 'react-dnd';
 import * as types from './WordCard/Types';
 import Token from 'word-map/structures/Token';
-import { getEmptyImage } from 'react-dnd-html5-backend';
+import path from 'path-extra';
 
 /**
  * Renders a draggable secondary word.
@@ -21,11 +21,7 @@ class SecondaryToken extends React.Component {
     super(props);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleClick = this.handleClick.bind(this);
-  }
-
-  componentDidMount() {
-    // Use empty image so we can draw the preview manually
-    // this.props.connectDragPreview(getEmptyImage());
+    this.initDragPreview = this.initDragPreview.bind(this);
   }
 
   handleCancel() {
@@ -44,6 +40,24 @@ class SecondaryToken extends React.Component {
     }
   }
 
+  /**
+   * Sets the correct drag preview to use.
+   */
+  initDragPreview() {
+    const {
+      selectedTokens,
+      connectDragPreview,
+    } = this.props;
+    if (selectedTokens && selectedTokens.length > 1 && connectDragPreview) {
+      const img = new Image();
+      img.onload = () => connectDragPreview(img);
+      img.src = path.join(__dirname, '../assets/multi_drag_preview.png');
+    } else if (connectDragPreview) {
+      // use default preview
+      connectDragPreview(null);
+    }
+  }
+
   render() {
     const {
       connectDragSource,
@@ -53,6 +67,8 @@ class SecondaryToken extends React.Component {
       selected
     } = this.props;
     const opacity = isDragging ? 0.4 : 1;
+
+    this.initDragPreview();
 
     const wordComponent = (
       <div
@@ -116,14 +132,14 @@ const dragHandler = {
     const tokens = [];
     if (props.selectedTokens) {
       let isSourceSelected = false;
-      for(let i = 0; i < props.selectedTokens.length; i ++) {
+      for (let i = 0; i < props.selectedTokens.length; i++) {
         tokens.push(props.selectedTokens[i]);
         if (props.selectedTokens[i].tokenPos === token.tokenPos) {
           isSourceSelected = true;
         }
       }
       // TRICKY: include the dragged token to the selection
-      if(!isSourceSelected) {
+      if (!isSourceSelected) {
         tokens.push(token);
       }
     } else {

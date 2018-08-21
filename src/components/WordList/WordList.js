@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SecondaryToken from '../SecondaryToken';
 import Token from 'word-map/structures/Token';
+
 /**
  * Renders a list of words that need to be aligned.
  * Previously known as the "WordBank".
@@ -14,51 +15,76 @@ import Token from 'word-map/structures/Token';
  * @return {*}
  * @constructor
  */
-const WordList = ({
-  onWordDragged,
-  selectedWordPositions,
-  selectedWords,
-  onWordClick,
-  words,
-  isOver
-}) => {
-  if (isOver) {
-    return (
-      <div
-        style={{
-          border: '3px dashed #44C6FF',
-          height: '100%',
-          width: '100%'
-        }} />
-    );
-  } else {
-    return (
-      <React.Fragment>
-        {words.map((token, index) => {
-          return (
-            <div
-              key={index}
-              style={{margin: '10px'}}>
-              <SecondaryToken
-                onEndDrag={onWordDragged}
-                selected={selectedWordPositions.indexOf(token.tokenPos) !== -1}
-                selectedTokens={selectedWords}
-                onClick={onWordClick}
-                token={token}
-                disabled={token.disabled === true}
-              />
-            </div>
-          );
-        })}
-      </React.Fragment>
-    );
+class WordList extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.isSelected = this.isSelected.bind(this);
   }
-};
+
+  /**
+   * Checks if the token is selected
+   * @param token
+   * @return {boolean}
+   */
+  isSelected(token) {
+    const {
+      selectedWordPositions
+    } = this.props;
+
+    return selectedWordPositions &&
+      selectedWordPositions.indexOf(token.tokenPos) !== -1;
+  }
+
+  render() {
+    const {
+      onWordDragged,
+      selectedWords,
+      onWordClick,
+      words,
+      isOver
+    } = this.props;
+
+    if (isOver) {
+      return (
+        <div
+          style={{
+            border: '3px dashed #44C6FF',
+            height: '100%',
+            width: '100%'
+          }}/>
+      );
+    } else {
+
+      return (
+        <React.Fragment>
+          {words.map((token, index) => {
+            return (
+              <div
+                key={index}
+                style={{margin: '10px'}}>
+                <SecondaryToken
+                  onEndDrag={onWordDragged}
+                  selected={this.isSelected(token)}
+                  selectedTokens={selectedWords}
+                  onClick={onWordClick}
+                  token={token}
+                  disabled={token.disabled === true}
+                />
+              </div>
+            );
+          })}
+        </React.Fragment>
+      );
+    }
+  }
+}
 
 WordList.propTypes = {
-  onWordDragged: PropTypes.func.isRequired,
+  onWordDragged: PropTypes.func,
   selectedWords: PropTypes.array,
-  onWordClick: PropTypes.func.isRequired,
+  selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
+  onWordClick: PropTypes.func,
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   isOver: PropTypes.bool.isRequired
 };

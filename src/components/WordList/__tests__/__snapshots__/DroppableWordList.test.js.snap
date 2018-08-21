@@ -139,6 +139,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
           <WordList
             chapter={1}
             isOver={false}
+            onWordClick={[Function]}
+            onWordDragged={[Function]}
+            selectedWordPositions={Array []}
+            selectedWords={Array []}
             verse={1}
             words={
               Array [
@@ -175,6 +179,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={false}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -184,9 +192,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -209,6 +224,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={1}
                       occurrences={1}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -277,6 +293,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={false}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -286,9 +306,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -311,6 +338,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={1}
                       occurrences={2}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -391,6 +419,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={false}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -400,9 +432,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -425,6 +464,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={2}
                       occurrences={2}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -505,6 +545,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={true}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -514,9 +558,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={true}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -539,6 +590,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={1}
                       occurrences={1}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -768,6 +820,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
           <WordList
             chapter={2}
             isOver={false}
+            onWordClick={[Function]}
+            onWordDragged={[Function]}
+            selectedWordPositions={Array []}
+            selectedWords={Array []}
             verse={1}
             words={
               Array [
@@ -804,6 +860,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={false}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -813,9 +873,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -838,6 +905,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={1}
                       occurrences={1}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -906,6 +974,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={false}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -915,9 +987,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -940,6 +1019,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={1}
                       occurrences={2}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -1020,6 +1100,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={false}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -1029,9 +1113,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={false}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -1054,6 +1145,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={2}
                       occurrences={2}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,
@@ -1134,6 +1226,10 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             >
               <DragSource(SecondaryToken)
                 disabled={true}
+                onClick={[Function]}
+                onEndDrag={[Function]}
+                selected={false}
+                selectedTokens={Array []}
                 token={
                   Object {
                     "index": 0,
@@ -1143,9 +1239,16 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               >
                 <SecondaryToken
+                  connectDragPreview={[Function]}
                   connectDragSource={[Function]}
                   disabled={true}
                   isDragging={false}
+                  isSelected={false}
+                  onAccept={[Function]}
+                  onClick={[Function]}
+                  onEndDrag={[Function]}
+                  selected={false}
+                  selectedTokens={Array []}
                   token={
                     Object {
                       "index": 0,
@@ -1168,6 +1271,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       occurrence={1}
                       occurrences={1}
                       onCancel={[Function]}
+                      selected={false}
                       style={
                         Object {
                           "opacity": 1,

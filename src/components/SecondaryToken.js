@@ -35,7 +35,7 @@ class SecondaryToken extends React.Component {
     const {token, onAccept, onClick} = this.props;
     if (token.meta.suggestion) {
       onAccept(token);
-    } else if (!token.disabled) {
+    } else if (!token.disabled && onClick) {
       onClick(token);
     }
   }

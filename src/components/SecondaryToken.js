@@ -128,20 +128,24 @@ SecondaryToken.defaultProps = {
 const dragHandler = {
   beginDrag(props) {
     // Return the data describing the dragged item
-    const {token} = props;
+    const {token, onClick, selectedTokens} = props;
     token.type = types.SECONDARY_WORD;
     const tokens = [];
-    if (props.selectedTokens) {
+    if (selectedTokens) {
       let isSourceSelected = false;
-      for (let i = 0; i < props.selectedTokens.length; i++) {
-        tokens.push(props.selectedTokens[i]);
-        if (props.selectedTokens[i].tokenPos === token.tokenPos) {
+      for (let i = 0; i < selectedTokens.length; i++) {
+        tokens.push(selectedTokens[i]);
+        if (selectedTokens[i].tokenPos === token.tokenPos) {
           isSourceSelected = true;
         }
       }
       // TRICKY: include the dragged token to the selection
       if (!isSourceSelected) {
         tokens.push(token);
+        // select the token so it's renders with the selections
+        if(onClick && selectedTokens && selectedTokens.length > 0) {
+          onClick(token);
+        }
       }
     } else {
       // TRICKY: always populate tokens.

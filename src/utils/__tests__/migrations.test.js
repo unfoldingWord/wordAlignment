@@ -56,21 +56,24 @@ describe('alignment data migration', () => {
             'occurrence': 1,
             'occurrences': 1
           }],
-        alignments: [{
-          sourceNgram: [{
-            'text': 'ὁ',
-            'strong': 'G35880',
-            'lemma': 'ὁ',
-            'morph': 'Gr,EA,,,,NMS,',
-            'occurrence': 1,
-            'occurrences': 1
-          }],
-          targetNgram: [{
-            'text': 'Mẽ',
-            'occurrence': 1,
-            'occurrences': 2
+        alignments: [
+          {
+            sourceNgram: [
+              {
+                'text': 'ὁ',
+                'strong': 'G35880',
+                'lemma': 'ὁ',
+                'morph': 'Gr,EA,,,,NMS,',
+                'occurrence': 1,
+                'occurrences': 1
+              }],
+            targetNgram: [
+              {
+                'text': 'Mẽ',
+                'occurrence': 1,
+                'occurrences': 2
+              }]
           }]
-        }]
       }
     });
   });
@@ -98,30 +101,40 @@ describe('alignment data migration', () => {
             'occurrence': 1,
             'occurrences': 1
           }],
-        alignments: [{
-          sourceNgram: [{
-            'text': 'ὁ',
-            'strong': 'G35880',
-            'lemma': 'ὁ',
-            'morph': 'Gr,EA,,,,NMS,',
-            'occurrence': 1,
-            'occurrences': 1
-          }],
-          targetNgram: [{
-            'text': 'vlẽ',
-            'occurrence': 1,
-            'occurrences': 1
+        alignments: [
+          {
+            sourceNgram: [
+              {
+                'text': 'ὁ',
+                'strong': 'G35880',
+                'lemma': 'ὁ',
+                'morph': 'Gr,EA,,,,NMS,',
+                'occurrence': 1,
+                'occurrences': 1
+              }],
+            targetNgram: [
+              {
+                'text': 'vlẽ',
+                'occurrence': 1,
+                'occurrences': 1
+              },
+              // TRICKY: this is out of order
+              {
+                'text': 'Mẽ',
+                'occurrence': 1,
+                'occurrences': 1
+              }]
           }]
-        }]
       }
     };
     const sourceTokens = {
-      '1': [new Token({
-        text: 'ὁ',
-        occurrence: 1,
-        occurrences: 1,
-        position: 0
-      })]
+      '1': [
+        new Token({
+          text: 'ὁ',
+          occurrence: 1,
+          occurrences: 1,
+          position: 0
+        })]
     };
     const targetTokens = {
       '1': [
@@ -165,10 +178,11 @@ describe('alignment data migration', () => {
             occurrences: 1,
             position: 1
           }],
-        alignments: [{
-          sourceNgram: [0],
-          targetNgram: [1]
-        }]
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1]
+          }]
       }
     });
   });

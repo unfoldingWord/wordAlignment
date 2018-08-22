@@ -7,6 +7,20 @@ import Token from 'word-map/structures/Token';
 import path from 'path-extra';
 
 /**
+ * Checks if a token exists within the list
+ * @param {object[]} list - an array of tokens
+ * @param {object} token - a single token
+ * @return {boolean} - true if the token exists within the list
+ */
+function containsToken(list, token) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].tokenPos === token.tokenPos) {
+      return true;
+    }
+  }
+}
+
+/**
  * Renders a draggable secondary word.
  *
  * @see WordCard
@@ -46,13 +60,25 @@ class SecondaryToken extends React.Component {
   initDragPreview() {
     const {
       selectedTokens,
+      token,
       connectDragPreview,
     } = this.props;
-    if (selectedTokens && selectedTokens.length > 1 && connectDragPreview) {
-      const numTokens = selectedTokens.length;
+    const hasSelections = selectedTokens && selectedTokens.length > 0;
+
+    // build token list
+    let tokens = [];
+    if(hasSelections) {
+      tokens = [...selectedTokens];
+    }
+    if(!containsToken(tokens, token)) {
+      tokens.push(token);
+    }
+    const numSelections = tokens.length;
+
+    if (numSelections > 1 && connectDragPreview) {
       const img = new Image();
       img.onload = () => connectDragPreview(img);
-      img.src = path.join(__dirname, `../assets/multi_drag_preview_${numTokens}.png`);
+      img.src = path.join(__dirname, `../assets/multi_drag_preview_${numSelections}.png`);
     } else if (connectDragPreview) {
       // use default preview
       connectDragPreview(null);
@@ -130,20 +156,14 @@ const dragHandler = {
     // Return the data describing the dragged item
     const {token, onClick, selectedTokens} = props;
     token.type = types.SECONDARY_WORD;
-    const tokens = [];
+    let tokens = [];
     if (selectedTokens) {
-      let isSourceSelected = false;
-      for (let i = 0; i < selectedTokens.length; i++) {
-        tokens.push(selectedTokens[i]);
-        if (selectedTokens[i].tokenPos === token.tokenPos) {
-          isSourceSelected = true;
-        }
-      }
-      // TRICKY: include the dragged token to the selection
-      if (!isSourceSelected) {
+      tokens = [...selectedTokens];
+      // TRICKY: include the dragged token in the selection
+      if (!containsToken(tokens, token)) {
         tokens.push(token);
         // select the token so it's renders with the selections
-        if(onClick && selectedTokens && selectedTokens.length > 0) {
+        if(onClick && selectedTokens.length > 0) {
           onClick(token);
         }
       }

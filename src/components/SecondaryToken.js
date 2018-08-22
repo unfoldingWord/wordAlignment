@@ -49,9 +49,10 @@ class SecondaryToken extends React.Component {
       connectDragPreview,
     } = this.props;
     if (selectedTokens && selectedTokens.length > 1 && connectDragPreview) {
+      const numTokens = selectedTokens.length;
       const img = new Image();
       img.onload = () => connectDragPreview(img);
-      img.src = path.join(__dirname, '../assets/multi_drag_preview.png');
+      img.src = path.join(__dirname, `../assets/multi_drag_preview_${numTokens}.png`);
     } else if (connectDragPreview) {
       // use default preview
       connectDragPreview(null);

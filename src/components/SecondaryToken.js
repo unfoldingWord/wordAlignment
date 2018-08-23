@@ -56,6 +56,8 @@ class SecondaryToken extends React.Component {
 
   /**
    * Sets the correct drag preview to use.
+   * TRICKY: react-dnd's custom drag layer has very poor performance so we
+   * are using static images instead of custom rendering.
    */
   initDragPreview() {
     const {

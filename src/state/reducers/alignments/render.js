@@ -203,7 +203,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
 
   // TRICKY: short circuit invalid alignments
   if (alignmentSourceIndex.length !== numSourceTokens) {
-    console.error('Alignments are corrupt');
+    console.error(`Alignments are corrupt. Expected ${numSourceTokens} but received ${alignmentSourceIndex.length}`, alignments, suggestions);
     return [...convertToRendered(alignments)];
   }
 

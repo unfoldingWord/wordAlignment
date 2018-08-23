@@ -9,7 +9,7 @@ import Controls from './Controls';
  * @return {object}
  */
 const makeStyles = (props) => {
-  const {onClick, disabled, style, isSuggestion} = props;
+  const {onClick, disabled, style, isSuggestion, selected} = props;
 
   const styles = {
     root: {
@@ -38,6 +38,13 @@ const makeStyles = (props) => {
       opacity: 0.3,
       cursor: 'not-allowed',
       userSelect: 'none'
+    };
+  }
+
+  if (selected) {
+    styles.root = {
+      ...styles.root,
+      backgroundColor: '#44C6FF'
     };
   }
 
@@ -121,6 +128,7 @@ class WordCard extends React.Component {
 }
 
 WordCard.propTypes = {
+  selected: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   onCancel: PropTypes.func,
@@ -136,7 +144,8 @@ WordCard.defaultProps = {
   occurrence: 1,
   occurrences: 1,
   disabled: false,
-  isSuggestion: false
+  isSuggestion: false,
+  selected: false
 };
 
 export default WordCard;

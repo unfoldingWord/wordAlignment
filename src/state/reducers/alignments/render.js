@@ -252,6 +252,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       const targetNgramsMatch = alignmentSourceIndex[tIndex].targetId ===
         suggestionSourceIndex[tIndex].targetId;
       const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
+      const alignmentIsMerged = alignmentSourceIndex[tIndex].sourceLength > 1;
 
       const suggestionIsEmpty = suggestionSourceIndex[tIndex].isEmpty;
       let siblingSuggestionsAreEmpty = suggestionIsEmpty;
@@ -267,7 +268,8 @@ const render = (alignments, suggestions, numSourceTokens) => {
       if (siblingSuggestionsAreEmpty) {
         // empty suggestions are always in-valid
         suggestionIsValid = false;
-      } else if (!alignmentIsAligned) {
+      } else if (!alignmentIsAligned && !alignmentIsMerged) {
+        // TRICKY: for now we do not allow splitting merged alignments
         // un-aligned alignments are valid
         suggestionIsValid = true;
       } else if (!isPerfectMatch && finishedReadingAlignment &&

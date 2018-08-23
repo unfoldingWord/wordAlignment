@@ -250,6 +250,7 @@ const verse = (state = defaultState, action) => {
       };
     }
     case SET_SOURCE_TOKENS: {
+      // NOTE: this is performed when the verse is loaded so there is no need to render anything.
       return {
         sourceTokens: action.tokens.map(formatSourceToken),
         targetTokens: [...state.targetTokens],
@@ -257,6 +258,7 @@ const verse = (state = defaultState, action) => {
       };
     }
     case SET_TARGET_TOKENS: {
+      // NOTE: this is performed when the verse is loaded so there is no need to render anything.
       return {
         targetTokens: action.tokens.map(formatTargetToken),
         sourceTokens: [...state.sourceTokens],

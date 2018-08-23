@@ -401,8 +401,9 @@ describe('compiles alignments', () => {
           {'sourceNgram': [18], 'targetNgram': []},
           {'sourceNgram': [19], 'targetNgram': []},
           {'sourceNgram': [20], 'targetNgram': []},
+          {'sourceNgram': [21], 'targetNgram': []}, // TODO: for some reason this gets sorted to the end
           {'sourceNgram': [22], 'targetNgram': []},
-          {'sourceNgram': [21], 'targetNgram': []}
+          {'sourceNgram': [23], 'targetNgram': []} // TODO: for some reason this is 21 instead of 23
         ],
         'indices': {
           '0': [0],
@@ -411,24 +412,24 @@ describe('compiles alignments', () => {
           '3': [3],
           '4': [4],
           '5': [5],
-          '6': [5],
-          '7': [6],
-          '8': [7],
-          '9': [8],
-          '10': [9],
-          '11': [10],
-          '12': [11],
-          '13': [12],
-          '14': [13],
-          '15': [14],
-          '16': [15],
-          '17': [16],
-          '18': [17],
-          '19': [18],
-          '20': [19],
-          '21': [20],
-          '22': [],
-          '23': [21, 22]
+          '6': [6],
+          '7': [7],
+          '8': [8],
+          '9': [9],
+          '10': [10],
+          '11': [11],
+          '12': [12],
+          '13': [13],
+          '14': [14],
+          '15': [15],
+          '16': [16],
+          '17': [17],
+          '18': [18],
+          '19': [19],
+          '20': [20],
+          '21': [21],
+          '22': [22],
+          '23': [23]
         }
       };
       const result = compile(rendered, alignments);

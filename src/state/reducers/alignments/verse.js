@@ -243,18 +243,9 @@ const verse = (state = defaultState, action) => {
         a
       ].sort(alignmentComparator);
 
-      // render alignment
-      const index = alignments.indexOf(a);
-      const newRenderedAlignment = renderedAlignmentReducer(undefined, action,
-        index);
-      const renderedAlignments = [
-        ...state.renderedAlignments,
-        newRenderedAlignment
-      ].sort(alignmentComparator);
-
       return {
         ...state,
-        renderedAlignments,
+        renderedAlignments: renderedAlignmentsReducer(state.renderedAlignments, action, alignments, state.suggestions, state.sourceTokens.length),
         alignments
       };
     }

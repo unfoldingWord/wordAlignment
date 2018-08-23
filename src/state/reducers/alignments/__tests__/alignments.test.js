@@ -413,6 +413,455 @@ describe('insert source token', () => {
     stateAfter);
 });
 
+describe('insert another source token', () => {
+  const stateBefore = {
+    '1': {
+      '4': {
+        'sourceTokens': [
+          {'text': 'τοῦ', 'position': 0, 'occurrence': 1, 'occurrences': 4},
+          {'text': 'δόντος', 'position': 1, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἑαυτὸν', 'position': 2, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'περὶ', 'position': 3, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'τῶν', 'position': 4, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἁμαρτιῶν', 'position': 5, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἡμῶν', 'position': 6, 'occurrence': 1, 'occurrences': 2},
+          {'text': 'ὅπως', 'position': 7, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἐξέληται', 'position': 8, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἡμᾶς', 'position': 9, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἐκ', 'position': 10, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'τοῦ', 'position': 11, 'occurrence': 2, 'occurrences': 4},
+          {'text': 'αἰῶνος', 'position': 12, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'τοῦ', 'position': 13, 'occurrence': 3, 'occurrences': 4},
+          {'text': 'ἐνεστῶτος', 'position': 14, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'πονηροῦ', 'position': 15, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'κατὰ', 'position': 16, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'τὸ', 'position': 17, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'θέλημα', 'position': 18, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'τοῦ', 'position': 19, 'occurrence': 4, 'occurrences': 4},
+          {'text': 'Θεοῦ', 'position': 20, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'καὶ', 'position': 21, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'Πατρὸς', 'position': 22, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἡμῶν', 'position': 23, 'occurrence': 2, 'occurrences': 2}],
+        'targetTokens': [
+          {'text': 'who', 'occurrence': 1, 'occurrences': 1, 'position': 0},
+          {'text': 'gave', 'occurrence': 1, 'occurrences': 1, 'position': 1},
+          {'text': 'himself', 'occurrence': 1, 'occurrences': 1, 'position': 2},
+          {'text': 'for', 'occurrence': 1, 'occurrences': 1, 'position': 3},
+          {'text': 'our', 'occurrence': 1, 'occurrences': 2, 'position': 4},
+          {'text': 'sins', 'occurrence': 1, 'occurrences': 1, 'position': 5},
+          {'text': 'so', 'occurrence': 1, 'occurrences': 1, 'position': 6},
+          {'text': 'that', 'occurrence': 1, 'occurrences': 1, 'position': 7},
+          {'text': 'he', 'occurrence': 1, 'occurrences': 1, 'position': 8},
+          {'text': 'might', 'occurrence': 1, 'occurrences': 1, 'position': 9},
+          {'text': 'deliver', 'occurrence': 1, 'occurrences': 1, 'position': 10},
+          {'text': 'us', 'occurrence': 1, 'occurrences': 1, 'position': 11},
+          {'text': 'from', 'occurrence': 1, 'occurrences': 1, 'position': 12},
+          {'text': 'this', 'occurrence': 1, 'occurrences': 1, 'position': 13},
+          {'text': 'present', 'occurrence': 1, 'occurrences': 1, 'position': 14},
+          {'text': 'evil', 'occurrence': 1, 'occurrences': 1, 'position': 15},
+          {'text': 'age', 'occurrence': 1, 'occurrences': 1, 'position': 16},
+          {'text': 'according', 'occurrence': 1, 'occurrences': 1, 'position': 17},
+          {'text': 'to', 'occurrence': 1, 'occurrences': 1, 'position': 18},
+          {'text': 'the', 'occurrence': 1, 'occurrences': 1, 'position': 19},
+          {'text': 'will', 'occurrence': 1, 'occurrences': 1, 'position': 20},
+          {'text': 'of', 'occurrence': 1, 'occurrences': 1, 'position': 21},
+          {'text': 'our', 'occurrence': 2, 'occurrences': 2, 'position': 22},
+          {'text': 'God', 'occurrence': 1, 'occurrences': 1, 'position': 23},
+          {'text': 'and', 'occurrence': 1, 'occurrences': 1, 'position': 24},
+          {'text': 'Father', 'occurrence': 1, 'occurrences': 1, 'position': 25}],
+        'alignments': [
+          {'sourceNgram': [0], 'targetNgram': []},
+          {'sourceNgram': [1], 'targetNgram': [1]},
+          {'sourceNgram': [2], 'targetNgram': [2]},
+          {'sourceNgram': [3], 'targetNgram': [3]},
+          {'sourceNgram': [4], 'targetNgram': []},
+          // 5 was removed in a previous action
+          {'sourceNgram': [6], 'targetNgram': [4]},
+          {'sourceNgram': [7], 'targetNgram': [6, 7]},
+          {'sourceNgram': [8], 'targetNgram': [8, 9, 10]},
+          {'sourceNgram': [9], 'targetNgram': [11]},
+          {'sourceNgram': [10], 'targetNgram': [12]},
+          {'sourceNgram': [11], 'targetNgram': [13]},
+          {'sourceNgram': [12], 'targetNgram': [16]},
+          {'sourceNgram': [13], 'targetNgram': []},
+          {'sourceNgram': [14], 'targetNgram': [14]},
+          {'sourceNgram': [15], 'targetNgram': [15]},
+          {'sourceNgram': [16], 'targetNgram': [17, 18]},
+          {'sourceNgram': [17], 'targetNgram': []},
+          {'sourceNgram': [18], 'targetNgram': []},
+          {'sourceNgram': [19], 'targetNgram': []},
+          {'sourceNgram': [20], 'targetNgram': []},
+          {'sourceNgram': [21], 'targetNgram': []},
+          {'sourceNgram': [22], 'targetNgram': []},
+          {'sourceNgram': [23], 'targetNgram': []}],
+        'suggestions': [
+          {'sourceNgram': [0], 'targetNgram': [0]},
+          {'sourceNgram': [1], 'targetNgram': []},
+          {'sourceNgram': [2], 'targetNgram': []},
+          {'sourceNgram': [3], 'targetNgram': []},
+          {'sourceNgram': [4], 'targetNgram': []},
+          {'sourceNgram': [5], 'targetNgram': []},
+          {'sourceNgram': [6], 'targetNgram': []},
+          {'sourceNgram': [7], 'targetNgram': []},
+          {'sourceNgram': [8], 'targetNgram': []},
+          {'sourceNgram': [9], 'targetNgram': []},
+          {'sourceNgram': [10], 'targetNgram': [12]},
+          {'sourceNgram': [11], 'targetNgram': []},
+          {'sourceNgram': [12], 'targetNgram': []},
+          {'sourceNgram': [13], 'targetNgram': []},
+          {'sourceNgram': [14], 'targetNgram': []},
+          {'sourceNgram': [15], 'targetNgram': []},
+          {'sourceNgram': [16], 'targetNgram': []},
+          {'sourceNgram': [17], 'targetNgram': []},
+          {'sourceNgram': [18], 'targetNgram': []},
+          {'sourceNgram': [19], 'targetNgram': []},
+          {'sourceNgram': [20], 'targetNgram': [23]},
+          {'sourceNgram': [21], 'targetNgram': [24]},
+          {'sourceNgram': [22], 'targetNgram': []},
+          {'sourceNgram': [23], 'targetNgram': [19]}],
+        'renderedAlignments': [
+          {
+            'sourceNgram': [0],
+            'targetNgram': [0],
+            'suggestedTargetTokens': [0],
+            'alignments': [0],
+            'suggestion': 0
+          },
+          {'sourceNgram': [1], 'targetNgram': [1], 'alignments': [1]},
+          {'sourceNgram': [2], 'targetNgram': [2], 'alignments': [2]},
+          {'sourceNgram': [3], 'targetNgram': [3], 'alignments': [3]},
+          {'alignments': [4], 'sourceNgram': [4], 'targetNgram': []},
+          {'sourceNgram': [6], 'targetNgram': [4], 'alignments': [5]},
+          {'sourceNgram': [7], 'targetNgram': [6, 7], 'alignments': [6]},
+          {'sourceNgram': [8], 'targetNgram': [8, 9, 10], 'alignments': [7]},
+          {'sourceNgram': [9], 'targetNgram': [11], 'alignments': [8]},
+          {'sourceNgram': [10], 'targetNgram': [12], 'alignments': [9]},
+          {'sourceNgram': [11], 'targetNgram': [13], 'alignments': [10]},
+          {'sourceNgram': [12], 'targetNgram': [16], 'alignments': [11]},
+          {'sourceNgram': [13], 'targetNgram': [], 'alignments': [12]},
+          {'sourceNgram': [14], 'targetNgram': [14], 'alignments': [13]},
+          {'sourceNgram': [15], 'targetNgram': [15], 'alignments': [14]},
+          {'sourceNgram': [16], 'targetNgram': [17, 18], 'alignments': [15]},
+          {'sourceNgram': [17], 'targetNgram': [], 'alignments': [16]},
+          {'sourceNgram': [18], 'targetNgram': [], 'alignments': [17]},
+          {'sourceNgram': [19], 'targetNgram': [], 'alignments': [18]},
+          {
+            'sourceNgram': [20],
+            'targetNgram': [23],
+            'suggestedTargetTokens': [23],
+            'alignments': [19],
+            'suggestion': 20
+          },
+          {
+            'sourceNgram': [21],
+            'targetNgram': [24],
+            'suggestedTargetTokens': [24],
+            'alignments': [20],
+            'suggestion': 21
+          },
+          {'sourceNgram': [22], 'targetNgram': [], 'alignments': [21]},
+          {
+            'sourceNgram': [23],
+            'targetNgram': [19],
+            'suggestedTargetTokens': [19],
+            'alignments': [22],
+            'suggestion': 23
+          }]
+      }
+    }
+  };
+  const action = {
+    'type': types.INSERT_RENDERED_ALIGNMENT,
+    'chapter': 1,
+    'verse': 4,
+    'token': {'text': 'ἁμαρτιῶν', 'position': 5, 'occurrence': 1, 'occurrences': 1}
+  };
+  const stateAfter = {
+    '1': {
+      '4': {
+        'sourceTokens': [
+          {
+            'text': 'τοῦ',
+            'position': 0,
+            'occurrence': 1,
+            'occurrences': 4
+          },
+          {
+            'text': 'δόντος',
+            'position': 1,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἑαυτὸν',
+            'position': 2,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'περὶ',
+            'position': 3,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'τῶν',
+            'position': 4,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἁμαρτιῶν',
+            'position': 5,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἡμῶν',
+            'position': 6,
+            'occurrence': 1,
+            'occurrences': 2
+          },
+          {
+            'text': 'ὅπως',
+            'position': 7,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἐξέληται',
+            'position': 8,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἡμᾶς',
+            'position': 9,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἐκ',
+            'position': 10,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'τοῦ',
+            'position': 11,
+            'occurrence': 2,
+            'occurrences': 4
+          },
+          {
+            'text': 'αἰῶνος',
+            'position': 12,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'τοῦ',
+            'position': 13,
+            'occurrence': 3,
+            'occurrences': 4
+          },
+          {
+            'text': 'ἐνεστῶτος',
+            'position': 14,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'πονηροῦ',
+            'position': 15,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'κατὰ',
+            'position': 16,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'τὸ',
+            'position': 17,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'θέλημα',
+            'position': 18,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'τοῦ',
+            'position': 19,
+            'occurrence': 4,
+            'occurrences': 4
+          },
+          {
+            'text': 'Θεοῦ',
+            'position': 20,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'καὶ',
+            'position': 21,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'Πατρὸς',
+            'position': 22,
+            'occurrence': 1,
+            'occurrences': 1
+          },
+          {
+            'text': 'ἡμῶν',
+            'position': 23,
+            'occurrence': 2,
+            'occurrences': 2
+          }],
+        'targetTokens': [
+          {
+            'text': 'who',
+            'occurrence': 1,
+            'occurrences': 1,
+            'position': 0
+          },
+          {'text': 'gave', 'occurrence': 1, 'occurrences': 1, 'position': 1},
+          {'text': 'himself', 'occurrence': 1, 'occurrences': 1, 'position': 2},
+          {'text': 'for', 'occurrence': 1, 'occurrences': 1, 'position': 3},
+          {'text': 'our', 'occurrence': 1, 'occurrences': 2, 'position': 4},
+          {'text': 'sins', 'occurrence': 1, 'occurrences': 1, 'position': 5},
+          {'text': 'so', 'occurrence': 1, 'occurrences': 1, 'position': 6},
+          {'text': 'that', 'occurrence': 1, 'occurrences': 1, 'position': 7},
+          {'text': 'he', 'occurrence': 1, 'occurrences': 1, 'position': 8},
+          {'text': 'might', 'occurrence': 1, 'occurrences': 1, 'position': 9},
+          {'text': 'deliver', 'occurrence': 1, 'occurrences': 1, 'position': 10},
+          {'text': 'us', 'occurrence': 1, 'occurrences': 1, 'position': 11},
+          {'text': 'from', 'occurrence': 1, 'occurrences': 1, 'position': 12},
+          {'text': 'this', 'occurrence': 1, 'occurrences': 1, 'position': 13},
+          {'text': 'present', 'occurrence': 1, 'occurrences': 1, 'position': 14},
+          {'text': 'evil', 'occurrence': 1, 'occurrences': 1, 'position': 15},
+          {'text': 'age', 'occurrence': 1, 'occurrences': 1, 'position': 16},
+          {'text': 'according', 'occurrence': 1, 'occurrences': 1, 'position': 17},
+          {'text': 'to', 'occurrence': 1, 'occurrences': 1, 'position': 18},
+          {'text': 'the', 'occurrence': 1, 'occurrences': 1, 'position': 19},
+          {'text': 'will', 'occurrence': 1, 'occurrences': 1, 'position': 20},
+          {'text': 'of', 'occurrence': 1, 'occurrences': 1, 'position': 21},
+          {'text': 'our', 'occurrence': 2, 'occurrences': 2, 'position': 22},
+          {'text': 'God', 'occurrence': 1, 'occurrences': 1, 'position': 23},
+          {'text': 'and', 'occurrence': 1, 'occurrences': 1, 'position': 24},
+          {'text': 'Father', 'occurrence': 1, 'occurrences': 1, 'position': 25}],
+        'alignments': [
+          {'sourceNgram': [0], 'targetNgram': []},
+          {'sourceNgram': [1], 'targetNgram': [1]},
+          {'sourceNgram': [2], 'targetNgram': [2]},
+          {'sourceNgram': [3], 'targetNgram': [3]},
+          {'sourceNgram': [4], 'targetNgram': []},
+          {'sourceNgram': [5], 'targetNgram': []},
+          {'sourceNgram': [6], 'targetNgram': [4]},
+          {'sourceNgram': [7], 'targetNgram': [6, 7]},
+          {'sourceNgram': [8], 'targetNgram': [8, 9, 10]},
+          {'sourceNgram': [9], 'targetNgram': [11]},
+          {'sourceNgram': [10], 'targetNgram': [12]},
+          {'sourceNgram': [11], 'targetNgram': [13]},
+          {'sourceNgram': [12], 'targetNgram': [16]},
+          {'sourceNgram': [13], 'targetNgram': []},
+          {'sourceNgram': [14], 'targetNgram': [14]},
+          {'sourceNgram': [15], 'targetNgram': [15]},
+          {'sourceNgram': [16], 'targetNgram': [17, 18]},
+          {'sourceNgram': [17], 'targetNgram': []},
+          {'sourceNgram': [18], 'targetNgram': []},
+          {'sourceNgram': [19], 'targetNgram': []},
+          {'sourceNgram': [20], 'targetNgram': []},
+          {'sourceNgram': [21], 'targetNgram': []},
+          {'sourceNgram': [22], 'targetNgram': []},
+          {'sourceNgram': [23], 'targetNgram': []}],
+        'suggestions': [
+          {'sourceNgram': [0], 'targetNgram': [0]},
+          {'sourceNgram': [1], 'targetNgram': []},
+          {'sourceNgram': [2], 'targetNgram': []},
+          {'sourceNgram': [3], 'targetNgram': []},
+          {'sourceNgram': [4], 'targetNgram': []},
+          {'sourceNgram': [5], 'targetNgram': []},
+          {'sourceNgram': [6], 'targetNgram': []},
+          {'sourceNgram': [7], 'targetNgram': []},
+          {'sourceNgram': [8], 'targetNgram': []},
+          {'sourceNgram': [9], 'targetNgram': []},
+          {'sourceNgram': [10], 'targetNgram': [12]},
+          {'sourceNgram': [11], 'targetNgram': []},
+          {'sourceNgram': [12], 'targetNgram': []},
+          {'sourceNgram': [13], 'targetNgram': []},
+          {'sourceNgram': [14], 'targetNgram': []},
+          {'sourceNgram': [15], 'targetNgram': []},
+          {'sourceNgram': [16], 'targetNgram': []},
+          {'sourceNgram': [17], 'targetNgram': []},
+          {'sourceNgram': [18], 'targetNgram': []},
+          {'sourceNgram': [19], 'targetNgram': []},
+          {'sourceNgram': [20], 'targetNgram': [23]},
+          {'sourceNgram': [21], 'targetNgram': [24]},
+          {'sourceNgram': [22], 'targetNgram': []},
+          {'sourceNgram': [23], 'targetNgram': [19]}],
+        'renderedAlignments': [
+          {
+            'sourceNgram': [0],
+            'targetNgram': [0],
+            'suggestedTargetTokens': [0],
+            'alignments': [0],
+            'suggestion': 0
+          },
+          {'sourceNgram': [1], 'targetNgram': [1], 'alignments': [1]},
+          {'sourceNgram': [2], 'targetNgram': [2], 'alignments': [2]},
+          {'sourceNgram': [3], 'targetNgram': [3], 'alignments': [3]},
+          {'alignments': [4], 'sourceNgram': [4], 'targetNgram': []},
+          {'alignments': [5], 'sourceNgram': [5], 'targetNgram': []},
+          {'sourceNgram': [6], 'targetNgram': [4], 'alignments': [5]},
+          {'sourceNgram': [7], 'targetNgram': [6, 7], 'alignments': [6]},
+          {'sourceNgram': [8], 'targetNgram': [8, 9, 10], 'alignments': [7]},
+          {'sourceNgram': [9], 'targetNgram': [11], 'alignments': [8]},
+          {'sourceNgram': [10], 'targetNgram': [12], 'alignments': [9]},
+          {'sourceNgram': [11], 'targetNgram': [13], 'alignments': [10]},
+          {'sourceNgram': [12], 'targetNgram': [16], 'alignments': [11]},
+          {'sourceNgram': [13], 'targetNgram': [], 'alignments': [12]},
+          {'sourceNgram': [14], 'targetNgram': [14], 'alignments': [13]},
+          {'sourceNgram': [15], 'targetNgram': [15], 'alignments': [14]},
+          {'sourceNgram': [16], 'targetNgram': [17, 18], 'alignments': [15]},
+          {'sourceNgram': [17], 'targetNgram': [], 'alignments': [16]},
+          {'sourceNgram': [18], 'targetNgram': [], 'alignments': [17]},
+          {'sourceNgram': [19], 'targetNgram': [], 'alignments': [18]},
+          {
+            'sourceNgram': [20],
+            'targetNgram': [23],
+            'suggestedTargetTokens': [23],
+            'alignments': [19],
+            'suggestion': 20
+          },
+          {
+            'sourceNgram': [21],
+            'targetNgram': [24],
+            'suggestedTargetTokens': [24],
+            'alignments': [20],
+            'suggestion': 21
+          },
+          {'sourceNgram': [22], 'targetNgram': [], 'alignments': [21]},
+          {
+            'sourceNgram': [23],
+            'targetNgram': [19],
+            'suggestedTargetTokens': [19],
+            'alignments': [22],
+            'suggestion': 23
+          }]
+      }
+    }
+  };
+  reducerTest('Insert Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
 describe('align source token', () => {
   const stateBefore = {
     '1': {
@@ -1862,15 +2311,17 @@ describe('has rendered verse alignments', () => {
     const state = {
       1: {
         1: {
-          alignments: [{
-            sourceNgram: [0],
-            targetNgram: []
-          }],
-          renderedAlignments: [{
-            sourceNgram: [0],
-            targetNgram: [0],
-            alignments: [0]
-          }]
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            }],
+          renderedAlignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0],
+              alignments: [0]
+            }]
         }
       }
     };
@@ -1895,15 +2346,17 @@ describe('has rendered verse alignments', () => {
     const state = {
       1: {
         1: {
-          alignments: [{
-            sourceNgram: [0],
-            targetNgram: [0]
-          }],
-          renderedAlignments: [{
-            sourceNgram: [0],
-            targetNgram: [0],
-            alignments: [0]
-          }]
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            }],
+          renderedAlignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0],
+              alignments: [0]
+            }]
         }
       }
     };

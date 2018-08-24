@@ -413,6 +413,59 @@ describe('insert source token', () => {
     stateAfter);
 });
 
+describe('insert alignment in the middle', () => {
+  const stateBefore = {
+    '1': {
+      '4': {
+        'sourceTokens': [
+          {'text': 'τοῦ', 'position': 0, 'occurrence': 1, 'occurrences': 4},
+          {'text': 'δόντος', 'position': 1, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἑαυτὸν', 'position': 2, 'occurrence': 1, 'occurrences': 1}],
+        'targetTokens': [],
+        'alignments': [
+          {'sourceNgram': [0], 'targetNgram': []},
+          {'sourceNgram': [2], 'targetNgram': []}
+        ],
+        'suggestions': [],
+        'renderedAlignments': [
+          {'sourceNgram': [0], 'targetNgram': [], 'alignments': [0]},
+          {'sourceNgram': [2], 'targetNgram': [], 'alignments': [1]}
+        ]
+      }
+    }
+  };
+  const action = {
+    'type': types.INSERT_RENDERED_ALIGNMENT,
+    'chapter': 1,
+    'verse': 4,
+    'token': {'text': 'ἁμαρτιῶν', 'position': 1, 'occurrence': 1, 'occurrences': 1}
+  };
+  const stateAfter = {
+    '1': {
+      '4': {
+        'sourceTokens': [
+          {'text': 'τοῦ', 'position': 0, 'occurrence': 1, 'occurrences': 4},
+          {'text': 'δόντος', 'position': 1, 'occurrence': 1, 'occurrences': 1},
+          {'text': 'ἑαυτὸν', 'position': 2, 'occurrence': 1, 'occurrences': 1}],
+        'targetTokens': [],
+        'alignments': [
+          {'sourceNgram': [0], 'targetNgram': []},
+          {'sourceNgram': [1], 'targetNgram': []},
+          {'sourceNgram': [2], 'targetNgram': []}
+        ],
+        'suggestions': [],
+        'renderedAlignments': [
+          {'sourceNgram': [0], 'targetNgram': [], 'alignments': [0]},
+          {'sourceNgram': [1], 'targetNgram': [], 'alignments': [1]},
+          {'sourceNgram': [2], 'targetNgram': [], 'alignments': [2]}
+        ]
+      }
+    }
+  };
+  reducerTest('Insert Alignment', alignments, stateBefore, action,
+    stateAfter);
+});
+
 describe('align source token', () => {
   const stateBefore = {
     '1': {
@@ -1862,15 +1915,17 @@ describe('has rendered verse alignments', () => {
     const state = {
       1: {
         1: {
-          alignments: [{
-            sourceNgram: [0],
-            targetNgram: []
-          }],
-          renderedAlignments: [{
-            sourceNgram: [0],
-            targetNgram: [0],
-            alignments: [0]
-          }]
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: []
+            }],
+          renderedAlignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0],
+              alignments: [0]
+            }]
         }
       }
     };
@@ -1895,15 +1950,17 @@ describe('has rendered verse alignments', () => {
     const state = {
       1: {
         1: {
-          alignments: [{
-            sourceNgram: [0],
-            targetNgram: [0]
-          }],
-          renderedAlignments: [{
-            sourceNgram: [0],
-            targetNgram: [0],
-            alignments: [0]
-          }]
+          alignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0]
+            }],
+          renderedAlignments: [
+            {
+              sourceNgram: [0],
+              targetNgram: [0],
+              alignments: [0]
+            }]
         }
       }
     };

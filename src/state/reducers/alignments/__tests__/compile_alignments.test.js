@@ -250,7 +250,8 @@ describe('compiles alignments', () => {
   });
 
   describe('complex', () => {
-    it('compiles an un-alignment where there is an un-accepted split suggestion',
+    it(
+      'compiles an un-alignment where there is an un-accepted split suggestion',
       () => {
         const alignments = [
           {'sourceNgram': [0], 'targetNgram': [1]},

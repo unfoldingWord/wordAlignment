@@ -249,8 +249,7 @@ class Container extends Component {
       for(const key of Object.keys(tools)) {
         const alignmentMemory = tools[key].trigger('getAlignmentMemory');
         if(alignmentMemory) {
-          console.log(`Loaded alignment memory from ${key}`);
-          for(alignment of alignmentMemory) {
+          for(const alignment of alignmentMemory) {
             map.appendSavedAlignmentsString(alignment.sourceText, alignment.targetText);
           }
         }

@@ -238,13 +238,25 @@ class Container extends Component {
     const {
       tc: {
         contextId: {reference: {chapter, verse}},
-        targetBible
+        targetBible,
+        tools
       }
     } = props;
 
     const {store} = this.context;
     const state = store.getState();
-    return generateMAP(targetBible, state, chapter, verse);
+    return generateMAP(targetBible, state, chapter, verse).then(map => {
+      for(const key of Object.keys(tools)) {
+        const alignmentMemory = tools[key].trigger('getAlignmentMemory');
+        if(alignmentMemory) {
+          console.log(`Loaded alignment memory from ${key}`);
+          for(alignment of alignmentMemory) {
+            map.appendSavedAlignmentsString(alignment.sourceText, alignment.targetText);
+          }
+        }
+      }
+      return Promise.resolve(map);
+    });
   }
 
   /**

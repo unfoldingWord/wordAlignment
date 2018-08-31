@@ -1,8 +1,8 @@
 import * as actions from '../index';
-import Token from 'word-map/structures/Token';
-import Prediction from 'word-map/structures/Prediction';
-import Alignment from 'word-map/structures/Alignment';
-import Ngram from 'word-map/structures/Ngram';
+import {Token} from 'wordmap-lexer';
+import Prediction from 'word-map/dist/structures/Prediction';
+import Alignment from 'word-map/dist/structures/Alignment';
+import Ngram from 'word-map/dist/structures/Ngram';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {

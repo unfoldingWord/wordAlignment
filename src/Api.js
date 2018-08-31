@@ -8,7 +8,7 @@ import {
   getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
-import Lexer from 'word-map/Lexer';
+import Lexer from 'wordmap-lexer';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {

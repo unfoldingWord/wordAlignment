@@ -6,7 +6,7 @@ import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap from 'word-map';
-import Lexer from 'word-map/Lexer';
+import Lexer, {Token} from 'wordmap-lexer';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
@@ -33,7 +33,6 @@ import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
 import {removeUsfmMarkers} from '../utils/usfmHelpers';
-import Token from 'word-map/structures/Token';
 import MAPControls from './MAPControls';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
@@ -81,7 +80,8 @@ export const generateMAP = (
   targetBook, state, currentChapter, currentVerse) => {
   return new Promise(resolve => {
     setTimeout(() => {
-      const map = new WordMap();
+      // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
+      const map = new WordMap({targetNgramLength: 5});
       for (const chapter of Object.keys(targetBook)) {
         const chapterAlignments = getChapterAlignments(state, chapter);
         for (const verse of Object.keys(chapterAlignments)) {
@@ -246,11 +246,12 @@ class Container extends Component {
     const {store} = this.context;
     const state = store.getState();
     return generateMAP(targetBible, state, chapter, verse).then(map => {
-      for(const key of Object.keys(tools)) {
+      for (const key of Object.keys(tools)) {
         const alignmentMemory = tools[key].trigger('getAlignmentMemory');
-        if(alignmentMemory) {
-          for(const alignment of alignmentMemory) {
-            map.appendSavedAlignmentsString(alignment.sourceText, alignment.targetText);
+        if (alignmentMemory) {
+          for (const alignment of alignmentMemory) {
+            map.appendSavedAlignmentsString(alignment.sourceText,
+              alignment.targetText);
           }
         }
       }
@@ -311,13 +312,14 @@ class Container extends Component {
    */
   handleAlignTargetToken(token, nextAlignmentIndex, prevAlignmentIndex = null) {
     const {
-      tc: {contextId: {reference: {chapter, verse}}},
+      tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     const {store} = this.context;
     const actions = [];
     if (prevAlignmentIndex !== null && prevAlignmentIndex >= 0) {
       // TRICKY: this does the same as {@link handleUnalignTargetToken} but is batchable
-      actions.push(unalignTargetToken(chapter, verse, prevAlignmentIndex, token));
+      actions.push(
+        unalignTargetToken(chapter, verse, prevAlignmentIndex, token));
       this.handleToggleComplete(null, false);
     } else {
       // dragging an alignment from the word list can auto-complete the verse
@@ -371,8 +373,9 @@ class Container extends Component {
       });
     }).then(() => {
       // TRICKY: suggestions may not be rendered
-      const hasSuggestions = getVerseHasRenderedSuggestions(store.getState(), chapter, verse);
-      if(!hasSuggestions) {
+      const hasSuggestions = getVerseHasRenderedSuggestions(store.getState(),
+        chapter, verse);
+      if (!hasSuggestions) {
         this.setState({
           snackText: translate('suggestions.none')
         });
@@ -645,10 +648,10 @@ const mapStateToProps = (state, props) => {
   // TRICKY: the target verse contains punctuation we need to remove
   let targetTokens = [];
   let sourceTokens = [];
-  if(targetVerseText) {
+  if (targetVerseText) {
     targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
   }
-  if(sourceVerse) {
+  if (sourceVerse) {
     sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
   }
   const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
@@ -656,7 +659,8 @@ const mapStateToProps = (state, props) => {
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
     join(' ');
   return {
-    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
+    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter,
+      verse),
     verseIsComplete: api.getIsVerseFinished(chapter, verse),
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',

@@ -10,7 +10,7 @@ import {
   SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
 import _ from 'lodash';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 import render, {convertToRendered} from './render';
 
 /**

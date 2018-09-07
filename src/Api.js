@@ -94,7 +94,9 @@ export default class Api extends ToolApi {
       tc: {
         showDialog
       },
-      translate
+      tool: {
+        translate
+      }
     } = this.props;
     const isValid = this._validateVerse(this.props, chapter, verse);
     if (!isValid) {
@@ -111,7 +113,9 @@ export default class Api extends ToolApi {
       tc: {
         showDialog
       },
-      translate
+      tool: {
+        translate
+      }
     } = this.props;
     const isValid = this._validateBook(this.props);
     if (!isValid) {
@@ -129,9 +133,11 @@ export default class Api extends ToolApi {
         projectFileExistsSync,
         readProjectDataSync
       },
-      translate,
-      setToolReady,
-      setToolLoading,
+      tool: {
+        setToolReady,
+        setToolLoading,
+        translate
+      },
       indexChapterAlignments
     } = props;
 
@@ -291,11 +297,15 @@ export default class Api extends ToolApi {
         targetBible,
         writeProjectData,
         contextId: {reference: {bookId}}
+      },
+      tool: {
+        isReady
       }
     } = this.props;
     const writableChange = Boolean(prevState) && Boolean(nextState) &&
       !isEqual(prevState.tool, nextState.tool);
-    if (writableChange) {
+    // TRICKY: only save if the tool has finished loading and the state has changed
+    if (isReady && writableChange) {
       const promises = [];
       // TRICKY: we validate the entire book so we must write all chapters
       for (const chapter of Object.keys(targetBible)) {
@@ -307,6 +317,9 @@ export default class Api extends ToolApi {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
         if (data) {
+          if(Object.keys(data).length === 0) {
+            console.error(`Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data.`);
+          }
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         }
       }

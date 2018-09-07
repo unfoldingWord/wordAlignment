@@ -407,8 +407,13 @@ export default class Api extends ToolApi {
    */
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
-    const {tc: {contextId: prevContext}} = this.props;
-    if (!Api._didChapterContextChange(prevContext, nextContext)) {
+    const {
+      tc: {contextId: prevContext},
+      tool: {
+        isReady
+      }
+    } = this.props;
+    if (isReady && !Api._didChapterContextChange(prevContext, nextContext)) {
       const {
         tc: {
           showDialog

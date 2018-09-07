@@ -98,6 +98,9 @@ export default class Api extends ToolApi {
         translate
       }
     } = this.props;
+    if (isNaN(verse) || parseInt(verse) === -1 ||
+      isNaN(chapter) || parseInt(chapter) === -1) return;
+
     const isValid = this._validateVerse(this.props, chapter, verse);
     if (!isValid) {
       showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
@@ -154,6 +157,8 @@ export default class Api extends ToolApi {
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
     for (const chapter of Object.keys(targetBible)) {
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
       const isChapterLoaded = getIsChapterLoaded(state, chapter);
       if (isChapterLoaded) {
         continue;
@@ -206,6 +211,7 @@ export default class Api extends ToolApi {
     } = props;
     let bookIsValid = true;
     for (const chapter of Object.keys(targetBible)) {
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
       const isValid = this._validateChapter(props, chapter);
       if (!isValid) {
         bookIsValid = isValid;
@@ -233,6 +239,7 @@ export default class Api extends ToolApi {
       return true;
     }
     for (const verse of Object.keys(targetBible[chapter])) {
+      if (isNaN(verse) || parseInt(verse) === -1) continue;
       const isValid = this._validateVerse(props, chapter, verse);
       if (!isValid) {
         chapterIsValid = isValid;
@@ -317,8 +324,9 @@ export default class Api extends ToolApi {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
         if (data) {
-          if(Object.keys(data).length === 0) {
-            console.error(`Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
+          if (Object.keys(data).length === 0) {
+            console.error(
+              `Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
           }
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         }
@@ -348,10 +356,10 @@ export default class Api extends ToolApi {
       const {reference: {chapter, verse}} = contextId;
       let targetTokens = [];
       let sourceTokens = [];
-      if(targetVerseText) {
+      if (targetVerseText) {
         targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
       }
-      if(sourceVerse) {
+      if (sourceVerse) {
         sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
       }
       return {

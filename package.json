@@ -71,7 +71,7 @@
     "react-tooltip": "3.6.1",
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
-    "tc-tool": "1.6.3",
+    "tc-tool": "^2.0.0-rc.1",
     "tc-ui-toolkit": "0.9.21",
     "usfm-js": "1.0.3",
     "word-aligner": "0.1.3",

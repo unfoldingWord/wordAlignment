@@ -318,7 +318,7 @@ export default class Api extends ToolApi {
         const data = getLegacyChapterAlignments(nextState, chapter);
         if (data) {
           if(Object.keys(data).length === 0) {
-            console.error(`Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data.`);
+            console.error(`Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
           }
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         }

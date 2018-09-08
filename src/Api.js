@@ -94,8 +94,13 @@ export default class Api extends ToolApi {
       tc: {
         showDialog
       },
-      translate
+      tool: {
+        translate
+      }
     } = this.props;
+    if (isNaN(verse) || parseInt(verse) === -1 ||
+      isNaN(chapter) || parseInt(chapter) === -1) return;
+
     const isValid = this._validateVerse(this.props, chapter, verse);
     if (!isValid) {
       showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
@@ -111,7 +116,9 @@ export default class Api extends ToolApi {
       tc: {
         showDialog
       },
-      translate
+      tool: {
+        translate
+      }
     } = this.props;
     const isValid = this._validateBook(this.props);
     if (!isValid) {
@@ -129,9 +136,11 @@ export default class Api extends ToolApi {
         projectFileExistsSync,
         readProjectDataSync
       },
-      translate,
-      setToolReady,
-      setToolLoading,
+      tool: {
+        setToolReady,
+        setToolLoading,
+        translate
+      },
       indexChapterAlignments
     } = props;
 
@@ -148,6 +157,8 @@ export default class Api extends ToolApi {
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
     for (const chapter of Object.keys(targetBible)) {
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
       const isChapterLoaded = getIsChapterLoaded(state, chapter);
       if (isChapterLoaded) {
         continue;
@@ -200,6 +211,7 @@ export default class Api extends ToolApi {
     } = props;
     let bookIsValid = true;
     for (const chapter of Object.keys(targetBible)) {
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
       const isValid = this._validateChapter(props, chapter);
       if (!isValid) {
         bookIsValid = isValid;
@@ -227,6 +239,7 @@ export default class Api extends ToolApi {
       return true;
     }
     for (const verse of Object.keys(targetBible[chapter])) {
+      if (isNaN(verse) || parseInt(verse) === -1) continue;
       const isValid = this._validateVerse(props, chapter, verse);
       if (!isValid) {
         chapterIsValid = isValid;
@@ -291,11 +304,15 @@ export default class Api extends ToolApi {
         targetBible,
         writeProjectData,
         contextId: {reference: {bookId}}
+      },
+      tool: {
+        isReady
       }
     } = this.props;
     const writableChange = Boolean(prevState) && Boolean(nextState) &&
       !isEqual(prevState.tool, nextState.tool);
-    if (writableChange) {
+    // TRICKY: only save if the tool has finished loading and the state has changed
+    if (isReady && writableChange) {
       const promises = [];
       // TRICKY: we validate the entire book so we must write all chapters
       for (const chapter of Object.keys(targetBible)) {
@@ -307,6 +324,10 @@ export default class Api extends ToolApi {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
         if (data) {
+          if (Object.keys(data).length === 0) {
+            console.error(
+              `Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
+          }
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         }
       }
@@ -335,10 +356,10 @@ export default class Api extends ToolApi {
       const {reference: {chapter, verse}} = contextId;
       let targetTokens = [];
       let sourceTokens = [];
-      if(targetVerseText) {
+      if (targetVerseText) {
         targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
       }
-      if(sourceVerse) {
+      if (sourceVerse) {
         sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
       }
       return {
@@ -394,8 +415,13 @@ export default class Api extends ToolApi {
    */
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
-    const {tc: {contextId: prevContext}} = this.props;
-    if (!Api._didChapterContextChange(prevContext, nextContext)) {
+    const {
+      tc: {contextId: prevContext},
+      tool: {
+        isReady
+      }
+    } = this.props;
+    if (isReady && !Api._didChapterContextChange(prevContext, nextContext)) {
       const {
         tc: {
           showDialog

@@ -51,6 +51,9 @@ const alignments = (state = {}, action) => {
     case REPAIR_VERSE_ALIGNMENTS:
     case SET_ALIGNMENT_SUGGESTIONS:
     case ALIGN_RENDERED_TARGET_TOKEN: {
+      if(isNaN(action.chapter)) {
+        throw new Error('Alignment chapter must be a number');
+      }
       const chapterId = action.chapter + '';
       return {
         ...state,

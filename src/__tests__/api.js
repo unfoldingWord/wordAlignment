@@ -3,12 +3,40 @@ import * as reducers from '../state/reducers';
 import Api from '../Api';
 
 describe('saving', () => {
+  it('should not do anything if the tool is not ready', () => {
+    const api = new Api();
+    api.props = {
+      tc: {
+        targetBible: {
+          1: {
+            1: "hello"
+          }
+        },
+        writeProjectData: jest.fn(() => Promise.resolve()),
+        contextId: {reference: {bookId: 'tit', chapter: 1}}
+      },
+      tool: {
+        isReady: false
+      }
+    };
+    const nextState = {
+      tool: {hello: 'world'}
+    };
+    const prevState = {
+      tool: {foo: 'bar'}
+    };
+    expect(api.stateChangeThrottled(nextState, prevState)).toBeUndefined();
+    expect(api.props.tc.writeProjectData).not.toBeCalled();
+  });
   it('should not save empty state', () => {
     const api = new Api();
     api.props = {
       tc: {
         writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
+      },
+      tool: {
+        isReady: true
       }
     };
     const nextState = {};
@@ -23,6 +51,9 @@ describe('saving', () => {
       tc: {
         writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
+      },
+      tool: {
+        isReady: true
       }
     };
     const nextState = {};
@@ -37,6 +68,9 @@ describe('saving', () => {
       tc: {
         writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
+      },
+      tool: {
+        isReady: true
       }
     };
     const nextState = undefined;
@@ -51,6 +85,9 @@ describe('saving', () => {
       tc: {
         writeToolData: jest.fn(),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
+      },
+      tool: {
+        isReady: true
       }
     };
     const nextState = {
@@ -72,6 +109,9 @@ describe('saving', () => {
         },
         writeProjectData: jest.fn(() => Promise.resolve()),
         contextId: {reference: {bookId: 'tit', chapter: 1}}
+      },
+      tool: {
+        isReady: true
       }
     };
     const nextState = {

@@ -39,6 +39,9 @@ const chapter = (state = {}, action) => {
     case SET_ALIGNMENT_SUGGESTIONS:
     case RESET_VERSE_ALIGNMENTS:
     case ALIGN_RENDERED_TARGET_TOKEN: {
+      if(isNaN(action.verse)) {
+        throw new Error('Alignment verse must be a number');
+      }
       const vid = action.verse + '';
       return {
         ...state,

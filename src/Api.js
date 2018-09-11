@@ -157,7 +157,7 @@ export default class Api extends ToolApi {
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
     for (const chapter of Object.keys(targetBible)) {
-      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+      if (isNaN(chapter) || parseInt(chapter) === -1) continue;
 
       const isChapterLoaded = getIsChapterLoaded(state, chapter);
       if (isChapterLoaded) {
@@ -211,7 +211,7 @@ export default class Api extends ToolApi {
     } = props;
     let bookIsValid = true;
     for (const chapter of Object.keys(targetBible)) {
-      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+      if (isNaN(chapter) || parseInt(chapter) === -1) continue;
       const isValid = this._validateChapter(props, chapter);
       if (!isValid) {
         bookIsValid = isValid;
@@ -323,12 +323,11 @@ export default class Api extends ToolApi {
         // write alignment data to the project folder
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
-        if (data) {
-          if (Object.keys(data).length === 0) {
-            console.error(
-              `Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
-          }
+        if (data && Object.keys(data).length > 0) {
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
+        } else {
+          console.error(
+            `Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
         }
       }
       return Promise.all(promises);

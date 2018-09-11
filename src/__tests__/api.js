@@ -3,6 +3,7 @@ import * as reducers from '../state/reducers';
 import Api from '../Api';
 
 describe('saving', () => {
+
   it('should not do anything if the tool is not ready', () => {
     const api = new Api();
     api.props = {
@@ -98,30 +99,66 @@ describe('saving', () => {
     expect(api.props.tc.writeToolData).not.toBeCalled();
   });
 
-  it('should save changed state', () => {
-    const api = new Api();
-    api.props = {
-      tc: {
-        targetBible: {
-          1: {
-            1: "hello"
-          }
+  describe('save changed state', () => {
+
+    it('saves successfully', () => {
+      global.console = {error: jest.fn()};
+      reducers.__setLegacyChapterAlignments({ hello : "world"});
+      const api = new Api();
+      api.props = {
+        tc: {
+          targetBible: {
+            1: {
+              1: {}
+            }
+          },
+          writeProjectData: jest.fn(() => Promise.resolve()),
+          contextId: {reference: {bookId: 'tit', chapter: 1}}
         },
-        writeProjectData: jest.fn(() => Promise.resolve()),
-        contextId: {reference: {bookId: 'tit', chapter: 1}}
-      },
-      tool: {
-        isReady: true
-      }
-    };
-    const nextState = {
-      tool: {hello: 'world'}
-    };
-    const prevState = {
-      tool: {foo: 'bar'}
-    };
-    return api.stateChangeThrottled(nextState, prevState).then(() => {
-      expect(api.props.tc.writeProjectData).toBeCalled();
+        tool: {
+          isReady: true
+        }
+      };
+      const nextState = {
+        tool: {hello : 'world'}
+      };
+      const prevState = {
+        tool: {foo: 'bar'}
+      };
+      return api.stateChangeThrottled(nextState, prevState).then(() => {
+        expect(api.props.tc.writeProjectData).toBeCalled();
+        expect(console.error).not.toBeCalled();
+      });
+    });
+
+    it('Log error when data is empty', () => {
+      global.console = {error: jest.fn()};
+      reducers.__setLegacyChapterAlignments(null);
+      const api = new Api();
+      api.props = {
+        tc: {
+          targetBible: {
+            1: {
+              1: "hello"
+            }
+          },
+          writeProjectData: jest.fn(() => Promise.resolve()),
+          contextId: {reference: {bookId: 'tit', chapter: 1}}
+        },
+        tool: {
+          isReady: true
+        }
+      };
+      const nextState = {
+        tool: {hello: 'world'}
+      };
+      const prevState = {
+        tool: {foo: 'bar'}
+      };
+      return api.stateChangeThrottled(nextState, prevState).then(() => {
+        expect(api.props.tc.writeProjectData).not.toBeCalled();
+        expect(console.error).toBeCalledWith("Writing empty alignment data to tit 1. You likely forgot to load the alignment data or the data is corrupt.");
+      });
     });
   });
 });

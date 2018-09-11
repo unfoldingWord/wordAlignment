@@ -5,7 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
-import WordMap from 'word-map';
+import WordMap from 'wordmap';
 import Lexer, {Token} from 'wordmap-lexer';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

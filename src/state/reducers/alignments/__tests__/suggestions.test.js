@@ -358,6 +358,130 @@ describe('accepts last token in a suggestion', () => {
     action, stateAfter);
 });
 
+describe('accepts second token in a three token suggestion', () => {
+  // the first token has already been accepted
+  const stateBefore = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'olleh',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'dlrow',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          },
+          {
+            text: 'ih',
+            occurrence: 1,
+            occurrences: 1,
+            position: 2
+          }
+        ],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0]
+          }
+        ],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1, 2],
+            alignments: [0],
+            suggestion: 0,
+            suggestedTargetTokens: [1, 2]
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1, 2]
+          }
+        ]
+      }
+    }
+  };
+  const action = {
+    type: types.ACCEPT_TOKEN_SUGGESTION,
+    chapter: 1,
+    verse: 1,
+    index: 0,
+    token: new Token({text: 'dlrow', position: 1})
+  };
+
+  const stateAfter = {
+    '1': {
+      '1': {
+        sourceTokens: [
+          {
+            text: 'hello',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          }
+        ],
+        targetTokens: [
+          {
+            text: 'olleh',
+            occurrence: 1,
+            occurrences: 1,
+            position: 0
+          },
+          {
+            text: 'dlrow',
+            occurrence: 1,
+            occurrences: 1,
+            position: 1
+          },
+          {
+            text: 'ih',
+            occurrence: 1,
+            occurrences: 1,
+            position: 2
+          }
+        ],
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1]
+          }
+        ],
+        renderedAlignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1, 2],
+            alignments: [0],
+            suggestion: 0,
+            suggestedTargetTokens: [2]
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1, 2]
+          }
+        ]
+      }
+    }
+  };
+  reducerTest('Accepts a single token suggestion', alignments, stateBefore,
+    action, stateAfter);
+});
+
 describe('accepts token suggestion', () => {
   const stateBefore = {
     '1': {

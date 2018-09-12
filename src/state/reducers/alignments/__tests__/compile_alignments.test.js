@@ -65,6 +65,35 @@ describe('compiles alignments', () => {
       const result = compile(rendered, alignments);
       expect(result).toEqual(expected);
     });
+
+    it('compiles second accepted suggestion in group of 3', () => {
+      const alignments = [
+        {
+          sourceNgram: [0],
+          targetNgram: [0]
+        }
+      ];
+      const rendered = [
+        {
+          alignments: [0],
+          suggestion: 0,
+          sourceNgram: [0],
+          targetNgram: [0, 1, 2],
+          suggestedTargetTokens: [2]
+        }
+      ];
+      const expected = {
+        alignments: [
+          {
+            sourceNgram: [0],
+            targetNgram: [0, 1]
+          }
+        ],
+        indices: {'0': [0]}
+      };
+      const result = compile(rendered, alignments);
+      expect(result).toEqual(expected);
+    });
   });
 
   describe('merge', () => {

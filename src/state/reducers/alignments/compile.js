@@ -37,7 +37,8 @@ const compile = (renders, alignments) => {
     if (!isSuggestion) {
       // compile approved alignments
       // TRICKY: approved suggestions only have a single alignment
-      approvedAlignments.push.apply(approvedAlignments, siblingIndex[r.alignments[0]]);
+      approvedAlignments.push.apply(approvedAlignments,
+        siblingIndex[r.alignments[0]]);
       compileApprovedSplitAlignment(renderPos, renders, siblingIndex,
         compiledRenders);
     } else {
@@ -50,8 +51,8 @@ const compile = (renders, alignments) => {
 
         if (isAlignmentUpdated) {
           // compile partially approved suggestions (splits)
-          compileUpdatedSplitAlignment(renderPos, renders, aIndex, alignments,
-            siblingIndex, compiledRenders);
+          compileUpdatedSplitAlignment(renderPos, renders, siblingIndex,
+            compiledRenders);
         } else if (isSiblingApproved) {
           // compile partially approved suggestions (splits)
           compiledRenders[renderPos] = {
@@ -108,7 +109,8 @@ const compile = (renders, alignments) => {
     // skip duplicates
     if (addedAlignments.indexOf(id) >= 0) {
       const duplicateAlignmentIndex = addedAlignments.indexOf(id);
-      if(compiledIndices[a.renderedIndex].indexOf(duplicateAlignmentIndex) === -1) {
+      if (compiledIndices[a.renderedIndex].indexOf(duplicateAlignmentIndex) ===
+        -1) {
         compiledIndices[a.renderedIndex].push(duplicateAlignmentIndex);
       }
       continue;
@@ -173,24 +175,23 @@ const compileApprovedSplitAlignment = (
  * Recursively compiles an approved rendered alignment
  * @param rIndex
  * @param renders
- * @param aIndex
- * @param alignments
  * @param siblingIndex
  * @param compiledRenders
  */
 const compileUpdatedSplitAlignment = (
-  rIndex, renders, aIndex, alignments, siblingIndex, compiledRenders) => {
+  rIndex, renders, siblingIndex, compiledRenders) => {
   const r = renders[rIndex];
-  const a = alignments[aIndex];
-  const suggestedTargetTokens = _.difference(a.targetNgram, r.targetNgram);
+  const partiallyApproved = r.suggestedTargetTokens.length > 0;
+  const compiledTargetTokens = _.difference(r.targetNgram,
+    r.suggestedTargetTokens);
   compiledRenders[rIndex] = {
-    isSuggestion: false,
+    isSuggestion: partiallyApproved,
     index: rIndex,
     values: [
       {
         renderedIndex: rIndex,
         sourceNgram: [...r.sourceNgram],
-        targetNgram: [...suggestedTargetTokens]
+        targetNgram: [...compiledTargetTokens]
       }]
   };
   for (const i of r.alignments) {

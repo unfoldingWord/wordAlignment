@@ -70,16 +70,18 @@ export default class Api extends ToolApi {
     } = props;
 
     for (const verse of Object.keys(targetBible[chapter])) {
-      if (sourceBible[chapter][verse] === undefined) {
-        console.warn(
-          `Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
-        continue;
+      if (!isNaN(verse)) { // only load valid numbers
+        if (sourceBible[chapter][verse] === undefined) {
+          console.warn(
+            `Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
+          continue;
+        }
+        const sourceTokens = tokenizeVerseObjects(
+          sourceBible[chapter][verse].verseObjects);
+        const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
+        const targetTokens = Lexer.tokenize(targetVerseText);
+        resetVerse(chapter, verse, sourceTokens, targetTokens);
       }
-      const sourceTokens = tokenizeVerseObjects(
-        sourceBible[chapter][verse].verseObjects);
-      const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
-      const targetTokens = Lexer.tokenize(targetVerseText);
-      resetVerse(chapter, verse, sourceTokens, targetTokens);
     }
   }
 

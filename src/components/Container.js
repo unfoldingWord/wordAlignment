@@ -94,7 +94,7 @@ export const generateMAP = (
             if (a.sourceNgram.length && a.targetNgram.length) {
               const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
               const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-              map.appendSavedAlignmentsString(sourceText, targetText);
+              map.appendAlignmentMemoryString(sourceText, targetText);
             }
           }
         }
@@ -250,7 +250,7 @@ class Container extends Component {
         const alignmentMemory = tools[key].trigger('getAlignmentMemory');
         if (alignmentMemory) {
           for (const alignment of alignmentMemory) {
-            map.appendSavedAlignmentsString(alignment.sourceText,
+            map.appendAlignmentMemoryString(alignment.sourceText,
               alignment.targetText);
           }
         }

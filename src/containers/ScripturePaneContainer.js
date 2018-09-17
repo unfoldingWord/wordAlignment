@@ -15,7 +15,9 @@ const ScripturePaneContainer = (props) => {
         showPopover,
         editTargetVerse,
         getLexiconData,
-        setToolSettings
+        setToolSettings,
+        getAvailableScripturePaneSelections,
+        makeSureBiblesLoadedForTool
       },
       settingsReducer: {toolsSettings},
       resourcesReducer: {bibles},
@@ -50,7 +52,10 @@ const ScripturePaneContainer = (props) => {
         translate={translate}
         getLexiconData={getLexiconData}
         selections={selections}
-        setToolSettings={setToolSettings}/>
+        setToolSettings={setToolSettings}
+        getAvailableScripturePaneSelections={getAvailableScripturePaneSelections}
+        makeSureBiblesLoadedForTool={makeSureBiblesLoadedForTool}
+      />
     );
   } else {
     return <div/>;
@@ -64,7 +69,9 @@ ScripturePaneContainer.propTypes = {
       showPopover: PropTypes.func.isRequired,
       editTargetVerse: PropTypes.func.isRequired,
       getLexiconData: PropTypes.func.isRequired,
-      setToolSettings: PropTypes.func.isRequired
+      setToolSettings: PropTypes.func.isRequired,
+      getAvailableScripturePaneSelections: PropTypes.func.isRequired,
+      makeSureBiblesLoadedForTool: PropTypes.func.isRequired
     },
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,

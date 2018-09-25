@@ -1,7 +1,7 @@
 import {reducerTest} from 'redux-jest';
 import * as types from '../../../actions/actionTypes';
 import alignments from '../index';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 
 describe('set alignment suggestions', () => {
   const stateBefore = {

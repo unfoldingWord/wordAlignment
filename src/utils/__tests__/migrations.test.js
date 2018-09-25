@@ -1,4 +1,4 @@
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 import {formatAlignmentData, normalizeAlignmentData} from '../migrations';
 
 describe('alignment data migration', () => {

@@ -92,7 +92,7 @@ describe('word MAP integration', () => {
         expect(map.engine.corpusIndex.staticIndex.srcCharLength).toEqual(0);
         expect(map.engine.corpusIndex.staticIndex.tgtCharLength).toEqual(0);
         expect(Object.keys(
-          map.engine.savedAlignmentsIndex.permutationIndex.alignPermFreqIndex.index).length >
+          map.engine.alignmentMemoryIndex.permutationIndex.alignPermFreqIndex.index).length >
           0).toBeTruthy();
       });
   });

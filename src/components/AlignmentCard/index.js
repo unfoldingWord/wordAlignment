@@ -5,7 +5,7 @@ import * as types from '../WordCard/Types';
 import SecondaryToken from '../SecondaryToken';
 import PrimaryToken from '../PrimaryToken';
 import AlignmentCard from './AlignmentCard';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 
 const styles = {
   root: {

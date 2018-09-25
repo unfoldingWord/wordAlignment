@@ -6,7 +6,7 @@ import {
   SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 import _ from 'lodash';
 
 const defaultState = {sourceNgram: [], targetNgram: []};

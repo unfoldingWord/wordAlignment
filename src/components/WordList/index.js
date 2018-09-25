@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
 import * as types from '../WordCard/Types';
 import WordList from './WordList';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 
 /**
  * Renders a word bank with drag-drop support

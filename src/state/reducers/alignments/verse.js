@@ -16,7 +16,7 @@ import {
   UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import alignmentReducer, * as fromAlignment from './alignment';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 import {numberComparator} from './index';
 import {insertSourceToken} from '../../actions';
 import renderedAlignmentsReducer, * as fromRenderedAlignments

@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';

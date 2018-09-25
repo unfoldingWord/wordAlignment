@@ -1,7 +1,7 @@
 jest.mock('../../reducers');
 import * as reducers from '../../reducers';
 import * as actions from '../index';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 
 describe('repair and inspect verse', () => {
 

@@ -8,7 +8,7 @@ import * as lexiconHelpers from '../utils/lexicon';
 // components
 import Word from './WordCard';
 import Tooltip from './Tooltip';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 
 const internalStyle = {
   word: {

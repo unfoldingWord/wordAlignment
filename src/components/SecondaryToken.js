@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Word from './WordCard';
 import {DragSource} from 'react-dnd';
 import * as types from './WordCard/Types';
-import Token from 'word-map/structures/Token';
+import {Token} from 'wordmap-lexer';
 import path from 'path-extra';
 
 /**

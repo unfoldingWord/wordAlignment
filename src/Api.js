@@ -124,11 +124,10 @@ export default class Api extends ToolApi {
         translate
       }
     } = this.props;
-    this._validateBook(this.props).then((isValid) => {
-      if (!isValid) {
-        showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
-      }
-    });
+    const isValid = this._validateBook(this.props);
+    if (!isValid) {
+      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+    }
   }
 
   _loadBookAlignments(props) {
@@ -198,8 +197,8 @@ export default class Api extends ToolApi {
     if (!alignmentsAreValid) {
       showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
     }
-    setToolReady();
 
+    setToolReady();
   }
 
   /**
@@ -208,26 +207,20 @@ export default class Api extends ToolApi {
    * @return {boolean}
    * @private
    */
-  async _validateBook(props) {
+  _validateBook(props) {
     const {
       tc: {
         targetBible
-      },
+      }
     } = props;
     let bookIsValid = true;
-    const promises = [];
     for (const chapter of Object.keys(targetBible)) {
       if (isNaN(chapter) || parseInt(chapter) === -1) continue;
-      promises.push(new Promise(resolve => {
-        this._validateChapter(props, chapter).then((isValid) => {
-          if (!isValid) {
-            bookIsValid = isValid;
-          }
-          resolve();
-        });
-      }));
+      const isValid = this._validateChapter(props, chapter);
+      if (!isValid) {
+        bookIsValid = isValid;
+      }
     }
-    await Promise.all(promises);
     return bookIsValid;
   }
 
@@ -238,7 +231,7 @@ export default class Api extends ToolApi {
    * @return {boolean} true if alignments are valid
    * @private
    */
-  async _validateChapter(props, chapter) {
+  _validateChapter(props, chapter) {
     const {
       tc: {
         targetBible
@@ -249,18 +242,13 @@ export default class Api extends ToolApi {
       console.warn(`Could not validate missing chapter ${chapter}`);
       return true;
     }
-    const promises = [];
     for (const verse of Object.keys(targetBible[chapter])) {
       if (isNaN(verse) || parseInt(verse) === -1) continue;
-      promises.push(new Promise(resolve => {
-        const isValid = this._validateVerse(props, chapter, verse);
-        if (!isValid) {
-          chapterIsValid = isValid;
-        }
-        resolve();
-      }));
+      const isValid = this._validateVerse(props, chapter, verse);
+      if (!isValid) {
+        chapterIsValid = isValid;
+      }
     }
-    await Promise.all(promises);
     return chapterIsValid;
   }
 
@@ -445,8 +433,8 @@ export default class Api extends ToolApi {
         translate
       } = nextProps;
 
-      setTimeout(async () => {
-        const isValid = await this._validateBook(nextProps);
+      setTimeout(() => {
+        const isValid = this._validateBook(nextProps);
         if (!isValid) {
           showDialog(translate('alignments_reset'),
             translate('buttons.ok_button'));

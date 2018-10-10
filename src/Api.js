@@ -8,7 +8,7 @@ import {
   getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
-import Lexer from 'word-map/Lexer';
+import Lexer from 'wordmap-lexer';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {
@@ -20,6 +20,7 @@ import {
   resetVerse,
   unalignTargetToken
 } from './state/actions';
+import {batchActions} from 'redux-batched-actions';
 
 export default class Api extends ToolApi {
   constructor() {
@@ -66,9 +67,9 @@ export default class Api extends ToolApi {
         targetBible,
         sourceBible
       },
-      resetVerse
+      batchActions
     } = props;
-
+    const actions = [];
     for (const verse of Object.keys(targetBible[chapter])) {
       if (!isNaN(verse)) { // only load valid numbers
         if (sourceBible[chapter][verse] === undefined) {
@@ -80,9 +81,10 @@ export default class Api extends ToolApi {
           sourceBible[chapter][verse].verseObjects);
         const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
         const targetTokens = Lexer.tokenize(targetVerseText);
-        resetVerse(chapter, verse, sourceTokens, targetTokens);
+        actions.push(resetVerse(chapter, verse, sourceTokens, targetTokens));
       }
     }
+    batchActions(actions);
   }
 
   /**
@@ -159,7 +161,7 @@ export default class Api extends ToolApi {
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
     for (const chapter of Object.keys(targetBible)) {
-      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+      if (isNaN(chapter) || parseInt(chapter) === -1) continue;
 
       const isChapterLoaded = getIsChapterLoaded(state, chapter);
       if (isChapterLoaded) {
@@ -213,7 +215,7 @@ export default class Api extends ToolApi {
     } = props;
     let bookIsValid = true;
     for (const chapter of Object.keys(targetBible)) {
-      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+      if (isNaN(chapter) || parseInt(chapter) === -1) continue;
       const isValid = this._validateChapter(props, chapter);
       if (!isValid) {
         bookIsValid = isValid;
@@ -325,12 +327,11 @@ export default class Api extends ToolApi {
         // write alignment data to the project folder
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
-        if (data) {
-          if (Object.keys(data).length === 0) {
-            console.error(
-              `Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
-          }
+        if (data && Object.keys(data).length > 0) {
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
+        } else {
+          console.error(
+            `Writing empty alignment data to ${bookId} ${chapter}. You likely forgot to load the alignment data or the data is corrupt.`);
         }
       }
       return Promise.all(promises);
@@ -394,7 +395,8 @@ export default class Api extends ToolApi {
       resetVerse,
       repairAndInspectVerse,
       clearState,
-      indexChapterAlignments
+      indexChapterAlignments,
+      batchActions
     };
 
     const dispatchedMethods = {};

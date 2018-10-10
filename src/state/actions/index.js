@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import {migrateChapterAlignments} from '../../utils/migrations';
-import Lexer from 'word-map/Lexer';
+import Lexer from 'wordmap-lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
 import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';

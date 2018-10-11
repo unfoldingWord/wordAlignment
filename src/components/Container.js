@@ -165,7 +165,7 @@ class Container extends Component {
     });
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // current panes persisted in the scripture pane settings.
     const {actions: {setToolSettings}, settingsReducer, resourcesReducer: {bibles}} = this.props;
     const {ScripturePane} = settingsReducer.toolsSettings || {};
@@ -179,27 +179,47 @@ class Container extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
+    const {
+      verseIsAligned,
+      verseIsComplete
+    } = this.props;
+
+    const {canAutoComplete} = this.state;
+
+    if (!Container.contextDidChange(this.props, prevProps)) {
+      // auto complete the verse
+      if (verseIsAligned && canAutoComplete && !verseIsComplete) {
+        this.handleToggleComplete(null, true);
+      }
+    }
+  }
+
+  /**
+   * Checks if the context has changed. e.g. the user navigated away from the previous context.
+   * @param nextProps
+   * @param prevProps
+   * @return {boolean}
+   */
+  static contextDidChange(nextProps, prevProps) {
+    return !isEqual(prevProps.tc.contextId, nextProps.tc.contextId);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       tc: {
         contextId: nextContextId
       },
       tool: {
         api
-      },
-      verseIsAligned,
-      verseIsComplete
+      }
     } = nextProps;
-    const {
-      tc: {contextId: prevContextId}
-    } = this.props;
-    const {canAutoComplete} = this.state;
 
     const {reference: {chapter, verse}} = nextContextId;
 
     api.setVerseInvalid(chapter, verse, false);
 
-    if (!isEqual(prevContextId, nextContextId)) {
+    if (Container.contextDidChange(nextProps, this.props)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
       if (page) page.scrollTop = 0;
@@ -207,11 +227,6 @@ class Container extends Component {
       this.runMAP(nextProps).catch(() => {
       });
       this.disableAutoComplete();
-    } else {
-      // auto complete the verse
-      if (verseIsAligned && canAutoComplete && !verseIsComplete) {
-        this.handleToggleComplete(null, true);
-      }
     }
   }
 
@@ -282,10 +297,9 @@ class Container extends Component {
    * Allows the verse to be auto completed if it is fully aligned
    */
   enableAutoComplete() {
-    const {verseIsAligned} = this.props;
     const {canAutoComplete} = this.state;
 
-    if (!verseIsAligned && !canAutoComplete) {
+    if (!canAutoComplete) {
       this.setState({
         canAutoComplete: true
       });
@@ -388,6 +402,7 @@ class Container extends Component {
       acceptAlignmentSuggestions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
+    // accepting all suggestions can auto-complete the verse
     this.enableAutoComplete();
     acceptAlignmentSuggestions(chapter, verse);
   }
@@ -431,6 +446,7 @@ class Container extends Component {
       acceptTokenSuggestion,
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
+    // accepting a single suggestion can auto-complete the verse
     this.enableAutoComplete();
     acceptTokenSuggestion(chapter, verse, alignmentIndex, token);
   }

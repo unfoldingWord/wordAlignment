@@ -20,7 +20,6 @@ import {
   resetVerse,
   unalignTargetToken
 } from './state/actions';
-import {batchActions} from 'redux-batched-actions';
 
 export default class Api extends ToolApi {
   constructor() {
@@ -67,9 +66,9 @@ export default class Api extends ToolApi {
         targetBible,
         sourceBible
       },
-      batchActions
+      resetVerse
     } = props;
-    const actions = [];
+
     for (const verse of Object.keys(targetBible[chapter])) {
       if (!isNaN(verse)) { // only load valid numbers
         if (sourceBible[chapter][verse] === undefined) {
@@ -81,10 +80,9 @@ export default class Api extends ToolApi {
           sourceBible[chapter][verse].verseObjects);
         const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
         const targetTokens = Lexer.tokenize(targetVerseText);
-        actions.push(resetVerse(chapter, verse, sourceTokens, targetTokens));
+        resetVerse(chapter, verse, sourceTokens, targetTokens);
       }
     }
-    batchActions(actions);
   }
 
   /**
@@ -395,8 +393,7 @@ export default class Api extends ToolApi {
       resetVerse,
       repairAndInspectVerse,
       clearState,
-      indexChapterAlignments,
-      batchActions
+      indexChapterAlignments
     };
 
     const dispatchedMethods = {};

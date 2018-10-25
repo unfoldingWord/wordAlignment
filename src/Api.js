@@ -93,14 +93,6 @@ export default class Api extends ToolApi {
    * @param {number} verse
    */
   validateVerse(chapter, verse) {
-    const {
-      tc: {
-        showDialog
-      },
-      tool: {
-        translate
-      }
-    } = this.props;
     if (isNaN(verse) || parseInt(verse) === -1 ||
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
@@ -115,14 +107,6 @@ export default class Api extends ToolApi {
    * And fix things if needed
    */
   validateBook() {
-    const {
-      tc: {
-        showDialog
-      },
-      tool: {
-        translate
-      }
-    } = this.props;
     const isValid = this._validateBook(this.props);
     if (!isValid) {
       this._showResetDialog();

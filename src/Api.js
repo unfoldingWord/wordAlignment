@@ -32,6 +32,7 @@ export default class Api extends ToolApi {
     this.validateVerse = this.validateVerse.bind(this);
     this._loadBookAlignments = this._loadBookAlignments.bind(this);
     this.getIsVerseInvalid = this.getIsVerseInvalid.bind(this);
+    this._showResetDialog = this._showResetDialog.bind(this);
   }
 
   /**
@@ -105,7 +106,7 @@ export default class Api extends ToolApi {
 
     const isValid = this._validateVerse(this.props, chapter, verse);
     if (!isValid) {
-      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+      this._showResetDialog();
     }
   }
 
@@ -124,8 +125,17 @@ export default class Api extends ToolApi {
     } = this.props;
     const isValid = this._validateBook(this.props);
     if (!isValid) {
-      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+      this._showResetDialog();
     }
+  }
+
+  _showResetDialog() {
+    const {
+      tool: {
+        translate
+      }
+    } = this.props;
+    this.props.tc.showIgnorableDialog('alignments_reset', translate('alignments_reset'));
   }
 
   _loadBookAlignments(props) {
@@ -193,7 +203,7 @@ export default class Api extends ToolApi {
         translate('buttons.ok_button'));
     }
     if (!alignmentsAreValid) {
-      showDialog(translate('alignments_reset'), translate('buttons.ok_button'));
+      this._showResetDialog();
     }
 
     setToolReady();
@@ -423,18 +433,10 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     if (isReady && !Api._didChapterContextChange(prevContext, nextContext)) {
-      const {
-        tc: {
-          showDialog
-        },
-        translate
-      } = nextProps;
-
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {
-          showDialog(translate('alignments_reset'),
-            translate('buttons.ok_button'));
+          this._showResetDialog();
         }
       }, 0);
     }

@@ -1,8 +1,8 @@
 {
-  "cannot_drag_middle": "Cannot un-merge a middle word",
-  "loading_alignments": "Loading alignment data",
-  "lemma": "Lemma:",
-  "morphology": "Morphology:",
+  "cannot_drag_middle": "Não é possível desmesclar uma palavra do meio",
+  "loading_alignments": "Carregando os dados de alinhamento",
+  "lemma": "Palavra de entrada:",
+  "morphology": "Morfologia",
   "strongs": "Strongs:",
   "lexicon": "Lexicon:",
   "alignments_reset": "Changes have been detected in your project which have invalidated some of your alignments.\nThese verses display an icon of a broken chain next to the reference in the side menu.",

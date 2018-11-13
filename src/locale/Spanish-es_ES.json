@@ -105,22 +105,22 @@
     "menu": "Menú"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh ${word_map}-generated suggestions.",
-    "accept_suggestions": "Accept all ${word_map}-generated suggestions.",
-    "reject_suggestions": "Reject all ${word_map}-generated suggestions.",
-    "none": "No new suggestions",
-    "refresh": "Refresh",
-    "accept": "Accept",
-    "reject": "Reject"
+    "refresh_suggestions": "Actualizar ${word_map}sugerencias generadas.",
+    "accept_suggestions": "Acepta todas las sugerencias ${word_map}generadas.",
+    "reject_suggestions": "Rechazar todos los ${word_map} generado por las sugerencias.",
+    "none": "No hay nuevas sugerencias",
+    "refresh": "Actualizar",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
   },
   "pane": {
-    "current_project": "Current project",
-    "missing_verse_warning": "[WARNING: This Bible version does not include text for this reference.]",
-    "title": "Step 1. Read",
-    "expand_hover": "Click to show expanded resource panes",
-    "remove_resource": "Click to remove resource",
-    "add_resource": "Click to add a resource",
-    "add_resource_label": "Add Resources",
-    "select_language": "Select language"
+    "current_project": "Proyecto actual",
+    "missing_verse_warning": "[ADVERTENCIA: Esta versión de la Biblia no incluye texto para esta referencia.]",
+    "title": "Paso 1. Leer",
+    "expand_hover": "Haga clic para mostrar ampliado los paneles de recursos",
+    "remove_resource": "Haga clic para eliminar recurso",
+    "add_resource": "Haga clic para añadir un recurso",
+    "add_resource_label": "Añadir Recursos",
+    "select_language": "Seleccionar idioma"
   }
 }

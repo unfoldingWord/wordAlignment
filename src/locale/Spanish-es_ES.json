@@ -1,6 +1,6 @@
 {
-  "cannot_drag_middle": "Cannot un-merge a middle word",
-  "loading_alignments": "Loading alignment data",
+  "cannot_drag_middle": "No se puede desunir una palabra intermedia",
+  "loading_alignments": "Cargando datos de alineación",
   "lemma": "Lema:",
   "morphology": "Morfología:",
   "strongs": "Strongs:",

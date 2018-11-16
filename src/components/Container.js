@@ -551,6 +551,7 @@ class Container extends Component {
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
+            direction={targetDirection}
             verse={verse}
             words={words}
             onDropTargetToken={this.handleUnalignTargetToken}

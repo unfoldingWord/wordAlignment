@@ -41,6 +41,7 @@ class WordList extends React.Component {
       onWordDragged,
       selectedWords,
       onWordClick,
+      direction,
       words,
       isOver
     } = this.props;
@@ -64,6 +65,7 @@ class WordList extends React.Component {
                 key={index}
                 style={{margin: '10px'}}>
                 <SecondaryToken
+                  direction={direction}
                   onEndDrag={onWordDragged}
                   selected={this.isSelected(token)}
                   selectedTokens={selectedWords}
@@ -86,7 +88,12 @@ WordList.propTypes = {
   selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
   onWordClick: PropTypes.func,
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
-  isOver: PropTypes.bool.isRequired
+  isOver: PropTypes.bool.isRequired,
+  direction: PropTypes.oneOf(['ltr', 'rtl'])
+};
+
+WordList.defaultProps = {
+  direction: 'ltr'
 };
 
 export default WordList;

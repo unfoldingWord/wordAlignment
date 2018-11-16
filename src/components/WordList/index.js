@@ -101,7 +101,7 @@ class DroppableWordList extends React.Component {
   }
 
   render() {
-    const {words, chapter, verse, connectDropTarget, isOver} = this.props;
+    const {words, chapter, verse, connectDropTarget, isOver, direction} = this.props;
     const {selectedWords, selectedWordPositions} = this.state;
     return connectDropTarget(
       <div
@@ -111,10 +111,12 @@ class DroppableWordList extends React.Component {
           width: '100%',
           backgroundColor: '#DCDCDC',
           overflowY: 'auto',
-          padding: '5px 8px 5px 5px'
+          padding: '5px 8px 5px 5px',
+          direction: direction
         }}
       >
         <WordList
+          direction={direction}
           onWordDragged={this.clearWordSelections}
           onWordClick={this.handleWordSelection}
           selectedWordPositions={selectedWordPositions}
@@ -135,7 +137,12 @@ DroppableWordList.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
   onDropTargetToken: PropTypes.func.isRequired,
-  wordList: PropTypes.object
+  wordList: PropTypes.object,
+  direction: PropTypes.oneOf(['ltr', 'rtl'])
+};
+
+DroppableWordList.defaultProps = {
+  direction: 'ltr'
 };
 
 /**

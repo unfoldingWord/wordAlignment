@@ -11,6 +11,16 @@ it('occurs once', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it('renders rtl', () => {
+  const wrapper = renderer.create(
+    <Word occurrences={1}
+          occurrence={1}
+          direction={'rtl'}
+          word={'hello'}/>
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
 it('occurs multiple times', () => {
   const wrapper = renderer.create(
     <Word occurrences={2}

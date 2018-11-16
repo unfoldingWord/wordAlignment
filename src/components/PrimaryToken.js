@@ -68,6 +68,7 @@ class PrimaryToken extends Component {
       token,
       style,
       isDragging,
+      direction,
       canDrag,
       connectDragSource,
       dragPreview
@@ -77,6 +78,7 @@ class PrimaryToken extends Component {
     const word = dragPreview(
       <div>
         <Word word={token.text}
+              direction={direction}
               disabled={isDragging || (hover && !canDrag)}
               style={{...internalStyle.word, ...style}}/>
       </div>
@@ -132,13 +134,15 @@ PrimaryToken.propTypes = {
   lexicons: PropTypes.object.isRequired,
   dragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
   isDragging: PropTypes.bool.isRequired
 };
 
 PrimaryToken.defaultProps = {
   alignmentLength: 1,
   wordIndex: 0,
-  canDrag: true
+  canDrag: true,
+  direction: 'ltr'
 };
 
 const dragHandler = {

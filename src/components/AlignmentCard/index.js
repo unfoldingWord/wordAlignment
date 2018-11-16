@@ -104,6 +104,8 @@ class DroppableAlignmentCard extends Component {
       targetNgram,
       sourceNgram,
       alignmentIndex,
+      sourceDirection,
+      targetDirection,
       isSuggestion,
       connectDropTarget
     } = this.props;
@@ -120,6 +122,7 @@ class DroppableAlignmentCard extends Component {
       <PrimaryToken
         key={index}
         translate={translate}
+        direction={sourceDirection}
         wordIndex={index}
         alignmentLength={sourceNgram.length}
         token={token}
@@ -132,6 +135,7 @@ class DroppableAlignmentCard extends Component {
       <SecondaryToken
         key={index}
         token={token}
+        direction={targetDirection}
         onCancel={this._handleCancelSuggestion}
         onAccept={this._handleAcceptSuggestion}
         alignmentIndex={alignmentIndex}
@@ -144,6 +148,7 @@ class DroppableAlignmentCard extends Component {
       return connectDropTarget(
         <div>
           <AlignmentCard targetTokenCards={bottomWordCards}
+                         targetDirection={targetDirection}
                          hoverBottom={hoverBottom}
                          hoverTop={hoverTop}
                          isSuggestion={isSuggestion}
@@ -171,10 +176,17 @@ DroppableAlignmentCard.propTypes = {
   isSuggestion: PropTypes.bool.isRequired,
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
+  sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
+  targetDirection: PropTypes.oneOf(['ltr', 'trl']),
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
     loadLexiconEntry: PropTypes.func.isRequired
   })
+};
+
+DroppableAlignmentCard.defaultProps = {
+  sourceDirection: 'ltr',
+  targetDirection: 'ltr'
 };
 
 const dragHandler = {

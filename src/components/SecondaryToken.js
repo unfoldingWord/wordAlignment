@@ -91,6 +91,7 @@ class SecondaryToken extends React.Component {
     const {
       connectDragSource,
       token,
+      direction,
       disabled,
       isDragging,
       selected
@@ -108,6 +109,7 @@ class SecondaryToken extends React.Component {
           selected={selected}
           word={token.text}
           disabled={disabled}
+          direction={direction}
           style={{opacity}}
           onCancel={this.handleCancel}
           isSuggestion={token.meta.suggestion}
@@ -136,6 +138,7 @@ SecondaryToken.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   alignmentIndex: PropTypes.number,
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
   disabled: PropTypes.bool
 };
 
@@ -147,7 +150,8 @@ SecondaryToken.defaultProps = {
   },
   alignmentIndex: undefined,
   disabled: false,
-  selectedTokens: []
+  selectedTokens: [],
+  direction: 'ltr'
 };
 
 /**

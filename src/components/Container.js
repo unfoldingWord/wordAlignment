@@ -509,7 +509,9 @@ class Container extends Component {
         contextId,
         actions: {
           showPopover
-        }
+        },
+        sourceBook: {manifest: {direction : sourceDirection}},
+        targetBook: {manifest: {direction : targetDirection}}
       },
       tc
     } = this.props;
@@ -519,6 +521,8 @@ class Container extends Component {
     if (!contextId) {
       return null;
     }
+
+    // TODO: use the source book direction to correctly style the alignments
 
     const {lexicons} = resourcesReducer;
     const {reference: {chapter, verse}} = contextId;
@@ -559,6 +563,8 @@ class Container extends Component {
           </div>
           {hasSourceText ? (
             <AlignmentGrid
+              sourceDirection={sourceDirection}
+              targetDirection={targetDirection}
               alignments={verseAlignments}
               translate={translate}
               lexicons={lexicons}

@@ -5,10 +5,10 @@ let desiredPanes_ = null;
 
 describe('paneSettingsHelper', () => {
   const setToolSettings_ = (toolname, setting, desiredPanes) => (setToolSettings(toolname, setting, desiredPanes));
-  const bibles_ = [
+  const paneSettings_ = [
     {
       languageId: 'targetLanguage',
-      bibleId: 'any'
+      bibleId: 'targetBible'
     },
     {
       languageId: 'hbo',
@@ -20,20 +20,50 @@ describe('paneSettingsHelper', () => {
     },
     {
       languageId: 'en',
-      bibleId: 'ulb'
+      bibleId: 'ult'
     },
     {
       languageId: 'en',
-      bibleId: 'ulb'
+      bibleId: 'ust'
     }
   ];
 
   describe('sortPanesSettings', () => {
-    it('removes targetLanguage', () => {
-      const currentPaneSettings = _.cloneDeep(bibles_);
-      const bibles = _.cloneDeep(bibles_);
+    it('removes hbo', () => {
+      const currentPaneSettings = _.cloneDeep(paneSettings_);
+      const bibles = buildBible(currentPaneSettings);
       sortPanesSettings(currentPaneSettings, setToolSettings_ , bibles);
       expect(desiredPanes_.length).toEqual(4);
+      expect(desiredPanes_[0].bibleId).toEqual('targetBible');
+      expect(desiredPanes_[1].bibleId).toEqual('ugnt');
+    });
+
+    it('adds target and OL', () => {
+      const currentPaneSettings = _.cloneDeep(paneSettings_);
+      const bibles = buildBible(currentPaneSettings.slice(3));
+      sortPanesSettings(currentPaneSettings, setToolSettings_ , bibles);
+      expect(desiredPanes_.length).toEqual(4);
+      expect(desiredPanes_[0].bibleId).toEqual('targetBible');
+      expect(desiredPanes_[1].bibleId).toEqual('ugnt');
+    });
+
+    it('strips ust if not in bibles', () => {
+      let bibles = _.cloneDeep(paneSettings_);
+      bibles = buildBible(bibles.slice(0, 4));
+      const currentPaneSettings = _.cloneDeep(paneSettings_);
+      sortPanesSettings(currentPaneSettings, setToolSettings_ , bibles);
+      expect(desiredPanes_.length).toEqual(3);
+      expect(desiredPanes_[0].bibleId).toEqual('targetBible');
+      expect(desiredPanes_[1].bibleId).toEqual('ugnt');
+    });
+
+    it('moves targetBible and uhb to front', () => {
+      const bibles = buildBible(_.cloneDeep(paneSettings_));
+      const currentPaneSettings = _.cloneDeep(paneSettings_).reverse();
+      sortPanesSettings(currentPaneSettings, setToolSettings_ , bibles);
+      expect(desiredPanes_.length).toEqual(4);
+      expect(desiredPanes_[0].bibleId).toEqual('targetBible');
+      expect(desiredPanes_[1].bibleId).toEqual('uhb');
     });
   });
 });
@@ -44,4 +74,17 @@ describe('paneSettingsHelper', () => {
 
 function setToolSettings(toolname, setting, desiredPanes) {
   desiredPanes_ = _.cloneDeep(desiredPanes);
+}
+
+function buildBible(panes) {
+  const bible = {};
+  for (let pane of panes) {
+    let languageSet = bible[pane.languageId];
+    if (!languageSet) { // create language set if doesn't exist
+      languageSet = {};
+      bible[pane.languageId] = languageSet;
+    }
+    languageSet[pane.bibleId] = true;
+  }
+  return bible;
 }

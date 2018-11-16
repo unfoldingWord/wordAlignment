@@ -1,8 +1,17 @@
 
 export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
-  // filter out targetLanguage and bhp/ugnt
+  // filter out targetLanguage and OL
+  let isOT = false;
   let panes = currentPanes.filter((pane) => {
-    return pane.languageId !== 'targetLanguage' && pane.bibleId !== 'bhp' && pane.bibleId !== 'ugnt';
+    let filterOut = (pane.languageId === 'targetLanguage'); // strip target language which will be placed first
+    if (!filterOut) {
+      const isOL = ['bhp','ugnt','uhb'].includes(pane.bibleId);
+      if (isOL) {  // strip OL which will be place second
+        filterOut = isOL;
+        isOT = (pane.bibleId === 'uhb');
+      }
+    }
+    return !filterOut;
   });
 
   // filter out bibles that are not found in the resources reducer
@@ -18,7 +27,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
     },
     {
       languageId: 'originalLanguage',
-      bibleId: 'ugnt'
+      bibleId: isOT ? 'uhb' : 'ugnt'
     }
   ];
 

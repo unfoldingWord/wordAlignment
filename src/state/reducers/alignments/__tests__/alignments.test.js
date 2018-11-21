@@ -1850,6 +1850,7 @@ describe('selectors', () => {
               text: 'olleh',
               occurrence: 1,
               occurrences: 1,
+              position: 0,
               index: 0
             }],
           targetNgram: [
@@ -1857,6 +1858,7 @@ describe('selectors', () => {
               text: 'hello',
               occurrence: 1,
               occurrences: 1,
+              position: 0,
               index: 0
             }]
         }]
@@ -1873,6 +1875,7 @@ describe('selectors', () => {
             text: 'olleh',
             occurrence: 1,
             occurrences: 1,
+            position: 0,
             index: 0
           }],
         targetNgram: [
@@ -1880,6 +1883,7 @@ describe('selectors', () => {
             text: 'hello',
             occurrence: 1,
             occurrences: 1,
+            position: 0,
             index: 0
           }]
       }]);
@@ -1892,6 +1896,7 @@ describe('selectors', () => {
         text: 'hello',
         occurrence: 1,
         occurrences: 1,
+        position: 0,
         index: 0
       }]);
   });

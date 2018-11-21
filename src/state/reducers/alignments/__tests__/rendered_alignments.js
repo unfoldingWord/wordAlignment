@@ -9,10 +9,15 @@ describe('get tokenzied alignments', () => {
       }
     ];
     const source = [{
-      text: 'hello'
+      text: 'hello',
+      lemma: 'hi',
+      occurrence: 1,
+      occurrences: 1
     }];
     const target = [{
-      text: 'world'
+      text: 'world',
+      occurrence: 1,
+      occurrences: 1
     }];
     const expected = [
       {
@@ -22,12 +27,14 @@ describe('get tokenzied alignments', () => {
           index: 0,
           occurrence: 1,
           occurrences: 1,
+          lemma: 'hi',
           text: 'hello'
         }],
         targetNgram: [{
           index: 0,
           occurrence: 1,
           occurrences: 1,
+          suggestion: false,
           text: 'world'
         }]
       }
@@ -45,10 +52,15 @@ describe('get tokenzied alignments', () => {
       }
     ];
     const source = [{
-      text: 'hello'
+      text: 'hello',
+      lemma: 'hi',
+      occurrence: 1,
+      occurrences: 1
     }];
     const target = [{
-      text: 'world'
+      text: 'world',
+      occurrence: 1,
+      occurrences: 1
     }];
     const expected = [
       {
@@ -58,13 +70,15 @@ describe('get tokenzied alignments', () => {
           index: 0,
           occurrence: 1,
           occurrences: 1,
+          lemma: 'hi',
           text: 'hello'
         }],
         targetNgram: [{
           index: 0,
           occurrence: 1,
           occurrences: 1,
-          text: 'world'
+          text: 'world',
+          suggestion: false
         }]
       }
     ];

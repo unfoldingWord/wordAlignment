@@ -74,8 +74,8 @@
     "tc-ui-toolkit": "0.11.0",
     "usfm-js": "1.0.6",
     "word-aligner": "^0.2.2",
-    "wordmap": "0.4.1",
-    "wordmap-lexer": "0.3.3",
+    "wordmap": "^0.4.2",
+    "wordmap-lexer": "^0.3.4",
     "xregexp": "4.1.1"
   },
   "peerDependencies": {

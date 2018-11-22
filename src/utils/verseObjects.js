@@ -11,10 +11,12 @@ export const tokenizeVerseObjects = (verseObjects) => {
   const occurrences = {};
   let position = 0;
   const words = VerseObjectUtils.getWordList(verseObjects);
+  let sentenceCharLength = 0;
   for (const word of words) {
     if (typeof occurrences[word.text] === 'undefined') {
       occurrences[word.text] = 0;
     }
+    sentenceCharLength += word.text.length;
     occurrences[word.text]++;
     tokens.push(new Token({
       text: word.text,
@@ -35,7 +37,9 @@ export const tokenizeVerseObjects = (verseObjects) => {
       lemma: token.lemma,
       position: token.position,
       occurrence: token.occurrence,
-      occurrences: occurrences[token.toString()]
+      occurrences: occurrences[token.toString()],
+      sentenceTokenLen: tokens.length,
+      sentenceCharLen: sentenceCharLength
     }));
   }
   return completeTokens;

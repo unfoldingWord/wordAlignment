@@ -90,7 +90,6 @@ export const generateMAP = (
             // exclude current verse from saved alignments
             continue;
           }
-
           for (const a of chapterAlignments[verse]) {
             if (a.sourceNgram.length && a.targetNgram.length) {
               map.appendAlignmentMemory(new Alignment(new Ngram(a.sourceNgram), new Ngram(a.targetNgram)));
@@ -108,7 +107,7 @@ export const generateMAP = (
  * @param {WordMap} map
  * @param sourceVerseText
  * @param targetVerseText
- * @return {Promise<any>}
+ * @return {Promise<*>}
  */
 export const getPredictions = (map, sourceVerseText, targetVerseText) => {
   return new Promise(resolve => {
@@ -280,12 +279,12 @@ class Container extends Component {
   updatePredictions(props) {
     const {
       normalizedTargetVerseText,
-      normalizedSourceVerseText,
+      sourceTokens,
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
 
-    return getPredictions(this.map, normalizedSourceVerseText,
+    return getPredictions(this.map, sourceTokens,
       normalizedTargetVerseText).then(predictions => {
       if (predictions) {
         return setAlignmentPredictions(chapter, verse, predictions);

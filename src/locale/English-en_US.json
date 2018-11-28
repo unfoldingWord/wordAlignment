@@ -171,6 +171,7 @@
   "ithpalpel": "ithpalpel",
   "ithpolel": "ithpolel",
   "ittaphal": "ittaphal",
+  "morph_missing": "Morphology not found",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",

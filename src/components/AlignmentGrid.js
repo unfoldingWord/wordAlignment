@@ -5,21 +5,24 @@ import * as types from './WordCard/Types';
 // components
 import AlignmentCard from './AlignmentCard';
 
-const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    backgroundColor: '#ffffff',
-    padding: '0px 10px 10px',
-    overflowY: 'auto',
-    flexGrow: 2,
-    alignContent: 'flex-start'
-  },
-  warning: {
-    padding: '20px',
-    backgroundColor: '#ccc',
-    display: 'inline-block'
-  }
+const makeStyles = props => {
+  return {
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      backgroundColor: '#ffffff',
+      padding: '0px 10px 10px',
+      overflowY: 'auto',
+      flexGrow: 2,
+      direction: props.sourceDirection,
+      alignContent: 'flex-start'
+    },
+    warning: {
+      padding: '20px',
+      backgroundColor: '#ccc',
+      display: 'inline-block'
+    }
+  };
 };
 
 /**
@@ -32,6 +35,8 @@ class AlignmentGrid extends Component {
       actions,
       lexicons,
       onCancelSuggestion,
+      sourceDirection,
+      targetDirection,
       onAcceptTokenSuggestion,
       alignments,
       contextId
@@ -40,6 +45,9 @@ class AlignmentGrid extends Component {
     if (!contextId) {
       return <div/>;
     }
+
+    const styles = makeStyles(this.props);
+
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
       <div id='AlignmentGrid' style={styles.root}>
@@ -62,6 +70,8 @@ class AlignmentGrid extends Component {
 
                 <AlignmentCard
                   translate={translate}
+                  sourceDirection={sourceDirection}
+                  targetDirection={targetDirection}
                   onCancelTokenSuggestion={onCancelSuggestion}
                   onAcceptTokenSuggestion={onAcceptTokenSuggestion}
                   alignmentIndex={alignment.index}
@@ -75,6 +85,8 @@ class AlignmentGrid extends Component {
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
                   translate={translate}
+                  sourceDirection={sourceDirection}
+                  targetDirection={targetDirection}
                   alignmentIndex={alignment.index}
                   isSuggestion={alignment.isSuggestion}
                   placeholderPosition="right"
@@ -120,7 +132,14 @@ AlignmentGrid.propTypes = {
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
-  lexicons: PropTypes.object.isRequired
+  lexicons: PropTypes.object.isRequired,
+  sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
+  targetDirection: PropTypes.oneOf(['ltr', 'rtl'])
+};
+
+AlignmentGrid.defaultProps = {
+  sourceDirection: 'ltr',
+  targetDirection: 'ltr'
 };
 
 export default AlignmentGrid;

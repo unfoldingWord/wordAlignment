@@ -12,6 +12,7 @@ const makeStyles = (props) => {
     sourceTokenCards,
     hoverTop,
     hoverBottom,
+    targetDirection,
     targetTokenCards,
     acceptsSourceTokens,
     acceptsTargetTokens
@@ -61,6 +62,7 @@ const makeStyles = (props) => {
       transition: transitionSpeed,
       flexGrow: 1,
       width: '100%',
+      direction: targetDirection,
       minHeight: '45px',
       border: emptyBottom || acceptsTargetTokens ? whiteBorder : clearBorder,
       boxSizing: 'border-box'
@@ -128,10 +130,12 @@ AlignmentCard.propTypes = {
   hoverBottom: PropTypes.bool,
   hoverTop: PropTypes.bool,
   acceptsSourceTokens: PropTypes.bool,
-  acceptsTargetTokens: PropTypes.bool
+  acceptsTargetTokens: PropTypes.bool,
+  targetDirection: PropTypes.oneOf(['rtl', 'ltr'])
 };
 AlignmentCard.defaultProps = {
-  isSuggestion: false
+  isSuggestion: false,
+  targetDirection: 'ltr'
 };
 
 export default AlignmentCard;

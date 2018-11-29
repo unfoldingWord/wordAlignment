@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
-import { WordLexiconDetails } from 'tc-ui-toolkit';
+import { WordLexiconDetails, lexiconHelpers } from 'tc-ui-toolkit';
 import * as types from './WordCard/Types';
-// helpers
-import * as lexiconHelpers from '../utils/lexicon';
 // components
 import Word from './WordCard';
 import Tooltip from './Tooltip';

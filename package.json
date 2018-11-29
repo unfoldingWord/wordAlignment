@@ -71,7 +71,7 @@
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
     "tc-tool": "^2.0.0-rc.1",
-    "tc-ui-toolkit": "0.11.0",
+    "tc-ui-toolkit": "github:translationCoreApps/tc-ui-toolkit#feature-mcleanb-5134",
     "usfm-js": "1.0.6",
     "word-aligner": "^0.2.2",
     "wordmap": "0.4.1",

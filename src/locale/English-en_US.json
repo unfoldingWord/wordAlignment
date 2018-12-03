@@ -121,6 +121,9 @@
     "remove_resource": "Click to remove resource",
     "add_resource": "Click to add a resource",
     "add_resource_label": "Add Resources",
-    "select_language": "Select language"
+    "select_language": "Select language",
+    "gateway_language": "Gateway Language",
+    "target_language": "Target Language",
+    "original_language": "Original Language"
   }
 }

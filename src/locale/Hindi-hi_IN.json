@@ -121,6 +121,9 @@
     "remove_resource": "संसाधन को हटाने के लिए क्लिक करें",
     "add_resource": "संसाधन जोड़ने के लिए क्लिक करें",
     "add_resource_label": "संसाधन जोड़ें",
-    "select_language": "भाषा चुनिए"
+    "select_language": "भाषा चुनिए",
+    "gateway_language": "Gateway Language",
+    "target_language": "Target Language",
+    "original_language": "Original Language"
   }
 }

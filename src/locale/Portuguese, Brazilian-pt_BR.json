@@ -121,6 +121,9 @@
     "remove_resource": "Clique para remover o recurso expandido",
     "add_resource": "Clique para adicionar um recurso",
     "add_resource_label": "Adicionar Recursos",
-    "select_language": "Selecionar o idioma"
+    "select_language": "Selecionar o idioma",
+    "gateway_language": "Gateway Language",
+    "target_language": "Target Language",
+    "original_language": "Original Language"
   }
 }

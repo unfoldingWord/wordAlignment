@@ -101,10 +101,7 @@ class PrimaryToken extends Component {
    */
   _handleClick(e) {
     const {translate, token} = this.props;
-    const strongs_ = lexiconHelpers.findStrongs(token.strong);
-    const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(strongs_);
-    const lexiconId = lexiconHelpers.lexiconIdFromStrongs(strongs_);
-    const lexiconData = this.props.actions.getLexiconData(lexiconId, entryId);
+    const lexiconData = lexiconHelpers.lookupStrongsNumbers(token.strong, this.props.actions.getLexiconData);
     const positionCoord = e.target;
     const PopoverTitle = (
       <strong style={{fontSize: '1.2em'}}>{token.text}</strong>

@@ -122,8 +122,8 @@
     "add_resource": "संसाधन जोड़ने के लिए क्लिक करें",
     "add_resource_label": "संसाधन जोड़ें",
     "select_language": "भाषा चुनिए",
-    "gateway_language": "Gateway Language",
-    "target_language": "Target Language",
-    "original_language": "Original Language"
+    "gateway_language": "गेटवे भाषा",
+    "target_language": "लक्ष्य भाषा",
+    "original_language": "मूल भाषा"
   }
 }

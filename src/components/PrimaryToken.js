@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
-import { WordLexiconDetails } from 'tc-ui-toolkit';
+import { WordLexiconDetails, lexiconHelpers } from 'tc-ui-toolkit';
 import * as types from './WordCard/Types';
-// helpers
-import * as lexiconHelpers from '../utils/lexicon';
 // components
 import Word from './WordCard';
 import Tooltip from './Tooltip';
@@ -103,9 +101,7 @@ class PrimaryToken extends Component {
    */
   _handleClick(e) {
     const {translate, token} = this.props;
-    const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(token.strong);
-    const lexiconId = lexiconHelpers.lexiconIdFromStrongs(token.strong);
-    const lexiconData = this.props.actions.getLexiconData(lexiconId, entryId);
+    const lexiconData = lexiconHelpers.lookupStrongsNumbers(token.strong, this.props.actions.getLexiconData);
     const positionCoord = e.target;
     const PopoverTitle = (
       <strong style={{fontSize: '1.2em'}}>{token.text}</strong>

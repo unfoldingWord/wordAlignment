@@ -26,6 +26,7 @@ const makeStyles = (props) => {
       ...style
     },
     word: {
+      width: 'max-content',
       flexGrow: 2
     }
   };

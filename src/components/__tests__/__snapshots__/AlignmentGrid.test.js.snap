@@ -108,6 +108,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "width": "max-content",
                           }
                         }
                       >
@@ -250,6 +251,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "width": "max-content",
                           }
                         }
                       >
@@ -392,6 +394,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "width": "max-content",
                           }
                         }
                       >

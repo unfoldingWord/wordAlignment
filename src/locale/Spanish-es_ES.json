@@ -124,7 +124,7 @@
   "participle_active": "Participio Activo",
   "participle_passive": "Participio Pasivo",
   "infinitive_absolute": "Infinitivo Absoluto",
-  "infinitive_construct": "Constructo Infinitivo",
+  "infinitive_construct": "Infinitive Construct",
   "qal": "qal",
   "niphal": "niphal",
   "piel": "piel",
@@ -171,7 +171,7 @@
   "ithpalpel": "ithpalpel",
   "ithpolel": "ithpolel",
   "ittaphal": "ittaphal",
-  "morph_missing": "Morfología no encontrada",
+  "morph_missing": "Morfología no encontrado",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Volver",

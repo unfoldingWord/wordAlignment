@@ -29,6 +29,28 @@ describe('paneSettingsHelper', () => {
   ];
 
   describe('sortPanesSettings', () => {
+    it('if empty adds target and greek OL', () => {
+      const currentPaneSettings =[];
+      const bibles = buildBible(currentPaneSettings);
+      bibles.originalLanguage = {};
+      bibles.originalLanguage.ugnt = {};
+      sortPanesSettings(currentPaneSettings, setToolSettings_ , bibles);
+      expect(desiredPanes_.length).toEqual(2);
+      expect(desiredPanes_[0].bibleId).toEqual('targetBible');
+      expect(desiredPanes_[1].bibleId).toEqual('ugnt');
+    });
+
+    it('if empty adds target and hebrew OL', () => {
+      const currentPaneSettings =[];
+      const bibles = buildBible(currentPaneSettings);
+      bibles.originalLanguage = {};
+      bibles.originalLanguage.uhb = {};
+      sortPanesSettings(currentPaneSettings, setToolSettings_ , bibles);
+      expect(desiredPanes_.length).toEqual(2);
+      expect(desiredPanes_[0].bibleId).toEqual('targetBible');
+      expect(desiredPanes_[1].bibleId).toEqual('uhb');
+    });
+
     it('removes hbo', () => {
       const currentPaneSettings = _.cloneDeep(paneSettings_);
       const bibles = buildBible(currentPaneSettings);

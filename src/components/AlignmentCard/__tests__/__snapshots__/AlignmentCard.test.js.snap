@@ -105,6 +105,7 @@ exports[`has a bottom word 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -209,6 +210,7 @@ exports[`has a top and bottom word 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -277,6 +279,7 @@ exports[`has a top and bottom word 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -381,6 +384,7 @@ exports[`has a top word 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -526,6 +530,7 @@ exports[`has multiple bottom words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -567,6 +572,7 @@ exports[`has multiple bottom words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -671,6 +677,7 @@ exports[`has multiple top and bottom words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -712,6 +719,7 @@ exports[`has multiple top and bottom words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -780,6 +788,7 @@ exports[`has multiple top and bottom words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -821,6 +830,7 @@ exports[`has multiple top and bottom words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -925,6 +935,7 @@ exports[`has multiple top words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >
@@ -966,6 +977,7 @@ exports[`has multiple top words 1`] = `
                 style={
                   Object {
                     "flexGrow": 2,
+                    "width": "max-content",
                   }
                 }
               >

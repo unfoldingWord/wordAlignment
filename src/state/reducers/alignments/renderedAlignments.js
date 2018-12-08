@@ -80,6 +80,6 @@ export const getTokenizedAlignments = (state, sourceTokens, targetTokens) => {
  * @return {*|number[]|boolean}
  */
 const isTokenSuggestion = (renderedAlignment, token) => {
-  return renderedAlignment.suggestedTargetTokens &&
+  return renderedAlignment.suggestedTargetTokens !== undefined &&
     renderedAlignment.suggestedTargetTokens.indexOf(token.position) >= 0;
 };

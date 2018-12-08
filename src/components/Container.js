@@ -5,7 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import WordList from './WordList/index';
 import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
-import WordMap from 'wordmap';
+import WordMap, {Alignment, Ngram} from 'wordmap';
 import Lexer, {Token} from 'wordmap-lexer';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -92,9 +92,7 @@ export const generateMAP = (
           }
           for (const a of chapterAlignments[verse]) {
             if (a.sourceNgram.length && a.targetNgram.length) {
-              const sourceText = a.sourceNgram.map(t => t.toString()).join(' ');
-              const targetText = a.targetNgram.map(t => t.toString()).join(' ');
-              map.appendAlignmentMemoryString(sourceText, targetText);
+              map.appendAlignmentMemory(new Alignment(new Ngram(a.sourceNgram), new Ngram(a.targetNgram)));
             }
           }
         }
@@ -109,7 +107,7 @@ export const generateMAP = (
  * @param {WordMap} map
  * @param sourceVerseText
  * @param targetVerseText
- * @return {Promise<any>}
+ * @return {Promise<*>}
  */
 export const getPredictions = (map, sourceVerseText, targetVerseText) => {
   return new Promise(resolve => {
@@ -262,6 +260,7 @@ class Container extends Component {
     const state = store.getState();
     return generateMAP(targetBible, state, chapter, verse).then(map => {
       for (const key of Object.keys(tools)) {
+        // TODO: the tools should give tokens if possible.
         const alignmentMemory = tools[key].trigger('getAlignmentMemory');
         if (alignmentMemory) {
           for (const alignment of alignmentMemory) {
@@ -280,12 +279,12 @@ class Container extends Component {
   updatePredictions(props) {
     const {
       normalizedTargetVerseText,
-      normalizedSourceVerseText,
+      sourceTokens,
       setAlignmentPredictions,
       tc: {contextId: {reference: {chapter, verse}}}
     } = props;
 
-    return getPredictions(this.map, normalizedSourceVerseText,
+    return getPredictions(this.map, sourceTokens,
       normalizedTargetVerseText).then(predictions => {
       if (predictions) {
         return setAlignmentPredictions(chapter, verse, predictions);

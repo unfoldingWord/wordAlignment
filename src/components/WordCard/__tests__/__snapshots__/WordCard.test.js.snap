@@ -34,6 +34,7 @@ exports[`is a suggestion 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >
@@ -116,6 +117,7 @@ exports[`occurs multiple times 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >
@@ -171,6 +173,7 @@ exports[`occurs once 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >
@@ -215,6 +218,7 @@ exports[`renders rtl 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >

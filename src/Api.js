@@ -1,7 +1,7 @@
 import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
-  getIsChapterLoaded,
+  getIsChapterLoaded, getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
@@ -557,7 +557,8 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * Returns the % progress of completion for the project
+   * Returns the % progress of completion for the project.
+   * Verses that are fully aligned and completed are included in the progress
    * @returns {number} - a value between 0 and 1
    */
   getProgress() {
@@ -566,6 +567,7 @@ export default class Api extends ToolApi {
         targetBook
       }
     } = this.props;
+    const {store} = this.context;
 
     const chapters = Object.keys(targetBook);
     let totalVerses = 0;
@@ -580,7 +582,8 @@ export default class Api extends ToolApi {
         if(isNaN(verse) || parseInt(verse) === -1) continue;
 
         totalVerses ++;
-        if(this.getIsVerseFinished(chapter, verse)) {
+        const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
+        if(isAligned && this.getIsVerseFinished(chapter, verse)) {
           completeVerses ++;
         }
       }

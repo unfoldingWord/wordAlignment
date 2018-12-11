@@ -8,7 +8,7 @@ describe('saving', () => {
     const api = new Api();
     api.props = {
       tc: {
-        targetBible: {
+        targetBook: {
           1: {
             1: "hello"
           }
@@ -107,7 +107,7 @@ describe('saving', () => {
       const api = new Api();
       api.props = {
         tc: {
-          targetBible: {
+          targetBook: {
             1: {
               1: {}
             }
@@ -137,7 +137,7 @@ describe('saving', () => {
       const api = new Api();
       api.props = {
         tc: {
-          targetBible: {
+          targetBook: {
             1: {
               1: "hello"
             }
@@ -316,7 +316,7 @@ describe('validate', () => {
             }
           }
         },
-        targetBible: {
+        targetBook: {
           1: {
             1: "hello"
           }
@@ -358,7 +358,7 @@ describe('validate', () => {
             }
           }
         },
-        targetBible: {
+        targetBook: {
           1: {
             1: "hello"
           }
@@ -399,7 +399,7 @@ describe('validate', () => {
             }
           }
         },
-        targetBible: {
+        targetBook: {
           1: {
             1: "hello"
           }
@@ -440,7 +440,7 @@ describe('validate', () => {
             }
           }
         },
-        targetBible: {
+        targetBook: {
           1: {
             1: "hello"
           }

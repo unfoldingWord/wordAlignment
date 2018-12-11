@@ -251,14 +251,14 @@ class Container extends Component {
     const {
       tc: {
         contextId: {reference: {chapter, verse}},
-        targetBible,
+        targetBook,
         tools
       }
     } = props;
 
     const {store} = this.context;
     const state = store.getState();
-    return generateMAP(targetBible, state, chapter, verse).then(map => {
+    return generateMAP(targetBook, state, chapter, verse).then(map => {
       for (const key of Object.keys(tools)) {
         // TODO: the tools should give tokens if possible.
         const alignmentMemory = tools[key].trigger('getAlignmentMemory');

@@ -33,6 +33,8 @@ export default class Api extends ToolApi {
     this._loadBookAlignments = this._loadBookAlignments.bind(this);
     this.getIsVerseInvalid = this.getIsVerseInvalid.bind(this);
     this._showResetDialog = this._showResetDialog.bind(this);
+    this.getInvalidChecks = this.getInvalidChecks.bind(this);
+    this.getProgress = this.getProgress.bind(this);
   }
 
   /**
@@ -521,5 +523,50 @@ export default class Api extends ToolApi {
     } = this.props;
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     return toolDataPathExistsSync(dataPath);
+  }
+
+  /**
+   * Returns the number of verses that have invalidated alignments
+   * @returns {number}
+   */
+  getInvalidChecks() {
+    return 5;
+  }
+
+  /**
+   * Returns the % progress of completion for the project
+   * @returns {number} - a value between 0 and 1
+   */
+  getProgress() {
+    const {
+      tc: {
+        targetBook
+      }
+    } = this.props;
+
+    const chapters = Object.keys(targetBook);
+    let totalVerses = 0;
+    let completeVerses = 0;
+    for(let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
+      const chapter = chapters[i];
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
+      const verses = Object.keys(targetBook[chapter]);
+      for(let j = 0, verseLen = verses.length; j < verseLen; j ++) {
+        const verse = verses[j];
+        if(isNaN(verse) || parseInt(verse) === -1) continue;
+
+        totalVerses ++;
+        if(this.getIsVerseFinished(chapter, verse)) {
+          completeVerses ++;
+        }
+      }
+    }
+
+    if(totalVerses > 0) {
+      return completeVerses / totalVerses;
+    } else {
+      return 0;
+    }
   }
 }

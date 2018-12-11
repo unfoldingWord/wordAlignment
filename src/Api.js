@@ -530,7 +530,30 @@ export default class Api extends ToolApi {
    * @returns {number}
    */
   getInvalidChecks() {
-    return 5;
+    const {
+      tc: {
+        targetBook
+      }
+    } = this.props;
+
+    const chapters = Object.keys(targetBook);
+    let invalidVerses = 0;
+    for(let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
+      const chapter = chapters[i];
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
+      const verses = Object.keys(targetBook[chapter]);
+      for(let j = 0, verseLen = verses.length; j < verseLen; j ++) {
+        const verse = verses[j];
+        if(isNaN(verse) || parseInt(verse) === -1) continue;
+
+        if(this.getIsVerseInvalid(chapter, verse)) {
+          invalidVerses ++;
+        }
+      }
+    }
+
+    return invalidVerses;
   }
 
   /**

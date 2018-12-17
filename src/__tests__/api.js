@@ -306,7 +306,7 @@ describe('validate', () => {
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        sourceBible: {
+        sourceBook: {
           1: {
             1: {
               verseObjects: [{
@@ -348,7 +348,7 @@ describe('validate', () => {
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        sourceBible: {
+        sourceBook: {
           1: {
             1: {
               verseObjects: [{
@@ -389,7 +389,7 @@ describe('validate', () => {
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        sourceBible: {
+        sourceBook: {
           1: {
             1: {
               verseObjects: [{
@@ -430,7 +430,7 @@ describe('validate', () => {
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
-        sourceBible: {
+        sourceBook: {
           1: {
             1: {
               verseObjects: [{

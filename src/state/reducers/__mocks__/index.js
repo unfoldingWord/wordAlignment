@@ -14,6 +14,30 @@ const reducers = jest.genMockFromModule('../');
   });
 }
 
+// mock getIsVerseAligned
+{
+  let isVerseAligned = {};
+  
+  function __setIsVerseAligned(chapter, verse, aligned) {
+    if(!isVerseAligned.hasOwnProperty(chapter)) {
+      isVerseAligned[chapter] = {};
+    }
+    if(!isVerseAligned[chapter].hasOwnProperty(verse)){
+      isVerseAligned[chapter][verse] = false;
+    }
+    isVerseAligned[chapter][verse] = aligned;
+  }
+  
+  reducers.__setIsVerseAligned = __setIsVerseAligned;
+  reducers.getIsVerseAligned = jest.fn((state, chapter, verse) => {
+    if(isVerseAligned.hasOwnProperty(chapter) && isVerseAligned[chapter].hasOwnProperty(verse)) {
+      return isVerseAligned[chapter][verse];
+    } else {
+      return false;
+    }
+  });
+}
+
 // mock getVerseAlignedTargetTokens
 {
   let alignedTokens = [];

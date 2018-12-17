@@ -455,3 +455,46 @@ describe('validate', () => {
     expect(props.tool.deleteToolFile).not.toBeCalled();
   });
 });
+
+describe('get number of invalid checks', () => {
+  it('has no invalid checks', () => {
+    const props = {
+      tool: {
+        toolDataPathExistsSync: () => false
+      },
+      tc: {
+        targetBook: {
+          '1': {
+            '1': {
+
+            }
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+    const numInvalidChecks = api.getInvalidChecks();
+    expect(numInvalidChecks).toEqual(0);
+  });
+
+  it('has some invalid checks', () => {
+    const props = {
+      tool: {
+        toolDataPathExistsSync: () => true
+      },
+      tc: {
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+    const numInvalidChecks = api.getInvalidChecks();
+    expect(numInvalidChecks).toEqual(2);
+  });
+});

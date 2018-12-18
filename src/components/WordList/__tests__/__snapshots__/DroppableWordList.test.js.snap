@@ -3,8 +3,8 @@
 exports[`Test DroppableWordList component in WordList/index.js DroppableWordList component full integration test 1`] = `
 <DragDropContext(TestContextContainer)
   chapter={1}
-  moveBackToWordBank={[Function]}
-  onDropTargetToken={[Function]}
+  moveBackToWordBank={[MockFunction]}
+  onDropTargetToken={[MockFunction]}
   verse={1}
   words={
     Array [
@@ -33,8 +33,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
 >
   <TestContextContainer
     chapter={1}
-    moveBackToWordBank={[Function]}
-    onDropTargetToken={[Function]}
+    moveBackToWordBank={[MockFunction]}
+    onDropTargetToken={[MockFunction]}
     verse={1}
     words={
       Array [
@@ -63,8 +63,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   >
     <DropTarget(DroppableWordList)
       chapter={1}
-      moveBackToWordBank={[Function]}
-      onDropTargetToken={[Function]}
+      moveBackToWordBank={[MockFunction]}
+      onDropTargetToken={[MockFunction]}
       verse={1}
       words={
         Array [
@@ -97,8 +97,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         direction="ltr"
         isOver={false}
-        moveBackToWordBank={[Function]}
-        onDropTargetToken={[Function]}
+        moveBackToWordBank={[MockFunction]}
+        onDropTargetToken={[MockFunction]}
         verse={1}
         words={
           Array [
@@ -681,8 +681,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
 <DragDropContext(TestContextContainer)
   chapter={2}
   isOver={false}
-  moveBackToWordBank={[Function]}
-  onDropTargetToken={[Function]}
+  moveBackToWordBank={[MockFunction]}
+  onDropTargetToken={[MockFunction]}
   verse={1}
   wordList={
     Object {
@@ -717,8 +717,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   <TestContextContainer
     chapter={2}
     isOver={false}
-    moveBackToWordBank={[Function]}
-    onDropTargetToken={[Function]}
+    moveBackToWordBank={[MockFunction]}
+    onDropTargetToken={[MockFunction]}
     verse={1}
     wordList={
       Object {
@@ -753,8 +753,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     <DropTarget(DroppableWordList)
       chapter={2}
       isOver={false}
-      moveBackToWordBank={[Function]}
-      onDropTargetToken={[Function]}
+      moveBackToWordBank={[MockFunction]}
+      onDropTargetToken={[MockFunction]}
       verse={1}
       wordList={
         Object {
@@ -792,8 +792,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         direction="ltr"
         isOver={false}
-        moveBackToWordBank={[Function]}
-        onDropTargetToken={[Function]}
+        moveBackToWordBank={[MockFunction]}
+        onDropTargetToken={[MockFunction]}
         verse={1}
         wordList={
           Object {

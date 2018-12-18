@@ -63,7 +63,7 @@
     "fs-extra": "4.0.3",
     "lodash": "^4.17.10",
     "os-locale": "2.1.0",
-    "path-extra": "3.0.0",
+    "path-extra": "4.2.1",
     "react-dnd": "2.5.4",
     "react-dnd-html5-backend": "2.5.4",
     "react-localize-redux": "2.15.1",

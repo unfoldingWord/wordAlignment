@@ -120,7 +120,7 @@ const mapStateToProps = (state, props) => {
   const {tc, translate, toolApi} = props;
 
   return {
-    toolsReducer: tc.toolsReducer,
+    toolsReducer: {currentToolName: tc.selectedToolName},
     groupsDataReducer: tc.groupsDataReducer,
     groupsIndexReducer: tc.groupsIndexReducer,
     groupMenuReducer: tc.groupMenuReducer,

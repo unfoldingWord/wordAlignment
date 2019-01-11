@@ -263,11 +263,13 @@ class Menu extends React.Component {
                   open={this.isGroupOpen(group)}
                   label={group.title}
                 />
-                <Collapse
-                  in={this.isGroupOpen(group)}
-                  timeout="auto"
-                  unmountOnExit
-                >
+                {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
+                {/*<Collapse*/}
+                  {/*in={this.isGroupOpen(group)}*/}
+                  {/*timeout="auto"*/}
+                  {/*unmountOnExit*/}
+                {/*>*/}
+                {this.isGroupOpen(group) ? (
                   <List component="div" disablePadding>
                     {group.children.map((item, index) => (
                       <RootRef key={index} rootRef={this.handleItemRef(item)}>
@@ -281,7 +283,9 @@ class Menu extends React.Component {
                       </RootRef>
                     ))}
                   </List>
-                </Collapse>
+                ) : null}
+
+                {/*</Collapse>*/}
               </React.Fragment>
             </RootRef>
           ))}

@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import RootRef from '@material-ui/core/RootRef';
 import MenuItem from './MenuItem';
 import MenuGroup from './MenuGroup';
 import memoize from 'memoize-one';
+import EmptyItem from './EmptyItem';
 
 const styles = () => ({
   root: {
@@ -291,77 +290,55 @@ class Menu extends React.Component {
 
     const normalizedStatusIcons = this.normalizeStatusIcons(statusIcons);
 
-    if (entries.length) {
-      return (
-        <RootRef rootRef={this.menuRef}>
-          <List
-            component="nav"
-            subheader={header}
-            className={classes.root}
-            style={{height, width}}
-          >
-            {entries.map((group, index) => (
-              <RootRef key={index} rootRef={this.handleGroupRef(group)}>
-                <React.Fragment>
-                  <MenuGroup
-                    selected={this.isGroupSelected(group)}
-                    onClick={this.handleOpen(group)}
-                    progress={group.progress}
-                    open={this.isGroupOpen(group)}
-                    label={group.title}
-                  />
-                  {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
-                  {/*<Collapse*/}
-                  {/*in={this.isGroupOpen(group)}*/}
-                  {/*timeout="auto"*/}
-                  {/*unmountOnExit*/}
-                  {/*>*/}
-                  {this.isGroupOpen(group) ? (
-                    <List component="div" disablePadding>
-                      {group.children.map((item, index) => (
-                        <RootRef key={index} rootRef={this.handleItemRef(item)}>
-                          <MenuItem
-                            status={item}
-                            selected={this.isItemSelected(item)}
-                            statusIcons={normalizedStatusIcons}
-                            onClick={this.handleClick(item.contextId)}
-                            title={item.title}
-                          />
-                        </RootRef>
-                      ))}
-                    </List>
-                  ) : null}
-
-                  {/*</Collapse>*/}
-                </React.Fragment>
-              </RootRef>
-            ))}
-          </List>
-        </RootRef>
-      );
-    } else {
-      const notice = (
-        <ListItem className={classes.header}>
-          <ListItemText
-            classes={{
-              primary: classes.text
-            }}
-            primary={emptyNotice}
-          />
-        </ListItem>
-      );
-
-      return (
+    return (
+      <RootRef rootRef={this.menuRef}>
         <List
           component="nav"
           subheader={header}
           className={classes.root}
           style={{height, width}}
         >
-          {emptyNotice ? notice : null}
+          {entries.map((group, index) => (
+            <RootRef key={index} rootRef={this.handleGroupRef(group)}>
+              <React.Fragment>
+                <MenuGroup
+                  selected={this.isGroupSelected(group)}
+                  onClick={this.handleOpen(group)}
+                  progress={group.progress}
+                  open={this.isGroupOpen(group)}
+                  label={group.title}
+                />
+                {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
+                {/*<Collapse*/}
+                {/*in={this.isGroupOpen(group)}*/}
+                {/*timeout="auto"*/}
+                {/*unmountOnExit*/}
+                {/*>*/}
+                {this.isGroupOpen(group) ? (
+                  <List component="div" disablePadding>
+                    {group.children.map((item, index) => (
+                      <RootRef key={index} rootRef={this.handleItemRef(item)}>
+                        <MenuItem
+                          status={item}
+                          selected={this.isItemSelected(item)}
+                          statusIcons={normalizedStatusIcons}
+                          onClick={this.handleClick(item.contextId)}
+                          title={item.title}
+                        />
+                      </RootRef>
+                    ))}
+                  </List>
+                ) : null}
+
+                {/*</Collapse>*/}
+              </React.Fragment>
+            </RootRef>
+          ))}
+          <EmptyItem key="empty" label={emptyNotice}
+                     enabled={entries.length === 0}/>
         </List>
-      );
-    }
+      </RootRef>
+    );
   }
 }
 

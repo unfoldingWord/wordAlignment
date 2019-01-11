@@ -9,6 +9,7 @@ import LinkOffIcon from '@material-ui/icons/LinkOff';
 import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
+import {getChecks} from '../state/reducers';
 
 class GroupMenuContainer extends React.Component {
   constructor(props) {
@@ -102,7 +103,8 @@ class GroupMenuContainer extends React.Component {
     return {
       ...item,
       title: `${bookName} ${chapter}:${verse}`,
-      finished: toolApi.getIsVerseFinished(chapter, verse)
+      completed: toolApi.getIsVerseFinished(chapter, verse), // TODO: I could read from state if I load these into the reducer at startup.
+      invalid: toolApi.getIsVerseInvalid(chapter, verse),
     };
   };
 
@@ -117,52 +119,73 @@ class GroupMenuContainer extends React.Component {
       toolsReducer,
       contextId,
       manifest,
-
       projectSaveLocation
     } = this.props;
 
     const filters = [
       {
+        label: 'Invalidated',
+        key: 'invalid',
+        icon: <LinkOffIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        label: 'Bookmark',
+        key: 'bookmarked',
+        icon: <BookmarkIcon style={{color: '#ffffff'}}/>
+      },
+      {
         label: 'Completed',
-        key: 'finished',
+        key: 'completed',
         disables: ['incomplete'],
         icon: <CheckIcon style={{color: '#ffffff'}}/>
       },
       {
         label: 'Incomplete',
-        id: 'incomplete', // the default id is the key
-        key: 'finished',
-        value: false, // the default value is true
-        disables: ['finished'], // the default is []. this refers to the filter id
+        id: 'incomplete',
+        key: 'completed',
+        value: false,
+        disables: ['finished'],
         icon: <BlockIcon/>
-      },
-      {
-        label: 'Bookmarks',
-        key: 'bookmarks',
-        icon: <BookmarkIcon style={{color: '#ffffff'}}/>
-      },
-      {
-        label: 'Invalidated', // localized
-        key: 'invalidated',
-        icon: <LinkOffIcon style={{color: '#ffffff'}}/>
-      },
-      {
-        label: 'Comments',
-        key: 'comments',
-        icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
       },
       {
         label: 'Verse edit',
         key: 'verseEdits',
         icon: <EditIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        label: 'Comments',
+        key: 'comments',
+        icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
       }
     ];
-    const statusIcons = filters.filter(f => f.id !== 'incomplete');
+
+    const statusIcons = [
+      {
+        key: 'completed',
+        icon: <CheckIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        key: 'bookmarks',
+        icon: <BookmarkIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        key: 'invalid',
+        icon: <LinkOffIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        key: 'comments',
+        icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        key: 'verseEdits',
+        icon: <EditIcon style={{color: '#ffffff'}}/>
+      }
+    ];
 
     const entries = generateMenuData(
       groupsIndexReducer.groupsIndex,
       groupsDataReducer.groupsData,
-      'finished',
+      'completed',
       this.onProcessItem
     );
 
@@ -214,6 +237,7 @@ const mapStateToProps = (state, props) => {
   const {tc, translate, toolApi} = props;
 
   return {
+    completedChecks: getChecks(state, "completed"),
     toolsReducer: {currentToolName: tc.selectedToolName},
     groupsDataReducer: tc.groupsDataReducer,
     groupsIndexReducer: tc.groupsIndexReducer,

@@ -1,9 +1,31 @@
 import {combineReducers} from 'redux';
 import alignments, * as fromAlignments from './alignments';
+import checks, * as fromChecks from './checks';
 
 export default combineReducers({
-  alignments
+  alignments,
+  checks
 });
+
+/**
+ * Returns the check data for a verse
+ * @param state
+ * @param check
+ * @param chapter
+ * @param verse
+ * @returns {*}
+ */
+export const getVerseCheck = (state, check, chapter, verse) =>
+  fromChecks.getVerseCheck(state.tool.checks, chapter, verse);
+
+/**
+ * Returns all the recorded instances of a check
+ * @param state
+ * @param {string} check - the check id
+ * @returns {object} - a dictionary of chapters and verses that contain check data.
+ */
+export const getChecks = (state, check) =>
+  fromChecks.getChecks(state.tool.checks, check);
 
 /**
  * Returns alignments in the chapter

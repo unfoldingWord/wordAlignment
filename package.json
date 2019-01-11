@@ -69,6 +69,7 @@
     "react-localize-redux": "2.15.1",
     "react-tooltip": "3.6.1",
     "redux-batched-actions": "0.3.0",
+    "memoize-one": "5.0.0",
     "reselect": "3.0.1",
     "tc-tool": "2.1.0",
     "tc-ui-toolkit": "0.12.5",
@@ -79,6 +80,9 @@
     "xregexp": "4.1.1"
   },
   "peerDependencies": {
+    "@material-ui/core": "^3.6.2",
+    "@material-ui/icons": "^3.0.1",
+    "@material-ui/styles": "3.0.0-alpha.7",
     "material-ui": "^0.20.0",
     "react": "^16.3.0",
     "redux": "^2.0.0 || ^3.0.0",

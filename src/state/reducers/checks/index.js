@@ -12,7 +12,7 @@ const checks = (state = {}, action) => {
     case RECORD_CHECK:
       return {
         ...state,
-        [action.check]: check(state[check], action)
+        [action.check]: check(state[action.check], action)
       };
     default:
       return state;

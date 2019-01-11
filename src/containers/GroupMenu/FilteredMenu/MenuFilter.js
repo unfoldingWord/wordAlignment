@@ -24,7 +24,8 @@ const styles = theme => ({
   },
   text: {
     color: "#FFFFFF",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: 14
   },
   checkbox: {
     color: "#FFFFFF"
@@ -33,6 +34,9 @@ const styles = theme => ({
     color: "#ffffff",
     borderColor: "#ffffff",
     margin: 5
+  },
+  chipLabel: {
+    fontSize: 14
   },
   chipDeleteIcon: {
     color: "#ffffff",
@@ -130,7 +134,8 @@ class MenuFilter extends React.Component {
                 label={filter.label}
                 variant="outlined"
                 classes={{
-                  deleteIcon: classes.chipDeleteIcon
+                  deleteIcon: classes.chipDeleteIcon,
+                  label: classes.chipLabel
                 }}
                 onDelete={this.handleToggle(filter)}
                 className={classes.chip}

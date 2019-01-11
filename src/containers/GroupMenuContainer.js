@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {generateMenuData} from './GroupMenu';
+import GroupMenu, {generateMenuData} from './GroupMenu';
 import PropTypes from 'prop-types';
 import Api from '../Api';
-// import CheckIcon from "@material-ui/icons/Check";
-// import BookmarkIcon from "@material-ui/icons/Bookmark";
-// import LinkOffIcon from "@material-ui/icons/LinkOff";
-// import BlockIcon from "@material-ui/icons/Block";
-// import ModeCommentIcon from "@material-ui/icons/ModeComment";
-// import EditIcon from "@material-ui/icons/Edit";
+import CheckIcon from "@material-ui/icons/Check";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import LinkOffIcon from "@material-ui/icons/LinkOff";
+import BlockIcon from "@material-ui/icons/Block";
+import ModeCommentIcon from "@material-ui/icons/ModeComment";
+import EditIcon from "@material-ui/icons/Edit";
 
 class GroupMenuContainer extends React.Component {
   constructor(props) {
@@ -75,24 +75,38 @@ class GroupMenuContainer extends React.Component {
     return this.getGroupProgress(groupIndex, groupsData, isVerseFinished);
   }
 
-  // /**
-  //  * Handles click events from the menu
-  //  * @param {object} contextId - the menu item's context id
-  //  */
-  // handleClick = contextId => {
-  //   // TODO: do stuff
-  //   console.log("clicked menu item", contextId);
-  // };
-  //
-  // /**
-  //  * Preprocess a menu item
-  //  * @param {object} item - an item in the groups data
-  //  * @returns {object} the updated item
-  //  */
-  // onProcessItem = item => {
-  //   // TODO: do stuff
-  //   return item;
-  // };
+  /**
+   * Handles click events from the menu
+   * @param {object} contextId - the menu item's context id
+   */
+  handleClick = contextId => {
+    // TODO: do stuff
+    console.log("clicked menu item", contextId);
+  };
+
+  /**
+   * Preprocess a menu item
+   * @param {object} item - an item in the groups data
+   * @returns {object} the updated item
+   */
+  onProcessItem = item => {
+    let selectionTitle = "";
+    if (item.selections && item.selections.length) {
+      selectionTitle = item.selections.map(s => s.text).join(", ");
+    }
+
+    const {
+      contextId: {
+        reference: { bookId, chapter, verse }
+      }
+    } = item;
+    const passageTitle = `${bookId} ${chapter}:${verse}`;
+
+    return {
+      ...item,
+      title: `${passageTitle} ${selectionTitle}`
+    };
+  };
 
   render() {
     const {
@@ -108,76 +122,75 @@ class GroupMenuContainer extends React.Component {
       projectSaveLocation
     } = this.props;
 
-    // const filters = [
-    //   {
-    //     label: 'Selected',
-    //     key: 'selections',
-    //     disables: ['no-selections'],
-    //     icon: <CheckIcon style={{color: '#ffffff'}}/>
-    //   },
-    //   {
-    //     label: 'No selection',
-    //     id: 'no-selections', // the default id is the key
-    //     key: 'selections',
-    //     value: false, // the default value is true
-    //     disables: ['selections'], // the default is []. this refers to the filter id
-    //     icon: <BlockIcon/>
-    //   },
-    //   {
-    //     label: 'Bookmarks',
-    //     key: 'bookmarks',
-    //     icon: <BookmarkIcon style={{color: '#ffffff'}}/>
-    //   },
-    //   {
-    //     label: 'Invalidated', // localized
-    //     key: 'invalidated',
-    //     icon: <LinkOffIcon style={{color: '#ffffff'}}/>
-    //   },
-    //   {
-    //     label: 'Comments',
-    //     key: 'comments',
-    //     icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
-    //   },
-    //   {
-    //     label: 'Verse edit',
-    //     key: 'verseEdits',
-    //     icon: <EditIcon style={{color: '#ffffff'}}/>
-    //   }
-    // ];
-    // const statusIcons = filters.filter(f => f.id !== "no-selections");
+    const filters = [
+      {
+        label: 'Selected',
+        key: 'selections',
+        disables: ['no-selections'],
+        icon: <CheckIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        label: 'No selection',
+        id: 'no-selections', // the default id is the key
+        key: 'selections',
+        value: false, // the default value is true
+        disables: ['selections'], // the default is []. this refers to the filter id
+        icon: <BlockIcon/>
+      },
+      {
+        label: 'Bookmarks',
+        key: 'bookmarks',
+        icon: <BookmarkIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        label: 'Invalidated', // localized
+        key: 'invalidated',
+        icon: <LinkOffIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        label: 'Comments',
+        key: 'comments',
+        icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
+      },
+      {
+        label: 'Verse edit',
+        key: 'verseEdits',
+        icon: <EditIcon style={{color: '#ffffff'}}/>
+      }
+    ];
+    const statusIcons = filters.filter(f => f.id !== "no-selections");
 
-    // const entries = generateMenuData(
-    //   groupsIndexReducer.groupsIndex,
-    //   groupsDataReducer.groupsData,
-    //   "selections",
-    //   this.onProcessItem
-    // );
+    const entries = generateMenuData(
+      groupsIndexReducer.groupsIndex,
+      groupsDataReducer.groupsData,
+      "selections",
+      this.onProcessItem
+    );
 
-    return null;
-    // return (
-    //   <GroupMenu
-    //     filters={filters}
-    //     entries={entries}
-    //     active={null}
-    //     statusIcons={statusIcons}
-    //     emptyNotice="No results found"
-    //     title="Menu"
-    //     onItemClick={this.handleClick}
-    //
-    //     // translate={translate}
-    //     // getSelections={this._handleGetSelections}
-    //     // getGroupProgress={this._handleGetGroupProgress}
-    //     // isVerseFinished={isVerseFinished}
-    //     // isVerseValid={this._handleIsVerseValid}
-    //     // groupsDataReducer={groupsDataReducer}
-    //     // groupsIndexReducer={groupsIndexReducer}
-    //     // groupMenuReducer={groupMenuReducer}
-    //     // toolsReducer={toolsReducer}
-    //     // contextIdReducer={{contextId}}
-    //     // projectDetailsReducer={{manifest, projectSaveLocation}}
-    //     // actions={actions}
-    //   />
-    // );
+    return (
+      <GroupMenu
+        filters={filters}
+        entries={entries}
+        active={null}
+        statusIcons={statusIcons}
+        emptyNotice="No results found"
+        title="Menu"
+        onItemClick={this.handleClick}
+
+        // translate={translate}
+        // getSelections={this._handleGetSelections}
+        // getGroupProgress={this._handleGetGroupProgress}
+        // isVerseFinished={isVerseFinished}
+        // isVerseValid={this._handleIsVerseValid}
+        // groupsDataReducer={groupsDataReducer}
+        // groupsIndexReducer={groupsIndexReducer}
+        // groupMenuReducer={groupMenuReducer}
+        // toolsReducer={toolsReducer}
+        // contextIdReducer={{contextId}}
+        // projectDetailsReducer={{manifest, projectSaveLocation}}
+        // actions={actions}
+      />
+    );
   }
 }
 

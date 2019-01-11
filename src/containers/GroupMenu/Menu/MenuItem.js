@@ -82,7 +82,8 @@ const styles = theme => ({
     color: "#FFFFFF",
     textOverflow: "ellipsis",
     overflow: "hidden",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
+    fontSize: "inherit"
   },
   badge: {
     backgroundColor: "#ffffff",
@@ -277,15 +278,15 @@ class MenuItem extends React.Component {
     );
   }
 }
-//
-// MenuItem.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   title: PropTypes.string.isRequired,
-//   key: PropTypes.any,
-//   onClick: PropTypes.func,
-//   selected: PropTypes.bool,
-//   statusIcons: PropTypes.arrayOf(PropTypes.object),
-//   status: PropTypes.object
-// };
-//
-// export default withStyles(styles)(MenuItem);
+
+MenuItem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  key: PropTypes.any,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool,
+  statusIcons: PropTypes.arrayOf(PropTypes.object),
+  status: PropTypes.object
+};
+
+export default withStyles(styles)(MenuItem);

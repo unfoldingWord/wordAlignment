@@ -9,13 +9,14 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import ProgressIcon from "./ProgressIcon";
 
 /**
- * Utiltiy to apply styles based on props
+ * Utility to apply styles based on props
  */
 const styledBy = (property, mapping) => props => mapping[props[property]];
 
 const styles = {
   text: {
     color: "#FFFFFF",
+    fontSize: "inherit",
     fontWeight: styledBy("selected", {
       true: "bold",
       false: "normal"
@@ -37,8 +38,8 @@ const styles = {
  * Renders a group within the menu
  * @param {string} label - the group text
  * @param {function} onClick - a callback to receive group click events
- * @param {bool} [selected=false] - indicates if the group is selected
- * @param {bool} [open=false] - indicates if the group is open/expanded
+ * @param {boolean} [selected=false] - indicates if the group is selected
+ * @param {boolean} [open=false] - indicates if the group is open/expanded
  * @param {number} [progress=0] - a value between 0 and 100 inclusive
  */
 class MenuGroup extends React.Component {

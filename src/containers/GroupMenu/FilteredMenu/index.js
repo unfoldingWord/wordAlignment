@@ -105,7 +105,7 @@ class FilteredMenu extends React.Component {
       height,
       title,
       onItemClick,
-      maxWidth,
+      width,
       statusIcons,
       emptyNotice
     } = this.props;
@@ -133,7 +133,7 @@ class FilteredMenu extends React.Component {
               <MenuHeader title={title} />
             )
           }
-          maxWidth={maxWidth}
+          width={width}
           emptyNotice={emptyNotice}
           statusIcons={menuStatusIcons}
           entries={filteredEntries}
@@ -153,7 +153,7 @@ FilteredMenu.propTypes = {
   active: PropTypes.object,
   height: PropTypes.any,
   onItemClick: PropTypes.func,
-  maxWidth: PropTypes.number,
+  width: PropTypes.number,
   emptyNotice: PropTypes.string,
   statusIcons: PropTypes.arrayOf(PropTypes.object)
 };

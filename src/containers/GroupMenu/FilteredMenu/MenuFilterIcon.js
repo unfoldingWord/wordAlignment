@@ -10,6 +10,7 @@ const styles = theme => ({
     backgroundColor: "#FFFFFF",
     color: "#19579E",
     fontWeight: "bold",
+    fontSize: "inherit",
     width: 20,
     height: 20,
     marginTop: 2

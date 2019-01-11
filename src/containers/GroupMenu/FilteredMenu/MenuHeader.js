@@ -13,7 +13,8 @@ const styles = theme => ({
   },
   text: {
     color: "#FFFFFF",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: "inherit"
   }
 });
 

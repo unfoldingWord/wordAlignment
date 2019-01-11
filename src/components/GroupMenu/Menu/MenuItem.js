@@ -227,6 +227,7 @@ class MenuItem extends React.Component {
       <ListItem
         key={key}
         button
+        disableRipple={true}
         selected={selected}
         onClick={this.handleClick}
         classes={{

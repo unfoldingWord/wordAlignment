@@ -48,6 +48,7 @@ class MenuGroup extends React.Component {
     return (
       <ListItem
         button
+        disableRipple={true}
         selected={selected}
         classes={{
           root: classes.root,

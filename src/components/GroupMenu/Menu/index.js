@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import Collapse from '@material-ui/core/Collapse';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import RootRef from '@material-ui/core/RootRef';
@@ -10,7 +9,7 @@ import MenuItem from './MenuItem';
 import MenuGroup from './MenuGroup';
 import memoize from 'memoize-one';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     overflowY: 'scroll',
     color: '#FFFFFF',
@@ -70,7 +69,13 @@ class Menu extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  /**
+   *
+   * @param prevProps
+   * @param prevState
+   * @param nextContent
+   */
+  componentDidUpdate(prevProps, prevState, nextContent) {
     const {opened} = this.state;
     const {autoScroll} = this.props;
     const prevActive = prevProps.active ? prevProps.active : prevState.active;
@@ -163,8 +168,8 @@ class Menu extends React.Component {
    * If auto selected is enabled this will also select the first child
    * @param {object} group - the group being opened
    */
-  handleOpen = group => e => {
-    const {autoSelect, active} = this.props;
+  handleOpen = group => () => {
+    const {autoSelect} = this.props;
     if (this.state.opened === group.id) {
       this.setState({opened: -1});
     } else {
@@ -184,7 +189,7 @@ class Menu extends React.Component {
    * otherwise menu selections will be managed internally.
    * @param {object} contextId - the context id of the clicked menu item
    */
-  handleClick = contextId => e => {
+  handleClick = contextId => () => {
     const {onItemClick, active} = this.props;
     if (typeof onItemClick === 'function') {
       onItemClick(contextId);
@@ -244,7 +249,7 @@ class Menu extends React.Component {
 
   /**
    * Returns the active context.
-   * If the active item is controlled externally it will take presedence.
+   * If the active item is controlled externally it will take precedence.
    * @returns {object|null}
    */
   getActive = () => {

@@ -196,6 +196,7 @@ class MenuItem extends React.Component {
               <React.Fragment>
                 {icons.map((i, key) =>
                   React.cloneElement(i, {
+                    key,
                     style: { color: "#ffffff!important" }
                   })
                 )}

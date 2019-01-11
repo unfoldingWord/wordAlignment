@@ -18,7 +18,6 @@ export function generateMenuData(
     if (Object.keys(data).includes(index[i].id)) {
       // generate menu group
       const children = data[index[i].id].map(item => {
-        // TODO: should we clone the item?
         if (typeof onProcessItem === "function") {
           return onProcessItem(item);
         } else {
@@ -27,7 +26,7 @@ export function generateMenuData(
       });
       menu.push({
         title: index[i].name,
-        progress: calculateProgress(data[index[i].id], progressKey),
+        progress: calculateProgress(children, progressKey),
         id: index[i].id,
         children
       });

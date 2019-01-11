@@ -90,7 +90,7 @@ class GroupMenuContainer extends React.Component {
    * @returns {object} the updated item
    */
   onProcessItem = item => {
-    const {tc: {project}} = this.props;
+    const {tc: {project}, toolApi} = this.props;
     const bookName = project.getBookName();
 
     const {
@@ -101,7 +101,8 @@ class GroupMenuContainer extends React.Component {
 
     return {
       ...item,
-      title: `${bookName} ${chapter}:${verse}`
+      title: `${bookName} ${chapter}:${verse}`,
+      finished: toolApi.getIsVerseFinished(chapter, verse)
     };
   };
 
@@ -122,17 +123,17 @@ class GroupMenuContainer extends React.Component {
 
     const filters = [
       {
-        label: 'Selected',
-        key: 'selections',
-        disables: ['no-selections'],
+        label: 'Completed',
+        key: 'finished',
+        disables: ['incomplete'],
         icon: <CheckIcon style={{color: '#ffffff'}}/>
       },
       {
-        label: 'No selection',
-        id: 'no-selections', // the default id is the key
-        key: 'selections',
+        label: 'Incomplete',
+        id: 'incomplete', // the default id is the key
+        key: 'finished',
         value: false, // the default value is true
-        disables: ['selections'], // the default is []. this refers to the filter id
+        disables: ['finished'], // the default is []. this refers to the filter id
         icon: <BlockIcon/>
       },
       {
@@ -156,12 +157,12 @@ class GroupMenuContainer extends React.Component {
         icon: <EditIcon style={{color: '#ffffff'}}/>
       }
     ];
-    const statusIcons = filters.filter(f => f.id !== 'no-selections');
+    const statusIcons = filters.filter(f => f.id !== 'incomplete');
 
     const entries = generateMenuData(
       groupsIndexReducer.groupsIndex,
       groupsDataReducer.groupsData,
-      'selections',
+      'finished',
       this.onProcessItem
     );
 

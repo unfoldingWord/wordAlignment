@@ -1,27 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import Collapse from "@material-ui/core/Collapse";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import RootRef from "@material-ui/core/RootRef";
-import MenuItem from "./MenuItem";
-import MenuGroup from "./MenuGroup";
-import memoize from "memoize-one";
+import React from 'react';
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import Collapse from '@material-ui/core/Collapse';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import RootRef from '@material-ui/core/RootRef';
+import MenuItem from './MenuItem';
+import MenuGroup from './MenuGroup';
+import memoize from 'memoize-one';
 
 const styles = theme => ({
   root: {
-    overflowY: "scroll",
-    color: "#FFFFFF",
-    backgroundColor: "#333333"
+    overflowY: 'scroll',
+    color: '#FFFFFF',
+    backgroundColor: '#333333'
   },
   header: {
-    borderBottom: "solid #ffffff4d 1px"
+    borderBottom: 'solid #ffffff4d 1px'
   },
   text: {
-    color: "#FFFFFF",
-    fontSize: "inherit"
+    color: '#FFFFFF',
+    fontSize: 'inherit'
   }
 });
 
@@ -38,67 +38,108 @@ const styles = theme => ({
  * @param {string} [emptyNotice=""] - an optional message to display when the menu is empty
  */
 class Menu extends React.Component {
+  menuRef = React.createRef();
   selectedGroupRef = React.createRef();
   selectedItemRef = React.createRef();
-  state = {
-    opened: null,
-    active: null
-  };
+
+  constructor(props) {
+    super(props);
+    let autoOpen = null;
+
+    // TRICKY: start with the controlled group open
+    const {active, autoSelect} = props;
+    if (active && autoSelect) {
+      autoOpen = active.groupId;
+    }
+
+    this.state = {
+      opened: autoOpen,
+      active: null
+    };
+  }
 
   componentDidMount() {
-    const { opened } = this.state;
-    const { autoScroll } = this.props;
-    const active = this.getActive();
+    const {opened} = this.state;
+    const {autoScroll} = this.props;
 
-    // open the active group
-    if (active && active.groupId !== opened) {
-      if (autoScroll) {
-        this.scrollToSelection();
-      }
-
-      this.setState({
-        opened: active.groupId
-      });
+    // scroll to the selection
+    if (autoScroll && opened) {
+      this.scrollToSelectedItem();
+    } else if (autoScroll) {
+      this.scrollToSelectedGroup();
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { opened } = this.state;
-    const { autoScroll } = this.props;
+    const {opened} = this.state;
+    const {autoScroll} = this.props;
     const prevActive = prevProps.active ? prevProps.active : prevState.active;
     const active = this.getActive();
 
-    // open the active group if it was changed externally
     if (
       active &&
       prevActive &&
       prevActive.groupId !== active.groupId &&
       active.groupId !== opened
     ) {
-      if (autoScroll) {
-        this.scrollToSelection();
-      }
-
+      // open the active group if it was changed externally
       this.setState({
         opened: active.groupId
       });
+    } else if (autoScroll && prevState.opened !== this.state.opened &&
+      this.state.opened) {
+      // scroll to the selection when opened
+      this.scrollToSelectedItem();
     }
   }
 
   /**
-   * Scrolls the selection into view
+   * Scrolls the selected group into view
    * @param {boolean} [instant=true] - makes the scroll execute instantly.
    */
-  scrollToSelection = (instant = true) => {
+  scrollToSelectedGroup = (instant = true) => {
+    this.scrollIntoView(this.selectedGroupRef, instant);
+  };
+
+  /**
+   * Scrolls the selected item into view
+   * @param {boolean} [instant=true] - makes the scroll execute instantly.
+   */
+  scrollToSelectedItem = (instant = true) => {
+    this.scrollIntoView(this.selectedItemRef, instant);
+  };
+
+  /**
+   * Scrolls a ref into view
+   * @param ref
+   * @param {boolean} [instant=true] - makes the scroll execute instantly
+   */
+  scrollIntoView = (ref, instant = true) => {
     if (
-      this.selectedGroupRef &&
-      this.selectedGroupRef &&
-      this.selectedGroupRef.scrollIntoView
+      ref &&
+      ref.scrollIntoView &&
+      !this.isRefInView(ref)
     ) {
-      this.selectedGroupRef.scrollIntoView({
-        block: "start",
-        behavior: instant ? "instant" : "smooth"
+      ref.scrollIntoView({
+        block: 'center',
+        behavior: instant ? 'instant' : 'smooth'
       });
+    }
+  };
+
+  /**
+   * Checks if a dom rect is within another
+   * @param ref - a react ref
+   * @returns {boolean}
+   */
+  isRefInView = (ref) => {
+    if (ref && ref.getBoundingClientRect && this.menuRef &&
+      this.menuRef.current && this.menuRef.current.getBoundingClientRect) {
+      const rect = ref.getBoundingClientRect();
+      const menuRect = this.menuRef.current.getBoundingClientRect();
+      return rect.top >= menuRect.top && rect.bottom <= menuRect.bottom;
+    } else {
+      return false;
     }
   };
 
@@ -111,7 +152,7 @@ class Menu extends React.Component {
   normalizeStatusIcons = memoize(statusIcons => {
     const normalized = [];
     for (let i = 0, len = statusIcons.length; i < len; i++) {
-      const icon = Object.assign({}, { value: true }, statusIcons[i]);
+      const icon = Object.assign({}, {value: true}, statusIcons[i]);
       normalized.push(icon);
     }
     return normalized;
@@ -123,11 +164,11 @@ class Menu extends React.Component {
    * @param {object} group - the group being opened
    */
   handleOpen = group => e => {
-    const { autoSelect, active } = this.props;
+    const {autoSelect, active} = this.props;
     if (this.state.opened === group.id) {
-      this.setState({ opened: -1 });
+      this.setState({opened: -1});
     } else {
-      this.setState({ opened: group.id });
+      this.setState({opened: group.id});
 
       // auto select newly opened groups if not controlled elsewhere
       const firstChild = group.children[0];
@@ -144,14 +185,14 @@ class Menu extends React.Component {
    * @param {object} contextId - the context id of the clicked menu item
    */
   handleClick = contextId => e => {
-    const { onItemClick, active } = this.props;
-    if (typeof onItemClick === "function") {
+    const {onItemClick, active} = this.props;
+    if (typeof onItemClick === 'function') {
       onItemClick(contextId);
     }
 
     // skip internal state if managed externally.
     if (!active) {
-      this.setState({ active: contextId });
+      this.setState({active: contextId});
     }
   };
 
@@ -186,7 +227,7 @@ class Menu extends React.Component {
         groupId,
         quote,
         occurrence,
-        reference: { bookId, chapter, verse }
+        reference: {bookId, chapter, verse}
       }
     } = item;
     // TODO: is this compatible with all tools?
@@ -247,49 +288,51 @@ class Menu extends React.Component {
 
     if (entries.length) {
       return (
-        <List
-          component="nav"
-          subheader={header}
-          className={classes.root}
-          style={{ height, width }}
-        >
-          {entries.map((group, index) => (
-            <RootRef key={index} rootRef={this.handleGroupRef(group)}>
-              <React.Fragment>
-                <MenuGroup
-                  selected={this.isGroupSelected(group)}
-                  onClick={this.handleOpen(group)}
-                  progress={group.progress}
-                  open={this.isGroupOpen(group)}
-                  label={group.title}
-                />
-                {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
-                {/*<Collapse*/}
+        <RootRef rootRef={this.menuRef}>
+          <List
+            component="nav"
+            subheader={header}
+            className={classes.root}
+            style={{height, width}}
+          >
+            {entries.map((group, index) => (
+              <RootRef key={index} rootRef={this.handleGroupRef(group)}>
+                <React.Fragment>
+                  <MenuGroup
+                    selected={this.isGroupSelected(group)}
+                    onClick={this.handleOpen(group)}
+                    progress={group.progress}
+                    open={this.isGroupOpen(group)}
+                    label={group.title}
+                  />
+                  {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
+                  {/*<Collapse*/}
                   {/*in={this.isGroupOpen(group)}*/}
                   {/*timeout="auto"*/}
                   {/*unmountOnExit*/}
-                {/*>*/}
-                {this.isGroupOpen(group) ? (
-                  <List component="div" disablePadding>
-                    {group.children.map((item, index) => (
-                      <RootRef key={index} rootRef={this.handleItemRef(item)}>
-                        <MenuItem
-                          status={item}
-                          selected={this.isItemSelected(item)}
-                          statusIcons={normalizedStatusIcons}
-                          onClick={this.handleClick(item.contextId)}
-                          title={item.title}
-                        />
-                      </RootRef>
-                    ))}
-                  </List>
-                ) : null}
+                  {/*>*/}
+                  {this.isGroupOpen(group) ? (
+                    <List component="div" disablePadding>
+                      {group.children.map((item, index) => (
+                        <RootRef key={index} rootRef={this.handleItemRef(item)}>
+                          <MenuItem
+                            status={item}
+                            selected={this.isItemSelected(item)}
+                            statusIcons={normalizedStatusIcons}
+                            onClick={this.handleClick(item.contextId)}
+                            title={item.title}
+                          />
+                        </RootRef>
+                      ))}
+                    </List>
+                  ) : null}
 
-                {/*</Collapse>*/}
-              </React.Fragment>
-            </RootRef>
-          ))}
-        </List>
+                  {/*</Collapse>*/}
+                </React.Fragment>
+              </RootRef>
+            ))}
+          </List>
+        </RootRef>
       );
     } else {
       const notice = (
@@ -308,7 +351,7 @@ class Menu extends React.Component {
           component="nav"
           subheader={header}
           className={classes.root}
-          style={{ height, width }}
+          style={{height, width}}
         >
           {emptyNotice ? notice : null}
         </List>
@@ -332,15 +375,15 @@ Menu.propTypes = {
 
 Menu.defaultProps = {
   active: null,
-  height: "auto",
+  height: 'auto',
   entries: [],
   width: 250,
-  emptyNotice: "",
+  emptyNotice: '',
   autoSelect: true,
   autoScroll: true,
   statusIcons: []
 };
 
-Menu.muiName = "List";
+Menu.muiName = 'List';
 
 export default withStyles(styles)(Menu);

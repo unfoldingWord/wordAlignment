@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import GroupMenu, {generateMenuData} from './GroupMenu';
+import GroupMenu, {generateMenuData} from '../components/GroupMenu';
 import PropTypes from 'prop-types';
 import Api from '../Api';
-import CheckIcon from "@material-ui/icons/Check";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
-import LinkOffIcon from "@material-ui/icons/LinkOff";
-import BlockIcon from "@material-ui/icons/Block";
-import ModeCommentIcon from "@material-ui/icons/ModeComment";
-import EditIcon from "@material-ui/icons/Edit";
+import CheckIcon from '@material-ui/icons/Check';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
+import BlockIcon from '@material-ui/icons/Block';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
+import EditIcon from '@material-ui/icons/Edit';
 
 class GroupMenuContainer extends React.Component {
   constructor(props) {
@@ -80,8 +80,8 @@ class GroupMenuContainer extends React.Component {
    * @param {object} contextId - the menu item's context id
    */
   handleClick = contextId => {
-    // TODO: do stuff
-    console.log("clicked menu item", contextId);
+    const {actions: {changeCurrentContextId}} = this.props;
+    changeCurrentContextId(contextId);
   };
 
   /**
@@ -90,21 +90,18 @@ class GroupMenuContainer extends React.Component {
    * @returns {object} the updated item
    */
   onProcessItem = item => {
-    let selectionTitle = "";
-    if (item.selections && item.selections.length) {
-      selectionTitle = item.selections.map(s => s.text).join(", ");
-    }
+    const {tc: {project}} = this.props;
+    const bookName = project.getBookName();
 
     const {
       contextId: {
-        reference: { bookId, chapter, verse }
+        reference: {chapter, verse}
       }
     } = item;
-    const passageTitle = `${bookId} ${chapter}:${verse}`;
 
     return {
       ...item,
-      title: `${passageTitle} ${selectionTitle}`
+      title: `${bookName} ${chapter}:${verse}`
     };
   };
 
@@ -119,6 +116,7 @@ class GroupMenuContainer extends React.Component {
       toolsReducer,
       contextId,
       manifest,
+
       projectSaveLocation
     } = this.props;
 
@@ -158,12 +156,12 @@ class GroupMenuContainer extends React.Component {
         icon: <EditIcon style={{color: '#ffffff'}}/>
       }
     ];
-    const statusIcons = filters.filter(f => f.id !== "no-selections");
+    const statusIcons = filters.filter(f => f.id !== 'no-selections');
 
     const entries = generateMenuData(
       groupsIndexReducer.groupsIndex,
       groupsDataReducer.groupsData,
-      "selections",
+      'selections',
       this.onProcessItem
     );
 
@@ -171,7 +169,7 @@ class GroupMenuContainer extends React.Component {
       <GroupMenu
         filters={filters}
         entries={entries}
-        active={null}
+        active={contextId}
         statusIcons={statusIcons}
         emptyNotice="No results found"
         title="Menu"

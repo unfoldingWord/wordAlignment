@@ -12,7 +12,7 @@ import memoize from "memoize-one";
 
 const styles = theme => ({
   root: {
-    overflow: "auto",
+    overflowY: "scroll",
     color: "#FFFFFF",
     backgroundColor: "#333333"
   },

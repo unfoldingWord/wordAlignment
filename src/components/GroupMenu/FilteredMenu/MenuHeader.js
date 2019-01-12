@@ -5,7 +5,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     backgroundColor: "#19579E",
     color: "#FFFFFF",

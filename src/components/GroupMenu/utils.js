@@ -46,7 +46,7 @@ function calculateProgress(data, progressKey) {
   const total = data.length;
   let completed = 0;
   for (const item of data) {
-    if (Boolean(item[progressKey])) {
+    if (item[progressKey]) {
       completed++;
     }
   }

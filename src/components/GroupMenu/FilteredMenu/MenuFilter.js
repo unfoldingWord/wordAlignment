@@ -13,7 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuFilterIcon from "./MenuFilterIcon";
 import Chip from "@material-ui/core/Chip";
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     backgroundColor: "#19579E",
     zIndex: 10,
@@ -71,7 +71,7 @@ class MenuFilter extends React.Component {
    * Handles toggling a filter
    * @param {object} filter - the filter being toggled
    */
-  handleToggle = filter => e => {
+  handleToggle = filter => () => {
     const { onToggle } = this.props;
     onToggle(filter);
   };

@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import Badge from "@material-ui/core/Badge";
 
-const styles = theme => ({
+const styles = () => ({
   badge: {
     border: "2px solid #19579E",
     backgroundColor: "#FFFFFF",

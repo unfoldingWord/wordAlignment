@@ -74,6 +74,7 @@ class Menu extends React.Component {
    * @param prevState
    * @param nextContent
    */
+  // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, prevState, nextContent) {
     const {opened} = this.state;
     const {autoScroll} = this.props;
@@ -352,7 +353,8 @@ Menu.propTypes = {
   width: PropTypes.number,
   statusIcons: PropTypes.array,
   emptyNotice: PropTypes.string,
-  autoSelect: PropTypes.bool
+  autoSelect: PropTypes.bool,
+  autoScroll: PropTypes.bool
 };
 
 Menu.defaultProps = {

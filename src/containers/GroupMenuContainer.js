@@ -57,36 +57,36 @@ class GroupMenuContainer extends React.Component {
 
     const filters = [
       {
-        label: 'Invalidated',
+        label: translate('menu.invalidated'),
         key: 'invalid',
         icon: <LinkOffIcon style={{color: '#ffffff'}}/>
       },
       {
-        label: 'Bookmark',
+        label: translate('menu.bookmarks'),
         key: 'bookmarked',
         icon: <BookmarkIcon style={{color: '#ffffff'}}/>
       },
       {
-        label: 'Completed',
+        label: translate('menu.completed'),
         key: 'completed',
         disables: ['incomplete'],
         icon: <CheckIcon style={{color: '#ffffff'}}/>
       },
       {
-        label: 'Incomplete',
+        label: translate('menu.incomplete'),
         id: 'incomplete',
         key: 'completed',
         value: false,
-        disables: ['finished'],
+        disables: ['completed'],
         icon: <BlockIcon/>
       },
       {
-        label: 'Verse edit',
+        label: translate('menu.verse_edit'),
         key: 'verseEdits',
         icon: <EditIcon style={{color: '#ffffff'}}/>
       },
       {
-        label: 'Comments',
+        label: translate('menu.comments'),
         key: 'comments',
         icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
       }
@@ -128,8 +128,8 @@ class GroupMenuContainer extends React.Component {
         entries={entries}
         active={contextId}
         statusIcons={statusIcons}
-        emptyNotice="No results found"
-        title="Menu"
+        emptyNotice={translate('menu.no_results')}
+        title={translate('menu.menu_title')}
         onItemClick={this.handleClick}
       />
     );

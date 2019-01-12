@@ -182,12 +182,12 @@
   "menu": {
     "no_results": "No results",
     "invalidated": "Invalidated",
-    "bookmarks": "Bookmarks",
-    "selected": "Completed",
-    "no_selection": "Incomplete",
+    "bookmarks": "Bookmark",
+    "completed": "Completed",
+    "incomplete": "Incomplete",
     "verse_edit": "Verse edit",
     "comments": "Comments",
-    "menu": "Menu"
+    "menu_title": "Menu"
   },
   "suggestions": {
     "refresh_suggestions": "Refresh ${word_map}-generated suggestions.",

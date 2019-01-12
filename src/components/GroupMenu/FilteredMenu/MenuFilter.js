@@ -36,7 +36,7 @@ const styles = theme => ({
     margin: 5
   },
   chipLabel: {
-    fontSize: 14
+    fontSize: 12
   },
   chipDeleteIcon: {
     color: "#ffffff",

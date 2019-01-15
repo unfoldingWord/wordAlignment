@@ -33,17 +33,17 @@ const styles = () => ({
     color: "#FFFFFF"
   },
   chip: {
-    color: "#ffffff",
-    borderColor: "#ffffff",
+    color: "#19579E",
     margin: 5
   },
   chipLabel: {
-    fontSize: 12
+    fontSize: 12,
+    fontWeight: "bold"
   },
   chipDeleteIcon: {
-    color: "#ffffff",
+    color: "#19579E99",
     "&:hover": {
-      color: "#ffffff99"
+      color: "#19579E"
     }
   },
   hover: {}
@@ -134,7 +134,6 @@ class MenuFilter extends React.Component {
               <Chip
                 key={filter.id}
                 label={filter.label}
-                variant="outlined"
                 classes={{
                   deleteIcon: classes.chipDeleteIcon,
                   label: classes.chipLabel

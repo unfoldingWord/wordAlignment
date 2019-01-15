@@ -10,6 +10,11 @@ import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
 import {getChecks} from '../state/reducers';
+import CommentIcon from "../components/icons/Comment";
+import CompleteIcon from "../components/icons/Complete";
+import InvalidatedIcon from "../components/icons/Invalidated";
+import ReminderIcon from "../components/icons/Reminder";
+import VerseEditIcon from "../components/icons/VerseEdit";
 
 class GroupMenuContainer extends React.Component {
 
@@ -59,18 +64,18 @@ class GroupMenuContainer extends React.Component {
       {
         label: translate('menu.invalidated'),
         key: 'invalid',
-        icon: <LinkOffIcon style={{color: '#ffffff'}}/>
+        icon: <InvalidatedIcon/>
       },
       {
         label: translate('menu.bookmarks'),
         key: 'bookmarked',
-        icon: <BookmarkIcon style={{color: '#ffffff'}}/>
+        icon: <ReminderIcon/>
       },
       {
         label: translate('menu.completed'),
         key: 'completed',
         disables: ['incomplete'],
-        icon: <CheckIcon style={{color: '#ffffff'}}/>
+        icon: <CompleteIcon/>
       },
       {
         label: translate('menu.incomplete'),
@@ -83,35 +88,35 @@ class GroupMenuContainer extends React.Component {
       {
         label: translate('menu.verse_edit'),
         key: 'verseEdits',
-        icon: <EditIcon style={{color: '#ffffff'}}/>
+        icon: <VerseEditIcon/>
       },
       {
         label: translate('menu.comments'),
         key: 'comments',
-        icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
+        icon: <CommentIcon/>
       }
     ];
 
     const statusIcons = [
       {
         key: 'completed',
-        icon: <CheckIcon style={{color: '#ffffff'}}/>
+        icon: <CompleteIcon/>
       },
       {
         key: 'bookmarks',
-        icon: <BookmarkIcon style={{color: '#ffffff'}}/>
+        icon: <ReminderIcon/>
       },
       {
         key: 'invalid',
-        icon: <LinkOffIcon style={{color: '#ffffff'}}/>
+        icon: <InvalidatedIcon/>
       },
       {
         key: 'comments',
-        icon: <ModeCommentIcon style={{color: '#ffffff'}}/>
+        icon: <CommentIcon/>
       },
       {
         key: 'verseEdits',
-        icon: <EditIcon style={{color: '#ffffff'}}/>
+        icon: <VerseEditIcon/>
       }
     ];
 

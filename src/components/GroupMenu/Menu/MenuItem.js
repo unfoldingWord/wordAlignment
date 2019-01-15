@@ -60,7 +60,7 @@ function arrowGenerator(color) {
 
 const styles = theme => ({
   root: {
-    borderBottom: "solid #ffffff4d 1px",
+    borderBottom: "solid #333333 1px",
     backgroundColor: "#747474",
     "&$selected": {
       backgroundColor: "#2196F3",
@@ -87,8 +87,8 @@ const styles = theme => ({
     color: "#555555",
     fontWeight: "bold",
     fontSize: "75%",
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
     marginTop: 2
   },
   lightTooltip: {
@@ -97,6 +97,11 @@ const styles = theme => ({
     boxShadow: theme.shadows[1],
     fontSize: 14,
     padding: 15
+  },
+  lightTooltipSmall: {
+    backgroundColor: theme.palette.common.white,
+    color: "#333333",
+    boxShadow: theme.shadows[1],
   },
   arrowPopper: arrowGenerator(theme.palette.common.white),
   arrow: {
@@ -135,7 +140,7 @@ const styles = theme => ({
  * Renders a single item within the menu
  * @param {string} title - the menu item text
  * @param {function} [onClick] - a callback that receives click events from the menu item
- * @param {bool} [selected] - indicates if this item is selected
+ * @param {boolean} [selected] - indicates if this item is selected
  * @param {object} [status] - a dictionary of boolean values indicating the item's status
  * @param {object[]} [statusIcons] - an array if icons that may be mapped to the item's current status
  */
@@ -189,12 +194,15 @@ class MenuItem extends React.Component {
         <ListItemIcon>
           <Tooltip
             placement="right"
+            classes={{
+              tooltip: this.props.classes.lightTooltipSmall
+            }}
             title={
               <React.Fragment>
                 {icons.map((i, key) =>
                   React.cloneElement(i, {
                     key,
-                    style: { color: "#ffffff!important" }
+                    style: { color: "#333333" }
                   })
                 )}
               </React.Fragment>

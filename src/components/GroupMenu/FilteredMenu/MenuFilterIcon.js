@@ -1,19 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import Badge from "@material-ui/core/Badge";
+import FilterFunnelIcon from "./FilterFunnelIcon";
 
 const styles = () => ({
   badge: {
     border: "2px solid #19579E",
-    backgroundColor: "#FFFFFF",
-    color: "#19579E",
+    backgroundColor: "#933",
+    color: "#ffffff",
     fontWeight: "bold",
     fontSize: "inherit",
     width: 20,
-    height: 20,
-    marginTop: 2
+    height: 20
   }
 });
 
@@ -29,7 +28,7 @@ const MenuFilterIcon = ({ enabledFilterCount, classes }) => {
       invisible={count <= 0}
       classes={{ badge: classes.badge }}
     >
-      <FilterListIcon />
+      <FilterFunnelIcon color="#ffffff" />
     </Badge>
   );
 };

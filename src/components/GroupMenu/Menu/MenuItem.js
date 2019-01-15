@@ -59,22 +59,19 @@ function arrowGenerator(color) {
 }
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit
-  },
-  nestedRoot: {
+  root: {
     borderBottom: "solid #ffffff4d 1px",
-    backgroundColor: "#555555",
+    backgroundColor: "#747474",
     "&$selected": {
       backgroundColor: "#2196F3",
       "&:hover": {
-        backgroundColor: "#1f8de4"
+        backgroundColor: "#2196F3"
       }
     }
   },
-  nestedButton: {
+  button: {
     "&:hover": {
-      backgroundColor: "#4e4e4e"
+      backgroundColor: "#747474"
     }
   },
   selected: {},
@@ -232,8 +229,8 @@ class MenuItem extends React.Component {
         selected={selected}
         onClick={this.handleClick}
         classes={{
-          root: classes.nestedRoot,
-          button: classes.nestedButton,
+          root: classes.root,
+          button: classes.button,
           selected: classes.selected
         }}
       >

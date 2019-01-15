@@ -9,7 +9,9 @@ const styles = () => ({
   root: {
     backgroundColor: "#19579E",
     color: "#FFFFFF",
-    zIndex: 10
+    zIndex: 10,
+    paddingTop: 5,
+    paddingBottom: 5
   },
   text: {
     color: "#FFFFFF",

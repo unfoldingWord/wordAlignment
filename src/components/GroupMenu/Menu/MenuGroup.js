@@ -4,8 +4,8 @@ import { withStyles } from "@material-ui/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import ChevronRight from "@material-ui/icons/ChevronRight";
 import ProgressIcon from "./ProgressIcon";
 
 /**
@@ -24,10 +24,13 @@ const styles = {
   },
   root: {
     borderBottom: "solid #ffffff4d 1px",
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
     "&$selected": {
       backgroundColor: "#2196F3",
       "&:hover": {
-        backgroundColor: "#1f8de4"
+        backgroundColor: "#2196F3"
       }
     }
   },
@@ -66,7 +69,7 @@ class MenuGroup extends React.Component {
           }}
           primary={label}
         />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open ? <ExpandMore /> : <ChevronRight />}
       </ListItem>
     );
   }

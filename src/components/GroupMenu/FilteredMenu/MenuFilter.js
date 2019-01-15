@@ -17,7 +17,9 @@ const styles = () => ({
   root: {
     backgroundColor: "#19579E",
     zIndex: 10,
-    color: "#FFFFFF"
+    color: "#FFFFFF",
+    paddingTop: 5,
+    paddingBottom: 5
   },
   divider: {
     borderBottom: "solid 1px #FFFFFF9e"

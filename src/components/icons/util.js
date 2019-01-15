@@ -10,7 +10,7 @@ export function makeGlyphIcon(glyph, props={}) {
     styles = {
       ...props.style,
       fontSize:18
-    }
+    };
   }
 
   const newProps = {

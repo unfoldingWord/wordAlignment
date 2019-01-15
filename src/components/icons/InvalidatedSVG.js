@@ -30,6 +30,7 @@ InvalidatedSVG.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   color: PropTypes.string,
+  style: PropTypes.object
 };
 
 InvalidatedSVG.defaultProps = {

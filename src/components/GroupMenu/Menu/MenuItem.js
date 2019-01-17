@@ -92,7 +92,8 @@ const styles = theme => ({
     fontSize: "75%",
     width: 15,
     height: 15,
-    marginTop: 2
+    marginTop: 5,
+    marginRight: 5
   },
   lightTooltip: {
     backgroundColor: theme.palette.common.white,

@@ -257,8 +257,6 @@ class MenuItem extends React.Component {
     const enableTooltip = title.length > 20;
     const icon = this.generateStatusIcon(status, statusIcons);
 
-    console.warn('updating menu item');
-
     return (
       <ListItem
         key={key}

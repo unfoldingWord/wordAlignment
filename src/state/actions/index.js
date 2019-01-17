@@ -244,6 +244,7 @@ export const repairAndInspectVerse = (
     dispatch(repairVerse(chapter, verse, sourceTokens, targetTokens));
     const next = getVerseAlignments(getState(), chapter, verse);
 
+    // TODO: call {@link areAlignmentsEquivalent} instead of performing a straight string comparison
     return JSON.stringify(prev) !== JSON.stringify(next);
   };
 };

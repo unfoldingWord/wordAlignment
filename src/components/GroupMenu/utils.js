@@ -45,8 +45,8 @@ export function generateMenuData(
 function calculateProgress(data, progressKey) {
   const total = data.length;
   let completed = 0;
-  for (const item of data) {
-    if (item[progressKey]) {
+  for (let i = 0, len = data.length; i < len; i ++) {
+    if (data[i][progressKey]) {
       completed++;
     }
   }

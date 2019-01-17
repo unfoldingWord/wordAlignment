@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import Badge from '@material-ui/core/Badge';
 import memoize from 'memoize-one';
+import _ from "lodash";
 
 /**
  * Utility to generate styles for a tooltip arrow
@@ -241,12 +242,22 @@ class MenuItem extends React.Component {
     }
   });
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    // TRICKY: we should technically check for an update to statusIcons
+    // however that is not a known use case and it's faster to ignore it.
+    const {title, key, selected, status} = this.props;
+    return title !== nextProps.title || key !== nextProps.key ||
+      selected !== nextProps.selected || !_.isEqual(status, nextProps.status);
+  }
+
   render() {
     const {classes, title, statusIcons, status, key, selected} = this.props;
     // TRICKY: we don't need a tooltip for short text
     // TODO: it would be better to only display if the text is truncated.
     const enableTooltip = title.length > 20;
     const icon = this.generateStatusIcon(status, statusIcons);
+
+    console.warn('updating menu item');
 
     return (
       <ListItem

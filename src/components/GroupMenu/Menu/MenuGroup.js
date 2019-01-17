@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import ProgressIcon from "./ProgressIcon";
+import React from 'react';
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/styles';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import ProgressIcon from './ProgressIcon';
 
 /**
  * Utility to apply styles based on props
@@ -18,23 +18,23 @@ const styles = {
     paddingRight: 0
   },
   text: {
-    color: "#FFFFFF",
-    fontSize: "inherit",
-    fontWeight: styledBy("selected", {
-      true: "bold",
-      false: "normal"
+    color: '#FFFFFF',
+    fontSize: 'inherit',
+    fontWeight: styledBy('selected', {
+      true: 'bold',
+      false: 'normal'
     })
   },
   root: {
     // paddingRight: 0,
-    borderBottom: "solid #ffffff4d 1px",
-    "&:hover": {
-      backgroundColor: "transparent"
+    borderBottom: 'solid #ffffff4d 1px',
+    '&:hover': {
+      backgroundColor: 'transparent'
     },
-    "&$selected": {
-      backgroundColor: "#2196F3",
-      "&:hover": {
-        backgroundColor: "#2196F3"
+    '&$selected': {
+      backgroundColor: '#2196F3',
+      '&:hover': {
+        backgroundColor: '#2196F3'
       }
     }
   },
@@ -50,8 +50,16 @@ const styles = {
  * @param {number} [progress=0] - a value between 0 and 100 inclusive
  */
 class MenuGroup extends React.Component {
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    const {selected, open, label, progress} = this.props;
+    return selected !== nextProps.selected || open !== nextProps.open ||
+      label !== nextProps.label || progress !== nextProps.progress;
+  }
+
   render() {
-    const { classes, selected, open, onClick, label, progress } = this.props;
+    const {classes, selected, open, onClick, label, progress} = this.props;
+
     return (
       <ListItem
         button
@@ -65,7 +73,7 @@ class MenuGroup extends React.Component {
         onClick={onClick}
       >
         <ListItemIcon>
-          <ProgressIcon progress={progress} />
+          <ProgressIcon progress={progress}/>
         </ListItemIcon>
         <ListItemText
           inset
@@ -75,7 +83,7 @@ class MenuGroup extends React.Component {
           }}
           primary={label}
         />
-        {open ? <ExpandMore /> : <ChevronRight />}
+        {open ? <ExpandMore/> : <ChevronRight/>}
       </ListItem>
     );
   }

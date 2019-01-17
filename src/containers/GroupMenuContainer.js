@@ -97,7 +97,7 @@ class GroupMenuContainer extends React.Component {
     const statusIcons = [
       {
         key: 'completed',
-        icon: <CheckIcon style={{color: "white"}}/>
+        icon: <CheckIcon style={{color: "var(--completed-color)"}}/>
       },
       {
         key: 'bookmarks',

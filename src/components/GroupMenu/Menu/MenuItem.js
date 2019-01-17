@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Tooltip from "@material-ui/core/Tooltip";
-import Badge from "@material-ui/core/Badge";
-import memoize from "memoize-one";
+import React from 'react';
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/styles';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Tooltip from '@material-ui/core/Tooltip';
+import Badge from '@material-ui/core/Badge';
+import memoize from 'memoize-one';
 
 /**
  * Utility to generate styles for a tooltip arrow
@@ -16,62 +16,67 @@ function arrowGenerator(color) {
     '&[x-placement*="bottom"] $arrow': {
       top: 0,
       left: 0,
-      marginTop: "-0.9em",
-      width: "3em",
-      height: "1em",
-      "&::before": {
-        borderWidth: "0 1em 1em 1em",
+      marginTop: '-0.9em',
+      width: '3em',
+      height: '1em',
+      '&::before': {
+        borderWidth: '0 1em 1em 1em',
         borderColor: `transparent transparent ${color} transparent`
       }
     },
     '&[x-placement*="top"] $arrow': {
       bottom: 0,
       left: 0,
-      marginBottom: "-0.9em",
-      width: "3em",
-      height: "1em",
-      "&::before": {
-        borderWidth: "1em 1em 0 1em",
+      marginBottom: '-0.9em',
+      width: '3em',
+      height: '1em',
+      '&::before': {
+        borderWidth: '1em 1em 0 1em',
         borderColor: `${color} transparent transparent transparent`
       }
     },
     '&[x-placement*="right"] $arrow': {
       left: 0,
-      marginLeft: "-0.9em",
-      height: "3em",
-      width: "1em",
-      "&::before": {
-        borderWidth: "1em 1em 1em 0",
+      marginLeft: '-0.9em',
+      height: '3em',
+      width: '1em',
+      '&::before': {
+        borderWidth: '1em 1em 1em 0',
         borderColor: `transparent ${color} transparent transparent`
       }
     },
     '&[x-placement*="left"] $arrow': {
       right: 0,
-      marginRight: "-0.9em",
-      height: "3em",
-      width: "1em",
-      "&::before": {
-        borderWidth: "1em 0 1em 1em",
+      marginRight: '-0.9em',
+      height: '3em',
+      width: '1em',
+      '&::before': {
+        borderWidth: '1em 0 1em 1em',
         borderColor: `transparent transparent transparent ${color}`
       }
     }
   };
 }
 
-const styles = theme => ({
+/**
+ * Utility to apply styles based on props
+ */
+const styledBy = (property, mapping) => props => mapping[props[property]];
+
+const styles = {
   root: {
-    borderBottom: "solid #333333 1px",
-    backgroundColor: "#747474",
-    "&$selected": {
-      backgroundColor: "#2196F3",
-      "&:hover": {
-        backgroundColor: "#2196F3"
+    borderBottom: 'solid #333333 1px',
+    backgroundColor: '#747474',
+    '&$selected': {
+      backgroundColor: '#2196F3',
+      '&:hover': {
+        backgroundColor: '#2196F3'
       }
     }
   },
   button: {
-    "&:hover": {
-      backgroundColor: "#747474"
+    '&:hover': {
+      backgroundColor: '#747474'
     }
   },
   selected: {},
@@ -79,66 +84,74 @@ const styles = theme => ({
     paddingRight: 0
   },
   text: {
-    color: "#FFFFFF",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    fontSize: "inherit"
+    color: '#FFFFFF',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    fontSize: 'inherit'
   },
   badge: {
-    backgroundColor: "#ffffff",
-    color: "#555555",
-    fontWeight: "bold",
-    fontSize: "75%",
-    width: 15,
-    height: 15,
+    backgroundColor: '#ffffff',
+    border: 'solid 2px #747474',
+    borderColor: styledBy("selected", {
+      true: "#2196F3",
+      false: "#747474"
+    }),
+    color: styledBy("selected", {
+      true: "#2196F3",
+      false: "#747474"
+    }),
+    fontWeight: 'bold',
+    fontSize: '75%',
+    width: 18,
+    height: 18,
     marginTop: 5,
     marginRight: 5
   },
   lightTooltip: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.text.primary,
-    boxShadow: theme.shadows[1],
+    backgroundColor: "#fff",
+    color: "#000",
+    boxShadow: "#000",
     fontSize: 14,
     padding: 15
   },
   lightTooltipSmall: {
-    backgroundColor: theme.palette.common.white,
-    color: "#333333",
-    boxShadow: theme.shadows[1],
+    backgroundColor: "#fff",
+    color: '#333333',
+    boxShadow: "#000"
   },
-  arrowPopper: arrowGenerator(theme.palette.common.white),
+  arrowPopper: arrowGenerator("#fff"),
   arrow: {
-    position: "absolute",
+    position: 'absolute',
     fontSize: 7,
-    width: "3em",
-    height: "3em",
-    "&::before": {
+    width: '3em',
+    height: '3em',
+    '&::before': {
       content: '""',
-      margin: "auto",
-      display: "block",
+      margin: 'auto',
+      display: 'block',
       width: 0,
       height: 0,
-      borderStyle: "solid"
+      borderStyle: 'solid'
     }
   },
-  bootstrapPopper: arrowGenerator(theme.palette.common.black),
+  bootstrapPopper: arrowGenerator("#000"),
   bootstrapTooltip: {
-    backgroundColor: theme.palette.common.black
+    backgroundColor: "#000"
   },
   bootstrapPlacementLeft: {
-    margin: "0 8px"
+    margin: '0 8px'
   },
   bootstrapPlacementRight: {
-    margin: "0 8px"
+    margin: '0 8px'
   },
   bootstrapPlacementTop: {
-    margin: "8px 0"
+    margin: '8px 0'
   },
   bootstrapPlacementBottom: {
-    margin: "8px 0"
+    margin: '8px 0'
   }
-});
+};
 
 /**
  * Renders a single item within the menu
@@ -167,8 +180,8 @@ class MenuItem extends React.Component {
    * Handles clicks on the item
    */
   handleClick = e => {
-    const { onClick } = this.props;
-    if (typeof onClick === "function") {
+    const {onClick} = this.props;
+    if (typeof onClick === 'function') {
       onClick(e);
     }
   };
@@ -206,7 +219,7 @@ class MenuItem extends React.Component {
                 {icons.map((i, key) =>
                   React.cloneElement(i, {
                     key,
-                    style: { color: "#333333" }
+                    style: {color: '#333333'}
                   })
                 )}
               </React.Fragment>
@@ -214,7 +227,9 @@ class MenuItem extends React.Component {
           >
             <Badge
               badgeContent={icons.length}
-              classes={{ badge: this.props.classes.badge }}
+              classes={{
+                badge: this.props.classes.badge
+              }}
             >
               {icons[0]}
             </Badge>
@@ -227,7 +242,7 @@ class MenuItem extends React.Component {
   });
 
   render() {
-    const { classes, title, statusIcons, status, key, selected } = this.props;
+    const {classes, title, statusIcons, status, key, selected} = this.props;
     // TRICKY: we don't need a tooltip for short text
     // TODO: it would be better to only display if the text is truncated.
     const enableTooltip = title.length > 20;
@@ -253,7 +268,7 @@ class MenuItem extends React.Component {
           title={
             <React.Fragment>
               {title}
-              <span className={classes.arrow} ref={this.handleArrowRef} />
+              <span className={classes.arrow} ref={this.handleArrowRef}/>
             </React.Fragment>
           }
           disableFocusListener={!enableTooltip}

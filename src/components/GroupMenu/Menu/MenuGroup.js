@@ -14,6 +14,9 @@ import ProgressIcon from "./ProgressIcon";
 const styledBy = (property, mapping) => props => mapping[props[property]];
 
 const styles = {
+  textRoot: {
+    padding: 0
+  },
   text: {
     color: "#FFFFFF",
     fontSize: "inherit",
@@ -23,6 +26,7 @@ const styles = {
     })
   },
   root: {
+    paddingRight: 0,
     borderBottom: "solid #ffffff4d 1px",
     "&:hover": {
       backgroundColor: "transparent"
@@ -65,6 +69,7 @@ class MenuGroup extends React.Component {
         <ListItemText
           inset
           classes={{
+            root: classes.textRoot,
             primary: classes.text
           }}
           primary={label}

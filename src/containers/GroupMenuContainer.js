@@ -3,13 +3,15 @@ import {connect} from 'react-redux';
 import GroupMenu, {generateMenuData} from '../components/GroupMenu';
 import PropTypes from 'prop-types';
 import Api from '../Api';
-import BlockIcon from '@material-ui/icons/Block';
 import {getChecks} from '../state/reducers';
-import CommentIcon from "../components/icons/Comment";
-import CompleteIcon from "../components/icons/Complete";
+
 import InvalidatedIcon from "../components/icons/Invalidated";
-import ReminderIcon from "../components/icons/Reminder";
-import VerseEditIcon from "../components/icons/VerseEdit";
+
+import CheckIcon from '@material-ui/icons/Check';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BlockIcon from '@material-ui/icons/Block';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
+import EditIcon from '@material-ui/icons/Edit';
 
 class GroupMenuContainer extends React.Component {
 
@@ -64,13 +66,13 @@ class GroupMenuContainer extends React.Component {
       {
         label: translate('menu.bookmarks'),
         key: 'bookmarked',
-        icon: <ReminderIcon/>
+        icon: <BookmarkIcon/>
       },
       {
         label: translate('menu.completed'),
         key: 'completed',
         disables: ['incomplete'],
-        icon: <CompleteIcon/>
+        icon: <CheckIcon/>
       },
       {
         label: translate('menu.incomplete'),
@@ -83,23 +85,23 @@ class GroupMenuContainer extends React.Component {
       {
         label: translate('menu.verse_edit'),
         key: 'verseEdits',
-        icon: <VerseEditIcon/>
+        icon: <EditIcon/>
       },
       {
         label: translate('menu.comments'),
         key: 'comments',
-        icon: <CommentIcon/>
+        icon: <ModeCommentIcon/>
       }
     ];
 
     const statusIcons = [
       {
         key: 'completed',
-        icon: <CompleteIcon/>
+        icon: <CheckIcon/>
       },
       {
         key: 'bookmarks',
-        icon: <ReminderIcon/>
+        icon: <BookmarkIcon/>
       },
       {
         key: 'invalid',
@@ -107,11 +109,11 @@ class GroupMenuContainer extends React.Component {
       },
       {
         key: 'comments',
-        icon: <CommentIcon/>
+        icon: <ModeCommentIcon/>
       },
       {
         key: 'verseEdits',
-        icon: <VerseEditIcon/>
+        icon: <EditIcon/>
       }
     ];
 

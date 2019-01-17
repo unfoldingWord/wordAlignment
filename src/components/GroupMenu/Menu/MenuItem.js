@@ -75,6 +75,9 @@ const styles = theme => ({
     }
   },
   selected: {},
+  textRoot: {
+    padding: 0
+  },
   text: {
     color: "#FFFFFF",
     textOverflow: "ellipsis",
@@ -276,6 +279,7 @@ class MenuItem extends React.Component {
           <ListItemText
             inset
             classes={{
+              root: classes.textRoot,
               primary: classes.text
             }}
             primary={title}

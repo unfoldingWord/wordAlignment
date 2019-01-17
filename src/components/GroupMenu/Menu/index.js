@@ -30,7 +30,7 @@ const styles = () => ({
  * @param {object[]} [statusIcons=[]] - an array of status configurations to control menu item icons
  * @param {*} [header=null] - a component to display as the menu header
  * @param {*} [height="auto"] - the height of the menu
- * @param {*} [width=400] - the width of the menu
+ * @param {*} [width=250] - the width of the menu
  * @param {boolean} [autoSelect=true] - controls whether or not opening a group will automatically select the first child
  * @param {boolean} [autoScroll=true] - controls whether or not the menu will automatically scroll to the active item
  * @param {string} [emptyNotice=""] - an optional message to display when the menu is empty
@@ -297,7 +297,7 @@ class Menu extends React.Component {
           component="nav"
           subheader={header}
           className={classes.root}
-          style={{height, width}}
+          style={{height, width, minWidth: width}}
         >
           {entries.map((group, index) => (
             <RootRef key={index} rootRef={this.handleGroupRef(group)}>

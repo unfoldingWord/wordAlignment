@@ -15,7 +15,7 @@ const styledBy = (property, mapping) => props => mapping[props[property]];
 
 const styles = {
   textRoot: {
-    padding: 0
+    paddingRight: 0
   },
   text: {
     color: "#FFFFFF",
@@ -26,7 +26,7 @@ const styles = {
     })
   },
   root: {
-    paddingRight: 0,
+    // paddingRight: 0,
     borderBottom: "solid #ffffff4d 1px",
     "&:hover": {
       backgroundColor: "transparent"
@@ -56,6 +56,7 @@ class MenuGroup extends React.Component {
       <ListItem
         button
         disableRipple={true}
+        disableGutters={false}
         selected={selected}
         classes={{
           root: classes.root,

@@ -76,7 +76,7 @@ const styles = theme => ({
   },
   selected: {},
   textRoot: {
-    padding: 0
+    paddingRight: 0
   },
   text: {
     color: "#FFFFFF",
@@ -236,6 +236,7 @@ class MenuItem extends React.Component {
       <ListItem
         key={key}
         button
+        disableGutters={false}
         disableRipple={true}
         selected={selected}
         onClick={this.handleClick}

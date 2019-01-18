@@ -51,7 +51,7 @@ const styles = {
  */
 class MenuGroup extends React.Component {
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
+  shouldComponentUpdate(nextProps) {
     const {selected, open, label, progress} = this.props;
     return selected !== nextProps.selected || open !== nextProps.open ||
       label !== nextProps.label || progress !== nextProps.progress;

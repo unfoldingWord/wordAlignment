@@ -242,7 +242,7 @@ class MenuItem extends React.Component {
     }
   });
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
+  shouldComponentUpdate(nextProps) {
     // TRICKY: we should technically check for an update to statusIcons
     // however that is not a known use case and it's faster to ignore it.
     const {title, key, selected, status} = this.props;

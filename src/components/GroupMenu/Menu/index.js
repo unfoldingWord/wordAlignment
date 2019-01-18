@@ -3,10 +3,27 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import RootRef from '@material-ui/core/RootRef';
+import { createMuiTheme } from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MenuItem from './MenuItem';
 import MenuGroup from './MenuGroup';
 import memoize from 'memoize-one';
 import EmptyItem from './EmptyItem';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      '"Noto Sans"',
+      'Roboto'
+    ].join(','),
+    fontSize: 12
+  },
+  props: {
+    MuiButtonBase: {
+      disableRipple: true
+    }
+  }
+});
 
 const styles = () => ({
   root: {
@@ -292,53 +309,55 @@ class Menu extends React.Component {
     const normalizedStatusIcons = this.normalizeStatusIcons(statusIcons);
 
     return (
-      <RootRef rootRef={this.menuRef}>
-        <List
-          component="nav"
-          subheader={header}
-          className={classes.root}
-          style={{height, width, minWidth: width}}
-        >
-          {entries.map((group, index) => (
-            <RootRef key={index} rootRef={this.handleGroupRef(group)}>
-              <React.Fragment>
-                <MenuGroup
-                  selected={this.isGroupSelected(group)}
-                  onClick={this.handleOpen(group)}
-                  progress={group.progress}
-                  open={this.isGroupOpen(group)}
-                  label={group.title}
-                />
-                {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
-                {/*<Collapse*/}
-                {/*in={this.isGroupOpen(group)}*/}
-                {/*timeout="auto"*/}
-                {/*unmountOnExit*/}
-                {/*>*/}
-                {this.isGroupOpen(group) ? (
-                  <List component="div" disablePadding>
-                    {group.children.map((item, index) => (
-                      <RootRef key={index} rootRef={this.handleItemRef(item)}>
-                        <MenuItem
-                          status={item}
-                          selected={this.isItemSelected(item)}
-                          statusIcons={normalizedStatusIcons}
-                          onClick={this.handleClick(item.contextId)}
-                          title={item.title}
-                        />
-                      </RootRef>
-                    ))}
-                  </List>
-                ) : null}
+      <MuiThemeProvider theme={theme}>
+        <RootRef rootRef={this.menuRef}>
+          <List
+            component="nav"
+            subheader={header}
+            className={classes.root}
+            style={{height, width, minWidth: width}}
+          >
+            {entries.map((group, index) => (
+              <RootRef key={index} rootRef={this.handleGroupRef(group)}>
+                <React.Fragment>
+                  <MenuGroup
+                    selected={this.isGroupSelected(group)}
+                    onClick={this.handleOpen(group)}
+                    progress={group.progress}
+                    open={this.isGroupOpen(group)}
+                    label={group.title}
+                  />
+                  {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
+                  {/*<Collapse*/}
+                  {/*in={this.isGroupOpen(group)}*/}
+                  {/*timeout="auto"*/}
+                  {/*unmountOnExit*/}
+                  {/*>*/}
+                  {this.isGroupOpen(group) ? (
+                    <List component="div" disablePadding>
+                      {group.children.map((item, index) => (
+                        <RootRef key={index} rootRef={this.handleItemRef(item)}>
+                          <MenuItem
+                            status={item}
+                            selected={this.isItemSelected(item)}
+                            statusIcons={normalizedStatusIcons}
+                            onClick={this.handleClick(item.contextId)}
+                            title={item.title}
+                          />
+                        </RootRef>
+                      ))}
+                    </List>
+                  ) : null}
 
-                {/*</Collapse>*/}
-              </React.Fragment>
-            </RootRef>
-          ))}
-          <EmptyItem key="empty" label={emptyNotice}
-                     enabled={entries.length === 0}/>
-        </List>
-      </RootRef>
+                  {/*</Collapse>*/}
+                </React.Fragment>
+              </RootRef>
+            ))}
+            <EmptyItem key="empty" label={emptyNotice}
+                       enabled={entries.length === 0}/>
+          </List>
+        </RootRef>
+      </MuiThemeProvider>
     );
   }
 }

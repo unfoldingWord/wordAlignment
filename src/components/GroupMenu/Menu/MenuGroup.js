@@ -19,9 +19,9 @@ const styles = {
   },
   text: {
     color: '#FFFFFF',
-    fontSize: 'inherit',
+    fontSize: 12,
     fontWeight: styledBy('selected', {
-      true: 'bold',
+      true: 700,
       false: 'normal'
     })
   },

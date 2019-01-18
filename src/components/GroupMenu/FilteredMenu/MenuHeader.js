@@ -16,7 +16,7 @@ const styles = () => ({
   text: {
     color: "#FFFFFF",
     fontWeight: "bold",
-    fontSize: "inherit"
+    fontSize: 16
   }
 });
 

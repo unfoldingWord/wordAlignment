@@ -27,6 +27,11 @@ const styles = () => ({
   text: {
     color: "#FFFFFF",
     fontWeight: "bold",
+    fontSize: 16
+  },
+  filterText: {
+    color: "#FFFFFF",
+    fontWeight: 700,
     fontSize: 14
   },
   checkbox: {
@@ -168,7 +173,7 @@ class MenuFilter extends React.Component {
                   : null}
                 <ListItemText
                   classes={{
-                    primary: classes.text
+                    primary: classes.filterText
                   }}
                   primary={item.label}
                 />

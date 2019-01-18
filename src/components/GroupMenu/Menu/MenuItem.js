@@ -89,7 +89,7 @@ const styles = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    fontSize: 'inherit'
+    fontSize: 12
   },
   badge: {
     backgroundColor: '#ffffff',

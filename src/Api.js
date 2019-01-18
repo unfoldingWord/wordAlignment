@@ -583,7 +583,7 @@ export default class Api extends ToolApi {
 
         totalVerses ++;
         const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
-        if(isAligned && this.getIsVerseFinished(chapter, verse)) {
+        if(isAligned || this.getIsVerseFinished(chapter, verse)) {
           completeVerses ++;
         }
       }

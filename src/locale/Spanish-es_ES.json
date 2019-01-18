@@ -201,7 +201,7 @@
     "add_resource_label": "Añadir Recursos",
     "select_language": "Seleccionar idioma",
     "gateway_language": "Idioma Fuente",
-    "target_language": "Idioma a ser traducido",
+    "target_language": "Idioma receptor",
     "original_language": "Idioma Original"
   }
 }

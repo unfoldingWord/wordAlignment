@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import GroupMenu, {generateMenuData} from '../components/GroupMenu';
+import GroupMenu, {generateMenuData, generateMenuItem} from '../components/GroupMenu';
 import PropTypes from 'prop-types';
 import Api from '../Api';
 import {getChecks} from '../state/reducers';
@@ -19,7 +19,7 @@ class GroupMenuContainer extends React.Component {
    * Handles click events from the menu
    * @param {object} contextId - the menu item's context id
    */
-  handleClick = contextId => {
+  handleClick = ({contextId}) => {
     const {tc: {actions: {changeCurrentContextId}}} = this.props;
     changeCurrentContextId(contextId);
   };
@@ -123,12 +123,13 @@ class GroupMenuContainer extends React.Component {
       'completed',
       this.onProcessItem
     );
+    const activeEntry = generateMenuItem(contextId, this.onProcessItem);
 
     return (
       <GroupMenu
         filters={filters}
         entries={entries}
-        active={contextId}
+        active={activeEntry}
         statusIcons={statusIcons}
         emptyNotice={translate('menu.no_results')}
         title={translate('menu.menu_title')}

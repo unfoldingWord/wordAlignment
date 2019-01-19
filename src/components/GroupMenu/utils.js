@@ -18,11 +18,7 @@ export function generateMenuData(
     if (Object.keys(data).includes(index[i].id)) {
       // generate menu group
       const children = data[index[i].id].map(item => {
-        if (typeof onProcessItem === "function") {
-          return onProcessItem(item);
-        } else {
-          return generateMenuItem(item);
-        }
+        return generateMenuItem(item, onProcessItem);
       });
       menu.push({
         title: index[i].name,
@@ -34,6 +30,32 @@ export function generateMenuData(
   }
 
   return menu;
+}
+
+
+
+/**
+ * Produces a valid menu item from a context id or a group data entry.
+ * This is useful for pre-processing the active entry.
+ * @param {object} contextId - a context id or group data entry.
+ * @param {function} [onProcessItem=null] - an optional preprocessor
+ * @returns {object}
+ */
+export function generateMenuItem(contextId, onProcessItem = null) {
+  // TRICKY: determine if this is a contextId or group data entry.
+  let item;
+  if(contextId.hasOwnProperty("contextId")) {
+    item = contextId;
+  } else {
+    item = {contextId};
+  }
+
+  // perform pre-processing
+  if(typeof onProcessItem === "function") {
+    return onProcessItem(processMenuItem(item));
+  } else {
+    return processMenuItem(item);
+  }
 }
 
 /**
@@ -59,9 +81,11 @@ function calculateProgress(data, progressKey) {
  * @param {object} data - the menu item data
  * @returns {object} - the formatted menu item data
  */
-function generateMenuItem(data) {
+function processMenuItem(data) {
+  // TRICKY: use the context id to pre-populate some fields
   const {
     contextId: {
+      groupId,
       reference: { bookId, chapter, verse }
     }
   } = data;
@@ -69,6 +93,8 @@ function generateMenuItem(data) {
 
   return {
     ...data,
-    title: `${passageTitle}`
+    groupId,
+    itemId: passageTitle,
+    title: passageTitle
   };
 }

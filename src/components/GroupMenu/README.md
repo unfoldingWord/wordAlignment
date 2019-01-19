@@ -92,8 +92,22 @@ This example will generate menu entries where each group's progress is cacluated
 const menuEntries = generateMenuData(groupIndex, groupData, "selections");
 ```
 
-By default the generated menu data will include `title` fields on each of the menu items.
-If you need to perform some custom processing on the menu items like localzied titles or more complicated progress calculations you can provide a callback as the last argument:
+By default the generated menu data will include `title` and `itemId` fields on each of the menu items.
+In addition the `groupId` will be copied from the contextId and placed in the root of the object.
+
+For example:
+```js
+const {bookId, chapter, verse} = item.contextId.reference;
+const newItem = {
+  ...item,
+  groupId: item.contextId.groupId,
+  itemId: `${bookId}${chapter}:${verse}`,
+  title: `${bookId} ${chapter}:${verse}`
+}
+```
+
+If you need to perform some custom processing on the menu items like localized titles, progress keys, or more granular itemId's
+you can provide a callback as the last argument:
 
 ```js
 const menuEntries = generateMenuData(
@@ -117,8 +131,8 @@ const menuEntries = generateMenuData(
 
 Where `item` may look something like this:
 
-```json
-{
+```js
+const item = {
   "priority": 1,
   "comments": false,
   "reminders": false,
@@ -142,8 +156,13 @@ Where `item` may look something like this:
     "strong": ["G00110"],
     "occurrence": 1
   },
-  "invalidated": false
+  "invalidated": false,
+  
+  // these were automatically injected and may be overridden
+  "groupId": "abraham",
+  "itemId": "gal 6:3",
+  "title": "gal 6:3"
 }
 ```
 
-> Note: Then menu item callback is performed before the progress is calculated.
+> Note: The menu item callback is performed before the progress is calculated.

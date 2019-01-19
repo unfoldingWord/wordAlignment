@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import RootRef from '@material-ui/core/RootRef';
-import { createMuiTheme } from '@material-ui/core/styles';
+import {createMuiTheme} from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MenuItem from './MenuItem';
 import MenuGroup from './MenuGroup';
@@ -12,6 +12,7 @@ import EmptyItem from './EmptyItem';
 
 const theme = createMuiTheme({
   typography: {
+    useNextVariants: true,
     fontFamily: [
       '"Noto Sans"',
       'Roboto'
@@ -43,7 +44,7 @@ const styles = () => ({
 /**
  * Displays a list of grouped menu items
  * @param {[]} entries - an array of menu entries
- * @param {object} [active=null] - the contextId of the active menu item
+ * @param {object} [active=null] - the active menu item object
  * @param {object[]} [statusIcons=[]] - an array of status configurations to control menu item icons
  * @param {*} [header=null] - a component to display as the menu header
  * @param {*} [height="auto"] - the height of the menu
@@ -195,7 +196,7 @@ class Menu extends React.Component {
       // auto select newly opened groups if not controlled elsewhere
       const firstChild = group.children[0];
       if (autoSelect && firstChild && !this.isGroupSelected(group)) {
-        this.handleClick(firstChild.contextId)();
+        this.handleClick(firstChild)();
       }
     }
   };
@@ -204,17 +205,17 @@ class Menu extends React.Component {
    * Handles menu item clicks.
    * If the active menu item is controlled externally this will defer control to the parent
    * otherwise menu selections will be managed internally.
-   * @param {object} contextId - the context id of the clicked menu item
+   * @param {object} item - the clicked menu item object
    */
-  handleClick = contextId => () => {
+  handleClick = item => () => {
     const {onItemClick, active} = this.props;
     if (typeof onItemClick === 'function') {
-      onItemClick(contextId);
+      onItemClick(item);
     }
 
     // skip internal state if managed externally.
     if (!active) {
-      this.setState({active: contextId});
+      this.setState({active: item});
     }
   };
 
@@ -243,24 +244,15 @@ class Menu extends React.Component {
    * @returns {boolean}
    */
   isItemSelected = item => {
-    const active = this.getActive();
+    const activeItem = this.getActive();
     const {
-      contextId: {
-        groupId,
-        quote,
-        occurrence,
-        reference: {bookId, chapter, verse}
-      }
+      groupId,
+      itemId,
     } = item;
-    // TODO: is this compatible with all tools?
     return (
-      active &&
-      active.groupId === groupId &&
-      active.quote === quote &&
-      active.occurrence === occurrence &&
-      active.reference.bookId === bookId &&
-      active.reference.chapter === chapter &&
-      active.reference.verse === verse
+      activeItem &&
+      activeItem.groupId === groupId &&
+      activeItem.itemId === itemId
     );
   };
 
@@ -327,12 +319,6 @@ class Menu extends React.Component {
                     open={this.isGroupOpen(group)}
                     label={group.title}
                   />
-                  {/* TODO: The ui can't handle this much animation because changing context takes too much work */}
-                  {/*<Collapse*/}
-                  {/*in={this.isGroupOpen(group)}*/}
-                  {/*timeout="auto"*/}
-                  {/*unmountOnExit*/}
-                  {/*>*/}
                   {this.isGroupOpen(group) ? (
                     <List component="div" disablePadding>
                       {group.children.map((item, index) => (
@@ -341,15 +327,13 @@ class Menu extends React.Component {
                             status={item}
                             selected={this.isItemSelected(item)}
                             statusIcons={normalizedStatusIcons}
-                            onClick={this.handleClick(item.contextId)}
+                            onClick={this.handleClick(item)}
                             title={item.title}
                           />
                         </RootRef>
                       ))}
                     </List>
                   ) : null}
-
-                  {/*</Collapse>*/}
                 </React.Fragment>
               </RootRef>
             ))}

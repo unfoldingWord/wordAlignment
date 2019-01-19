@@ -49,8 +49,10 @@ describe('generate menu data', () => {
               occurrence: 1,
               reference: {'bookId': 'gal', 'chapter': 4, 'verse': 5}
             },
-            title: 'gal',
-            customField: 'hello world'
+            customField: 'hello world',
+            groupId: 'adoption',
+            itemId: "gal 4:5",
+            title: 'gal'
           }],
         id: 'adoption',
         progress: 0,
@@ -119,6 +121,8 @@ describe('generate menu data', () => {
               reference: {'bookId': 'gal', 'chapter': 3, 'verse': 6}
             },
             completed: true,
+            groupId: "abraham",
+            itemId: "gal 3:6",
             title: 'gal 3:6'
           },
           {
@@ -127,6 +131,8 @@ describe('generate menu data', () => {
               occurrence: 1,
               reference: {'bookId': 'gal', 'chapter': 3, 'verse': 7}
             },
+            groupId: "abraham",
+            itemId: "gal 3:7",
             title: 'gal 3:7'
           }],
         id: 'abraham',
@@ -141,6 +147,8 @@ describe('generate menu data', () => {
               occurrence: 1,
               reference: {'bookId': 'gal', 'chapter': 4, 'verse': 5}
             },
+            groupId: "adoption",
+            itemId: "gal 4:5",
             title: 'gal 4:5'
           }],
         id: 'adoption',

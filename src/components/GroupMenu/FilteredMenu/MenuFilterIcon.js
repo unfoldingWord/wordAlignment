@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
-import FilterFunnelIcon from "./FilterFunnelIcon";
+import FunnelIcon from "./icons/Funnel";
 
 const styles = () => ({
   badge: {
@@ -28,7 +28,7 @@ const MenuFilterIcon = ({ enabledFilterCount, classes }) => {
       invisible={count <= 0}
       classes={{ badge: classes.badge }}
     >
-      <FilterFunnelIcon color="#ffffff" />
+      <FunnelIcon style={{color: "#ffffff"}} />
     </Badge>
   );
 };
@@ -37,7 +37,5 @@ MenuFilterIcon.propTypes = {
   classes: PropTypes.object.isRequired,
   enabledFilterCount: PropTypes.number.isRequired
 };
-
-MenuFilterIcon.muiName = "Icon";
 
 export default withStyles(styles)(MenuFilterIcon);

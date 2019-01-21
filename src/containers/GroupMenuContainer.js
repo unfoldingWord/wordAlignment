@@ -1,11 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import GroupMenu, {generateMenuData, generateMenuItem} from '../components/GroupMenu';
+import {GroupedMenu, generateMenuData, generateMenuItem, InvalidatedIcon} from 'tc-ui-toolkit';
 import PropTypes from 'prop-types';
 import Api from '../Api';
 import {getChecks} from '../state/reducers';
-
-import InvalidatedIcon from "../components/icons/Invalidated";
 
 import CheckIcon from '@material-ui/icons/Check';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -126,7 +124,7 @@ class GroupMenuContainer extends React.Component {
     const activeEntry = generateMenuItem(contextId, this.onProcessItem);
 
     return (
-      <GroupMenu
+      <GroupedMenu
         filters={filters}
         entries={entries}
         active={activeEntry}

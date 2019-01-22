@@ -4,6 +4,7 @@ import check, * as fromCheck from './check';
 // TODO: the "checks" reducer is the beginning concept of a generic checks handler that could be used for all tools.
 // The basic idea is that the tc-tool could provide utility actions and selectors for managing state within a tool.
 // We'll need to figure out some more complicated things like how to represent multiple checks for a single verse.
+// Also, this check model is following an incorrect structure. See https://github.com/unfoldingWord-dev/translationCore/issues/5592
 // For example tW could have checks for multiple instances of a word or phrase within the same verse.
 // @example
 // const {tool: {

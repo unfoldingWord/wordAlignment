@@ -180,7 +180,14 @@
     "next_button": "Siguiente"
   },
   "menu": {
-    "menu": "Menú"
+    "no_results": "No results",
+    "invalidated": "Invalidated",
+    "bookmarks": "Bookmark",
+    "completed": "Completed",
+    "incomplete": "Incomplete",
+    "verse_edit": "Verse edit",
+    "comments": "Comments",
+    "menu_title": "Menú"
   },
   "suggestions": {
     "refresh_suggestions": "Actualizar ${word_map}sugerencias generadas.",
@@ -190,6 +197,16 @@
     "refresh": "Actualizar",
     "accept": "Aceptar",
     "reject": "Rechazar"
+  },
+  "icons": {
+    "selections_found": "Completed verses were found for this check",
+    "no_selections_found": "No completed verses were found for this check",
+    "verse_edits_found": "Verse edits were found for this check",
+    "no_verse_edits_found": "No Verse edits were found for this check",
+    "comments_found": "Comments were found for this check",
+    "no_comments_found": "No comments were found for this check",
+    "bookmarked": "This check has been bookmarked for review",
+    "not_bookmarked": "This check has not been bookmarked for review"
   },
   "pane": {
     "current_project": "Proyecto actual",

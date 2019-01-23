@@ -246,9 +246,12 @@ describe('verse finished', () => {
 
   it('sets a verse as finished', () => {
     const api = new Api();
-    const writeToolData = jest.fn();
-    const deleteToolFile = jest.fn();
+    const writeToolData = jest.fn(() => Promise.resolve());
+    const deleteToolFile = jest.fn(() => Promise.resolve());
+    const recordCheck = jest.fn();
+
     api.props = {
+      recordCheck,
       tool: {
         writeToolData,
         deleteToolFile,
@@ -266,8 +269,9 @@ describe('verse finished', () => {
   it('sets a verse has not finished', () => {
     const api = new Api();
     const writeToolData = jest.fn();
-    const deleteToolFile = jest.fn();
+    const deleteToolFile = jest.fn(() => Promise.resolve());
     api.props = {
+      recordCheck: jest.fn(),
       tool: {
         writeToolData,
         deleteToolFile
@@ -299,10 +303,11 @@ describe('validate', () => {
       }
     };
     const props = {
+      recordCheck: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         toolDataPathExists: jest.fn(() => Promise.resolve(false)),
-        deleteToolFile: jest.fn()
+        deleteToolFile: jest.fn(() => Promise.resolve()),
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
@@ -341,9 +346,10 @@ describe('validate', () => {
       }
     };
     const props = {
+      recordCheck: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
-        deleteToolFile: jest.fn(),
+        deleteToolFile: jest.fn(() => Promise.resolve()),
         toolDataPathExists: jest.fn(() => Promise.resolve(false))
       },
       tc: {
@@ -383,9 +389,10 @@ describe('validate', () => {
       }
     };
     const props = {
+      recordCheck: jest.fn(),
       tool: {
         writeToolData: jest.fn(),
-        deleteToolFile: jest.fn()
+        deleteToolFile: jest.fn(() => Promise.resolve())
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},

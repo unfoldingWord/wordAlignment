@@ -353,3 +353,20 @@ export const acceptTokenSuggestion = (
   index: alignmentIndex,
   token
 });
+
+/**
+ * Records the value of a check.
+ * @param {string} check -  the check id
+ * @param {number} chapter - the chapter number
+ * @param {verse} verse - the verse number
+ * @param {*} data - the check data
+ * @returns {{chapter: *, data: *, check: *, verse: *, type: string, timestamp: string}}
+ */
+export const recordCheck = (check, chapter, verse, data) => ({
+  type: types.RECORD_CHECK,
+  check,
+  timestamp: (new Date()).toJSON(),
+  chapter,
+  verse,
+  data
+});

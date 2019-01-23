@@ -545,7 +545,6 @@ class Container extends Component {
         </MuiThemeProvider>
         <GroupMenuContainer tc={tc}
                             toolApi={api}
-                            key={isComplete} // HACK to workaround anti-pattern in GroupMenu
                             translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList

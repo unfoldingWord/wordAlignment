@@ -897,6 +897,109 @@ describe('repair alignments', () => {
     ]
   };
 
+  describe('move un-aligned target token form end of text to directly in front of first instance of an aligned word', () => {
+    const stateBefore = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {text: '0', position: 0, occurrence: 1, occurrences: 2},
+            {text: '1', position: 1, occurrence: 1, occurrences: 2},
+            {text: '2', position: 2, occurrence: 1, occurrences: 1},
+            {text: '0', position: 3, occurrence: 2, occurrences: 2},
+            {text: '1', position: 4, occurrence: 2, occurrences: 2},
+          ],
+          targetTokens: [
+            {text: '1', position: 0, occurrence: 1, occurrences: 2},
+            {text: '2', position: 1, occurrence: 1, occurrences: 1},
+            {text: '0', position: 2, occurrence: 1, occurrences: 2},
+            {text: '1', position: 3, occurrence: 2, occurrences: 2},
+            {text: '0', position: 4, occurrence: 2, occurrences: 2},
+          ],
+          alignments: [
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: [0]},
+            {sourceNgram: [2], targetNgram: [1]},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: [3]}
+          ]
+        }
+      }
+    };
+    const action = {
+      type: types.REPAIR_VERSE_ALIGNMENTS,
+      chapter: 1,
+      verse: 1,
+      sourceTokens: [
+        new Token({text: '0', position: 0, occurrence: 1, occurrences: 2}),
+        new Token({text: '1', position: 1, occurrence: 1, occurrences: 2}),
+        new Token({text: '2', position: 2, occurrence: 1, occurrences: 1}),
+        new Token({text: '0', position: 3, occurrence: 2, occurrences: 2}),
+        new Token({text: '1', position: 4, occurrence: 2, occurrences: 2})
+      ],
+      targetTokens: [
+        new Token({text: '0', position: 0, occurrence: 1, occurrences: 2}), // moved to front
+        new Token({text: '1', position: 1, occurrence: 1, occurrences: 2}),
+        new Token({text: '2', position: 2, occurrence: 1, occurrences: 1}),
+        new Token({text: '0', position: 3, occurrence: 2, occurrences: 2}),
+        new Token({text: '1', position: 4, occurrence: 2, occurrences: 2})
+      ]
+    };
+    const stateAfter = {
+      '1': {
+        '1': {
+          sourceTokens: [
+            {
+              text: '0', position: 0, occurrence: 1, occurrences: 2, lemma: '',
+              morph: '', strong: ''
+            },
+            {
+              text: '1', position: 1, occurrence: 1, occurrences: 2, lemma: '',
+              morph: '', strong: ''
+            },
+            {
+              text: '2', position: 2, occurrence: 1, occurrences: 1, lemma: '',
+              morph: '', strong: ''
+            },
+            {
+              text: '0', position: 3, occurrence: 2, occurrences: 2, lemma: '',
+              morph: '', strong: ''
+            },
+            {
+              text: '1', position: 4, occurrence: 2, occurrences: 2, lemma: '',
+              morph: '', strong: ''
+            },
+          ],
+          targetTokens: [
+            {text: '0', position: 0, occurrence: 1, occurrences: 2},
+            {text: '1', position: 1, occurrence: 1, occurrences: 2},
+            {text: '2', position: 2, occurrence: 1, occurrences: 1},
+            {text: '0', position: 3, occurrence: 2, occurrences: 2},
+            {text: '1', position: 4, occurrence: 2, occurrences: 2},
+          ],
+          alignments: [
+            {sourceNgram: [0], targetNgram: []},
+            {sourceNgram: [1], targetNgram: [1]},
+            {sourceNgram: [2], targetNgram: [2]},
+            {sourceNgram: [3], targetNgram: []},
+            {sourceNgram: [4], targetNgram: [4]}
+          ],
+          renderedAlignments: [
+            {alignments: [0], sourceNgram: [0], targetNgram: []},
+            {alignments: [1], sourceNgram: [1], targetNgram: [1]},
+            {alignments: [2], sourceNgram: [2], targetNgram: [2]},
+            {alignments: [3], sourceNgram: [3], targetNgram: []},
+            {alignments: [4], sourceNgram: [4], targetNgram: [4]}
+          ],
+          suggestions: []
+        }
+      }
+    };
+    reducerTest('fixes a middle alignment without breaking later alignments',
+      alignments, stateBefore,
+      action,
+      stateAfter);
+  });
+
   describe('delete source token from middle alignment', () => {
     const stateBefore = {
       '1': {

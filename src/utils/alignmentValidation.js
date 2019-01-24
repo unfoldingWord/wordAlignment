@@ -22,7 +22,7 @@ export function areAlignmentsEquivalent(prev, next) {
 }
 
 /**
- *
+ * Compares two alignments to see if they are equivalent.
  * @param {object} prev - the previous version of the alignment
  * @param {object} next - the next version of the alignment
  * @returns {boolean}
@@ -52,7 +52,7 @@ function compareAlignments(prev, next) {
 }
 
 /**
- *
+ * Compares two tokens to see if they are similar enough to satisfy alignment equivalence.
  * @param {object} prev - the previous version of the token
  * @param {object} next - the next version of the token
  * @returns {boolean}

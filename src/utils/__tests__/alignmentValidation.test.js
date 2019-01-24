@@ -278,8 +278,6 @@ describe('Determine alignment equivalence', () => {
     expect(areAlignmentsEquivalent(prev, next)).toBe(true);
   });
 
-  // TODO: should a change in occurrence require a change in total occurrence?
-
   it('changed the target word position', () => {
     const prev = [
       {

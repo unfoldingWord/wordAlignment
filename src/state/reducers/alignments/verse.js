@@ -55,12 +55,14 @@ const isSameOccurrence = (t1, t2) => {
 
 /**
  * Searches for the index of a matching token occurrence.
- * This ignores the token's position within the sentence.
- * @param {Token} t
- * @param {Token[]} tokens
+ * This usually ignores the token's position within the sentence and allows us
+ * to evaluate where tokens have been moved to within the sentence.
+ * A negative position indicates the token was removed.
+ * @param {Token} t - the token to search for
+ * @param {Token[]} tokens - an array of tokens comprising the new sentence.
  * @param {number} [previouslyMappedPos=-1] - the position of the previously mapped token
  * @param {[]} [mappedPositions=[]] - positions that have already been mapped
- * @return {number}
+ * @return {number} the index of the token within the new sentence
  */
 const findIndexOfOccurrence = (t, tokens, previouslyMappedPos = -1, mappedPositions=[]) => {
   for (let i = 0; i < tokens.length; i++) {
@@ -70,6 +72,9 @@ const findIndexOfOccurrence = (t, tokens, previouslyMappedPos = -1, mappedPositi
       && previouslyMappedPos === i - 1
       && mappedPositions.indexOf(i) === -1
       && t.looksLike(tokens[i])) {
+      // TRICKY: we allow for a loose match if
+      // 1) the position has not already been assigned and
+      // 2) the position is adjacent to the previously assigned position
       return i;
     }
   }

@@ -1,7 +1,7 @@
 import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
-  getIsChapterLoaded,
+  getIsChapterLoaded, getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
@@ -33,6 +33,8 @@ export default class Api extends ToolApi {
     this._loadBookAlignments = this._loadBookAlignments.bind(this);
     this.getIsVerseInvalid = this.getIsVerseInvalid.bind(this);
     this._showResetDialog = this._showResetDialog.bind(this);
+    this.getInvalidChecks = this.getInvalidChecks.bind(this);
+    this.getProgress = this.getProgress.bind(this);
   }
 
   /**
@@ -64,22 +66,22 @@ export default class Api extends ToolApi {
   static _initChapterAlignments(props, chapter) {
     const {
       tc: {
-        targetBible,
-        sourceBible
+        targetBook,
+        sourceBook
       },
       resetVerse
     } = props;
 
-    for (const verse of Object.keys(targetBible[chapter])) {
+    for (const verse of Object.keys(targetBook[chapter])) {
       if (!isNaN(verse)) { // only load valid numbers
-        if (sourceBible[chapter][verse] === undefined) {
+        if (sourceBook[chapter][verse] === undefined) {
           console.warn(
             `Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
           continue;
         }
         const sourceTokens = tokenizeVerseObjects(
-          sourceBible[chapter][verse].verseObjects);
-        const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
+          sourceBook[chapter][verse].verseObjects);
+        const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
         const targetTokens = Lexer.tokenize(targetVerseText);
         resetVerse(chapter, verse, sourceTokens, targetTokens);
       }
@@ -126,10 +128,10 @@ export default class Api extends ToolApi {
     const {
       tc: {
         contextId,
-        targetBible,
-        sourceBible,
+        targetBook,
+        sourceBook,
         showDialog,
-        projectFileExistsSync,
+        projectDataPathExistsSync,
         readProjectDataSync
       },
       tool: {
@@ -152,7 +154,7 @@ export default class Api extends ToolApi {
     const state = store.getState();
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
-    for (const chapter of Object.keys(targetBible)) {
+    for (const chapter of Object.keys(targetBook)) {
       if (isNaN(chapter) || parseInt(chapter) === -1) continue;
 
       const isChapterLoaded = getIsChapterLoaded(state, chapter);
@@ -161,12 +163,12 @@ export default class Api extends ToolApi {
       }
       try {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
-        if (projectFileExistsSync(dataPath)) {
+        if (projectDataPathExistsSync(dataPath)) {
           // load chapter data
           const data = readProjectDataSync(dataPath);
           const json = JSON.parse(data);
-          indexChapterAlignments(chapter, json, sourceBible[chapter],
-            targetBible[chapter]);
+          indexChapterAlignments(chapter, json, sourceBook[chapter],
+            targetBook[chapter]);
 
           // validate
           const isValid = this._validateChapter(props, chapter);
@@ -202,11 +204,11 @@ export default class Api extends ToolApi {
   _validateBook(props) {
     const {
       tc: {
-        targetBible
+        targetBook
       }
     } = props;
     let bookIsValid = true;
-    for (const chapter of Object.keys(targetBible)) {
+    for (const chapter of Object.keys(targetBook)) {
       if (isNaN(chapter) || parseInt(chapter) === -1) continue;
       const isValid = this._validateChapter(props, chapter);
       if (!isValid) {
@@ -226,15 +228,15 @@ export default class Api extends ToolApi {
   _validateChapter(props, chapter) {
     const {
       tc: {
-        targetBible
+        targetBook
       }
     } = props;
     let chapterIsValid = true;
-    if (!(chapter in targetBible)) {
+    if (!(chapter in targetBook)) {
       console.warn(`Could not validate missing chapter ${chapter}`);
       return true;
     }
-    for (const verse of Object.keys(targetBible[chapter])) {
+    for (const verse of Object.keys(targetBook[chapter])) {
       if (isNaN(verse) || parseInt(verse) === -1) continue;
       const isValid = this._validateVerse(props, chapter, verse);
       if (!isValid) {
@@ -255,21 +257,21 @@ export default class Api extends ToolApi {
   _validateVerse(props, chapter, verse) {
     const {
       tc: {
-        targetBible,
-        sourceBible
+        targetBook,
+        sourceBook
       },
       repairAndInspectVerse
     } = props;
     const {store} = this.context;
 
-    if (!(verse in targetBible[chapter] && verse in sourceBible[chapter])) {
+    if (!(verse in targetBook[chapter] && verse in sourceBook[chapter])) {
       console.warn(`Could not validate missing verse ${chapter}:${verse}`);
       return true;
     }
 
     const sourceTokens = tokenizeVerseObjects(
-      sourceBible[chapter][verse].verseObjects);
-    const targetVerseText = removeUsfmMarkers(targetBible[chapter][verse]);
+      sourceBook[chapter][verse].verseObjects);
+    const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
     const targetTokens = Lexer.tokenize(targetVerseText);
     const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
     const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
@@ -297,7 +299,7 @@ export default class Api extends ToolApi {
   stateChangeThrottled(nextState, prevState) {
     const {
       tc: {
-        targetBible,
+        targetBook,
         writeProjectData,
         contextId: {reference: {bookId}}
       },
@@ -311,7 +313,7 @@ export default class Api extends ToolApi {
     if (isReady && writableChange) {
       const promises = [];
       // TRICKY: we validate the entire book so we must write all chapters
-      for (const chapter of Object.keys(targetBible)) {
+      for (const chapter of Object.keys(targetBook)) {
         if (isNaN(chapter)) {
           // TRICKY: skip the 'manifest' key
           continue;
@@ -521,5 +523,76 @@ export default class Api extends ToolApi {
     } = this.props;
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     return toolDataPathExistsSync(dataPath);
+  }
+
+  /**
+   * Returns the number of verses that have invalidated alignments
+   * @returns {number}
+   */
+  getInvalidChecks() {
+    const {
+      tc: {
+        targetBook
+      }
+    } = this.props;
+
+    const chapters = Object.keys(targetBook);
+    let invalidVerses = 0;
+    for(let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
+      const chapter = chapters[i];
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
+      const verses = Object.keys(targetBook[chapter]);
+      for(let j = 0, verseLen = verses.length; j < verseLen; j ++) {
+        const verse = verses[j];
+        if(isNaN(verse) || parseInt(verse) === -1) continue;
+
+        if(this.getIsVerseInvalid(chapter, verse)) {
+          invalidVerses ++;
+        }
+      }
+    }
+
+    return invalidVerses;
+  }
+
+  /**
+   * Returns the % progress of completion for the project.
+   * Verses that are fully aligned and completed are included in the progress
+   * @returns {number} - a value between 0 and 1
+   */
+  getProgress() {
+    const {
+      tc: {
+        targetBook
+      }
+    } = this.props;
+    const {store} = this.context;
+
+    const chapters = Object.keys(targetBook);
+    let totalVerses = 0;
+    let completeVerses = 0;
+    for(let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
+      const chapter = chapters[i];
+      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
+      const verses = Object.keys(targetBook[chapter]);
+      for(let j = 0, verseLen = verses.length; j < verseLen; j ++) {
+        const verse = verses[j];
+        if(isNaN(verse) || parseInt(verse) === -1) continue;
+
+        totalVerses ++;
+        const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
+        if(isAligned && this.getIsVerseFinished(chapter, verse)) {
+          completeVerses ++;
+        }
+      }
+    }
+
+    if(totalVerses > 0) {
+      return completeVerses / totalVerses;
+    } else {
+      return 0;
+    }
   }
 }

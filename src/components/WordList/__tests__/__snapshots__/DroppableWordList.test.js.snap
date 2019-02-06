@@ -95,6 +95,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         canDrop={false}
         chapter={1}
         connectDropTarget={[Function]}
+        direction="ltr"
         isOver={false}
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
@@ -129,6 +130,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
           style={
             Object {
               "backgroundColor": "#DCDCDC",
+              "direction": "ltr",
               "height": "100%",
               "overflowY": "auto",
               "padding": "5px 8px 5px 5px",
@@ -138,6 +140,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         >
           <WordList
             chapter={1}
+            direction="ltr"
             isOver={false}
             onWordClick={[Function]}
             onWordDragged={[Function]}
@@ -178,6 +181,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={false}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -194,6 +198,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={false}
                   isDragging={false}
                   isSelected={false}
@@ -219,6 +224,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={false}
                       isSuggestion={false}
                       occurrence={1}
@@ -266,6 +272,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -292,6 +299,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={false}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -308,6 +316,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={false}
                   isDragging={false}
                   isSelected={false}
@@ -333,6 +342,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={false}
                       isSuggestion={false}
                       occurrence={1}
@@ -380,6 +390,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -418,6 +429,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={false}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -434,6 +446,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={false}
                   isDragging={false}
                   isSelected={false}
@@ -459,6 +472,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={false}
                       isSuggestion={false}
                       occurrence={2}
@@ -506,6 +520,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -544,6 +559,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={true}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -560,6 +576,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={true}
                   isDragging={false}
                   isSelected={false}
@@ -585,6 +602,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={true}
                       isSuggestion={false}
                       occurrence={1}
@@ -633,6 +651,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -771,6 +790,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         canDrop={false}
         chapter={2}
         connectDropTarget={[Function]}
+        direction="ltr"
         isOver={false}
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
@@ -810,6 +830,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
           style={
             Object {
               "backgroundColor": "#DCDCDC",
+              "direction": "ltr",
               "height": "100%",
               "overflowY": "auto",
               "padding": "5px 8px 5px 5px",
@@ -819,6 +840,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         >
           <WordList
             chapter={2}
+            direction="ltr"
             isOver={false}
             onWordClick={[Function]}
             onWordDragged={[Function]}
@@ -859,6 +881,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={false}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -875,6 +898,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={false}
                   isDragging={false}
                   isSelected={false}
@@ -900,6 +924,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={false}
                       isSuggestion={false}
                       occurrence={1}
@@ -947,6 +972,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -973,6 +999,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={false}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -989,6 +1016,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={false}
                   isDragging={false}
                   isSelected={false}
@@ -1014,6 +1042,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={false}
                       isSuggestion={false}
                       occurrence={1}
@@ -1061,6 +1090,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -1099,6 +1129,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={false}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -1115,6 +1146,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={false}
                   isDragging={false}
                   isSelected={false}
@@ -1140,6 +1172,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={false}
                       isSuggestion={false}
                       occurrence={2}
@@ -1187,6 +1220,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >
@@ -1225,6 +1259,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               }
             >
               <DragSource(SecondaryToken)
+                direction="ltr"
                 disabled={true}
                 onClick={[Function]}
                 onEndDrag={[Function]}
@@ -1241,6 +1276,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 <SecondaryToken
                   connectDragPreview={[Function]}
                   connectDragSource={[Function]}
+                  direction="ltr"
                   disabled={true}
                   isDragging={false}
                   isSelected={false}
@@ -1266,6 +1302,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WordCard
+                      direction="ltr"
                       disabled={true}
                       isSuggestion={false}
                       occurrence={1}
@@ -1314,6 +1351,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "width": "max-content",
                                 }
                               }
                             >

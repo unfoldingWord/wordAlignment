@@ -9,11 +9,14 @@ import Controls from './Controls';
  * @return {object}
  */
 const makeStyles = (props) => {
-  const {onClick, disabled, style, isSuggestion, selected} = props;
+  const {onClick, disabled, style, isSuggestion, selected, direction} = props;
+
+  // TRICKY: place border on correct side to match text direction
+  const borderKey = direction === 'ltr' ? 'borderLeft' : 'borderRight';
 
   const styles = {
     root: {
-      borderLeft: '5px solid #44C6FF',
+      [borderKey]: '5px solid #44C6FF',
       padding: '9px',
       backgroundColor: '#FFFFFF',
       boxShadow: '0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset',
@@ -23,18 +26,19 @@ const makeStyles = (props) => {
       ...style
     },
     word: {
+      width: 'max-content',
       flexGrow: 2
     }
   };
 
   if (isSuggestion) {
-    styles.root.borderLeft = '5px solid #1b7729';
+    styles.root[borderKey] = '5px solid #1b7729';
   }
 
   if (disabled) {
     styles.root = {
       ...styles.root,
-      borderLeft: '5px solid #868686',
+      [borderKey]: '5px solid #868686',
       opacity: 0.3,
       cursor: 'not-allowed',
       userSelect: 'none'
@@ -136,7 +140,8 @@ WordCard.propTypes = {
   occurrence: PropTypes.number,
   occurrences: PropTypes.number,
   word: PropTypes.string.isRequired,
-  isSuggestion: PropTypes.bool
+  isSuggestion: PropTypes.bool,
+  direction: PropTypes.oneOf(['ltr', 'rtl'])
 };
 
 WordCard.defaultProps = {
@@ -145,7 +150,8 @@ WordCard.defaultProps = {
   occurrences: 1,
   disabled: false,
   isSuggestion: false,
-  selected: false
+  selected: false,
+  direction: 'ltr'
 };
 
 export default WordCard;

@@ -5,6 +5,12 @@ export default combineReducers({
   alignments
 });
 
+/**
+ * Returns alignments in the chapter
+ * @param state
+ * @param chapter
+ * @return {{}}
+ */
 export const getChapterAlignments = (state, chapter) => {
   return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
 };

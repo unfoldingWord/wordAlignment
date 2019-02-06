@@ -7,6 +7,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
     Object {
       "alignContent": "flex-start",
       "backgroundColor": "#ffffff",
+      "direction": "ltr",
       "display": "flex",
       "flexGrow": 2,
       "flexWrap": "wrap",
@@ -107,6 +108,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "width": "max-content",
                           }
                         }
                       >
@@ -124,6 +126,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             Object {
               "border": "3px dashed #ffffff",
               "boxSizing": "border-box",
+              "direction": "ltr",
               "flexGrow": 1,
               "minHeight": "45px",
               "transition": "0.1s",
@@ -248,6 +251,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "width": "max-content",
                           }
                         }
                       >
@@ -265,6 +269,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             Object {
               "border": "3px dashed #ffffff",
               "boxSizing": "border-box",
+              "direction": "ltr",
               "flexGrow": 1,
               "minHeight": "45px",
               "transition": "0.1s",
@@ -389,6 +394,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "width": "max-content",
                           }
                         }
                       >
@@ -406,6 +412,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             Object {
               "border": "3px dashed #ffffff",
               "boxSizing": "border-box",
+              "direction": "ltr",
               "flexGrow": 1,
               "minHeight": "45px",
               "transition": "0.1s",

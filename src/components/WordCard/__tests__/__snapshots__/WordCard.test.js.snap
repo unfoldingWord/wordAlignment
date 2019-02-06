@@ -34,6 +34,7 @@ exports[`is a suggestion 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >
@@ -116,6 +117,7 @@ exports[`occurs multiple times 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >
@@ -171,6 +173,52 @@ exports[`occurs once 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "width": "max-content",
+          }
+        }
+      >
+        hello
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`renders rtl 1`] = `
+<div
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderRight": "5px solid #44C6FF",
+        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+        "cursor": "pointer",
+        "display": "flex",
+        "flexDirection": "row",
+        "padding": "9px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+        }
+      }
+    >
+      <span
+        onClick={[Function]}
+        style={
+          Object {
+            "flexGrow": 2,
+            "width": "max-content",
           }
         }
       >

@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
-import { WordLexiconDetails } from 'tc-ui-toolkit';
+import { WordLexiconDetails, lexiconHelpers } from 'tc-ui-toolkit';
 import * as types from './WordCard/Types';
-// helpers
-import * as lexiconHelpers from '../utils/lexicon';
 // components
 import Word from './WordCard';
 import Tooltip from './Tooltip';
@@ -68,6 +66,7 @@ class PrimaryToken extends Component {
       token,
       style,
       isDragging,
+      direction,
       canDrag,
       connectDragSource,
       dragPreview
@@ -77,6 +76,7 @@ class PrimaryToken extends Component {
     const word = dragPreview(
       <div>
         <Word word={token.text}
+              direction={direction}
               disabled={isDragging || (hover && !canDrag)}
               style={{...internalStyle.word, ...style}}/>
       </div>
@@ -101,9 +101,7 @@ class PrimaryToken extends Component {
    */
   _handleClick(e) {
     const {translate, token} = this.props;
-    const entryId = lexiconHelpers.lexiconEntryIdFromStrongs(token.strong);
-    const lexiconId = lexiconHelpers.lexiconIdFromStrongs(token.strong);
-    const lexiconData = this.props.actions.getLexiconData(lexiconId, entryId);
+    const lexiconData = lexiconHelpers.lookupStrongsNumbers(token.strong, this.props.actions.getLexiconData);
     const positionCoord = e.target;
     const PopoverTitle = (
       <strong style={{fontSize: '1.2em'}}>{token.text}</strong>
@@ -132,13 +130,15 @@ PrimaryToken.propTypes = {
   lexicons: PropTypes.object.isRequired,
   dragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
   isDragging: PropTypes.bool.isRequired
 };
 
 PrimaryToken.defaultProps = {
   alignmentLength: 1,
   wordIndex: 0,
-  canDrag: true
+  canDrag: true,
+  direction: 'ltr'
 };
 
 const dragHandler = {

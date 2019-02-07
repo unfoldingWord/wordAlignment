@@ -4,6 +4,7 @@ import Lexer from 'wordmap-lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
 import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';
+import {areAlignmentsEquivalent} from '../../utils/alignmentValidation';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
@@ -244,7 +245,7 @@ export const repairAndInspectVerse = (
     dispatch(repairVerse(chapter, verse, sourceTokens, targetTokens));
     const next = getVerseAlignments(getState(), chapter, verse);
 
-    return JSON.stringify(prev) !== JSON.stringify(next);
+    return !areAlignmentsEquivalent(prev, next);
   };
 };
 

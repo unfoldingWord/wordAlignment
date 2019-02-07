@@ -1,4 +1,6 @@
 jest.mock('../../reducers');
+jest.mock('../../../utils/alignmentValidation');
+import {areAlignmentsEquivalent} from '../../../utils/alignmentValidation';
 import * as reducers from '../../reducers';
 import * as actions from '../index';
 import {Token} from 'wordmap-lexer';
@@ -6,12 +8,13 @@ import {Token} from 'wordmap-lexer';
 describe('repair and inspect verse', () => {
 
   beforeEach(() => {
+    jest.resetAllMocks();
     jest.restoreAllMocks();
   });
 
   it('changes alignments', () => {
     reducers.__setVerseAlignmentsOnce([1, 2]);
-    reducers.__setVerseAlignmentsOnce([0, 1]);
+    reducers.__setVerseAlignmentsOnce([0, 1]); // change
     const action = actions.repairAndInspectVerse(1, 1,
       [new Token({text: 'hello'}).toJSON()],
       [new Token({text: 'olleh'}).toJSON()]);
@@ -20,8 +23,8 @@ describe('repair and inspect verse', () => {
     const getState = jest.fn();
     getState.mockReturnValueOnce([1, 2]);
     getState.mockReturnValueOnce([1]);
-    const result = action(dispatch, getState);
-    expect(result).toEqual(true);
+    action(dispatch, getState);
+    expect(areAlignmentsEquivalent).toHaveBeenCalledTimes(1);
     expect(getState).toHaveBeenCalledTimes(2);
     expect(dispatch).toHaveBeenCalledTimes(1);
   });
@@ -37,8 +40,8 @@ describe('repair and inspect verse', () => {
     const getState = jest.fn();
     getState.mockReturnValueOnce([1, 2]);
     getState.mockReturnValueOnce([1]);
-    const result = action(dispatch, getState);
-    expect(result).toEqual(false);
+    action(dispatch, getState);
+    expect(areAlignmentsEquivalent).toHaveBeenCalledTimes(1);
     expect(getState).toHaveBeenCalledTimes(2);
     expect(dispatch).toHaveBeenCalledTimes(1);
   });

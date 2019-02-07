@@ -78,7 +78,7 @@
     "tc-tool": "2.1.0",
     "tc-ui-toolkit": "0.12.5",
     "usfm-js": "1.0.6",
-    "word-aligner": "0.2.7",
+    "word-aligner": "0.2.11",
     "wordmap": "^0.4.3",
     "wordmap-lexer": "^0.3.4",
     "xregexp": "4.1.1"

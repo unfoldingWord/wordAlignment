@@ -275,6 +275,7 @@ export default class Api extends ToolApi {
     const targetTokens = Lexer.tokenize(targetVerseText);
     const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
     const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
+    const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
     const isValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
     if (!isValid) {
@@ -286,6 +287,9 @@ export default class Api extends ToolApi {
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
       return !wasChanged;
+    } else if (isAligned && !this.getIsVerseFinished(chapter, verse)) {
+      // TRICKY: record aligned verses as finished
+      this.setVerseFinished(chapter, verse, true);
     }
     return true;
   }

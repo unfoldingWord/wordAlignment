@@ -537,7 +537,7 @@ class Container extends Component {
     // TRICKY: make hebrew text larger
     let sourceFontSize = "100%";
     if(sourceLanguage === "hbo") {
-      sourceFontSize = "200%";
+      sourceFontSize = "150%";
     }
 
     return (

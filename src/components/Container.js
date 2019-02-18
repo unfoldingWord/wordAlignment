@@ -509,7 +509,7 @@ class Container extends Component {
         actions: {
           showPopover
         },
-        sourceBook: {manifest: {direction : sourceDirection}},
+        sourceBook: {manifest: {direction : sourceDirection, language_id: sourceLanguage}},
         targetBook: {manifest: {direction : targetDirection}}
       },
       tc
@@ -533,6 +533,12 @@ class Container extends Component {
     }
 
     const isComplete = this._getIsComplete();
+
+    // TRICKY: make hebrew text larger
+    let sourceFontSize = "100%";
+    if(sourceLanguage === "hbo") {
+      sourceFontSize = "200%";
+    }
 
     return (
       <div style={styles.container}>
@@ -562,6 +568,7 @@ class Container extends Component {
           </div>
           {hasSourceText ? (
             <AlignmentGrid
+              sourceFontSize={sourceFontSize}
               sourceDirection={sourceDirection}
               targetDirection={targetDirection}
               alignments={verseAlignments}

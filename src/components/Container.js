@@ -536,8 +536,10 @@ class Container extends Component {
 
     // TRICKY: make hebrew text larger
     let sourceFontSize = "100%";
+    let paddingTop = "9px";
     if(sourceLanguage === "hbo") {
       sourceFontSize = "200%";
+      paddingTop = "2px";
     }
 
     return (
@@ -569,6 +571,7 @@ class Container extends Component {
           {hasSourceText ? (
             <AlignmentGrid
               sourceFontSize={sourceFontSize}
+              paddingTop={paddingTop}
               sourceDirection={sourceDirection}
               targetDirection={targetDirection}
               alignments={verseAlignments}

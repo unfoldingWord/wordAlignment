@@ -38,6 +38,7 @@ class AlignmentGrid extends Component {
       sourceDirection,
       targetDirection,
       onAcceptTokenSuggestion,
+      sourceFontSize,
       alignments,
       contextId
     } = this.props;
@@ -70,6 +71,7 @@ class AlignmentGrid extends Component {
 
                 <AlignmentCard
                   translate={translate}
+                  sourceFontSize={sourceFontSize}
                   sourceDirection={sourceDirection}
                   targetDirection={targetDirection}
                   onCancelTokenSuggestion={onCancelSuggestion}
@@ -128,6 +130,7 @@ AlignmentGrid.propTypes = {
   onDropSourceToken: PropTypes.func.isRequired,
   onCancelSuggestion: PropTypes.func.isRequired,
   onAcceptTokenSuggestion: PropTypes.func.isRequired,
+  sourceFontSize: PropTypes.string,
   alignments: PropTypes.array.isRequired,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,
@@ -139,7 +142,8 @@ AlignmentGrid.propTypes = {
 
 AlignmentGrid.defaultProps = {
   sourceDirection: 'ltr',
-  targetDirection: 'ltr'
+  targetDirection: 'ltr',
+  sourceFontSize: '100%'
 };
 
 export default AlignmentGrid;

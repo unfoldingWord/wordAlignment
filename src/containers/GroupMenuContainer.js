@@ -1,11 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {GroupedMenu, generateMenuData, generateMenuItem, InvalidatedIcon} from 'tc-ui-toolkit';
+import {GroupedMenu, generateMenuData, generateMenuItem, InvalidatedIcon, CheckIcon} from 'tc-ui-toolkit';
 import PropTypes from 'prop-types';
 import Api from '../Api';
 import {getChecks} from '../state/reducers';
 
-import CheckIcon from '@material-ui/icons/Check';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
@@ -94,24 +93,24 @@ class GroupMenuContainer extends React.Component {
 
     const statusIcons = [
       {
-        key: 'completed',
-        icon: <CheckIcon style={{color: "#58c17a"}}/>
+        key: 'invalid',
+        icon: <InvalidatedIcon style={{color: "white"}}/>
       },
       {
         key: 'bookmarks',
         icon: <BookmarkIcon style={{color: "white"}}/>
       },
       {
-        key: 'invalid',
-        icon: <InvalidatedIcon style={{color: "white"}}/>
-      },
-      {
-        key: 'comments',
-        icon: <ModeCommentIcon style={{color: "white"}}/>
+        key: 'completed',
+        icon: <CheckIcon style={{color: "#58c17a"}}/>
       },
       {
         key: 'verseEdits',
         icon: <EditIcon style={{color: "white"}}/>
+      },
+      {
+        key: 'comments',
+        icon: <ModeCommentIcon style={{color: "white"}}/>
       }
     ];
 

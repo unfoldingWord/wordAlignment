@@ -104,8 +104,7 @@ class DroppableAlignmentCard extends Component {
       targetNgram,
       sourceNgram,
       alignmentIndex,
-      sourceFontSize,
-      paddingTop,
+      sourceStyle,
       sourceDirection,
       targetDirection,
       isSuggestion,
@@ -123,7 +122,7 @@ class DroppableAlignmentCard extends Component {
     const topWordCards = sourceNgram.map((token, index) => (
       <PrimaryToken
         key={index}
-        style={{fontSize: sourceFontSize, "padding-top": paddingTop}}
+        style={sourceStyle}
         translate={translate}
         direction={sourceDirection}
         wordIndex={index}
@@ -169,8 +168,7 @@ DroppableAlignmentCard.propTypes = {
   onAcceptTokenSuggestion: PropTypes.func,
   translate: PropTypes.func.isRequired,
   placeholderPosition: PropTypes.string,
-  sourceFontSize: PropTypes.string,
-  paddingTop: PropTypes.string,
+  sourceStyle: PropTypes.object.isRequired,
   dragItemType: PropTypes.string,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
@@ -192,8 +190,7 @@ DroppableAlignmentCard.propTypes = {
 DroppableAlignmentCard.defaultProps = {
   sourceDirection: 'ltr',
   targetDirection: 'ltr',
-  sourceFontSize: '100%',
-  paddingTop: '9px',
+  sourceStyle: {fontSize: "100%"},
 };
 
 const dragHandler = {

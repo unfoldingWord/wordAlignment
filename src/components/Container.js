@@ -535,9 +535,9 @@ class Container extends Component {
     const isComplete = this._getIsComplete();
 
     // TRICKY: make hebrew text larger
-    let sourceFontSize = "100%";
+    let sourceStyle = {fontSize: "100%"};
     if(sourceLanguage === "hbo") {
-      sourceFontSize = "200%";
+      sourceStyle = {fontSize: "200%", "padding-top": "2px", "line-height": "100%"};
     }
 
     return (
@@ -568,7 +568,7 @@ class Container extends Component {
           </div>
           {hasSourceText ? (
             <AlignmentGrid
-              sourceFontSize={sourceFontSize}
+              sourceStyle={sourceStyle}
               sourceDirection={sourceDirection}
               targetDirection={targetDirection}
               alignments={verseAlignments}

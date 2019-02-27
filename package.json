@@ -74,7 +74,7 @@
     "react-localize-redux": "2.15.1",
     "react-tooltip": "3.6.1",
     "redux-batched-actions": "0.3.0",
-    "reselect": "3.0.1",
+    "reselect": "4.0.0",
     "tc-tool": "2.1.0",
     "tc-ui-toolkit": "0.13.13",
     "usfm-js": "1.0.6",

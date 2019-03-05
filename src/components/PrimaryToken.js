@@ -138,7 +138,8 @@ PrimaryToken.defaultProps = {
   alignmentLength: 1,
   wordIndex: 0,
   canDrag: true,
-  direction: 'ltr'
+  direction: 'ltr',
+  style: {},
 };
 
 const dragHandler = {

@@ -509,7 +509,7 @@ class Container extends Component {
         actions: {
           showPopover
         },
-        sourceBook: {manifest: {direction : sourceDirection}},
+        sourceBook: {manifest: {direction : sourceDirection, language_id: sourceLanguage}},
         targetBook: {manifest: {direction : targetDirection}}
       },
       tc
@@ -534,6 +534,12 @@ class Container extends Component {
 
     const isComplete = this._getIsComplete();
 
+    // TRICKY: make hebrew text larger
+    let sourceStyle = {fontSize: "100%"};
+    if(sourceLanguage === "hbo") {
+      sourceStyle = {fontSize: "200%", "padding-top": "2px", "line-height": "100%"};
+    }
+
     return (
       <div style={styles.container}>
         <MuiThemeProvider>
@@ -545,7 +551,6 @@ class Container extends Component {
         </MuiThemeProvider>
         <GroupMenuContainer tc={tc}
                             toolApi={api}
-                            key={isComplete} // HACK to workaround anti-pattern in GroupMenu
                             translate={translate}/>
         <div style={styles.wordListContainer}>
           <WordList
@@ -563,6 +568,7 @@ class Container extends Component {
           </div>
           {hasSourceText ? (
             <AlignmentGrid
+              sourceStyle={sourceStyle}
               sourceDirection={sourceDirection}
               targetDirection={targetDirection}
               alignments={verseAlignments}

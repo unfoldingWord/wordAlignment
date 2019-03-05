@@ -17,7 +17,7 @@ import {
   indexChapterAlignments,
   moveSourceToken,
   repairAndInspectVerse,
-  resetVerse,
+  resetVerse, recordCheck,
   unalignTargetToken
 } from './state/actions';
 
@@ -275,6 +275,7 @@ export default class Api extends ToolApi {
     const targetTokens = Lexer.tokenize(targetVerseText);
     const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
     const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
+    const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
     const isValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
     if (!isValid) {
@@ -286,6 +287,9 @@ export default class Api extends ToolApi {
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
       return !wasChanged;
+    } else if (isAligned && !this.getIsVerseFinished(chapter, verse)) {
+      // TRICKY: record aligned verses as finished
+      this.setVerseFinished(chapter, verse, true);
     }
     return true;
   }
@@ -383,6 +387,7 @@ export default class Api extends ToolApi {
    */
   mapDispatchToProps(dispatch) {
     const methods = {
+      recordCheck,
       alignTargetToken,
       unalignTargetToken,
       moveSourceToken,
@@ -495,7 +500,8 @@ export default class Api extends ToolApi {
       },
       tc: {
         username
-      }
+      },
+      recordCheck
     } = this.props;
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {
@@ -503,9 +509,13 @@ export default class Api extends ToolApi {
         username,
         modifiedTimestamp: (new Date()).toJSON()
       };
-      return writeToolData(dataPath, JSON.stringify(data));
+      return writeToolData(dataPath, JSON.stringify(data)).then(() => {
+        recordCheck("completed", chapter, verse, true);
+      });
     } else {
-      return deleteToolFile(dataPath);
+      return deleteToolFile(dataPath).then(() => {
+        recordCheck("completed", chapter, verse, false);
+      });
     }
   }
 
@@ -583,7 +593,7 @@ export default class Api extends ToolApi {
 
         totalVerses ++;
         const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
-        if(isAligned && this.getIsVerseFinished(chapter, verse)) {
+        if(isAligned || this.getIsVerseFinished(chapter, verse)) {
           completeVerses ++;
         }
       }

@@ -72,7 +72,7 @@
     "react-dnd": "2.5.4",
     "react-dnd-html5-backend": "2.5.4",
     "react-localize-redux": "2.15.1",
-    "react-tooltip": "3.6.1",
+    "react-tooltip": "3.9.2",
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
     "tc-tool": "2.1.0",

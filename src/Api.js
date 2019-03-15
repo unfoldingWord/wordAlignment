@@ -281,12 +281,13 @@ export default class Api extends ToolApi {
     if (!isValid) {
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
-      if (wasChanged || isAligned || this.getIsVerseFinished(chapter, verse)) {
+      let invalid = (wasChanged || isAligned || this.getIsVerseFinished(chapter, verse));
+      if (invalid) {
         this.setVerseInvalid(chapter, verse);
       }
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
-      return !wasChanged;
+      return !invalid;
     } else if (isAligned && !this.getIsVerseFinished(chapter, verse)) {
       // TRICKY: record aligned verses as finished
       this.setVerseFinished(chapter, verse, true);

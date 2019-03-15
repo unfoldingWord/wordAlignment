@@ -382,6 +382,8 @@ describe('validate', () => {
   it('repairs a verse without alignment changes', () => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+    const alignmentCompleteFileExists = true;
+    const alignmentInvalidFileExists = false;
     const api = new Api();
     api.context = {
       store: {
@@ -392,7 +394,9 @@ describe('validate', () => {
       recordCheck: jest.fn(),
       tool: {
         writeToolData: jest.fn(),
-        deleteToolFile: jest.fn(() => Promise.resolve())
+        deleteToolFile: jest.fn(() => Promise.resolve()),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},

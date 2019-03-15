@@ -281,7 +281,7 @@ export default class Api extends ToolApi {
     if (!isValid) {
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
-      if (wasChanged) {
+      if (wasChanged || isAligned || this.getIsVerseFinished(chapter, verse)) {
         this.setVerseInvalid(chapter, verse);
       }
       this.setVerseFinished(chapter, verse, false);

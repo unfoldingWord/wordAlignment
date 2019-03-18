@@ -464,10 +464,8 @@ export default class Api extends ToolApi {
           const data = {
             timestamp: (new Date()).toISOString()
           };
-          const writeToolData1 = writeToolData(dataPath, JSON.stringify(data));
-          return writeToolData1.then(() => 
-            this.toolDidUpdate()
-          );
+          return writeToolData(dataPath, JSON.stringify(data)).
+            then(() => this.toolDidUpdate());
         }
       });
     }

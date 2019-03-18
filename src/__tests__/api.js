@@ -293,9 +293,11 @@ describe('validate', () => {
     jest.restoreAllMocks();
   });
 
-  it('repairs a book', () => {
+  it('repairs a book', async() => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+    const alignmentCompleteFileExists = false;
+    const alignmentInvalidFileExists = false;
     const api = new Api();
     api.context = {
       store: {
@@ -306,7 +308,8 @@ describe('validate', () => {
       recordCheck: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
-        toolDataPathExists: jest.fn(() => Promise.resolve(false)),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists)),
         deleteToolFile: jest.fn(() => Promise.resolve()),
       },
       tc: {
@@ -332,13 +335,16 @@ describe('validate', () => {
     api.props = props;
     expect(api._validateBook(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
-    expect(props.tool.writeToolData).not.toBeCalled();
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
   });
 
-  it('repairs a verse', () => {
+  it('repairs a verse', async() => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+    const alignmentCompleteFileExists = false;
+    const alignmentInvalidFileExists = false;
     const api = new Api();
     api.context = {
       store: {
@@ -350,7 +356,8 @@ describe('validate', () => {
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         deleteToolFile: jest.fn(() => Promise.resolve()),
-        toolDataPathExists: jest.fn(() => Promise.resolve(false))
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
         contextId: {reference: {bookId: 'mybook'}},
@@ -375,15 +382,18 @@ describe('validate', () => {
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
-    expect(props.tool.writeToolData).not.toBeCalled();
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
   });
 
-  it('repairs a verse without alignment changes', () => {
+  it('repairs a verse without alignment changes', async() => {
     reducers.__setIsVerseValid(false);
+    reducers.__setIsVerseAligned(1, 1, false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
-    const alignmentCompleteFileExists = true;
+    const alignmentCompleteFileExists = false;
     const alignmentInvalidFileExists = false;
+    const wasChangedByRepair = false;
     const api = new Api();
     api.context = {
       store: {
@@ -416,17 +426,169 @@ describe('validate', () => {
           }
         }
       },
-      repairAndInspectVerse: jest.fn(() => false),
+      repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
-    expect(props.tool.writeToolData).not.toBeCalled();
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).not.toBeCalled();
   });
 
-  it('does not repair a verse', () => {
+  it('repairs modified aligned verse without alignment changes and returns not valid', async() => {
+    reducers.__setIsVerseValid(false);
+    reducers.__setIsVerseAligned(1, 1, true);
+    reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+    const alignmentCompleteFileExists = false;
+    const alignmentInvalidFileExists = false;
+    const wasChangedByRepair = false;
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn()
+      }
+    };
+
+    const props = {
+      recordCheck: jest.fn(),
+      tool: {
+        writeToolData: jest.fn(() => Promise.resolve()),
+        deleteToolFile: jest.fn(() => Promise.resolve()),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
+      },
+      tc: {
+        contextId: {reference: {bookId: 'mybook'}},
+        sourceBook: {
+          1: {
+            1: {
+              verseObjects: [{
+                type: 'text',
+                text: "olleh"
+              }]
+            }
+          }
+        },
+        targetBook: {
+          1: {
+            1: "hello"
+          }
+        }
+      },
+      repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
+    };
+    api.props = props;
+    expect(api._validateVerse(props, 1, 1)).toEqual(false);
+    expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
+    expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+  });
+
+  it('repairs modified aligned verse with alignment changes and returns not valid', async () => {
+    reducers.__setIsVerseValid(false);
+    reducers.__setIsVerseAligned(1, 1, true);
+    reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+    const alignmentCompleteFileExists = false;
+    const alignmentInvalidFileExists = false;
+    const wasChangedByRepair = true;
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn()
+      }
+    };
+
+    const props = {
+      recordCheck: jest.fn(),
+      tool: {
+        writeToolData: jest.fn(() => Promise.resolve()),
+        deleteToolFile: jest.fn(() => Promise.resolve()),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
+      },
+      tc: {
+        contextId: {reference: {bookId: 'mybook'}},
+        sourceBook: {
+          1: {
+            1: {
+              verseObjects: [{
+                type: 'text',
+                text: "olleh"
+              }]
+            }
+          }
+        },
+        targetBook: {
+          1: {
+            1: "hello"
+          }
+        }
+      },
+      repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
+    };
+    api.props = props;
+    expect(api._validateVerse(props, 1, 1)).toEqual(false);
+    expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
+    expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+  });
+
+  it('repairs modified complete without alignment changes and returns not valid', async () => {
+    reducers.__setIsVerseValid(false);
+    reducers.__setIsVerseAligned(1, 1, true);
+    reducers.__setVerseAlignedTargetTokens(['some', 'data']);
+    const alignmentCompleteFileExists = true;
+    const alignmentInvalidFileExists = false;
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn()
+      }
+    };
+    const props = {
+      recordCheck: jest.fn(),
+      tool: {
+        writeToolData: jest.fn(() => new Promise(resolve => {resolve()})),
+        deleteToolFile: jest.fn(() => Promise.resolve()),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
+      },
+      tc: {
+        contextId: {reference: {bookId: 'mybook'}},
+        sourceBook: {
+          1: {
+            1: {
+              verseObjects: [{
+                type: 'text',
+                text: "olleh"
+              }]
+            }
+          }
+        },
+        targetBook: {
+          1: {
+            1: "hello"
+          }
+        }
+      },
+      repairAndInspectVerse: jest.fn(() => false),
+    };
+    api.props = props;
+    expect(api._validateVerse(props, 1, 1)).toEqual(false);
+    expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
+    expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not repair valid aligned verse', async () => {
     reducers.__setIsVerseValid(true);
+    reducers.__setIsVerseAligned(1, 1, true);
+    const alignmentCompleteFileExists = true;
+    const alignmentInvalidFileExists = false;
     const api = new Api();
     api.context = {
       store: {
@@ -436,7 +598,8 @@ describe('validate', () => {
     const props = {
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
-        toolDataPathExists: jest.fn(() => Promise.resolve(false)),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists)),
         deleteToolFile: jest.fn(() => Promise.resolve())
       },
       tc: {
@@ -464,6 +627,8 @@ describe('validate', () => {
     expect(props.repairAndInspectVerse).not.toBeCalled();
     expect(props.tool.writeToolData).not.toBeCalled();
     expect(props.tool.deleteToolFile).not.toBeCalled();
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).not.toBeCalled();
   });
 });
 
@@ -509,3 +674,13 @@ describe('get number of invalid checks', () => {
     expect(numInvalidChecks).toEqual(2);
   });
 });
+
+//
+// helper functions
+//
+
+function delay(ms) {
+  return new Promise((resolve) =>
+    setTimeout(resolve, ms)
+  );
+}

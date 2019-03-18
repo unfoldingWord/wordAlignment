@@ -278,17 +278,18 @@ export default class Api extends ToolApi {
     const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
     const isValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
+    const isAlignmentComplete = this.getIsVerseFinished(chapter, verse);
     if (!isValid) {
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
-      let invalid = (wasChanged || isAligned || this.getIsVerseFinished(chapter, verse));
+      let invalid = (wasChanged || isAligned || isAlignmentComplete);
       if (invalid) {
         this.setVerseInvalid(chapter, verse);
       }
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
       return !invalid;
-    } else if (isAligned && !this.getIsVerseFinished(chapter, verse)) {
+    } else if (isAligned && !isAlignmentComplete) {
       // TRICKY: record aligned verses as finished
       this.setVerseFinished(chapter, verse, true);
     }
@@ -463,8 +464,10 @@ export default class Api extends ToolApi {
           const data = {
             timestamp: (new Date()).toISOString()
           };
-          return writeToolData(dataPath, JSON.stringify(data)).
-            then(() => this.toolDidUpdate());
+          const writeToolData1 = writeToolData(dataPath, JSON.stringify(data));
+          return writeToolData1.then(() => 
+            this.toolDidUpdate()
+          );
         }
       });
     }

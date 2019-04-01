@@ -276,18 +276,20 @@ export default class Api extends ToolApi {
     const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
     const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
     const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
-    const isValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
+    const areVerseAlignmentsValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
-    if (!isValid) {
+    const isAlignmentComplete = this.getIsVerseFinished(chapter, verse);
+    if (!areVerseAlignmentsValid) {
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
-      if (wasChanged) {
+      let isVerseInvalidated = (wasChanged || isAligned || isAlignmentComplete);
+      if (isVerseInvalidated) {
         this.setVerseInvalid(chapter, verse);
       }
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
-      return !wasChanged;
-    } else if (isAligned && !this.getIsVerseFinished(chapter, verse)) {
+      return !isVerseInvalidated;
+    } else if (isAligned && !isAlignmentComplete) {
       // TRICKY: record aligned verses as finished
       this.setVerseFinished(chapter, verse, true);
     }

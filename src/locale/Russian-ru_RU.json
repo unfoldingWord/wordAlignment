@@ -183,8 +183,8 @@
     "no_results": "Нет результатов",
     "invalidated": "Недействительно",
     "bookmarks": "Закладка",
-    "completed": "Совершённое",
-    "incomplete": "Не совершённое",
+    "completed": "Завершённое",
+    "incomplete": "Не завершённое",
     "verse_edit": "Редактировать стих",
     "comments": "Комментарии",
     "menu_title": "Меню"
@@ -199,14 +199,14 @@
     "reject": "Отклонить"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "selections_found": "Завершенные стихи, которые были найдены для этой проверки",
+    "no_selections_found": "Не завершенные стихи, которые были найдены для этой проверки",
+    "verse_edits_found": "Стихи, которые были найдены для этой проверки",
+    "no_verse_edits_found": "Стихи не были найдены для этой проверки",
+    "comments_found": "Комментарии, которые были найдены для этой проверки",
+    "no_comments_found": "Нет комментариев для этой проверки",
+    "bookmarked": "Эта проверка была закладкой для пересмотра",
+    "not_bookmarked": "Эта проверка не была закладкой для пересмотра"
   },
   "pane": {
     "current_project": "Текущий проект",
@@ -217,7 +217,7 @@
     "add_resource": "Щёлкните, чтобы добавить ресурс",
     "add_resource_label": "Добавить ресурс",
     "select_language": "Выбрать язык",
-    "gateway_language": "Gateway Language",
+    "gateway_language": "Базовый язык",
     "target_language": "Целевой язык",
     "original_language": "Язык оригинала"
   }

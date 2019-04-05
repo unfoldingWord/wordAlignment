@@ -21,6 +21,8 @@ import {
   unalignTargetToken
 } from './state/actions';
 
+let willCount = 0;
+
 export default class Api extends ToolApi {
   constructor() {
     super();
@@ -280,8 +282,13 @@ export default class Api extends ToolApi {
       normalizedSource, normalizedTarget);
     const isAlignmentComplete = this.getIsVerseFinished(chapter, verse);
     if (!areVerseAlignmentsValid) {
+      console.warn(`wa.api._validateVerse() - invalidate verse ${chapter}:${verse}`);
+      console.log(`wa.api._validateVerse() - areVerseAlignmentsValid=false, isAligned=${isAligned}, isAlignmentComplete=${isAlignmentComplete}`);
+
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
+      console.log(`wa.api._validateVerse() - wasChanged=${wasChanged}`);
+
       let isVerseInvalidated = (wasChanged || isAligned || isAlignmentComplete);
       if (isVerseInvalidated) {
         this.setVerseInvalid(chapter, verse);
@@ -418,6 +425,8 @@ export default class Api extends ToolApi {
    * @param nextProps
    */
   toolWillReceiveProps(nextProps) {
+    const count = ++willCount;
+    console.log("wa.api.toolWillReceiveProps() count=" + count);
     const {tc: {contextId: nextContext}} = nextProps;
     const {
       tc: {contextId: prevContext},
@@ -427,8 +436,11 @@ export default class Api extends ToolApi {
     } = this.props;
     if (isReady && !Api._didChapterContextChange(prevContext, nextContext)) {
       setTimeout(() => {
+        console.log("wa.api.toolWillReceiveProps() - calling _validateBook, count=" + count);
         const isValid = this._validateBook(nextProps);
+        console.log("wa.api.toolWillReceiveProps() -  _validateBook() - done, isValid=" + isValid + ", count=" + count);
         if (!isValid) {
+          console.log("wa.api.toolWillReceiveProps() - calling _showResetDialog, count=" + count);
           this._showResetDialog();
         }
       }, 0);
@@ -451,6 +463,7 @@ export default class Api extends ToolApi {
         toolDataPathExists
       }
     } = this.props;
+    console.log("wa.api.setVerseInvalid() - invalid=" + invalid);
     const dataPath = path.join('invalid', chapter + '', verse + '.json');
     if (!invalid) {
       return toolDataPathExists(dataPath).then(exists => {
@@ -505,6 +518,7 @@ export default class Api extends ToolApi {
       },
       recordCheck
     } = this.props;
+    console.log("wa.api.setVerseFinished() - finished=" + finished);
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {
       const data = {

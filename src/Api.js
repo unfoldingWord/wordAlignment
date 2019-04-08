@@ -95,15 +95,17 @@ export default class Api extends ToolApi {
    * And fix things if needed
    * @param {number} chapter
    * @param {number} verse
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
    */
-  validateVerse(chapter, verse) {
+  validateVerse(chapter, verse, silent=false) {
     if (isNaN(verse) || parseInt(verse) === -1 ||
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
-    const isValid = this._validateVerse(this.props, chapter, verse);
-    if (!isValid) {
+    const isValid = this._validateVerse(this.props, chapter, verse, silent);
+    if (!silent && !isValid) {
       this._showResetDialog();
     }
+    return isValid;
   }
 
   /**

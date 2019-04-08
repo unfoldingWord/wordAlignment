@@ -254,7 +254,7 @@ export default class Api extends ToolApi {
    * @param chapter
    * @param verse
    * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
-   * @return {boolean} true is the alignments are valid
+   * @return {boolean} true if the alignments are valid
    * @private
    */
   _validateVerse(props, chapter, verse, silent=false) {

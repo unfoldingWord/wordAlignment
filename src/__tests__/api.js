@@ -2,6 +2,8 @@ jest.mock('../state/reducers');
 import * as reducers from '../state/reducers';
 import Api from '../Api';
 
+const saveConsole = global.console;
+
 describe('saving', () => {
 
   it('should not do anything if the tool is not ready', () => {
@@ -222,6 +224,11 @@ describe('context', () => {
 });
 
 describe('verse finished', () => {
+
+  beforeEach(() => {
+    global.console = saveConsole; // restore original console
+  });
+
   it('is not finished', () => {
     const api = new Api();
     const fileExists = false;
@@ -291,6 +298,7 @@ describe('validate', () => {
 
   beforeEach(() => {
     jest.restoreAllMocks();
+    global.console = saveConsole; // restore original console
   });
 
   it('repairs a book', async() => {

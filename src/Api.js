@@ -93,15 +93,17 @@ export default class Api extends ToolApi {
    * And fix things if needed
    * @param {number} chapter
    * @param {number} verse
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
    */
-  validateVerse(chapter, verse) {
+  validateVerse(chapter, verse, silent=false) {
     if (isNaN(verse) || parseInt(verse) === -1 ||
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
-    const isValid = this._validateVerse(this.props, chapter, verse);
-    if (!isValid) {
+    const isValid = this._validateVerse(this.props, chapter, verse, silent);
+    if (!silent && !isValid) {
       this._showResetDialog();
     }
+    return isValid;
   }
 
   /**
@@ -251,10 +253,11 @@ export default class Api extends ToolApi {
    * @param props
    * @param chapter
    * @param verse
-   * @return {boolean} true is the alignments are valid
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
+   * @return {boolean} true if the alignments are valid
    * @private
    */
-  _validateVerse(props, chapter, verse) {
+  _validateVerse(props, chapter, verse, silent=false) {
     const {
       tc: {
         targetBook,
@@ -284,7 +287,7 @@ export default class Api extends ToolApi {
         targetTokens);
       let isVerseInvalidated = (wasChanged || isAligned || isAlignmentComplete);
       if (isVerseInvalidated) {
-        this.setVerseInvalid(chapter, verse);
+        this.setVerseInvalid(chapter, verse, true, silent);
       }
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
@@ -441,9 +444,10 @@ export default class Api extends ToolApi {
    * @param {number} chapter
    * @param {number} verse
    * @param {boolean} invalid - indicates if the verse is valid
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed (we don't trigger update)
    * @return {Promise}
    */
-  setVerseInvalid(chapter, verse, invalid = true) {
+  setVerseInvalid(chapter, verse, invalid = true, silent=false) {
     const {
       tool: {
         writeToolData,
@@ -455,7 +459,7 @@ export default class Api extends ToolApi {
     if (!invalid) {
       return toolDataPathExists(dataPath).then(exists => {
         if (exists) {
-          return deleteToolFile(dataPath).then(() => this.toolDidUpdate());
+          return deleteToolFile(dataPath).then(() => (!silent && this.toolDidUpdate()));
         }
       });
     } else {
@@ -465,7 +469,7 @@ export default class Api extends ToolApi {
             timestamp: (new Date()).toISOString()
           };
           return writeToolData(dataPath, JSON.stringify(data)).
-            then(() => this.toolDidUpdate());
+            then(() => (!silent && this.toolDidUpdate()));
         }
       });
     }

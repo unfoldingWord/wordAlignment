@@ -188,7 +188,7 @@
     "verse_edit": "Verse edit",
     "comments": "Comments",
     "menu_title": "Menu",
-    "unaligned": "Unaligned Words"
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
     "refresh_suggestions": "Refresh ${word_map}-generated suggestions.",

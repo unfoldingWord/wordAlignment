@@ -9,6 +9,7 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
+import UnalignedIcon from '@material-ui/icons/RemoveCircle';
 
 class GroupMenuContainer extends React.Component {
 
@@ -40,7 +41,8 @@ class GroupMenuContainer extends React.Component {
       ...item,
       title: `${bookName} ${chapter}:${verse}`,
       completed: toolApi.getIsVerseFinished(chapter, verse), // TODO: I could read from state if I load these into the reducer at startup.
-      invalid: toolApi.getIsVerseInvalid(chapter, verse)
+      invalid: toolApi.getIsVerseInvalid(chapter, verse),
+      unaligned: toolApi.getisVerseUnaligned(chapter, verse)
     };
   };
 
@@ -88,6 +90,11 @@ class GroupMenuContainer extends React.Component {
         label: translate('menu.comments'),
         key: 'comments',
         icon: <ModeCommentIcon/>
+      },
+      {
+        label: translate('menu.unaligned'),
+        key: 'unaligned',
+        icon: <UnalignedIcon/>
       }
     ];
 

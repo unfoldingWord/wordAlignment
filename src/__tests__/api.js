@@ -105,7 +105,7 @@ describe('saving', () => {
 
     it('saves successfully', () => {
       global.console = {error: jest.fn()};
-      reducers.__setLegacyChapterAlignments({ hello : "world"});
+      reducers.__setLegacyChapterAlignments({hello: "world"});
       const api = new Api();
       api.props = {
         tc: {
@@ -122,7 +122,7 @@ describe('saving', () => {
         }
       };
       const nextState = {
-        tool: {hello : 'world'}
+        tool: {hello: 'world'}
       };
       const prevState = {
         tool: {foo: 'bar'}
@@ -223,6 +223,53 @@ describe('context', () => {
   });
 });
 
+describe('verse unaligned', () => {
+  it('is unaligned', () => {
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({
+          alignments: {
+            1: {
+              1: {
+                alignments: [
+                  {
+                    "sourceNgram": [
+                      0
+                    ],
+                    "targetNgram": [
+                      0,
+                      3
+                    ]
+                  },
+                  {
+                    "sourceNgram": [
+                      1
+                    ],
+                    "targetNgram": [
+                      1,
+                      4
+                    ]
+                  },
+                  {
+                    "sourceNgram": [
+                      2
+                    ],
+                    "targetNgram": [
+                      2
+                    ]
+                  },
+                ]
+              }
+            }
+          }
+        }))
+      }
+    };
+    expect(api.getisVerseUnaligned(1, 1)).toEqual(true);
+  });
+});
+
 describe('verse finished', () => {
 
   beforeEach(() => {
@@ -301,7 +348,7 @@ describe('validate', () => {
     global.console = saveConsole; // restore original console
   });
 
-  it('repairs a book', async() => {
+  it('repairs a book', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
     const alignmentCompleteFileExists = false;
@@ -348,7 +395,7 @@ describe('validate', () => {
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
   });
 
-  it('repairs a verse', async() => {
+  it('repairs a verse', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
     const alignmentCompleteFileExists = false;
@@ -395,7 +442,7 @@ describe('validate', () => {
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
   });
 
-  it('repairs a verse without alignment changes', async() => {
+  it('repairs a verse without alignment changes', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setIsVerseAligned(1, 1, false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
@@ -444,7 +491,7 @@ describe('validate', () => {
     expect(props.tool.writeToolData).not.toBeCalled();
   });
 
-  it('repairs modified aligned verse without alignment changes and returns not valid', async() => {
+  it('repairs modified aligned verse without alignment changes and returns not valid', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setIsVerseAligned(1, 1, true);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);

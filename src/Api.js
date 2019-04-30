@@ -541,6 +541,11 @@ export default class Api extends ToolApi {
     return toolDataPathExistsSync(dataPath);
   }
 
+  getisVerseUnaligned(chapter, verse) {
+    const {store} = this.context;
+    return !getIsVerseAligned(store.getState(), chapter, verse);
+  }
+
   /**
    * Returns the number of verses that have invalidated alignments
    * @returns {number}

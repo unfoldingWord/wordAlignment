@@ -187,7 +187,8 @@
     "incomplete": "Incomplete",
     "verse_edit": "Verse edit",
     "comments": "Comments",
-    "menu_title": "Menu"
+    "menu_title": "Menu",
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
     "refresh_suggestions": "Atualizar ${word_map} - sugestões geradas.",

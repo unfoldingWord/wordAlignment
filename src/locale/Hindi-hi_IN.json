@@ -187,7 +187,8 @@
     "incomplete": "Incomplete",
     "verse_edit": "Verse edit",
     "comments": "Comments",
-    "menu_title": "मेन्यू"
+    "menu_title": "मेन्यू",
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
     "refresh_suggestions": "रीफ्रेश ${word_map} जनरेटेड सुझाव।",

@@ -323,6 +323,280 @@ describe('render alignments', () => {
         }
       ]);
     });
+    
+    it('it should handle discontiguous alignments', () => {
+      const state = {
+        sourceTokens: Array(17).fill(0),
+        alignments: [
+          {
+            "sourceNgram": [
+              0
+            ],
+            "targetNgram": [
+              0
+            ]
+          },
+          {
+            "sourceNgram": [
+              1
+            ],
+            "targetNgram": [
+              1,
+              2
+            ]
+          },
+          {
+            "sourceNgram": [
+              2
+            ],
+            "targetNgram": [
+              3,
+              4
+            ]
+          },
+          {
+            "sourceNgram": [
+              3,
+              5
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              6
+            ],
+            "targetNgram": [
+              10
+            ]
+          },
+          {
+            "sourceNgram": [
+              7
+            ],
+            "targetNgram": [
+              11
+            ]
+          },
+          {
+            "sourceNgram": [
+              8
+            ],
+            "targetNgram": [
+              12,
+              13
+            ]
+          },
+          {
+            "sourceNgram": [
+              9
+            ],
+            "targetNgram": [
+              17,
+              18
+            ]
+          },
+          {
+            "sourceNgram": [
+              10
+            ],
+            "targetNgram": [
+              14,
+              15,
+              16
+            ]
+          },
+          {
+            "sourceNgram": [
+              11
+            ],
+            "targetNgram": [
+              19
+            ]
+          },
+          {
+            "sourceNgram": [
+              12
+            ],
+            "targetNgram": [
+              20,
+              21
+            ]
+          },
+          {
+            "sourceNgram": [
+              13
+            ],
+            "targetNgram": [
+              22,
+              23,
+              24
+            ]
+          },
+          {
+            "sourceNgram": [
+              14
+            ],
+            "targetNgram": [
+              25
+            ]
+          },
+          {
+            "sourceNgram": [
+              15
+            ],
+            "targetNgram": [
+              26,
+              27
+            ]
+          },
+          {
+            "sourceNgram": [
+              16
+            ],
+            "targetNgram": [
+              28
+            ]
+          }
+        ],
+        suggestions: [
+          {
+            "sourceNgram": [
+              0
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              1
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              2
+            ],
+            "targetNgram": [
+              4
+            ]
+          },
+          {
+            "sourceNgram": [
+              3
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              5
+            ],
+            "targetNgram": [
+              9
+            ]
+          },
+          {
+            "sourceNgram": [
+              6
+            ],
+            "targetNgram": [
+              10
+            ]
+          },
+          {
+            "sourceNgram": [
+              7
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              8
+            ],
+            "targetNgram": [
+              13
+            ]
+          },
+          {
+            "sourceNgram": [
+              9
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              10
+            ],
+            "targetNgram": [
+              15
+            ]
+          },
+          {
+            "sourceNgram": [
+              11
+            ],
+            "targetNgram": [
+              19
+            ]
+          },
+          {
+            "sourceNgram": [
+              12
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              13
+            ],
+            "targetNgram": [
+              24
+            ]
+          },
+          {
+            "sourceNgram": [
+              14
+            ],
+            "targetNgram": [
+              22,
+              23
+            ]
+          },
+          {
+            "sourceNgram": [
+              15
+            ],
+            "targetNgram": [
+              27
+            ]
+          },
+          {
+            "sourceNgram": [
+              16
+            ],
+            "targetNgram": []
+          }
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {
+          alignments: [0],
+          sourceNgram: [0],
+          targetNgram: [0, 1]
+        }
+      ]);
+    });
   });
 
   describe('merges', () => {

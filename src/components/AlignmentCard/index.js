@@ -41,8 +41,9 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   // const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
   // const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
 
-  // limit all drags to adjacent alignments
-  if(Math.abs(alignmentDelta) > 1) return false;
+  // TODO remove
+  // // limit all drags to adjacent alignments
+  // if(Math.abs(alignmentDelta) > 1) return false;
 
   // single to single
   // TRICKY: make sure we've moved

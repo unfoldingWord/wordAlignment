@@ -161,14 +161,16 @@ const dragHandler = {
     };
   },
   canDrag(props) {
-    const {wordIndex, alignmentLength} = props;
-    const firstWord = wordIndex === 0;
-    const lastWord = wordIndex === alignmentLength - 1;
-    if (alignmentLength > 1) {
-      return firstWord || lastWord;
-    } else {
-      return true;
-    }
+    // TODO remove
+    // const {wordIndex, alignmentLength} = props;
+    // const firstWord = wordIndex === 0;
+    // const lastWord = wordIndex === alignmentLength - 1;
+    // if (alignmentLength > 1) {
+    //   return firstWord || lastWord;
+    // } else {
+    //   return true;
+    // }
+    return true;
   }
 };
 

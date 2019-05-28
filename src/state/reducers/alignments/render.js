@@ -153,18 +153,19 @@ const render = (alignments, suggestions, numSourceTokens) => {
   const tokenIndex = indexTokens(alignments, suggestions);
   const alignmentSuggestionsIndex = indexAlignmentSuggestions(tokenIndex);
 
-  const alignmentSourceIndex = [];
-  const suggestionSourceIndex = [];
+  let alignmentSourceIndex = [];
+  let suggestionSourceIndex = [];
   const targetIndex = {};
   for (let aIndex = 0; aIndex < alignments.length; aIndex++) {
     for (const pos of alignments[aIndex].targetNgram) {
       targetIndex[pos] = aIndex;
     }
-    for (let i = 0; i < alignments[aIndex].sourceNgram.length; i++) {
-      const sourceLength = alignments[aIndex].sourceNgram.length;
-      // TRICKY: the source tokens will be in order spread over the alignments
+    const sourceLength = alignments[aIndex].sourceNgram.length;
+    for (let i = 0; i < sourceLength; i++) {
+      // TRICKY: the source tokens may not be in order in case of discontiguous source tokens, so we need to sort
       alignmentSourceIndex.push({
         index: aIndex,
+        sort: alignments[aIndex].sourceNgram[i],
         aligned: alignments[aIndex].targetNgram.length > 0,
         sourceLength,
         targetLength: alignments[aIndex].targetNgram.length,
@@ -176,12 +177,15 @@ const render = (alignments, suggestions, numSourceTokens) => {
       });
     }
   }
+  alignmentSourceIndex = alignmentSourceIndex.sort((a, b) => (a.sort - b.sort));
+  
   for (let sIndex = 0; sIndex < suggestions.length; sIndex++) {
-    for (let i = 0; i < suggestions[sIndex].sourceNgram.length; i++) {
-      const sourceLength = suggestions[sIndex].sourceNgram.length;
-      // TRICKY: the source tokens will be in order spread over the suggestions
+    const sourceLength = suggestions[sIndex].sourceNgram.length;
+    for (let i = 0; i < sourceLength; i++) {
+      // TRICKY: the source tokens may not be in order in case of discontiguous source tokens, so we need to sort
       suggestionSourceIndex.push({
         index: sIndex,
+        sort: suggestions[sIndex].sourceNgram[i],
         sourceLength,
         targetLength: suggestions[sIndex].targetNgram.length,
         isEmpty: suggestions[sIndex].targetNgram.length === 0,
@@ -192,6 +196,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       });
     }
   }
+  suggestionSourceIndex = suggestionSourceIndex.sort((a, b) => (a.sort - b.sort));
 
   // TRICKY: we don't support partial suggestion coverage at the moment
   if (suggestionSourceIndex.length > 0 && suggestionSourceIndex.length !==
@@ -208,7 +213,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
   }
 
   // build output
-  const suggestedAlignments = [];
+  let suggestedAlignments = [];
   let alignmentQueue = []; // track how many alignments span a suggestion
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < numSourceTokens; tIndex++) {
@@ -296,6 +301,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       const index = alignmentQueue.pop();
       const rawAlignment = _.cloneDeep(alignments[index]);
       rawAlignment.alignments = [index];
+      rawAlignment.sort = rawAlignment.sourceNgram && rawAlignment.sourceNgram.length && rawAlignment.sourceNgram[0] || 0;
       return rawAlignment;
     };
 
@@ -320,10 +326,12 @@ const render = (alignments, suggestions, numSourceTokens) => {
       rawSuggestion.alignments = [...alignmentQueue];
       rawSuggestion.suggestion = index;
       rawSuggestion.targetNgram.sort(numberComparator);
+      rawSuggestion.sort = rawSuggestion.sourceNgram && rawSuggestion.sourceNgram.length && rawSuggestion.sourceNgram[0] || 0;
       if (suggestionSourceIndex[tIndex].isEmpty && sourceNgramsMatch) {
         // TRICKY: render empty matches as an alignment
         return {
           alignments: rawSuggestion.alignments,
+          sort: rawSuggestion.sort,
           sourceNgram: rawSuggestion.sourceNgram,
           targetNgram: rawSuggestion.targetNgram
         };
@@ -355,6 +363,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
     }
   }
 
+  suggestedAlignments = suggestedAlignments.sort((a, b) => (a.sort - b.sort));
   return suggestedAlignments;
 };
 

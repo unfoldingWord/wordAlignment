@@ -187,7 +187,8 @@
     "incomplete": "Не завершённое",
     "verse_edit": "Редактировать стих",
     "comments": "Комментарии",
-    "menu_title": "Меню"
+    "menu_title": "Меню",
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
     "refresh_suggestions": "Обновить предложения ${word_map}.",

@@ -185,9 +185,10 @@
     "bookmarks": "Bookmark",
     "completed": "Completed",
     "incomplete": "Incomplete",
-    "verse_edit": "Verse edit",
+    "verse_edit": "Editar versículo",
     "comments": "Comments",
-    "menu_title": "Menú"
+    "menu_title": "Menú",
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
     "refresh_suggestions": "Actualizar ${word_map}sugerencias generadas.",

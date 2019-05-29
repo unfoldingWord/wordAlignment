@@ -160,8 +160,9 @@ const dragHandler = {
       type: types.PRIMARY_WORD
     };
   },
-  canDrag(props) {
+  canDrag() {
     // TODO remove
+    // canDrag(props) {
     // const {wordIndex, alignmentLength} = props;
     // const firstWord = wordIndex === 0;
     // const lastWord = wordIndex === alignmentLength - 1;

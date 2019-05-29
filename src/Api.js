@@ -289,10 +289,8 @@ export default class Api extends ToolApi {
       this.setVerseFinished(chapter, verse, false);
       // TRICKY: if there were no alignments we fix silently
       return !isVerseInvalidated;
-    } else if (isAligned && !isAlignmentComplete) {
-      // TRICKY: record aligned verses as finished
-      this.setVerseFinished(chapter, verse, true);
     }
+
     return true;
   }
 

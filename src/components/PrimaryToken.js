@@ -77,7 +77,7 @@ class PrimaryToken extends Component {
       <div>
         <Word word={token.text}
               direction={direction}
-              disabled={isDragging || (hover && !canDrag)}
+              disabled={isDragging}
               style={{...internalStyle.word, ...style}}/>
       </div>
     );
@@ -87,9 +87,6 @@ class PrimaryToken extends Component {
            onMouseOver={this._handleOver}
            onMouseOut={this._handleOut}>
         {word}
-        {!isDragging && hover && !canDrag ? (
-          <Tooltip message={translate('cannot_drag_middle')}/>
-        ) : null}
       </div>
     );
   }

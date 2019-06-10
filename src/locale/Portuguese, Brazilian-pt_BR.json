@@ -109,7 +109,7 @@
   "negative": "Negativo",
   "direct_object_marker": "Marcador de Objeto Direto",
   "absolute": "Absoluto",
-  "construct": "Construct",
+  "construct": "Construir",
   "determined": "Determinado",
   "directional_he": "Direcional He",
   "paragogic_he": "Paragógica He",
@@ -124,7 +124,7 @@
   "participle_active": "Particípio Ativo",
   "participle_passive": "Particípio Passivo",
   "infinitive_absolute": "Infinitivo Absoluto",
-  "infinitive_construct": "Infinitive Construct",
+  "infinitive_construct": "Construção Infinitiva",
   "qal": "Qal",
   "niphal": "Niphal",
   "piel": "Piel",
@@ -182,10 +182,10 @@
   "menu": {
     "no_results": "Nenhum resultado",
     "invalidated": "Invalidado",
-    "bookmarks": "Bookmark",
+    "bookmarks": "Marcador de Página",
     "completed": "Concluído",
     "incomplete": "Incompleto",
-    "verse_edit": "Verse edit",
+    "verse_edit": "Edição do versículo",
     "comments": "Comentários",
     "menu_title": "Menu",
     "unaligned": "Palavras não alinhadas"
@@ -200,12 +200,12 @@
     "reject": "Rejeitar"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
+    "selections_found": "Foram encontrados edições de Versículos para essa verificação",
+    "no_selections_found": "Nenhúm versiculo completo foi encontrado para esta verificação",
     "verse_edits_found": "Verse edits were found for this check",
     "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
+    "comments_found": "Encontraram-se comentários para esta verificação",
+    "no_comments_found": "Nenhum comentário foi encontrado para esta verificação",
     "bookmarked": "This check has been bookmarked for review",
     "not_bookmarked": "This check has not been bookmarked for review"
   },

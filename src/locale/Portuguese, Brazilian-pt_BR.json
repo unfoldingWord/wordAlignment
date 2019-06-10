@@ -202,12 +202,12 @@
   "icons": {
     "selections_found": "Foram encontrados edições de Versículos para essa verificação",
     "no_selections_found": "Nenhúm versiculo completo foi encontrado para esta verificação",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
+    "verse_edits_found": "Foram encontrados edições de versículo(s) para essa verificação",
+    "no_verse_edits_found": "Não foram encontrados edições de Versículo(s) para essa verificação",
     "comments_found": "Encontraram-se comentários para esta verificação",
     "no_comments_found": "Nenhum comentário foi encontrado para esta verificação",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "bookmarked": "Esta verificação foi marcada para revisão",
+    "not_bookmarked": "Esta verificação não foi marcada para revisão"
   },
   "pane": {
     "current_project": "Projeto atual",

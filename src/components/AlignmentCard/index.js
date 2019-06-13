@@ -43,20 +43,35 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
 
   // TODO remove
   // // limit all drags to adjacent alignments
-  // if(Math.abs(alignmentDelta) > 1) return false;
+  if(Math.abs(alignmentDelta) > 1) { // if these primary tokens are not next to each other, skip
+    return false;
+  }
+
+  // const source = dragSourceProps.token && dragSourceProps.token.text;
+  // const dest = dropTargetProps.sourceNgram && dropTargetProps.sourceNgram.length && dropTargetProps.sourceNgram[0] && dropTargetProps.sourceNgram[0].text;
+  // console.log(`canDropPrimaryToken() - from '${source}' to '${dest}'`);
 
   // single to single
   // TRICKY: make sure we've moved
-  if(singleSource && singleTarget && moved) return true;
+  if(singleSource && singleTarget && moved) {
+    // console.log("canDropPrimaryToken() - single to single - true");
+    return true;
+  }
 
   // single to merged
   if(singleSource && mergedTarget) {
+    // console.log("canDropPrimaryToken() - single to merged - true");
     return true;
   }
 
   // merged to empty
   if(mergedSource && emptyTarget) {
-    if(!moved) return true;
+    if(!moved) {
+      // console.log("canDropPrimaryToken() - merged to empty and not moved - true");
+      return true;
+    }
+    // console.log("canDropPrimaryToken() - merged to empty and moved");
+    
     // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
     // see components/AlignmentGrid.js
     // we could potentially use the touch backend https://github.com/yahoo/react-dnd-touch-backend
@@ -66,6 +81,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
     // if(!moved && rightPlaceholder && rightWord) return true;
   }
 
+  // console.log("canDropPrimaryToken() - default, false: ", {emptyTarget, singleTarget, mergedTarget, singleSource, mergedSource, alignmentDelta, moved});
   return false;
 };
 

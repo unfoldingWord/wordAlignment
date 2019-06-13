@@ -65,18 +65,22 @@ class PrimaryToken extends Component {
       style,
       isDragging,
       direction,
+      canDrag,
       connectDragSource,
       dragPreview
     } = this.props;
+    const {hover} = this.state;
 
+    const disabled = isDragging || (hover && !canDrag);
     const word = dragPreview(
       <div>
         <Word word={token.text}
               direction={direction}
-              disabled={isDragging}
+              disabled={disabled}
               style={{...internalStyle.word, ...style}}/>
       </div>
     );
+    console.log("render -" + token.text, {canDrag, isDragging, hover, disabled});
     return connectDragSource(
       <div style={{flex: 1, position: 'relative'}}
            onClick={this._handleClick}

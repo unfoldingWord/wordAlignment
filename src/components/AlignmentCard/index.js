@@ -37,41 +37,48 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;
   // const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
   // const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
-  const moved = alignmentDelta !== 0;
+  const different = alignmentDelta !== 0;
   // const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
   // const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
-  const nonAdjacent = Math.abs(alignmentDelta) > 1;
 
   const source = dragSourceProps.token && dragSourceProps.token.text || '';
   const dest = dropTargetProps.sourceNgram && dropTargetProps.sourceNgram.length && dropTargetProps.sourceNgram[0] && dropTargetProps.sourceNgram[0].text || '';
-  console.log(`canDropPrimaryToken() - from '${source}' to '${dest}'`);
+  console.log(`canDropPrimaryToken() - from '${source}' to '${dest}'`, {emptyTarget, singleTarget, mergedTarget, singleSource, mergedSource, alignmentDelta, different});
 
-  // limit all drags from merged sources to adjacent alignments
-  if(mergedSource && nonAdjacent) { // if these primary tokens are not next to each other, skip
-    console.log("canDropPrimaryToken() - merged source not adjacent - false");
-    return false;
-  }
+  // limit all drags from merged source to adjacent alignments
+  // const nonAdjacent = Math.abs(alignmentDelta) > 1;
+  // if(mergedSource && nonAdjacent) { // if these primary tokens are not next to each other, skip
+  //   console.log("canDropPrimaryToken() - merged source not adjacent - false");
+  //   return false;
+  // }
 
   // single to single
   // TRICKY: make sure we've moved
-  if(singleSource && singleTarget && moved) {
-    console.log("canDropPrimaryToken() - single to single - true");
+  if(singleSource && singleTarget && different) {
+    console.log("canDropPrimaryToken() - single to different single - true");
     return true;
   }
 
-  // single to merged
+  // single to merged group
   if(singleSource && mergedTarget) {
-    console.log("canDropPrimaryToken() - single to merged - true");
+    console.log("canDropPrimaryToken() - single to merged group - true");
     return true;
   }
 
-  // merged to empty
-  if(mergedSource && emptyTarget) {
-    if(!moved) {
-      console.log("canDropPrimaryToken() - merged to empty and not moved - true");
+  
+  if(mergedSource) {
+    if (emptyTarget) { // merged group to empty
+      if (!different) { // if unmerge target for this group
+        console.log("canDropPrimaryToken() - merged group to unmerge target - true");
+        return true;
+      }
+    } else if (singleTarget) { // merged group to single
+      console.log("canDropPrimaryToken() - merged group to single - true");
+      return true;
+    } else if (mergedTarget && different) { // merged group to different merged group
+      console.log("canDropPrimaryToken() - merged group to different merged group - true");
       return true;
     }
-    console.log("canDropPrimaryToken() - merged to empty and moved");
     
     // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
     // see components/AlignmentGrid.js
@@ -82,7 +89,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
     // if(!moved && rightPlaceholder && rightWord) return true;
   }
 
-  console.log("canDropPrimaryToken() - default, false: ", {emptyTarget, singleTarget, mergedTarget, singleSource, mergedSource, alignmentDelta, moved, adjacent: nonAdjacent});
+  console.log("canDropPrimaryToken() - default, false");
   return false;
 };
 

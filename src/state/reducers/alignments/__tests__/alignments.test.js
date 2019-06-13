@@ -1,7 +1,8 @@
-import {reducerTest} from 'redux-jest';
 import * as types from '../../../actions/actionTypes';
 import alignments, * as fromAlignments from '../index';
 import {Token} from 'wordmap-lexer';
+import _ from "lodash";
+import deepFreeze from 'deep-freeze';
 
 describe('set chapter alignments when empty', () => {
   const stateBefore = {};
@@ -2204,3 +2205,62 @@ describe('source tokens', () => {
   reducerTest('Sets the source tokens', alignments, stateBefore, action,
     stateAfter);
 });
+
+//
+// Helpers
+//
+
+/**
+ * runs reducerTest, but ignores sort field
+ * @param {string} description
+ * @param (Function} reducer
+ * @param {Object} stateBefore
+ * @param {Object} action
+ * @param {Object} stateAfter
+ */
+export function reducerTest(description, reducer, stateBefore, action, stateAfter) {
+  it(description, function () {
+    deepFreeze(action);
+    deepFreeze(stateBefore);
+
+    const rawResults = reducer(stateBefore, action);
+    const results = _.cloneDeep(rawResults);
+    cleanOutSortFromObject(results);
+    expect(results).toEqual(stateAfter);
+  });
+}
+
+/**
+ * removes sort field from objects recursively
+ * @param {Object|Array} item
+ */
+function cleanOutSortFromObject(item) {
+  if (Array.isArray(item)) {
+    cleanOutSortFromArray(item);
+  } else { // is object
+    if (item.sort !== undefined) {
+      delete item.sort;
+    }
+    const keys = Object.keys(item);
+    for (let key of keys) {
+      let element = item[key];
+      const subKeys = element && Object.keys(element) || {};
+      if (subKeys.length && !(typeof element === 'string')) {
+        cleanOutSortFromObject(element);
+      }
+    }
+  }
+}
+
+/**
+ * removes sort field from objects within array
+ * @param {Array} array
+ */
+function cleanOutSortFromArray(array) {
+  if (Array.isArray(array)) {
+    for (let i = 0, l = array.length; i < l; i++) {
+      const item = array[i];
+      cleanOutSortFromObject(item);
+    }
+  }
+}

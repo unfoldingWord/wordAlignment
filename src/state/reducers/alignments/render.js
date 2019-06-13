@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {numberComparator} from './index';
+import {numberComparator, objectComparator} from './index';
 
 /**
  * Generates an index of tokens that will be rendered.
@@ -177,7 +177,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       });
     }
   }
-  alignmentSourceIndex = alignmentSourceIndex.sort((a, b) => (a.sort - b.sort));
+  alignmentSourceIndex.sort(objectComparator);
   
   for (let sIndex = 0; sIndex < suggestions.length; sIndex++) {
     const sourceLength = suggestions[sIndex].sourceNgram.length;
@@ -196,7 +196,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
       });
     }
   }
-  suggestionSourceIndex = suggestionSourceIndex.sort((a, b) => (a.sort - b.sort));
+  suggestionSourceIndex.sort(objectComparator);
 
   // TRICKY: we don't support partial suggestion coverage at the moment
   if (suggestionSourceIndex.length > 0 && suggestionSourceIndex.length !==
@@ -363,7 +363,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
     }
   }
 
-  suggestedAlignments = suggestedAlignments.sort((a, b) => (a.sort - b.sort));
+  suggestedAlignments.sort(objectComparator);
   return suggestedAlignments;
 };
 

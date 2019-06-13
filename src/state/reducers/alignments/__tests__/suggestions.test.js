@@ -1,4 +1,4 @@
-import {reducerTest} from 'redux-jest';
+import {reducerTest} from './alignments.test';
 import * as types from '../../../actions/actionTypes';
 import alignments from '../index';
 import {Token} from 'wordmap-lexer';

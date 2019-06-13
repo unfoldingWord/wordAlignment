@@ -28,6 +28,14 @@ import {
 export const numberComparator = (a, b) => a - b;
 
 /**
+ * Compares the sort field of two objects in sorting
+ * @param {Object} a
+ * @param {Object} b
+ * @return {number}
+ */
+export const objectComparator = (a, b) => (a.sort - b.sort);
+
+/**
  * Represents the alignment data.
  *
  * @param state

@@ -66,22 +66,6 @@ describe('unacceptable drops', () => {
       expect(result).toEqual(false);
     });
 
-
-    it('is dropped on a non-adjacent alignment', () => {
-      const source = {
-        alignmentIndex: 3,
-        wordIndex: 1,
-        alignmentLength: 1
-      };
-      const target = {
-        sourceNgram: ['word'],
-        targetNgram: [],
-        alignmentIndex: 1
-      };
-      const result = canDropPrimaryToken(target, source);
-      expect(result).toEqual(false);
-    });
-
     it('is dropped on an empty alignment', () => {
       const source = {
         alignmentIndex: 2,

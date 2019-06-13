@@ -5,7 +5,6 @@ import { WordLexiconDetails, lexiconHelpers } from 'tc-ui-toolkit';
 import * as types from './WordCard/Types';
 // components
 import Word from './WordCard';
-import Tooltip from './Tooltip';
 import {Token} from 'wordmap-lexer';
 
 const internalStyle = {
@@ -62,16 +61,13 @@ class PrimaryToken extends Component {
 
   render() {
     const {
-      translate,
       token,
       style,
       isDragging,
       direction,
-      canDrag,
       connectDragSource,
       dragPreview
     } = this.props;
-    const {hover} = this.state;
 
     const word = dragPreview(
       <div>

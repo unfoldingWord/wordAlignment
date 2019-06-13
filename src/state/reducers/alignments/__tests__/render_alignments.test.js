@@ -165,7 +165,7 @@ describe('render alignments', () => {
         suggestions: [{sourceNgram: [0], targetNgram: []}]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {alignments: [0], sourceNgram: [0], targetNgram: []}
       ]);
     });
@@ -182,7 +182,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           suggestion: 0,
@@ -205,7 +205,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           suggestion: 0,
@@ -229,7 +229,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -250,7 +250,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -271,7 +271,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -293,7 +293,7 @@ describe('render alignments', () => {
           ]
         };
         const result = testRenderer(state);
-        expect(cleanSort(result)).toEqual([
+        expect(cleanOutSort(result)).toEqual([
           {
             alignments: [0],
             suggestion: 0,
@@ -316,7 +316,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -591,7 +591,7 @@ describe('render alignments', () => {
       };
       const result = testRenderer(state);
       expect(result.length).toEqual(16);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           "alignments": [
             0
@@ -792,7 +792,7 @@ describe('render alignments', () => {
         suggestions: [{sourceNgram: [0, 1], targetNgram: []}]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -819,7 +819,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -846,7 +846,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
@@ -874,7 +874,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -912,7 +912,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -1033,7 +1033,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -1076,7 +1076,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -1107,7 +1107,7 @@ describe('render alignments', () => {
           ]
         };
         const result = testRenderer(state);
-        expect(cleanSort(result)).toEqual([
+        expect(cleanOutSort(result)).toEqual([
           {
             alignments: [0],
             sourceNgram: [0],
@@ -1136,7 +1136,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -1167,7 +1167,7 @@ describe('render alignments', () => {
           ]
         };
         const result = testRenderer(state);
-        expect(cleanSort(result)).toEqual([
+        expect(cleanOutSort(result)).toEqual([
           {
             alignments: [0],
             sourceNgram: [0],
@@ -1192,7 +1192,7 @@ describe('render alignments', () => {
         suggestions: []
       };
       const result = testRenderer(state);
-      expect(cleanSort(result)).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -1210,13 +1210,14 @@ describe('render alignments', () => {
 
 //
 // Helpers
+//
 
 /**
  * removes sort field from objects within array
  * @param array
  * @return {*}
  */
-function cleanSort(array) {
+function cleanOutSort(array) {
   const cleanedArray = _.cloneDeep(array);
   if (Array.isArray(cleanedArray)) {
     for (let i = 0, l = cleanedArray.length; i < l; i++) {

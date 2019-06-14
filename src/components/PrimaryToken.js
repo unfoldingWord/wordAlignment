@@ -71,7 +71,7 @@ class PrimaryToken extends Component {
     } = this.props;
     const {hover} = this.state;
 
-    const disabled = isDragging || (hover && !canDrag);
+    const disabled = (isDragging || hover) && !canDrag;
     const word = dragPreview(
       <div>
         <Word word={token.text}
@@ -161,21 +161,28 @@ const dragHandler = {
     // TODO remove
     // canDrag(props) {
     // const {wordIndex, alignmentLength} = props;
-    // const firstWord = wordIndex === 0;
-    // const lastWord = wordIndex === alignmentLength - 1;
-    // if (alignmentLength > 1) {
-    //   return firstWord || lastWord;
-    // } else {
-    //   return true;
-    // }
-    return true;
+      // const firstWord = wordIndex === 0;
+      // const lastWord = wordIndex === alignmentLength - 1;
+      // if (alignmentLength > 1) {
+      //   return firstWord || lastWord;
+      // } else {
+      //   return true;
+      // }
+    const canDrag_ = true;
+    console.log("dragHandler.canDrag()=" + canDrag_);
+    return canDrag_;
+  },
+  isDragging(props, monitor) {
+    let item = monitor.getItem();
+    const isDragging_ = item.alignmentIndex === props.alignmentIndex;
+    console.log("dragHandler.isDragging()=" + isDragging_);
+    return isDragging_;
   }
 };
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   dragPreview: connect.dragPreview({captureDraggingState: false}),
-  canDrag: monitor.canDrag(),
   isDragging: monitor.isDragging()
 });
 

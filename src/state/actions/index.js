@@ -3,7 +3,7 @@ import {migrateChapterAlignments} from '../../utils/migrations';
 import Lexer from 'wordmap-lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
-import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';
+import {getRenderedVerseAlignments, getVerseAlignments} from '../reducers';
 import {areAlignmentsEquivalent} from '../../utils/alignmentValidation';
 
 /**
@@ -157,15 +157,20 @@ export const insertSourceToken = (chapter, verse, token) => ({
 export const moveSourceToken = (
   chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token) => {
 
-  return dispatch => {
+  return (dispatch, getState) => {
+    const initilAlignments = getVerseAlignments(getState(), chapter, verse);
     dispatch(unalignSourceToken(chapter, verse, prevAlignmentIndex, token));
 
     if (prevAlignmentIndex === nextAlignmentIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
-      // TRICKY: shift the next index since we removed an alignment
-      const index = shiftRelativeToRemoved(nextAlignmentIndex,
-        prevAlignmentIndex);
+      const sourceMerged = (initilAlignments[prevAlignmentIndex] && initilAlignments[prevAlignmentIndex].sourceNgram && initilAlignments[prevAlignmentIndex].sourceNgram.length) > 1;
+      let index = nextAlignmentIndex;
+      if (!sourceMerged) {
+        // TRICKY: shift the next index since we removed an alignment
+        index = shiftRelativeToRemoved(nextAlignmentIndex,
+          prevAlignmentIndex);
+      }
       dispatch(alignSourceToken(chapter, verse, index, token));
     }
   };

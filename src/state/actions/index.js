@@ -158,13 +158,13 @@ export const moveSourceToken = (
   chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token) => {
 
   return (dispatch, getState) => {
-    const initilAlignments = getVerseAlignments(getState(), chapter, verse);
+    const initialAlignments = getVerseAlignments(getState(), chapter, verse);
     dispatch(unalignSourceToken(chapter, verse, prevAlignmentIndex, token));
 
     if (prevAlignmentIndex === nextAlignmentIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
-      const sourceMerged = (initilAlignments[prevAlignmentIndex] && initilAlignments[prevAlignmentIndex].sourceNgram && initilAlignments[prevAlignmentIndex].sourceNgram.length) > 1;
+      const sourceMerged = (initialAlignments[prevAlignmentIndex] && initialAlignments[prevAlignmentIndex].sourceNgram && initialAlignments[prevAlignmentIndex].sourceNgram.length) > 1;
       let index = nextAlignmentIndex;
       if (!sourceMerged) {
         // TRICKY: shift the next index since we removed an alignment

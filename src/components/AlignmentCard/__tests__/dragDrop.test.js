@@ -51,7 +51,7 @@ describe('acceptable drops', () => {
 describe('unacceptable drops', () => {
 
   describe('single word alignments', () => {
-    it('is dropped on it\'s current alignment', () => {
+    it('dropped on it\'s current alignment is not allowed', () => {
       const source = {
         alignmentIndex: 1,
         wordIndex: 1,
@@ -66,7 +66,7 @@ describe('unacceptable drops', () => {
       expect(result).toEqual(false);
     });
 
-    it('is dropped on an empty alignment', () => {
+    it('dropped on an empty alignment is not allowed', () => {
       const source = {
         alignmentIndex: 2,
         wordIndex: 1,
@@ -80,17 +80,32 @@ describe('unacceptable drops', () => {
       const result = canDropPrimaryToken(target, source);
       expect(result).toEqual(false);
     });
+
+    it('dropped on a different single alignment is allowed', () => {
+      const source = {
+        alignmentIndex: 2,
+        wordIndex: 1,
+        alignmentLength: 1
+      };
+      const target = {
+        sourceNgram: ['word'],
+        targetNgram: [],
+        alignmentIndex: 1
+      };
+      const result = canDropPrimaryToken(target, source);
+      expect(result).toEqual(true);
+    });
   });
 
   describe('multi-word (merged) alignments', () => {
-    test('last word is dropped on a previous adjacent alignment', () => {
+    test('last word dropped on a previous adjacent alignment is allowed', () => {
       const source = makeMergedSource('move left', 'right word');
       const target = makeMergedTarget();
       const result = canDropPrimaryToken(target, source);
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
-    test('first word is dropped on a next adjacent alignment', () => {
+    test('first word dropped on a next adjacent alignment is allowed', () => {
       const source = {
         alignmentIndex: 1,
         wordIndex: 0,
@@ -102,10 +117,10 @@ describe('unacceptable drops', () => {
         alignmentIndex: 2
       };
       const result = canDropPrimaryToken(target, source);
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
-    test('last word is dropped on a next adjacent alignment', () => {
+    test('last word dropped on a next adjacent alignment is allowed', () => {
       const source = {
         alignmentIndex: 1,
         wordIndex: 1,
@@ -117,10 +132,10 @@ describe('unacceptable drops', () => {
         alignmentIndex: 2
       };
       const result = canDropPrimaryToken(target, source);
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
-    test('first word is dropped on a previous adjacent alignment', () => {
+    test('first word dropped on a previous adjacent alignment is allowed', () => {
       const source = {
         alignmentIndex: 2,
         wordIndex: 0,
@@ -132,7 +147,7 @@ describe('unacceptable drops', () => {
         alignmentIndex: 1
       };
       const result = canDropPrimaryToken(target, source);
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
   });
 });

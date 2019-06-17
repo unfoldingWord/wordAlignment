@@ -153,8 +153,8 @@ const render = (alignments, suggestions, numSourceTokens) => {
   const tokenIndex = indexTokens(alignments, suggestions);
   const alignmentSuggestionsIndex = indexAlignmentSuggestions(tokenIndex);
 
-  let alignmentSourceIndex = [];
-  let suggestionSourceIndex = [];
+  const alignmentSourceIndex = [];
+  const suggestionSourceIndex = [];
   const targetIndex = {};
   for (let aIndex = 0; aIndex < alignments.length; aIndex++) {
     for (const pos of alignments[aIndex].targetNgram) {
@@ -213,7 +213,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
   }
 
   // build output
-  let suggestedAlignments = [];
+  const suggestedAlignments = [];
   let alignmentQueue = []; // track how many alignments span a suggestion
   let suggestionStateIsValid = true;
   for (let tIndex = 0; tIndex < numSourceTokens; tIndex++) {

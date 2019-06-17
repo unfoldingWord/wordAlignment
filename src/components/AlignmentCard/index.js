@@ -41,42 +41,25 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   // const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
   // const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
 
-  const source = dragSourceProps.token && dragSourceProps.token.text || '';
-  const dest = dropTargetProps.sourceNgram && dropTargetProps.sourceNgram.length && dropTargetProps.sourceNgram[0] && dropTargetProps.sourceNgram[0].text || '';
-  console.log(`canDropPrimaryToken() - from '${source}' to '${dest}'`, {emptyTarget, singleTarget, mergedTarget, singleSource, mergedSource, alignmentDelta, different});
-
-  // limit all drags from merged source to adjacent alignments
-  // const nonAdjacent = Math.abs(alignmentDelta) > 1;
-  // if(mergedSource && nonAdjacent) { // if these primary tokens are not next to each other, skip
-  //   console.log("canDropPrimaryToken() - merged source not adjacent - false");
-  //   return false;
-  // }
-
-  // single to single
-  // TRICKY: make sure we've moved
+  // moving single word to another single (new merge)
+  // TRICKY: make sure this is to a different word
   if(singleSource && singleTarget && different) {
-    console.log("canDropPrimaryToken() - single to different single - true");
     return true;
   }
 
-  // single to merged group
+  // moving single word to merged group
   if(singleSource && mergedTarget) {
-    console.log("canDropPrimaryToken() - single to merged group - true");
     return true;
   }
-
   
-  if(mergedSource) {
-    if (emptyTarget) { // merged group to empty
+  if(mergedSource) { // removing a word from a merged group
+    if (emptyTarget) { // moving word from merged group to empty (unmerge)
       if (!different) { // if unmerge target for this group
-        console.log("canDropPrimaryToken() - merged group to unmerge target - true");
         return true;
       }
-    } else if (singleTarget) { // merged group to single
-      console.log("canDropPrimaryToken() - merged group to single - true");
+    } else if (singleTarget) { // moving word from merged group to a single word (new merge)
       return true;
-    } else if (mergedTarget && different) { // merged group to different merged group
-      console.log("canDropPrimaryToken() - merged group to different merged group - true");
+    } else if (mergedTarget && different) { //  moving word from merged group to a different merged group
       return true;
     }
     
@@ -89,8 +72,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
     // if(!moved && rightPlaceholder && rightWord) return true;
   }
 
-  console.log("canDropPrimaryToken() - default, false");
-  return false;
+  return false; // any other destinations are not allowed
 };
 
 

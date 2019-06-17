@@ -3,7 +3,7 @@ import {migrateChapterAlignments} from '../../utils/migrations';
 import Lexer from 'wordmap-lexer';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
-import {getRenderedVerseAlignments, getVerseAlignments} from '../reducers';
+import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';
 import {areAlignmentsEquivalent} from '../../utils/alignmentValidation';
 
 /**
@@ -164,10 +164,11 @@ export const moveSourceToken = (
     if (prevAlignmentIndex === nextAlignmentIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
+      // if we are dragging from an alignment with multiple merged words
       const sourceMerged = (initialAlignments[prevAlignmentIndex] && initialAlignments[prevAlignmentIndex].sourceNgram && initialAlignments[prevAlignmentIndex].sourceNgram.length) > 1;
       let index = nextAlignmentIndex;
       if (!sourceMerged) {
-        // TRICKY: shift the next index since we removed an alignment
+        // TRICKY: shift the next index since we removed an alignment (i.e. we merged a single word into a merged alignment)
         index = shiftRelativeToRemoved(nextAlignmentIndex,
           prevAlignmentIndex);
       }

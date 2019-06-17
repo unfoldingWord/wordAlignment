@@ -2220,8 +2220,8 @@ describe('source tokens', () => {
  */
 export function reducerTest(description, reducer, stateBefore, action, stateAfter) {
   it(description, function () {
-    deepFreeze(action);
-    deepFreeze(stateBefore);
+    deepFreeze(action); // protect aganst changes
+    deepFreeze(stateBefore); // protect aganst changes
 
     const rawResults = reducer(stateBefore, action);
     const results = _.cloneDeep(rawResults);

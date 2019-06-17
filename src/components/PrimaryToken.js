@@ -80,7 +80,6 @@ class PrimaryToken extends Component {
               style={{...internalStyle.word, ...style}}/>
       </div>
     );
-    console.log("render -" + token.text, {canDrag, isDragging, hover, disabled});
     return connectDragSource(
       <div style={{flex: 1, position: 'relative'}}
            onClick={this._handleClick}
@@ -158,24 +157,12 @@ const dragHandler = {
     };
   },
   canDrag() {
-    // TODO remove
-    // canDrag(props) {
-    // const {wordIndex, alignmentLength} = props;
-      // const firstWord = wordIndex === 0;
-      // const lastWord = wordIndex === alignmentLength - 1;
-      // if (alignmentLength > 1) {
-      //   return firstWord || lastWord;
-      // } else {
-      //   return true;
-      // }
-    const canDrag_ = true;
-    console.log("dragHandler.canDrag()=" + canDrag_);
+    const canDrag_ = true; // for now at least, this is always true that we can drag from anywhere
     return canDrag_;
   },
   isDragging(props, monitor) {
     let item = monitor.getItem();
-    const isDragging_ = item.alignmentIndex === props.alignmentIndex;
-    console.log("dragHandler.isDragging()=" + isDragging_);
+    const isDragging_ = item.alignmentIndex === props.alignmentIndex; // if we are dragging this item
     return isDragging_;
   }
 };

@@ -152,7 +152,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
   // index things
   const tokenIndex = indexTokens(alignments, suggestions);
   const alignmentSuggestionsIndex = indexAlignmentSuggestions(tokenIndex);
-  validateAlignments(alignments, numSourceTokens, "alignments");
+  validateAlignments(alignments, numSourceTokens, "Pre-RenderedAlignments ");
 
   const alignmentSourceIndex = [];
   const suggestionSourceIndex = [];
@@ -373,18 +373,17 @@ const render = (alignments, suggestions, numSourceTokens) => {
   }
 
   suggestedAlignments.sort(objectComparator);
-  validateAlignments(suggestedAlignments, numSourceTokens, "suggestedAlignments");
+  validateAlignments(suggestedAlignments, numSourceTokens, "renderedAlignments");
   return suggestedAlignments;
 };
 
-// TODO: should we remove this for release?  It is useful to have warnings in log that alignments are arry
 /**
- * does a sanity check on alignments
+ * does a sanity check on alignments - adds entries to log file on alignment/rendering errors
  * @param {[Object]} alignments
  * @param {Number} numSourceTokens
- * @param {String} varName
+ * @param {String} title - identifier of alignment being validated
  */
-function validateAlignments(alignments, numSourceTokens, varName) {
+function validateAlignments(alignments, numSourceTokens, title) {
   try {
     const sourceIndices = [];
     let lastAlignStart = -1;
@@ -392,7 +391,7 @@ function validateAlignments(alignments, numSourceTokens, varName) {
       const alignment = alignments[i];
       const alignStart = alignment.sourceNgram[0];
       if (alignStart <= lastAlignStart) {
-        console.warn(`renderedAlignments '${varName}' alignment start primary word ${alignStart} should be greater than last alignment ${lastAlignStart}`);
+        console.error(`'${title}' alignment start primary word ${alignStart} should be greater than last alignment ${lastAlignStart}`);
       }
       lastAlignStart = alignStart;
       
@@ -400,16 +399,16 @@ function validateAlignments(alignments, numSourceTokens, varName) {
       for (let j = 0, srcLen = alignment.sourceNgram.length; j < srcLen; j++) {
         const tIndex = alignment.sourceNgram[j];
         if (tIndex < 0) {
-          console.warn(`renderedAlignments '${varName}' primary word ${tIndex} is invalid`);
+          console.error(`'${title}' primary word ${tIndex} is invalid`);
         }
         if (tIndex >= numSourceTokens) {
-          console.warn(`renderedAlignments '${varName}' primary word ${tIndex} is too large`);
+          console.error(`'${title}' primary word ${tIndex} is too large`);
         }
         if (tIndex <= lastIndex) {
-          console.warn(`renderedAlignments '${varName}' primary word ${tIndex} should be greater than last word ${lastIndex}`);
+          console.error(`'${title}' primary word ${tIndex} should be greater than last word ${lastIndex}`);
         }
         if (sourceIndices.includes(tIndex)) {
-          console.warn(`renderedAlignments '${varName}' duplicate primary word: ${tIndex}`);
+          console.error(`'${title}' duplicate primary word: ${tIndex}`);
         }
         sourceIndices.push(tIndex);
         lastIndex = tIndex;
@@ -417,11 +416,11 @@ function validateAlignments(alignments, numSourceTokens, varName) {
     }
     for (let k = 0; k < numSourceTokens; k++) {
       if (!sourceIndices.includes(k)) {
-        console.warn(`renderedAlignments '${varName}' is missing primary word: ${k}`);
+        console.error(`'${title}' is missing primary word: ${k}`);
       }
     }
   } catch(e) {
-    console.error(`renderedAlignments '${varName}' validation error`, e);
+    console.error(`'${title}' validation error`, e);
   }
 }
 

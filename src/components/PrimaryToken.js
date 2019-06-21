@@ -77,7 +77,10 @@ class PrimaryToken extends Component {
         <Word word={token.text}
               direction={direction}
               disabled={disabled}
-              style={{...internalStyle.word, ...style}}/>
+              style={{...internalStyle.word, ...style}}
+              occurrence={token.occurrence}
+              occurrences={token.occurrences}
+        />
       </div>
     );
     return connectDragSource(

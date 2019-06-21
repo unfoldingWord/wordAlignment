@@ -324,10 +324,10 @@ describe('render alignments', () => {
         }
       ]);
     });
-    
+
     it('it should handle discontiguous alignments', () => {
       const state = {
-        sourceTokens: Array(17).fill(0),
+        sourceTokens: Array(7).fill(0),
         alignments: [
           {
             "sourceNgram": [
@@ -374,94 +374,6 @@ describe('render alignments', () => {
             ],
             "targetNgram": [
               10
-            ]
-          },
-          {
-            "sourceNgram": [
-              7
-            ],
-            "targetNgram": [
-              11
-            ]
-          },
-          {
-            "sourceNgram": [
-              8
-            ],
-            "targetNgram": [
-              12,
-              13
-            ]
-          },
-          {
-            "sourceNgram": [
-              9
-            ],
-            "targetNgram": [
-              17,
-              18
-            ]
-          },
-          {
-            "sourceNgram": [
-              10
-            ],
-            "targetNgram": [
-              14,
-              15,
-              16
-            ]
-          },
-          {
-            "sourceNgram": [
-              11
-            ],
-            "targetNgram": [
-              19
-            ]
-          },
-          {
-            "sourceNgram": [
-              12
-            ],
-            "targetNgram": [
-              20,
-              21
-            ]
-          },
-          {
-            "sourceNgram": [
-              13
-            ],
-            "targetNgram": [
-              22,
-              23,
-              24
-            ]
-          },
-          {
-            "sourceNgram": [
-              14
-            ],
-            "targetNgram": [
-              25
-            ]
-          },
-          {
-            "sourceNgram": [
-              15
-            ],
-            "targetNgram": [
-              26,
-              27
-            ]
-          },
-          {
-            "sourceNgram": [
-              16
-            ],
-            "targetNgram": [
-              28
             ]
           }
         ],
@@ -513,84 +425,11 @@ describe('render alignments', () => {
             "targetNgram": [
               10
             ]
-          },
-          {
-            "sourceNgram": [
-              7
-            ],
-            "targetNgram": []
-          },
-          {
-            "sourceNgram": [
-              8
-            ],
-            "targetNgram": [
-              13
-            ]
-          },
-          {
-            "sourceNgram": [
-              9
-            ],
-            "targetNgram": []
-          },
-          {
-            "sourceNgram": [
-              10
-            ],
-            "targetNgram": [
-              15
-            ]
-          },
-          {
-            "sourceNgram": [
-              11
-            ],
-            "targetNgram": [
-              19
-            ]
-          },
-          {
-            "sourceNgram": [
-              12
-            ],
-            "targetNgram": []
-          },
-          {
-            "sourceNgram": [
-              13
-            ],
-            "targetNgram": [
-              24
-            ]
-          },
-          {
-            "sourceNgram": [
-              14
-            ],
-            "targetNgram": [
-              22,
-              23
-            ]
-          },
-          {
-            "sourceNgram": [
-              15
-            ],
-            "targetNgram": [
-              27
-            ]
-          },
-          {
-            "sourceNgram": [
-              16
-            ],
-            "targetNgram": []
           }
         ]
       };
       const result = testRenderer(state);
-      expect(result.length).toEqual(16);
+      expect(result.length).toEqual(6);
       expect(cleanOutSort(result)).toEqual([
         {
           "alignments": [
@@ -655,124 +494,147 @@ describe('render alignments', () => {
           "targetNgram": [
             10
           ]
-        },
+        }
+      ]);
+    });
+
+    it('it should handle middle unalignment', () => {
+      const state = {
+        sourceTokens: Array(11).fill(0),
+        alignments: [
+          {
+            "sourceNgram": [
+              0,
+              1,
+              2,
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              3,
+              5,
+              6,
+              7,
+              8,
+              10
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              9
+            ],
+            "targetNgram": []
+          }
+        ],
+        suggestions: [
+          {
+            "sourceNgram": [
+              0
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              1
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              2
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              3
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              5
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              6
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              7
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              8
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              9
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              10
+            ],
+            "targetNgram": []
+          }
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result.length).toEqual(3);
+      expect(cleanOutSort(result)).toEqual([
         {
           "alignments": [
-            6
+            0
           ],
           "sourceNgram": [
-            7
+            0,
+            1,
+            2,
+            4
           ],
-          "targetNgram": [
-            11
-          ]
+          "targetNgram": []
         },
         {
           "alignments": [
-            7
+            1
           ],
           "sourceNgram": [
-            8
+            3,
+            5,
+            6,
+            7,
+            8,
+            10
           ],
-          "targetNgram": [
-            12,
-            13
-          ]
+          "targetNgram": []
         },
         {
           "alignments": [
-            8
+            2
           ],
           "sourceNgram": [
             9
           ],
-          "targetNgram": [
-            17,
-            18
-          ]
-        },
-        {
-          "alignments": [
-            9
-          ],
-          "sourceNgram": [
-            10
-          ],
-          "targetNgram": [
-            14,
-            15,
-            16
-          ]
-        },
-        {
-          "alignments": [
-            10
-          ],
-          "sourceNgram": [
-            11
-          ],
-          "targetNgram": [
-            19
-          ]
-        },
-        {
-          "alignments": [
-            11
-          ],
-          "sourceNgram": [
-            12
-          ],
-          "targetNgram": [
-            20,
-            21
-          ]
-        },
-        {
-          "alignments": [
-            12
-          ],
-          "sourceNgram": [
-            13
-          ],
-          "targetNgram": [
-            22,
-            23,
-            24
-          ]
-        },
-        {
-          "alignments": [
-            13
-          ],
-          "sourceNgram": [
-            14
-          ],
-          "targetNgram": [
-            25
-          ]
-        },
-        {
-          "alignments": [
-            14
-          ],
-          "sourceNgram": [
-            15
-          ],
-          "targetNgram": [
-            26,
-            27
-          ]
-        },
-        {
-          "alignments": [
-            15
-          ],
-          "sourceNgram": [
-            16
-          ],
-          "targetNgram": [
-            28
-          ]
+          "targetNgram": []
         }
       ]);
     });

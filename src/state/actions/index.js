@@ -157,15 +157,21 @@ export const insertSourceToken = (chapter, verse, token) => ({
 export const moveSourceToken = (
   chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token) => {
 
-  return dispatch => {
+  return (dispatch, getState) => {
+    const initialAlignments = getVerseAlignments(getState(), chapter, verse);
     dispatch(unalignSourceToken(chapter, verse, prevAlignmentIndex, token));
 
     if (prevAlignmentIndex === nextAlignmentIndex) {
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
-      // TRICKY: shift the next index since we removed an alignment
-      const index = shiftRelativeToRemoved(nextAlignmentIndex,
-        prevAlignmentIndex);
+      // if we are dragging from an alignment with multiple merged words
+      const sourceMerged = (initialAlignments[prevAlignmentIndex] && initialAlignments[prevAlignmentIndex].sourceNgram && initialAlignments[prevAlignmentIndex].sourceNgram.length) > 1;
+      let index = nextAlignmentIndex;
+      if (!sourceMerged) {
+        // TRICKY: shift the next index since we removed an alignment (i.e. we merged a single word into a merged alignment)
+        index = shiftRelativeToRemoved(nextAlignmentIndex,
+          prevAlignmentIndex);
+      }
       dispatch(alignSourceToken(chapter, verse, index, token));
     }
   };

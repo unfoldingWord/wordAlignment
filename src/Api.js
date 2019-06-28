@@ -8,7 +8,8 @@ import {
   getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
-import Lexer from 'wordmap-lexer';
+import Lexer, { Token } from 'wordmap-lexer';
+import {Alignment, Ngram} from 'wordmap';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {
@@ -20,7 +21,8 @@ import {
   resetVerse, recordCheck,
   unalignTargetToken
 } from './state/actions';
-import SimpleCache from './utils/SimpleCache';
+import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
+import { migrateChapterAlignments } from './utils/migrations';
 
 export default class Api extends ToolApi {
   constructor() {
@@ -630,27 +632,62 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     const memory = [];
-    const cache = new SimpleCache(SimpleCache.SESSION_STORAGE);
+    const cache = new SimpleCache(SESSION_STORAGE);
 
     for(let i = 0, len = projects.length; i < len; i++) {
+      const p = projects[i];
       if(p.getLanguageId() === languageId
        && p.getResourceId() === resourceId
        && p.getOriginalLanguageId() === originalLanguageId) {
-          const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getProjectId()}`;
+          const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getBookId()}`;
           const hit = cache.get(key);
           if(hit) {
-            memory.push.apply(memory, hit);
-          } else {
-            // TODO: load alignment memory and cache
-            const chaptersDir = path.join('alignmentData', p.getBookId());
-            // TODO: implement listDataDir
-            const chapterFiles = p.listDataDir(chaptersDir);
-            for(let c in chapterFiles) {
-              const chapterData = p.readDataFileSync(path.join(chaptersDir, c));
-              console.log(key, chapterData);
-              // TODO: load alignment data
+            // de-serilize the project memory
+            try {
+              const projectMemory = [];
+              const cachedAlignments = JSON.parse(hit);
+              for (let a of cachedAlignments) {
+                const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
+                const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
+                projectMemory.push(new Alignment(sourceNgram, targetNgram));
+              }
+              memory.push.apply(memory, projectMemory);
+              continue;
+            } catch (e) {
+              console.log(`Alignment memory cache is corrupt for ${key}`, e);
             }
           }
+
+          // cache miss
+          const projectMemory = [];
+          const chaptersDir = path.join('alignmentData', p.getBookId());
+          const chapterFiles = p.readDataDirSync(chaptersDir);
+          for(let c of chapterFiles) {
+            const chapterPath = path.join(chaptersDir, c);
+            try {
+              const chapterData = p.readDataFileSync(chapterPath);
+              const json = JSON.parse(chapterData);
+              const alignmentData = migrateChapterAlignments(json, {}, {});
+              
+              // format alignments as alignment memory
+              for (const verse of Object.keys(alignmentData)) {
+                for (const a of alignmentData[verse].alignments) {
+                  if (a.sourceNgram.length && a.targetNgram.length) {
+                    const sourceNgramTokens = a.sourceNgram.map(p => new Token(alignmentData[verse].sourceTokens[p]));
+                    const targetNgramTokens = a.targetNgram.map(p => new Token(alignmentData[verse].targetTokens[p]));
+                    const alignment = new Alignment(new Ngram(sourceNgramTokens), new Ngram(targetNgramTokens));
+                    memory.push(alignment);
+                    projectMemory.push(alignment.toJSON(true));
+                  }
+                }
+              }
+            } catch (e) {
+              console.error(`Failed to load alignment data from ${chapterPath}`, e);
+            }
+          }
+
+          // cache serialized project memory
+          cache.set(key, JSON.stringify(projectMemory));
        }
     }
 

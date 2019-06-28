@@ -536,7 +536,8 @@ class Container extends Component {
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
-    if(sourceLanguage === "hbo") {
+    const isHebrew = sourceLanguage === "hbo";
+    if(isHebrew) {
       sourceStyle = {fontSize: "175%", paddingTop: "8px", lineHeight: "100%"};
     }
 
@@ -579,7 +580,8 @@ class Container extends Component {
               onCancelSuggestion={this.handleRemoveSuggestion}
               onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
               actions={actions}
-              contextId={contextId}/>
+              contextId={contextId}
+              isHebrew={isHebrew}/>
           ) : (
             <MissingBibleError translate={translate}/>
           )}

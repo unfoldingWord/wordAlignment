@@ -40,7 +40,8 @@ class AlignmentGrid extends Component {
       onAcceptTokenSuggestion,
       sourceStyle,
       alignments,
-      contextId
+      contextId,
+      isHebrew
     } = this.props;
 
     if (!contextId) {
@@ -83,6 +84,7 @@ class AlignmentGrid extends Component {
                   onDrop={item => this.handleDrop(alignment.index, item)}
                   actions={actions}
                   lexicons={lexicons}
+                  isHebrew={isHebrew}
                 />
                 {/* placeholder for un-merging primary words */}
                 <AlignmentCard
@@ -97,6 +99,7 @@ class AlignmentGrid extends Component {
                   onDrop={item => this.handleDrop(alignment.index, item)}
                   actions={actions}
                   lexicons={lexicons}
+                  isHebrew={isHebrew}
                 />
               </React.Fragment>
             );
@@ -137,7 +140,8 @@ AlignmentGrid.propTypes = {
   actions: PropTypes.object.isRequired,
   lexicons: PropTypes.object.isRequired,
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
-  targetDirection: PropTypes.oneOf(['ltr', 'rtl'])
+  targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
+  isHebrew: PropTypes.bool.isRequired
 };
 
 AlignmentGrid.defaultProps = {

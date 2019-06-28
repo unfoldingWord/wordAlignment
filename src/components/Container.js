@@ -82,6 +82,7 @@ export const generateMAP = (
     setTimeout(() => {
       // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
       const map = new WordMap({targetNgramLength: 5});
+      // TODO: we can deprecate this in favor of fetching global alignment memory
       for (const chapter of Object.keys(targetBook)) {
         const chapterAlignments = getChapterAlignments(state, chapter);
         for (const verse of Object.keys(chapterAlignments)) {
@@ -180,7 +181,7 @@ class Container extends Component {
   componentDidUpdate(prevProps) {
     const {
       verseIsAligned,
-      verseIsComplete
+      verseIsComplete,
     } = this.props;
 
     const {canAutoComplete} = this.state;
@@ -252,7 +253,11 @@ class Container extends Component {
       tc: {
         contextId: {reference: {chapter, verse}},
         targetBook,
-        tools
+        tools,
+        project
+      },
+      tool: {
+        api
       }
     } = props;
 
@@ -260,7 +265,7 @@ class Container extends Component {
     const state = store.getState();
     return generateMAP(targetBook, state, chapter, verse).then(map => {
       for (const key of Object.keys(tools)) {
-        // TODO: the tools should give tokens if possible.
+        // TODO: we can deprecate this in favor of global alignment memory
         const alignmentMemory = tools[key].trigger('getAlignmentMemory');
         if (alignmentMemory) {
           for (const alignment of alignmentMemory) {
@@ -268,7 +273,31 @@ class Container extends Component {
               alignment.targetText);
           }
         }
+
+        // TODO: cache the global alignment memory outside of the wordMAP initialization/re-loading.
+        const globalAlignmentMemory = tools[key].trigger(
+          'getGlobalAlignmentMemory',
+           project.getLanguageId(),
+           project.getResourceId(),
+           project.getOriginalLanguageId()
+        );
+
+        if(globalAlignmentMemory) {
+          for (const alignment of alignmentMemory) {
+            map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
+          }
+        }
       }
+
+      const globalAlignmentMemory = api.getGlobalAlignmentMemory(
+        project.getLanguageId(),
+        project.getResourceId(),
+        project.getOriginalLanguageId()
+      );
+      for (const alignment of globalAlignmentMemory) {
+        map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
+      }
+
       return Promise.resolve(map);
     });
   }

@@ -20,6 +20,7 @@ import {
   resetVerse, recordCheck,
   unalignTargetToken
 } from './state/actions';
+import SimpleCache from './utils/SimpleCache';
 
 export default class Api extends ToolApi {
   constructor() {
@@ -613,5 +614,46 @@ export default class Api extends ToolApi {
     } else {
       return 0;
     }
+  }
+
+  /**
+   * Returns an array of alignment memory from all projects that match the given parameters.
+   * 
+   * @param {string} languageId the target language id
+   * @param {string} resourceId the resource id
+   * @param {string} originalLanguageId the original language id
+   */
+  getGlobalAlignmentMemory(languageId, resourceId, originalLanguageId) {
+    const {
+      tc: {
+        projects
+      }
+    } = this.props;
+    const memory = [];
+    const cache = new SimpleCache(SimpleCache.SESSION_STORAGE);
+
+    for(let i = 0, len = projects.length; i < len; i++) {
+      if(p.getLanguageId() === languageId
+       && p.getResourceId() === resourceId
+       && p.getOriginalLanguageId() === originalLanguageId) {
+          const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getProjectId()}`;
+          const hit = cache.get(key);
+          if(hit) {
+            memory.push.apply(memory, hit);
+          } else {
+            // TODO: load alignment memory and cache
+            const chaptersDir = path.join('alignmentData', p.getBookId());
+            // TODO: implement listDataDir
+            const chapterFiles = p.listDataDir(chaptersDir);
+            for(let c in chapterFiles) {
+              const chapterData = p.readDataFileSync(path.join(chaptersDir, c));
+              console.log(key, chapterData);
+              // TODO: load alignment data
+            }
+          }
+       }
+    }
+
+    return memory;
   }
 }

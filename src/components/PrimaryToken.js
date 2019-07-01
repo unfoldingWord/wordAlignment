@@ -99,15 +99,17 @@ class PrimaryToken extends Component {
    * @private
    */
   _handleClick(e) {
-    const {translate, token} = this.props;
+    const {translate, token, isHebrew} = this.props;
     const lexiconData = lexiconHelpers.lookupStrongsNumbers(token.strong, this.props.actions.getLexiconData);
     const positionCoord = e.target;
+    const fontSize = isHebrew ? '1.7em' : '1.2em';
     const PopoverTitle = (
-      <strong style={{fontSize: '1.2em'}}>{token.text}</strong>
+      <strong style={{fontSize}}>{token.text}</strong>
     );
     const {showPopover} = this.props.actions;
     const wordDetails = (
-      <WordLexiconDetails lexiconData={lexiconData} wordObject={token} translate={translate}/>
+      <WordLexiconDetails lexiconData={lexiconData} wordObject={token} translate={translate}
+                          isHebrew={isHebrew}/>
     );
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
@@ -130,7 +132,8 @@ PrimaryToken.propTypes = {
   dragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
-  isDragging: PropTypes.bool.isRequired
+  isDragging: PropTypes.bool.isRequired,
+  isHebrew: PropTypes.bool.isRequired
 };
 
 PrimaryToken.defaultProps = {

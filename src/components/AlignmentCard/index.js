@@ -115,7 +115,8 @@ class DroppableAlignmentCard extends Component {
       sourceDirection,
       targetDirection,
       isSuggestion,
-      connectDropTarget
+      connectDropTarget,
+      isHebrew
     } = this.props;
 
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
@@ -138,6 +139,7 @@ class DroppableAlignmentCard extends Component {
         alignmentIndex={alignmentIndex}
         lexicons={lexicons}
         actions={actions}
+        isHebrew={isHebrew}
       />
     ));
     const bottomWordCards = targetNgram.map((token, index) => (
@@ -191,7 +193,8 @@ DroppableAlignmentCard.propTypes = {
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
     loadLexiconEntry: PropTypes.func.isRequired
-  })
+  }),
+  isHebrew: PropTypes.bool.isRequired
 };
 
 DroppableAlignmentCard.defaultProps = {

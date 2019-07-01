@@ -102,8 +102,9 @@ class PrimaryToken extends Component {
     const {translate, token, isHebrew} = this.props;
     const lexiconData = lexiconHelpers.lookupStrongsNumbers(token.strong, this.props.actions.getLexiconData);
     const positionCoord = e.target;
+    const fontSize = isHebrew ? '1.7em' : '1.2em';
     const PopoverTitle = (
-      <strong style={{fontSize: '1.2em'}}>{token.text}</strong>
+      <strong style={{fontSize}}>{token.text}</strong>
     );
     const {showPopover} = this.props.actions;
     const wordDetails = (

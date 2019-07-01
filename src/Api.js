@@ -646,13 +646,15 @@ export default class Api extends ToolApi {
             try {
               const projectMemory = [];
               const cachedAlignments = JSON.parse(hit);
-              for (let a of cachedAlignments) {
-                const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
-                const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
-                projectMemory.push(new Alignment(sourceNgram, targetNgram));
+              if(cachedAlignments.length > 0) {
+                for (let a of cachedAlignments) {
+                  const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
+                  const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
+                  projectMemory.push(new Alignment(sourceNgram, targetNgram));
+                }
+                memory.push.apply(memory, projectMemory);
+                continue;
               }
-              memory.push.apply(memory, projectMemory);
-              continue;
             } catch (e) {
               console.log(`Alignment memory cache is corrupt for ${key}`, e);
             }

@@ -295,7 +295,7 @@ class Container extends Component {
         project.getOriginalLanguageId()
       );
       for (const alignment of globalAlignmentMemory) {
-        map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
+        map.appendAlignmentMemory(alignment);
       }
 
       return Promise.resolve(map);

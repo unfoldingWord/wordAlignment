@@ -24,6 +24,8 @@ import {
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
 
+const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
+
 export default class Api extends ToolApi {
   constructor() {
     super();
@@ -38,6 +40,7 @@ export default class Api extends ToolApi {
     this._showResetDialog = this._showResetDialog.bind(this);
     this.getInvalidChecks = this.getInvalidChecks.bind(this);
     this.getProgress = this.getProgress.bind(this);
+    this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
   }
 
   /**
@@ -347,8 +350,26 @@ export default class Api extends ToolApi {
    */
   toolWillConnect() {
     const {clearState} = this.props;
+    this._clearCachedAlignmentMemory();
     clearState();
     this._loadBookAlignments(this.props);
+  }
+
+  /**
+   * Clears the project's cached alignment memory.
+   * Memory is cached while looking up global alignment memory.
+   */
+  _clearCachedAlignmentMemory() {
+    if(this.props.tc && this.props.tc.project) {
+      const {tc: {project}} = this.props;
+      try {
+        const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
+        const key = `alignment-memory.${project.getLanguageId()}-${project.getResourceId()}-${project.getBookId()}`;
+        cache.remove(key);
+      } catch (e) {
+        console.error('Failed to clear alignment cache', e);
+      }
+    }
   }
 
   /**
@@ -415,6 +436,7 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillDisconnect() {
+    this._clearCachedAlignmentMemory();
   }
 
   /**
@@ -632,7 +654,7 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     const memory = [];
-    const cache = new SimpleCache(SESSION_STORAGE);
+    const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
 
     for(let i = 0, len = projects.length; i < len; i++) {
       const p = projects[i];

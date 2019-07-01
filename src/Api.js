@@ -642,12 +642,13 @@ export default class Api extends ToolApi {
 
   /**
    * Returns an array of alignment memory from all projects that match the given parameters.
-   * 
+   *
    * @param {string} languageId the target language id
    * @param {string} resourceId the resource id
    * @param {string} originalLanguageId the original language id
+   * @param {string} bookIdFilter the id of the book to exclude. This will be the current project.
    */
-  getGlobalAlignmentMemory(languageId, resourceId, originalLanguageId) {
+  getGlobalAlignmentMemory(languageId, resourceId, originalLanguageId, bookIdFilter=null) {
     const {
       tc: {
         projects
@@ -660,7 +661,8 @@ export default class Api extends ToolApi {
       const p = projects[i];
       if(p.getLanguageId() === languageId
        && p.getResourceId() === resourceId
-       && p.getOriginalLanguageId() === originalLanguageId) {
+       && p.getOriginalLanguageId() === originalLanguageId
+       && p.getBookId() !== bookIdFilter) {
           const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getBookId()}`;
           const hit = cache.get(key);
           if(hit) {
@@ -692,7 +694,7 @@ export default class Api extends ToolApi {
               const chapterData = p.readDataFileSync(chapterPath);
               const json = JSON.parse(chapterData);
               const alignmentData = migrateChapterAlignments(json, {}, {});
-              
+
               // format alignments as alignment memory
               for (const verse of Object.keys(alignmentData)) {
                 for (const a of alignmentData[verse].alignments) {

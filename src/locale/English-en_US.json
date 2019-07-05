@@ -172,12 +172,15 @@
   "ithpolel": "Ithpolel",
   "ittaphal": "Ittaphal",
   "morph_missing": "Morphology not found",
+  "unsaved_changes": "You have unsaved changes.",
+  "attention": "Attention:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",
     "cancel_button": "Cancel",
     "save_button": "Save",
-    "next_button": "Next"
+    "next_button": "Next",
+    "discard_changes": "Discard Changes"
   },
   "menu": {
     "no_results": "No results",

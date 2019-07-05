@@ -172,12 +172,15 @@
   "ithpolel": "Ithpolel",
   "ittaphal": "Ittaphal",
   "morph_missing": "Morphology not found",
+  "unsaved_changes": "You have unsaved changes.",
+  "attention": "Attention:",
   "buttons": {
     "ok_button": "ठीक",
     "back_button": "वापस जाओ",
     "cancel_button": "रद्द करना",
     "save_button": "बचाना",
-    "next_button": "आगामी"
+    "next_button": "आगामी",
+    "discard_changes": "Discard Changes"
   },
   "menu": {
     "no_results": "No results",

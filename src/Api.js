@@ -8,7 +8,8 @@ import {
   getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
-import Lexer from 'wordmap-lexer';
+import Lexer, { Token } from 'wordmap-lexer';
+import {Alignment, Ngram} from 'wordmap';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {
@@ -20,6 +21,10 @@ import {
   resetVerse, recordCheck,
   unalignTargetToken
 } from './state/actions';
+import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
+import { migrateChapterAlignments } from './utils/migrations';
+
+const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
 export default class Api extends ToolApi {
   constructor() {
@@ -35,6 +40,7 @@ export default class Api extends ToolApi {
     this._showResetDialog = this._showResetDialog.bind(this);
     this.getInvalidChecks = this.getInvalidChecks.bind(this);
     this.getProgress = this.getProgress.bind(this);
+    this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
   }
 
   /**
@@ -344,8 +350,26 @@ export default class Api extends ToolApi {
    */
   toolWillConnect() {
     const {clearState} = this.props;
+    this._clearCachedAlignmentMemory();
     clearState();
     this._loadBookAlignments(this.props);
+  }
+
+  /**
+   * Clears the project's cached alignment memory.
+   * Memory is cached while looking up global alignment memory.
+   */
+  _clearCachedAlignmentMemory() {
+    if(this.props.tc && this.props.tc.project) {
+      const {tc: {project}} = this.props;
+      try {
+        const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
+        const key = `alignment-memory.${project.getLanguageId()}-${project.getResourceId()}-${project.getBookId()}`;
+        cache.remove(key);
+      } catch (e) {
+        console.error('Failed to clear alignment cache', e);
+      }
+    }
   }
 
   /**
@@ -412,6 +436,7 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillDisconnect() {
+    this._clearCachedAlignmentMemory();
   }
 
   /**
@@ -613,5 +638,85 @@ export default class Api extends ToolApi {
     } else {
       return 0;
     }
+  }
+
+  /**
+   * Returns an array of alignment memory from all projects that match the given parameters.
+   *
+   * @param {string} languageId the target language id
+   * @param {string} resourceId the resource id
+   * @param {string} originalLanguageId the original language id
+   * @param {string} bookIdFilter the id of the book to exclude. This will be the current project.
+   */
+  getGlobalAlignmentMemory(languageId, resourceId, originalLanguageId, bookIdFilter=null) {
+    const {
+      tc: {
+        projects
+      }
+    } = this.props;
+    const memory = [];
+    const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
+
+    for(let i = 0, len = projects.length; i < len; i++) {
+      const p = projects[i];
+      if(p.getLanguageId() === languageId
+       && p.getResourceId() === resourceId
+       && p.getOriginalLanguageId() === originalLanguageId
+       && p.getBookId() !== bookIdFilter) {
+          const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getBookId()}`;
+          const hit = cache.get(key);
+          if(hit) {
+            // de-serilize the project memory
+            try {
+              const projectMemory = [];
+              const cachedAlignments = JSON.parse(hit);
+              if(cachedAlignments.length > 0) {
+                for (let a of cachedAlignments) {
+                  const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
+                  const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
+                  projectMemory.push(new Alignment(sourceNgram, targetNgram));
+                }
+                memory.push.apply(memory, projectMemory);
+                continue;
+              }
+            } catch (e) {
+              console.log(`Alignment memory cache is corrupt for ${key}`, e);
+            }
+          }
+
+          // cache miss
+          const projectMemory = [];
+          const chaptersDir = path.join('alignmentData', p.getBookId());
+          const chapterFiles = p.readDataDirSync(chaptersDir);
+          for(let c of chapterFiles) {
+            const chapterPath = path.join(chaptersDir, c);
+            try {
+              const chapterData = p.readDataFileSync(chapterPath);
+              const json = JSON.parse(chapterData);
+              const alignmentData = migrateChapterAlignments(json, {}, {});
+
+              // format alignments as alignment memory
+              for (const verse of Object.keys(alignmentData)) {
+                for (const a of alignmentData[verse].alignments) {
+                  if (a.sourceNgram.length && a.targetNgram.length) {
+                    const sourceNgramTokens = a.sourceNgram.map(p => new Token(alignmentData[verse].sourceTokens[p]));
+                    const targetNgramTokens = a.targetNgram.map(p => new Token(alignmentData[verse].targetTokens[p]));
+                    const alignment = new Alignment(new Ngram(sourceNgramTokens), new Ngram(targetNgramTokens));
+                    memory.push(alignment);
+                    projectMemory.push(alignment.toJSON(true));
+                  }
+                }
+              }
+            } catch (e) {
+              console.error(`Failed to load alignment data from ${chapterPath}`, e);
+            }
+          }
+
+          // cache serialized project memory
+          cache.set(key, JSON.stringify(projectMemory));
+       }
+    }
+
+    return memory;
   }
 }

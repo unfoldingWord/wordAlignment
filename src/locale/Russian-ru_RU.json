@@ -172,12 +172,15 @@
   "ithpolel": "Итполэль",
   "ittaphal": "Иттафаль",
   "morph_missing": "Морфология не найдена",
+  "unsaved_changes": "You have unsaved changes.",
+  "attention": "Attention:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Назад",
     "cancel_button": "Отменить",
     "save_button": "Сохранить",
-    "next_button": "Далее"
+    "next_button": "Далее",
+    "discard_changes": "Discard Changes"
   },
   "menu": {
     "no_results": "Нет результатов",

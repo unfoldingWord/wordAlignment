@@ -100,10 +100,15 @@ const styles = {
     color: 'var(--accent-color-dark)',
     verticalAlign: 'middle',
     marginRight: '5px',
-
     width: 20,
     height: 20
-  }
+  },
+  thumbSwitched: {
+    backgroundColor: 'var(--accent-color-dark)',
+  },
+  trackSwitched: {
+    backgroundColor: 'var(--accent-color)',
+  },
 };
 
 const InfoPopup = ({translate}) => (
@@ -194,6 +199,8 @@ class MAPControls extends React.Component {
 
           <Toggle
             style={styles.toggle}
+            thumbSwitchedStyle={styles.thumbSwitched}
+            trackSwitchedStyle={styles.trackSwitched}
             iconStyle={styles.toggleIcon}
             labelStyle={styles.toggleLabel}
             labelPosition={'right'}

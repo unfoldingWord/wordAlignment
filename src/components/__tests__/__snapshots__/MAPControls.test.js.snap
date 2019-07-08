@@ -145,7 +145,17 @@ exports[`MAPControls renders 1`] = `
           "width": "auto",
         }
       }
+      thumbSwitchedStyle={
+        Object {
+          "backgroundColor": "var(--accent-color-dark)",
+        }
+      }
       toggled={false}
+      trackSwitchedStyle={
+        Object {
+          "backgroundColor": "var(--accent-color)",
+        }
+      }
     />
   </div>
 </MuiThemeProvider>

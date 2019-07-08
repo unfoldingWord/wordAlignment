@@ -163,8 +163,7 @@ class MAPControls extends React.Component {
         <div style={styles.root}>
           <InfoIcon style={styles.icon}
                     onClick={this._handleOnInfoClick}/>
-          <Tooltip tooltip={translate('suggestions.refresh_suggestions',
-            {word_map: translate('_.map')})}>
+          <Tooltip tooltip={translate('suggestions.refresh_suggestions')}>
             <SecondaryButton style={styles.button}
                              onClick={onRefresh}>
               <RefreshIcon style={styles.buttonIcon}/>
@@ -172,8 +171,7 @@ class MAPControls extends React.Component {
             </SecondaryButton>
           </Tooltip>
 
-          <Tooltip tooltip={translate('suggestions.accept_suggestions',
-            {word_map: translate('_.map')})}>
+          <Tooltip tooltip={translate('suggestions.accept_suggestions')}>
             <SecondaryButton style={styles.button}
                              onClick={onAccept}
                              disabled={!hasSuggestions}>
@@ -182,8 +180,7 @@ class MAPControls extends React.Component {
             </SecondaryButton>
           </Tooltip>
 
-          <Tooltip tooltip={translate('suggestions.reject_suggestions',
-            {word_map: translate('_.map')})}>
+          <Tooltip tooltip={translate('suggestions.reject_suggestions')}>
             <SecondaryButton style={styles.button}
                              onClick={onReject}
                              disabled={!hasSuggestions}>

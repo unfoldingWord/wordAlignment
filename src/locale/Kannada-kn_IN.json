@@ -194,9 +194,9 @@
     "unaligned": "Unaligned words"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh ${word_map}-generated suggestions.",
-    "accept_suggestions": "Accept all ${word_map}-generated suggestions.",
-    "reject_suggestions": "Reject all ${word_map}-generated suggestions.",
+    "refresh_suggestions": "Refresh suggestions.",
+    "accept_suggestions": "Accept all suggestions.",
+    "reject_suggestions": "Reject all suggestions.",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",

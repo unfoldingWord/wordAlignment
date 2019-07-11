@@ -194,9 +194,9 @@
     "unaligned": "Unaligned words"
   },
   "suggestions": {
-    "refresh_suggestions": "रीफ्रेश ${word_map} जनरेटेड सुझाव।",
-    "accept_suggestions": "सभी ${word_map} जनरेटेड सुझावों को स्वीकार करें।",
-    "reject_suggestions": "सभी ${word_map} जनरेटेड सुझावों को अस्वीकार करें।",
+    "refresh_suggestions": "Refresh suggestions.",
+    "accept_suggestions": "Accept all suggestions.",
+    "reject_suggestions": "Reject all suggestions.",
     "none": "कोई नया सुझाव नहीं",
     "refresh": "ताज़ा करना",
     "accept": "स्वीकार करना",

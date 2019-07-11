@@ -194,9 +194,9 @@
     "unaligned": "Unaligned words"
   },
   "suggestions": {
-    "refresh_suggestions": "Обновить предложения ${word_map}.",
-    "accept_suggestions": "Принять все предложения ${word_map}.",
-    "reject_suggestions": "Отклонить все предложения ${word_map}.",
+    "refresh_suggestions": "Refresh suggestions.",
+    "accept_suggestions": "Accept all suggestions.",
+    "reject_suggestions": "Reject all suggestions.",
     "none": "Нет новых предложений",
     "refresh": "Обновить",
     "accept": "Принять",

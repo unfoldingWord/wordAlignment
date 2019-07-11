@@ -11,6 +11,7 @@ describe('snapshot', () => {
   it('has no words', () => {
     const wrapper = renderer.create(
       <WordList isOver={false}
+                modalOpen={false}
                 words={[]}/>
     );
     expect(wrapper).toMatchSnapshot();

@@ -80,8 +80,8 @@ ScripturePaneContainer.propTypes = {
     selectionsReducer: PropTypes.object.isRequired,
     contextId: PropTypes.object.isRequired,
     projectDetailsReducer: PropTypes.object.isRequired,
-    handleModalOpen: PropTypes.func
   }).isRequired,
+  handleModalOpen: PropTypes.func
 };
 
 ScripturePaneContainer.defaultProps = {

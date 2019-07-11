@@ -3,6 +3,7 @@
 exports[`Test DroppableWordList component in WordList/index.js DroppableWordList component full integration test 1`] = `
 <DragDropContext(TestContextContainer)
   chapter={1}
+  modalOpen={false}
   moveBackToWordBank={[Function]}
   onDropTargetToken={[Function]}
   verse={1}
@@ -33,6 +34,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
 >
   <TestContextContainer
     chapter={1}
+    modalOpen={false}
     moveBackToWordBank={[Function]}
     onDropTargetToken={[Function]}
     verse={1}
@@ -63,6 +65,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   >
     <DropTarget(DroppableWordList)
       chapter={1}
+      modalOpen={false}
       moveBackToWordBank={[Function]}
       onDropTargetToken={[Function]}
       verse={1}
@@ -682,6 +685,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
 <DragDropContext(TestContextContainer)
   chapter={2}
   isOver={false}
+  modalOpen={false}
   moveBackToWordBank={[Function]}
   onDropTargetToken={[Function]}
   verse={1}
@@ -718,6 +722,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   <TestContextContainer
     chapter={2}
     isOver={false}
+    modalOpen={false}
     moveBackToWordBank={[Function]}
     onDropTargetToken={[Function]}
     verse={1}
@@ -754,6 +759,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     <DropTarget(DroppableWordList)
       chapter={2}
       isOver={false}
+      modalOpen={false}
       moveBackToWordBank={[Function]}
       onDropTargetToken={[Function]}
       verse={1}

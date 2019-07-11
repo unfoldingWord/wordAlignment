@@ -24,7 +24,8 @@ describe('Test DroppableWordList component in WordList/index.js', () => {
       verse: 1,
       onDropTargetToken: jest.fn(),
       words: words,
-      moveBackToWordBank: jest.fn()
+      moveBackToWordBank: jest.fn(),
+      modalOpen: false
     };
   });
 
@@ -42,6 +43,7 @@ describe('Test DroppableWordList component in WordList/index.js', () => {
     const wrapper = mount(<WrappedWordList {...props} />);
     wrapper.setProps({isOver: true});
     wrapper.setProps({isOver: false});
+    wrapper.setProps({modalOpen: false});
     wrapper.setProps({chapter: 2});
     expect(toJson(wrapper)).toMatchSnapshot();
   });

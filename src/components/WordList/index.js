@@ -145,12 +145,11 @@ DroppableWordList.propTypes = {
   onDropTargetToken: PropTypes.func.isRequired,
   wordList: PropTypes.object,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
-  modalOpen: PropTypes.bool
+  modalOpen: PropTypes.bool.isRequired
 };
 
 DroppableWordList.defaultProps = {
-  direction: 'ltr',
-  modalOpen: false
+  direction: 'ltr'
 };
 
 /**

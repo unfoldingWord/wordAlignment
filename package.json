@@ -77,7 +77,7 @@
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
     "tc-tool": "2.1.0",
-    "tc-ui-toolkit": "0.13.13",
+    "tc-ui-toolkit": "0.14.22",
     "usfm-js": "1.0.6",
     "word-aligner": "0.2.12",
     "wordmap": "^0.4.3",

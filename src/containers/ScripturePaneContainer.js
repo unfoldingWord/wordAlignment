@@ -25,7 +25,8 @@ const ScripturePaneContainer = (props) => {
       contextId,
       projectDetailsReducer
     },
-    translate
+    translate,
+    handleModalOpen
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -55,6 +56,7 @@ const ScripturePaneContainer = (props) => {
         setToolSettings={setToolSettings}
         getAvailableScripturePaneSelections={getAvailableScripturePaneSelections}
         makeSureBiblesLoadedForTool={makeSureBiblesLoadedForTool}
+        handleModalOpen={handleModalOpen}
       />
     );
   } else {
@@ -77,8 +79,13 @@ ScripturePaneContainer.propTypes = {
     resourcesReducer: PropTypes.object.isRequired,
     selectionsReducer: PropTypes.object.isRequired,
     contextId: PropTypes.object.isRequired,
-    projectDetailsReducer: PropTypes.object.isRequired
+    projectDetailsReducer: PropTypes.object.isRequired,
+    handleModalOpen: PropTypes.func
   }).isRequired,
+};
+
+ScripturePaneContainer.defaultProps = {
+  handleModalOpen: () => {}
 };
 
 export default ScripturePaneContainer;

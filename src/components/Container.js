@@ -149,19 +149,27 @@ class Container extends Component {
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+    this.handleModalOpen = this.handleModalOpen.bind(this);
     this.state = {
       loading: false,
       validating: false,
       prevState: undefined,
       writing: false,
       snackText: null,
-      canAutoComplete: false
+      canAutoComplete: false,
+      modalOpen: false,
     };
   }
 
   handleSnackbarClose() {
     this.setState({
       snackText: null
+    });
+  }
+
+  handleModalOpen(isOpen) {
+    this.setState( {
+      modalOpen: isOpen
     });
   }
 
@@ -612,11 +620,12 @@ class Container extends Component {
             words={words}
             onDropTargetToken={this.handleUnalignTargetToken}
             connectDropTarget={connectDropTarget}
+            modalOpen={this.state.modalOpen}
             isOver={isOver}/>
         </div>
         <div style={styles.alignmentAreaContainer}>
           <div style={styles.scripturePaneWrapper}>
-            <ScripturePaneContainer {...this.props}/>
+            <ScripturePaneContainer handleModalOpen={this.handleModalOpen} {...this.props}/>
           </div>
           {hasSourceText ? (
             <AlignmentGrid

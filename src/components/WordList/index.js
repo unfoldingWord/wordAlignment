@@ -22,8 +22,7 @@ class DroppableWordList extends React.Component {
   }
 
   setScrollState(wordList, nextProps) {
-    if (this.props.chapter !== nextProps.chapter || this.props.verse !==
-      nextProps.verse) {
+    if (this.props.chapter !== nextProps.chapter || this.props.verse !== nextProps.verse) {
       wordList.scrollTop = 0;
       this.setState({wordListScrollTop: null});
     } else if (!this.props.isOver) {
@@ -38,11 +37,18 @@ class DroppableWordList extends React.Component {
     }
   }
 
+  resetSelectedWordsState(nextProps) {
+    if (this.props.chapter !== nextProps.chapter || this.props.verse !== nextProps.verse || this.props.modalOpen) {
+      this.clearWordSelections();
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     let wordList = document.getElementById('wordList');
     if (!wordList)
       wordList = this.props.wordList;
     this.setScrollState(wordList, nextProps);
+    this.resetSelectedWordsState(nextProps);
   }
 
   componentDidMount() {
@@ -138,11 +144,13 @@ DroppableWordList.propTypes = {
   isOver: PropTypes.bool.isRequired,
   onDropTargetToken: PropTypes.func.isRequired,
   wordList: PropTypes.object,
-  direction: PropTypes.oneOf(['ltr', 'rtl'])
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
+  modalOpen: PropTypes.bool
 };
 
 DroppableWordList.defaultProps = {
-  direction: 'ltr'
+  direction: 'ltr',
+  modalOpen: false
 };
 
 /**
@@ -161,7 +169,7 @@ const collect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
+    canDrop: monitor.canDrop(),
   };
 };
 

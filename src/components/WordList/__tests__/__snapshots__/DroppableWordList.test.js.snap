@@ -97,6 +97,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         direction="ltr"
         isOver={false}
+        modalOpen={false}
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
         verse={1}
@@ -792,6 +793,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         connectDropTarget={[Function]}
         direction="ltr"
         isOver={false}
+        modalOpen={false}
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
         verse={1}

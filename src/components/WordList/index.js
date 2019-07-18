@@ -38,7 +38,7 @@ class DroppableWordList extends React.Component {
   }
 
   resetSelectedWordsState(nextProps) {
-    if (this.props.chapter !== nextProps.chapter || this.props.verse !== nextProps.verse || this.props.modalOpen) {
+    if (this.props.chapter !== nextProps.chapter || this.props.verse !== nextProps.verse || nextProps.reset) {
       this.clearWordSelections();
     }
   }
@@ -145,11 +145,12 @@ DroppableWordList.propTypes = {
   onDropTargetToken: PropTypes.func.isRequired,
   wordList: PropTypes.object,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
-  modalOpen: PropTypes.bool.isRequired
+  reset: PropTypes.bool
 };
 
 DroppableWordList.defaultProps = {
-  direction: 'ltr'
+  direction: 'ltr',
+  reset: false
 };
 
 /**

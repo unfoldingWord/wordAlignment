@@ -43,7 +43,7 @@ class GroupMenuContainer extends React.Component {
       completed: toolApi.getIsVerseFinished(chapter, verse), // TODO: I could read from state if I load these into the reducer at startup.
       invalid: toolApi.getIsVerseInvalid(chapter, verse),
       unaligned: toolApi.getisVerseUnaligned(chapter, verse),
-      verseEdits: toolApi.getisVerseEdited(chapter, verse),
+      verseEdits: toolApi.getisVerseEdited(chapter, verse)
     };
   };
 

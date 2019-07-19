@@ -150,6 +150,7 @@ class Container extends Component {
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleResetWordList = this.handleResetWordList.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -157,7 +158,7 @@ class Container extends Component {
       writing: false,
       snackText: null,
       canAutoComplete: false,
-      modalOpen: false,
+      resetWordList: false
     };
   }
 
@@ -168,8 +169,15 @@ class Container extends Component {
   }
 
   handleModalOpen(isOpen) {
+    if (isOpen) {
+      this.handleResetWordList();
+    }
+  }
+
+  handleResetWordList() {
+    console.log("RESETTING WORD LIST - STATE");
     this.setState( {
-      modalOpen: isOpen
+      resetWordList: true
     });
   }
 
@@ -190,10 +198,13 @@ class Container extends Component {
   componentDidUpdate(prevProps) {
     const {
       verseIsAligned,
-      verseIsComplete,
+      verseIsComplete
     } = this.props;
 
-    const {canAutoComplete} = this.state;
+    const {
+      canAutoComplete,
+      resetWordList
+    } = this.state;
 
     if (!Container.contextDidChange(this.props, prevProps)) {
       // auto complete the verse
@@ -201,6 +212,16 @@ class Container extends Component {
         this.handleToggleComplete(null, true);
       }
     }
+    if (resetWordList) {
+      this.setState({
+        resetWordList: false
+      });
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // When resetWordList goes from true to false, we don't need to render again
+    return !(this.state.resetWordList && !nextState.resetWordList);
   }
 
   /**
@@ -453,6 +474,7 @@ class Container extends Component {
         });
       }
     });
+    this.handleResetWordList();
   }
 
   handleAcceptSuggestions() {
@@ -463,6 +485,7 @@ class Container extends Component {
     // accepting all suggestions can auto-complete the verse
     this.enableAutoComplete();
     acceptAlignmentSuggestions(chapter, verse);
+    this.handleResetWordList();
   }
 
   handleToggleComplete(e, isChecked) {
@@ -481,6 +504,7 @@ class Container extends Component {
       this.disableAutoComplete();
       this.forceUpdate();
     });
+    this.handleResetWordList();
   }
 
   handleRejectSuggestions() {
@@ -489,6 +513,7 @@ class Container extends Component {
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     clearAlignmentSuggestions(chapter, verse);
+    this.handleResetWordList();
   }
 
   handleRemoveSuggestion(alignmentIndex, token) {
@@ -620,7 +645,7 @@ class Container extends Component {
             words={words}
             onDropTargetToken={this.handleUnalignTargetToken}
             connectDropTarget={connectDropTarget}
-            modalOpen={this.state.modalOpen}
+            reset={this.state.resetWordList}
             isOver={isOver}/>
         </div>
         <div style={styles.alignmentAreaContainer}>

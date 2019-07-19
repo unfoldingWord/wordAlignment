@@ -103,6 +103,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         modalOpen={false}
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
+        reset={false}
         verse={1}
         words={
           Array [
@@ -802,6 +803,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         modalOpen={false}
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
+        reset={false}
         verse={1}
         wordList={
           Object {

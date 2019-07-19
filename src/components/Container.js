@@ -219,7 +219,7 @@ class Container extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
+  shouldComponentUpdate(nextProps, nextState) {
     // When resetWordList goes from true to false, we don't need to render again
     return !(this.state.resetWordList && !nextState.resetWordList);
   }
@@ -513,7 +513,7 @@ class Container extends Component {
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     clearAlignmentSuggestions(chapter, verse);
-    this.handleResetWordList();q
+    this.handleResetWordList();
   }
 
   handleRemoveSuggestion(alignmentIndex, token) {

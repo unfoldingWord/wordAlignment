@@ -740,12 +740,18 @@ describe('API.getisVerseEdited', () => {
           reference: {
             bookId: 'luk'
           }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
         }
       }
     };
     const api = new Api();
     api.props = props;
-    const hasVerseEdits = api.getInvalidChecks();
+    const hasVerseEdits = api.getisVerseEdited();
     expect(hasVerseEdits).toBe(expectedHasVerseEdits);
   });
 
@@ -758,12 +764,18 @@ describe('API.getisVerseEdited', () => {
           reference: {
             bookId: 'luk'
           }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
         }
       }
     };
     const api = new Api();
     api.props = props;
-    const hasVerseEdits = api.getInvalidChecks();
+    const hasVerseEdits = api.getisVerseEdited();
     expect(hasVerseEdits).toBe(expectedHasVerseEdits);
   });
 });

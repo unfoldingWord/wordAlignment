@@ -564,7 +564,7 @@ export default class Api extends ToolApi {
     return toolDataPathExistsSync(dataPath);
   }
 
-  getisVerseEdited(chapter, verse) {
+  getIsVerseEdited(chapter, verse) {
     const {
       tc: {
         projectDataPathExistsSync,

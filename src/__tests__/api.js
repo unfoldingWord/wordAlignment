@@ -730,7 +730,7 @@ describe('get number of invalid checks', () => {
   });
 });
 
-describe('API.getisVerseEdited', () => {
+describe('API.getIsVerseEdited', () => {
   it('should return that a verse has verse edits', () => {
     let expectedHasVerseEdits = true;
     const props = {
@@ -751,7 +751,7 @@ describe('API.getisVerseEdited', () => {
     };
     const api = new Api();
     api.props = props;
-    const hasVerseEdits = api.getisVerseEdited();
+    const hasVerseEdits = api.getIsVerseEdited();
     expect(hasVerseEdits).toBe(expectedHasVerseEdits);
   });
 
@@ -775,7 +775,7 @@ describe('API.getisVerseEdited', () => {
     };
     const api = new Api();
     api.props = props;
-    const hasVerseEdits = api.getisVerseEdited();
+    const hasVerseEdits = api.getIsVerseEdited();
     expect(hasVerseEdits).toBe(expectedHasVerseEdits);
   });
 });

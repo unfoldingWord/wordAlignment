@@ -730,6 +730,56 @@ describe('get number of invalid checks', () => {
   });
 });
 
+describe('API.getIsVerseEdited', () => {
+  it('should return that a verse has verse edits', () => {
+    let expectedHasVerseEdits = true;
+    const props = {
+      tc: {
+        projectDataPathExistsSync: () => true,
+        contextId: {
+          reference: {
+            bookId: 'luk'
+          }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+    const hasVerseEdits = api.getIsVerseEdited();
+    expect(hasVerseEdits).toBe(expectedHasVerseEdits);
+  });
+
+  it('should return that a verse does not have verse edits', () => {
+    let expectedHasVerseEdits = false;
+    const props = {
+      tc: {
+        projectDataPathExistsSync: () => false,
+        contextId: {
+          reference: {
+            bookId: 'luk'
+          }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+    const hasVerseEdits = api.getIsVerseEdited();
+    expect(hasVerseEdits).toBe(expectedHasVerseEdits);
+  });
+});
+
 //
 // helper functions
 //

@@ -564,6 +564,18 @@ export default class Api extends ToolApi {
     return toolDataPathExistsSync(dataPath);
   }
 
+  getIsVerseEdited(chapter, verse) {
+    const {
+      tc: {
+        projectDataPathExistsSync,
+        contextId
+      }
+    } = this.props;
+    const {reference: {bookId}} = contextId;
+    const dataPath = path.join('checkData', 'verseEdits', bookId, chapter + '', verse + '');
+    return projectDataPathExistsSync(dataPath);
+  }
+
   getisVerseUnaligned(chapter, verse) {
     const {store} = this.context;
     return !getIsVerseAligned(store.getState(), chapter, verse);

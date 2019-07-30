@@ -172,15 +172,15 @@
   "ithpolel": "Ithpolel",
   "ittaphal": "Ittaphal",
   "morph_missing": "Morfologia não encontrado",
-  "unsaved_changes": "You have unsaved changes.",
-  "attention": "Attention:",
+  "unsaved_changes": "Você tem alterações não salvas.",
+  "attention": "Atenção:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Voltar",
     "cancel_button": "Cancelar",
     "save_button": "Salvar",
     "next_button": "Próximo",
-    "discard_changes": "Discard Changes"
+    "discard_changes": "Descartar Alterações"
   },
   "menu": {
     "no_results": "Nenhum resultado",
@@ -194,9 +194,9 @@
     "unaligned": "Palavras não alinhadas"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh suggestions.",
-    "accept_suggestions": "Accept all suggestions.",
-    "reject_suggestions": "Reject all suggestions.",
+    "refresh_suggestions": "Atualizar sugestões.",
+    "accept_suggestions": "Aceitar todas as sugestões.",
+    "reject_suggestions": "Rejeitar todas as sugestões.",
     "none": "Nenhuma nova sugestão",
     "refresh": "Atualizar",
     "accept": "Aceitar",

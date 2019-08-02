@@ -123,7 +123,7 @@ exports[`MAPControls renders 1`] = `
       disabled={false}
       iconStyle={
         Object {
-          "marginTop": "8px",
+          "marginTop": "0px",
         }
       }
       label="alignment_complete"
@@ -131,8 +131,11 @@ exports[`MAPControls renders 1`] = `
       labelStyle={
         Object {
           "color": "var(--accent-color-dark)",
-          "lineHeight": "18px",
+          "fontSize": "14px",
+          "fontWeight": "normal",
+          "lineHeight": "inherit",
           "textAlign": "left",
+          "width": "100%",
         }
       }
       onToggle={[Function]}
@@ -145,15 +148,28 @@ exports[`MAPControls renders 1`] = `
           "width": "auto",
         }
       }
+      thumbStyle={
+        Object {
+          "boxShadow": "rgba(0, 0, 0, 0.2) 0px 1px 3px 0px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 2px 1px -1px",
+        }
+      }
       thumbSwitchedStyle={
         Object {
           "backgroundColor": "var(--accent-color-dark)",
+          "boxShadow": "rgba(0, 0, 0, 0.2) 0px 1px 3px 0px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 2px 1px -1px",
         }
       }
       toggled={false}
+      trackStyle={
+        Object {
+          "backgroundColor": "#000",
+          "opacity": "0.38",
+        }
+      }
       trackSwitchedStyle={
         Object {
-          "backgroundColor": "var(--accent-color)",
+          "backgroundColor": "var(--accent-color-dark)",
+          "opacity": "0.38",
         }
       }
     />

@@ -89,12 +89,15 @@ const styles = {
     fontSize: '14px'
   },
   toggleIcon: {
-    marginTop: '8px'
+    marginTop: '0px'
   },
   toggleLabel: {
     color: 'var(--accent-color-dark)',
-    lineHeight: '18px',
-    textAlign: 'left'
+    textAlign: 'left',
+    fontWeight: 'normal',
+    fontSize: '14px',
+    width: '100%',
+    lineHeight: 'inherit',
   },
   buttonIcon: {
     color: 'var(--accent-color-dark)',
@@ -103,11 +106,20 @@ const styles = {
     width: 20,
     height: 20
   },
+  thumb: {
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 3px 0px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 2px 1px -1px'
+  },
   thumbSwitched: {
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 3px 0px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 2px 1px -1px',
     backgroundColor: 'var(--accent-color-dark)',
   },
+  track: {
+    backgroundColor: '#000',
+    opacity: '0.38',
+  },
   trackSwitched: {
-    backgroundColor: 'var(--accent-color)',
+    backgroundColor: 'var(--accent-color-dark)',
+    opacity: '0.38',
   },
 };
 
@@ -195,15 +207,17 @@ class MAPControls extends React.Component {
           </Tooltip>
 
           <Toggle
-            style={styles.toggle}
-            thumbSwitchedStyle={styles.thumbSwitched}
-            trackSwitchedStyle={styles.trackSwitched}
-            iconStyle={styles.toggleIcon}
-            labelStyle={styles.toggleLabel}
             labelPosition={'right'}
             label={translate('alignment_complete')}
             onToggle={onToggleComplete}
             toggled={complete}
+            style={styles.toggle}
+            trackStyle={styles.track}
+            thumbStyle={styles.thumb}
+            iconStyle={styles.toggleIcon}
+            labelStyle={styles.toggleLabel}
+            thumbSwitchedStyle={styles.thumbSwitched}
+            trackSwitchedStyle={styles.trackSwitched}
           />
         </div>
       </MuiThemeProvider>

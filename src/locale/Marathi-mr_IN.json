@@ -194,23 +194,23 @@
     "unaligned": "स्वाक्षरीकृत शब्द"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh suggestions.",
-    "accept_suggestions": "Accept all suggestions.",
-    "reject_suggestions": "Reject all suggestions.",
+    "refresh_suggestions": "सूचना पुनर्रासंचीत करा.",
+    "accept_suggestions": "सर्व सूचना स्वीकारा.",
+    "reject_suggestions": "सर्व सूचना नकारा.",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "selections_found": "या तपासणीसाठी पूर्ण वचने सापडले",
+    "no_selections_found": "या तपासणीसाठी कोणतीही पूर्ण वचने सापडले नाहीत",
+    "verse_edits_found": "या तपासणीसाठी संपादित वचने आढळली",
+    "no_verse_edits_found": "या तपासणीसाठी संपादित वचने आढळली नाहीत",
+    "comments_found": "या तपासासाठी टिप्पण्या सापडल्या",
+    "no_comments_found": "या तपासासाठी टिप्पण्या सापडल्या नाहीत",
+    "bookmarked": "या तपासणीला पुनरावलोकनासाठी वाचनखुणा केल्या गेल्या आहेत",
+    "not_bookmarked": "या तपासणीला पुनरावलोकनासाठी वाचनखुणा केल्या गेल्या नाहीत"
   },
   "pane": {
     "current_project": "Current project",

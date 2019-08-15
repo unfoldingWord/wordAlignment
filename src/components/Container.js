@@ -303,8 +303,12 @@ class Container extends Component {
           const alignmentMemory = tools[key].trigger('getAlignmentMemory');
           if (alignmentMemory) {
             for (const alignment of alignmentMemory) {
-              map.appendAlignmentMemoryString(alignment.sourceText,
-                alignment.targetText);
+              try {
+                map.appendAlignmentMemoryString(alignment.sourceText,
+                  alignment.targetText);
+              } catch (e) {
+                console.warn(`"WA.initMAP() - Broken alignment for ${key}: ${JSON.stringify(alignment)}`, e);
+              }
             }
           }
 
@@ -323,7 +327,7 @@ class Container extends Component {
                 toolsMemory.push.appy(toolsMemory, memory);
               }
             } catch (e) {
-              console.warn(`Failed to collect global alignment memory from ${key}`, e);
+              console.warn(`"WA.initMAP() - Failed to collect global alignment memory from ${key}`, e);
             }
           }
         }
@@ -352,7 +356,7 @@ class Container extends Component {
 
         return Promise.resolve(map);
       } catch(e) {
-        console.warn(`Failed to collect global alignment memory from ${key}`, e);
+        console.warn("WA.initMAP() - Failed to init wordMap", e);
       }
     });
   }

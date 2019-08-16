@@ -53,12 +53,7 @@ class SecondaryToken extends React.Component {
     } else if (!token.disabled && onClick) {
       const buttonDiv = e.currentTarget.getElementsByTagName('DIV')[0].getElementsByTagName('DIV')[0];
       buttonDiv.style.cursor = 'wait';
-      const resetCursor = (div) => {if (div) div.style.cursor = 'pointer'};
-      if (!selected) {
-        setTimeout(() => { resetCursor(buttonDiv) }, 1000);
-      } else {
-        resetCursor(buttonDiv)
-      }
+      setTimeout(() => { if (buttonDiv) buttonDiv.style.cursor = 'pointer' }, 1000);
       onClick(token);
     }
   }

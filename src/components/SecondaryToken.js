@@ -47,13 +47,13 @@ class SecondaryToken extends React.Component {
 
   handleClick(e) {
     e.stopPropagation();
-    const {token, onAccept, onClick, selected} = this.props;
+    const {token, onAccept, onClick} = this.props;
     if (token.meta.suggestion) {
       onAccept(token);
     } else if (!token.disabled && onClick) {
       const buttonDiv = e.currentTarget.getElementsByTagName('DIV')[0].getElementsByTagName('DIV')[0];
       buttonDiv.style.cursor = 'wait';
-      setTimeout(() => { if (buttonDiv) buttonDiv.style.cursor = 'pointer' }, 1000);
+      setTimeout(() => { if (buttonDiv) buttonDiv.style.cursor = 'pointer'; }, 1000);
       onClick(token);
     }
   }

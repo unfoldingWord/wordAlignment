@@ -64,6 +64,24 @@ export default class Api extends ToolApi {
   }
 
   /**
+   * Checks if the chapter context changed
+   * @param prevContext
+   * @param nextContext
+   * @return {boolean}
+   */
+  static _didToolContextChange(prevContext, nextContext) {
+    if (!prevContext && nextContext) {
+      return true;
+    }
+    if (prevContext && nextContext) {
+      if (prevContext.tool !== nextContext.tool) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Generates an empty alignment structure for the chapter
    * @param props
    * @param chapter
@@ -215,6 +233,7 @@ export default class Api extends ToolApi {
         targetBook
       }
     } = props;
+    console.log("_validateBook()");
     let bookIsValid = true;
     for (const chapter of Object.keys(targetBook)) {
       if (isNaN(chapter) || parseInt(chapter) === -1) continue;
@@ -451,7 +470,8 @@ export default class Api extends ToolApi {
         isReady
       }
     } = this.props;
-    if (isReady && Api._didChapterContextChange(prevContext, nextContext)) {
+    if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
+      console.log("toolWillReceiveProps() - context change: ", prevContext, nextContext);
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {

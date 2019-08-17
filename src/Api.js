@@ -451,7 +451,7 @@ export default class Api extends ToolApi {
         isReady
       }
     } = this.props;
-    if (isReady && !Api._didChapterContextChange(prevContext, nextContext)) {
+    if (isReady && Api._didChapterContextChange(prevContext, nextContext)) {
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {

@@ -10,6 +10,7 @@ import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
 import UnalignedIcon from '@material-ui/icons/RemoveCircle';
+import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../state/reducers/groupMenu";
 
 class GroupMenuContainer extends React.Component {
 
@@ -37,13 +38,14 @@ class GroupMenuContainer extends React.Component {
       }
     } = item;
 
+    const itemState = toolApi.getGroupMenuItem(chapter, verse);
     return {
       ...item,
       title: `${bookName} ${chapter}:${verse}`,
-      completed: toolApi.getIsVerseFinished(chapter, verse), // TODO: I could read from state if I load these into the reducer at startup.
-      invalid: toolApi.getIsVerseInvalid(chapter, verse),
-      unaligned: toolApi.getisVerseUnaligned(chapter, verse),
-      verseEdits: toolApi.getIsVerseEdited(chapter, verse)
+      completed: itemState[FINISHED_KEY],
+      invalid: itemState[INVALID_KEY],
+      unaligned: itemState[UNALIGNED_KEY],
+      verseEdits: itemState[EDITED_KEY]
     };
   };
 

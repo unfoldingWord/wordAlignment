@@ -81,7 +81,7 @@ export const generateMAP = (
   return new Promise(resolve => {
     setTimeout(() => {
       // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
-      const map = new WordMap({targetNgramLength: 5});
+      const map = new WordMap({targetNgramLength: 5, nGramWarnings: false});
       for (const chapter of Object.keys(targetBook)) {
         const chapterAlignments = getChapterAlignments(state, chapter);
         for (const verse of Object.keys(chapterAlignments)) {

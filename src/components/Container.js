@@ -298,58 +298,66 @@ class Container extends Component {
     return generateMAP(targetBook, state, chapter, verse).then(map => {
       let toolsMemory = [];
 
-      for (const key of Object.keys(tools)) {
-        const alignmentMemory = tools[key].trigger('getAlignmentMemory');
-        if (alignmentMemory) {
-          for (const alignment of alignmentMemory) {
-            map.appendAlignmentMemoryString(alignment.sourceText,
-              alignment.targetText);
-          }
-        }
-
-        // collect global tools memory
-        if(this.globalToolsMemory === null) {
-          try {
-            const memory = tools[key].trigger(
-              'getGlobalAlignmentMemory',
-              project.getLanguageId(),
-              project.getResourceId(),
-              project.getOriginalLanguageId(),
-              project.getBookId()
-            );
-
-            if (memory) {
-              toolsMemory.push.appy(toolsMemory, memory);
+      try {
+        for (const key of Object.keys(tools)) {
+          const alignmentMemory = tools[key].trigger('getAlignmentMemory');
+          if (alignmentMemory) {
+            for (const alignment of alignmentMemory) {
+              try {
+                map.appendAlignmentMemoryString(alignment.sourceText,
+                  alignment.targetText);
+              } catch (e) {
+                console.warn(`"WA.initMAP() - Broken alignment for ${key}: ${JSON.stringify(alignment)}`, e);
+              }
             }
-          } catch (e) {
-            console.warn(`Failed to collect global alignment memory from ${key}`, e);
+          }
+
+          // collect global tools memory
+          if (this.globalToolsMemory === null) {
+            try {
+              const memory = tools[key].trigger(
+                'getGlobalAlignmentMemory',
+                project.getLanguageId(),
+                project.getResourceId(),
+                project.getOriginalLanguageId(),
+                project.getBookId()
+              );
+
+              if (memory) {
+                toolsMemory.push.appy(toolsMemory, memory);
+              }
+            } catch (e) {
+              console.warn(`"WA.initMAP() - Failed to collect global alignment memory from ${key}`, e);
+            }
           }
         }
-      }
 
-      // cache global memory
-      if(this.globalToolsMemory === null) {
-        this.globalToolsMemory = toolsMemory;
-      }
+        // cache global memory
+        if (this.globalToolsMemory === null) {
+          this.globalToolsMemory = toolsMemory;
+        }
 
-      if(this.globalWordAlignmentMemory === null) {
-        this.globalWordAlignmentMemory = api.getGlobalAlignmentMemory(
-          project.getLanguageId(),
-          project.getResourceId(),
-          project.getOriginalLanguageId(),
-          project.getBookId()
-        );
-      }
+        if (this.globalWordAlignmentMemory === null) {
+          this.globalWordAlignmentMemory = api.getGlobalAlignmentMemory(
+            project.getLanguageId(),
+            project.getResourceId(),
+            project.getOriginalLanguageId(),
+            project.getBookId()
+          );
+        }
 
-      // append global memory
-      for (const alignment of this.globalToolsMemory) {
-        map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
-      }
-      for (const alignment of this.globalWordAlignmentMemory) {
-        map.appendAlignmentMemory(alignment);
-      }
+        // append global memory
+        for (const alignment of this.globalToolsMemory) {
+          map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
+        }
+        for (const alignment of this.globalWordAlignmentMemory) {
+          map.appendAlignmentMemory(alignment);
+        }
 
-      return Promise.resolve(map);
+        return Promise.resolve(map);
+      } catch(e) {
+        console.warn("WA.initMAP() - Failed to init wordMap", e);
+      }
     });
   }
 

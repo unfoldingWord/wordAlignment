@@ -45,11 +45,15 @@ class SecondaryToken extends React.Component {
     }
   }
 
-  handleClick() {
+  handleClick(e) {
+    e.stopPropagation();
     const {token, onAccept, onClick} = this.props;
     if (token.meta.suggestion) {
       onAccept(token);
     } else if (!token.disabled && onClick) {
+      const buttonDiv = e.currentTarget.getElementsByTagName('DIV')[0].getElementsByTagName('DIV')[0];
+      buttonDiv.style.cursor = 'wait';
+      setTimeout(() => { if (buttonDiv) buttonDiv.style.cursor = 'pointer'; }, 1000);
       onClick(token);
     }
   }
@@ -186,7 +190,7 @@ const dragHandler = {
   },
   endDrag(props, monitor) {
     const dropResult = monitor.getDropResult();
-    if (dropResult && typeof props.onEndDrag === 'function') {
+    if (monitor.didDrop() && dropResult && typeof props.onEndDrag === 'function') {
       props.onEndDrag();
     }
   }

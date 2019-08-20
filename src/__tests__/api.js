@@ -1,5 +1,3 @@
-import {setGroupMenuItemFinished, setGroupMenuItemInvalid} from "../state/actions";
-
 jest.mock('../state/reducers');
 jest.mock('../state/actions');
 import * as reducers from '../state/reducers';

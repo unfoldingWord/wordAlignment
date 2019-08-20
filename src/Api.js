@@ -27,8 +27,9 @@ import {
 } from './state/actions';
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
-import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "./state/reducers/groupMenu";
 
+// consts
+import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "./state/reducers/groupMenu";
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
 export default class Api extends ToolApi {

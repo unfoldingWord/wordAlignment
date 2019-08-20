@@ -385,7 +385,6 @@ class Container extends Component {
    */
   enableAutoComplete() {
     const {canAutoComplete} = this.state;
-
     if (!canAutoComplete) {
       this.setState({
         canAutoComplete: true

@@ -1,5 +1,9 @@
+import {setGroupMenuItemFinished, setGroupMenuItemInvalid} from "../state/actions";
+
 jest.mock('../state/reducers');
+jest.mock('../state/actions');
 import * as reducers from '../state/reducers';
+import * as actions from '../state/actions';
 import Api from '../Api';
 
 const saveConsole = global.console;
@@ -273,10 +277,11 @@ describe('verse unaligned', () => {
 describe('verse finished', () => {
 
   beforeEach(() => {
+    jest.clearAllMocks();
     global.console = saveConsole; // restore original console
   });
 
-  it('is not finished', () => {
+  it('api.getIsVerseFinished() - is not finished', () => {
     const api = new Api();
     const fileExists = false;
     api.props = {
@@ -287,7 +292,7 @@ describe('verse finished', () => {
     expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
   });
 
-  it('is finished', () => {
+  it('api.getIsVerseFinished() - is finished', () => {
     const api = new Api();
     const fileExists = true;
     api.props = {
@@ -298,7 +303,7 @@ describe('verse finished', () => {
     expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
   });
 
-  it('sets a verse as finished', () => {
+  it('api.setVerseFinished() - sets a verse as finished', () => {
     const api = new Api();
     const writeToolData = jest.fn(() => Promise.resolve());
     const deleteToolFile = jest.fn(() => Promise.resolve());
@@ -315,12 +320,21 @@ describe('verse finished', () => {
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    reducers.getGroupMenuItem.mockReturnValue(null);
     api.setVerseFinished(1, 1, true);
     expect(writeToolData).toBeCalled();
     expect(deleteToolFile).not.toBeCalled();
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemFinished).toBeCalledWith(1,1,true);
   });
 
-  it('sets a verse has not finished', () => {
+  it('api.setVerseFinished() - sets a verse has not finished', () => {
     const api = new Api();
     const writeToolData = jest.fn();
     const deleteToolFile = jest.fn(() => Promise.resolve());
@@ -335,16 +349,25 @@ describe('verse finished', () => {
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
+    reducers.getGroupMenuItem.mockReturnValue(null);
     api.setVerseFinished(1, 1, false);
     expect(writeToolData).not.toBeCalled();
     expect(deleteToolFile).toBeCalled();
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemFinished).toBeCalledWith(1,1,false);
   });
 });
 
 describe('validate', () => {
 
   beforeEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
     global.console = saveConsole; // restore original console
   });
 
@@ -388,11 +411,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateBook(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith("1","1",true);
   });
 
   it('repairs a verse', async () => {
@@ -435,11 +466,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs a verse without alignment changes', async () => {
@@ -484,11 +523,18 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
   });
 
   it('repairs modified aligned verse without alignment changes and returns not valid', async () => {
@@ -534,11 +580,18 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs modified aligned verse with alignment changes and returns not valid', async () => {
@@ -584,11 +637,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs modified complete without alignment changes and returns not valid', async () => {
@@ -632,11 +693,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toHaveBeenCalledTimes(1);
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('does not repair valid aligned verse', async () => {
@@ -678,12 +747,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).not.toBeCalled();
     expect(props.tool.writeToolData).not.toBeCalled();
     expect(props.tool.deleteToolFile).not.toBeCalled();
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
   });
 });
 

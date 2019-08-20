@@ -555,7 +555,7 @@ export default class Api extends ToolApi {
     } = this.props;
     const {store} = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
-    if (itemState[INVALID_KEY] !== invalid) { // see if needs to be updated
+    if (!itemState || itemState[INVALID_KEY] !== invalid) { // see if needs to be updated
       store.dispatch(setGroupMenuItemInvalid(chapter, verse, invalid));
     }
     const dataPath = path.join('invalid', chapter + '', verse + '.json');
@@ -614,7 +614,7 @@ export default class Api extends ToolApi {
     } = this.props;
     const {store} = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
-    if (itemState[FINISHED_KEY] !== finished) { // see if needs to be updated
+    if (!itemState || itemState[FINISHED_KEY] !== finished) { // see if needs to be updated
       store.dispatch(setGroupMenuItemFinished(chapter, verse, finished));
     }
     const dataPath = path.join('completed', chapter + '', verse + '.json');

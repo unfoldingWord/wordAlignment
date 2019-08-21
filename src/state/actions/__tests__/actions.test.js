@@ -1,3 +1,4 @@
+import _ from "lodash";
 import * as actions from '../index';
 import {Token} from 'wordmap-lexer';
 import {Prediction, Alignment, Ngram} from 'wordmap';
@@ -9,7 +10,6 @@ import {
   SET_ALIGNMENT_SUGGESTIONS,
   UNALIGN_RENDERED_SOURCE_TOKEN
 } from '../actionTypes';
-import _ from "lodash";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

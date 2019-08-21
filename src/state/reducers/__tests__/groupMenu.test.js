@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {reducerTest} from 'redux-jest';
 import * as types from '../../actions/actionTypes';
 import groupMenu, * as fromGroupMenu from '../groupMenu';
@@ -39,6 +40,58 @@ describe('test SET_FINISHED false', () => {
     '1': {
       '2': {
         finished: action.value,
+        invalid: true
+      }
+    }
+  };
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
+describe('test SET_FINISHED invalid chapter should not crash', () => {
+  const before = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true
+      }
+    }
+  };
+  const action = {
+    type: types.SET_FINISHED,
+    chapter: undefined,
+    verse: 2,
+    value: false
+  };
+  const after = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true
+      }
+    }
+  };
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
+describe('test SET_FINISHED invalid verse should not crash', () => {
+  const before = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true
+      }
+    }
+  };
+  const action = {
+    type: types.SET_FINISHED,
+    chapter: 1,
+    verse: undefined,
+    value: false
+  };
+  const after = {
+    '1': {
+      '2': {
+        finished: true,
         invalid: true
       }
     }
@@ -341,6 +394,133 @@ describe('test SET_STATE finished, invalid, edited, unaligned', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
+describe('test SET_STATE invalid chapter should not crash', () => {
+  const before = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      },
+      '3': {
+        finished: true
+      }
+    },
+    '2': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      }
+    }
+  };
+  const action = {
+    type: types.SET_STATE,
+    chapter: undefined,
+    verse: 2,
+    values: {finished: false, invalid: false, edited: false, unaligned: false}
+  };
+  const after = _.cloneDeep(before);
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
+describe('test SET_STATE invalid verse should not crash', () => {
+  const before = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      },
+      '3': {
+        finished: true
+      }
+    },
+    '2': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      }
+    }
+  };
+  const action = {
+    type: types.SET_STATE,
+    chapter: 1,
+    verse: undefined,
+    values: {finished: false, invalid: false, edited: false, unaligned: false}
+  };
+  const after = _.cloneDeep(before);
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
+describe('test SET_STATE invalid values should not crash', () => {
+  const before = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      },
+      '3': {
+        finished: true
+      }
+    },
+    '2': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      }
+    }
+  };
+  const action = {
+    type: types.SET_STATE,
+    chapter: 1,
+    verse: 2,
+    values: null
+  };
+  const after = _.cloneDeep(before);
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
+describe('test SET_STATE missing values should not crash', () => {
+  const before = {
+    '1': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      },
+      '3': {
+        finished: true
+      }
+    },
+    '2': {
+      '2': {
+        finished: true,
+        invalid: true,
+        edited: true,
+        unaligned: true
+      }
+    }
+  };
+  const action = {
+    type: types.SET_STATE,
+    chapter: 1,
+    verse: 2
+  };
+  const after = _.cloneDeep(before);
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
 describe('getMenuItem', () => {
   it('empty reducer', () => {
     const state = {};
@@ -379,6 +559,28 @@ describe('getMenuItem', () => {
     };
     const expectedResults = state['1']['7'];
     const results = fromGroupMenu.getMenuItem(state, 1, 7);
+    expect(results).toEqual(expectedResults);
+  });
+
+  it('invalid chapter', () => {
+    const state = {
+      '1': {
+        '5': {}
+      }
+    };
+    const expectedResults = null;
+    const results = fromGroupMenu.getMenuItem(state, undefined, 5);
+    expect(results).toEqual(expectedResults);
+  });
+
+  it('invalid verse', () => {
+    const state = {
+      '1': {
+        '5': {}
+      }
+    };
+    const expectedResults = null;
+    const results = fromGroupMenu.getMenuItem(state, 1, undefined);
     expect(results).toEqual(expectedResults);
   });
 });

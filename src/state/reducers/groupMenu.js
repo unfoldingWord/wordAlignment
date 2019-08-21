@@ -27,15 +27,15 @@ const groupMenu = (state = {}, action) => {
     }
     case SET_STATE: {
       const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);
-      const newValueKeys = Object.keys(action.values);
-      if (newValueKeys.length) {
+      const validObject = action.values && Object.keys(action.values).length;
+      if (validObject && itemData) {
         const newItemData = {
           ...itemData,
           ...action.values
         };
         return setNewItemValue(state, chapterData, chapter, verse, newItemData);
       }
-      return state;
+      return state; // on error return previous state
     }
     default:
       return state;
@@ -76,14 +76,14 @@ const findMenuItem = (state, action) => {
     chapterData = state[chapter];
     if(verse in chapterData) {
       itemData = chapterData[verse];
-    } else {
+    } else if (verse) {
       itemData = {};
       chapterData = {
         ...chapterData,
         [verse]: itemData
       };
     }
-  } else {
+  } else if (chapter) {
     itemData = {};
     chapterData = {
       [verse]: itemData
@@ -102,11 +102,14 @@ const findMenuItem = (state, action) => {
  */
 const setItemValue = (state, action, key, newValue) => {
   const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);
-  const newItemData = {
-    ...itemData,
-    [key]: newValue
-  };
-  return setNewItemValue(state, chapterData, chapter, verse, newItemData);
+  if (itemData) {
+    const newItemData = {
+      ...itemData,
+      [key]: newValue
+    };
+    return setNewItemValue(state, chapterData, chapter, verse, newItemData);
+  }
+  return state; // on error state is not changed
 };
 
 /**
@@ -115,7 +118,7 @@ const setItemValue = (state, action, key, newValue) => {
  * @return {string}
  */
 const normalizeRef = (index) => {
-  return index.toString();
+  return  index && index.toString() || "";
 };
 
 /**

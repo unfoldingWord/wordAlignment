@@ -131,7 +131,7 @@ export default class Api extends ToolApi {
     if (isNaN(verse) || parseInt(verse) === -1 ||
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
-    this.refreshGroupMenuItems();
+    this.refreshGroupMenuItems(chapter, verse);
     const isValid = this._validateVerse(this.props, chapter, verse, silent);
     if (!silent && !isValid) {
       this._showResetDialog();

@@ -242,7 +242,6 @@ export default class Api extends ToolApi {
         targetBook
       }
     } = props;
-    console.log("_validateBook()");
     let bookIsValid = true;
     for (const chapter of Object.keys(targetBook)) {
       if (isNaN(chapter) || parseInt(chapter) === -1) continue;
@@ -480,7 +479,6 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
-      console.log("toolWillReceiveProps() - context change: ", prevContext, nextContext);
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {

@@ -9,7 +9,7 @@ export const EDITED_KEY = 'edited';
  * Reduces group data state
  * @param {Object} state
  * @param {Object} action
- * @returns {{}} new state
+ * @returns {Object} new state
  */
 const groupMenu = (state = {}, action) => {
   switch(action.type) {
@@ -43,12 +43,13 @@ const groupMenu = (state = {}, action) => {
 };
 
 /**
- * apply new item value to state
- * @param chapterData
- * @param chapter
- * @param verse
- * @param newItemData
- * @param state
+ * apply newItemData to state for chapter:verse
+ * @param {Object} chapterData
+ * @param {string} chapter
+ * @param {string} verse
+ * @param {Object} newItemData
+ * @param {Object} state
+ * @returns {Object} - new reducer state
  */
 const setNewItemValue = (state, chapterData, chapter, verse, newItemData ) => {
   const newChapterData = {
@@ -63,8 +64,8 @@ const setNewItemValue = (state, chapterData, chapter, verse, newItemData ) => {
 
 /**
  * finds the menu data for a verse in chapter, or creates new entry if not found
- * @param state
- * @param {Object} action
+ * @param {Object} state
+ * @param {Object} action - contains chapter, verse
  * @returns {*}
  */
 const findMenuItem = (state, action) => {
@@ -89,13 +90,13 @@ const findMenuItem = (state, action) => {
       [verse]: itemData
     };
   }
-  return { chapter, verse, chapterData, itemData};
+  return {chapter, verse, chapterData, itemData};
 };
 
 /**
  * set value in group Data item
  * @param {Object} state
- * @param {Object} action
+ * @param {Object} action - contains chapter, verse
  * @param {string} key - key for newValue
  * @param {*} newValue - value to set
  * @return {Object} - new reducer state
@@ -113,8 +114,8 @@ const setItemValue = (state, action, key, newValue) => {
 };
 
 /**
- * make sure ref is string
- * @param index
+ * make sure index is string
+ * @param {string|number} index
  * @return {string}
  */
 const normalizeRef = (index) => {
@@ -123,10 +124,10 @@ const normalizeRef = (index) => {
 
 /**
  * Returns the menu data for item in chapter:verse
- * @param state
+ * @param {Object} state
  * @param {string|number} chapter
  * @param {string|number} verse
- * @returns {Object} - item in group menu
+ * @returns {Object} - item in group menu or null if not found
  */
 export const getMenuItem = (state, chapter, verse) => {
   chapter = normalizeRef(chapter);

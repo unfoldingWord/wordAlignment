@@ -18,26 +18,26 @@ export const tokenizeVerseObjects = (verseObjects) => {
     }
     sentenceCharLength += word.text.length;
     occurrences[word.text]++;
-    tokens.push(new Token({
+    tokens.push({
       text: word.text,
       strong: (word.strong || word.strongs),
       morph: word.morph,
       lemma: word.lemma,
       position: position,
       occurrence: occurrences[word.text]
-    }));
+    });
     position++;
   }
   // inject occurrences
   for (const token of tokens) {
     completeTokens.push(new Token({
-      text: token.toString(),
+      text: token.text,
       strong: token.strong,
       morph: token.morph,
       lemma: token.lemma,
       position: token.position,
       occurrence: token.occurrence,
-      occurrences: occurrences[token.toString()],
+      occurrences: occurrences[token.text],
       sentenceTokenLen: tokens.length,
       sentenceCharLen: sentenceCharLength
     }));

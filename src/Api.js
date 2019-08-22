@@ -309,8 +309,18 @@ export default class Api extends ToolApi {
       sourceBook[chapter][verse].verseObjects);
     const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
     const targetTokens = Lexer.tokenize(targetVerseText);
-    const normalizedSource = sourceTokens.map(t => t.toString()).join(' ');
-    const normalizedTarget = targetTokens.map(t => t.toString()).join(' ');
+    let normalizedSource = "";
+    let normalizedSourceArray = [];
+    let normalizedTarget = "";
+    let normalizedTargetArray = [];
+    for (let t of sourceTokens) {
+      normalizedSourceArray.push(t.toString());
+    }
+    normalizedSource = normalizedSourceArray.join(' ');
+    for (let t of targetTokens) {
+      normalizedTargetArray.push(t.toString());
+    }
+    normalizedTarget = normalizedTargetArray.join(' ');
     const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
     const areVerseAlignmentsValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);

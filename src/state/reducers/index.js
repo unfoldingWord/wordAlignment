@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
+import groupMenu, * as fromGroupMenu from "./groupMenu";
 
 export default combineReducers({
   alignments,
-  checks
+  checks,
+  groupMenu
 });
 
 /**
@@ -137,3 +139,13 @@ export const getIsVerseAligned = (state, chapter, verse) =>
 export const getVerseHasRenderedSuggestions = (state, chapter, verse) =>
   fromAlignments.getVerseHasRenderedSuggestions(state.tool.alignments, chapter,
     verse);
+
+/**
+ * get the group menu data for chapter:verse.
+ * @param state
+ * @param {string|number} chapter
+ * @param {string|number} verse
+ * @returns {Object} - item in group menu
+ */
+export const getGroupMenuItem = (state, chapter, verse) =>
+  fromGroupMenu.getMenuItem(state.tool.groupMenu, chapter, verse);

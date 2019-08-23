@@ -1,6 +1,7 @@
 import {ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
+  getGroupMenuItem,
   getIsChapterLoaded, getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getLegacyChapterAlignments,
@@ -19,11 +20,16 @@ import {
   moveSourceToken,
   repairAndInspectVerse,
   resetVerse, recordCheck,
-  unalignTargetToken
+  unalignTargetToken,
+  setGroupMenuItemFinished,
+  setGroupMenuItemInvalid,
+  setGroupMenuItemState,
 } from './state/actions';
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
 
+// consts
+import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "./state/reducers/groupMenu";
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
 export default class Api extends ToolApi {
@@ -41,6 +47,8 @@ export default class Api extends ToolApi {
     this.getInvalidChecks = this.getInvalidChecks.bind(this);
     this.getProgress = this.getProgress.bind(this);
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
+    this.refreshGroupMenuItems = this.refreshGroupMenuItems.bind(this);
+    this.getGroupMenuItem = this.getGroupMenuItem.bind(this);
   }
 
   /**
@@ -57,6 +65,24 @@ export default class Api extends ToolApi {
       const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
       const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
       if (prevBook !== nextBook || prevChapter !== nextChapter) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the chapter context changed
+   * @param prevContext
+   * @param nextContext
+   * @return {boolean}
+   */
+  static _didToolContextChange(prevContext, nextContext) {
+    if (!prevContext && nextContext) {
+      return true;
+    }
+    if (prevContext && nextContext) {
+      if (prevContext.tool !== nextContext.tool) {
         return true;
       }
     }
@@ -105,6 +131,7 @@ export default class Api extends ToolApi {
     if (isNaN(verse) || parseInt(verse) === -1 ||
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
+    this.refreshGroupMenuItems(chapter, verse);
     const isValid = this._validateVerse(this.props, chapter, verse, silent);
     if (!silent && !isValid) {
       this._showResetDialog();
@@ -461,7 +488,7 @@ export default class Api extends ToolApi {
         isReady
       }
     } = this.props;
-    if (isReady && !Api._didChapterContextChange(prevContext, nextContext)) {
+    if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {
@@ -469,6 +496,53 @@ export default class Api extends ToolApi {
         }
       }, 0);
     }
+  }
+
+  /**
+   * refresh items that may have been changed externally
+   * @param {number|string} chapter
+   * @param {number|string} verse
+   * @return {{}}
+   */
+  refreshGroupMenuItems(chapter, verse) {
+    const {store} = this.context;
+    const itemState = {}; // if found make copy or create new
+    itemState[UNALIGNED_KEY] = this.getisVerseUnaligned(chapter, verse);
+    itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
+    store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
+  }
+
+  /**
+   * tries to get groupMenu info from reducers, if data missing then it is fetched
+   * @param {number|string} chapter
+   * @param {number|string} verse
+   * @return {{}}
+   */
+  getGroupMenuItem(chapter, verse) {
+    const {store} = this.context;
+    let updated = false;
+    const currentState = getGroupMenuItem(store.getState(), chapter, verse);
+    const itemState = currentState ? {...currentState} : {}; // if found make copy or create new
+    if(!itemState.hasOwnProperty(FINISHED_KEY)) {
+      itemState[FINISHED_KEY] = this.getIsVerseFinished(chapter, verse);
+      updated = true;
+    }
+    if(!itemState.hasOwnProperty(INVALID_KEY)) {
+      itemState[INVALID_KEY] = this.getIsVerseInvalid(chapter, verse);
+      updated = true;
+    }
+    if(!itemState.hasOwnProperty(UNALIGNED_KEY)) {
+      itemState[UNALIGNED_KEY] = this.getisVerseUnaligned(chapter, verse);
+      updated = true;
+    }
+    if(!itemState.hasOwnProperty(EDITED_KEY)) {
+      itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
+      updated = true;
+    }
+    if (updated) {
+      store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
+    }
+    return itemState;
   }
 
   /**
@@ -488,6 +562,11 @@ export default class Api extends ToolApi {
         toolDataPathExists
       }
     } = this.props;
+    const {store} = this.context;
+    const itemState = getGroupMenuItem(store.getState(), chapter, verse);
+    if (!itemState || itemState[INVALID_KEY] !== invalid) { // see if needs to be updated
+      store.dispatch(setGroupMenuItemInvalid(chapter, verse, invalid));
+    }
     const dataPath = path.join('invalid', chapter + '', verse + '.json');
     if (!invalid) {
       return toolDataPathExists(dataPath).then(exists => {
@@ -542,6 +621,11 @@ export default class Api extends ToolApi {
       },
       recordCheck
     } = this.props;
+    const {store} = this.context;
+    const itemState = getGroupMenuItem(store.getState(), chapter, verse);
+    if (!itemState || itemState[FINISHED_KEY] !== finished) { // see if needs to be updated
+      store.dispatch(setGroupMenuItemFinished(chapter, verse, finished));
+    }
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {
       const data = {

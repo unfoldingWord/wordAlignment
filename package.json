@@ -81,7 +81,7 @@
     "usfm-js": "1.0.6",
     "word-aligner": "0.2.12",
     "wordmap": "^0.4.3",
-    "wordmap-lexer": "^0.3.4",
+    "wordmap-lexer": "^0.3.5",
     "xregexp": "4.2.4"
   },
   "peerDependencies": {

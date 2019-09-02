@@ -194,21 +194,21 @@
     "unaligned": "Unaligned words"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh suggestions.",
-    "accept_suggestions": "Accept all suggestions.",
-    "reject_suggestions": "Reject all suggestions.",
+    "refresh_suggestions": "ପ୍ରସ୍ତାବଗୁଡିକୁ ସତେଜ କରନ୍ତୁ।",
+    "accept_suggestions": "ସମସ୍ତ ପ୍ରସ୍ତାବଗୁଡିକୁ ଗ୍ରହଣ କରନ୍ତୁ।",
+    "reject_suggestions": "ସମସ୍ତ ପ୍ରସ୍ତାବଗୁଡିକୁ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ।",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
+    "selections_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା ପଦଗୁଡିକ ମିଳିଥିଲା।",
+    "no_selections_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା କୌଣସି ପଦଗୁଡିକ ମିଳି ନ ଥିଲା",
+    "verse_edits_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ପଦର ସଂଶୋଧନଗୁଡିକ ମିଳିଥିଲା",
+    "no_verse_edits_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ କୌଣସି ପଦର ସଂଶୋଧନଗୁଡିକ ମିଳି ନ ଥିଲା",
+    "comments_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ମନ୍ତବ୍ୟଗୁଡିକ ମିଳିଥିଲା",
+    "no_comments_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ କୌଣସି ମନ୍ତବ୍ୟଗୁଡିକ ମିଳି ନ ଥିଲା",
     "bookmarked": "This check has been bookmarked for review",
     "not_bookmarked": "ସମୀକ୍ଷା ନିମନ୍ତେ ଏହି ଯାଞ୍ଚକୁ ବୁକ୍‍ମାର୍କ୍ କରାଯାଇ ନାହିଁ"
   },

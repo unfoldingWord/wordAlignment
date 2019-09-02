@@ -196,21 +196,21 @@
   "suggestions": {
     "refresh_suggestions": "ਤਾਜ਼ਾ ਸੁਝਾਅ |",
     "accept_suggestions": "ਸਾਰੇ ਸੁਝਾਅ ਸਵੀਕਾਰ ਕਰੋ |",
-    "reject_suggestions": "Reject all suggestions.",
+    "reject_suggestions": "ਸਾਰੇ ਸੁਝਾਅ ਰੱਦ ਕਰੋ |",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "selections_found": "ਇਸ ਚੈਕ ਲਈ ਪੂਰੀਆਂ ਆਇਤਾਂ ਪਾਈਆਂ ਗਈਆਂ",
+    "no_selections_found": "ਇਸ ਚੈਕ ਲਈ ਪੂਰੀਆਂ ਆਇਤਾਂ ਪਾਈਆਂ ਨਹੀਂ ਗਈਆਂ",
+    "verse_edits_found": "ਇਸ ਜਾਂਚ ਲਈ ਆਇਤ ਦੇ ਸੰਪਾਦਨ ਮਿਲੇ ਹਨ",
+    "no_verse_edits_found": "ਇਸ ਜਾਂਚ ਲਈ ਆਇਤ ਦੇ ਸੰਪਾਦਨ ਨਹੀਂ ਮਿਲੇ ਹਨ",
+    "comments_found": "ਇਸ ਜਾਂਚ ਲਈ ਟਿੱਪਣੀਆਂ ਮਿਲੀਆਂ ਸਨ |",
+    "no_comments_found": "ਇਸ ਜਾਂਚ ਲਈ ਟਿੱਪਣੀਆਂ ਨਹੀਂ ਮਿਲੀਆਂ ਸਨ |",
+    "bookmarked": "ਇਹ ਚੈੱਕ ਸਮੀਖਿਆ ਲਈ ਬੁੱਕਮਾਰਕ ਕੀਤਾ ਗਿਆ ਹੈ |",
+    "not_bookmarked": "ਇਹ ਚੈੱਕ ਸਮੀਖਿਆ ਲਈ ਬੁੱਕਮਾਰਕ ਕੀਤਾ ਨਹੀਂ ਗਿਆ ਹੈ |"
   },
   "pane": {
     "current_project": "Current project",

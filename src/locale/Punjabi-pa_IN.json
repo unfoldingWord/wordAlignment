@@ -144,11 +144,11 @@
   "polpal": "ਪੋਪੇਲ",
   "hithpalpel": "ਹਿਥਪਾਲਪੇਲ",
   "nithpael": "ਨਿਥਪੇਲ",
-  "pealal": "Pealal",
-  "pilel": "Pilel",
-  "hothpaal": "Hothpaal",
-  "tiphil": "Tiphil",
-  "hishtaphel": "Hishtaphel",
+  "pealal": "ਪੀਲਲ",
+  "pilel": "ਪਿਲੇਲ",
+  "hothpaal": "ਹੋਥਪਾਲ",
+  "tiphil": "ਟਿਫਿਲ",
+  "hishtaphel": "ਹਿਸਤਾਫ਼ੇਲ",
   "nithpalel": "Nithpalel",
   "nithpoel": "Nithpoel",
   "hithpoel": "Hithpoel",
@@ -222,7 +222,7 @@
     "add_resource_label": "Add Resources",
     "select_language": "Select language",
     "gateway_language": "ਗੇਟਵੇ ਭਾਸ਼ਾ",
-    "target_language": "Target Language",
-    "original_language": "Original Language"
+    "target_language": "ਟੀਚਾ ਭਾਸ਼ਾ",
+    "original_language": "ਮੂਲ ਭਾਸ਼ਾ"
   }
 }

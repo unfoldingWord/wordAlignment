@@ -1,5 +1,5 @@
 {
-  "cannot_drag_middle": "Cannot un-merge a middle word",
+  "cannot_drag_middle": "ଗୋଟିଏ ମଧ୍ୟସ୍ଥ ଶବ୍ଦକୁ ଅଲଗା କରି ପାରିବ ନାହିଁ",
   "loading_alignments": "Loading alignment data",
   "lemma": "Lemma:",
   "morphology": "Morphology:",
@@ -191,7 +191,7 @@
     "verse_edit": "ପଦର ସଂଶୋଧନ",
     "comments": "ମନ୍ତବ୍ୟଗୁଡିକ",
     "menu_title": "Menu",
-    "unaligned": "Unaligned words"
+    "unaligned": "ଅସଜଡା ଶବ୍ଦଗୁଡିକ"
   },
   "suggestions": {
     "refresh_suggestions": "ପ୍ରସ୍ତାବଗୁଡିକୁ ସତେଜ କରନ୍ତୁ।",
@@ -209,7 +209,7 @@
     "no_verse_edits_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ କୌଣସି ପଦର ସଂଶୋଧନଗୁଡିକ ମିଳି ନ ଥିଲା",
     "comments_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ମନ୍ତବ୍ୟଗୁଡିକ ମିଳିଥିଲା",
     "no_comments_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ କୌଣସି ମନ୍ତବ୍ୟଗୁଡିକ ମିଳି ନ ଥିଲା",
-    "bookmarked": "This check has been bookmarked for review",
+    "bookmarked": "ସମୀକ୍ଷା ନିମନ୍ତେ ଏହି ଯାଞ୍ଚକୁ ବୁକ୍‍ମାର୍କ୍ କରାଯାଇଅଛି",
     "not_bookmarked": "ସମୀକ୍ଷା ନିମନ୍ତେ ଏହି ଯାଞ୍ଚକୁ ବୁକ୍‍ମାର୍କ୍ କରାଯାଇ ନାହିଁ"
   },
   "pane": {

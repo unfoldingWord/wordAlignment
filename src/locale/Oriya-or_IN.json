@@ -172,21 +172,21 @@
   "ithpolel": "ଇଥ୍‍‍ପୋଲେଲ୍",
   "ittaphal": "ଇତ୍ତାଫାଲ୍",
   "morph_missing": "ପଦବିଜ୍ଞାନ ମିଳିଲା ନାହିଁ",
-  "unsaved_changes": "You have unsaved changes.",
-  "attention": "Attention:",
+  "unsaved_changes": "ଆପଣଙ୍କ ପାଖରେ ଅସୁରକ୍ଷିତ ପରିବର୍ତ୍ତନଗୁଡିକ ଅଛି।",
+  "attention": "ଧ୍ୟାନ:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",
     "cancel_button": "Cancel",
     "save_button": "Save",
     "next_button": "Next",
-    "discard_changes": "Discard Changes"
+    "discard_changes": "ପରିବର୍ତ୍ତନଗୁଡିକୁ ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ"
   },
   "menu": {
-    "no_results": "No results",
-    "invalidated": "Invalidated",
-    "bookmarks": "Bookmark",
-    "completed": "Completed",
+    "no_results": "କୌଣସି ଫଳାଫଳ ନାହିଁ",
+    "invalidated": "ଅବୈଧ ହୋଇଅଛି",
+    "bookmarks": "ବୁକ୍‍ମାର୍କ୍",
+    "completed": "ସମ୍ପୂର୍ଣ୍ଣ",
     "incomplete": "Incomplete",
     "verse_edit": "Verse edit",
     "comments": "Comments",

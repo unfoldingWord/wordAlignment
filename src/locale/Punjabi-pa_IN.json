@@ -180,22 +180,22 @@
     "cancel_button": "Cancel",
     "save_button": "Save",
     "next_button": "Next",
-    "discard_changes": "Discard Changes"
+    "discard_changes": "ਤਬਦੀਲੀਆਂ ਰੱਦ ਕਰੋ"
   },
   "menu": {
-    "no_results": "No results",
-    "invalidated": "Invalidated",
-    "bookmarks": "Bookmark",
-    "completed": "Completed",
-    "incomplete": "Incomplete",
-    "verse_edit": "Verse edit",
-    "comments": "Comments",
+    "no_results": "ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ",
+    "invalidated": "ਅਵੈਧ",
+    "bookmarks": "ਬੁੱਕਮਾਰਕ",
+    "completed": "ਮੁਕੰਮਲ",
+    "incomplete": "ਅਧੂਰਾ",
+    "verse_edit": "ਆਇਤ ਸੋਧ",
+    "comments": "ਟਿੱਪਣੀ ਕਰਨੀ |",
     "menu_title": "Menu",
-    "unaligned": "Unaligned words"
+    "unaligned": "ਗੈਰ-ਦਸਤਖਤ ਕੀਤੇ ਸ਼ਬਦ"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh suggestions.",
-    "accept_suggestions": "Accept all suggestions.",
+    "refresh_suggestions": "ਤਾਜ਼ਾ ਸੁਝਾਅ |",
+    "accept_suggestions": "ਸਾਰੇ ਸੁਝਾਅ ਸਵੀਕਾਰ ਕਰੋ |",
     "reject_suggestions": "Reject all suggestions.",
     "none": "No new suggestions",
     "refresh": "Refresh",

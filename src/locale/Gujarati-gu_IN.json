@@ -172,45 +172,45 @@
   "ithpolel": "Ithpolel",
   "ittaphal": "Ittaphal",
   "morph_missing": "Morphology not found",
-  "unsaved_changes": "You have unsaved changes.",
-  "attention": "Attention:",
+  "unsaved_changes": "તમારી પાસે સાચવ્યા વગરના પરિવર્તનો છે.",
+  "attention": "ધ્યાન રાખો:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",
     "cancel_button": "Cancel",
     "save_button": "Save",
     "next_button": "Next",
-    "discard_changes": "Discard Changes"
+    "discard_changes": "ફેરફારોને કાઢી નાખો"
   },
   "menu": {
-    "no_results": "No results",
-    "invalidated": "Invalidated",
-    "bookmarks": "Bookmark",
-    "completed": "Completed",
-    "incomplete": "Incomplete",
-    "verse_edit": "Verse edit",
-    "comments": "Comments",
+    "no_results": "કોઈ પરિણામ નથી",
+    "invalidated": "અમાન્ય",
+    "bookmarks": "બુકમાર્ક",
+    "completed": "પૂર્ણ",
+    "incomplete": "અપૂર્ણ",
+    "verse_edit": "કલમ ઉમેરો",
+    "comments": "ટિપ્પણી",
     "menu_title": "Menu",
-    "unaligned": "Unaligned words"
+    "unaligned": "બિન-સંરેખિત શબ્દો"
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh suggestions.",
-    "accept_suggestions": "Accept all suggestions.",
-    "reject_suggestions": "Reject all suggestions.",
+    "refresh_suggestions": "સૂચનોને તાજા કરો.",
+    "accept_suggestions": "બધા સૂચનોને સ્વીકારો.",
+    "reject_suggestions": "બધા સૂચનોને નકારો.",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "selections_found": "આ તપાસ માટે પૂર્ણ કલમો જોવા મળી છે",
+    "no_selections_found": "આ તપાસ માટે કોઈપણ પૂર્ણ કલમો જોવા મળી નથી",
+    "verse_edits_found": "આ તપાસ માટે કલમનો ઉમેરો જોવા મળ્યો છે",
+    "no_verse_edits_found": "આ તપાસ માટે કોઈ કલમનો ઉમેરો જોવા મળ્યો નથી",
+    "comments_found": "આ તપાસ માટે ટીપ્પણીઓ જોવા મળી છે",
+    "no_comments_found": "આ તપાસ માટે કોઈ ટિપ્પણીઓ જોવા મળી નથી",
+    "bookmarked": "આ તપાસને સમિક્ષા માટે બુકમાર્ક કરવામાં આવી છે",
+    "not_bookmarked": "આ તપાસને સમિક્ષા માટે બુકમાર્ક કરવામાં આવી નથી"
   },
   "pane": {
     "current_project": "Current project",
@@ -221,8 +221,8 @@
     "add_resource": "Click to add a resource",
     "add_resource_label": "Add Resources",
     "select_language": "Select language",
-    "gateway_language": "Gateway Language",
-    "target_language": "Target Language",
-    "original_language": "Original Language"
+    "gateway_language": "ગેટવે ભાષા",
+    "target_language": "લક્ષ્ય ભાષા",
+    "original_language": "મૂળ ભાષા"
   }
 }

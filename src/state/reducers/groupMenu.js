@@ -1,5 +1,12 @@
 // consts
-import {SET_EDITED, SET_FINISHED, SET_INVALID, SET_UNALIGNED, SET_STATE} from '../actions/actionTypes';
+import {
+  CLEAR_GROUP_MENU,
+  SET_EDITED,
+  SET_FINISHED,
+  SET_INVALID,
+  SET_STATE,
+  SET_UNALIGNED,
+} from '../actions/actionTypes';
 export const FINISHED_KEY = 'finished';
 export const INVALID_KEY = 'invalid';
 export const UNALIGNED_KEY = 'unaligned';
@@ -13,6 +20,9 @@ export const EDITED_KEY = 'edited';
  */
 const groupMenu = (state = {}, action) => {
   switch(action.type) {
+    case CLEAR_GROUP_MENU: {
+      return {};
+    }
     case SET_FINISHED: {
       return setItemValue(state, action, FINISHED_KEY, !!action.value);
     }

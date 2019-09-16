@@ -30,6 +30,7 @@ import { migrateChapterAlignments } from './utils/migrations';
 
 // consts
 import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "./state/reducers/groupMenu";
+import * as types from "./state/actions/actionTypes";
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
 export default class Api extends ToolApi {
@@ -386,9 +387,14 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillConnect() {
+    console.log("WA::toolWillConnect");
     const {clearState} = this.props;
     this._clearCachedAlignmentMemory();
     clearState();
+    const {store} = this.context;
+    if (store && store.dispatch) {
+      store.dispatch({type: types.CLEAR_GROUP_MENU});
+    }
     this._loadBookAlignments(this.props);
   }
 

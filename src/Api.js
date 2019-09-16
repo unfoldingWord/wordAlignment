@@ -387,13 +387,12 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillConnect() {
-    console.log("WA::toolWillConnect");
     const {clearState} = this.props;
     this._clearCachedAlignmentMemory();
     clearState();
     const {store} = this.context;
     if (store && store.dispatch) {
-      store.dispatch({type: types.CLEAR_GROUP_MENU});
+      store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
     }
     this._loadBookAlignments(this.props);
   }

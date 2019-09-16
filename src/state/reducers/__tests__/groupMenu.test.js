@@ -3,6 +3,15 @@ import {reducerTest} from 'redux-jest';
 import * as types from '../../actions/actionTypes';
 import groupMenu, * as fromGroupMenu from '../groupMenu';
 
+describe('test CLEAR_GROUP_MENU', () => {
+  const before = { stuff: {stuff: {}} };
+  const action = {
+    type: types.CLEAR_GROUP_MENU
+  };
+  const after = {};
+  reducerTest('groupMenu', groupMenu, before, action, after);
+});
+
 describe('test SET_FINISHED true', () => {
   const before = {};
   const action = {
@@ -14,8 +23,8 @@ describe('test SET_FINISHED true', () => {
   const after = {
     '1': {
       '2': {
-          finished: action.value
-        }
+        finished: action.value
+      }
     }
   };
   reducerTest('groupMenu', groupMenu, before, action, after);

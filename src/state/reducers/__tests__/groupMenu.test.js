@@ -2,7 +2,6 @@ import _ from "lodash";
 import {reducerTest} from 'redux-jest';
 import * as types from '../../actions/actionTypes';
 import groupMenu, * as fromGroupMenu from '../groupMenu';
-import {CLEAR_GROUP_MENU} from "../../actions/actionTypes";
 
 describe('test CLEAR_GROUP_MENU', () => {
   const before = { stuff: {stuff: {}} };

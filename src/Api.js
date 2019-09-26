@@ -50,6 +50,7 @@ export default class Api extends ToolApi {
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
     this.refreshGroupMenuItems = this.refreshGroupMenuItems.bind(this);
     this.getGroupMenuItem = this.getGroupMenuItem.bind(this);
+    this.clearGroupMenuReducer = this.clearGroupMenuReducer.bind(this);
   }
 
   /**
@@ -384,16 +385,23 @@ export default class Api extends ToolApi {
   }
 
   /**
+   * resets cached data in group menu reducer
+   */
+  clearGroupMenuReducer() {
+    const {store} = this.context;
+    if (store && store.dispatch) {
+      store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
+    }
+  }
+
+  /**
    * Lifecycle method
    */
   toolWillConnect() {
     const {clearState} = this.props;
     this._clearCachedAlignmentMemory();
     clearState();
-    const {store} = this.context;
-    if (store && store.dispatch) {
-      store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
-    }
+    this.clearGroupMenuReducer();
     this._loadBookAlignments(this.props);
   }
 
@@ -494,6 +502,7 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
+      this.clearGroupMenuReducer();
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {

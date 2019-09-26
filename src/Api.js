@@ -388,7 +388,7 @@ export default class Api extends ToolApi {
    * resets cached data in group menu reducer
    */
   clearGroupMenuReducer() {
-    const {store} = this.context;
+    const store = this.context && this.context.store;
     if (store && store.dispatch) {
       store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
     }
@@ -502,7 +502,9 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
-      this.clearGroupMenuReducer();
+      if (nextContext.tool === 'wordAlignment') { // if launching tool, make sure we clear previous menu entries
+        this.clearGroupMenuReducer();
+      }
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);
         if (!isValid) {

@@ -50,7 +50,7 @@ export default class Api extends ToolApi {
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
     this.refreshGroupMenuItems = this.refreshGroupMenuItems.bind(this);
     this.getGroupMenuItem = this.getGroupMenuItem.bind(this);
-    this.clearGroupMenuReducer = this.clearGroupMenuReducer.bind(this);
+    this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
   }
 
   /**
@@ -387,7 +387,7 @@ export default class Api extends ToolApi {
   /**
    * resets cached data in group menu reducer
    */
-  clearGroupMenuReducer() {
+  _clearGroupMenuReducer() {
     const store = this.context && this.context.store;
     if (store && store.dispatch) {
       store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
@@ -401,7 +401,7 @@ export default class Api extends ToolApi {
     const {clearState} = this.props;
     this._clearCachedAlignmentMemory();
     clearState();
-    this.clearGroupMenuReducer();
+    this._clearGroupMenuReducer();
     this._loadBookAlignments(this.props);
   }
 
@@ -502,8 +502,8 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
-      if (nextContext.tool === 'wordAlignment') { // if launching tool, make sure we clear previous menu entries
-        this.clearGroupMenuReducer();
+      if (nextContext.tool === 'wordAlignment') { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
+        this._clearGroupMenuReducer();
       }
       setTimeout(() => {
         const isValid = this._validateBook(nextProps);

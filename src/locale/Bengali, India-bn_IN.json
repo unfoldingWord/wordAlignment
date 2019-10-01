@@ -191,20 +191,20 @@
     "verse_edit": "পদ সম্পাদন করা ",
     "comments": "মন্তব্য সমূহ ",
     "menu_title": "Menu",
-    "unaligned": "Unaligned words"
+    "unaligned": "নির্জোট শব্দ সমূহ  "
   },
   "suggestions": {
-    "refresh_suggestions": "Refresh suggestions.",
-    "accept_suggestions": "Accept all suggestions.",
-    "reject_suggestions": "Reject all suggestions.",
+    "refresh_suggestions": "সতেজ করা প্রস্তাব সমূহ ",
+    "accept_suggestions": "সমস্ত প্রস্তাবগুলোকে স্বীকার করুন ",
+    "reject_suggestions": "সমস্ত প্রস্তাবগুলোকে প্রত্যাখ্যান করুন ",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
+    "selections_found": "এই পরীক্ষার জন্য সম্পূর্ণ পদগুলোকে দেখা গেছে  ",
+    "no_selections_found": "এই পরীক্ষার জন্য কোন পদ সমূহকে দেখা যায় নি ",
     "verse_edits_found": "Verse edits were found for this check",
     "no_verse_edits_found": "No Verse edits were found for this check",
     "comments_found": "Comments were found for this check",

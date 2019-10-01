@@ -205,12 +205,12 @@
   "icons": {
     "selections_found": "এই পরীক্ষার জন্য সম্পূর্ণ পদগুলোকে দেখা গেছে  ",
     "no_selections_found": "এই পরীক্ষার জন্য কোন পদ সমূহকে দেখা যায় নি ",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "verse_edits_found": "এই পরীক্ষার জন্য পদ সম্পাদনাগুলোকে দেখা গেছে ",
+    "no_verse_edits_found": "এই পরীক্ষার জন্য কোনো পদ সম্পদনাকে দেখা যায়নি ",
+    "comments_found": "এই পরীক্ষার জন্য মন্তব্য সমূহকে দেখা গিয়েছিল ",
+    "no_comments_found": "এই পরীক্ষার জন্য কোনো মন্তব্যকে দেখা যায়নি ",
+    "bookmarked": "পর্যলোচনের জন্য এই পরীক্ষাটিকে বুকমার্ক করা হয়েছে ",
+    "not_bookmarked": "এই পরীক্ষাটিকে পর্যালোচনার জন্য বুকমার্ক করা হয়নি "
   },
   "pane": {
     "current_project": "Current project",
@@ -221,8 +221,8 @@
     "add_resource": "Click to add a resource",
     "add_resource_label": "Add Resources",
     "select_language": "Select language",
-    "gateway_language": "Gateway Language",
-    "target_language": "Target Language",
-    "original_language": "Original Language"
+    "gateway_language": "গেটওয়ে ভাষা ",
+    "target_language": "টার্গেট ভাষা ",
+    "original_language": "মূল ভাষা "
   }
 }

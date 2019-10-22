@@ -1,12 +1,11 @@
-import Container from './src/components/Container';
-import {connectTool} from 'tc-tool';
-import reducer from './src/state/reducers';
 import path from 'path';
+import { connectTool } from 'tc-tool';
+import Container from './src/components/Container';
+import reducer from './src/state/reducers';
 import Api from './src/Api';
-import { enableBatching } from 'redux-batched-actions';
 
 export default connectTool('wordAlignment', {
   localeDir: path.join(__dirname, 'src/locale'),
-  reducer: enableBatching(reducer),
-  api: new Api()
+  reducer: reducer,
+  api: new Api(),
 })(Container);

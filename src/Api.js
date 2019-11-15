@@ -414,7 +414,8 @@ export default class Api extends ToolApi {
       const {tc: {project}} = this.props;
       try {
         const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
-        const key = `alignment-memory.${project.getLanguageId()}-${project.getResourceId()}-${project.getBookId()}`;
+        const resourceId = project.getResourceId().toLowerCase(); // make sure lower case
+        const key = `alignment-memory.${project.getLanguageId()}-${resourceId}-${project.getBookId()}`;
         cache.remove(key);
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
@@ -778,14 +779,16 @@ export default class Api extends ToolApi {
     } = this.props;
     const memory = [];
     const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
+    resourceId = resourceId.toLowerCase(); // make sure lower case
 
     for(let i = 0, len = projects.length; i < len; i++) {
       const p = projects[i];
+      const resourceId_ = p.getResourceId().toLowerCase(); // make sure lower case
       if(p.getLanguageId() === languageId
-       && p.getResourceId() === resourceId
+       && resourceId_ === resourceId
        && p.getOriginalLanguageId() === originalLanguageId
        && p.getBookId() !== bookIdFilter) {
-          const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getBookId()}`;
+          const key = `alignment-memory.${p.getLanguageId()}-${resourceId_}-${p.getBookId()}`;
           const hit = cache.get(key);
           if(hit) {
             // de-serilize the project memory

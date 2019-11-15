@@ -414,13 +414,23 @@ export default class Api extends ToolApi {
       const {tc: {project}} = this.props;
       try {
         const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
-        const resourceId = project.getResourceId().toLowerCase(); // make sure lower case
-        const key = `alignment-memory.${project.getLanguageId()}-${resourceId}-${project.getBookId()}`;
+        const resourceId = project.getResourceId();
+        const resourceIdLc = resourceId.toLowerCase(); // make sure lower case
+        let key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
         cache.remove(key);
+        if (resourceId !== resourceIdLc) {  // if resource ID is not lower case, make sure we didn't leave behind an old copy in alignment memory
+          key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
+          cache.remove(key);
+        }
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
       }
     }
+  }
+
+  getAlignMemoryKey(languageId, resourceIdLc, bookId) {
+    const key = `alignment-memory.${languageId}-${resourceIdLc}-${bookId}`;
+    return key;
   }
 
   /**
@@ -788,10 +798,10 @@ export default class Api extends ToolApi {
        && resourceId_ === resourceId
        && p.getOriginalLanguageId() === originalLanguageId
        && p.getBookId() !== bookIdFilter) {
-          const key = `alignment-memory.${p.getLanguageId()}-${resourceId_}-${p.getBookId()}`;
+          const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
           const hit = cache.get(key);
           if(hit) {
-            // de-serilize the project memory
+            // de-serialize the project memory
             try {
               const projectMemory = [];
               const cachedAlignments = JSON.parse(hit);

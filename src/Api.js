@@ -419,7 +419,7 @@ export default class Api extends ToolApi {
         let key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
         cache.remove(key);
         if (resourceId !== resourceIdLc) {  // if resource ID is not lower case, make sure we didn't leave behind an old copy in alignment memory
-          key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
+          key = this.getAlignMemoryKey(project.getLanguageId(), resourceId, project.getBookId());
           cache.remove(key);
         }
       } catch (e) {

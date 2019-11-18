@@ -428,6 +428,13 @@ export default class Api extends ToolApi {
     }
   }
 
+  /**
+   * common method to generate key for a project
+   * @param {string} languageId
+   * @param {string} resourceIdLc
+   * @param {string} bookId
+   * @return {string}
+   */
   getAlignMemoryKey(languageId, resourceIdLc, bookId) {
     const key = `alignment-memory.${languageId}-${resourceIdLc}-${bookId}`;
     return key;

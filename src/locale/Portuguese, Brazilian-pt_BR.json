@@ -7,6 +7,7 @@
   "lexicon": "Léxico:",
   "alignments_reset": "Foram detectadas alterações no seu projeto que invalidam alguns dos seus alinhamentos.\nOs versículos alterados têm o ícone de corrente quebrada ao lado da referência no menu lateral.",
   "close": "Fechar",
+  "load": "Load",
   "select": "Selecionar",
   "spelling": "Grafia",
   "punctuation": "Pontuação",

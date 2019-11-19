@@ -7,6 +7,7 @@
   "lexicon": "Léxico:",
   "alignments_reset": "Se han detectado cambios en su proyecto que han invalidado algunas de sus alineaciones.\nEstos versículos están marcados con un icono de una cadena rota junto a la referencia en el menú lateral.",
   "close": "Cerrar",
+  "load": "Load",
   "select": "Seleccionar",
   "spelling": "Ortografía",
   "punctuation": "Puntuación",

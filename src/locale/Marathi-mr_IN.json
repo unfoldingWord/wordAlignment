@@ -7,6 +7,7 @@
   "lexicon": "Lexicon:",
   "alignments_reset": "Changes have been detected in your project which have invalidated some of your alignments.\nThese verses display an icon of a broken chain next to the reference in the side menu.",
   "close": "Close",
+  "load": "Load",
   "select": "Select",
   "spelling": "Spelling",
   "punctuation": "Punctuation",

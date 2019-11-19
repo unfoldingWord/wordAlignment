@@ -414,12 +414,30 @@ export default class Api extends ToolApi {
       const {tc: {project}} = this.props;
       try {
         const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
-        const key = `alignment-memory.${project.getLanguageId()}-${project.getResourceId()}-${project.getBookId()}`;
+        const resourceId = project.getResourceId();
+        const resourceIdLc = resourceId.toLowerCase(); // make sure lower case
+        let key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
         cache.remove(key);
+        if (resourceId !== resourceIdLc) {  // if resource ID is not lower case, make sure we didn't leave behind an old copy in alignment memory
+          key = this.getAlignMemoryKey(project.getLanguageId(), resourceId, project.getBookId());
+          cache.remove(key);
+        }
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
       }
     }
+  }
+
+  /**
+   * common method to generate key for a project
+   * @param {string} languageId
+   * @param {string} resourceIdLc
+   * @param {string} bookId
+   * @return {string}
+   */
+  getAlignMemoryKey(languageId, resourceIdLc, bookId) {
+    const key = `alignment-memory.${languageId}-${resourceIdLc}-${bookId}`;
+    return key;
   }
 
   /**
@@ -778,17 +796,19 @@ export default class Api extends ToolApi {
     } = this.props;
     const memory = [];
     const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
+    resourceId = resourceId.toLowerCase(); // make sure lower case
 
     for(let i = 0, len = projects.length; i < len; i++) {
       const p = projects[i];
+      const resourceId_ = p.getResourceId().toLowerCase(); // make sure lower case
       if(p.getLanguageId() === languageId
-       && p.getResourceId() === resourceId
+       && resourceId_ === resourceId
        && p.getOriginalLanguageId() === originalLanguageId
        && p.getBookId() !== bookIdFilter) {
-          const key = `alignment-memory.${p.getLanguageId()}-${p.getResourceId()}-${p.getBookId()}`;
+          const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
           const hit = cache.get(key);
           if(hit) {
-            // de-serilize the project memory
+            // de-serialize the project memory
             try {
               const projectMemory = [];
               const cachedAlignments = JSON.parse(hit);

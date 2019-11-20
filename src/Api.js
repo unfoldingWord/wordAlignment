@@ -1,15 +1,16 @@
-import {ToolApi, getActiveLanguage, setActiveLocale} from 'tc-tool';
+import {getActiveLanguage, setActiveLocale, ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
   getGroupMenuItem,
-  getIsChapterLoaded, getIsVerseAligned,
+  getIsChapterLoaded,
+  getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
   getVerseAlignments
 } from './state/reducers';
 import path from 'path-extra';
-import Lexer, { Token } from 'wordmap-lexer';
+import Lexer, {Token} from 'wordmap-lexer';
 import {Alignment, Ngram} from 'wordmap';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
@@ -18,12 +19,13 @@ import {
   clearState,
   indexChapterAlignments,
   moveSourceToken,
+  recordCheck,
   repairAndInspectVerse,
-  resetVerse, recordCheck,
-  unalignTargetToken,
+  resetVerse,
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
   setGroupMenuItemState,
+  unalignTargetToken,
 } from './state/actions';
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
@@ -522,23 +524,26 @@ export default class Api extends ToolApi {
         isReady
       }
     } = this.props;
-    const {store} = this.context;
-    const state = store.getState();
-    if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
-      if (nextContext.tool === 'wordAlignment') { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
-        store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
-        const currentLang = getActiveLanguage(state);
-        if (currentLang !== appLanguage) { // see if locale language has changed
-          store.dispatch(setActiveLocale(appLanguage));
-        }
-        this._clearGroupMenuReducer();
+    if (isReady) {
+      const {store} = this.context;
+      const currentLang = getActiveLanguage(store.getState());
+      const langId = currentLang && currentLang.code;
+      if (langId && (langId !== appLanguage)) { // see if locale language has changed
+        store.dispatch(setActiveLocale(appLanguage));
       }
-      setTimeout(() => {
-        const isValid = this._validateBook(nextProps);
-        if (!isValid) {
-          this._showResetDialog();
+
+      if (Api._didToolContextChange(prevContext, nextContext)) {
+        if (nextContext.tool === 'wordAlignment') { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
+
+          this._clearGroupMenuReducer();
         }
-      }, 0);
+        setTimeout(() => {
+          const isValid = this._validateBook(nextProps);
+          if (!isValid) {
+            this._showResetDialog();
+          }
+        }, 0);
+      }
     }
   }
 

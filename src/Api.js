@@ -525,16 +525,16 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     if (isReady) {
+      const isWaTool = (nextContext.tool === 'wordAlignment');
       const {store} = this.context;
       const currentLang = getActiveLanguage(store.getState());
       const langId = currentLang && currentLang.code;
-      if (langId && (langId !== appLanguage)) { // see if locale language has changed
+      if (isWaTool && langId && (langId !== appLanguage)) { // see if locale language has changed
         store.dispatch(setActiveLocale(appLanguage));
       }
 
       if (Api._didToolContextChange(prevContext, nextContext)) {
-        if (nextContext.tool === 'wordAlignment') { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
-
+        if (isWaTool) { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
           this._clearGroupMenuReducer();
         }
         setTimeout(() => {

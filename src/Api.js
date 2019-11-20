@@ -1,4 +1,4 @@
-import {ToolApi} from 'tc-tool';
+import {ToolApi, getActiveLanguage, setActiveLocale} from 'tc-tool';
 import isEqual from 'deep-equal';
 import {
   getGroupMenuItem,
@@ -514,13 +514,23 @@ export default class Api extends ToolApi {
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
     const {
-      tc: {contextId: prevContext},
+      tc: {
+        contextId: prevContext,
+        appLanguage,
+      },
       tool: {
         isReady
       }
     } = this.props;
+    const {store} = this.context;
+    const state = store.getState();
     if (isReady && Api._didToolContextChange(prevContext, nextContext)) {
       if (nextContext.tool === 'wordAlignment') { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
+        store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
+        const currentLang = getActiveLanguage(state);
+        if (currentLang !== appLanguage) { // see if locale language has changed
+          store.dispatch(setActiveLocale(appLanguage));
+        }
         this._clearGroupMenuReducer();
       }
       setTimeout(() => {

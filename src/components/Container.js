@@ -235,19 +235,6 @@ class Container extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      tc: {
-        contextId: nextContextId
-      },
-      tool: {
-        api
-      }
-    } = nextProps;
-
-    const {reference: {chapter, verse}} = nextContextId;
-
-    api.setVerseInvalid(chapter, verse, false);
-
     if (Container.contextDidChange(nextProps, this.props)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');

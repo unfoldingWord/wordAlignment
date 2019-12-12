@@ -677,6 +677,8 @@ export default class Api extends ToolApi {
     }
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {
+      this.setVerseInvalid(chapter, verse, false); // reset invalidated flag if finished
+
       const data = {
         username,
         modifiedTimestamp: (new Date()).toJSON()

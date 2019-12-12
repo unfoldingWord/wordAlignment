@@ -3,9 +3,9 @@ import {Token} from 'wordmap-lexer';
 import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
-import DroppableWordList from '../index';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
+import DroppableWordList from '../index';
 
 describe('Test DroppableWordList component in WordList/index.js', () => {
   let props;

@@ -1,8 +1,8 @@
-import * as types from '../../../actions/actionTypes';
-import alignments, * as fromAlignments from '../index';
 import {Token} from 'wordmap-lexer';
 import _ from "lodash";
 import deepFreeze from 'deep-freeze';
+import alignments, * as fromAlignments from '../index';
+import * as types from '../../../actions/actionTypes';
 
 describe('set chapter alignments when empty', () => {
   const stateBefore = {};

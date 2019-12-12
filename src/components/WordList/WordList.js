@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SecondaryToken from '../SecondaryToken';
 import {Token} from 'wordmap-lexer';
+import SecondaryToken from '../SecondaryToken';
 
 /**
  * Renders a list of words that need to be aligned.

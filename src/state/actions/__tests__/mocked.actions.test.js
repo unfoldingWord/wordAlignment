@@ -1,9 +1,9 @@
-jest.mock('../../reducers');
-jest.mock('../../../utils/alignmentValidation');
+import {Token} from 'wordmap-lexer';
 import {areAlignmentsEquivalent} from '../../../utils/alignmentValidation';
 import * as reducers from '../../reducers';
 import * as actions from '../index';
-import {Token} from 'wordmap-lexer';
+jest.mock('../../reducers');
+jest.mock('../../../utils/alignmentValidation');
 
 describe('repair and inspect verse', () => {
 

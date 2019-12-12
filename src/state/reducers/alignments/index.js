@@ -1,5 +1,3 @@
-import chapter, * as fromChapter from './chapter';
-
 import {
   ACCEPT_TOKEN_SUGGESTION,
   ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
@@ -18,6 +16,8 @@ import {
   UNALIGN_RENDERED_SOURCE_TOKEN,
   UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
+import chapter, * as fromChapter from './chapter';
+
 
 /**
  * Compares two numbers for sorting

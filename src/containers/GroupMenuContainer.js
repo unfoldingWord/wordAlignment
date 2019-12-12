@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {GroupedMenu, generateMenuData, generateMenuItem, InvalidatedIcon, CheckIcon} from 'tc-ui-toolkit';
 import PropTypes from 'prop-types';
-import Api from '../Api';
-import {getChecks} from '../state/reducers';
 
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
 import UnalignedIcon from '@material-ui/icons/RemoveCircle';
+import {getChecks} from '../state/reducers';
+import Api from '../Api';
 import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../state/reducers/groupMenu";
 
 class GroupMenuContainer extends React.Component {

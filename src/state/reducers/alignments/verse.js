@@ -1,3 +1,6 @@
+import {Token} from 'wordmap-lexer';
+import _ from 'lodash';
+import {insertSourceToken} from '../../actions';
 import {
   ACCEPT_TOKEN_SUGGESTION,
   ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
@@ -15,17 +18,14 @@ import {
   UNALIGN_RENDERED_SOURCE_TOKEN,
   UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
-import alignmentReducer, * as fromAlignment from './alignment';
-import {Token} from 'wordmap-lexer';
-import {numberComparator} from './index';
-import {insertSourceToken} from '../../actions';
 import renderedAlignmentsReducer, * as fromRenderedAlignments
   from './renderedAlignments';
 import renderedAlignmentReducer, * as fromRenderedAlignment
   from './renderedAlignment';
-import _ from 'lodash';
+import alignmentReducer, * as fromAlignment from './alignment';
 import suggestionReducer from './suggestion';
 import compile from './compile';
+import {numberComparator} from './index';
 
 /**
  * Compares two alignments for sorting

@@ -1,9 +1,9 @@
 import _ from "lodash";
-import * as actions from '../index';
 import {Token} from 'wordmap-lexer';
 import {Prediction, Alignment, Ngram} from 'wordmap';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import * as actions from '../index';
 import {
   ALIGN_RENDERED_SOURCE_TOKEN,
   INSERT_RENDERED_ALIGNMENT,

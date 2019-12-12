@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Word from './WordCard';
 import {DragSource} from 'react-dnd';
-import * as types from './WordCard/Types';
 import {Token} from 'wordmap-lexer';
 import path from 'path-extra';
+import * as types from './WordCard/Types';
+import Word from './WordCard';
 
 /**
  * Checks if a token exists within the list

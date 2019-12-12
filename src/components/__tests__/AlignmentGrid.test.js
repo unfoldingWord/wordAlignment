@@ -1,10 +1,10 @@
 import React from 'react';
-import AlignmentGrid from '../AlignmentGrid';
 import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 import {Token} from 'wordmap-lexer';
+import AlignmentGrid from '../AlignmentGrid';
 
 test('empty snapshot', () => {
   const wrapper = renderer.create(

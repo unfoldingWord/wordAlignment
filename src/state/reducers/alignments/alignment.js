@@ -1,3 +1,5 @@
+import {Token} from 'wordmap-lexer';
+import _ from 'lodash';
 import {
   ACCEPT_TOKEN_SUGGESTION,
   INSERT_RENDERED_ALIGNMENT,
@@ -6,8 +8,6 @@ import {
   SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
 import {numberComparator} from './index';
-import {Token} from 'wordmap-lexer';
-import _ from 'lodash';
 
 const defaultState = {sourceNgram: [], targetNgram: []};
 

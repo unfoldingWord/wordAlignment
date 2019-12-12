@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
+import {Token} from 'wordmap-lexer';
 import * as types from '../WordCard/Types';
 import SecondaryToken from '../SecondaryToken';
 import PrimaryToken from '../PrimaryToken';
 import AlignmentCard from './AlignmentCard';
-import {Token} from 'wordmap-lexer';
 
 const styles = {
   root: {
@@ -51,7 +51,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   if(singleSource && mergedTarget) {
     return true;
   }
-  
+
   if(mergedSource) { // removing a word from a merged group
     if (emptyTarget) { // moving word from merged group to empty (unmerge)
       if (!different) { // if unmerge target for this group
@@ -62,7 +62,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
     } else if (mergedTarget && different) { //  moving word from merged group to a different merged group
       return true;
     }
-    
+
     // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
     // see components/AlignmentGrid.js
     // we could potentially use the touch backend https://github.com/yahoo/react-dnd-touch-backend

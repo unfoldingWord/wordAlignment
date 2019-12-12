@@ -20,8 +20,7 @@
     "react/no-find-dom-node": "warn",
     "semi": ["error", "always", {"omitLastInOneLineBlock": true}],
     "no-console": "off",
-    "no-async-promise-executor":"off",
-    "import/order":"warn"
+    "no-async-promise-executor":"off"
   },
   "parser": "babel-eslint",
   "parserOptions": {

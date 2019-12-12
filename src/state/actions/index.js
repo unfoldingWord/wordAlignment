@@ -1,10 +1,10 @@
-import * as types from './actionTypes';
-import {migrateChapterAlignments} from '../../utils/migrations';
 import Lexer from 'wordmap-lexer';
+import {migrateChapterAlignments} from '../../utils/migrations';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
 import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';
 import {areAlignmentsEquivalent} from '../../utils/alignmentValidation';
+import * as types from './actionTypes';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.

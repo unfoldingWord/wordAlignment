@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
 import { WordLexiconDetails, lexiconHelpers } from 'tc-ui-toolkit';
+import {Token} from 'wordmap-lexer';
 import * as types from './WordCard/Types';
 // components
 import Word from './WordCard';
-import {Token} from 'wordmap-lexer';
 
 const internalStyle = {
   word: {

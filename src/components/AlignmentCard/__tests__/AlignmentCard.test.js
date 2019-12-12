@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import AlignmentCard from '../AlignmentCard';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
+import AlignmentCard from '../AlignmentCard';
 import WordCard from '../../WordCard';
 
 const singleTopWord = [

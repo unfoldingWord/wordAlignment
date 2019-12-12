@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {DropTarget} from 'react-dnd';
+import {Token} from 'wordmap-lexer';
 import * as types from '../WordCard/Types';
 import WordList from './WordList';
-import {Token} from 'wordmap-lexer';
 
 /**
  * Renders a word bank with drag-drop support

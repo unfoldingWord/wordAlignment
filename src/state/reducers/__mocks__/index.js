@@ -17,7 +17,7 @@ const reducers = jest.genMockFromModule('../');
 // mock getIsVerseAligned
 {
   let isVerseAligned = {};
-  
+
   function __setIsVerseAligned(chapter, verse, aligned) {
     if(!isVerseAligned.hasOwnProperty(chapter)) {
       isVerseAligned[chapter] = {};
@@ -27,7 +27,7 @@ const reducers = jest.genMockFromModule('../');
     }
     isVerseAligned[chapter][verse] = aligned;
   }
-  
+
   reducers.__setIsVerseAligned = __setIsVerseAligned;
   reducers.getIsVerseAligned = jest.fn((state, chapter, verse) => {
     if(isVerseAligned.hasOwnProperty(chapter) && isVerseAligned[chapter].hasOwnProperty(verse)) {

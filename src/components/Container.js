@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import WordList from './WordList/index';
-import AlignmentGrid from './AlignmentGrid';
 import isEqual from 'deep-equal';
 import WordMap, {Alignment, Ngram} from 'wordmap';
 import Lexer, {Token} from 'wordmap-lexer';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {connect} from 'react-redux';
+import {batchActions} from 'redux-batched-actions';
 import {
   acceptAlignmentSuggestions,
   acceptTokenSuggestion,
@@ -29,16 +29,16 @@ import {
   getRenderedVerseAlignments,
   getVerseHasRenderedSuggestions
 } from '../state/reducers';
-import {connect} from 'react-redux';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
 import {removeUsfmMarkers} from '../utils/usfmHelpers';
-import MAPControls from './MAPControls';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
-import MissingBibleError from './MissingBibleError';
 import Api from '../Api';
-import {batchActions} from 'redux-batched-actions';
+import MAPControls from './MAPControls';
+import MissingBibleError from './MissingBibleError';
+import AlignmentGrid from './AlignmentGrid';
+import WordList from './WordList/index';
 
 const styles = {
   container: {
@@ -235,19 +235,6 @@ class Container extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const {
-      tc: {
-        contextId: nextContextId
-      },
-      tool: {
-        api
-      }
-    } = nextProps;
-
-    const {reference: {chapter, verse}} = nextContextId;
-
-    api.setVerseInvalid(chapter, verse, false);
-
     if (Container.contextDidChange(nextProps, this.props)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');

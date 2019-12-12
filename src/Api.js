@@ -1,5 +1,8 @@
 import {getActiveLanguage, setActiveLocale, ToolApi} from 'tc-tool';
 import isEqual from 'deep-equal';
+import path from 'path-extra';
+import Lexer, {Token} from 'wordmap-lexer';
+import {Alignment, Ngram} from 'wordmap';
 import {
   getGroupMenuItem,
   getIsChapterLoaded,
@@ -9,9 +12,6 @@ import {
   getVerseAlignedTargetTokens,
   getVerseAlignments
 } from './state/reducers';
-import path from 'path-extra';
-import Lexer, {Token} from 'wordmap-lexer';
-import {Alignment, Ngram} from 'wordmap';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {
@@ -677,6 +677,8 @@ export default class Api extends ToolApi {
     }
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {
+      this.setVerseInvalid(chapter, verse, false); // reset invalidated flag if finished
+
       const data = {
         username,
         modifiedTimestamp: (new Date()).toJSON()

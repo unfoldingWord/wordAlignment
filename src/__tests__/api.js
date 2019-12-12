@@ -1,9 +1,9 @@
-jest.mock('../state/reducers');
-jest.mock('../state/actions');
 import * as _ from 'lodash';
 import * as reducers from '../state/reducers';
 import * as actions from '../state/actions';
 import Api from '../Api';
+jest.mock('../state/reducers');
+jest.mock('../state/actions');
 
 const saveConsole = global.console;
 
@@ -307,12 +307,14 @@ describe('verse finished', () => {
     const writeToolData = jest.fn(() => Promise.resolve());
     const deleteToolFile = jest.fn(() => Promise.resolve());
     const recordCheck = jest.fn();
+    const toolDataPathExists = jest.fn(() => Promise.resolve(false));
 
     api.props = {
       recordCheck,
       tool: {
         writeToolData,
         deleteToolFile,
+        toolDataPathExists,
       },
       tc: {
         username: 'username',

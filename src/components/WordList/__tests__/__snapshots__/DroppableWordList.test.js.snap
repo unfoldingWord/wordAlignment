@@ -269,6 +269,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -277,6 +278,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -387,6 +390,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -395,6 +399,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -517,6 +523,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -525,6 +532,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -648,6 +657,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -656,6 +666,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -974,6 +986,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -982,6 +995,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -1092,6 +1107,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -1100,6 +1116,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -1222,6 +1240,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -1230,6 +1249,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }
@@ -1353,6 +1374,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               Object {
                                 "display": "flex",
                                 "flex": 1,
+                                "overflow": "hidden",
                               }
                             }
                           >
@@ -1361,6 +1383,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               style={
                                 Object {
                                   "flexGrow": 2,
+                                  "overflow": "hidden",
+                                  "textOverflow": "ellipsis",
                                   "width": "max-content",
                                 }
                               }

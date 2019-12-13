@@ -101,6 +101,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         Object {
                           "display": "flex",
                           "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
@@ -109,6 +110,8 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
                             "width": "max-content",
                           }
                         }
@@ -245,6 +248,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         Object {
                           "display": "flex",
                           "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
@@ -253,6 +257,8 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
                             "width": "max-content",
                           }
                         }
@@ -389,6 +395,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         Object {
                           "display": "flex",
                           "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
@@ -397,6 +404,8 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         style={
                           Object {
                             "flexGrow": 2,
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
                             "width": "max-content",
                           }
                         }

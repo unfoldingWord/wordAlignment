@@ -52,14 +52,15 @@ const styles = {
     height: '100%'
   },
   wordListContainer: {
-    minWidth: '120px',
-    maxWidth: '260px',
+    minWidth: '100px',
+    maxWidth: '400px',
     height: '100%'
   },
   alignmentAreaContainer: {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
+    width: 'calc(100vw - 650px)',
     height: '100%'
   },
   scripturePaneWrapper: {

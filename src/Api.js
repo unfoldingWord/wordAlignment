@@ -304,7 +304,7 @@ export default class Api extends ToolApi {
     } = props;
     const {store} = this.context;
 
-    if (!(verse in targetBook[chapter] && verse in sourceBook[chapter])) {
+    if (!(verse in targetBook[chapter] && targetBook[chapter][verse] && verse in sourceBook[chapter])) {
       console.warn(`Could not validate missing verse ${chapter}:${verse}`);
       return true;
     }

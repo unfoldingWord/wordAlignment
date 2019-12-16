@@ -762,6 +762,67 @@ describe('validate', () => {
     expect(props.tool.writeToolData).not.toBeCalled();
     expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
   });
+
+  it('does not invalidate empty verse', async () => {
+    // given
+    global.console = {warn: jest.fn()};
+    reducers.__setIsVerseValid(true);
+    reducers.__setIsVerseAligned(1, 1, true);
+    const alignmentCompleteFileExists = true;
+    const alignmentInvalidFileExists = false;
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn()
+      }
+    };
+    const props = {
+      tool: {
+        writeToolData: jest.fn(() => Promise.resolve()),
+        toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
+        toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists)),
+        deleteToolFile: jest.fn(() => Promise.resolve())
+      },
+      tc: {
+        contextId: {reference: {bookId: 'mybook'}},
+        sourceBook: {
+          1: {
+            1: {
+              verseObjects: [{
+                type: 'text',
+                text: "olleh"
+              }]
+            }
+          }
+        },
+        targetBook: {
+          1: {
+            1: ""
+          }
+        }
+      },
+      repairAndInspectVerse: jest.fn(() => false),
+    };
+    api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
+
+    // when
+    expect(api._validateVerse(props, 1, 1)).toEqual(true);
+
+    // then
+    expect(console.warn).toBeCalled();
+    expect(props.repairAndInspectVerse).not.toBeCalled();
+    expect(props.tool.writeToolData).not.toBeCalled();
+    expect(props.tool.deleteToolFile).not.toBeCalled();
+    await delay(200); // wait for async file system to update
+    expect(props.tool.writeToolData).not.toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
+  });
 });
 
 describe('get number of invalid checks', () => {

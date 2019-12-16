@@ -26,6 +26,7 @@ exports[`is a suggestion 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
@@ -34,6 +35,8 @@ exports[`is a suggestion 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }
@@ -109,6 +112,7 @@ exports[`occurs multiple times 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
@@ -117,6 +121,8 @@ exports[`occurs multiple times 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }
@@ -165,6 +171,7 @@ exports[`occurs once 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
@@ -173,6 +180,8 @@ exports[`occurs once 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }
@@ -210,6 +219,7 @@ exports[`renders rtl 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
@@ -218,6 +228,8 @@ exports[`renders rtl 1`] = `
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }

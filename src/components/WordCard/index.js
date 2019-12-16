@@ -27,8 +27,10 @@ const makeStyles = (props) => {
     },
     word: {
       width: 'max-content',
-      flexGrow: 2
-    }
+      flexGrow: 2,
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    },
   };
 
   if (isSuggestion) {
@@ -114,7 +116,7 @@ class WordCard extends React.Component {
     return (
       <div style={{flex: 1}}>
         <div style={styles.root}>
-        <span style={{flex: 1, display: 'flex'}}>
+        <span style={{flex: 1, display: 'flex', overflow: 'hidden'}}>
           <span onClick={this._handleClick} style={styles.word}>
             {word}
           </span>

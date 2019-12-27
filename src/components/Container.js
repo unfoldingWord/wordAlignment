@@ -81,7 +81,7 @@ export const generateMAP = (
   return new Promise(resolve => {
     setTimeout(() => {
       // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
-      const map = new WordMap({targetNgramLength: 5});
+      const map = new WordMap({targetNgramLength: 5, nGramWarnings: false});
       for (const chapter of Object.keys(targetBook)) {
         const chapterAlignments = getChapterAlignments(state, chapter);
         for (const verse of Object.keys(chapterAlignments)) {
@@ -128,6 +128,8 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
+    this.globalWordAlignmentMemory = null;
+    this.globalToolsMemory = null;
     this.map = new WordMap();
     this.updatePredictions = this.updatePredictions.bind(this);
     this.runMAP = this.runMAP.bind(this);
@@ -147,19 +149,35 @@ class Container extends Component {
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleResetWordList = this.handleResetWordList.bind(this);
     this.state = {
       loading: false,
       validating: false,
       prevState: undefined,
       writing: false,
       snackText: null,
-      canAutoComplete: false
+      canAutoComplete: false,
+      resetWordList: false
     };
   }
 
   handleSnackbarClose() {
     this.setState({
       snackText: null
+    });
+  }
+
+  handleModalOpen(isOpen) {
+    if (isOpen) {
+      this.handleResetWordList();
+    }
+  }
+
+  handleResetWordList() {
+    console.log("RESETTING WORD LIST - STATE");
+    this.setState( {
+      resetWordList: true
     });
   }
 
@@ -183,7 +201,10 @@ class Container extends Component {
       verseIsComplete
     } = this.props;
 
-    const {canAutoComplete} = this.state;
+    const {
+      canAutoComplete,
+      resetWordList
+    } = this.state;
 
     if (!Container.contextDidChange(this.props, prevProps)) {
       // auto complete the verse
@@ -191,6 +212,16 @@ class Container extends Component {
         this.handleToggleComplete(null, true);
       }
     }
+    if (resetWordList) {
+      this.setState({
+        resetWordList: false
+      });
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // When resetWordList goes from true to false, we don't need to render again
+    return !(this.state.resetWordList && !nextState.resetWordList);
   }
 
   /**
@@ -244,7 +275,9 @@ class Container extends Component {
   }
 
   /**
-   * Initializes the prediction engine
+   * Initializes the prediction engine.
+   * Note: this uses two types of alignment memory. Global and local alignment memory.
+   * Global alignment memory is cached. The local memory is volatile and therefore not cached.
    * @param props
    */
   initMAP(props) {
@@ -252,24 +285,79 @@ class Container extends Component {
       tc: {
         contextId: {reference: {chapter, verse}},
         targetBook,
-        tools
+        tools,
+        project
+      },
+      tool: {
+        api
       }
     } = props;
 
     const {store} = this.context;
     const state = store.getState();
     return generateMAP(targetBook, state, chapter, verse).then(map => {
-      for (const key of Object.keys(tools)) {
-        // TODO: the tools should give tokens if possible.
-        const alignmentMemory = tools[key].trigger('getAlignmentMemory');
-        if (alignmentMemory) {
-          for (const alignment of alignmentMemory) {
-            map.appendAlignmentMemoryString(alignment.sourceText,
-              alignment.targetText);
+      let toolsMemory = [];
+
+      try {
+        for (const key of Object.keys(tools)) {
+          const alignmentMemory = tools[key].trigger('getAlignmentMemory');
+          if (alignmentMemory) {
+            for (const alignment of alignmentMemory) {
+              try {
+                map.appendAlignmentMemoryString(alignment.sourceText,
+                  alignment.targetText);
+              } catch (e) {
+                console.warn(`"WA.initMAP() - Broken alignment for ${key}: ${JSON.stringify(alignment)}`, e);
+              }
+            }
+          }
+
+          // collect global tools memory
+          if (this.globalToolsMemory === null) {
+            try {
+              const memory = tools[key].trigger(
+                'getGlobalAlignmentMemory',
+                project.getLanguageId(),
+                project.getResourceId(),
+                project.getOriginalLanguageId(),
+                project.getBookId()
+              );
+
+              if (memory) {
+                toolsMemory.push.appy(toolsMemory, memory);
+              }
+            } catch (e) {
+              console.warn(`"WA.initMAP() - Failed to collect global alignment memory from ${key}`, e);
+            }
           }
         }
+
+        // cache global memory
+        if (this.globalToolsMemory === null) {
+          this.globalToolsMemory = toolsMemory;
+        }
+
+        if (this.globalWordAlignmentMemory === null) {
+          this.globalWordAlignmentMemory = api.getGlobalAlignmentMemory(
+            project.getLanguageId(),
+            project.getResourceId(),
+            project.getOriginalLanguageId(),
+            project.getBookId()
+          );
+        }
+
+        // append global memory
+        for (const alignment of this.globalToolsMemory) {
+          map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
+        }
+        for (const alignment of this.globalWordAlignmentMemory) {
+          map.appendAlignmentMemory(alignment);
+        }
+
+        return Promise.resolve(map);
+      } catch(e) {
+        console.warn("WA.initMAP() - Failed to init wordMap", e);
       }
-      return Promise.resolve(map);
     });
   }
 
@@ -297,7 +385,6 @@ class Container extends Component {
    */
   enableAutoComplete() {
     const {canAutoComplete} = this.state;
-
     if (!canAutoComplete) {
       this.setState({
         canAutoComplete: true
@@ -394,6 +481,7 @@ class Container extends Component {
         });
       }
     });
+    this.handleResetWordList();
   }
 
   handleAcceptSuggestions() {
@@ -404,6 +492,7 @@ class Container extends Component {
     // accepting all suggestions can auto-complete the verse
     this.enableAutoComplete();
     acceptAlignmentSuggestions(chapter, verse);
+    this.handleResetWordList();
   }
 
   handleToggleComplete(e, isChecked) {
@@ -422,6 +511,7 @@ class Container extends Component {
       this.disableAutoComplete();
       this.forceUpdate();
     });
+    this.handleResetWordList();
   }
 
   handleRejectSuggestions() {
@@ -430,6 +520,7 @@ class Container extends Component {
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
     clearAlignmentSuggestions(chapter, verse);
+    this.handleResetWordList();
   }
 
   handleRemoveSuggestion(alignmentIndex, token) {
@@ -536,8 +627,9 @@ class Container extends Component {
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
-    if(sourceLanguage === "hbo") {
-      sourceStyle = {fontSize: "200%", "padding-top": "2px", "line-height": "100%"};
+    const isHebrew = sourceLanguage === "hbo";
+    if(isHebrew) {
+      sourceStyle = {fontSize: "175%", paddingTop: "8px", lineHeight: "100%"};
     }
 
     return (
@@ -560,11 +652,12 @@ class Container extends Component {
             words={words}
             onDropTargetToken={this.handleUnalignTargetToken}
             connectDropTarget={connectDropTarget}
+            reset={this.state.resetWordList}
             isOver={isOver}/>
         </div>
         <div style={styles.alignmentAreaContainer}>
           <div style={styles.scripturePaneWrapper}>
-            <ScripturePaneContainer {...this.props}/>
+            <ScripturePaneContainer handleModalOpen={this.handleModalOpen} {...this.props}/>
           </div>
           {hasSourceText ? (
             <AlignmentGrid
@@ -579,7 +672,8 @@ class Container extends Component {
               onCancelSuggestion={this.handleRemoveSuggestion}
               onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
               actions={actions}
-              contextId={contextId}/>
+              contextId={contextId}
+              isHebrew={isHebrew}/>
           ) : (
             <MissingBibleError translate={translate}/>
           )}

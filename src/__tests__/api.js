@@ -1,6 +1,11 @@
 jest.mock('../state/reducers');
+jest.mock('../state/actions');
+import * as _ from 'lodash';
 import * as reducers from '../state/reducers';
+import * as actions from '../state/actions';
 import Api from '../Api';
+
+const saveConsole = global.console;
 
 describe('saving', () => {
 
@@ -103,7 +108,7 @@ describe('saving', () => {
 
     it('saves successfully', () => {
       global.console = {error: jest.fn()};
-      reducers.__setLegacyChapterAlignments({ hello : "world"});
+      reducers.__setLegacyChapterAlignments({hello: "world"});
       const api = new Api();
       api.props = {
         tc: {
@@ -120,7 +125,7 @@ describe('saving', () => {
         }
       };
       const nextState = {
-        tool: {hello : 'world'}
+        tool: {hello: 'world'}
       };
       const prevState = {
         tool: {foo: 'bar'}
@@ -221,8 +226,61 @@ describe('context', () => {
   });
 });
 
+describe('verse unaligned', () => {
+  it('is unaligned', () => {
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({
+          alignments: {
+            1: {
+              1: {
+                alignments: [
+                  {
+                    "sourceNgram": [
+                      0
+                    ],
+                    "targetNgram": [
+                      0,
+                      3
+                    ]
+                  },
+                  {
+                    "sourceNgram": [
+                      1
+                    ],
+                    "targetNgram": [
+                      1,
+                      4
+                    ]
+                  },
+                  {
+                    "sourceNgram": [
+                      2
+                    ],
+                    "targetNgram": [
+                      2
+                    ]
+                  },
+                ]
+              }
+            }
+          }
+        }))
+      }
+    };
+    expect(api.getisVerseUnaligned(1, 1)).toEqual(true);
+  });
+});
+
 describe('verse finished', () => {
-  it('is not finished', () => {
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.console = saveConsole; // restore original console
+  });
+
+  it('api.getIsVerseFinished() - is not finished', () => {
     const api = new Api();
     const fileExists = false;
     api.props = {
@@ -233,7 +291,7 @@ describe('verse finished', () => {
     expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
   });
 
-  it('is finished', () => {
+  it('api.getIsVerseFinished() - is finished', () => {
     const api = new Api();
     const fileExists = true;
     api.props = {
@@ -244,7 +302,7 @@ describe('verse finished', () => {
     expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
   });
 
-  it('sets a verse as finished', () => {
+  it('api.setVerseFinished() - sets a verse as finished', () => {
     const api = new Api();
     const writeToolData = jest.fn(() => Promise.resolve());
     const deleteToolFile = jest.fn(() => Promise.resolve());
@@ -261,12 +319,21 @@ describe('verse finished', () => {
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    reducers.getGroupMenuItem.mockReturnValue(null);
     api.setVerseFinished(1, 1, true);
     expect(writeToolData).toBeCalled();
     expect(deleteToolFile).not.toBeCalled();
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemFinished).toBeCalledWith(1,1,true);
   });
 
-  it('sets a verse has not finished', () => {
+  it('api.setVerseFinished() - sets a verse has not finished', () => {
     const api = new Api();
     const writeToolData = jest.fn();
     const deleteToolFile = jest.fn(() => Promise.resolve());
@@ -281,19 +348,29 @@ describe('verse finished', () => {
         contextId: {reference: {bookId: 'somebook'}}
       }
     };
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
+    reducers.getGroupMenuItem.mockReturnValue(null);
     api.setVerseFinished(1, 1, false);
     expect(writeToolData).not.toBeCalled();
     expect(deleteToolFile).toBeCalled();
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemFinished).toBeCalledWith(1,1,false);
   });
 });
 
 describe('validate', () => {
 
   beforeEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
+    global.console = saveConsole; // restore original console
   });
 
-  it('repairs a book', async() => {
+  it('repairs a book', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
     const alignmentCompleteFileExists = false;
@@ -333,14 +410,22 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateBook(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith("1","1",true);
   });
 
-  it('repairs a verse', async() => {
+  it('repairs a verse', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
     const alignmentCompleteFileExists = false;
@@ -380,14 +465,22 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
-  it('repairs a verse without alignment changes', async() => {
+  it('repairs a verse without alignment changes', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setIsVerseAligned(1, 1, false);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
@@ -429,14 +522,21 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
   });
 
-  it('repairs modified aligned verse without alignment changes and returns not valid', async() => {
+  it('repairs modified aligned verse without alignment changes and returns not valid', async () => {
     reducers.__setIsVerseValid(false);
     reducers.__setIsVerseAligned(1, 1, true);
     reducers.__setVerseAlignedTargetTokens(['some', 'data']);
@@ -479,11 +579,18 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs modified aligned verse with alignment changes and returns not valid', async () => {
@@ -529,11 +636,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs modified complete without alignment changes and returns not valid', async () => {
@@ -577,11 +692,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(false);
     expect(props.repairAndInspectVerse).toHaveBeenCalledTimes(1);
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toHaveBeenCalledTimes(1);
+    expect(reducers.getGroupMenuItem).toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('does not repair valid aligned verse', async () => {
@@ -623,12 +746,19 @@ describe('validate', () => {
       repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({})),
+        dispatch: jest.fn()
+      }
+    };
     expect(api._validateVerse(props, 1, 1)).toEqual(true);
     expect(props.repairAndInspectVerse).not.toBeCalled();
     expect(props.tool.writeToolData).not.toBeCalled();
     expect(props.tool.deleteToolFile).not.toBeCalled();
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
+    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
   });
 });
 
@@ -673,6 +803,254 @@ describe('get number of invalid checks', () => {
     const numInvalidChecks = api.getInvalidChecks();
     expect(numInvalidChecks).toEqual(2);
   });
+});
+
+describe('API.getIsVerseEdited', () => {
+  it('should return that a verse has verse edits', () => {
+    let expectedHasVerseEdits = true;
+    const props = {
+      tc: {
+        projectDataPathExistsSync: () => true,
+        contextId: {
+          reference: {
+            bookId: 'luk'
+          }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+    const hasVerseEdits = api.getIsVerseEdited();
+    expect(hasVerseEdits).toBe(expectedHasVerseEdits);
+  });
+
+  it('should return that a verse does not have verse edits', () => {
+    let expectedHasVerseEdits = false;
+    const props = {
+      tc: {
+        projectDataPathExistsSync: () => false,
+        contextId: {
+          reference: {
+            bookId: 'luk'
+          }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+    const hasVerseEdits = api.getIsVerseEdited();
+    expect(hasVerseEdits).toBe(expectedHasVerseEdits);
+  });
+});
+
+describe('API.getGroupMenuItem()', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.console = saveConsole; // restore original console
+  });
+
+  it("if item found and complete, then don't call apis", () => {
+    const item = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const expectedItemState = _.cloneDeep(item);
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    api.getIsVerseFinished = jest.fn();
+    api.getIsVerseInvalid = jest.fn();
+    api.getisVerseUnaligned = jest.fn();
+    api.getIsVerseEdited = jest.fn();
+    reducers.getGroupMenuItem.mockReturnValue(item);
+    const itemState = api.getGroupMenuItem(1, 2);
+    expect(itemState).toEqual(expectedItemState);
+    expect(api.getIsVerseFinished).not.toBeCalled();
+    expect(api.getIsVerseInvalid).not.toBeCalled();
+    expect(api.getisVerseUnaligned).not.toBeCalled();
+    expect(api.getIsVerseEdited).not.toBeCalled();
+    expect(actions.setGroupMenuItemState).not.toBeCalled();
+  });
+
+  it("if item not found, then call apis and update state", () => {
+    const item = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const expectedItemState = _.cloneDeep(item);
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    api.getIsVerseFinished = jest.fn(() => true);
+    api.getIsVerseInvalid = jest.fn(() => true);
+    api.getisVerseUnaligned = jest.fn(() => false);
+    api.getIsVerseEdited = jest.fn(() => false);
+    reducers.getGroupMenuItem.mockReturnValue(null);
+    const itemState = api.getGroupMenuItem(1, 2);
+    expect(itemState).toEqual(expectedItemState);
+    expect(api.getIsVerseFinished).toBeCalled();
+    expect(api.getIsVerseInvalid).toBeCalled();
+    expect(api.getisVerseUnaligned).toBeCalled();
+    expect(api.getIsVerseEdited).toBeCalled();
+    expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
+  });
+
+  it("if item found without finished, then call get finished api and update state", () => {
+    const item = {
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const expectedItemState = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    api.getIsVerseFinished = jest.fn(() => true);
+    api.getIsVerseInvalid = jest.fn(() => true);
+    api.getisVerseUnaligned = jest.fn(() => false);
+    api.getIsVerseEdited = jest.fn(() => false);
+    reducers.getGroupMenuItem.mockReturnValue(item);
+    const itemState = api.getGroupMenuItem(1, 2);
+    expect(itemState).toEqual(expectedItemState);
+    expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
+    expect(api.getIsVerseFinished).toBeCalled();
+    expect(api.getIsVerseInvalid).not.toBeCalled();
+    expect(api.getisVerseUnaligned).not.toBeCalled();
+    expect(api.getIsVerseEdited).not.toBeCalled();
+  });
+
+  it("if item found without invalid, then call get invalid api and update state", () => {
+    const item = {
+      finished: true,
+      unaligned: false,
+      edited: false
+    };
+    const expectedItemState = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    api.getIsVerseFinished = jest.fn(() => true);
+    api.getIsVerseInvalid = jest.fn(() => true);
+    api.getisVerseUnaligned = jest.fn(() => false);
+    api.getIsVerseEdited = jest.fn(() => false);
+    reducers.getGroupMenuItem.mockReturnValue(item);
+    const itemState = api.getGroupMenuItem(1, 2);
+    expect(itemState).toEqual(expectedItemState);
+    expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
+    expect(api.getIsVerseFinished).not.toBeCalled();
+    expect(api.getIsVerseInvalid).toBeCalled();
+    expect(api.getisVerseUnaligned).not.toBeCalled();
+    expect(api.getIsVerseEdited).not.toBeCalled();
+  });
+
+  it("if item found without unaligned, then call get unaligned api and update state", () => {
+    const item = {
+      finished: true,
+      invalid: true,
+      edited: false
+    };
+    const expectedItemState = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    api.getIsVerseFinished = jest.fn(() => true);
+    api.getIsVerseInvalid = jest.fn(() => true);
+    api.getisVerseUnaligned = jest.fn(() => false);
+    api.getIsVerseEdited = jest.fn(() => false);
+    reducers.getGroupMenuItem.mockReturnValue(item);
+    const itemState = api.getGroupMenuItem(1, 2);
+    expect(itemState).toEqual(expectedItemState);
+    expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
+    expect(api.getIsVerseFinished).not.toBeCalled();
+    expect(api.getIsVerseInvalid).not.toBeCalled();
+    expect(api.getisVerseUnaligned).toBeCalled();
+    expect(api.getIsVerseEdited).not.toBeCalled();
+  });
+
+  it("if item found without edited, then call get edited api and update state", () => {
+    const item = {
+      finished: true,
+      invalid: true,
+      unaligned: false
+    };
+    const expectedItemState = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false
+    };
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: () => ({}),
+        dispatch: () => ({})
+      }
+    };
+    api.getIsVerseFinished = jest.fn(() => true);
+    api.getIsVerseInvalid = jest.fn(() => true);
+    api.getisVerseUnaligned = jest.fn(() => false);
+    api.getIsVerseEdited = jest.fn(() => false);
+    reducers.getGroupMenuItem.mockReturnValue(item);
+    const itemState = api.getGroupMenuItem(1, 2);
+    expect(itemState).toEqual(expectedItemState);
+    expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
+    expect(api.getIsVerseFinished).not.toBeCalled();
+    expect(api.getIsVerseInvalid).not.toBeCalled();
+    expect(api.getisVerseUnaligned).not.toBeCalled();
+    expect(api.getIsVerseEdited).toBeCalled();
+  });
+
 });
 
 //

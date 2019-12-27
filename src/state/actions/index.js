@@ -157,16 +157,26 @@ export const insertSourceToken = (chapter, verse, token) => ({
 export const moveSourceToken = (
   chapter, verse, nextAlignmentIndex, prevAlignmentIndex, token) => {
 
-  return dispatch => {
+  return (dispatch, getState) => {
+    const initialAlignments = getVerseAlignments(getState(), chapter, verse);
     dispatch(unalignSourceToken(chapter, verse, prevAlignmentIndex, token));
 
-    if (prevAlignmentIndex === nextAlignmentIndex) {
+    if (prevAlignmentIndex === nextAlignmentIndex) { // doing unmerge operation
       dispatch(insertSourceToken(chapter, verse, token));
     } else {
-      // TRICKY: shift the next index since we removed an alignment
-      const index = shiftRelativeToRemoved(nextAlignmentIndex,
-        prevAlignmentIndex);
+      // if we are dragging from an alignment with multiple merged words
+      const sourceMerged = (initialAlignments[prevAlignmentIndex] && initialAlignments[prevAlignmentIndex].sourceNgram && initialAlignments[prevAlignmentIndex].sourceNgram.length) > 1;
+      const previousTargetAlignments = initialAlignments[prevAlignmentIndex] && initialAlignments[prevAlignmentIndex].targetNgram;
+      let index = nextAlignmentIndex;
+      if (!sourceMerged) {
+        // TRICKY: shift the next index since we removed an alignment (i.e. we merged a single word into a merged alignment)
+        index = shiftRelativeToRemoved(nextAlignmentIndex,
+          prevAlignmentIndex);
+      }
       dispatch(alignSourceToken(chapter, verse, index, token));
+      if (!sourceMerged && (previousTargetAlignments.length > 0)) { // move over aligned target words if we moved a single primary word
+        previousTargetAlignments.forEach(tartgetToken => dispatch(alignTargetToken(chapter, verse, index, tartgetToken)));
+      }
     }
   };
 };
@@ -369,4 +379,74 @@ export const recordCheck = (check, chapter, verse, data) => ({
   chapter,
   verse,
   data
+});
+
+/**
+ * updates the finished state for new group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {*} value - the new value for finished state
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemFinished = (chapter, verse, value) => ({
+  type: types.SET_FINISHED,
+  chapter,
+  verse,
+  value
+});
+
+/**
+ * updates the invalid state for new group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {*} value - the new value for finished state
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
+  type: types.SET_INVALID,
+  chapter,
+  verse,
+  value
+});
+
+/**
+ * updates the Unaligned state for new group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {*} value - the new value for finished state
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
+  type: types.SET_UNALIGNED,
+  chapter,
+  verse,
+  value
+});
+
+/**
+ * updates the Edited state for new group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {*} value - the new value for finished state
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemEdited = (chapter, verse, value) => ({
+  type: types.SET_EDITED,
+  chapter,
+  verse,
+  value
+});
+
+/**
+ * updates the Edited state for new group menu item - to set multiple values
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {Object} values - new state values for item
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemState = (chapter, verse, values) => ({
+  type: types.SET_STATE,
+  chapter,
+  verse,
+  values
 });

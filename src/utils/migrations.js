@@ -32,11 +32,13 @@ const migrateBottomWord = word => ({
  * @return {Token}
  */
 const findToken = (tokens, text, occurrence, occurrences) => {
-  for (const token of tokens) {
-    if (token.toString() === text
-      && token.occurrence === occurrence
-      && token.occurrences === occurrences) {
-      return token;
+  if(tokens) {
+    for (const token of tokens) {
+      if (token.toString() === text
+        && token.occurrence === occurrence
+        && token.occurrences === occurrences) {
+        return token;
+      }
     }
   }
   return null;

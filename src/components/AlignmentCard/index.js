@@ -37,25 +37,32 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;
   // const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
   // const rightPlaceholder = dropTargetProps.placeholderPosition === 'right'; //alignmentDelta > 0;
-  const moved = alignmentDelta !== 0;
+  const different = alignmentDelta !== 0;
   // const leftWord = mergedSource && dragSourceProps.wordIndex === 0;
   // const rightWord = mergedSource && dragSourceProps.wordIndex === dragSourceProps.alignmentLength - 1;
 
-  // limit all drags to adjacent alignments
-  if(Math.abs(alignmentDelta) > 1) return false;
-
-  // single to single
-  // TRICKY: make sure we've moved
-  if(singleSource && singleTarget && moved) return true;
-
-  // single to merged
-  if(singleSource && mergedTarget) {
+  // moving single word to another single (new merge)
+  // TRICKY: make sure this is to a different word
+  if(singleSource && singleTarget && different) {
     return true;
   }
 
-  // merged to empty
-  if(mergedSource && emptyTarget) {
-    if(!moved) return true;
+  // moving single word to merged group
+  if(singleSource && mergedTarget) {
+    return true;
+  }
+  
+  if(mergedSource) { // removing a word from a merged group
+    if (emptyTarget) { // moving word from merged group to empty (unmerge)
+      if (!different) { // if unmerge target for this group
+        return true;
+      }
+    } else if (singleTarget) { // moving word from merged group to a single word (new merge)
+      return true;
+    } else if (mergedTarget && different) { //  moving word from merged group to a different merged group
+      return true;
+    }
+    
     // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
     // see components/AlignmentGrid.js
     // we could potentially use the touch backend https://github.com/yahoo/react-dnd-touch-backend
@@ -65,7 +72,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
     // if(!moved && rightPlaceholder && rightWord) return true;
   }
 
-  return false;
+  return false; // any other destinations are not allowed
 };
 
 
@@ -108,7 +115,8 @@ class DroppableAlignmentCard extends Component {
       sourceDirection,
       targetDirection,
       isSuggestion,
-      connectDropTarget
+      connectDropTarget,
+      isHebrew
     } = this.props;
 
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
@@ -131,6 +139,7 @@ class DroppableAlignmentCard extends Component {
         alignmentIndex={alignmentIndex}
         lexicons={lexicons}
         actions={actions}
+        isHebrew={isHebrew}
       />
     ));
     const bottomWordCards = targetNgram.map((token, index) => (
@@ -184,7 +193,8 @@ DroppableAlignmentCard.propTypes = {
   actions: PropTypes.shape({
     showPopover: PropTypes.func.isRequired,
     loadLexiconEntry: PropTypes.func.isRequired
-  })
+  }),
+  isHebrew: PropTypes.bool.isRequired
 };
 
 DroppableAlignmentCard.defaultProps = {

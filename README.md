@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/translationCoreApps/wordAlignment.svg?branch=master)](https://travis-ci.org/translationCoreApps/wordAlignment)
-[![codecov](https://codecov.io/gh/translationCoreApps/wordAlignment/branch/master/graph/badge.svg)](https://codecov.io/gh/translationCoreApps/wordAlignment)
+[![Build Status](https://travis-ci.org/unfoldingWord/wordAlignment.svg?branch=master)](https://travis-ci.org/unfoldingWord/wordAlignment)
+[![codecov](https://codecov.io/gh/unfoldingWord/wordAlignment/branch/master/graph/badge.svg)](https://codecov.io/gh/unfoldingWord/wordAlignment)
 
 # wordAlignment
 

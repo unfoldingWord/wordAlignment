@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import render, {
   indexAlignmentSuggestions,
   indexSuggestionAlignments,
@@ -164,7 +165,7 @@ describe('render alignments', () => {
         suggestions: [{sourceNgram: [0], targetNgram: []}]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {alignments: [0], sourceNgram: [0], targetNgram: []}
       ]);
     });
@@ -181,7 +182,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           suggestion: 0,
@@ -204,7 +205,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           suggestion: 0,
@@ -228,7 +229,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -249,7 +250,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -270,7 +271,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -292,7 +293,7 @@ describe('render alignments', () => {
           ]
         };
         const result = testRenderer(state);
-        expect(result).toEqual([
+        expect(cleanOutSort(result)).toEqual([
           {
             alignments: [0],
             suggestion: 0,
@@ -315,11 +316,325 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
           targetNgram: [0, 1]
+        }
+      ]);
+    });
+
+    it('it should handle discontiguous alignments', () => {
+      const state = {
+        sourceTokens: Array(7).fill(0),
+        alignments: [
+          {
+            "sourceNgram": [
+              0
+            ],
+            "targetNgram": [
+              0
+            ]
+          },
+          {
+            "sourceNgram": [
+              1
+            ],
+            "targetNgram": [
+              1,
+              2
+            ]
+          },
+          {
+            "sourceNgram": [
+              2
+            ],
+            "targetNgram": [
+              3,
+              4
+            ]
+          },
+          {
+            "sourceNgram": [
+              3,
+              5
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              6
+            ],
+            "targetNgram": [
+              10
+            ]
+          }
+        ],
+        suggestions: [
+          {
+            "sourceNgram": [
+              0
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              1
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              2
+            ],
+            "targetNgram": [
+              4
+            ]
+          },
+          {
+            "sourceNgram": [
+              3
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              5
+            ],
+            "targetNgram": [
+              9
+            ]
+          },
+          {
+            "sourceNgram": [
+              6
+            ],
+            "targetNgram": [
+              10
+            ]
+          }
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result.length).toEqual(6);
+      expect(cleanOutSort(result)).toEqual([
+        {
+          "alignments": [
+            0
+          ],
+          "sourceNgram": [
+            0
+          ],
+          "targetNgram": [
+            0
+          ]
+        },
+        {
+          "alignments": [
+            1
+          ],
+          "sourceNgram": [
+            1
+          ],
+          "targetNgram": [
+            1,
+            2
+          ]
+        },
+        {
+          "alignments": [
+            2
+          ],
+          "sourceNgram": [
+            2
+          ],
+          "targetNgram": [
+            3,
+            4
+          ]
+        },
+        {
+          "alignments": [
+            3
+          ],
+          "sourceNgram": [
+            3, 5
+          ],
+          "targetNgram": []
+        },
+        {
+          "alignments": [
+            4
+          ],
+          "sourceNgram": [
+            4
+          ],
+          "targetNgram": []
+        },
+        {
+          "alignments": [
+            5
+          ],
+          "sourceNgram": [
+            6
+          ],
+          "targetNgram": [
+            10
+          ]
+        }
+      ]);
+    });
+
+    it('it should handle middle unalignment', () => {
+      const state = {
+        sourceTokens: Array(11).fill(0),
+        alignments: [
+          {
+            "sourceNgram": [
+              0,
+              1,
+              2,
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              3,
+              5,
+              6,
+              7,
+              8,
+              10
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              9
+            ],
+            "targetNgram": []
+          }
+        ],
+        suggestions: [
+          {
+            "sourceNgram": [
+              0
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              1
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              2
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              3
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              4
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              5
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              6
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              7
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              8
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              9
+            ],
+            "targetNgram": []
+          },
+          {
+            "sourceNgram": [
+              10
+            ],
+            "targetNgram": []
+          }
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result.length).toEqual(3);
+      expect(cleanOutSort(result)).toEqual([
+        {
+          "alignments": [
+            0
+          ],
+          "sourceNgram": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "targetNgram": []
+        },
+        {
+          "alignments": [
+            1
+          ],
+          "sourceNgram": [
+            3,
+            5,
+            6,
+            7,
+            8,
+            10
+          ],
+          "targetNgram": []
+        },
+        {
+          "alignments": [
+            2
+          ],
+          "sourceNgram": [
+            9
+          ],
+          "targetNgram": []
         }
       ]);
     });
@@ -339,7 +654,7 @@ describe('render alignments', () => {
         suggestions: [{sourceNgram: [0, 1], targetNgram: []}]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -366,7 +681,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -393,7 +708,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           sourceNgram: [0, 1],
           targetNgram: [0, 1],
@@ -421,7 +736,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -459,7 +774,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -580,7 +895,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0, 1],
@@ -623,7 +938,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -654,7 +969,7 @@ describe('render alignments', () => {
           ]
         };
         const result = testRenderer(state);
-        expect(result).toEqual([
+        expect(cleanOutSort(result)).toEqual([
           {
             alignments: [0],
             sourceNgram: [0],
@@ -683,7 +998,7 @@ describe('render alignments', () => {
         ]
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -714,7 +1029,7 @@ describe('render alignments', () => {
           ]
         };
         const result = testRenderer(state);
-        expect(result).toEqual([
+        expect(cleanOutSort(result)).toEqual([
           {
             alignments: [0],
             sourceNgram: [0],
@@ -739,7 +1054,7 @@ describe('render alignments', () => {
         suggestions: []
       };
       const result = testRenderer(state);
-      expect(result).toEqual([
+      expect(cleanOutSort(result)).toEqual([
         {
           alignments: [0],
           sourceNgram: [0],
@@ -754,3 +1069,25 @@ describe('render alignments', () => {
     });
   });
 });
+
+//
+// Helpers
+//
+
+/**
+ * removes sort field from objects within array
+ * @param array
+ * @return {*}
+ */
+function cleanOutSort(array) {
+  const cleanedArray = _.cloneDeep(array);
+  if (Array.isArray(cleanedArray)) {
+    for (let i = 0, l = cleanedArray.length; i < l; i++) {
+      const item = cleanedArray[i];
+      if (item.sort !== undefined) {
+        delete item.sort;
+      }
+    }
+  }
+  return cleanedArray;
+}

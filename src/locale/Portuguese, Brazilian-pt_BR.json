@@ -7,6 +7,7 @@
   "lexicon": "Léxico:",
   "alignments_reset": "Foram detectadas alterações no seu projeto que invalidam alguns dos seus alinhamentos.\nOs versículos alterados têm o ícone de corrente quebrada ao lado da referência no menu lateral.",
   "close": "Fechar",
+  "load": "Load",
   "select": "Selecionar",
   "spelling": "Grafia",
   "punctuation": "Pontuação",
@@ -106,10 +107,10 @@
   "affirmation": "Afirmação",
   "definite_article": "Artigo Definido",
   "exhortation": "Exortação",
-  "negative": "Negative",
+  "negative": "Negativo",
   "direct_object_marker": "Marcador de Objeto Direto",
   "absolute": "Absoluto",
-  "construct": "Construct",
+  "construct": "Construir",
   "determined": "Determinado",
   "directional_he": "Direcional He",
   "paragogic_he": "Paragógica He",
@@ -124,7 +125,7 @@
   "participle_active": "Particípio Ativo",
   "participle_passive": "Particípio Passivo",
   "infinitive_absolute": "Infinitivo Absoluto",
-  "infinitive_construct": "Infinitive Construct",
+  "infinitive_construct": "Construção Infinitiva",
   "qal": "Qal",
   "niphal": "Niphal",
   "piel": "Piel",
@@ -172,41 +173,45 @@
   "ithpolel": "Ithpolel",
   "ittaphal": "Ittaphal",
   "morph_missing": "Morfologia não encontrado",
+  "unsaved_changes": "Você tem alterações não salvas.",
+  "attention": "Atenção:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Voltar",
     "cancel_button": "Cancelar",
     "save_button": "Salvar",
-    "next_button": "Próximo"
+    "next_button": "Próximo",
+    "discard_changes": "Descartar Alterações"
   },
   "menu": {
-    "no_results": "No results",
-    "invalidated": "Invalidated",
-    "bookmarks": "Bookmark",
-    "completed": "Completed",
-    "incomplete": "Incomplete",
-    "verse_edit": "Verse edit",
-    "comments": "Comments",
-    "menu_title": "Menu"
+    "no_results": "Nenhum resultado",
+    "invalidated": "Invalidado",
+    "bookmarks": "Marcador de Página",
+    "completed": "Concluído",
+    "incomplete": "Incompleto",
+    "verse_edit": "Edição do versículo",
+    "comments": "Comentários",
+    "menu_title": "Menu",
+    "unaligned": "Palavras não alinhadas"
   },
   "suggestions": {
-    "refresh_suggestions": "Atualizar ${word_map} - sugestões geradas.",
-    "accept_suggestions": "Aceitar todos as ${word_map} -  sugestões geradas.",
-    "reject_suggestions": "Rejeitar todas as ${word_map} - sugestões geradas.",
+    "refresh_suggestions": "Atualizar sugestões.",
+    "accept_suggestions": "Aceitar todas as sugestões.",
+    "reject_suggestions": "Rejeitar todas as sugestões.",
     "none": "Nenhuma nova sugestão",
     "refresh": "Atualizar",
     "accept": "Aceitar",
     "reject": "Rejeitar"
   },
   "icons": {
-    "selections_found": "Completed verses were found for this check",
-    "no_selections_found": "No completed verses were found for this check",
-    "verse_edits_found": "Verse edits were found for this check",
-    "no_verse_edits_found": "No Verse edits were found for this check",
-    "comments_found": "Comments were found for this check",
-    "no_comments_found": "No comments were found for this check",
-    "bookmarked": "This check has been bookmarked for review",
-    "not_bookmarked": "This check has not been bookmarked for review"
+    "selections_found": "Foram encontrados edições de Versículos para essa verificação",
+    "no_selections_found": "Nenhúm versiculo completo foi encontrado para esta verificação",
+    "verse_edits_found": "Foram encontrados edições de versículo(s) para essa verificação",
+    "no_verse_edits_found": "Não foram encontrados edições de Versículo(s) para essa verificação",
+    "comments_found": "Encontraram-se comentários para esta verificação",
+    "no_comments_found": "Nenhum comentário foi encontrado para esta verificação",
+    "bookmarked": "Esta verificação foi marcada para revisão",
+    "not_bookmarked": "Esta verificação não foi marcada para revisão"
   },
   "pane": {
     "current_project": "Projeto atual",
@@ -217,8 +222,8 @@
     "add_resource": "Clique para adicionar um recurso",
     "add_resource_label": "Adicionar Recursos",
     "select_language": "Selecionar o idioma",
-    "gateway_language": "Gateway Language",
-    "target_language": "Target Language",
-    "original_language": "Original Language"
+    "gateway_language": "Lingua Ponte",
+    "target_language": "Idioma de destino",
+    "original_language": "Idioma original"
   }
 }

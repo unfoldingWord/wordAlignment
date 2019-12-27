@@ -7,6 +7,7 @@
   "lexicon": "Лексикон:",
   "alignments_reset": "В вашем проекте были обнаружены изменения, которые аннулировали некоторые из ваших сопоставлений.\nЭти стихи отображают иконку сломанной цепочки рядом с ссылкой в боковом меню.",
   "close": "Закрыть",
+  "load": "Load",
   "select": "Выбрать",
   "spelling": "Написание",
   "punctuation": "Пунктуация",
@@ -172,12 +173,15 @@
   "ithpolel": "Итполэль",
   "ittaphal": "Иттафаль",
   "morph_missing": "Морфология не найдена",
+  "unsaved_changes": "You have unsaved changes.",
+  "attention": "Attention:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Назад",
     "cancel_button": "Отменить",
     "save_button": "Сохранить",
-    "next_button": "Далее"
+    "next_button": "Далее",
+    "discard_changes": "Discard Changes"
   },
   "menu": {
     "no_results": "Нет результатов",
@@ -187,12 +191,13 @@
     "incomplete": "Не завершённое",
     "verse_edit": "Редактировать стих",
     "comments": "Комментарии",
-    "menu_title": "Меню"
+    "menu_title": "Меню",
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
-    "refresh_suggestions": "Обновить предложения ${word_map}.",
-    "accept_suggestions": "Принять все предложения ${word_map}.",
-    "reject_suggestions": "Отклонить все предложения ${word_map}.",
+    "refresh_suggestions": "Refresh suggestions.",
+    "accept_suggestions": "Accept all suggestions.",
+    "reject_suggestions": "Reject all suggestions.",
     "none": "Нет новых предложений",
     "refresh": "Обновить",
     "accept": "Принять",

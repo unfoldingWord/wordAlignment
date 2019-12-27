@@ -5,7 +5,6 @@ import { WordLexiconDetails, lexiconHelpers } from 'tc-ui-toolkit';
 import * as types from './WordCard/Types';
 // components
 import Word from './WordCard';
-import Tooltip from './Tooltip';
 import {Token} from 'wordmap-lexer';
 
 const internalStyle = {
@@ -62,7 +61,6 @@ class PrimaryToken extends Component {
 
   render() {
     const {
-      translate,
       token,
       style,
       isDragging,
@@ -73,12 +71,16 @@ class PrimaryToken extends Component {
     } = this.props;
     const {hover} = this.state;
 
+    const disabled = (isDragging || hover) && !canDrag;
     const word = dragPreview(
       <div>
         <Word word={token.text}
               direction={direction}
-              disabled={isDragging || (hover && !canDrag)}
-              style={{...internalStyle.word, ...style}}/>
+              disabled={disabled}
+              style={{...internalStyle.word, ...style}}
+              occurrence={token.occurrence}
+              occurrences={token.occurrences}
+        />
       </div>
     );
     return connectDragSource(
@@ -87,9 +89,6 @@ class PrimaryToken extends Component {
            onMouseOver={this._handleOver}
            onMouseOut={this._handleOut}>
         {word}
-        {!isDragging && hover && !canDrag ? (
-          <Tooltip message={translate('cannot_drag_middle')}/>
-        ) : null}
       </div>
     );
   }
@@ -100,15 +99,17 @@ class PrimaryToken extends Component {
    * @private
    */
   _handleClick(e) {
-    const {translate, token} = this.props;
+    const {translate, token, isHebrew} = this.props;
     const lexiconData = lexiconHelpers.lookupStrongsNumbers(token.strong, this.props.actions.getLexiconData);
     const positionCoord = e.target;
+    const fontSize = isHebrew ? '1.7em' : '1.2em';
     const PopoverTitle = (
-      <strong style={{fontSize: '1.2em'}}>{token.text}</strong>
+      <strong style={{fontSize}}>{token.text}</strong>
     );
     const {showPopover} = this.props.actions;
     const wordDetails = (
-      <WordLexiconDetails lexiconData={lexiconData} wordObject={token} translate={translate}/>
+      <WordLexiconDetails lexiconData={lexiconData} wordObject={token} translate={translate}
+                          isHebrew={isHebrew}/>
     );
     showPopover(PopoverTitle, wordDetails, positionCoord);
   }
@@ -131,7 +132,8 @@ PrimaryToken.propTypes = {
   dragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
-  isDragging: PropTypes.bool.isRequired
+  isDragging: PropTypes.bool.isRequired,
+  isHebrew: PropTypes.bool.isRequired
 };
 
 PrimaryToken.defaultProps = {
@@ -160,22 +162,20 @@ const dragHandler = {
       type: types.PRIMARY_WORD
     };
   },
-  canDrag(props) {
-    const {wordIndex, alignmentLength} = props;
-    const firstWord = wordIndex === 0;
-    const lastWord = wordIndex === alignmentLength - 1;
-    if (alignmentLength > 1) {
-      return firstWord || lastWord;
-    } else {
-      return true;
-    }
+  canDrag() {
+    const canDrag_ = true; // for now at least, this is always true that we can drag from anywhere
+    return canDrag_;
+  },
+  isDragging(props, monitor) {
+    let item = monitor.getItem();
+    const isDragging_ = item.alignmentIndex === props.alignmentIndex; // if we are dragging this item
+    return isDragging_;
   }
 };
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   dragPreview: connect.dragPreview({captureDraggingState: false}),
-  canDrag: monitor.canDrag(),
   isDragging: monitor.isDragging()
 });
 

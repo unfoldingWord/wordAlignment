@@ -7,6 +7,7 @@
   "lexicon": "Léxico:",
   "alignments_reset": "Se han detectado cambios en su proyecto que han invalidado algunas de sus alineaciones.\nEstos versículos están marcados con un icono de una cadena rota junto a la referencia en el menú lateral.",
   "close": "Cerrar",
+  "load": "Load",
   "select": "Seleccionar",
   "spelling": "Ortografía",
   "punctuation": "Puntuación",
@@ -172,12 +173,15 @@
   "ithpolel": "Ithpolel",
   "ittaphal": "Ittaphal",
   "morph_missing": "Morfología no encontrado",
+  "unsaved_changes": "You have unsaved changes.",
+  "attention": "Attention:",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Volver",
     "cancel_button": "Cancelar",
     "save_button": "Guardar",
-    "next_button": "Siguiente"
+    "next_button": "Siguiente",
+    "discard_changes": "Discard Changes"
   },
   "menu": {
     "no_results": "No results",
@@ -185,14 +189,15 @@
     "bookmarks": "Bookmark",
     "completed": "Completed",
     "incomplete": "Incomplete",
-    "verse_edit": "Verse edit",
+    "verse_edit": "Editar versículo",
     "comments": "Comments",
-    "menu_title": "Menú"
+    "menu_title": "Menú",
+    "unaligned": "Unaligned words"
   },
   "suggestions": {
-    "refresh_suggestions": "Actualizar ${word_map}sugerencias generadas.",
-    "accept_suggestions": "Acepta todas las sugerencias ${word_map}generadas.",
-    "reject_suggestions": "Rechazar todos los ${word_map} generado por las sugerencias.",
+    "refresh_suggestions": "Refresh suggestions.",
+    "accept_suggestions": "Accept all suggestions.",
+    "reject_suggestions": "Reject all suggestions.",
     "none": "No hay nuevas sugerencias",
     "refresh": "Actualizar",
     "accept": "Aceptar",

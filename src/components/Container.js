@@ -612,6 +612,7 @@ class Container extends Component {
     }
 
     const isComplete = this._getIsComplete();
+    const verseState = api.getGroupMenuItem(chapter, verse);
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -661,7 +662,9 @@ class Container extends Component {
               onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
               actions={actions}
               contextId={contextId}
-              isHebrew={isHebrew}/>
+              isHebrew={isHebrew}
+              verseState={verseState}
+            />
           ) : (
             <MissingBibleError translate={translate}/>
           )}

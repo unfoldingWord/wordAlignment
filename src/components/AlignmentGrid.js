@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import IconIndicators from 'tc-ui-toolkit';
 // constants
 import * as types from './WordCard/Types';
+import * as GroupMenu from "../state/reducers/groupMenu";
 // components
 import AlignmentCard from './AlignmentCard';
+import IconIndicators from './IconIndicators';
 
 const makeStyles = props => {
   return {
@@ -42,30 +43,28 @@ class AlignmentGrid extends Component {
       sourceStyle,
       alignments,
       contextId,
-      isHebrew
+      isHebrew,
+      verseState
     } = this.props;
 
     if (!contextId) {
       return <div/>;
     }
 
-    const titleText = 'DUmmy Alignment Title';
-
     const styles = makeStyles(this.props);
 
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
-      <div>
-        <div className='title-bar'>
-          <span>{titleText}</span>
+      <div style={{display: 'flex', flexDirection: 'column', height: '100%',
+                    boxSizing: 'border-box', margin: '0 10px 6px 10px',
+                    boxShadow: '0 3px 10px var(--background-color)'}}>
+        <div className='title-bar' style={{marginTop: '2px', marginBottom: `10px`}}>
+          <span>{translate('align_title')}</span>
           <IconIndicators
-            isVerseEdited={false}
-            selections={false}
-            comment={false}
-            bookmarkEnabled={false}
+            isVerseEdited={verseState[GroupMenu.EDITED_KEY]}
+            comment={verseState[GroupMenu.COMMENT_KEY]}
+            bookmarkEnabled={verseState[GroupMenu.BOOKMARKED_KEY]}
             translate={translate}
-            nothingToSelect={false}
-            invalidated={false}
           />
         </div>
         <div id='AlignmentGrid' style={styles.root}>
@@ -159,7 +158,8 @@ AlignmentGrid.propTypes = {
   lexicons: PropTypes.object.isRequired,
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
   targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
-  isHebrew: PropTypes.bool.isRequired
+  isHebrew: PropTypes.bool.isRequired,
+  verseState: PropTypes.object.isRequired
 };
 
 AlignmentGrid.defaultProps = {

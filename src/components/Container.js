@@ -35,10 +35,12 @@ import {removeUsfmMarkers} from '../utils/usfmHelpers';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
+import * as GroupMenu from "../state/reducers/groupMenu";
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
+import IconIndicators from "./IconIndicators";
 
 const styles = {
   container: {
@@ -66,6 +68,14 @@ const styles = {
   scripturePaneWrapper: {
     height: '250px',
     marginBottom: '20px'
+  },
+  alignmentGridWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    boxSizing: 'border-box',
+    margin: '0 10px 6px 10px',
+    boxShadow: '0 3px 10px var(--background-color)'
   }
 };
 
@@ -648,6 +658,16 @@ class Container extends Component {
           <div style={styles.scripturePaneWrapper}>
             <ScripturePaneContainer handleModalOpen={this.handleModalOpen} {...this.props}/>
           </div>
+          <div style={styles.alignmentGridWrapper}>
+            <div className='title-bar' style={{marginTop: '2px', marginBottom: `10px`}}>
+              <span>{translate('align_title')}</span>
+              <IconIndicators
+                isVerseEdited={verseState[GroupMenu.EDITED_KEY]}
+                comment={verseState[GroupMenu.COMMENT_KEY]}
+                bookmarkEnabled={verseState[GroupMenu.BOOKMARKED_KEY]}
+                translate={translate}
+              />
+            </div>
           {hasSourceText ? (
             <AlignmentGrid
               sourceStyle={sourceStyle}
@@ -676,6 +696,7 @@ class Container extends Component {
                        onRefresh={this.handleRefreshSuggestions}
                        onReject={this.handleRejectSuggestions}
                        translate={translate}/>
+          </div>
         </div>
       </div>
     );

@@ -28,11 +28,19 @@ import {
   unalignTargetToken,
 } from './state/actions';
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
-import { migrateChapterAlignments } from './utils/migrations';
+import {migrateChapterAlignments} from './utils/migrations';
 
 // consts
-import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "./state/reducers/groupMenu";
+import {
+  BOOKMARKED_KEY,
+  COMMENT_KEY,
+  EDITED_KEY,
+  FINISHED_KEY,
+  INVALID_KEY,
+  UNALIGNED_KEY
+} from "./state/reducers/groupMenu";
 import * as types from "./state/actions/actionTypes";
+import {generateCheckPath, loadCheckData} from './utils/CheckDataHelper';
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
 export default class Api extends ToolApi {
@@ -46,6 +54,8 @@ export default class Api extends ToolApi {
     this.validateVerse = this.validateVerse.bind(this);
     this._loadBookAlignments = this._loadBookAlignments.bind(this);
     this.getIsVerseInvalid = this.getIsVerseInvalid.bind(this);
+    this.getVerseComment = this.getVerseComment.bind(this);
+    this.getVerseBookmarked = this.getVerseBookmarked.bind(this);
     this._showResetDialog = this._showResetDialog.bind(this);
     this.getInvalidChecks = this.getInvalidChecks.bind(this);
     this.getProgress = this.getProgress.bind(this);
@@ -558,6 +568,8 @@ export default class Api extends ToolApi {
     const itemState = {}; // if found make copy or create new
     itemState[UNALIGNED_KEY] = this.getisVerseUnaligned(chapter, verse);
     itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
+    itemState[BOOKMARKED_KEY] = this.getVerseBookmarked(chapter, verse);
+    itemState[COMMENT_KEY] = this.getVerseComment(chapter, verse);
     store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 
@@ -588,6 +600,15 @@ export default class Api extends ToolApi {
       itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
       updated = true;
     }
+    if(!itemState.hasOwnProperty(BOOKMARKED_KEY)) {
+      itemState[BOOKMARKED_KEY] = this.getVerseBookmarked(chapter, verse);
+      updated = true;
+    }
+    if(!itemState.hasOwnProperty(COMMENT_KEY)) {
+      itemState[COMMENT_KEY] = this.getVerseComment(chapter, verse);
+      updated = true;
+    }
+
     if (updated) {
       store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
     }
@@ -717,8 +738,26 @@ export default class Api extends ToolApi {
       }
     } = this.props;
     const {reference: {bookId}} = contextId;
-    const dataPath = path.join('checkData', 'verseEdits', bookId, chapter + '', verse + '');
+    const dataPath = generateCheckPath('verseEdits', bookId, chapter, verse);
     return projectDataPathExistsSync(dataPath);
+  }
+
+  getVerseComment(chapter, verse) {
+    const {
+      tc,
+      tool: { name: toolName }
+    } = this.props;
+    const comment = loadCheckData('comments',  chapter, verse, tc, toolName);
+    return (comment && comment.text) || '';
+  }
+
+  getVerseBookmarked(chapter, verse) {
+    const {
+      tc,
+      tool: { name: toolName }
+    } = this.props;
+    const bookmark = loadCheckData('reminders', chapter, verse, tc, toolName);
+    return !!(bookmark && bookmark.enabled);
   }
 
   getisVerseUnaligned(chapter, verse) {

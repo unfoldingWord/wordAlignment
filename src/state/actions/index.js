@@ -438,6 +438,20 @@ export const setGroupMenuItemEdited = (chapter, verse, value) => ({
 });
 
 /**
+ * updates the Bookmarked state for new group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {Boolean} value - the new value for finished state
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemBookmarked = (chapter, verse, value) => ({
+  type: types.SET_BOOKMARKED,
+  chapter,
+  verse,
+  value
+});
+
+/**
  * updates the Edited state for new group menu item - to set multiple values
  * @param {number|string} chapter - the chapter number
  * @param {number|string} verse - the verse number

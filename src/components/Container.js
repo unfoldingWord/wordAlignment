@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import isEqual from 'deep-equal';
 import WordMap, {Alignment, Ngram} from 'wordmap';
 import Lexer, {Token} from 'wordmap-lexer';
+import {VerseEditor} from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {connect} from 'react-redux';
@@ -19,6 +20,7 @@ import {
   removeTokenSuggestion,
   resetVerse,
   setAlignmentPredictions,
+  setGroupMenuItemBookmarked,
   unalignTargetToken
 } from '../state/actions';
 import {
@@ -162,6 +164,10 @@ class Container extends Component {
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleResetWordList = this.handleResetWordList.bind(this);
+    this.handleBookmarkClick = this.handleBookmarkClick.bind(this);
+    this.handleVerseEditClick = this.handleVerseEditClick.bind(this);
+    this.handleVerseEditClose = this.handleVerseEditClose.bind(this);
+    this.handleVerseEditSubmit = this.handleVerseEditSubmit.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -540,6 +546,58 @@ class Container extends Component {
   }
 
   /**
+   * will toggle bookmark on click
+   */
+  handleBookmarkClick() {
+    const {
+      setGroupMenuItemBookmarked,
+      tool: {
+        api
+      },
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    const currentState = api.getGroupMenuItem(chapter, verse);
+    const bookmarked = currentState.bookMarked;
+    setGroupMenuItemBookmarked(chapter, verse, !bookmarked); // toggle bookmark
+  }
+
+  /**
+   * will show verse editor on click
+   */
+  handleVerseEditClick() {
+    const {
+      setGroupMenuItemBookmarked,
+      tool: {
+        api
+      },
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    const currentState = api.getGroupMenuItem(chapter, verse);
+    this.setState({
+      showVerseEditor: true
+    });
+  }
+
+  handleVerseEditClose() {
+    this.setState({
+      showVerseEditor: false
+    });
+  }
+
+  handleVerseEditSubmit(before, after, reasons) {
+    const {
+      tc: {
+        contextId: {reference: {chapter, verse}},
+        actions: {
+          editTargetVerse
+        }
+      }
+    } = this.props;
+    editTargetVerse(chapter, verse, before, after, reasons);
+    this.handleVerseEditClose();
+  }
+
+  /**
    * Returns the target tokens with used tokens labeled as disabled
    * @return {*}
    */
@@ -603,7 +661,7 @@ class Container extends Component {
       },
       tc
     } = this.props;
-    const {snackText} = this.state;
+    const {snackText, showVerseEditor} = this.state;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
@@ -623,6 +681,7 @@ class Container extends Component {
 
     const isComplete = this._getIsComplete();
     const verseState = api.getGroupMenuItem(chapter, verse);
+    const verseText = api.getVerseRawText(chapter, verse);
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -665,6 +724,9 @@ class Container extends Component {
                 isVerseEdited={verseState[GroupMenu.EDITED_KEY]}
                 comment={verseState[GroupMenu.COMMENT_KEY]}
                 bookmarkEnabled={verseState[GroupMenu.BOOKMARKED_KEY]}
+                verseEditAction={this.handleVerseEditClick}
+                bookmarkAction={this.handleBookmarkClick}
+                commentAction={null}
                 translate={translate}
               />
             </div>
@@ -698,6 +760,14 @@ class Container extends Component {
                        translate={translate}/>
           </div>
         </div>
+        <VerseEditor
+          open={showVerseEditor}
+          verseTitle={'Dummy Title'}
+          verseText={verseText}
+          translate={translate}
+          onCancel={this.handleVerseEditClose}
+          onSubmit={this.handleVerseEditSubmit}
+        />
       </div>
     );
   }
@@ -773,7 +843,8 @@ const mapDispatchToProps = ({
   removeTokenSuggestion,
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
-  clearAlignmentSuggestions
+  clearAlignmentSuggestions,
+  setGroupMenuItemBookmarked
 });
 
 const mapStateToProps = (state, props) => {

@@ -63,6 +63,7 @@ export default class Api extends ToolApi {
     this.refreshGroupMenuItems = this.refreshGroupMenuItems.bind(this);
     this.getGroupMenuItem = this.getGroupMenuItem.bind(this);
     this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
+    this.getVerseRawText = this.getVerseRawText.bind(this);
   }
 
   /**
@@ -296,6 +297,20 @@ export default class Api extends ToolApi {
   }
 
   /**
+   * fetch the verse text with USFM
+   * @param chapter
+   * @param verse
+   * @return {boolean}
+   */
+  getVerseRawText(chapter, verse) {
+    const { tc: {targetBook} } = this.props;
+    if (verse in targetBook[chapter] && targetBook[chapter][verse]) {
+      return targetBook[chapter][verse];
+    }
+    return null;
+  }
+
+  /**
    * Validates the verse and repairs as needed.
    * @param props
    * @param chapter
@@ -307,21 +322,22 @@ export default class Api extends ToolApi {
   _validateVerse(props, chapter, verse, silent=false) {
     const {
       tc: {
-        targetBook,
         sourceBook
       },
       repairAndInspectVerse
     } = props;
     const {store} = this.context;
 
-    if (!(verse in targetBook[chapter] && targetBook[chapter][verse] && verse in sourceBook[chapter])) {
+    const targetVerse = this.getVerseRawText(chapter, verse);
+
+    if (!(targetVerse && verse in sourceBook[chapter])) {
       console.warn(`Could not validate missing verse ${chapter}:${verse}`);
       return true;
     }
 
     const sourceTokens = tokenizeVerseObjects(
       sourceBook[chapter][verse].verseObjects);
-    const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+    const targetVerseText = removeUsfmMarkers(targetVerse);
     const targetTokens = Lexer.tokenize(targetVerseText);
     let normalizedSource = "";
     let normalizedSourceArray = [];

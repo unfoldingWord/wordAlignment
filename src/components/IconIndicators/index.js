@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { Glyphicon } from 'react-bootstrap';
 
 const IconIndicators = ({
+                          translate,
                           isVerseEdited,
                           bookmarkEnabled,
-                          translate,
-                          comment
+                          comment,
+                          verseEditAction,
+                          bookmarkAction,
+                          commentAction,
                         }) => {
 
   return (
@@ -18,6 +21,7 @@ const IconIndicators = ({
           color: isVerseEdited ? 'var(--highlight-color)' : 'var(--reverse-color)'
         }}
         title={isVerseEdited ? translate('icons.verse_edits_found') : translate('icons.no_verse_edits_found')}
+        onClick={verseEditAction}
       />
       <Glyphicon
         glyph="comment"
@@ -26,6 +30,7 @@ const IconIndicators = ({
           color: comment ? 'var(--highlight-color)' : 'var(--reverse-color)'
         }}
         title={comment ? translate('icons.comments_found') : translate('icons.no_comments_found')}
+        onClick={commentAction}
       />
       <Glyphicon
         glyph="bookmark"
@@ -34,6 +39,7 @@ const IconIndicators = ({
           color: bookmarkEnabled ? 'var(--highlight-color)' : 'var(--reverse-color)'
         }}
         title={bookmarkEnabled ? translate('icons.bookmarked') : translate('icons.not_bookmarked')}
+        onClick={bookmarkAction}
       />
     </div>
   );
@@ -44,6 +50,9 @@ IconIndicators.propTypes = {
   isVerseEdited: PropTypes.bool.isRequired,
   comment: PropTypes.string,
   bookmarkEnabled: PropTypes.bool,
+  verseEditAction: PropTypes.func.isRequired,
+  bookmarkAction: PropTypes.func.isRequired,
+  commentAction: PropTypes.func.isRequired,
 };
 
 export default IconIndicators;

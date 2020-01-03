@@ -75,7 +75,7 @@ class CommentsDialog extends React.Component {
                   secondaryLabel={translate('buttons.cancel_button')}
                   onClose={this._handleClose}
                   title={translate('comment_title', { passage: verseTitle })}
-                  bodyStyle={{overflowY: 'auto'}}
+                  bodyStyle={{overflowY: 'auto', padding: '0 10px 0 10px'}}
                   open={open}>
         <textarea
           id="verse-editor-field"

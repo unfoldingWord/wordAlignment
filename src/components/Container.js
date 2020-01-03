@@ -681,7 +681,8 @@ class Container extends Component {
           showPopover
         },
         sourceBook: {manifest: {direction : sourceDirection, language_id: sourceLanguage}},
-        targetBook: {manifest: {direction : targetDirection}}
+        targetBook: {manifest: {direction : targetDirection}},
+        projectDetailsReducer: { manifest },
       },
       tc
     } = this.props;
@@ -692,10 +693,16 @@ class Container extends Component {
       return null;
     }
 
+    const {reference: {chapter, verse}} = contextId;
+    let bookName = manifest && manifest.target_language && manifest.target_language.book && manifest.target_language.book.name;
+    if (!bookName) {
+      bookName = contextId.reference.bookId; // fall back to book id
+    }
+    const verseTitle = `${bookName} ${chapter}:${verse}`;
+
     // TODO: use the source book direction to correctly style the alignments
 
     const {lexicons} = resourcesReducer;
-    const {reference: {chapter, verse}} = contextId;
 
     // TRICKY: do not show word list if there is no source bible.
     let words = [];
@@ -707,7 +714,6 @@ class Container extends Component {
     const verseState = api.getGroupMenuItem(chapter, verse);
     const comment = verseState[GroupMenu.COMMENT_KEY];
     const verseText = api.getVerseRawText(chapter, verse);
-    const verseTitle='Dummy 1:2';
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};

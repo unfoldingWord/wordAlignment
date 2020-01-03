@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
 import BaseDialog from './BaseDialog';
-
-const styles = {
-  label: { color: 'var(--text-color-dark)' },
-  underlineStyle: { borderColor: 'var(--accent-color-dark)' },
-  checkboxIconStyle: { fill: 'var(--accent-color-dark)' },
-};
 
 /**
  * Renders a dialog to submit user feedback.

@@ -569,14 +569,6 @@ class Container extends Component {
    * will show verse editor on click
    */
   handleVerseEditClick() {
-    const {
-      setGroupMenuItemBookmarked,
-      tool: {
-        api
-      },
-      tc: {contextId: {reference: {chapter, verse}}}
-    } = this.props;
-    const currentState = api.getGroupMenuItem(chapter, verse);
     this.setState({
       showVerseEditor: true
     });
@@ -605,13 +597,6 @@ class Container extends Component {
    * will show verse editor on click
    */
   handleCommentClick() {
-    const {
-      tool: {
-        api
-      },
-      tc: {contextId: {reference: {chapter, verse}}}
-    } = this.props;
-    const currentState = api.getGroupMenuItem(chapter, verse);
     this.setState({
       showComments: true
     });

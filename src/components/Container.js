@@ -20,7 +20,6 @@ import {
   removeTokenSuggestion,
   resetVerse,
   setAlignmentPredictions,
-  setGroupMenuItemBookmarked,
   unalignTargetToken
 } from '../state/actions';
 import {
@@ -43,6 +42,7 @@ import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from "./IconIndicators";
+import CommentsDialog from "./CommentsDialog";
 
 const styles = {
   container: {
@@ -168,6 +168,9 @@ class Container extends Component {
     this.handleVerseEditClick = this.handleVerseEditClick.bind(this);
     this.handleVerseEditClose = this.handleVerseEditClose.bind(this);
     this.handleVerseEditSubmit = this.handleVerseEditSubmit.bind(this);
+    this.handleCommentClick = this.handleCommentClick.bind(this);
+    this.handleCommentClose = this.handleCommentClose.bind(this);
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -175,7 +178,9 @@ class Container extends Component {
       writing: false,
       snackText: null,
       canAutoComplete: false,
-      resetWordList: false
+      resetWordList: false,
+      showVerseEditor: false,
+      showComments: false
     };
   }
 
@@ -550,7 +555,6 @@ class Container extends Component {
    */
   handleBookmarkClick() {
     const {
-      setGroupMenuItemBookmarked,
       tool: {
         api
       },
@@ -558,7 +562,7 @@ class Container extends Component {
     } = this.props;
     const currentState = api.getGroupMenuItem(chapter, verse);
     const bookmarked = currentState.bookMarked;
-    setGroupMenuItemBookmarked(chapter, verse, !bookmarked); // toggle bookmark
+    api.setVerseBookmark(chapter, verse, !bookmarked); // toggle bookmark
   }
 
   /**
@@ -595,6 +599,41 @@ class Container extends Component {
     } = this.props;
     editTargetVerse(chapter, verse, before, after, reasons);
     this.handleVerseEditClose();
+  }
+
+  /**
+   * will show verse editor on click
+   */
+  handleCommentClick() {
+    const {
+      tool: {
+        api
+      },
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    const currentState = api.getGroupMenuItem(chapter, verse);
+    this.setState({
+      showComments: true
+    });
+  }
+
+  handleCommentClose() {
+    this.setState({
+      showComments: false
+    });
+  }
+
+  handleCommentSubmit(newComment) {
+    const {
+      tool: {
+        api
+      },
+      tc: {
+        contextId: {reference: {chapter, verse}},
+      }
+    } = this.props;
+    api.setVerseComment(chapter, verse, newComment);
+    this.handleCommentClose();
   }
 
   /**
@@ -661,7 +700,7 @@ class Container extends Component {
       },
       tc
     } = this.props;
-    const {snackText, showVerseEditor} = this.state;
+    const {snackText, showVerseEditor, showComments} = this.state;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
@@ -681,7 +720,9 @@ class Container extends Component {
 
     const isComplete = this._getIsComplete();
     const verseState = api.getGroupMenuItem(chapter, verse);
+    const comment = verseState[GroupMenu.COMMENT_KEY];
     const verseText = api.getVerseRawText(chapter, verse);
+    const verseTitle='Dummy 1:2';
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -722,11 +763,11 @@ class Container extends Component {
               <span>{translate('align_title')}</span>
               <IconIndicators
                 isVerseEdited={verseState[GroupMenu.EDITED_KEY]}
-                comment={verseState[GroupMenu.COMMENT_KEY]}
+                comment={comment}
                 bookmarkEnabled={verseState[GroupMenu.BOOKMARKED_KEY]}
                 verseEditAction={this.handleVerseEditClick}
                 bookmarkAction={this.handleBookmarkClick}
-                commentAction={null}
+                commentAction={this.handleCommentClick}
                 translate={translate}
               />
             </div>
@@ -762,11 +803,19 @@ class Container extends Component {
         </div>
         <VerseEditor
           open={showVerseEditor}
-          verseTitle={'Dummy Title'}
+          verseTitle={verseTitle}
           verseText={verseText}
           translate={translate}
           onCancel={this.handleVerseEditClose}
           onSubmit={this.handleVerseEditSubmit}
+        />
+        <CommentsDialog
+          open={showComments}
+          verseTitle={verseTitle}
+          comment={comment}
+          translate={translate}
+          onClose={this.handleCommentClose}
+          onSubmit={this.handleCommentSubmit}
         />
       </div>
     );
@@ -844,7 +893,6 @@ const mapDispatchToProps = ({
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
   clearAlignmentSuggestions,
-  setGroupMenuItemBookmarked
 });
 
 const mapStateToProps = (state, props) => {

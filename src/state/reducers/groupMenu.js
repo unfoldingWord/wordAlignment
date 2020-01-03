@@ -43,7 +43,7 @@ const groupMenu = (state = {}, action) => {
       return setItemValue(state, action, BOOKMARKED_KEY, !!action.value);
     }
     case SET_COMMENT: {
-      return setItemValue(state, action, COMMENT_KEY, !!action.value);
+      return setItemValue(state, action, COMMENT_KEY, action.value);
     }
     case SET_STATE: {
       const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);

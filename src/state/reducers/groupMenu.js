@@ -6,11 +6,15 @@ import {
   SET_INVALID,
   SET_STATE,
   SET_UNALIGNED,
+  SET_BOOKMARKED,
+  SET_COMMENT,
 } from '../actions/actionTypes';
 export const FINISHED_KEY = 'finished';
 export const INVALID_KEY = 'invalid';
 export const UNALIGNED_KEY = 'unaligned';
 export const EDITED_KEY = 'edited';
+export const BOOKMARKED_KEY = 'bookMarked';
+export const COMMENT_KEY = 'comment';
 
 /**
  * Reduces group data state
@@ -34,6 +38,12 @@ const groupMenu = (state = {}, action) => {
     }
     case SET_EDITED: {
       return setItemValue(state, action, EDITED_KEY, !!action.value);
+    }
+    case SET_BOOKMARKED: {
+      return setItemValue(state, action, BOOKMARKED_KEY, !!action.value);
+    }
+    case SET_COMMENT: {
+      return setItemValue(state, action, COMMENT_KEY, !!action.value);
     }
     case SET_STATE: {
       const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);

@@ -2,6 +2,15 @@ import * as _ from 'lodash';
 import * as reducers from '../state/reducers';
 import * as actions from '../state/actions';
 import Api from '../Api';
+import {
+  BOOKMARKED_KEY,
+  COMMENT_KEY,
+  EDITED_KEY,
+  FINISHED_KEY,
+  INVALID_KEY,
+  UNALIGNED_KEY
+} from "../state/reducers/groupMenu";
+
 jest.mock('../state/reducers');
 jest.mock('../state/actions');
 
@@ -925,195 +934,269 @@ describe('API.getGroupMenuItem()', () => {
   });
 
   it("if item found and complete, then don't call apis", () => {
+    // given
     const item = {
       finished: true,
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
     const expectedItemState = _.cloneDeep(item);
-    const api = new Api();
-    api.context = {
-      store: {
-        getState: () => ({}),
-        dispatch: () => ({})
-      }
-    };
-    api.getIsVerseFinished = jest.fn();
-    api.getIsVerseInvalid = jest.fn();
-    api.getisVerseUnaligned = jest.fn();
-    api.getIsVerseEdited = jest.fn();
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false
+    });
     reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // when
     const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
     expect(itemState).toEqual(expectedItemState);
-    expect(api.getIsVerseFinished).not.toBeCalled();
-    expect(api.getIsVerseInvalid).not.toBeCalled();
-    expect(api.getisVerseUnaligned).not.toBeCalled();
-    expect(api.getIsVerseEdited).not.toBeCalled();
+    verifyCallbacks(api, item);
     expect(actions.setGroupMenuItemState).not.toBeCalled();
   });
 
   it("if item not found, then call apis and update state", () => {
-    const item = {
+    // given
+    const expectedItemState = {
       finished: true,
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
-    const expectedItemState = _.cloneDeep(item);
-    const api = new Api();
-    api.context = {
-      store: {
-        getState: () => ({}),
-        dispatch: () => ({})
-      }
-    };
-    api.getIsVerseFinished = jest.fn(() => true);
-    api.getIsVerseInvalid = jest.fn(() => true);
-    api.getisVerseUnaligned = jest.fn(() => false);
-    api.getIsVerseEdited = jest.fn(() => false);
+    const item = {};
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false,
+      verseBookmarked: false,
+      verseComment: '',
+    });
     reducers.getGroupMenuItem.mockReturnValue(null);
+
+    // when
     const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
     expect(itemState).toEqual(expectedItemState);
-    expect(api.getIsVerseFinished).toBeCalled();
-    expect(api.getIsVerseInvalid).toBeCalled();
-    expect(api.getisVerseUnaligned).toBeCalled();
-    expect(api.getIsVerseEdited).toBeCalled();
+    verifyCallbacks(api, item);
     expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
   });
 
   it("if item found without finished, then call get finished api and update state", () => {
+    // given
     const item = {
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
     const expectedItemState = {
       finished: true,
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
-    const api = new Api();
-    api.context = {
-      store: {
-        getState: () => ({}),
-        dispatch: () => ({})
-      }
-    };
-    api.getIsVerseFinished = jest.fn(() => true);
-    api.getIsVerseInvalid = jest.fn(() => true);
-    api.getisVerseUnaligned = jest.fn(() => false);
-    api.getIsVerseEdited = jest.fn(() => false);
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false
+    });
+
+    // when
     reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // then
     const itemState = api.getGroupMenuItem(1, 2);
     expect(itemState).toEqual(expectedItemState);
     expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
-    expect(api.getIsVerseFinished).toBeCalled();
-    expect(api.getIsVerseInvalid).not.toBeCalled();
-    expect(api.getisVerseUnaligned).not.toBeCalled();
-    expect(api.getIsVerseEdited).not.toBeCalled();
+    verifyCallbacks(api, item);
   });
 
   it("if item found without invalid, then call get invalid api and update state", () => {
+    // given
     const item = {
       finished: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
     const expectedItemState = {
       finished: true,
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
-    const api = new Api();
-    api.context = {
-      store: {
-        getState: () => ({}),
-        dispatch: () => ({})
-      }
-    };
-    api.getIsVerseFinished = jest.fn(() => true);
-    api.getIsVerseInvalid = jest.fn(() => true);
-    api.getisVerseUnaligned = jest.fn(() => false);
-    api.getIsVerseEdited = jest.fn(() => false);
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false
+    });
     reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // when
     const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
     expect(itemState).toEqual(expectedItemState);
     expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
-    expect(api.getIsVerseFinished).not.toBeCalled();
-    expect(api.getIsVerseInvalid).toBeCalled();
-    expect(api.getisVerseUnaligned).not.toBeCalled();
-    expect(api.getIsVerseEdited).not.toBeCalled();
+    verifyCallbacks(api, item);
   });
 
   it("if item found without unaligned, then call get unaligned api and update state", () => {
+    // given
     const item = {
       finished: true,
       invalid: true,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
     const expectedItemState = {
       finished: true,
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
-    const api = new Api();
-    api.context = {
-      store: {
-        getState: () => ({}),
-        dispatch: () => ({})
-      }
-    };
-    api.getIsVerseFinished = jest.fn(() => true);
-    api.getIsVerseInvalid = jest.fn(() => true);
-    api.getisVerseUnaligned = jest.fn(() => false);
-    api.getIsVerseEdited = jest.fn(() => false);
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false
+    });
     reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // when
     const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
     expect(itemState).toEqual(expectedItemState);
     expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
-    expect(api.getIsVerseFinished).not.toBeCalled();
-    expect(api.getIsVerseInvalid).not.toBeCalled();
-    expect(api.getisVerseUnaligned).toBeCalled();
-    expect(api.getIsVerseEdited).not.toBeCalled();
+    verifyCallbacks(api, item);
   });
 
   it("if item found without edited, then call get edited api and update state", () => {
+    // given
     const item = {
       finished: true,
       invalid: true,
-      unaligned: false
+      unaligned: false,
+      bookMarked: false,
+      comment: '',
     };
     const expectedItemState = {
       finished: true,
       invalid: true,
       unaligned: false,
-      edited: false
+      edited: false,
+      bookMarked: false,
+      comment: '',
     };
-    const api = new Api();
-    api.context = {
-      store: {
-        getState: () => ({}),
-        dispatch: () => ({})
-      }
-    };
-    api.getIsVerseFinished = jest.fn(() => true);
-    api.getIsVerseInvalid = jest.fn(() => true);
-    api.getisVerseUnaligned = jest.fn(() => false);
-    api.getIsVerseEdited = jest.fn(() => false);
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false
+    });
     reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // when
     const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
     expect(itemState).toEqual(expectedItemState);
     expect(actions.setGroupMenuItemState).toBeCalledWith(1, 2, expectedItemState);
-    expect(api.getIsVerseFinished).not.toBeCalled();
-    expect(api.getIsVerseInvalid).not.toBeCalled();
-    expect(api.getisVerseUnaligned).not.toBeCalled();
-    expect(api.getIsVerseEdited).toBeCalled();
+    verifyCallbacks(api, item);
   });
 
+  it("if item found without bookmark, then call get edited api and update state", () => {
+    // given
+    const item = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false,
+      comment: '',
+    };
+    const expectedItemState = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false,
+      bookMarked: true,
+      comment: '',
+    };
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false,
+      verseBookmarked: true,
+    });
+    reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // when
+    const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
+    expect(itemState).toEqual(expectedItemState);
+    verifyCallbacks(api, item);
+    expect(actions.setGroupMenuItemState).toBeCalled();
+  });
+
+  it("if item found without comment, then call get edited api and update state", () => {
+    // given
+    const item = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false,
+      bookMarked: false,
+    };
+    const expectedItemState = {
+      finished: true,
+      invalid: true,
+      unaligned: false,
+      edited: false,
+      bookMarked: false,
+      comment: 'stuffy',
+    };
+    const api = getMockApi({
+      verseFinished: true,
+      verseInvalid: true,
+      verseUnaligned: false,
+      verseEdited: false,
+      verseBookmarked: false,
+      verseComment: 'stuffy',
+    });
+    reducers.getGroupMenuItem.mockReturnValue(item);
+
+    // when
+    const itemState = api.getGroupMenuItem(1, 2);
+
+    // then
+    expect(itemState).toEqual(expectedItemState);
+    verifyCallbacks(api, item);
+    expect(actions.setGroupMenuItemState).toBeCalled();
+  });
 });
 
 //
@@ -1125,3 +1208,42 @@ function delay(ms) {
     setTimeout(resolve, ms)
   );
 }
+
+//
+// helpers
+//
+
+function getMockApi(mockReturnData) {
+  const api = new Api();
+  api.context = {
+    store: {
+      getState: () => ({}),
+      dispatch: () => ({})
+    }
+  };
+  api.getIsVerseFinished = jest.fn(() => mockReturnData.verseFinished);
+  api.getIsVerseInvalid = jest.fn(() => mockReturnData.verseInvalid);
+  api.getisVerseUnaligned = jest.fn(() => mockReturnData.verseUnaligned);
+  api.getIsVerseEdited = jest.fn(() => mockReturnData.verseEdited);
+  api.getVerseBookmarked = jest.fn(() => mockReturnData.verseBookmarked);
+  api.getVerseComment = jest.fn(() => mockReturnData.verseComment);
+  return api;
+}
+
+function verifyCallback(item, key, method) {
+  if (item.hasOwnProperty(key)) {
+    expect(method).not.toBeCalled();
+  } else {
+    expect(method).toBeCalled();
+  }
+}
+
+function verifyCallbacks(api, item) {
+  verifyCallback(item, FINISHED_KEY, api.getIsVerseFinished);
+  verifyCallback(item, INVALID_KEY, api.getIsVerseInvalid);
+  verifyCallback(item, UNALIGNED_KEY, api.getisVerseUnaligned);
+  verifyCallback(item, EDITED_KEY, api.getIsVerseEdited);
+  verifyCallback(item, BOOKMARKED_KEY, api.getVerseBookmarked);
+  verifyCallback(item, COMMENT_KEY, api.getVerseComment);
+}
+

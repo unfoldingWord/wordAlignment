@@ -67,8 +67,10 @@ const styles = {
   root: {
     width: '100%',
     padding: '0 10px',
-    boxShadow: 'rgba(0, 0, 0, 0.21) 0px -5px 5px 0px',
-    textAlign: 'center'
+    textAlign: 'center',
+    borderStyle: 'solid none none none',
+    borderWidth: '2px',
+    borderColor: 'var(--background-color-light)'
   },
   button: {
     marginLeft: 10

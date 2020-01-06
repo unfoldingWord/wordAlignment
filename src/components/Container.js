@@ -694,11 +694,13 @@ class Container extends Component {
     }
 
     const {reference: {chapter, verse}} = contextId;
-    let bookName = manifest && manifest.target_language && manifest.target_language.book && manifest.target_language.book.name;
+    const targetLanguage = manifest && manifest.target_language && manifest.target_language.book;
+    let bookName = targetLanguage && targetLanguage.book.name;
     if (!bookName) {
       bookName = contextId.reference.bookId; // fall back to book id
     }
     const verseTitle = `${bookName} ${chapter}:${verse}`;
+    let targetLanguageStr = `${targetLanguage.name} ($targetLanguage.id)`;
 
     // TODO: use the source book direction to correctly style the alignments
 
@@ -796,6 +798,7 @@ class Container extends Component {
           open={showVerseEditor}
           verseTitle={verseTitle}
           verseText={verseText}
+          targetLanguage={targetLanguageStr}
           translate={translate}
           onCancel={this.handleVerseEditClose}
           onSubmit={this.handleVerseEditSubmit}

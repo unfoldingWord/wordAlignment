@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "Cannot un-merge a middle word",
   "loading_alignments": "Loading alignment data",
+  "align_title": "Align",
   "lemma": "Lemma:",
   "morphology": "Morphology:",
   "strongs": "Strongs:",
@@ -204,14 +205,12 @@
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "या तपासणीसाठी पूर्ण वचने सापडले",
-    "no_selections_found": "या तपासणीसाठी कोणतीही पूर्ण वचने सापडले नाहीत",
-    "verse_edits_found": "या तपासणीसाठी संपादित वचने आढळली",
-    "no_verse_edits_found": "या तपासणीसाठी संपादित वचने आढळली नाहीत",
-    "comments_found": "या तपासासाठी टिप्पण्या सापडल्या",
-    "no_comments_found": "या तपासासाठी टिप्पण्या सापडल्या नाहीत",
-    "bookmarked": "या तपासणीला पुनरावलोकनासाठी वाचनखुणा केल्या गेल्या आहेत",
-    "not_bookmarked": "या तपासणीला पुनरावलोकनासाठी वाचनखुणा केल्या गेल्या नाहीत"
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "Current project",

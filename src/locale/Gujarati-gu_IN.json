@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "વચલા શબ્દને જોડી શકતું નથી",
   "loading_alignments": "ગોઠવણીની માહિતીને લોડ કરી રહ્યું છે",
+  "align_title": "Align",
   "lemma": "સિદ્ધાંત:",
   "morphology": "મોર્ફોલોજી:",
   "strongs": "પ્રબળ:",
@@ -204,14 +205,12 @@
     "reject": "નકારો"
   },
   "icons": {
-    "selections_found": "આ તપાસ માટે પૂર્ણ કલમો જોવા મળી છે",
-    "no_selections_found": "આ તપાસ માટે કોઈપણ પૂર્ણ કલમો જોવા મળી નથી",
-    "verse_edits_found": "આ તપાસ માટે કલમનો ઉમેરો જોવા મળ્યો છે",
-    "no_verse_edits_found": "આ તપાસ માટે કોઈ કલમનો ઉમેરો જોવા મળ્યો નથી",
-    "comments_found": "આ તપાસ માટે ટીપ્પણીઓ જોવા મળી છે",
-    "no_comments_found": "આ તપાસ માટે કોઈ ટિપ્પણીઓ જોવા મળી નથી",
-    "bookmarked": "આ તપાસને સમિક્ષા માટે બુકમાર્ક કરવામાં આવી છે",
-    "not_bookmarked": "આ તપાસને સમિક્ષા માટે બુકમાર્ક કરવામાં આવી નથી"
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "વર્તમાન પ્રોજેક્ટ",

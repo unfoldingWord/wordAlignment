@@ -66,9 +66,11 @@ class CommentsDialog extends React.Component {
       open,
       translate,
       verseTitle,
+      comment,
     } = this.props;
 
-    const { comment } = this.state;
+    const { comment: currentComment } = this.state;
+    const isSaveEnabled = currentComment !== comment;
 
     const saveButton = <div>
       <Glyphicon glyph='ok' style={{ marginRight: '10px' }} />
@@ -78,10 +80,12 @@ class CommentsDialog extends React.Component {
     return (
       <BaseDialog onSubmit={this._handleSubmit}
                   primaryLabel={saveButton}
+                  primaryActionEnabled={isSaveEnabled}
                   secondaryLabel={translate('buttons.cancel_button')}
                   onClose={this._handleClose}
                   title={translate('comment_title', { passage: verseTitle })}
                   bodyStyle={{overflowY: 'auto', padding: '0 10px 0 10px'}}
+                  contentStyle={{width: '500px'}}
                   open={open}>
         <textarea
           id="verse-editor-field"
@@ -89,7 +93,7 @@ class CommentsDialog extends React.Component {
           className='edit-screen'
           autoFocus={true}
           onChange={this._handleCommentChange}
-          value={comment}/>
+          value={currentComment}/>
       </BaseDialog>
     );
   }

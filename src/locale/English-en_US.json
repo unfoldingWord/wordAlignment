@@ -207,12 +207,12 @@
     "reject": "Reject"
   },
   "icons": {
-    "verse_edits_found": "Verse edits were found for this verse alignment",
-    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
-    "comments_found": "Comments were found for this verse alignment",
-    "no_comments_found": "No comments were found for this verse alignment",
-    "bookmarked": "This verse alignment has been bookmarked for review",
-    "not_bookmarked": "This verse alignment has not been bookmarked for review"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "Current project",

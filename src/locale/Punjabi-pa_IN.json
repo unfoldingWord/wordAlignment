@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "ਵਿਚਕਾਰਲੇ ਸ਼ਬਦ ਨੂੰ ਅਨ-ਮਰਜ਼ ਨਹੀਂ ਕਰ ਸਕਦੇ",
   "loading_alignments": "ਅਲਾਈਨਮੈਂਟ ਡੇਟਾ ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ",
+  "align_title": "Align",
   "lemma": "ਲੀਮਾ:",
   "morphology": "ਰੂਪ ਵਿਗਿਆਨ:",
   "strongs": "ਸ੍ਟ੍ਰਾਂਗਸ:",
@@ -204,14 +205,12 @@
     "reject": "ਅਸਵੀਕਾਰ ਕਰਨਾ"
   },
   "icons": {
-    "selections_found": "ਇਸ ਚੈਕ ਲਈ ਪੂਰੀਆਂ ਆਇਤਾਂ ਪਾਈਆਂ ਗਈਆਂ ਹਨ",
-    "no_selections_found": "ਇਸ ਚੈਕ ਲਈ ਪੂਰੀਆਂ ਆਇਤਾਂ ਨਹੀਂ ਪਾਈਆਂ ਗਈਆਂ",
-    "verse_edits_found": "ਇਸ ਜਾਂਚ ਲਈ ਆਇਤ ਦੇ ਸੰਪਾਦਨ ਮਿਲੇ ਹਨ",
-    "no_verse_edits_found": "ਇਸ ਜਾਂਚ ਲਈ ਆਇਤ ਦੇ ਸੰਪਾਦਨ ਨਹੀਂ ਮਿਲੇ ਹਨ",
-    "comments_found": "ਇਸ ਜਾਂਚ ਲਈ ਟਿੱਪਣੀਆਂ ਮਿਲੀਆਂ ਸਨ |",
-    "no_comments_found": "ਇਸ ਜਾਂਚ ਲਈ ਟਿੱਪਣੀਆਂ ਨਹੀਂ ਮਿਲੀਆਂ ਸਨ |",
-    "bookmarked": "ਇਹ ਚੈੱਕ ਸਮੀਖਿਆ ਲਈ ਬੁੱਕਮਾਰਕ ਕੀਤਾ ਗਿਆ ਹੈ |",
-    "not_bookmarked": "ਇਹ ਚੈੱਕ ਸਮੀਖਿਆ ਲਈ ਬੁੱਕਮਾਰਕ ਨਹੀਂ ਕੀਤਾ ਗਿਆ ਹੈ |"
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "ਮੌਜੂਦਾ ਪ੍ਰਾਜੈਕਟ",

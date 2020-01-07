@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "Cannot un-merge a middle word",
   "loading_alignments": "Loading alignment data",
+  "align_title": "Align",
   "lemma": "Lemma:",
   "morphology": "Morphology:",
   "strongs": "Strongs:",
@@ -204,14 +205,12 @@
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "এই পরীক্ষার জন্য সম্পূর্ণ পদগুলোকে দেখা গেছে  ",
-    "no_selections_found": "এই পরীক্ষার জন্য কোন পদ সমূহকে দেখা যায় নি ",
-    "verse_edits_found": "এই পরীক্ষার জন্য পদ সম্পাদনাগুলোকে দেখা গেছে ",
-    "no_verse_edits_found": "এই পরীক্ষার জন্য কোনো পদ সম্পদনাকে দেখা যায়নি ",
-    "comments_found": "এই পরীক্ষার জন্য মন্তব্য সমূহকে দেখা গিয়েছিল ",
-    "no_comments_found": "এই পরীক্ষার জন্য কোনো মন্তব্যকে দেখা যায়নি ",
-    "bookmarked": "পর্যলোচনের জন্য এই পরীক্ষাটিকে বুকমার্ক করা হয়েছে ",
-    "not_bookmarked": "এই পরীক্ষাটিকে পর্যালোচনার জন্য বুকমার্ক করা হয়নি "
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "Current project",

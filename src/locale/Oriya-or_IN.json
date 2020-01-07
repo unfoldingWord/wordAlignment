@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "ଗୋଟିଏ ମଧ୍ୟସ୍ଥ ଶବ୍ଦକୁ ଅଲଗା କରି ପାରିବ ନାହିଁ",
   "loading_alignments": "ଏଲାଇନ୍‍‍ମେଣ୍ଟ ଡାଟା ଲୋଡ୍ ହେଉଅଛି",
+  "align_title": "Align",
   "lemma": "ଲେମ୍ମା:",
   "morphology": "ପଦବିଜ୍ଞାନ:",
   "strongs": "ଷ୍ଟ୍ରଙ୍ଗ୍ସ:",
@@ -204,14 +205,12 @@
     "reject": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ"
   },
   "icons": {
-    "selections_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା ପଦଗୁଡିକ ମିଳିଥିଲା।",
-    "no_selections_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା କୌଣସି ପଦଗୁଡିକ ମିଳି ନ ଥିଲା",
-    "verse_edits_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ପଦର ସଂଶୋଧନଗୁଡିକ ମିଳିଥିଲା",
-    "no_verse_edits_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ କୌଣସି ପଦର ସଂଶୋଧନଗୁଡିକ ମିଳି ନ ଥିଲା",
-    "comments_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ ମନ୍ତବ୍ୟଗୁଡିକ ମିଳିଥିଲା",
-    "no_comments_found": "ଏହି ଯାଞ୍ଚ ନିମନ୍ତେ କୌଣସି ମନ୍ତବ୍ୟଗୁଡିକ ମିଳି ନ ଥିଲା",
-    "bookmarked": "ସମୀକ୍ଷା ନିମନ୍ତେ ଏହି ଯାଞ୍ଚକୁ ବୁକ୍‍ମାର୍କ୍ କରାଯାଇଅଛି",
-    "not_bookmarked": "ସମୀକ୍ଷା ନିମନ୍ତେ ଏହି ଯାଞ୍ଚକୁ ବୁକ୍‍ମାର୍କ୍ କରାଯାଇ ନାହିଁ"
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "ଚଳିତ ପ୍ରକଳ୍ପ",

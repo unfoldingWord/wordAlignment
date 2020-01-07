@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "ಮಧ್ಯೆ ಪದವನ್ನು ತೆಗೆಯುವುದಕ್ಕೆ ಆಗುತ್ತಿಲ್ಲ ",
   "loading_alignments": "ಜೋಡಣೆ ಮಾಡುವ ಮಾಹಿತಿಯು ಲೋಡ್ ಆಗುತ್ತಿದೆ ",
+  "align_title": "Align",
   "lemma": "ಪೂರ್ವಪಕ್ಷ: ",
   "morphology": "ಸ್ವರೂಪ ಶಾಸ್ತ್ರ: ",
   "strongs": "ಪ್ರಬಲವಾದ: ",
@@ -204,14 +205,12 @@
     "reject": "ತಿರಸ್ಕರಿಸು "
   },
   "icons": {
-    "selections_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ಸಂಪೂರ್ಣಗೊಳಿಸಿದ ಎಲ್ಲಾ ವಚನಗಳು ಕಂಡುಬಂದಿವೆ",
-    "no_selections_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ಅಸಂಪುರ್ಣವಾಗಿರುವ ವಚನಗಳು ಕಂಡುಬಂದಿವೆ",
-    "verse_edits_found": "ಈ ಪರಿಶೀಲನೆಗೆ ವಚನದ ತಿದ್ದುಪಡಿಗಳು ಕಂಡುಬಂದಿವೆ",
-    "no_verse_edits_found": "ಈ ಪರಿಶೀಲನೆಗೆ ಯಾವುದೇ ವಚನದ ತಿದ್ದುಪಡಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
-    "comments_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ವ್ಯಾಖ್ಯೆಗಳು ಕಂಡುಬಂದವು",
-    "no_comments_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ಯಾವುದೇ ವ್ಯಾಖ್ಯೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
-    "bookmarked": "ಪುನರ್ ಪರಿಶೀಲನೆಗಾಗಿ ಈ ಪರಿಶೀಲನೆಯನ್ನು ಪುಟ ಗುರುತು ಹಾಕಲಾಗಿದೆ",
-    "not_bookmarked": "ಪುನರ್ ಪರಿಶೀಲನೆಗಾಗಿ ಈ ಪರಿಶೀಲನೆಯನ್ನು ಪುಟ ಗುರುತು ಮಾಡಲಿಲ್ಲ."
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "ಪ್ರಸ್ತುತ ಯೋಜನೆ",

@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "Невозможно объединить среднее слово",
   "loading_alignments": "Загрузка данных сопоставления",
+  "align_title": "Align",
   "lemma": "Лемма:",
   "morphology": "Морфология:",
   "strongs": "Номер Стронга:",
@@ -204,14 +205,12 @@
     "reject": "Отклонить"
   },
   "icons": {
-    "selections_found": "Завершенные стихи, которые были найдены для этой проверки",
-    "no_selections_found": "Не завершенные стихи, которые были найдены для этой проверки",
-    "verse_edits_found": "Правки стихов, которые были найдены для этой проверки",
-    "no_verse_edits_found": "Правки стихов не были найдены для этой проверки",
-    "comments_found": "Комментарии, которые были найдены для этой проверки",
-    "no_comments_found": "Нет комментариев для этой проверки",
-    "bookmarked": "Эта проверка была добавлена в закладки для проверки",
-    "not_bookmarked": "Эта проверка не была добавлена в закладки для проверки"
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "Текущий проект",

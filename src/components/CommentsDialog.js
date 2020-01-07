@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Glyphicon } from 'react-bootstrap';
 import BaseDialog from './BaseDialog';
 
 /**
@@ -69,9 +70,14 @@ class CommentsDialog extends React.Component {
 
     const { comment } = this.state;
 
+    const saveButton = <div>
+      <Glyphicon glyph='ok' style={{ marginRight: '10px' }} />
+      {translate('buttons.save_button')}
+    </div>;
+
     return (
       <BaseDialog onSubmit={this._handleSubmit}
-                  primaryLabel={translate('buttons.save_button')}
+                  primaryLabel={saveButton}
                   secondaryLabel={translate('buttons.cancel_button')}
                   onClose={this._handleClose}
                   title={translate('comment_title', { passage: verseTitle })}

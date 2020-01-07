@@ -181,6 +181,7 @@
     "ok_button": "OK",
     "back_button": "Go Back",
     "cancel_button": "Cancel",
+    "reset_button": "Reset",
     "save_button": "Save",
     "next_button": "Next",
     "discard_changes": "Discard Changes"

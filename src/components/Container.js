@@ -727,6 +727,8 @@ class Container extends Component {
               <span>{translate('align_title')}</span>
               <IconIndicators
                 translate={translate}
+                verseEditStateSet={verseState[GroupMenu.EDITED_KEY]}
+                verseEditIconEnable={true}
                 commentIconEnable={true}
                 commentStateSet={comment}
                 commentClickAction={this.handleCommentClick}

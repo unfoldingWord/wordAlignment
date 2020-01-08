@@ -347,7 +347,7 @@ describe('thunk actions', () => {
   it('setGroupMenuItemFinished()', () => {
     const finished = true;
     const expectedActions = [
-      {"type": "WA::SET_FINISHED", "chapter": 2, "verse": 5, "value": finished}
+      {"type": "WA::SET_GROUP_MENU_FINISHED", "chapter": 2, "verse": 5, "value": finished}
     ];
     const store = mockStore();
     const action = actions.setGroupMenuItemFinished(2, 5, finished);
@@ -358,7 +358,7 @@ describe('thunk actions', () => {
   it('setGroupMenuItemInvalid()', () => {
     const invalid = true;
     const expectedActions = [
-      {"type": "WA::SET_INVALID", "chapter": 2, "verse": 7, "value": invalid}
+      {"type": "WA::SET_GROUP_MENU_INVALID", "chapter": 2, "verse": 7, "value": invalid}
     ];
     const store = mockStore();
     const action = actions.setGroupMenuItemInvalid(2, 7, invalid);
@@ -369,7 +369,7 @@ describe('thunk actions', () => {
   it('setGroupMenuItemUnaligned()', () => {
     const unaligned = false;
     const expectedActions = [
-      {"type": "WA::SET_UNALIGNED", "chapter": 3, "verse": 7, "value": unaligned}
+      {"type": "WA::SET_GROUP_MENU_UNALIGNED", "chapter": 3, "verse": 7, "value": unaligned}
     ];
     const store = mockStore();
     const action = actions.setGroupMenuItemUnaligned(3, 7, unaligned);
@@ -380,7 +380,7 @@ describe('thunk actions', () => {
   it('setGroupMenuItemEdited()', () => {
     const edited = false;
     const expectedActions = [
-      {"type": "WA::SET_EDITED", "chapter": 3, "verse": 7, "value": edited}
+      {"type": "WA::SET_GROUP_MENU_EDITED", "chapter": 3, "verse": 7, "value": edited}
     ];
     const store = mockStore();
     const action = actions.setGroupMenuItemEdited(3, 7, edited);
@@ -391,7 +391,7 @@ describe('thunk actions', () => {
   it('setGroupMenuItemState()', () => {
     const values = {edited: false};
     const expectedActions = [
-      {"type": "WA::SET_STATE", "chapter": 3, "verse": 7, "values": values}
+      {"type": "WA::SET_GROUP_MENU_STATE", "chapter": 3, "verse": 7, "values": values}
     ];
     const store = mockStore();
     const action = actions.setGroupMenuItemState(3, 7, values);

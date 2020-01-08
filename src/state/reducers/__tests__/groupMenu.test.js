@@ -12,10 +12,10 @@ describe('test CLEAR_GROUP_MENU', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_FINISHED true', () => {
+describe('test SET_GROUP_MENU_FINISHED true', () => {
   const before = {};
   const action = {
-    type: types.SET_FINISHED,
+    type: types.SET_GROUP_MENU_FINISHED,
     chapter: 1,
     verse: 2,
     value: true
@@ -30,7 +30,7 @@ describe('test SET_FINISHED true', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_FINISHED false', () => {
+describe('test SET_GROUP_MENU_FINISHED false', () => {
   const before = {
     '1': {
       '2': {
@@ -40,7 +40,7 @@ describe('test SET_FINISHED false', () => {
     }
   };
   const action = {
-    type: types.SET_FINISHED,
+    type: types.SET_GROUP_MENU_FINISHED,
     chapter: 1,
     verse: 2,
     value: false
@@ -56,7 +56,7 @@ describe('test SET_FINISHED false', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_FINISHED invalid chapter should not crash', () => {
+describe('test SET_GROUP_MENU_FINISHED invalid chapter should not crash', () => {
   const before = {
     '1': {
       '2': {
@@ -66,7 +66,7 @@ describe('test SET_FINISHED invalid chapter should not crash', () => {
     }
   };
   const action = {
-    type: types.SET_FINISHED,
+    type: types.SET_GROUP_MENU_FINISHED,
     chapter: undefined,
     verse: 2,
     value: false
@@ -82,7 +82,7 @@ describe('test SET_FINISHED invalid chapter should not crash', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_FINISHED invalid verse should not crash', () => {
+describe('test SET_GROUP_MENU_FINISHED invalid verse should not crash', () => {
   const before = {
     '1': {
       '2': {
@@ -92,7 +92,7 @@ describe('test SET_FINISHED invalid verse should not crash', () => {
     }
   };
   const action = {
-    type: types.SET_FINISHED,
+    type: types.SET_GROUP_MENU_FINISHED,
     chapter: 1,
     verse: undefined,
     value: false
@@ -108,10 +108,10 @@ describe('test SET_FINISHED invalid verse should not crash', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_INVALID true', () => {
+describe('test SET_GROUP_MENU_INVALID true', () => {
   const before = {};
   const action = {
-    type: types.SET_INVALID,
+    type: types.SET_GROUP_MENU_INVALID,
     chapter: 1,
     verse: 2,
     value: true
@@ -126,7 +126,7 @@ describe('test SET_INVALID true', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_INVALID false', () => {
+describe('test SET_GROUP_MENU_INVALID false', () => {
   const before = {
     '1': {
       '2': {
@@ -136,7 +136,7 @@ describe('test SET_INVALID false', () => {
     }
   };
   const action = {
-    type: types.SET_INVALID,
+    type: types.SET_GROUP_MENU_INVALID,
     chapter: 1,
     verse: 2,
     value: false
@@ -152,12 +152,12 @@ describe('test SET_INVALID false', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_UNALIGNED true', () => {
+describe('test SET_GROUP_MENU_UNALIGNED true', () => {
   const before = {
     '2': {}
   };
   const action = {
-    type: types.SET_UNALIGNED,
+    type: types.SET_GROUP_MENU_UNALIGNED,
     chapter: 1,
     verse: 2,
     value: true
@@ -173,7 +173,7 @@ describe('test SET_UNALIGNED true', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_UNALIGNED false', () => {
+describe('test SET_GROUP_MENU_UNALIGNED false', () => {
   const before = {
     '1': {
       '2': {
@@ -184,7 +184,7 @@ describe('test SET_UNALIGNED false', () => {
     }
   };
   const action = {
-    type: types.SET_UNALIGNED,
+    type: types.SET_GROUP_MENU_UNALIGNED,
     chapter: 1,
     verse: 2,
     value: false
@@ -201,14 +201,14 @@ describe('test SET_UNALIGNED false', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_EDITED true', () => {
+describe('test SET_GROUP_MENU_EDITED true', () => {
   const before = {
     '2': {
       '1': {}
     }
   };
   const action = {
-    type: types.SET_EDITED,
+    type: types.SET_GROUP_MENU_EDITED,
     chapter: 1,
     verse: 2,
     value: true
@@ -224,7 +224,7 @@ describe('test SET_EDITED true', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_EDITED false', () => {
+describe('test SET_GROUP_MENU_EDITED false', () => {
   const before = {
     '1': {
       '2': {
@@ -235,7 +235,7 @@ describe('test SET_EDITED false', () => {
     }
   };
   const action = {
-    type: types.SET_EDITED,
+    type: types.SET_GROUP_MENU_EDITED,
     chapter: 1,
     verse: 2,
     value: false
@@ -252,7 +252,7 @@ describe('test SET_EDITED false', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE finished', () => {
+describe('test SET_GROUP_MENU_STATE finished', () => {
   const before = {
     '1': {
       '2': {
@@ -264,7 +264,7 @@ describe('test SET_STATE finished', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2,
     values: {finished: false}
@@ -282,10 +282,10 @@ describe('test SET_STATE finished', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE finished empty reducer', () => {
+describe('test SET_GROUP_MENU_STATE finished empty reducer', () => {
   const before = {};
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2,
     values: {finished: false}
@@ -300,7 +300,7 @@ describe('test SET_STATE finished empty reducer', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE finished, invalid', () => {
+describe('test SET_GROUP_MENU_STATE finished, invalid', () => {
   const before = {
     '1': {
       '2': {
@@ -312,7 +312,7 @@ describe('test SET_STATE finished, invalid', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2,
     values: {finished: false, invalid: false}
@@ -330,7 +330,7 @@ describe('test SET_STATE finished, invalid', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE finished, invalid, edited', () => {
+describe('test SET_GROUP_MENU_STATE finished, invalid, edited', () => {
   const before = {
     '1': {
       '2': {
@@ -342,7 +342,7 @@ describe('test SET_STATE finished, invalid, edited', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2,
     values: {finished: false, invalid: false, edited: false}
@@ -360,7 +360,7 @@ describe('test SET_STATE finished, invalid, edited', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE finished, invalid, edited, unaligned', () => {
+describe('test SET_GROUP_MENU_STATE finished, invalid, edited, unaligned', () => {
   const before = {
     '1': {
       '2': {
@@ -383,7 +383,7 @@ describe('test SET_STATE finished, invalid, edited, unaligned', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2,
     values: {finished: false, invalid: false, edited: false, unaligned: false}
@@ -403,7 +403,7 @@ describe('test SET_STATE finished, invalid, edited, unaligned', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE invalid chapter should not crash', () => {
+describe('test SET_GROUP_MENU_STATE invalid chapter should not crash', () => {
   const before = {
     '1': {
       '2': {
@@ -426,7 +426,7 @@ describe('test SET_STATE invalid chapter should not crash', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: undefined,
     verse: 2,
     values: {finished: false, invalid: false, edited: false, unaligned: false}
@@ -435,7 +435,7 @@ describe('test SET_STATE invalid chapter should not crash', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE invalid verse should not crash', () => {
+describe('test SET_GROUP_MENU_STATE invalid verse should not crash', () => {
   const before = {
     '1': {
       '2': {
@@ -458,7 +458,7 @@ describe('test SET_STATE invalid verse should not crash', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: undefined,
     values: {finished: false, invalid: false, edited: false, unaligned: false}
@@ -467,7 +467,7 @@ describe('test SET_STATE invalid verse should not crash', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE invalid values should not crash', () => {
+describe('test SET_GROUP_MENU_STATE invalid values should not crash', () => {
   const before = {
     '1': {
       '2': {
@@ -490,7 +490,7 @@ describe('test SET_STATE invalid values should not crash', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2,
     values: null
@@ -499,7 +499,7 @@ describe('test SET_STATE invalid values should not crash', () => {
   reducerTest('groupMenu', groupMenu, before, action, after);
 });
 
-describe('test SET_STATE missing values should not crash', () => {
+describe('test SET_GROUP_MENU_STATE missing values should not crash', () => {
   const before = {
     '1': {
       '2': {
@@ -522,7 +522,7 @@ describe('test SET_STATE missing values should not crash', () => {
     }
   };
   const action = {
-    type: types.SET_STATE,
+    type: types.SET_GROUP_MENU_STATE,
     chapter: 1,
     verse: 2
   };

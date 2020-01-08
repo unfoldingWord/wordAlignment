@@ -1,13 +1,13 @@
 // consts
 import {
   CLEAR_GROUP_MENU,
-  SET_EDITED,
-  SET_FINISHED,
-  SET_INVALID,
-  SET_STATE,
-  SET_UNALIGNED,
-  SET_BOOKMARKED,
-  SET_COMMENT,
+  SET_GROUP_MENU_EDITED,
+  SET_GROUP_MENU_FINISHED,
+  SET_GROUP_MENU_INVALID,
+  SET_GROUP_MENU_STATE,
+  SET_GROUP_MENU_UNALIGNED,
+  SET_GROUP_MENU_BOOKMARKED,
+  SET_GROUP_MENU_COMMENT,
 } from '../actions/actionTypes';
 export const FINISHED_KEY = 'finished';
 export const INVALID_KEY = 'invalid';
@@ -27,25 +27,25 @@ const groupMenu = (state = {}, action) => {
     case CLEAR_GROUP_MENU: {
       return {};
     }
-    case SET_FINISHED: {
+    case SET_GROUP_MENU_FINISHED: {
       return setItemValue(state, action, FINISHED_KEY, !!action.value);
     }
-    case SET_INVALID: {
+    case SET_GROUP_MENU_INVALID: {
       return setItemValue(state, action, INVALID_KEY, !!action.value);
     }
-    case SET_UNALIGNED: {
+    case SET_GROUP_MENU_UNALIGNED: {
       return setItemValue(state, action, UNALIGNED_KEY, !!action.value);
     }
-    case SET_EDITED: {
+    case SET_GROUP_MENU_EDITED: {
       return setItemValue(state, action, EDITED_KEY, !!action.value);
     }
-    case SET_BOOKMARKED: {
+    case SET_GROUP_MENU_BOOKMARKED: {
       return setItemValue(state, action, BOOKMARKED_KEY, !!action.value);
     }
-    case SET_COMMENT: {
+    case SET_GROUP_MENU_COMMENT: {
       return setItemValue(state, action, COMMENT_KEY, action.value);
     }
-    case SET_STATE: {
+    case SET_GROUP_MENU_STATE: {
       const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);
       const validObject = action.values && Object.keys(action.values).length;
       if (validObject && itemData) {

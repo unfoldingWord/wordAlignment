@@ -389,7 +389,7 @@ export const recordCheck = (check, chapter, verse, data) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemFinished = (chapter, verse, value) => ({
-  type: types.SET_FINISHED,
+  type: types.SET_GROUP_MENU_FINISHED,
   chapter,
   verse,
   value
@@ -403,7 +403,7 @@ export const setGroupMenuItemFinished = (chapter, verse, value) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
-  type: types.SET_INVALID,
+  type: types.SET_GROUP_MENU_INVALID,
   chapter,
   verse,
   value
@@ -417,7 +417,7 @@ export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
-  type: types.SET_UNALIGNED,
+  type: types.SET_GROUP_MENU_UNALIGNED,
   chapter,
   verse,
   value
@@ -431,7 +431,7 @@ export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemEdited = (chapter, verse, value) => ({
-  type: types.SET_EDITED,
+  type: types.SET_GROUP_MENU_EDITED,
   chapter,
   verse,
   value
@@ -445,7 +445,7 @@ export const setGroupMenuItemEdited = (chapter, verse, value) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemBookmarked = (chapter, verse, value) => ({
-  type: types.SET_BOOKMARKED,
+  type: types.SET_GROUP_MENU_BOOKMARKED,
   chapter,
   verse,
   value
@@ -459,7 +459,7 @@ export const setGroupMenuItemBookmarked = (chapter, verse, value) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemComment = (chapter, verse, value) => ({
-  type: types.SET_COMMENT,
+  type: types.SET_GROUP_MENU_COMMENT,
   chapter,
   verse,
   value
@@ -473,7 +473,7 @@ export const setGroupMenuItemComment = (chapter, verse, value) => ({
  * @returns {{ value: *, chapter: *, verse: *}}
  */
 export const setGroupMenuItemState = (chapter, verse, values) => ({
-  type: types.SET_STATE,
+  type: types.SET_GROUP_MENU_STATE,
   chapter,
   verse,
   values

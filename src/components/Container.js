@@ -673,7 +673,6 @@ class Container extends Component {
       bookName = contextId.reference.bookId; // fall back to book id
     }
     const verseTitle = `${bookName} ${chapter}:${verse}`;
-    let targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
 
     // TODO: use the source book direction to correctly style the alignments
 
@@ -688,7 +687,6 @@ class Container extends Component {
     const isComplete = this._getIsComplete();
     const verseState = api.getGroupMenuItem(chapter, verse);
     const comment = verseState[GroupMenu.COMMENT_KEY];
-    const verseText = api.getVerseRawText(chapter, verse);
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};

@@ -10,9 +10,9 @@ const IconIndicators = ({
   commentIconEnable,
   bookmarkStateSet,
   bookmarkIconEnable,
-  verseEditAction,
-  bookmarkAction,
-  commentAction,
+  verseEditClickAction,
+  commentClickAction,
+  bookmarkClickAction,
 }) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -24,7 +24,7 @@ const IconIndicators = ({
             color: verseEditStateSet ? 'var(--highlight-color)' : 'var(--reverse-color)'
           }}
           title={verseEditStateSet ? translate('icons.verse_edits_found') : translate('icons.no_verse_edits_found')}
-          onClick={verseEditAction}
+          onClick={verseEditClickAction}
         />
       ) : '' }
       {commentIconEnable ? (
@@ -35,7 +35,7 @@ const IconIndicators = ({
             color: commentStateSet ? 'var(--highlight-color)' : 'var(--reverse-color)'
           }}
           title={commentStateSet ? translate('icons.comments_found') : translate('icons.no_comments_found')}
-          onClick={commentAction}
+          onClick={commentClickAction}
         />
       ) : '' }
       {bookmarkIconEnable ? (
@@ -46,7 +46,7 @@ const IconIndicators = ({
             color: bookmarkStateSet ? 'var(--highlight-color)' : 'var(--reverse-color)'
           }}
           title={bookmarkStateSet ? translate('icons.bookmarked') : translate('icons.not_bookmarked')}
-          onClick={bookmarkAction}
+          onClick={bookmarkClickAction}
         />
       ) : '' }
     </div>

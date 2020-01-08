@@ -22,6 +22,8 @@ import {
   recordCheck,
   repairAndInspectVerse,
   resetVerse,
+  setGroupMenuItemBookmarked,
+  setGroupMenuItemComment,
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
   setGroupMenuItemState,
@@ -63,6 +65,10 @@ export default class Api extends ToolApi {
     this.refreshGroupMenuItems = this.refreshGroupMenuItems.bind(this);
     this.getGroupMenuItem = this.getGroupMenuItem.bind(this);
     this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
+    this.getVerseRawText = this.getVerseRawText.bind(this);
+    this.setVerseComment = this.setVerseComment.bind(this);
+    this.setVerseBookmark = this.setVerseBookmark.bind(this);
+    this.writeCheckData = this.writeCheckData.bind(this);
   }
 
   /**
@@ -296,6 +302,20 @@ export default class Api extends ToolApi {
   }
 
   /**
+   * fetch the verse text with USFM
+   * @param chapter
+   * @param verse
+   * @return {boolean}
+   */
+  getVerseRawText(chapter, verse) {
+    const { tc: {targetBook} } = this.props;
+    if (verse in targetBook[chapter] && targetBook[chapter][verse]) {
+      return targetBook[chapter][verse];
+    }
+    return null;
+  }
+
+  /**
    * Validates the verse and repairs as needed.
    * @param props
    * @param chapter
@@ -307,21 +327,22 @@ export default class Api extends ToolApi {
   _validateVerse(props, chapter, verse, silent=false) {
     const {
       tc: {
-        targetBook,
         sourceBook
       },
       repairAndInspectVerse
     } = props;
     const {store} = this.context;
 
-    if (!(verse in targetBook[chapter] && targetBook[chapter][verse] && verse in sourceBook[chapter])) {
+    const targetVerse = this.getVerseRawText(chapter, verse);
+
+    if (!(targetVerse && verse in sourceBook[chapter])) {
       console.warn(`Could not validate missing verse ${chapter}:${verse}`);
       return true;
     }
 
     const sourceTokens = tokenizeVerseObjects(
       sourceBook[chapter][verse].verseObjects);
-    const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+    const targetVerseText = removeUsfmMarkers(targetVerse);
     const targetTokens = Lexer.tokenize(targetVerseText);
     let normalizedSource = "";
     let normalizedSourceArray = [];
@@ -742,6 +763,12 @@ export default class Api extends ToolApi {
     return projectDataPathExistsSync(dataPath);
   }
 
+  /**
+   * get current comment for verse
+   * @param {String|Number} chapter
+   * @param {String|Number} verse
+   * @return {String}
+   */
   getVerseComment(chapter, verse) {
     const {
       tc,
@@ -751,6 +778,27 @@ export default class Api extends ToolApi {
     return (comment && comment.text) || '';
   }
 
+  /**
+   * set/change comment
+   * @param {String|Number} chapter
+   * @param {String|Number} verse
+   * @param {String} comment - new bookmark state
+   */
+  setVerseComment(chapter, verse, comment) {
+    const {store} = this.context;
+    store.dispatch(setGroupMenuItemComment(chapter, verse, comment));
+    const newData = {
+      text: comment
+    };
+    this.writeCheckData('comments', chapter, verse, newData);
+  }
+
+  /**
+   * get current bookmark state for verse
+   * @param {String|Number} chapter
+   * @param {String|Number} verse
+   * @return {boolean}
+   */
   getVerseBookmarked(chapter, verse) {
     const {
       tc,
@@ -760,9 +808,56 @@ export default class Api extends ToolApi {
     return !!(bookmark && bookmark.enabled);
   }
 
+  /**
+   * set/unset bookmark
+   * @param {String|Number} chapter
+   * @param {String|Number} verse
+   * @param {Boolean} bookmarked - new bookmark state
+   */
+  setVerseBookmark(chapter, verse, bookmarked) {
+    const {store} = this.context;
+    store.dispatch(setGroupMenuItemBookmarked(chapter, verse, bookmarked));
+    const newData = {
+      enabled: !!bookmarked
+    };
+    this.writeCheckData('reminders', chapter, verse, newData);
+  }
+
   getisVerseUnaligned(chapter, verse) {
     const {store} = this.context;
     return !getIsVerseAligned(store.getState(), chapter, verse);
+  }
+
+  /**
+   * persist the check data for verse
+   * @param {String} checkType
+   * @param {String|Number} chapter
+   * @param {String|Number} verse
+   * @param {Object} newData - base data to save
+   */
+  writeCheckData(checkType, chapter, verse, newData) {
+    const {
+      tc: {
+        username,
+        contextId,
+        writeProjectDataSync
+      }
+    } = this.props;
+    const {reference} = contextId;
+    const { bookId } = reference;
+    const dataFolder = generateCheckPath(checkType, bookId, chapter, verse);
+    const modifiedTimestamp = (new Date()).toJSON();
+    const saveData = {
+      contextId,
+      ...newData,
+      username,
+      activeBook: bookId,
+      activeChapter: reference.chapter,
+      activeVerse: reference.verse,
+      modifiedTimestamp
+    };
+    const dataPath = path.join(dataFolder, modifiedTimestamp + '.json');
+    writeProjectDataSync(dataPath, JSON.stringify(saveData));
   }
 
   /**

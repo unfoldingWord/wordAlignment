@@ -41,6 +41,7 @@ import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from "./IconIndicators";
+import CommentsDialog from "./CommentsDialog";
 
 const styles = {
   container: {
@@ -162,6 +163,10 @@ class Container extends Component {
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleResetWordList = this.handleResetWordList.bind(this);
+    this.handleBookmarkClick = this.handleBookmarkClick.bind(this);
+    this.handleCommentClick = this.handleCommentClick.bind(this);
+    this.handleCommentClose = this.handleCommentClose.bind(this);
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -169,7 +174,8 @@ class Container extends Component {
       writing: false,
       snackText: null,
       canAutoComplete: false,
-      resetWordList: false
+      resetWordList: false,
+      showComments: false
     };
   }
 
@@ -540,6 +546,55 @@ class Container extends Component {
   }
 
   /**
+   * will toggle bookmark on click
+   */
+  handleBookmarkClick() {
+    const {
+      tool: {
+        api
+      },
+      tc: {contextId: {reference: {chapter, verse}}}
+    } = this.props;
+    const currentState = api.getGroupMenuItem(chapter, verse);
+    const bookmarked = currentState.bookMarked;
+    api.setVerseBookmark(chapter, verse, !bookmarked); // toggle bookmark
+  }
+
+  /**
+   * will show comment editor on click
+   */
+  handleCommentClick() {
+    this.setState({
+      showComments: true
+    });
+  }
+
+  /**
+   * will close comment editor
+   */
+  handleCommentClose() {
+    this.setState({
+      showComments: false
+    });
+  }
+
+  /**
+   * will update comment and close comment editor
+   */
+  handleCommentSubmit(newComment) {
+    const {
+      tool: {
+        api
+      },
+      tc: {
+        contextId: {reference: {chapter, verse}},
+      }
+    } = this.props;
+    api.setVerseComment(chapter, verse, newComment);
+    this.handleCommentClose();
+  }
+
+  /**
    * Returns the target tokens with used tokens labeled as disabled
    * @return {*}
    */
@@ -599,21 +654,30 @@ class Container extends Component {
           showPopover
         },
         sourceBook: {manifest: {direction : sourceDirection, language_id: sourceLanguage}},
-        targetBook: {manifest: {direction : targetDirection}}
+        targetBook: {manifest: {direction : targetDirection}},
+        projectDetailsReducer: { manifest },
       },
       tc
     } = this.props;
-    const {snackText} = this.state;
+    const {snackText, showComments} = this.state;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
       return null;
     }
 
+    const {reference: {chapter, verse}} = contextId;
+    const targetLanguage = manifest && manifest.target_language;
+    let bookName = targetLanguage  && targetLanguage.book && targetLanguage.book.name;
+    if (!bookName) {
+      bookName = contextId.reference.bookId; // fall back to book id
+    }
+    const verseTitle = `${bookName} ${chapter}:${verse}`;
+    let targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
+
     // TODO: use the source book direction to correctly style the alignments
 
     const {lexicons} = resourcesReducer;
-    const {reference: {chapter, verse}} = contextId;
 
     // TRICKY: do not show word list if there is no source bible.
     let words = [];
@@ -623,6 +687,8 @@ class Container extends Component {
 
     const isComplete = this._getIsComplete();
     const verseState = api.getGroupMenuItem(chapter, verse);
+    const comment = verseState[GroupMenu.COMMENT_KEY];
+    const verseText = api.getVerseRawText(chapter, verse);
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -662,10 +728,13 @@ class Container extends Component {
             <div className='title-bar' style={{marginTop: '2px', marginBottom: `10px`}}>
               <span>{translate('align_title')}</span>
               <IconIndicators
-                isVerseEdited={verseState[GroupMenu.EDITED_KEY]}
-                comment={verseState[GroupMenu.COMMENT_KEY]}
-                bookmarkEnabled={verseState[GroupMenu.BOOKMARKED_KEY]}
                 translate={translate}
+                commentIconEnable={true}
+                commentStateSet={comment}
+                commentClickAction={this.handleCommentClick}
+                bookmarkIconEnable={true}
+                bookmarkStateSet={verseState[GroupMenu.BOOKMARKED_KEY]}
+                bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
           {hasSourceText ? (
@@ -698,6 +767,14 @@ class Container extends Component {
                        translate={translate}/>
           </div>
         </div>
+        <CommentsDialog
+          open={showComments}
+          verseTitle={verseTitle}
+          comment={comment}
+          translate={translate}
+          onClose={this.handleCommentClose}
+          onSubmit={this.handleCommentSubmit}
+        />
       </div>
     );
   }
@@ -773,7 +850,7 @@ const mapDispatchToProps = ({
   removeTokenSuggestion,
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
-  clearAlignmentSuggestions
+  clearAlignmentSuggestions,
 });
 
 const mapStateToProps = (state, props) => {

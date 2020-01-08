@@ -396,7 +396,7 @@ export const setGroupMenuItemFinished = (chapter, verse, value) => ({
 });
 
 /**
- * updates the invalid state for new group menu item.
+ * updates the invalid state for group menu item.
  * @param {number|string} chapter - the chapter number
  * @param {number|string} verse - the verse number
  * @param {*} value - the new value for finished state
@@ -410,7 +410,7 @@ export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
 });
 
 /**
- * updates the Unaligned state for new group menu item.
+ * updates the Unaligned state for group menu item.
  * @param {number|string} chapter - the chapter number
  * @param {number|string} verse - the verse number
  * @param {*} value - the new value for finished state
@@ -424,7 +424,7 @@ export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
 });
 
 /**
- * updates the Edited state for new group menu item.
+ * updates the Edited state for group menu item.
  * @param {number|string} chapter - the chapter number
  * @param {number|string} verse - the verse number
  * @param {*} value - the new value for finished state
@@ -432,6 +432,34 @@ export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
  */
 export const setGroupMenuItemEdited = (chapter, verse, value) => ({
   type: types.SET_EDITED,
+  chapter,
+  verse,
+  value
+});
+
+/**
+ * updates the Bookmarked state for group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {Boolean} value - the new value for finished state
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemBookmarked = (chapter, verse, value) => ({
+  type: types.SET_BOOKMARKED,
+  chapter,
+  verse,
+  value
+});
+
+/**
+ * updates the comment state for group menu item.
+ * @param {number|string} chapter - the chapter number
+ * @param {number|string} verse - the verse number
+ * @param {string} value - the new value for comment
+ * @returns {{ value: *, chapter: *, verse: *}}
+ */
+export const setGroupMenuItemComment = (chapter, verse, value) => ({
+  type: types.SET_COMMENT,
   chapter,
   verse,
   value

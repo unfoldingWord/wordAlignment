@@ -8,7 +8,7 @@ import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
 import UnalignedIcon from '@material-ui/icons/RemoveCircle';
-import {getChecks} from '../state/reducers';
+import {getChecks, getGroupMenuItem} from '../state/reducers';
 import Api from '../Api';
 import {
   BOOKMARKED_KEY,
@@ -45,7 +45,7 @@ class GroupMenuContainer extends React.Component {
       }
     } = item;
 
-    const itemState = toolApi.getGroupMenuItem(chapter, verse);
+    const itemState = toolApi.getVerseData(chapter, verse);
     return {
       ...item,
       title: `${bookName} ${chapter}:${verse}`,

@@ -18,17 +18,18 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
  * @param {String} checkType (e.g. reminders)
  * @param {String|Number} chapter
  * @param {String|Number} verse
- * @param {Object} tc
+ * @param {Object} api - tool api for system calls
  * @param {String} toolName
  * @return {Object} returns the most recent object for verse loaded from the file system.
  */
-export function loadCheckData(checkType, chapter, verse, tc, toolName) {
+export function loadCheckData(api, checkType, chapter, verse,
+                              toolName = 'wordAlignment') {
   const {
     projectDataPathExistsSync,
     readProjectDataSync,
     readProjectDirSync,
     contextId
-  } = tc;
+  } = api.props.tc;
   const {reference: {bookId}} = contextId;
   let checkDataObject;
   const loadPath = generateCheckPath(checkType, bookId, chapter, verse);

@@ -73,9 +73,9 @@ IconIndicators.defaultProps = {
   commentIconEnable: false,
   bookmarkStateSet: false,
   bookmarkIconEnable: false,
-  verseEditClickAction: null,
-  bookmarkClickAction: null,
-  commentClickAction: null,
+  verseEditClickAction: () => false,
+  bookmarkClickAction: () => false,
+  commentClickAction: () => false,
 };
 
 export default IconIndicators;

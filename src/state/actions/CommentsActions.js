@@ -1,4 +1,5 @@
 import * as consts from '../actions/actionTypes';
+import * as Actions from '../actions/index'
 
 export function comment(text, username, timestamp) {
   return ((dispatch, getState) => {
@@ -32,13 +33,15 @@ export function comment(text, username, timestamp) {
  */
 export const addComment = (text) => ((dispatch, getState) => {
   const state = getState();
-  const contextId = state.contextIdReducer.contextId;
+  const {
+    contextId: {
+      reference: {
+        chapter, verse,
+      }
+    }
+  } = state.contextIdReducer;
   const username = state.loginReducer.userdata.username;
 
   dispatch(comment(text, username, generateTimestamp()));
-  dispatch({
-    type: consts.TOGGLE_COMMENTS_IN_GROUPDATA,
-    contextId,
-    text,
-  });
+  dispatch(Actions.setGroupMenuItemComment(chapter, verse, text));
 });

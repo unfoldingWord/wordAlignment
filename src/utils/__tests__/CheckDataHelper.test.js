@@ -26,16 +26,20 @@ const testRecord = {
 };
 
 describe('CheckDataHelper()', () => {
-  let tc;
+  let api;
   let toolName;
 
   beforeEach(() => {
     fs.__resetMockFS();
-    tc = {
-      projectDataPathExistsSync: fs.existsSync,
-      readProjectDataSync: fs.readFileSync,
-      readProjectDirSync: fs.readdirSync,
-      contextId: _.cloneDeep(testRecord.contextId)
+    api = {
+      props: {
+        tc: {
+          projectDataPathExistsSync: fs.existsSync,
+          readProjectDataSync: fs.readFileSync,
+          readProjectDirSync: fs.readdirSync,
+          contextId: _.cloneDeep(testRecord.contextId)
+        }
+      }
     };
     toolName = 'wordAlignment';
   });
@@ -47,7 +51,7 @@ describe('CheckDataHelper()', () => {
     const verse = 4;
 
     // when
-    const data = loadCheckData(checkType,  chapter, verse, tc, toolName);
+    const data = loadCheckData(api, checkType, chapter, verse, toolName);
 
     // then
     expect(data).toBeFalsy();
@@ -73,7 +77,7 @@ describe('CheckDataHelper()', () => {
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(checkType,  chapter, verse, tc, toolName);
+    const data = loadCheckData(api, checkType,  chapter, verse, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -100,7 +104,7 @@ describe('CheckDataHelper()', () => {
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(checkType,  chapter, verse, tc, toolName);
+    const data = loadCheckData(api, checkType,  chapter, verse, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);

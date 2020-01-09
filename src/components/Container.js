@@ -23,6 +23,7 @@ import {
 } from '../state/actions';
 import {
   getChapterAlignments,
+  getGroupMenuItem,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
@@ -42,6 +43,7 @@ import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from "./IconIndicators";
 import CommentsDialog from "./CommentsDialog";
+import * as GroupMenuHelpers from "../utils/GroupMenuHelper";
 
 const styles = {
   container: {
@@ -555,9 +557,9 @@ class Container extends Component {
       },
       tc: {contextId: {reference: {chapter, verse}}}
     } = this.props;
-    const currentState = api.getGroupMenuItem(chapter, verse);
-    const bookmarked = currentState.bookMarked;
-    api.setVerseBookmark(chapter, verse, !bookmarked); // toggle bookmark
+    const currentState = api.getVerseData(chapter, verse); // TODO: move to reducer
+    const bookmarked = currentState[GroupMenu.BOOKMARKED_KEY];
+    api.setVerseBookmark(chapter, verse, !bookmarked); // toggle bookmark // TODO: move to reducer
   }
 
   /**
@@ -590,7 +592,7 @@ class Container extends Component {
         contextId: {reference: {chapter, verse}},
       }
     } = this.props;
-    api.setVerseComment(chapter, verse, newComment);
+    api.setVerseComment(chapter, verse, newComment); // TODO: move to reducer
     this.handleCommentClose();
   }
 
@@ -632,7 +634,7 @@ class Container extends Component {
         contextId: {reference: {chapter, verse}}
       }
     } = this.props;
-    return api.getIsVerseFinished(chapter, verse);
+    return GroupMenuHelpers.getIsVerseFinished(this, chapter, verse);
   }
 
   render() {
@@ -684,9 +686,9 @@ class Container extends Component {
       words = this.getLabeledTargetTokens();
     }
 
-    const isComplete = this._getIsComplete();
-    const verseState = api.getGroupMenuItem(chapter, verse);
-    const comment = verseState[GroupMenu.COMMENT_KEY];
+    const verseState = api.getVerseData(chapter, verse);
+    const comment = verseState[GroupMenu.COMMENT_KEY]; // TODO: move to reducer
+    const isComplete = verseState[GroupMenu.FINISHED_KEY];
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -727,13 +729,13 @@ class Container extends Component {
               <span>{translate('align_title')}</span>
               <IconIndicators
                 translate={translate}
-                verseEditStateSet={verseState[GroupMenu.EDITED_KEY]}
+                verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
                 verseEditIconEnable={true}
                 commentIconEnable={true}
-                commentStateSet={comment}
+                commentStateSet={!!comment}
                 commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
-                bookmarkStateSet={verseState[GroupMenu.BOOKMARKED_KEY]}
+                bookmarkStateSet={!!verseState[GroupMenu.BOOKMARKED_KEY]}
                 bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
@@ -872,7 +874,7 @@ const mapStateToProps = (state, props) => {
   return {
     hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter,
       verse),
-    verseIsComplete: api.getIsVerseFinished(chapter, verse),
+    verseIsComplete: GroupMenuHelpers.getIsVerseFinished(api, chapter, verse),  // TODO: move to reducer
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
     hasTargetText: normalizedTargetVerseText !== '',

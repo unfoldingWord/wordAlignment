@@ -1,6 +1,9 @@
 import * as consts from '../actions/actionTypes';
 import * as Actions from '../actions/index';
-import { generateTimestamp } from '../../utils/CheckDataHelper';
+import {
+  generateTimestamp,
+  writeCheckData,
+} from '../../utils/CheckDataHelper';
 
 /**
  * set new comment in reducer
@@ -38,8 +41,7 @@ export function setComment(text, username, contextId, timestamp) {
  * @param {Object} contextId
  * @return {Object} New state for comment reducer.
  */
-export const addComment = (api, text, username, contextId) => ((dispatch, getState) => {
-  const state = getState();
+export const addComment = (api, text, username, contextId) => ((dispatch) => {
   const {
     reference: {
       bookId, chapter, verse,
@@ -58,6 +60,5 @@ export const addComment = (api, text, username, contextId) => ((dispatch, getSta
     modifiedTimestamp: timestamp,
     contextId,
   };
-  // TODO move to helpers
-  api.writeCheckData('comments', chapter, verse, newData);
+  writeCheckData(api, 'comments', chapter, verse, newData);
 });

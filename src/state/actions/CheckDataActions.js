@@ -1,7 +1,5 @@
 import * as consts from '../actions/actionTypes';
-import * as Actions from '../actions/index';
 import {
-  generateTimestamp,
   getVerseCommentRecord,
 } from '../../utils/CheckDataHelper';
 

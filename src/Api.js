@@ -16,8 +16,8 @@ import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {loadNewContext} from './state/actions/CheckDataActions';
 import {
-  generateCheckPath,
-  getIsVerseFinished
+  getIsVerseFinished,
+  writeCheckData
 } from './utils/CheckDataHelper';
 import {
   alignTargetToken,
@@ -28,7 +28,6 @@ import {
   repairAndInspectVerse,
   resetVerse,
   setGroupMenuItemBookmarked,
-  setGroupMenuItemComment,
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
   unalignTargetToken,
@@ -57,7 +56,6 @@ export default class Api extends ToolApi {
     this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
     this.getVerseRawText = this.getVerseRawText.bind(this);
     this.setVerseBookmark = this.setVerseBookmark.bind(this);
-    this.writeCheckData = this.writeCheckData.bind(this);
     this.getVerseData = this.getVerseData.bind(this);
   }
 
@@ -552,16 +550,16 @@ export default class Api extends ToolApi {
       const {store} = this.context;
       const currentLang = getActiveLanguage(store.getState());
       const langId = currentLang && currentLang.code;
-      if (isWaTool && langId && (langId !== appLanguage)) { // see if locale language has changed
-        store.dispatch(setActiveLocale(appLanguage));
+      if (isWaTool) {
+        if (langId && (langId !== appLanguage)) { // see if locale language has changed
+          store.dispatch(setActiveLocale(appLanguage));
+        }
+        if (!isEqual(prevContext, nextContext)) {
+          loadNewContext(this, nextContext);
+        }
       }
 
       if (Api._didToolContextChange(prevContext, nextContext)) {
-        if (isWaTool) { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
-          if (!isEqual(prevContext, nextContext)) {
-            loadNewContext(this, nextContext);
-          }
-        }
         setTimeout(() => {
           const isValid = this._validateBook(nextProps);
           if (!isValid) {
@@ -684,39 +682,7 @@ export default class Api extends ToolApi {
     const newData = {
       enabled: !!bookmarked
     };
-    this.writeCheckData('reminders', chapter, verse, newData);
-  }
-
-  /**
-   * persist the check data for verse
-   * @param {String} checkType
-   * @param {String|Number} chapter
-   * @param {String|Number} verse
-   * @param {Object} newData - base data to save
-   */
-  writeCheckData(checkType, chapter, verse, newData) {
-    const {
-      tc: {
-        username,
-        contextId,
-        writeProjectDataSync
-      }
-    } = this.props;
-    const {reference} = contextId;
-    const { bookId } = reference;
-    const dataFolder = generateCheckPath(checkType, bookId, chapter, verse);
-    const modifiedTimestamp = (new Date()).toJSON();
-    const saveData = {
-      contextId,
-      ...newData,
-      username,
-      activeBook: bookId,
-      activeChapter: reference.chapter,
-      activeVerse: reference.verse,
-      modifiedTimestamp
-    };
-    const dataPath = path.join(dataFolder, modifiedTimestamp + '.json');
-    writeProjectDataSync(dataPath, JSON.stringify(saveData));
+    writeCheckData(this, 'reminders', chapter, verse, newData);
   }
 
   /**

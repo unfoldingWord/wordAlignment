@@ -104,10 +104,10 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
 
 /**
  * @description loads checkdata based on given contextId.
+ * @param {Object} api - tool api for system calls
  * @param {String} checkType (e.g. reminders)
  * @param {String|Number} chapter
  * @param {String|Number} verse
- * @param {Object} api - tool api for system calls
  * @param {String} toolName
  * @return {Object} returns the most recent object for verse loaded from the file system.
  */
@@ -159,6 +159,38 @@ export function loadCheckData(api, checkType, chapter, verse,
    * to initialized the reducer.
    */
   return checkDataObject;
+}
+
+/**
+ * persist the check data for verse
+ * @param {Object} api - tool api for system calls
+ * @param {String} checkType
+ * @param {String|Number} chapter
+ * @param {String|Number} verse
+ * @param {Object} newData - base data to save
+ */
+export function writeCheckData(api, checkType, chapter, verse, newData) {
+  const {
+    tc: {
+      username,
+      contextId,
+      writeProjectDataSync
+    }
+  } = api.props;
+  const {reference: { bookId }} = contextId;
+  const dataFolder = generateCheckPath(checkType, bookId, chapter, verse);
+  const modifiedTimestamp = generateTimestamp();
+  const saveData = {
+    contextId,
+    ...newData,
+    username,
+    activeBook: bookId,
+    activeChapter: chapter,
+    activeVerse: verse,
+    modifiedTimestamp
+  };
+  const dataPath = path.join(dataFolder, modifiedTimestamp + '.json');
+  writeProjectDataSync(dataPath, JSON.stringify(saveData));
 }
 
 /**

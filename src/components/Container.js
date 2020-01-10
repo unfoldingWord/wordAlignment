@@ -38,7 +38,6 @@ import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
 import * as GroupMenu from "../state/reducers/groupMenu";
-import * as GroupMenuHelpers from "../utils/GroupMenuHelper";
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
@@ -593,6 +592,7 @@ class Container extends Component {
       username,
     } = this.props;
     addComment(api, newComment, username, contextId);
+    this.handleCommentClose();
   }
 
   /**

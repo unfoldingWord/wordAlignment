@@ -1,4 +1,4 @@
-import {setGroupMenuItemState} from '../actions/index'
+import {setGroupMenuItemState} from '../actions/index';
 import {getGroupMenuItem, getIsVerseAligned} from "../reducers";
 import {BOOKMARKED_KEY, COMMENT_KEY, EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../reducers/groupMenu";
 import * as GroupMenuHelper from "../../utils/GroupMenuHelper";

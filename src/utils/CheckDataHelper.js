@@ -71,3 +71,18 @@ export function loadCheckData(api, checkType, chapter, verse,
    */
   return checkDataObject;
 }
+
+/**
+ * @description This helper method generates a timestamp in milliseconds for use
+ *              in the storing of data in the app. Timestamps will be used to
+ *              generate filenames and modified dates.
+ * @param {String|null} str A date string to use. If null, will be current date
+ * @return {String} The timestamp in milliseconds
+ ******************************************************************************/
+export const generateTimestamp = (str = null) => {
+  if (!str) {
+    return (new Date()).toJSON();
+  } else {
+    return (new Date(str)).toJSON();
+  }
+};

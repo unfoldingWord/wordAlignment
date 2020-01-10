@@ -7,23 +7,23 @@ const initialState = {
   activeChapter: null,
   activeVerse: null,
   modifiedTimestamp: null,
-  gatewayLanguageCode: null,
-  gatewayLanguageQuote: null,
 };
 
 const commentsReducer = (state = initialState, action) => {
   switch (action.type) {
-  case consts.ADD_COMMENT:
-    return Object.assign({}, state, {
-      text: action.text,
-      userName: action.userName,
-      activeBook: action.activeBook,
-      activeChapter: action.activeChapter,
-      activeVerse: action.activeVerse,
-      modifiedTimestamp: action.modifiedTimestamp,
-      gatewayLanguageCode: action.gatewayLanguageCode,
-      gatewayLanguageQuote: action.gatewayLanguageQuote,
-    });
+    case consts.LOAD_COMMENT:
+      return {
+        ...action.value
+      };
+    case consts.ADD_COMMENT:
+      return Object.assign({}, state, {
+        text: action.text,
+        userName: action.userName,
+        activeBook: action.activeBook,
+        activeChapter: action.activeChapter,
+        activeVerse: action.activeVerse,
+        modifiedTimestamp: action.modifiedTimestamp,
+      });
   default:
     return state;
   }

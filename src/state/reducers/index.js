@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
 import groupMenu, * as fromGroupMenu from "./groupMenu";
-import commentsReducer, * as fromCommentsReducer from "./commentsReducer";
+import commentsReducer from "./commentsReducer";
 
 export default combineReducers({
   alignments,

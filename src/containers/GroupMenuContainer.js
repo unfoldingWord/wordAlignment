@@ -8,7 +8,7 @@ import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import EditIcon from '@material-ui/icons/Edit';
 import UnalignedIcon from '@material-ui/icons/RemoveCircle';
-import {getChecks, getGroupMenuItem} from '../state/reducers';
+import {getChecks} from '../state/reducers';
 import Api from '../Api';
 import {
   BOOKMARKED_KEY,

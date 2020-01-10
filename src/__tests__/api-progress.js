@@ -1,13 +1,23 @@
+import configureMockStore from "redux-mock-store";
+import thunk from 'redux-thunk';
 import Api from '../Api';
 import * as reducers from '../state/reducers';
+import {FINISHED_KEY, UNALIGNED_KEY} from "../state/reducers/groupMenu";
 jest.mock('../state/reducers');
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('get tool progress', () => {
   it('is not aligned or toggled complete', () => {
-    const props = {
+    // given
+    const state = {
       tool: {
-        toolDataPathExistsSync: () => false // the finished check looks for a file
-      },
+        groupMenu: { }
+      }
+    };
+    const store = mockStore(state);
+    const props = {
       tc: {
         targetBook: {
           '1': {
@@ -18,19 +28,27 @@ describe('get tool progress', () => {
     };
     const api = new Api();
     api.props = props;
-    api.context = {
-      store: {
-        getState: jest.fn()
-      }
-    };
-    expect(api.getProgress()).toEqual(0);
+    api.context.store = store;
+    reducers.getGroupMenuItem.mockReset();
+    const mockGroupMenuItem = { [UNALIGNED_KEY]: true, [FINISHED_KEY]: false };
+    reducers.getGroupMenuItem.mockReturnValue(mockGroupMenuItem);
+
+    // when
+    const progress = api.getProgress();
+
+    // then
+    expect(progress).toEqual(0);
   });
 
   it('is not aligned but is toggled', () => {
-    const props = {
+    // given
+    const state = {
       tool: {
-        toolDataPathExistsSync: () => true
-      },
+        groupMenu: { }
+      }
+    };
+    const store = mockStore(state);
+    const props = {
       tc: {
         targetBook: {
           '1': {
@@ -41,20 +59,27 @@ describe('get tool progress', () => {
     };
     const api = new Api();
     api.props = props;
-    api.context = {
-      store: {
-        getState: jest.fn()
-      }
-    };
-    expect(api.getProgress()).toEqual(1);
+    api.context.store = store;
+    reducers.getGroupMenuItem.mockReset();
+    const mockGroupMenuItem = { [UNALIGNED_KEY]: true, [FINISHED_KEY]: true };
+    reducers.getGroupMenuItem.mockReturnValue(mockGroupMenuItem);
+
+    // when
+    const progress = api.getProgress();
+
+    // then
+    expect(progress).toEqual(1);
   });
 
   it('some things are aligned but everything is toggled complete', () => {
-    reducers.__setIsVerseAligned('1', '2', true);
-    const props = {
+    // given
+    const state = {
       tool: {
-        toolDataPathExistsSync: () => true
-      },
+        groupMenu: { }
+      }
+    };
+    const store = mockStore(state);
+    const props = {
       tc: {
         targetBook: {
           '1': {
@@ -68,20 +93,30 @@ describe('get tool progress', () => {
     };
     const api = new Api();
     api.props = props;
-    api.context = {
-      store: {
-        getState: jest.fn()
-      }
-    };
-    expect(api.getProgress()).toEqual(1);
+    api.context.store = store;
+    reducers.getGroupMenuItem.mockReset();
+    const mockGroupMenuItemFinishedUnaligned = { [UNALIGNED_KEY]: true, [FINISHED_KEY]: true };
+    const mockGroupMenuItemFinishedAligned = { [UNALIGNED_KEY]: false, [FINISHED_KEY]: true };
+    reducers.getGroupMenuItem.mockReturnValue(mockGroupMenuItemFinishedUnaligned).
+    mockReturnValueOnce(mockGroupMenuItemFinishedAligned). // first call return value
+    mockReturnValueOnce(mockGroupMenuItemFinishedAligned); // second call return value
+
+    // when
+    const progress = api.getProgress();
+
+    // then
+    expect(progress).toEqual(1);
   });
 
   it('some things are aligned and nothing is toggled complete', () => {
-    reducers.__setIsVerseAligned('1', '2', true);
-    const props = {
+    // given
+    const state = {
       tool: {
-        toolDataPathExistsSync: () => false
-      },
+        groupMenu: { }
+      }
+    };
+    const store = mockStore(state);
+    const props = {
       tc: {
         targetBook: {
           '1': {
@@ -95,11 +130,18 @@ describe('get tool progress', () => {
     };
     const api = new Api();
     api.props = props;
-    api.context = {
-      store: {
-        getState: jest.fn()
-      }
-    };
-    expect(api.getProgress()).toEqual(0.25);
+    api.context.store = store;
+    reducers.getGroupMenuItem.mockReset();
+    const mockGroupMenuItemNotFinishedUnaligned = { [UNALIGNED_KEY]: true, [FINISHED_KEY]: false };
+    const mockGroupMenuItemNotFinishedAligned = { [UNALIGNED_KEY]: false, [FINISHED_KEY]: false };
+    reducers.getGroupMenuItem.mockReturnValue(mockGroupMenuItemNotFinishedUnaligned).
+    mockReturnValueOnce(mockGroupMenuItemNotFinishedAligned). // first call return value
+    mockReturnValueOnce(mockGroupMenuItemNotFinishedAligned); // second call return value
+
+    // when
+    const progress = api.getProgress();
+
+    // then
+    expect(progress).toEqual(0.5);
   });
 });

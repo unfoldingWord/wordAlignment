@@ -1,15 +1,14 @@
-import * as _ from 'lodash';
+import configureMockStore from "redux-mock-store";
+import thunk from 'redux-thunk';
 import * as reducers from '../state/reducers';
 import * as actions from '../state/actions';
 import Api from '../Api';
 import {
-  BOOKMARKED_KEY,
-  COMMENT_KEY,
-  EDITED_KEY,
-  FINISHED_KEY,
   INVALID_KEY,
-  UNALIGNED_KEY
 } from "../state/reducers/groupMenu";
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 jest.mock('../state/reducers');
 jest.mock('../state/actions');
@@ -236,7 +235,7 @@ describe('context', () => {
 });
 
 
-
+// TODO
 describe.skip('verse finished', () => {
 
   beforeEach(() => {
@@ -769,27 +768,45 @@ describe('validate', () => {
 
 describe('get number of invalid checks', () => {
   it('has no invalid checks', () => {
-    const props = {
+    // given
+    const state = {
       tool: {
-        toolDataPathExistsSync: () => false
-      },
+        groupMenu: { }
+      }
+    };
+    const store = mockStore(state);
+    const props = {
       tc: {
         targetBook: {
           '1': {
-            '1': {
-
-            }
+            '1': { }
           }
         }
       }
     };
     const api = new Api();
     api.props = props;
+    api.context.store = store;
+    reducers.getGroupMenuItem.mockReset();
+    reducers.getGroupMenuItem.mockReturnValue({ [INVALID_KEY]: false });
+
+    // when
     const numInvalidChecks = api.getInvalidChecks();
+
+    // then
     expect(numInvalidChecks).toEqual(0);
+    expect(reducers.getGroupMenuItem).toHaveBeenCalledTimes(1);
+    expect(reducers.getGroupMenuItem).toBeCalledWith(state,'1','1');
   });
 
   it('has some invalid checks', () => {
+    // given
+    const state = {
+      tool: {
+        groupMenu: { }
+      }
+    };
+    const store = mockStore(state);
     const props = {
       tool: {
         toolDataPathExistsSync: () => true
@@ -805,8 +822,16 @@ describe('get number of invalid checks', () => {
     };
     const api = new Api();
     api.props = props;
+    api.context.store = store;
+    reducers.getGroupMenuItem.mockReset();
+    reducers.getGroupMenuItem.mockReturnValue({ [INVALID_KEY]: true });
+
+    // when
     const numInvalidChecks = api.getInvalidChecks();
+
+    // then
     expect(numInvalidChecks).toEqual(2);
+    expect(reducers.getGroupMenuItem).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -824,37 +849,39 @@ function delay(ms) {
 // helpers
 //
 
-function getMockApi(mockReturnData) {
-  const api = new Api();
-  api.context = {
-    store: {
-      getState: () => ({}),
-      dispatch: () => ({})
-    }
-  };
-  api.getIsVerseFinished = jest.fn(() => mockReturnData.verseFinished);
-  api.getIsVerseInvalid = jest.fn(() => mockReturnData.verseInvalid);
-  api.getisVerseUnaligned = jest.fn(() => mockReturnData.verseUnaligned);
-  api.getIsVerseEdited = jest.fn(() => mockReturnData.verseEdited);
-  api.getVerseBookmarked = jest.fn(() => mockReturnData.verseBookmarked);
-  api.getVerseComment = jest.fn(() => mockReturnData.verseComment);
-  return api;
-}
+// TODO
 
-function verifyCallback(item, key, method) {
-  if (item.hasOwnProperty(key)) {
-    expect(method).not.toBeCalled();
-  } else {
-    expect(method).toBeCalled();
-  }
-}
-
-function verifyCallbacks(api, item) {
-  verifyCallback(item, FINISHED_KEY, api.getIsVerseFinished);
-  verifyCallback(item, INVALID_KEY, api.getIsVerseInvalid);
-  verifyCallback(item, UNALIGNED_KEY, api.getisVerseUnaligned);
-  verifyCallback(item, EDITED_KEY, api.getIsVerseEdited);
-  verifyCallback(item, BOOKMARKED_KEY, api.getVerseBookmarked);
-  verifyCallback(item, COMMENT_KEY, api.getVerseComment);
-}
+// function getMockApi(mockReturnData) {
+//   const api = new Api();
+//   api.context = {
+//     store: {
+//       getState: () => ({}),
+//       dispatch: () => ({})
+//     }
+//   };
+//   api.getIsVerseFinished = jest.fn(() => mockReturnData.verseFinished);
+//   api.getIsVerseInvalid = jest.fn(() => mockReturnData.verseInvalid);
+//   api.getisVerseUnaligned = jest.fn(() => mockReturnData.verseUnaligned);
+//   api.getIsVerseEdited = jest.fn(() => mockReturnData.verseEdited);
+//   api.getVerseBookmarked = jest.fn(() => mockReturnData.verseBookmarked);
+//   api.getVerseComment = jest.fn(() => mockReturnData.verseComment);
+//   return api;
+// }
+//
+// function verifyCallback(item, key, method) {
+//   if (item.hasOwnProperty(key)) {
+//     expect(method).not.toBeCalled();
+//   } else {
+//     expect(method).toBeCalled();
+//   }
+// }
+//
+// function verifyCallbacks(api, item) {
+//   verifyCallback(item, FINISHED_KEY, api.getIsVerseFinished);
+//   verifyCallback(item, INVALID_KEY, api.getIsVerseInvalid);
+//   verifyCallback(item, UNALIGNED_KEY, api.getisVerseUnaligned);
+//   verifyCallback(item, EDITED_KEY, api.getIsVerseEdited);
+//   verifyCallback(item, BOOKMARKED_KEY, api.getVerseBookmarked);
+//   verifyCallback(item, COMMENT_KEY, api.getVerseComment);
+// }
 

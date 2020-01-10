@@ -23,7 +23,6 @@ import {
 } from '../state/actions';
 import {
   getChapterAlignments,
-  getGroupMenuItem,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
@@ -37,13 +36,13 @@ import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
 import * as GroupMenu from "../state/reducers/groupMenu";
+import * as GroupMenuHelpers from "../utils/GroupMenuHelper";
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from "./IconIndicators";
 import CommentsDialog from "./CommentsDialog";
-import * as GroupMenuHelpers from "../utils/GroupMenuHelper";
 
 const styles = {
   container: {
@@ -627,9 +626,6 @@ class Container extends Component {
    */
   _getIsComplete() {
     const {
-      tool: {
-        api
-      },
       tc: {
         contextId: {reference: {chapter, verse}}
       }

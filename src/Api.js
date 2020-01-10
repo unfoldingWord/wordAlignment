@@ -31,13 +31,8 @@ import {
 } from './state/actions';
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import {migrateChapterAlignments} from './utils/migrations';
-
 // consts
-import {
-  FINISHED_KEY,
-  INVALID_KEY,
-  UNALIGNED_KEY,
-} from "./state/reducers/groupMenu";
+import {FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY,} from "./state/reducers/groupMenu";
 import * as types from "./state/actions/actionTypes";
 import {generateCheckPath} from './utils/CheckDataHelper';
 import {loadGroupMenuItem} from './state/actions/GroupMenuActions';
@@ -757,8 +752,7 @@ export default class Api extends ToolApi {
         if(isNaN(verse) || parseInt(verse) === -1) continue;
 
         const itemState = this.getVerseData(chapter, verse);
-        const invalid = !itemState[INVALID_KEY];
-        if(invalid) {
+        if(itemState[INVALID_KEY]) {
           invalidVerses ++;
         }
       }
@@ -778,7 +772,6 @@ export default class Api extends ToolApi {
         targetBook
       }
     } = this.props;
-    const {store} = this.context;
 
     const chapters = Object.keys(targetBook);
     let totalVerses = 0;

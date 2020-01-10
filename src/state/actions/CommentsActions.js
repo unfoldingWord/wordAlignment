@@ -1,16 +1,21 @@
 import * as consts from '../actions/actionTypes';
-import * as Actions from '../actions/index'
+import * as Actions from '../actions/index';
+import { generateTimestamp } from '../../utils/CheckDataHelper';
 
-export function comment(text, username, timestamp) {
-  return ((dispatch, getState) => {
-    const { contextIdReducer: { contextId } } = getState();
+/**
+ *
+ * @param text
+ * @param username
+ * @param contextId
+ * @param {String} timestamp
+ * @return {function(...[*]=)}
+ */
+export function setComment(text, username, contextId, timestamp) {
+  return ((dispatch) => {
     const {
       bookId, chapter, verse,
-    } = contextId.reference;
-    const {
-      gatewayLanguageCode,
-      gatewayLanguageQuote,
-    } = gatewayLanguageHelpers.getGatewayLanguageCodeAndQuote(getState());
+    } = contextId;
+    timestamp = timestamp || generateTimestamp();
 
     dispatch({
       type: consts.ADD_COMMENT,
@@ -19,8 +24,6 @@ export function comment(text, username, timestamp) {
       activeChapter: chapter,
       activeVerse: verse,
       modifiedTimestamp: timestamp,
-      gatewayLanguageCode,
-      gatewayLanguageQuote,
       text,
     });
   });
@@ -42,6 +45,6 @@ export const addComment = (text) => ((dispatch, getState) => {
   } = state.contextIdReducer;
   const username = state.loginReducer.userdata.username;
 
-  dispatch(comment(text, username, generateTimestamp()));
+  dispatch(setComment(text, username, generateTimestamp()));
   dispatch(Actions.setGroupMenuItemComment(chapter, verse, text));
 });

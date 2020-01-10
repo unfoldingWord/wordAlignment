@@ -21,13 +21,15 @@ import {
   setAlignmentPredictions,
   unalignTargetToken
 } from '../state/actions';
+import {addComment} from '../state/actions/CommentsActions';
 import {
   getChapterAlignments,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
   getRenderedVerseAlignments,
-  getVerseHasRenderedSuggestions
+  getVerseHasRenderedSuggestions,
+  getCurrentComments,
 } from '../state/reducers';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
@@ -157,7 +159,6 @@ class Container extends Component {
     this.handleToggleComplete = this.handleToggleComplete.bind(this);
     this.enableAutoComplete = this.enableAutoComplete.bind(this);
     this.disableAutoComplete = this.disableAutoComplete.bind(this);
-    this._getIsComplete = this._getIsComplete.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
@@ -584,15 +585,14 @@ class Container extends Component {
    */
   handleCommentSubmit(newComment) {
     const {
+      addComment,
       tool: {
         api
       },
-      tc: {
-        contextId: {reference: {chapter, verse}},
-      }
+      tc: {contextId},
+      username,
     } = this.props;
-    api.setVerseComment(chapter, verse, newComment); // TODO: move to reducer
-    this.handleCommentClose();
+    addComment(api, newComment, username, contextId);
   }
 
   /**
@@ -617,20 +617,6 @@ class Container extends Component {
       token.disabled = isUsed;
       return token;
     });
-  }
-
-  /**
-   * Checks if the verse has been completed
-   * @return {Promise}
-   * @private
-   */
-  _getIsComplete() {
-    const {
-      tc: {
-        contextId: {reference: {chapter, verse}}
-      }
-    } = this.props;
-    return GroupMenuHelpers.getIsVerseFinished(this, chapter, verse);
   }
 
   render() {
@@ -658,6 +644,7 @@ class Container extends Component {
       tc
     } = this.props;
     const {snackText, showComments} = this.state;
+    const {store} = api.context;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
@@ -683,8 +670,8 @@ class Container extends Component {
     }
 
     const verseState = api.getVerseData(chapter, verse);
-    const comment = verseState[GroupMenu.COMMENT_KEY]; // TODO: move to reducer
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
+    const comment = getCurrentComments(store.getState()).text || '';
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -807,6 +794,7 @@ Container.propTypes = {
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
 
   // state props
   hasRenderedSuggestions: PropTypes.bool.isRequired,
@@ -849,11 +837,14 @@ const mapDispatchToProps = ({
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
   clearAlignmentSuggestions,
+  addComment,
 });
 
 const mapStateToProps = (state, props) => {
   const {tc: {contextId, targetVerseText, sourceVerse}, tool: {api}} = props;
   const {reference: {chapter, verse}} = contextId;
+  const verseState = api.getVerseData(chapter, verse);
+  const isFinished = verseState[GroupMenu.FINISHED_KEY];
   // TRICKY: the target verse contains punctuation we need to remove
   let targetTokens = [];
   let sourceTokens = [];
@@ -870,7 +861,7 @@ const mapStateToProps = (state, props) => {
   return {
     hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter,
       verse),
-    verseIsComplete: GroupMenuHelpers.getIsVerseFinished(api, chapter, verse),  // TODO: move to reducer
+    verseIsComplete: isFinished,
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
     hasTargetText: normalizedTargetVerseText !== '',

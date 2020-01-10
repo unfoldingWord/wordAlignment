@@ -1,7 +1,7 @@
 import {setGroupMenuItemState} from '../actions/index';
 import {getGroupMenuItem, getIsVerseAligned} from "../reducers";
 import {BOOKMARKED_KEY, COMMENT_KEY, EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../reducers/groupMenu";
-import * as GroupMenuHelper from "../../utils/GroupMenuHelper";
+import * as CheckDataHelper from "../../utils/CheckDataHelper";
 
 /**
  * load items that may have been changed externally
@@ -16,12 +16,12 @@ export const loadGroupMenuItem = (api, chapter, verse, force = false) => ((dispa
   // reload verse data if force or if no data found for this verse
   if (force || !getGroupMenuItem(state, chapter, verse)) {
     const itemState = {};
-    itemState[FINISHED_KEY] = GroupMenuHelper.getIsVerseFinished(api, chapter, verse);
-    itemState[INVALID_KEY] = GroupMenuHelper.getIsVerseInvalid(api, chapter, verse);
+    itemState[FINISHED_KEY] = CheckDataHelper.getIsVerseFinished(api, chapter, verse);
+    itemState[INVALID_KEY] = CheckDataHelper.getIsVerseInvalid(api, chapter, verse);
     itemState[UNALIGNED_KEY] = !getIsVerseAligned(state, chapter, verse);
-    itemState[EDITED_KEY] = GroupMenuHelper.getIsVerseEdited(api, chapter, verse);
-    itemState[BOOKMARKED_KEY] = GroupMenuHelper.getVerseBookmarked(api, chapter, verse);
-    itemState[COMMENT_KEY] = GroupMenuHelper.getVerseComment(api, chapter, verse);
+    itemState[EDITED_KEY] = CheckDataHelper.getIsVerseEdited(api, chapter, verse);
+    itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(api, chapter, verse);
+    itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(api, chapter, verse);
     dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 });

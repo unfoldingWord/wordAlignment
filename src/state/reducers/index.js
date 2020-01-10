@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
 import groupMenu, * as fromGroupMenu from "./groupMenu";
-import commentsReducer from "./commentsReducer";
+import commentsReducer, * as fromCommentsReducer from "./commentsReducer";
 
 export default combineReducers({
   alignments,
@@ -151,3 +151,11 @@ export const getVerseHasRenderedSuggestions = (state, chapter, verse) =>
  */
 export const getGroupMenuItem = (state, chapter, verse) =>
   fromGroupMenu.getMenuItem(state.tool.groupMenu, chapter, verse);
+
+/**
+ * get the current comments in the reducer.
+ * @param state
+ * @returns {Object} - item in group menu
+ */
+export const getCurrentComments = (state) =>
+  fromCommentsReducer.getComments(state.tool.commentsReducer);

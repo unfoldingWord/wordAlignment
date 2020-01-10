@@ -14,7 +14,11 @@ import {
 } from './state/reducers';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
-import * as GroupMenuHelpers from './utils/GroupMenuHelper';
+import {loadNewContext} from './state/actions/CheckDataActions';
+import {
+  generateCheckPath,
+  getIsVerseFinished
+} from './utils/CheckDataHelper';
 import {
   alignTargetToken,
   clearState,
@@ -34,7 +38,6 @@ import {migrateChapterAlignments} from './utils/migrations';
 // consts
 import {FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY,} from "./state/reducers/groupMenu";
 import * as types from "./state/actions/actionTypes";
-import {generateCheckPath} from './utils/CheckDataHelper';
 import {loadGroupMenuItem} from './state/actions/GroupMenuActions';
 
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
@@ -53,7 +56,6 @@ export default class Api extends ToolApi {
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
     this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
     this.getVerseRawText = this.getVerseRawText.bind(this);
-    this.setVerseComment = this.setVerseComment.bind(this);
     this.setVerseBookmark = this.setVerseBookmark.bind(this);
     this.writeCheckData = this.writeCheckData.bind(this);
     this.getVerseData = this.getVerseData.bind(this);
@@ -349,7 +351,7 @@ export default class Api extends ToolApi {
     const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
     const areVerseAlignmentsValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
-    const isAlignmentComplete = GroupMenuHelpers.getIsVerseFinished(this, chapter, verse);
+    const isAlignmentComplete = getIsVerseFinished(this, chapter, verse);
     if (!areVerseAlignmentsValid) {
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
@@ -556,7 +558,9 @@ export default class Api extends ToolApi {
 
       if (Api._didToolContextChange(prevContext, nextContext)) {
         if (isWaTool) { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
-          // this._clearGroupMenuReducer(); // TODO: move to reducer
+          if (!isEqual(prevContext, nextContext)) {
+            loadNewContext(this, nextContext);
+          }
         }
         setTimeout(() => {
           const isValid = this._validateBook(nextProps);
@@ -666,21 +670,7 @@ export default class Api extends ToolApi {
     }
   }
 
-  // TODO remove next 3
-  /**
-   * set/change comment
-   * @param {String|Number} chapter
-   * @param {String|Number} verse
-   * @param {String} comment - new bookmark state
-   */
-  setVerseComment(chapter, verse, comment) {
-    const {store} = this.context;
-    store.dispatch(setGroupMenuItemComment(chapter, verse, comment));
-    const newData = {
-      text: comment
-    };
-    this.writeCheckData('comments', chapter, verse, newData);
-  }
+  // TODO remove next 2
 
   /**
    * set/unset bookmark

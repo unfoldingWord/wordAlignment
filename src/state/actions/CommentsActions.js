@@ -3,10 +3,10 @@ import * as Actions from '../actions/index';
 import { generateTimestamp } from '../../utils/CheckDataHelper';
 
 /**
- *
- * @param text
- * @param username
- * @param contextId
+ * set new comment in reducer
+ * @param {String} text
+ * @param {String} username
+ * @param {Object} contextId
  * @param {String} timestamp
  * @return {function(...[*]=)}
  */
@@ -24,27 +24,40 @@ export function setComment(text, username, contextId, timestamp) {
       activeChapter: chapter,
       activeVerse: verse,
       modifiedTimestamp: timestamp,
+      contextId,
       text,
     });
   });
 }
 
 /**
- * Add a comment for the current check.
+ * Add a comment for the current check - also updates group menu and persists change.
+ * @param {Object} api - tool api for system calls
  * @param {String} text - comment text.
+ * @param {String} username
+ * @param {Object} contextId
  * @return {Object} New state for comment reducer.
  */
-export const addComment = (text) => ((dispatch, getState) => {
+export const addComment = (api, text, username, contextId) => ((dispatch, getState) => {
   const state = getState();
   const {
-    contextId: {
-      reference: {
-        chapter, verse,
-      }
+    reference: {
+      bookId, chapter, verse,
     }
-  } = state.contextIdReducer;
-  const username = state.loginReducer.userdata.username;
+  } = contextId;
 
-  dispatch(setComment(text, username, generateTimestamp()));
+  const timestamp = generateTimestamp();
+  dispatch(setComment(text, username, contextId, timestamp));
   dispatch(Actions.setGroupMenuItemComment(chapter, verse, text));
+  const newData = {
+    text,
+    userName: username,
+    activeBook: bookId,
+    activeChapter: chapter,
+    activeVerse: verse,
+    modifiedTimestamp: timestamp,
+    contextId,
+  };
+  // TODO move to helpers
+  api.writeCheckData('comments', chapter, verse, newData);
 });

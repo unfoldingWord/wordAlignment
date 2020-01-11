@@ -15,10 +15,7 @@ import {
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
 import {loadNewContext} from './state/actions/CheckDataActions';
-import {
-  getIsVerseFinished,
-  writeCheckData
-} from './utils/CheckDataHelper';
+import {getIsVerseFinished} from './utils/CheckDataHelper';
 import {
   alignTargetToken,
   clearState,
@@ -27,7 +24,6 @@ import {
   recordCheck,
   repairAndInspectVerse,
   resetVerse,
-  setGroupMenuItemBookmarked,
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
   unalignTargetToken,
@@ -665,23 +661,6 @@ export default class Api extends ToolApi {
         recordCheck("completed", chapter, verse, false);
       });
     }
-  }
-
-  // TODO remove next 2
-
-  /**
-   * set/unset bookmark
-   * @param {String|Number} chapter
-   * @param {String|Number} verse
-   * @param {Boolean} bookmarked - new bookmark state
-   */
-  setVerseBookmark(chapter, verse, bookmarked) {
-    const {store} = this.context;
-    store.dispatch(setGroupMenuItemBookmarked(chapter, verse, bookmarked));
-    const newData = {
-      enabled: !!bookmarked
-    };
-    writeCheckData(this, 'reminders', chapter, verse, newData);
   }
 
   /**

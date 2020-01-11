@@ -78,6 +78,18 @@ export const getVerseComment = (api, chapter, verse) => {
 };
 
 /**
+ * get current bookmark Object for verse
+ * @param {Object} api - tool api for system calls
+ * @param {String|Number} chapter
+ * @param {String|Number} verse
+ * @return {Object}
+ */
+export const getVerseBookmarkedRecord = (api, chapter, verse) => {
+  const data = loadCheckData(api, 'reminders', chapter, verse);
+  return data;
+};
+
+/**
  * get current bookmark state for verse
  * @param {Object} api - tool api for system calls
  * @param {String|Number} chapter
@@ -85,7 +97,7 @@ export const getVerseComment = (api, chapter, verse) => {
  * @return {Boolean}
  */
 export const getVerseBookmarked = (api, chapter, verse) => {
-  const bookmark = loadCheckData(api,'reminders', chapter, verse);
+  const bookmark = getVerseBookmarkedRecord(api, chapter, verse);
   return !!(bookmark && bookmark.enabled);
 };
 

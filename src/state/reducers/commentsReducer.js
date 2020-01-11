@@ -30,9 +30,9 @@ const commentsReducer = (state = initialState, action) => {
 };
 
 /**
- * Returns the menu data for item in chapter:verse
+ * Returns comments object
  * @param {Object} state
- * @returns {Object} - item in group menu or null if not found
+ * @returns {Object}
  */
 export const getComments = (state) => {
   return state;

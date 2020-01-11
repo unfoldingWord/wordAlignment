@@ -55,7 +55,6 @@ export default class Api extends ToolApi {
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
     this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
     this.getVerseRawText = this.getVerseRawText.bind(this);
-    this.setVerseBookmark = this.setVerseBookmark.bind(this);
     this.getVerseData = this.getVerseData.bind(this);
   }
 

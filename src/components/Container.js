@@ -22,14 +22,16 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {addComment} from '../state/actions/CommentsActions';
+import {addReminder} from '../state/actions/RemindersActions';
 import {
   getChapterAlignments,
+  getCurrentComments,
+  getCurrentReminders,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
   getRenderedVerseAlignments,
   getVerseHasRenderedSuggestions,
-  getCurrentComments,
 } from '../state/reducers';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
@@ -139,7 +141,6 @@ export const getPredictions = (map, sourceVerseText, targetVerseText) => {
  * The base container for this tool
  */
 class Container extends Component {
-
   constructor(props) {
     super(props);
     this.globalWordAlignmentMemory = null;
@@ -551,14 +552,15 @@ class Container extends Component {
    */
   handleBookmarkClick() {
     const {
+      addReminder,
       tool: {
         api
       },
-      tc: {contextId: {reference: {chapter, verse}}}
+      tc: {contextId},
+      username,
     } = this.props;
-    const currentState = api.getVerseData(chapter, verse); // TODO: move to reducer
-    const bookmarked = currentState[GroupMenu.BOOKMARKED_KEY];
-    api.setVerseBookmark(chapter, verse, !bookmarked); // toggle bookmark // TODO: move to reducer
+    const bookmarked = getCurrentReminders(api.context.store.getState());
+    addReminder(api, !bookmarked, username, contextId); // toggle bookmark
   }
 
   /**
@@ -671,7 +673,8 @@ class Container extends Component {
 
     const verseState = api.getVerseData(chapter, verse);
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
-    const comment = getCurrentComments(store.getState()).text || '';
+    const comment = getCurrentComments(store.getState());
+    const bookmarked = getCurrentReminders(store.getState());
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -718,7 +721,7 @@ class Container extends Component {
                 commentStateSet={!!comment}
                 commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
-                bookmarkStateSet={!!verseState[GroupMenu.BOOKMARKED_KEY]}
+                bookmarkStateSet={bookmarked}
                 bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
@@ -795,6 +798,7 @@ Container.propTypes = {
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
+  addReminder: PropTypes.func.isRequired,
 
   // state props
   hasRenderedSuggestions: PropTypes.bool.isRequired,
@@ -838,6 +842,7 @@ const mapDispatchToProps = ({
   setAlignmentPredictions,
   clearAlignmentSuggestions,
   addComment,
+  addReminder,
 });
 
 const mapStateToProps = (state, props) => {

@@ -3,12 +3,14 @@ import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
 import groupMenu, * as fromGroupMenu from "./groupMenu";
 import commentsReducer, * as fromCommentsReducer from "./commentsReducer";
+import remindersReducer, * as fromRemindersReducer from "./remindersReducer";
 
 export default combineReducers({
   alignments,
   checks,
   groupMenu,
   commentsReducer,
+  remindersReducer,
 });
 
 /**
@@ -155,7 +157,25 @@ export const getGroupMenuItem = (state, chapter, verse) =>
 /**
  * get the current comments in the reducer.
  * @param state
- * @returns {Object} - item in group menu
+ * @returns {String}
  */
-export const getCurrentComments = (state) =>
-  fromCommentsReducer.getComments(state.tool.commentsReducer);
+export const getCurrentComments = (state) => {
+  const commentsObject = fromCommentsReducer.getComments(state.tool.commentsReducer);
+  if (!commentsObject) {
+    return '';
+  }
+  return commentsObject.text;
+};
+
+/**
+ * get the current reminders in the reducer.
+ * @param state
+ * @returns {Boolean}
+ */
+export const getCurrentReminders = (state) => {
+  const reminderObject = fromRemindersReducer.getReminder(state.tool.remindersReducer);
+  if (!reminderObject) {
+    return false;
+  }
+  return !!reminderObject.enabled;
+};

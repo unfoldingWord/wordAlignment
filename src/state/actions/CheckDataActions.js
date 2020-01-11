@@ -1,6 +1,7 @@
 import * as consts from '../actions/actionTypes';
 import {
   getVerseCommentRecord,
+  getVerseBookmarkedRecord,
 } from '../../utils/CheckDataHelper';
 
 /**
@@ -12,10 +13,15 @@ import {
 export function loadNewContext(api, contextId) {
   const {store} = api.context;
   const {reference: {chapter, verse}} = contextId;
-  const data = getVerseCommentRecord(api, chapter, verse);
+  let data = getVerseCommentRecord(api, chapter, verse);
   store.dispatch({
     type: consts.LOAD_COMMENT,
     value: data,
   });
-  // TODO add bookmark
+  data = getVerseBookmarkedRecord(api, chapter, verse);
+  store.dispatch({
+    type: consts.LOAD_REMINDER,
+    value: data,
+  });
+
 }

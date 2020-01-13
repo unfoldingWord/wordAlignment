@@ -57,8 +57,7 @@ export const addComment = (api, text, username, contextId) => ((dispatch) => {
     activeBook: bookId,
     activeChapter: chapter,
     activeVerse: verse,
-    modifiedTimestamp: timestamp,
     contextId,
   };
-  writeCheckData(api, 'comments', chapter, verse, newData);
+  writeCheckData(api, 'comments', chapter, verse, newData, timestamp);
 });

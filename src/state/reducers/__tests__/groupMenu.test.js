@@ -2,6 +2,7 @@ import _ from "lodash";
 import {reducerTest} from 'redux-jest';
 import * as types from '../../actions/actionTypes';
 import groupMenu, * as fromGroupMenu from '../groupMenu';
+import {getGroupMenuItem} from "../index";
 
 describe('test CLEAR_GROUP_MENU', () => {
   const before = { stuff: {stuff: {}} };
@@ -591,5 +592,29 @@ describe('getMenuItem', () => {
     const expectedResults = null;
     const results = fromGroupMenu.getMenuItem(state, 1, undefined);
     expect(results).toEqual(expectedResults);
+  });
+});
+
+describe('test Selector', () => {
+  it('populated reminder', () => {
+    // given
+    const loadData = {
+      '1': {
+        '7': {
+          dummy: "dum"
+        }
+      }
+    };
+    const state = {
+      tool: {
+        groupMenu:  _.cloneDeep(loadData)
+      }
+    };
+
+    // when
+    const menuItem = getGroupMenuItem(state, 1, 7);
+
+    // then
+    expect(menuItem).toEqual(loadData[1][7]);
   });
 });

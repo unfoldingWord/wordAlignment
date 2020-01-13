@@ -58,8 +58,7 @@ export const addReminder = (api, enabled, username, contextId) => ((dispatch) =>
     activeBook: bookId,
     activeChapter: chapter,
     activeVerse: verse,
-    modifiedTimestamp: timestamp,
     contextId,
   };
-  writeCheckData(api, 'reminders', chapter, verse, newData);
+  writeCheckData(api, 'reminders', chapter, verse, newData, timestamp);
 });

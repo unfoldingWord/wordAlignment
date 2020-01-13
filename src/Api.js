@@ -14,8 +14,18 @@ import {
 } from './state/reducers';
 import {tokenizeVerseObjects} from './utils/verseObjects';
 import {removeUsfmMarkers} from './utils/usfmHelpers';
+import {
+  clearGroupMenu,
+  loadGroupMenuItem,
+  setGroupMenuItemEdited,
+  setGroupMenuItemFinished,
+  setGroupMenuItemInvalid,
+} from './state/actions/GroupMenuActions';
 import {loadNewContext} from './state/actions/CheckDataActions';
-import {getIsVerseFinished} from './utils/CheckDataHelper';
+import {
+  getIsVerseFinished,
+  getIsVerseEdited,
+} from './utils/CheckDataHelper';
 import {
   alignTargetToken,
   clearState,
@@ -24,16 +34,12 @@ import {
   recordCheck,
   repairAndInspectVerse,
   resetVerse,
-  setGroupMenuItemFinished,
-  setGroupMenuItemInvalid,
   unalignTargetToken,
 } from './state/actions';
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import {migrateChapterAlignments} from './utils/migrations';
 // consts
 import {FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY,} from "./state/reducers/groupMenu";
-import * as types from "./state/actions/actionTypes";
-import {loadGroupMenuItem} from './state/actions/GroupMenuActions';
 
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
@@ -134,11 +140,14 @@ export default class Api extends ToolApi {
     if (isNaN(verse) || parseInt(verse) === -1 ||
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
+    const { setGroupMenuItemEdited } = this.props;
     this.refreshGroupMenuItems(chapter, verse);
     const isValid = this._validateVerse(this.props, chapter, verse, silent);
     if (!silent && !isValid) {
       this._showResetDialog();
     }
+    const verseEdited = getIsVerseEdited(this, chapter, verse);
+    setGroupMenuItemEdited(chapter, verse, verseEdited);
     return isValid;
   }
 
@@ -265,11 +274,11 @@ export default class Api extends ToolApi {
    */
   _validateChapter(props, chapter) {
     const {
+      loadGroupMenuItem,
       tc: {
         targetBook
       }
     } = props;
-    const {store} = this.context;
     let chapterIsValid = true;
     if (!(chapter in targetBook)) {
       console.warn(`Could not validate missing chapter ${chapter}`);
@@ -277,7 +286,7 @@ export default class Api extends ToolApi {
     }
     for (const verse of Object.keys(targetBook[chapter])) {
       if (isNaN(verse) || parseInt(verse) === -1) continue;
-      store.dispatch(loadGroupMenuItem(this, chapter, verse));
+      loadGroupMenuItem(this, chapter, verse);
       const isValid = this._validateVerse(props, chapter, verse);
       if (!isValid) {
         chapterIsValid = isValid;
@@ -406,10 +415,8 @@ export default class Api extends ToolApi {
    * resets cached data in group menu reducer
    */
   _clearGroupMenuReducer() {
-    const store = this.context && this.context.store;
-    if (store && store.dispatch) {
-      store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
-    }
+    const { clearGroupMenu } = this.props;
+    clearGroupMenu();
   }
 
   /**
@@ -500,14 +507,20 @@ export default class Api extends ToolApi {
    */
   mapDispatchToProps(dispatch) {
     const methods = {
-      recordCheck,
       alignTargetToken,
-      unalignTargetToken,
+      clearGroupMenu,
+      clearState,
+      indexChapterAlignments,
+      loadGroupMenuItem,
       moveSourceToken,
+      recordCheck,
       resetVerse,
       repairAndInspectVerse,
-      clearState,
-      indexChapterAlignments
+      setActiveLocale,
+      setGroupMenuItemEdited,
+      setGroupMenuItemFinished,
+      setGroupMenuItemInvalid,
+      unalignTargetToken,
     };
 
     const dispatchedMethods = {};
@@ -532,6 +545,7 @@ export default class Api extends ToolApi {
   toolWillReceiveProps(nextProps) {
     const {tc: {contextId: nextContext}} = nextProps;
     const {
+      setActiveLocale,
       tc: {
         contextId: prevContext,
         appLanguage,
@@ -547,7 +561,7 @@ export default class Api extends ToolApi {
       const langId = currentLang && currentLang.code;
       if (isWaTool) {
         if (langId && (langId !== appLanguage)) { // see if locale language has changed
-          store.dispatch(setActiveLocale(appLanguage));
+          setActiveLocale(appLanguage);
         }
         if (!isEqual(prevContext, nextContext)) {
           loadNewContext(this, nextContext);
@@ -574,7 +588,8 @@ export default class Api extends ToolApi {
     const {store} = this.context;
     let itemState = getGroupMenuItem(store.getState(), chapter, verse);
     if (!itemState) { // if not yet loaded, then fetch
-      store.dispatch(loadGroupMenuItem(this, chapter, verse));
+      const { loadGroupMenuItem } = this.props;
+      loadGroupMenuItem(this, chapter, verse);
       itemState = getGroupMenuItem(store.getState(), chapter, verse);
     }
     return itemState;
@@ -591,6 +606,7 @@ export default class Api extends ToolApi {
    */
   setVerseInvalid(chapter, verse, invalid = true, silent=false) {
     const {
+      setGroupMenuItemInvalid,
       tool: {
         writeToolData,
         deleteToolFile,
@@ -600,7 +616,7 @@ export default class Api extends ToolApi {
     const {store} = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
     if (!itemState || itemState[INVALID_KEY] !== invalid) { // see if needs to be updated
-      store.dispatch(setGroupMenuItemInvalid(chapter, verse, invalid));
+      setGroupMenuItemInvalid(chapter, verse, invalid);
     }
     const dataPath = path.join('invalid', chapter + '', verse + '.json');
     if (!invalid) {
@@ -631,6 +647,7 @@ export default class Api extends ToolApi {
    */
   setVerseFinished(chapter, verse, finished) {
     const {
+      setGroupMenuItemFinished,
       tool: {
         writeToolData,
         deleteToolFile
@@ -643,7 +660,7 @@ export default class Api extends ToolApi {
     const {store} = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
     if (!itemState || itemState[FINISHED_KEY] !== finished) { // see if needs to be updated
-      store.dispatch(setGroupMenuItemFinished(chapter, verse, finished));
+      setGroupMenuItemFinished(chapter, verse, finished);
     }
     const dataPath = path.join('completed', chapter + '', verse + '.json');
     if (finished) {

@@ -326,6 +326,9 @@ describe('validate', () => {
     };
     const props = {
       recordCheck: jest.fn(),
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
@@ -365,7 +368,7 @@ describe('validate', () => {
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
     expect(reducers.getGroupMenuItem).toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).toBeCalledWith("1","1",true);
+    expect(props.setGroupMenuItemInvalid).toBeCalledWith("1","1",true);
   });
 
   it('repairs a verse', async () => {
@@ -381,6 +384,9 @@ describe('validate', () => {
     };
     const props = {
       recordCheck: jest.fn(),
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         deleteToolFile: jest.fn(() => Promise.resolve()),
@@ -420,7 +426,7 @@ describe('validate', () => {
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
     expect(reducers.getGroupMenuItem).toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
+    expect(props.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs a verse without alignment changes', async () => {
@@ -438,6 +444,9 @@ describe('validate', () => {
     };
     const props = {
       recordCheck: jest.fn(),
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(),
         deleteToolFile: jest.fn(() => Promise.resolve()),
@@ -476,7 +485,7 @@ describe('validate', () => {
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
+    expect(props.setGroupMenuItemInvalid).not.toBeCalled();
   });
 
   it('repairs modified aligned verse without alignment changes and returns not valid', async () => {
@@ -495,6 +504,9 @@ describe('validate', () => {
 
     const props = {
       recordCheck: jest.fn(),
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         deleteToolFile: jest.fn(() => Promise.resolve()),
@@ -533,7 +545,7 @@ describe('validate', () => {
     expect(props.tool.deleteToolFile).toBeCalledWith('completed/1/1.json');
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
-    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
+    expect(props.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs modified aligned verse with alignment changes and returns not valid', async () => {
@@ -552,6 +564,9 @@ describe('validate', () => {
 
     const props = {
       recordCheck: jest.fn(),
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         deleteToolFile: jest.fn(() => Promise.resolve()),
@@ -591,7 +606,7 @@ describe('validate', () => {
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toBeCalledWith('invalid/1/1.json', expect.any(String));
     expect(reducers.getGroupMenuItem).toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
+    expect(props.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('repairs modified complete without alignment changes and returns not valid', async () => {
@@ -608,6 +623,9 @@ describe('validate', () => {
     };
     const props = {
       recordCheck: jest.fn(),
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => new Promise(resolve => {resolve()})),
         deleteToolFile: jest.fn(() => Promise.resolve()),
@@ -647,7 +665,7 @@ describe('validate', () => {
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).toHaveBeenCalledTimes(1);
     expect(reducers.getGroupMenuItem).toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
+    expect(props.setGroupMenuItemInvalid).toBeCalledWith(1,1,true);
   });
 
   it('does not repair valid aligned verse', async () => {
@@ -662,6 +680,9 @@ describe('validate', () => {
       }
     };
     const props = {
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
@@ -686,7 +707,7 @@ describe('validate', () => {
           }
         }
       },
-      repairAndInspectVerse: jest.fn(() => false),
+      repairAndInspectVerse: jest.fn(),
     };
     api.props = props;
     api.context = {
@@ -701,7 +722,7 @@ describe('validate', () => {
     expect(props.tool.deleteToolFile).not.toBeCalled();
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
+    expect(props.setGroupMenuItemInvalid).not.toBeCalled();
   });
 
   it('does not invalidate empty verse', async () => {
@@ -718,6 +739,9 @@ describe('validate', () => {
       }
     };
     const props = {
+      loadGroupMenuItem: jest.fn(),
+      setGroupMenuItemInvalid: jest.fn(),
+      setGroupMenuItemFinished: jest.fn(),
       tool: {
         writeToolData: jest.fn(() => Promise.resolve()),
         toolDataPathExistsSync: jest.fn(() => (alignmentCompleteFileExists)),
@@ -762,7 +786,7 @@ describe('validate', () => {
     expect(props.tool.deleteToolFile).not.toBeCalled();
     await delay(200); // wait for async file system to update
     expect(props.tool.writeToolData).not.toBeCalled();
-    expect(actions.setGroupMenuItemInvalid).not.toBeCalled();
+    expect(props.setGroupMenuItemInvalid).not.toBeCalled();
   });
 });
 

@@ -1,7 +1,15 @@
 import _ from "lodash";
 import fs from 'fs-extra';
 import path from "path-extra";
-import {generateCheckPath, loadCheckData} from "../CheckDataHelper";
+import Api from '../../Api';
+import {
+  generateCheckPath,
+  getIsVerseEdited,
+  getIsVerseFinished,
+  loadCheckData
+} from "../CheckDataHelper";
+
+jest.mock('../../state/reducers');
 
 const testRecord = {
   "tags": [
@@ -25,7 +33,7 @@ const testRecord = {
   }
 };
 
-describe('CheckDataHelper()', () => {
+describe('loadCheckData()', () => {
   let api;
   let toolName;
 
@@ -108,5 +116,99 @@ describe('CheckDataHelper()', () => {
 
     // then
     expect(data.text).toEqual(expectedText);
+  });
+});
+
+describe('getIsVerseEdited()', () => {
+  it('should return that a verse has verse edits', () => {
+    // given
+    const chapter = 10;
+    const verse = 11;
+    const expectedHasVerseEdits = true;
+    let bookId = 'luk';
+    const props = {
+      tc: {
+        projectDataPathExistsSync: () => expectedHasVerseEdits,
+        contextId: {
+          reference: {
+            bookId: bookId
+          }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+
+    // when
+    const hasVerseEdits = getIsVerseEdited(api, chapter, verse);
+
+    // then
+    expect(hasVerseEdits).toBe(expectedHasVerseEdits);
+  });
+
+  it('should return that a verse does not have verse edits', () => {
+    // given
+    const chapter = 10;
+    const verse = 11;
+    const expectedHasVerseEdits = false;
+    const props = {
+      tc: {
+        projectDataPathExistsSync: () => expectedHasVerseEdits,
+        contextId: {
+          reference: {
+            bookId: 'luk'
+          }
+        },
+        targetBook: {
+          '1': {
+            '1': {},
+            '2': {}
+          }
+        }
+      }
+    };
+    const api = new Api();
+    api.props = props;
+
+    // when
+    const hasVerseEdits = getIsVerseEdited(api, chapter, verse);
+
+    // then
+    expect(hasVerseEdits).toBe(expectedHasVerseEdits);
+  });
+});
+
+describe('getIsVerseFinished()', () => {
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('is not finished', () => {
+    const api = new Api();
+    const fileExists = false;
+    api.props = {
+      tool: {
+        toolDataPathExistsSync: jest.fn(() => fileExists)
+      }
+    };
+    expect(getIsVerseFinished(api, 1, 1)).toEqual(fileExists);
+  });
+
+  it('is finished', () => {
+    const api = new Api();
+    const fileExists = true;
+    api.props = {
+      tool: {
+        toolDataPathExistsSync: jest.fn(() => fileExists)
+      }
+    };
+    expect(getIsVerseFinished(api, 1, 1)).toEqual(fileExists);
   });
 });

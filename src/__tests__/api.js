@@ -1,7 +1,6 @@
 import configureMockStore from "redux-mock-store";
 import thunk from 'redux-thunk';
 import * as reducers from '../state/reducers';
-import * as actions from '../state/actions';
 import Api from '../Api';
 import {
   INVALID_KEY,
@@ -234,14 +233,60 @@ describe('context', () => {
   });
 });
 
-describe('verse finished', () => {
+describe('verse unaligned', () => {
+  it('is unaligned', () => {
+    const api = new Api();
+    api.context = {
+      store: {
+        getState: jest.fn(() => ({
+          alignments: {
+            1: {
+              1: {
+                alignments: [
+                  {
+                    "sourceNgram": [
+                      0
+                    ],
+                    "targetNgram": [
+                      0,
+                      3
+                    ]
+                  },
+                  {
+                    "sourceNgram": [
+                      1
+                    ],
+                    "targetNgram": [
+                      1,
+                      4
+                    ]
+                  },
+                  {
+                    "sourceNgram": [
+                      2
+                    ],
+                    "targetNgram": [
+                      2
+                    ]
+                  },
+                ]
+              }
+            }
+          }
+        }))
+      }
+    };
+    expect(reducers.getIsVerseAligned(api, 1, 1)).toEqual(false);
+  });
+});
+
+describe('setVerseFinished()', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    global.console = saveConsole; // restore original console
   });
 
-  it('api.setVerseFinished() - sets a verse as finished', () => {
+  it('sets a verse as finished', () => {
     // given
     const api = new Api();
     const writeToolData = jest.fn(() => Promise.resolve());
@@ -250,7 +295,6 @@ describe('verse finished', () => {
     const toolDataPathExists = jest.fn(() => Promise.resolve(false));
     const setGroupMenuItemFinished = jest.fn();
     const setGroupMenuItemInvalid = jest.fn();
-
     api.props = {
       recordCheck,
       setGroupMenuItemFinished,
@@ -283,7 +327,7 @@ describe('verse finished', () => {
     expect(api.props.setGroupMenuItemFinished).toBeCalledWith(1,1,true);
   });
 
-  it('api.setVerseFinished() - sets a verse has not finished', () => {
+  it('sets a verse has not finished', () => {
     // given
     const api = new Api();
     const writeToolData = jest.fn();

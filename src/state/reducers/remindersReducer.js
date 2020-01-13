@@ -14,7 +14,6 @@ const remindersReducer = (state = initialState, action) => {
     };
   case consts.ADD_REMINDER:
     return {
-      ...state,
       enabled: !!action.enabled,
       userName: action.userName,
       modifiedTimestamp: action.modifiedTimestamp,

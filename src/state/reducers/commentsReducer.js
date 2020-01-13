@@ -3,9 +3,6 @@ import * as consts from '../actions/actionTypes';
 const initialState = {
   text: null,
   userName: null,
-  activeBook: null,
-  activeChapter: null,
-  activeVerse: null,
   modifiedTimestamp: null,
 };
 
@@ -16,14 +13,11 @@ const commentsReducer = (state = initialState, action) => {
         ...action.value
       };
     case consts.ADD_COMMENT:
-      return Object.assign({}, state, {
+      return {
         text: action.text,
         userName: action.userName,
-        activeBook: action.activeBook,
-        activeChapter: action.activeChapter,
-        activeVerse: action.activeVerse,
         modifiedTimestamp: action.modifiedTimestamp,
-      });
+      };
   default:
     return state;
   }

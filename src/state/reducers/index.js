@@ -161,7 +161,7 @@ export const getGroupMenuItem = (state, chapter, verse) =>
  */
 export const getCurrentComments = (state) => {
   const commentsObject = fromCommentsReducer.getComments(state.tool.commentsReducer);
-  if (!commentsObject) {
+  if (!commentsObject || !commentsObject.hasOwnProperty('text')) { // sanity check
     return '';
   }
   return commentsObject.text;
@@ -174,7 +174,7 @@ export const getCurrentComments = (state) => {
  */
 export const getCurrentReminders = (state) => {
   const reminderObject = fromRemindersReducer.getReminder(state.tool.remindersReducer);
-  if (!reminderObject) {
+  if (!reminderObject || !reminderObject.hasOwnProperty('enabled')) { // sanity check
     return false;
   }
   return !!reminderObject.enabled;

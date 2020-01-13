@@ -1,5 +1,5 @@
 import * as consts from '../actions/actionTypes';
-import * as Actions from '../actions/index';
+import * as GroupMenuActions from '../actions/GroupMenuActions';
 import {
   generateTimestamp,
   writeCheckData,
@@ -51,7 +51,7 @@ export const addReminder = (api, enabled, username, contextId) => ((dispatch) =>
   enabled = !!enabled;
   const timestamp = generateTimestamp();
   dispatch(setReminder(enabled, username, contextId, timestamp));
-  dispatch(Actions.setGroupMenuItemBookmarked(chapter, verse, enabled));
+  dispatch(GroupMenuActions.setGroupMenuItemBookmarked(chapter, verse, enabled));
   const newData = {
     enabled: enabled,
     userName: username,

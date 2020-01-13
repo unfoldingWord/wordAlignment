@@ -1,5 +1,5 @@
 import * as consts from '../actions/actionTypes';
-import * as Actions from '../actions/index';
+import * as GroupMenuActions from '../actions/GroupMenuActions';
 import {
   generateTimestamp,
   writeCheckData,
@@ -50,7 +50,7 @@ export const addComment = (api, text, username, contextId) => ((dispatch) => {
 
   const timestamp = generateTimestamp();
   dispatch(setComment(text, username, contextId, timestamp));
-  dispatch(Actions.setGroupMenuItemComment(chapter, verse, text));
+  dispatch(GroupMenuActions.setGroupMenuItemComment(chapter, verse, text));
   const newData = {
     text,
     userName: username,

@@ -673,7 +673,7 @@ class Container extends Component {
 
     const verseState = api.getVerseData(chapter, verse);
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
-    const comment = getCurrentComments(store.getState());
+    const comment = getCurrentComments(store.getState()) || '';
     const bookmarked = getCurrentReminders(store.getState());
 
     // TRICKY: make hebrew text larger

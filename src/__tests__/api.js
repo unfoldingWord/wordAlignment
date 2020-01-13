@@ -234,9 +234,7 @@ describe('context', () => {
   });
 });
 
-
-// TODO
-describe.skip('verse finished', () => {
+describe('verse finished', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -244,14 +242,19 @@ describe.skip('verse finished', () => {
   });
 
   it('api.setVerseFinished() - sets a verse as finished', () => {
+    // given
     const api = new Api();
     const writeToolData = jest.fn(() => Promise.resolve());
     const deleteToolFile = jest.fn(() => Promise.resolve());
     const recordCheck = jest.fn();
     const toolDataPathExists = jest.fn(() => Promise.resolve(false));
+    const setGroupMenuItemFinished = jest.fn();
+    const setGroupMenuItemInvalid = jest.fn();
 
     api.props = {
       recordCheck,
+      setGroupMenuItemFinished,
+      setGroupMenuItemInvalid,
       tool: {
         writeToolData,
         deleteToolFile,
@@ -269,18 +272,25 @@ describe.skip('verse finished', () => {
       }
     };
     reducers.getGroupMenuItem.mockReturnValue(null);
+
+    // when
     api.setVerseFinished(1, 1, true);
+
+    // then
     expect(writeToolData).toBeCalled();
     expect(deleteToolFile).not.toBeCalled();
     expect(reducers.getGroupMenuItem).toBeCalled();
-    expect(actions.setGroupMenuItemFinished).toBeCalledWith(1,1,true);
+    expect(api.props.setGroupMenuItemFinished).toBeCalledWith(1,1,true);
   });
 
   it('api.setVerseFinished() - sets a verse has not finished', () => {
+    // given
     const api = new Api();
     const writeToolData = jest.fn();
     const deleteToolFile = jest.fn(() => Promise.resolve());
+    const setGroupMenuItemFinished = jest.fn();
     api.props = {
+      setGroupMenuItemFinished,
       recordCheck: jest.fn(),
       tool: {
         writeToolData,
@@ -298,11 +308,15 @@ describe.skip('verse finished', () => {
       }
     };
     reducers.getGroupMenuItem.mockReturnValue(null);
+
+    // when
     api.setVerseFinished(1, 1, false);
+
+    // then
     expect(writeToolData).not.toBeCalled();
     expect(deleteToolFile).toBeCalled();
     expect(reducers.getGroupMenuItem).toBeCalled();
-    expect(actions.setGroupMenuItemFinished).toBeCalledWith(1,1,false);
+    expect(api.props.setGroupMenuItemFinished).toBeCalledWith(1,1,false);
   });
 });
 

@@ -28,56 +28,164 @@ describe('Container', () => {
   });
 
   it('should render', () => {
-    reducers.getRenderedVerseAlignedTargetTokens.mockReturnValue([]);
-    reducers.getRenderedVerseAlignments.mockReturnValue([]);
-    reducers.getIsVerseAlignmentsValid.mockReturnValue(true);
-    reducers.getIsVerseAligned.mockReturnValue(true);
-    reducers.getVerseHasRenderedSuggestions.mockReturnValue(false);
-    reducers.getCurrentComments.mockReturnValue('');
-    reducers.getCurrentReminders.mockReturnValue(false);
-    const state = {
-      tool: {
-        groupMenu: {
-          '1': {
-            '2': {
-              finished: true,
-              invalid: true,
-              edited: true,
-              unaligned: true
-            },
-            '3': {
-              finished: true
-            }
-          }
-        }
-      },
-    };
-    const store = mockStore(state);
-    const api = new Api();
-    api.context.store = store;
-    api.getVerseData = jest.fn(() => ({
+    // given
+    const verseState = {
       finished: true,
       invalid: true,
       edited: true,
       unaligned: true
-    }));
-    const myProps = {
-      ...props,
-      translate: k => k,
-      tool: {
-        api,
-        translate: k => k,
-      }
     };
+    const myProps = setupReducersAndProps(props, verseState);
 
-    // const renderer = new ShallowRenderer();
-    // renderer.render(
+    // when
     const wrapper = shallow(
         <Container {...myProps} />
     );
-    // const result = renderer.getRenderOutput();
+    // const instance = wrapper.instance();
 
-    const resultsStr = toJson(wrapper);
-    expect(resultsStr).toMatchSnapshot();
+    // then
+    const instance = wrapper.instance();
+    const newState = instance.state;
+    expect(newState.showComments).toEqual(false);
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
+
+  describe('actions', () => {
+    it('comment click should open comments', () => {
+      // given
+      const instance = getContainerInstance(props);
+
+      // when
+      instance.handleCommentClick();
+
+      // then
+      const newState = instance.state;
+      expect(newState.showComments).toEqual(true);
+    });
+
+    it('comment close should close comments', () => {
+      // given
+      const instance = getContainerInstance(props);
+      instance.setState({showComments: true}); // make sure on before closing
+
+      // when
+      instance.handleCommentClose();
+
+      // then
+      const newState = instance.state;
+      expect(newState.showComments).toEqual(false);
+    });
+
+    it('comment submit should save and close comments', () => {
+      // given
+      const myProps = {
+        ...props,
+        addComment: jest.fn(() => true)
+      };
+      const instance = getContainerInstance(myProps);
+      instance.setState({showComments: true}); // make sure on before closing
+      const newComment = 'New Comment!';
+
+      // when
+      instance.handleCommentSubmit(newComment);
+
+      // then
+      const newState = instance.state;
+      expect(newState.showComments).toEqual(false);
+      expect(myProps.addComment).toBeCalledWith(instance.props.tool.api, newComment, myProps.username, myProps.tc.contextId);
+    });
+
+    it('bookmark click should toggle from off to on', () => {
+      // given
+      const myProps = {
+        ...props,
+        addReminder: jest.fn(() => true)
+      };
+      const instance = getContainerInstance(myProps);
+      const initialBookmark = false;
+      reducers.getCurrentReminders.mockReturnValue(initialBookmark);
+
+      // when
+      instance.handleBookmarkClick();
+
+      // then
+      expect(myProps.addReminder).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
+    });
+
+    it('bookmark click should toggle from on to off', () => {
+      // given
+      const myProps = {
+        ...props,
+        addReminder: jest.fn(() => true)
+      };
+      const instance = getContainerInstance(myProps);
+      const initialBookmark = true;
+      reducers.getCurrentReminders.mockReturnValue(initialBookmark);
+
+      // when
+      instance.handleBookmarkClick();
+
+      // then
+      expect(myProps.addReminder).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
+    });
   });
 });
+
+//
+// Helpers
+//
+
+function setupReducersAndProps(props, verseState) {
+  reducers.getRenderedVerseAlignedTargetTokens.mockReturnValue([]);
+  reducers.getRenderedVerseAlignments.mockReturnValue([]);
+  reducers.getIsVerseAlignmentsValid.mockReturnValue(true);
+  reducers.getIsVerseAligned.mockReturnValue(true);
+  reducers.getVerseHasRenderedSuggestions.mockReturnValue(false);
+  reducers.getCurrentComments.mockReturnValue('');
+  reducers.getCurrentReminders.mockReturnValue(false);
+  const state = {
+    tool: {
+      groupMenu: {
+        '1': {
+          '2': {
+            finished: true,
+            invalid: true,
+            edited: true,
+            unaligned: true
+          },
+          '3': {
+            finished: true
+          }
+        }
+      }
+    },
+  };
+  const store = mockStore(state);
+  const api = new Api();
+  api.context.store = store;
+  api.getVerseData = jest.fn(() => (verseState));
+  const myProps = {
+    ...props,
+    translate: k => k,
+    tool: {
+      api,
+      translate: k => k,
+    }
+  };
+  return myProps;
+}
+
+function getContainerInstance(props) {
+  const verseState = {
+    finished: true,
+    invalid: true,
+    edited: true,
+    unaligned: true
+  };
+  const myProps = setupReducersAndProps(props, verseState);
+  const wrapper = shallow(
+    <Container {...myProps} />
+  );
+  const instance = wrapper.instance();
+  return instance;
+}

@@ -27,7 +27,7 @@ describe('Container', () => {
     jest.resetAllMocks();
   });
 
-  it('works', () => {
+  it('should render', () => {
     reducers.getRenderedVerseAlignedTargetTokens.mockReturnValue([]);
     reducers.getRenderedVerseAlignments.mockReturnValue([]);
     reducers.getIsVerseAlignmentsValid.mockReturnValue(true);

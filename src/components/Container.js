@@ -140,7 +140,7 @@ export const getPredictions = (map, sourceVerseText, targetVerseText) => {
 /**
  * The base container for this tool
  */
-class Container extends Component {
+export class Container extends Component {
   constructor(props) {
     super(props);
     this.globalWordAlignmentMemory = null;

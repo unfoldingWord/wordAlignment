@@ -284,9 +284,39 @@ describe('setVerseFinished()', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    global.console = saveConsole; // restore original console
   });
 
-  it('sets a verse as finished', () => {
+  it('is not finished', () => {
+    const api = new Api();
+    const fileExists = false;
+    api.props = {
+      tool: {
+        toolDataPathExistsSync: jest.fn(() => fileExists)
+      }
+    };
+    expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
+  });
+
+  it('is finished', () => {
+    const api = new Api();
+    const fileExists = true;
+    api.props = {
+      tool: {
+        toolDataPathExistsSync: jest.fn(() => fileExists)
+      }
+    };
+    expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
+  });
+});
+
+describe('setVerseFinished()', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      global.console = saveConsole; // restore original console
+    });
+
+    it('sets a verse as finished', () => {
     // given
     const api = new Api();
     const writeToolData = jest.fn(() => Promise.resolve());
@@ -930,40 +960,3 @@ function delay(ms) {
 //
 // helpers
 //
-
-// TODO
-
-// function getMockApi(mockReturnData) {
-//   const api = new Api();
-//   api.context = {
-//     store: {
-//       getState: () => ({}),
-//       dispatch: () => ({})
-//     }
-//   };
-//   api.getIsVerseFinished = jest.fn(() => mockReturnData.verseFinished);
-//   api.getIsVerseInvalid = jest.fn(() => mockReturnData.verseInvalid);
-//   api.getisVerseUnaligned = jest.fn(() => mockReturnData.verseUnaligned);
-//   api.getIsVerseEdited = jest.fn(() => mockReturnData.verseEdited);
-//   api.getVerseBookmarked = jest.fn(() => mockReturnData.verseBookmarked);
-//   api.getVerseComment = jest.fn(() => mockReturnData.verseComment);
-//   return api;
-// }
-//
-// function verifyCallback(item, key, method) {
-//   if (item.hasOwnProperty(key)) {
-//     expect(method).not.toBeCalled();
-//   } else {
-//     expect(method).toBeCalled();
-//   }
-// }
-//
-// function verifyCallbacks(api, item) {
-//   verifyCallback(item, FINISHED_KEY, api.getIsVerseFinished);
-//   verifyCallback(item, INVALID_KEY, api.getIsVerseInvalid);
-//   verifyCallback(item, UNALIGNED_KEY, api.getisVerseUnaligned);
-//   verifyCallback(item, EDITED_KEY, api.getIsVerseEdited);
-//   verifyCallback(item, BOOKMARKED_KEY, api.getVerseBookmarked);
-//   verifyCallback(item, COMMENT_KEY, api.getVerseComment);
-// }
-

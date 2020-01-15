@@ -23,4 +23,6 @@ export function loadNewContext(api, contextId) {
     type: consts.LOAD_REMINDER,
     value: data,
   });
+
+  // TODO update verse edit when reducer is finished
 }

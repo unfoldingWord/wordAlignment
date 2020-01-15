@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import isEqual from 'deep-equal';
 import WordMap, {Alignment, Ngram} from 'wordmap';
 import Lexer, {Token} from 'wordmap-lexer';
+import {VerseEditor} from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {connect} from 'react-redux';
@@ -166,6 +167,9 @@ export class Container extends Component {
     this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleResetWordList = this.handleResetWordList.bind(this);
     this.handleBookmarkClick = this.handleBookmarkClick.bind(this);
+    this.handleVerseEditClick = this.handleVerseEditClick.bind(this);
+    this.handleVerseEditClose = this.handleVerseEditClose.bind(this);
+    this.handleVerseEditSubmit = this.handleVerseEditSubmit.bind(this);
     this.handleCommentClick = this.handleCommentClick.bind(this);
     this.handleCommentClose = this.handleCommentClose.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
@@ -177,6 +181,7 @@ export class Container extends Component {
       snackText: null,
       canAutoComplete: false,
       resetWordList: false,
+      showVerseEditor: false,
       showComments: false
     };
   }
@@ -564,6 +569,34 @@ export class Container extends Component {
   }
 
   /**
+   * will show verse editor on click
+   */
+  handleVerseEditClick() {
+    this.setState({
+      showVerseEditor: true
+    });
+  }
+
+  handleVerseEditClose() {
+    this.setState({
+      showVerseEditor: false
+    });
+  }
+
+  handleVerseEditSubmit(before, after, reasons) {
+    const {
+      tc: {
+        contextId: {reference: {chapter, verse}},
+        actions: {
+          editTargetVerse
+        }
+      }
+    } = this.props;
+    editTargetVerse(chapter, verse, before, after, reasons);
+    this.handleVerseEditClose();
+  }
+
+  /**
    * will show comment editor on click
    */
   handleCommentClick() {
@@ -645,7 +678,7 @@ export class Container extends Component {
       },
       tc
     } = this.props;
-    const {snackText, showComments} = this.state;
+    const {snackText, showVerseEditor, showComments} = this.state;
     const {store} = api.context;
     const snackOpen = snackText !== null;
 
@@ -660,6 +693,7 @@ export class Container extends Component {
       bookName = contextId.reference.bookId; // fall back to book id
     }
     const verseTitle = `${bookName} ${chapter}:${verse}`;
+    let targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
 
     // TODO: use the source book direction to correctly style the alignments
 
@@ -675,6 +709,7 @@ export class Container extends Component {
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
     const comment = getCurrentComments(store.getState()) || '';
     const bookmarked = getCurrentReminders(store.getState());
+    const verseText = api.getVerseRawText(chapter, verse);
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -717,6 +752,7 @@ export class Container extends Component {
                 translate={translate}
                 verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
                 verseEditIconEnable={true}
+                verseEditClickAction={this.handleVerseEditClick}
                 commentIconEnable={true}
                 commentStateSet={!!comment}
                 commentClickAction={this.handleCommentClick}
@@ -755,6 +791,15 @@ export class Container extends Component {
                        translate={translate}/>
           </div>
         </div>
+        <VerseEditor
+          open={showVerseEditor}
+          verseTitle={verseTitle}
+          verseText={verseText}
+          targetLanguage={targetLanguageStr}
+          translate={translate}
+          onCancel={this.handleVerseEditClose}
+          onSubmit={this.handleVerseEditSubmit}
+        />
         <CommentsDialog
           open={showComments}
           verseTitle={verseTitle}

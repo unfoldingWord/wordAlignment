@@ -281,36 +281,6 @@ describe('verse unaligned', () => {
 });
 
 describe('setVerseFinished()', () => {
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-    global.console = saveConsole; // restore original console
-  });
-
-  it('is not finished', () => {
-    const api = new Api();
-    const fileExists = false;
-    api.props = {
-      tool: {
-        toolDataPathExistsSync: jest.fn(() => fileExists)
-      }
-    };
-    expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
-  });
-
-  it('is finished', () => {
-    const api = new Api();
-    const fileExists = true;
-    api.props = {
-      tool: {
-        toolDataPathExistsSync: jest.fn(() => fileExists)
-      }
-    };
-    expect(api.getIsVerseFinished(1, 1)).toEqual(fileExists);
-  });
-});
-
-describe('setVerseFinished()', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       global.console = saveConsole; // restore original console

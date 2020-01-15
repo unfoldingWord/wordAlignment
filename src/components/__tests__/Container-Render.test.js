@@ -17,7 +17,7 @@ const props = {
   ...basicProps,
   tc: {
     ...basicProps.tc,
-    project: { getBookName: () => () => 'gen' },
+    project: { getBookName: () => () => 'tit' },
   },
 };
 props.tc.contextId.tool = 'wordAlignment';
@@ -51,6 +51,61 @@ describe('Container', () => {
   });
 
   describe('actions', () => {
+    it('verseEdit click should open verseEditor', () => {
+      // given
+      const instance = getContainerInstance(props);
+
+      // when
+      instance.handleVerseEditClick();
+
+      // then
+      const newState = instance.state;
+      expect(newState.showVerseEditor).toEqual(true);
+    });
+
+    it('verseEdit close should close verseEditor', () => {
+      // given
+      const instance = getContainerInstance(props);
+      instance.setState({showVerseEditor: true}); // make sure on before closing
+
+      // when
+      instance.handleVerseEditClose();
+
+      // then
+      const newState = instance.state;
+      expect(newState.showVerseEditor).toEqual(false);
+    });
+
+    it('verseEdit submit should save and close verseEditor', () => {
+      // given
+      const myProps = {
+        ...props,
+        addComment: jest.fn(() => true),
+      };
+      myProps.tc.actions = {
+        ...myProps.tc.actions,
+        editTargetVerse: jest.fn(() => true),
+      };
+      const instance = getContainerInstance(myProps);
+      instance.setState({showVerseEditor: true}); // make sure on before closing
+      const newVerse = 'Verse After';
+      const oldVerse = 'Verse Before';
+      const reasons = ['reasons'];
+      const {
+        tc: {
+          contextId: {reference: {chapter, verse}},
+        }
+      } = myProps;
+
+      // when
+      instance.handleVerseEditSubmit(oldVerse, newVerse, reasons);
+
+      // then
+      const newState = instance.state;
+      expect(newState.showVerseEditor).toEqual(false);
+      expect(myProps.tc.actions.editTargetVerse).toBeCalledWith(chapter, verse, oldVerse, newVerse, reasons);
+    });
+
     it('comment click should open comments', () => {
       // given
       const instance = getContainerInstance(props);
@@ -135,7 +190,7 @@ describe('Container', () => {
 // Helpers
 //
 
-function setupReducersAndProps(props, verseState) {
+function setupReducersAndProps(props, verseState, verseText = 'Dummy Text') {
   reducers.getRenderedVerseAlignedTargetTokens.mockReturnValue([]);
   reducers.getRenderedVerseAlignments.mockReturnValue([]);
   reducers.getIsVerseAlignmentsValid.mockReturnValue(true);
@@ -164,6 +219,7 @@ function setupReducersAndProps(props, verseState) {
   const api = new Api();
   api.context.store = store;
   api.getVerseData = jest.fn(() => (verseState));
+  api.getVerseRawText = jest.fn(() => (verseText));
   const myProps = {
     ...props,
     translate: k => k,
@@ -175,14 +231,14 @@ function setupReducersAndProps(props, verseState) {
   return myProps;
 }
 
-function getContainerInstance(props) {
+function getContainerInstance(props, verseText = 'Dummy Text') {
   const verseState = {
     finished: true,
     invalid: true,
     edited: true,
     unaligned: true
   };
-  const myProps = setupReducersAndProps(props, verseState);
+  const myProps = setupReducersAndProps(props, verseState, verseText);
   const wrapper = shallow(
     <Container {...myProps} />
   );

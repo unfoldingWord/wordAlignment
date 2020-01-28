@@ -1,12 +1,14 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
-import groupMenu, * as fromGroupMenu from "./groupMenu";
+import groupMenu, * as fromGroupMenu from './groupMenu';
+import groupsDataReducer from './groupsDataReducer';
 
 export default combineReducers({
   alignments,
   checks,
-  groupMenu
+  groupMenu,
+  groupsDataReducer,
 });
 
 /**
@@ -35,9 +37,7 @@ export const getChecks = (state, check) =>
  * @param chapter
  * @return {{}}
  */
-export const getChapterAlignments = (state, chapter) => {
-  return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
-};
+export const getChapterAlignments = (state, chapter) => fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
 
 /**
  * Checks if data for the chapter has been loaded

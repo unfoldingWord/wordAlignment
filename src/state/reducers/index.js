@@ -6,9 +6,9 @@ import groupsDataReducer from './groupsDataReducer';
 import groupsIndexReducer from './groupsIndexReducer';
 
 export default combineReducers({
-  alignments,
   checks,
   groupMenu,
+  alignments,
   groupsDataReducer,
   groupsIndexReducer,
 });

@@ -2,6 +2,18 @@ import isEqual from 'deep-equal';
 import { saveGroupsData } from '../utils/localStorage';
 
 /**
+ * Loads all of a tool's group data from the project.
+ * @param {string} toolName - the name of the tool who's helps will be loaded
+ * @param {string} projectDir - the absolute path to the project
+ * @param {class} ProjectAPI - ProjectAPI.
+ * @returns {*}
+ */
+export function loadProjectGroupData(toolName, projectDir, ProjectAPI) {
+  const project = new ProjectAPI(projectDir);
+  return project.getGroupsData(toolName);
+}
+
+/**
  * Returns the toggled group data based on the key name passed in.
  * @param {object} state - app store state.
  * @param {object} action - action object being dispatch by the action method.

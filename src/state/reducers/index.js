@@ -3,12 +3,14 @@ import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
 import groupMenu, * as fromGroupMenu from './groupMenu';
 import groupsDataReducer from './groupsDataReducer';
+import groupsIndexReducer from './groupsIndexReducer';
 
 export default combineReducers({
   alignments,
   checks,
   groupMenu,
   groupsDataReducer,
+  groupsIndexReducer,
 });
 
 /**

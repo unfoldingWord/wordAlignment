@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "मध्य शब्द को अन-मर्ज नहीं कर सकते",
   "loading_alignments": "संरेखण डेटा लोड हो रहा है",
+  "align_title": "Align",
   "lemma": "लेम्मा:",
   "morphology": "आकृति विज्ञान:",
   "strongs": "मजबूत की:",
@@ -204,14 +205,12 @@
     "reject": "अस्वीकार"
   },
   "icons": {
-    "selections_found": "पूरा छंद में पाया गया के लिए इस की जाँच करें",
-    "no_selections_found": "कोई पूरा छंद में पाया गया के लिए इस की जाँच करें",
-    "verse_edits_found": "इस चेक के लिए कविता संपादन पाए गए",
-    "no_verse_edits_found": "इस चेक के लिए कोई कविता संपादन नहीं मिला",
-    "comments_found": "इस चेक के लिए टिप्पणियां मिलीं",
-    "no_comments_found": "इस चेक के लिए कोई टिप्पणी नहीं मिली",
-    "bookmarked": "इस चेक को समीक्षा के लिए बुकमार्क किया गया है",
-    "not_bookmarked": "इस चेक को समीक्षा के लिए बुकमार्क नहीं किया गया है"
+    "verse_edits_found": "Verse edits were found for this verse alignment",
+    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
+    "comments_found": "Comments were found for this verse alignment",
+    "no_comments_found": "No comments were found for this verse alignment",
+    "bookmarked": "This verse alignment has been bookmarked for review",
+    "not_bookmarked": "This verse alignment has not been bookmarked for review"
   },
   "pane": {
     "current_project": "वर्तमान परियोजना",

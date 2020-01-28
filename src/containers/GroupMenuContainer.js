@@ -10,7 +10,14 @@ import EditIcon from '@material-ui/icons/Edit';
 import UnalignedIcon from '@material-ui/icons/RemoveCircle';
 import {getChecks} from '../state/reducers';
 import Api from '../Api';
-import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../state/reducers/groupMenu";
+import {
+  BOOKMARKED_KEY,
+  COMMENT_KEY,
+  EDITED_KEY,
+  FINISHED_KEY,
+  INVALID_KEY,
+  UNALIGNED_KEY
+} from "../state/reducers/groupMenu";
 
 class GroupMenuContainer extends React.Component {
 
@@ -45,7 +52,9 @@ class GroupMenuContainer extends React.Component {
       completed: itemState[FINISHED_KEY],
       invalid: itemState[INVALID_KEY],
       unaligned: itemState[UNALIGNED_KEY],
-      verseEdits: itemState[EDITED_KEY]
+      verseEdits: itemState[EDITED_KEY],
+      comments: itemState[COMMENT_KEY],
+      bookmarked: itemState[BOOKMARKED_KEY],
     };
   };
 
@@ -107,7 +116,7 @@ class GroupMenuContainer extends React.Component {
         icon: <InvalidatedIcon style={{color: "white"}}/>
       },
       {
-        key: 'bookmarks',
+        key: 'bookmarked',
         icon: <BookmarkIcon style={{color: "white"}}/>
       },
       {

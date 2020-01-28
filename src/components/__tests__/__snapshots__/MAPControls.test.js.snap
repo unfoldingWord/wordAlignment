@@ -5,7 +5,9 @@ exports[`MAPControls renders 1`] = `
   <div
     style={
       Object {
-        "boxShadow": "rgba(0, 0, 0, 0.21) 0px -5px 5px 0px",
+        "borderColor": "var(--background-color-light)",
+        "borderStyle": "solid none none none",
+        "borderWidth": "2px",
         "padding": "0 10px",
         "textAlign": "center",
         "width": "100%",

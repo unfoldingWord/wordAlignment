@@ -20,6 +20,8 @@ export const SET_FINISHED = 'WA::SET_FINISHED';
 export const SET_INVALID = 'WA::SET_INVALID';
 export const SET_UNALIGNED = 'WA::SET_UNALIGNED';
 export const SET_EDITED = 'WA::SET_EDITED';
+export const SET_BOOKMARKED = 'WA::SET_BOOKMARKED';
+export const SET_COMMENT = 'WA::SET_COMMENT';
 export const SET_STATE = 'WA::SET_STATE';
 // groupsDataReducer
 export const CLEAR_PREVIOUS_GROUPS_DATA = 'WA::CLEAR_PREVIOUS_GROUPS_DATA';

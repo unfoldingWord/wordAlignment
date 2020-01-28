@@ -4,6 +4,7 @@ import checks, * as fromChecks from './checks';
 import groupMenu, * as fromGroupMenu from './groupMenu';
 import groupsDataReducer from './groupsDataReducer';
 import groupsIndexReducer from './groupsIndexReducer';
+import contextIdReducer from './contextIdReducer';
 
 export default combineReducers({
   checks,
@@ -11,6 +12,7 @@ export default combineReducers({
   alignments,
   groupsDataReducer,
   groupsIndexReducer,
+  contextIdReducer,
 });
 
 /**

@@ -1,28 +1,28 @@
-import _ from "lodash";
+import _ from 'lodash';
 import fs from 'fs-extra';
-import path from "path-extra";
-import {generateCheckPath, loadCheckData} from "../CheckDataHelper";
+import path from 'path-extra';
+import { generateCheckPath, loadCheckData } from '../CheckDataHelper';
 
 const testRecord = {
-  "tags": [
-    "other"
+  'tags': [
+    'other',
   ],
-  "userName": "dummy",
-  "activeBook": "tit",
-  "activeChapter": 2,
-  "activeVerse": 1,
-  "modifiedTimestamp": "2019-12-31T19:00:39.737Z",
-  "gatewayLanguageCode": "en",
-  "gatewayLanguageQuote": "",
-  "contextId": {
-    "reference": {
-      "bookId": "tit",
-      "chapter": 2,
-      "verse": 4
+  'userName': 'dummy',
+  'activeBook': 'tit',
+  'activeChapter': 2,
+  'activeVerse': 1,
+  'modifiedTimestamp': '2019-12-31T19:00:39.737Z',
+  'gatewayLanguageCode': 'en',
+  'gatewayLanguageQuote': '',
+  'contextId': {
+    'reference': {
+      'bookId': 'tit',
+      'chapter': 2,
+      'verse': 4,
     },
-    "tool": "wordAlignment",
-    "groupId": "chapter_2"
-  }
+    'tool': 'wordAlignment',
+    'groupId': 'chapter_2',
+  },
 };
 
 describe('CheckDataHelper()', () => {
@@ -35,7 +35,7 @@ describe('CheckDataHelper()', () => {
       projectDataPathExistsSync: fs.existsSync,
       readProjectDataSync: fs.readFileSync,
       readProjectDirSync: fs.readdirSync,
-      contextId: _.cloneDeep(testRecord.contextId)
+      contextId: _.cloneDeep(testRecord.contextId),
     };
     toolName = 'wordAlignment';
   });
@@ -47,7 +47,7 @@ describe('CheckDataHelper()', () => {
     const verse = 4;
 
     // when
-    const data = loadCheckData(checkType,  chapter, verse, tc, toolName);
+    const data = loadCheckData(checkType, chapter, verse, tc, toolName);
 
     // then
     expect(data).toBeFalsy();
@@ -62,18 +62,18 @@ describe('CheckDataHelper()', () => {
     const bookId = testRecord.contextId.reference.bookId;
     const folder = generateCheckPath(checkType, bookId, chapter, verse);
     fs.ensureDirSync(folder);
-    let fileName2 = testRecord.modifiedTimestamp + ".json";
+    let fileName2 = testRecord.modifiedTimestamp + '.json';
     fileName2 = fileName2.replace('2019-', '2020-');
     const testRecord2 = _.cloneDeep(testRecord);
     testRecord2.text = expectedText;
     fs.outputJsonSync(path.join(folder, fileName2), testRecord2);
-    const fileName1 = testRecord.modifiedTimestamp + ".json";
+    const fileName1 = testRecord.modifiedTimestamp + '.json';
     const testRecord1 = _.cloneDeep(testRecord);
     testRecord1.text = 'old';
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(checkType,  chapter, verse, tc, toolName);
+    const data = loadCheckData(checkType, chapter, verse, tc, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -88,19 +88,19 @@ describe('CheckDataHelper()', () => {
     const bookId = testRecord.contextId.reference.bookId;
     const folder = generateCheckPath(checkType, bookId, chapter, verse);
     fs.ensureDirSync(folder);
-    let fileName2 = testRecord.modifiedTimestamp + ".json";
+    let fileName2 = testRecord.modifiedTimestamp + '.json';
     fileName2 = fileName2.replace('2019-', '2020-');
     const testRecord2 = _.cloneDeep(testRecord);
     testRecord2.text = 'ta stuff';
     testRecord2.contextId.tool = 'translationNotes';
     fs.outputJsonSync(path.join(folder, fileName2), testRecord2);
-    const fileName1 = testRecord.modifiedTimestamp + ".json";
+    const fileName1 = testRecord.modifiedTimestamp + '.json';
     const testRecord1 = _.cloneDeep(testRecord);
     testRecord1.text = expectedText;
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(checkType,  chapter, verse, tc, toolName);
+    const data = loadCheckData(checkType, chapter, verse, tc, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);

@@ -1,4 +1,4 @@
-import path from "path-extra";
+import path from 'path-extra';
 
 /**
  * generates path to check data for verse
@@ -27,9 +27,9 @@ export function loadCheckData(checkType, chapter, verse, tc, toolName) {
     projectDataPathExistsSync,
     readProjectDataSync,
     readProjectDirSync,
-    contextId
+    contextId,
   } = tc;
-  const {reference: {bookId}} = contextId;
+  const { reference: { bookId } } = contextId;
   let checkDataObject;
   const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
 
@@ -49,6 +49,7 @@ export function loadCheckData(checkType, chapter, verse, tc, toolName) {
       try {
         const readPath = path.join(loadPath, file);
         let _checkDataObject = readProjectDataSync(readPath);
+
         if (_checkDataObject) {
           _checkDataObject = JSON.parse(_checkDataObject);
         }

@@ -1,3 +1,4 @@
+import { generateChapterGroupIndex } from './groupDataHelpers';
 
 /**
  * Sorts either by chapter number, name, or id in that order
@@ -19,4 +20,19 @@ export function sortIndex(a, b) {
     return 1;
   }
   return 0;
+}
+
+/**
+ * Loads the groups index from the global resources.
+ * This is used primarily for generating the groups menu.
+ * This is boiler plate to keep a separation of concerns between the global resources and projects.
+ * TODO: the groups index should be copied into the project as part of {@link copyGroupDataToProject} and loaded from the project instead of the global resources.
+ * @param {string} gatewayLanguage - the gateway language code
+ * @param {string} toolName - the name of the tool who's index will be loaded
+ * @param {string} projectDir - path to the project directory
+ * @param {function} translate - the locale function. TODO: refactor index loading so locale is not required
+ * @return {*}
+ */
+export function loadProjectGroupIndex(translate) {
+  return generateChapterGroupIndex(translate);
 }

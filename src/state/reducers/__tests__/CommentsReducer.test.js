@@ -1,59 +1,59 @@
 import _ from "lodash";
 import {reducerTest} from 'redux-jest';
 import * as types from '../../actions/actionTypes';
-import remindersReducer, * as fromRemindersReducer from '../remindersReducer';
-import {getCurrentReminders} from "../index";
+import commentsReducer, * as fromCommentsReducer from '../CommentsReducer';
+import {getCurrentComments} from "../index";
 
 describe('test Reducer', () => {
-  describe('test LOAD_REMINDER', () => {
+  describe('test LOAD_COMMENT', () => {
     const before = {stuff: {stuff: {}}};
     const loadData = {
-      enabled: true,
+      text: 'some text',
       userName: 'user',
       modifiedTimestamp: 'timestamp',
     };
     const action = {
-      type: types.LOAD_REMINDER,
+      type: types.LOAD_COMMENT,
       value: _.cloneDeep(loadData),
     };
     const after = _.cloneDeep(loadData);
-    reducerTest('remindersReducer', remindersReducer, before, action, after);
+    reducerTest('commentsReducer', commentsReducer, before, action, after);
   });
 
-  describe('test ADD_REMINDER', () => {
+  describe('test ADD_COMMENT', () => {
     const before = {stuff: {stuff: {}}};
     const loadData = {
-      enabled: true,
+      text: 'some text',
       userName: 'user',
       modifiedTimestamp: 'timestamp',
     };
     const action = {
-      type: types.ADD_REMINDER,
-      enabled: loadData.enabled,
+      type: types.ADD_COMMENT,
+      text: loadData.text,
       userName: loadData.userName,
       modifiedTimestamp: loadData.modifiedTimestamp,
     };
     const after = _.cloneDeep(loadData);
-    reducerTest('remindersReducer', remindersReducer, before, action, after);
+    reducerTest('commentsReducer', commentsReducer, before, action, after);
   });
 
-  describe('getReminder()', () => {
+  describe('getComments()', () => {
     it('empty reducer', () => {
       // given
       const state = {};
       const expectedResults = {};
 
       // when
-      const results = fromRemindersReducer.getReminder(state);
+      const results = fromCommentsReducer.getComments(state);
 
       // then
       expect(results).toEqual(expectedResults);
     });
 
-    it('populated reminder', () => {
+    it('populated comment', () => {
       // given
       const loadData = {
-        enabled: false,
+        text: 'some text',
         userName: 'user',
         modifiedTimestamp: 'timestamp',
       };
@@ -61,7 +61,7 @@ describe('test Reducer', () => {
       const expectedResults = _.cloneDeep(loadData);
 
       // when
-      const results = fromRemindersReducer.getReminder(state);
+      const results = fromCommentsReducer.getComments(state);
 
       // then
       expect(results).toEqual(expectedResults);
@@ -70,40 +70,40 @@ describe('test Reducer', () => {
 });
 
 describe('test Selector', () => {
-  it('populated reminder', () => {
+  it('populated comments', () => {
     // given
     const loadData = {
-      enabled: false,
+      text: 'commented',
       userName: 'user',
       modifiedTimestamp: 'timestamp',
     };
     const state = {
       tool: {
-        remindersReducer:  _.cloneDeep(loadData)
+        commentsReducer:  _.cloneDeep(loadData)
       }
     };
 
     // when
-    const bookmarked = getCurrentReminders(state);
+    const comments = getCurrentComments(state);
 
     // then
-    expect(bookmarked).toEqual(loadData.enabled);
+    expect(comments).toEqual(loadData.text);
   });
 
-  it('empty reminder', () => {
+  it('empty comments', () => {
     // given
-    const expectedReminder = false;
+    const expectedReminder = '';
     const loadData = {};
     const state = {
       tool: {
-        remindersReducer:  _.cloneDeep(loadData)
+        commentsReducer:  _.cloneDeep(loadData)
       }
     };
 
     // when
-    const bookmarked = getCurrentReminders(state);
+    const comments = getCurrentComments(state);
 
     // then
-    expect(bookmarked).toEqual(expectedReminder);
+    expect(comments).toEqual(expectedReminder);
   });
 });

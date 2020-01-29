@@ -1,5 +1,5 @@
 import {getGroupMenuItem, getIsVerseAligned} from "../reducers";
-import {BOOKMARKED_KEY, COMMENT_KEY, EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../reducers/groupMenu";
+import {BOOKMARKED_KEY, COMMENT_KEY, EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../reducers/GroupMenu";
 import * as CheckDataHelper from "../../utils/CheckDataHelper";
 import * as types from "./actionTypes";
 

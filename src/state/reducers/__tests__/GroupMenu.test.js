@@ -1,7 +1,7 @@
 import _ from "lodash";
 import {reducerTest} from 'redux-jest';
 import * as types from '../../actions/actionTypes';
-import groupMenu, * as fromGroupMenu from '../groupMenu';
+import groupMenu, * as fromGroupMenu from '../GroupMenu';
 import {getGroupMenuItem} from "../index";
 
 describe('test CLEAR_GROUP_MENU', () => {

@@ -2,7 +2,7 @@ import configureMockStore from "redux-mock-store";
 import thunk from 'redux-thunk';
 import Api from '../Api';
 import * as reducers from '../state/reducers';
-import {FINISHED_KEY, UNALIGNED_KEY} from "../state/reducers/groupMenu";
+import {FINISHED_KEY, UNALIGNED_KEY} from "../state/reducers/GroupMenu";
 jest.mock('../state/reducers');
 
 const middlewares = [thunk];

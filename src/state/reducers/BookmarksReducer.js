@@ -6,7 +6,7 @@ const initialState = {
   modifiedTimestamp: null,
 };
 
-const remindersReducer = (state = initialState, action) => {
+const bookmarksReducer = (state = initialState, action) => {
   switch (action.type) {
   case consts.LOAD_REMINDER:
     return {
@@ -28,8 +28,8 @@ const remindersReducer = (state = initialState, action) => {
  * @param {Object} state
  * @returns {Object} - entire
  */
-export const getReminder = (state) => {
+export const getBookmarks = (state) => {
   return state;
 };
 
-export default remindersReducer;
+export default bookmarksReducer;

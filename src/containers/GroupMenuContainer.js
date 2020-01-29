@@ -17,7 +17,7 @@ import {
   FINISHED_KEY,
   INVALID_KEY,
   UNALIGNED_KEY
-} from "../state/reducers/groupMenu";
+} from "../state/reducers/GroupMenu";
 
 class GroupMenuContainer extends React.Component {
 

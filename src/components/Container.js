@@ -22,11 +22,11 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {addComment} from '../state/actions/CommentsActions';
-import {addReminder} from '../state/actions/RemindersActions';
+import {addReminder} from '../state/actions/BookmarksActions';
 import {
   getChapterAlignments,
   getCurrentComments,
-  getCurrentReminders,
+  getCurrentBookmarks,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
@@ -39,7 +39,7 @@ import {removeUsfmMarkers} from '../utils/usfmHelpers';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
-import * as GroupMenu from "../state/reducers/groupMenu";
+import * as GroupMenu from "../state/reducers/GroupMenu";
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
@@ -553,13 +553,12 @@ export class Container extends Component {
   handleBookmarkClick() {
     const {
       addReminder,
-      tool: {
-        api
-      },
-      tc: {contextId},
+      getCurrentBookmarks,
+      tool: { api },
+      tc: { contextId },
       username,
     } = this.props;
-    const bookmarked = getCurrentReminders(api.context.store.getState());
+    const bookmarked = getCurrentBookmarks();
     addReminder(api, !bookmarked, username, contextId); // toggle bookmark
   }
 
@@ -674,7 +673,7 @@ export class Container extends Component {
     const verseState = api.getVerseData(chapter, verse);
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
     const comment = getCurrentComments(store.getState()) || '';
-    const bookmarked = getCurrentReminders(store.getState());
+    const bookmarked = getCurrentBookmarks(store.getState());
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -877,7 +876,8 @@ const mapStateToProps = (state, props) => {
     verseIsValid: getIsVerseAlignmentsValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
-    normalizedSourceVerseText
+    normalizedSourceVerseText,
+    getCurrentBookmarks: getCurrentBookmarks(state),
   };
 };
 

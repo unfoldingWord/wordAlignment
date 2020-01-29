@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as RemindersActions from '../RemindersActions';
+import * as BookmarksReducer from '../BookmarksActions';
 import Api from "../../../Api";
 import {
   generateTimestamp,
@@ -71,7 +71,7 @@ describe('addReminder()', () => {
     };
 
     // when
-    store.dispatch(RemindersActions.addReminder(api, enabled, userName, contextId));
+    store.dispatch(BookmarksReducer.addReminder(api, enabled, userName, contextId));
 
     // then
     const actions = store.getActions();

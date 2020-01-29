@@ -4,7 +4,7 @@ import * as reducers from '../state/reducers';
 import Api from '../Api';
 import {
   INVALID_KEY,
-} from "../state/reducers/groupMenu";
+} from "../state/reducers/GroupMenu";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

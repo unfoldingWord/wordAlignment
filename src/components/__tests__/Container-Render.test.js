@@ -97,13 +97,13 @@ describe('Container', () => {
 
     it('bookmark click should toggle from off to on', () => {
       // given
+      const initialBookmark = false;
       const myProps = {
         ...props,
-        addReminder: jest.fn(() => true)
+        addReminder: jest.fn(() => true),
+        getCurrentBookmarks: jest.fn(() => initialBookmark),
       };
       const instance = getContainerInstance(myProps);
-      const initialBookmark = false;
-      reducers.getCurrentReminders.mockReturnValue(initialBookmark);
 
       // when
       instance.handleBookmarkClick();
@@ -114,13 +114,13 @@ describe('Container', () => {
 
     it('bookmark click should toggle from on to off', () => {
       // given
+      const initialBookmark = true;
       const myProps = {
         ...props,
-        addReminder: jest.fn(() => true)
+        addReminder: jest.fn(() => true),
+        getCurrentBookmarks: jest.fn(() => initialBookmark),
       };
       const instance = getContainerInstance(myProps);
-      const initialBookmark = true;
-      reducers.getCurrentReminders.mockReturnValue(initialBookmark);
 
       // when
       instance.handleBookmarkClick();
@@ -142,7 +142,7 @@ function setupReducersAndProps(props, verseState) {
   reducers.getIsVerseAligned.mockReturnValue(true);
   reducers.getVerseHasRenderedSuggestions.mockReturnValue(false);
   reducers.getCurrentComments.mockReturnValue('');
-  reducers.getCurrentReminders.mockReturnValue(false);
+  reducers.getCurrentBookmarks.mockReturnValue(false);
   const state = {
     tool: {
       groupMenu: {

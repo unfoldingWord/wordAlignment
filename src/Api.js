@@ -39,7 +39,7 @@ import {
 import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
 import {migrateChapterAlignments} from './utils/migrations';
 // consts
-import {FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY,} from "./state/reducers/groupMenu";
+import {FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY,} from "./state/reducers/GroupMenu";
 
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 

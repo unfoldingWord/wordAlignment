@@ -36,6 +36,8 @@ describe('Container', () => {
       unaligned: true
     };
     const myProps = setupReducersAndProps(props, verseState);
+    myProps.currentBookmarks = true;
+    myProps.currentComments = 'My Comment';
 
     // when
     const wrapper = shallow(
@@ -100,8 +102,8 @@ describe('Container', () => {
       const initialBookmark = false;
       const myProps = {
         ...props,
-        addReminder: jest.fn(() => true),
-        getCurrentBookmarks: jest.fn(() => initialBookmark),
+        addBookmark: jest.fn(() => true),
+        currentBookmarks: initialBookmark,
       };
       const instance = getContainerInstance(myProps);
 
@@ -109,7 +111,7 @@ describe('Container', () => {
       instance.handleBookmarkClick();
 
       // then
-      expect(myProps.addReminder).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
+      expect(myProps.addBookmark).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
     });
 
     it('bookmark click should toggle from on to off', () => {
@@ -117,8 +119,8 @@ describe('Container', () => {
       const initialBookmark = true;
       const myProps = {
         ...props,
-        addReminder: jest.fn(() => true),
-        getCurrentBookmarks: jest.fn(() => initialBookmark),
+        addBookmark: jest.fn(() => true),
+        currentBookmarks: initialBookmark,
       };
       const instance = getContainerInstance(myProps);
 
@@ -126,7 +128,7 @@ describe('Container', () => {
       instance.handleBookmarkClick();
 
       // then
-      expect(myProps.addReminder).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
+      expect(myProps.addBookmark).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
     });
   });
 });

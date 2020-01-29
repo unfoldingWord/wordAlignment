@@ -22,7 +22,7 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {addComment} from '../state/actions/CommentsActions';
-import {addReminder} from '../state/actions/BookmarksActions';
+import {addBookmark} from '../state/actions/BookmarksActions';
 import {
   getChapterAlignments,
   getCurrentComments,
@@ -552,14 +552,13 @@ export class Container extends Component {
    */
   handleBookmarkClick() {
     const {
-      addReminder,
-      getCurrentBookmarks,
+      addBookmark,
+      currentBookmarks,
       tool: { api },
       tc: { contextId },
       username,
     } = this.props;
-    const bookmarked = getCurrentBookmarks();
-    addReminder(api, !bookmarked, username, contextId); // toggle bookmark
+    addBookmark(api, !currentBookmarks, username, contextId); // toggle bookmark
   }
 
   /**
@@ -629,6 +628,8 @@ export class Container extends Component {
       actions,
       resourcesReducer,
       verseAlignments,
+      currentBookmarks,
+      currentComments,
       tool: {
         api,
         translate
@@ -645,7 +646,6 @@ export class Container extends Component {
       tc
     } = this.props;
     const {snackText, showComments} = this.state;
-    const {store} = api.context;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
@@ -672,8 +672,6 @@ export class Container extends Component {
 
     const verseState = api.getVerseData(chapter, verse);
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
-    const comment = getCurrentComments(store.getState()) || '';
-    const bookmarked = getCurrentBookmarks(store.getState());
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -717,10 +715,10 @@ export class Container extends Component {
                 verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
                 verseEditIconEnable={true}
                 commentIconEnable={true}
-                commentStateSet={!!comment}
+                commentStateSet={currentComments}
                 commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
-                bookmarkStateSet={bookmarked}
+                bookmarkStateSet={currentBookmarks}
                 bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
@@ -757,7 +755,7 @@ export class Container extends Component {
         <CommentsDialog
           open={showComments}
           verseTitle={verseTitle}
-          comment={comment}
+          comment={currentComments}
           translate={translate}
           onClose={this.handleCommentClose}
           onSubmit={this.handleCommentSubmit}
@@ -797,7 +795,7 @@ Container.propTypes = {
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
-  addReminder: PropTypes.func.isRequired,
+  addBookmark: PropTypes.func.isRequired,
 
   // state props
   hasRenderedSuggestions: PropTypes.bool.isRequired,
@@ -812,6 +810,8 @@ Container.propTypes = {
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
   hasTargetText: PropTypes.bool.isRequired,
+  currentBookmarks: PropTypes.bool.isRequired,
+  currentComments: PropTypes.string.isRequired,
 
   // drag props
   isOver: PropTypes.bool,
@@ -841,7 +841,7 @@ const mapDispatchToProps = ({
   setAlignmentPredictions,
   clearAlignmentSuggestions,
   addComment,
-  addReminder,
+  addBookmark,
 });
 
 const mapStateToProps = (state, props) => {
@@ -877,7 +877,8 @@ const mapStateToProps = (state, props) => {
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
     normalizedSourceVerseText,
-    getCurrentBookmarks: getCurrentBookmarks(state),
+    currentBookmarks: !!getCurrentBookmarks(state),
+    currentComments: getCurrentComments(state) || '',
   };
 };
 

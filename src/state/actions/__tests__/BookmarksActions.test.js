@@ -12,7 +12,7 @@ jest.mock('../../../utils/CheckDataHelper');
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('addReminder()', () => {
+describe('addBookmark()', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -29,7 +29,7 @@ describe('addReminder()', () => {
     generateTimestamp.mockReturnValue(timeStamp);
     const expectedActions = [
       {
-        "type": "WA::ADD_REMINDER",
+        "type": "WA::ADD_BOOKMARK",
         "enabled": true,
         "userName": "user name",
         "contextId": {
@@ -71,7 +71,7 @@ describe('addReminder()', () => {
     };
 
     // when
-    store.dispatch(BookmarksReducer.addReminder(api, enabled, userName, contextId));
+    store.dispatch(BookmarksReducer.addBookmark(api, enabled, userName, contextId));
 
     // then
     const actions = store.getActions();

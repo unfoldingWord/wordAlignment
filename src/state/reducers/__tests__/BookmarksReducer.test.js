@@ -20,7 +20,7 @@ describe('test Reducer', () => {
     reducerTest('bookmarksReducer', bookmarksReducer, before, action, after);
   });
 
-  describe('test ADD_REMINDER', () => {
+  describe('test ADD_BOOKMARK', () => {
     const before = {stuff: {stuff: {}}};
     const loadData = {
       enabled: true,
@@ -28,7 +28,7 @@ describe('test Reducer', () => {
       modifiedTimestamp: 'timestamp',
     };
     const action = {
-      type: types.ADD_REMINDER,
+      type: types.ADD_BOOKMARK,
       enabled: loadData.enabled,
       userName: loadData.userName,
       modifiedTimestamp: loadData.modifiedTimestamp,

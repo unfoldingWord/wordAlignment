@@ -12,7 +12,7 @@ const bookmarksReducer = (state = initialState, action) => {
     return {
       ...action.value
     };
-  case consts.ADD_REMINDER:
+  case consts.ADD_BOOKMARK:
     return {
       enabled: !!action.enabled,
       userName: action.userName,

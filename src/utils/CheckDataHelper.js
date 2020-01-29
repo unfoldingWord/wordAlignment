@@ -1,4 +1,11 @@
+// TODO: This file is incomplete
 import path from 'path-extra';
+import {
+  ADD_COMMENT,
+  SET_INVALIDATED,
+  SET_BOOKMARK,
+  CHANGE_SELECTIONS,
+} from '../state/actions/actionTypes';
 
 /**
  * generates path to check data for verse
@@ -70,4 +77,45 @@ export function loadCheckData(checkType, chapter, verse, tc, toolName) {
    * to initialized the reducer.
    */
   return checkDataObject;
+}
+
+/**
+ * Loads the latest selections file from the file system for the specific contextID.
+ * @param {Object} state - store state object.
+ * @return {Object} Dispatches an action that loads the selectionsReducer with data.
+ */
+export function loadSelections(projectSaveLocation, contextId) {
+  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'selections');
+  const selectionsObject = loadCheckData(loadPath, contextId);
+
+  if (selectionsObject) {
+    let {
+      selections,
+      modifiedTimestamp,
+      nothingToSelect,
+      username,
+      userName, // for old project data
+      gatewayLanguageCode,
+      gatewayLanguageQuote,
+    } = selectionsObject;
+    username = username || userName;
+
+    return {
+      type: CHANGE_SELECTIONS,
+      selections: selections,
+      nothingToSelect: nothingToSelect,
+      username,
+      modifiedTimestamp: modifiedTimestamp,
+      gatewayLanguageCode: gatewayLanguageCode,
+      gatewayLanguageQuote: gatewayLanguageQuote,
+    };
+  } else {
+    // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
+    return {
+      type: CHANGE_SELECTIONS,
+      modifiedTimestamp: null,
+      selections: [],
+      username: null,
+    };
+  }
 }

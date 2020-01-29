@@ -41,3 +41,5 @@ export const CLEAR_PREVIOUS_GROUPS_INDEX = 'WA::CLEAR_PREVIOUS_GROUPS_INDEX';
 // contextIdReducer
 export const CHANGE_CONTEXT_ID = 'WA::CHANGE_CONTEXT_ID';
 export const CLEAR_CONTEXT_ID = 'WA::CLEAR_CONTEXT_ID';
+// selectionsReducer
+export const CHANGE_SELECTIONS = 'WA::CHANGE_SELECTIONS';

@@ -57,6 +57,7 @@ Array [
                   "overflow": "hidden",
                   "textOverflow": "ellipsis",
                   "width": "max-content",
+                  "wordBreak": "break-all",
                 }
               }
             >
@@ -120,6 +121,7 @@ Array [
                   "overflow": "hidden",
                   "textOverflow": "ellipsis",
                   "width": "max-content",
+                  "wordBreak": "break-all",
                 }
               }
             >
@@ -184,6 +186,7 @@ Array [
                   "overflow": "hidden",
                   "textOverflow": "ellipsis",
                   "width": "max-content",
+                  "wordBreak": "break-all",
                 }
               }
             >

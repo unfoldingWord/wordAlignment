@@ -113,6 +113,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                             "overflow": "hidden",
                             "textOverflow": "ellipsis",
                             "width": "max-content",
+                            "wordBreak": "break-all",
                           }
                         }
                       >
@@ -260,6 +261,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                             "overflow": "hidden",
                             "textOverflow": "ellipsis",
                             "width": "max-content",
+                            "wordBreak": "break-all",
                           }
                         }
                       >
@@ -407,6 +409,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                             "overflow": "hidden",
                             "textOverflow": "ellipsis",
                             "width": "max-content",
+                            "wordBreak": "break-all",
                           }
                         }
                       >

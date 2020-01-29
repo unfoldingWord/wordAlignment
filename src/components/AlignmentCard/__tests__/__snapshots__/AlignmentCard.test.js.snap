@@ -109,6 +109,7 @@ exports[`has a bottom word 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -217,6 +218,7 @@ exports[`has a top and bottom word 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -289,6 +291,7 @@ exports[`has a top and bottom word 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -397,6 +400,7 @@ exports[`has a top word 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -546,6 +550,7 @@ exports[`has multiple bottom words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -591,6 +596,7 @@ exports[`has multiple bottom words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -699,6 +705,7 @@ exports[`has multiple top and bottom words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -744,6 +751,7 @@ exports[`has multiple top and bottom words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -816,6 +824,7 @@ exports[`has multiple top and bottom words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -861,6 +870,7 @@ exports[`has multiple top and bottom words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -969,6 +979,7 @@ exports[`has multiple top words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >
@@ -1014,6 +1025,7 @@ exports[`has multiple top words 1`] = `
                     "overflow": "hidden",
                     "textOverflow": "ellipsis",
                     "width": "max-content",
+                    "wordBreak": "break-all",
                   }
                 }
               >

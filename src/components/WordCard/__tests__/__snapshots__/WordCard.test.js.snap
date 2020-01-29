@@ -38,6 +38,7 @@ exports[`is a suggestion 1`] = `
             "overflow": "hidden",
             "textOverflow": "ellipsis",
             "width": "max-content",
+            "wordBreak": "break-all",
           }
         }
       >
@@ -124,6 +125,7 @@ exports[`occurs multiple times 1`] = `
             "overflow": "hidden",
             "textOverflow": "ellipsis",
             "width": "max-content",
+            "wordBreak": "break-all",
           }
         }
       >
@@ -183,6 +185,7 @@ exports[`occurs once 1`] = `
             "overflow": "hidden",
             "textOverflow": "ellipsis",
             "width": "max-content",
+            "wordBreak": "break-all",
           }
         }
       >
@@ -231,6 +234,7 @@ exports[`renders rtl 1`] = `
             "overflow": "hidden",
             "textOverflow": "ellipsis",
             "width": "max-content",
+            "wordBreak": "break-all",
           }
         }
       >

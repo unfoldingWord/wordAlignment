@@ -30,6 +30,7 @@ const makeStyles = (props) => {
       flexGrow: 2,
       textOverflow: 'ellipsis',
       overflow: 'hidden',
+      wordBreak: 'break-all'
     },
   };
 

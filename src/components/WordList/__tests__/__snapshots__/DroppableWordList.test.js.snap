@@ -139,7 +139,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               "height": "100%",
               "overflowY": "auto",
               "padding": "5px 8px 5px 5px",
-              "width": "100%",
+              "width": "150px",
             }
           }
         >
@@ -281,6 +281,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -402,6 +403,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -535,6 +537,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -669,6 +672,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -856,7 +860,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               "height": "100%",
               "overflowY": "auto",
               "padding": "5px 8px 5px 5px",
-              "width": "100%",
+              "width": "150px",
             }
           }
         >
@@ -998,6 +1002,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -1119,6 +1124,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -1252,6 +1258,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >
@@ -1386,6 +1393,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                   "overflow": "hidden",
                                   "textOverflow": "ellipsis",
                                   "width": "max-content",
+                                  "wordBreak": "break-all",
                                 }
                               }
                             >

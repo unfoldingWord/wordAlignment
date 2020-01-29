@@ -141,7 +141,6 @@ export default class Api extends ToolApi {
       isNaN(chapter) || parseInt(chapter) === -1) return;
 
     const { setGroupMenuItemEdited } = this.props;
-    this.refreshGroupMenuItems(chapter, verse);
     const isValid = this._validateVerse(this.props, chapter, verse, silent);
     if (!silent && !isValid) {
       this._showResetDialog();

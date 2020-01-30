@@ -21,13 +21,17 @@ import {
   setAlignmentPredictions,
   unalignTargetToken
 } from '../state/actions';
+import {addComment} from '../state/actions/CommentsActions';
+import {addBookmark} from '../state/actions/BookmarksActions';
 import {
   getChapterAlignments,
+  getCurrentComments,
+  getCurrentBookmarks,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
   getRenderedVerseAlignments,
-  getVerseHasRenderedSuggestions
+  getVerseHasRenderedSuggestions,
 } from '../state/reducers';
 import {tokenizeVerseObjects} from '../utils/verseObjects';
 import {sortPanesSettings} from '../utils/panesSettingsHelper';
@@ -35,12 +39,13 @@ import {removeUsfmMarkers} from '../utils/usfmHelpers';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
-import * as GroupMenu from "../state/reducers/groupMenu";
+import * as GroupMenu from "../state/reducers/GroupMenu";
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from "./IconIndicators";
+import CommentsDialog from "./CommentsDialog";
 
 const styles = {
   container: {
@@ -135,8 +140,7 @@ export const getPredictions = (map, sourceVerseText, targetVerseText) => {
 /**
  * The base container for this tool
  */
-class Container extends Component {
-
+export class Container extends Component {
   constructor(props) {
     super(props);
     this.globalWordAlignmentMemory = null;
@@ -155,13 +159,16 @@ class Container extends Component {
     this.handleToggleComplete = this.handleToggleComplete.bind(this);
     this.enableAutoComplete = this.enableAutoComplete.bind(this);
     this.disableAutoComplete = this.disableAutoComplete.bind(this);
-    this._getIsComplete = this._getIsComplete.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
       this);
     this.getLabeledTargetTokens = this.getLabeledTargetTokens.bind(this);
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleResetWordList = this.handleResetWordList.bind(this);
+    this.handleBookmarkClick = this.handleBookmarkClick.bind(this);
+    this.handleCommentClick = this.handleCommentClick.bind(this);
+    this.handleCommentClose = this.handleCommentClose.bind(this);
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.state = {
       loading: false,
       validating: false,
@@ -169,7 +176,8 @@ class Container extends Component {
       writing: false,
       snackText: null,
       canAutoComplete: false,
-      resetWordList: false
+      resetWordList: false,
+      showComments: false
     };
   }
 
@@ -540,6 +548,54 @@ class Container extends Component {
   }
 
   /**
+   * will toggle bookmark on click
+   */
+  handleBookmarkClick() {
+    const {
+      addBookmark,
+      currentBookmarks,
+      tool: { api },
+      tc: { contextId },
+      username,
+    } = this.props;
+    addBookmark(api, !currentBookmarks, username, contextId); // toggle bookmark
+  }
+
+  /**
+   * will show comment editor on click
+   */
+  handleCommentClick() {
+    this.setState({
+      showComments: true
+    });
+  }
+
+  /**
+   * will close comment editor
+   */
+  handleCommentClose() {
+    this.setState({
+      showComments: false
+    });
+  }
+
+  /**
+   * will update comment and close comment editor
+   */
+  handleCommentSubmit(newComment) {
+    const {
+      addComment,
+      tool: {
+        api
+      },
+      tc: {contextId},
+      username,
+    } = this.props;
+    addComment(api, newComment, username, contextId);
+    this.handleCommentClose();
+  }
+
+  /**
    * Returns the target tokens with used tokens labeled as disabled
    * @return {*}
    */
@@ -563,23 +619,6 @@ class Container extends Component {
     });
   }
 
-  /**
-   * Checks if the verse has been completed
-   * @return {Promise}
-   * @private
-   */
-  _getIsComplete() {
-    const {
-      tool: {
-        api
-      },
-      tc: {
-        contextId: {reference: {chapter, verse}}
-      }
-    } = this.props;
-    return api.getIsVerseFinished(chapter, verse);
-  }
-
   render() {
     const {
       hasRenderedSuggestions,
@@ -589,6 +628,8 @@ class Container extends Component {
       actions,
       resourcesReducer,
       verseAlignments,
+      currentBookmarks,
+      currentComments,
       tool: {
         api,
         translate
@@ -599,21 +640,29 @@ class Container extends Component {
           showPopover
         },
         sourceBook: {manifest: {direction : sourceDirection, language_id: sourceLanguage}},
-        targetBook: {manifest: {direction : targetDirection}}
+        targetBook: {manifest: {direction : targetDirection}},
+        projectDetailsReducer: { manifest },
       },
       tc
     } = this.props;
-    const {snackText} = this.state;
+    const {snackText, showComments} = this.state;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
       return null;
     }
 
+    const {reference: {chapter, verse}} = contextId;
+    const targetLanguage = manifest && manifest.target_language;
+    let bookName = targetLanguage  && targetLanguage.book && targetLanguage.book.name;
+    if (!bookName) {
+      bookName = contextId.reference.bookId; // fall back to book id
+    }
+    const verseTitle = `${bookName} ${chapter}:${verse}`;
+
     // TODO: use the source book direction to correctly style the alignments
 
     const {lexicons} = resourcesReducer;
-    const {reference: {chapter, verse}} = contextId;
 
     // TRICKY: do not show word list if there is no source bible.
     let words = [];
@@ -621,8 +670,8 @@ class Container extends Component {
       words = this.getLabeledTargetTokens();
     }
 
-    const isComplete = this._getIsComplete();
-    const verseState = api.getGroupMenuItem(chapter, verse);
+    const verseState = api.getVerseData(chapter, verse);
+    const isComplete = verseState[GroupMenu.FINISHED_KEY];
 
     // TRICKY: make hebrew text larger
     let sourceStyle = {fontSize: "100%"};
@@ -662,10 +711,15 @@ class Container extends Component {
             <div className='title-bar' style={{marginTop: '2px', marginBottom: `10px`}}>
               <span>{translate('align_title')}</span>
               <IconIndicators
-                isVerseEdited={verseState[GroupMenu.EDITED_KEY]}
-                comment={verseState[GroupMenu.COMMENT_KEY]}
-                bookmarkEnabled={verseState[GroupMenu.BOOKMARKED_KEY]}
                 translate={translate}
+                verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
+                verseEditIconEnable={true}
+                commentIconEnable={true}
+                commentStateSet={currentComments}
+                commentClickAction={this.handleCommentClick}
+                bookmarkIconEnable={true}
+                bookmarkStateSet={currentBookmarks}
+                bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
           {hasSourceText ? (
@@ -698,6 +752,14 @@ class Container extends Component {
                        translate={translate}/>
           </div>
         </div>
+        <CommentsDialog
+          open={showComments}
+          verseTitle={verseTitle}
+          comment={currentComments}
+          translate={translate}
+          onClose={this.handleCommentClose}
+          onSubmit={this.handleCommentSubmit}
+        />
       </div>
     );
   }
@@ -732,6 +794,8 @@ Container.propTypes = {
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
+  addBookmark: PropTypes.func.isRequired,
 
   // state props
   hasRenderedSuggestions: PropTypes.bool.isRequired,
@@ -746,6 +810,8 @@ Container.propTypes = {
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
   hasTargetText: PropTypes.bool.isRequired,
+  currentBookmarks: PropTypes.bool.isRequired,
+  currentComments: PropTypes.string.isRequired,
 
   // drag props
   isOver: PropTypes.bool,
@@ -773,12 +839,16 @@ const mapDispatchToProps = ({
   removeTokenSuggestion,
   acceptAlignmentSuggestions,
   setAlignmentPredictions,
-  clearAlignmentSuggestions
+  clearAlignmentSuggestions,
+  addComment,
+  addBookmark,
 });
 
 const mapStateToProps = (state, props) => {
   const {tc: {contextId, targetVerseText, sourceVerse}, tool: {api}} = props;
   const {reference: {chapter, verse}} = contextId;
+  const verseState = api.getVerseData(chapter, verse);
+  const isFinished = verseState[GroupMenu.FINISHED_KEY];
   // TRICKY: the target verse contains punctuation we need to remove
   let targetTokens = [];
   let sourceTokens = [];
@@ -795,7 +865,7 @@ const mapStateToProps = (state, props) => {
   return {
     hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter,
       verse),
-    verseIsComplete: api.getIsVerseFinished(chapter, verse),
+    verseIsComplete: isFinished,
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
     hasTargetText: normalizedTargetVerseText !== '',
@@ -806,7 +876,9 @@ const mapStateToProps = (state, props) => {
     verseIsValid: getIsVerseAlignmentsValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
-    normalizedSourceVerseText
+    normalizedSourceVerseText,
+    currentBookmarks: !!getCurrentBookmarks(state),
+    currentComments: getCurrentComments(state) || '',
   };
 };
 

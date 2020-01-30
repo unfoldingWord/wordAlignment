@@ -114,7 +114,7 @@ class DroppableWordList extends React.Component {
         id='wordList'
         style={{
           height: '100%',
-          width: '100%',
+          width: '150px',
           backgroundColor: '#DCDCDC',
           overflowY: 'auto',
           padding: '5px 8px 5px 5px',

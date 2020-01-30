@@ -23,11 +23,11 @@ import {
   unalignTargetToken
 } from '../state/actions';
 import {addComment} from '../state/actions/CommentsActions';
-import {addReminder} from '../state/actions/RemindersActions';
+import {addBookmark} from '../state/actions/BookmarksActions';
 import {
   getChapterAlignments,
   getCurrentComments,
-  getCurrentReminders,
+  getCurrentBookmarks,
   getIsVerseAligned,
   getIsVerseAlignmentsValid,
   getRenderedVerseAlignedTargetTokens,
@@ -40,7 +40,7 @@ import {removeUsfmMarkers} from '../utils/usfmHelpers';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
-import * as GroupMenu from "../state/reducers/groupMenu";
+import * as GroupMenu from "../state/reducers/GroupMenu";
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
@@ -557,15 +557,13 @@ export class Container extends Component {
    */
   handleBookmarkClick() {
     const {
-      addReminder,
-      tool: {
-        api
-      },
-      tc: {contextId},
+      addBookmark,
+      currentBookmarks,
+      tool: { api },
+      tc: { contextId },
       username,
     } = this.props;
-    const bookmarked = getCurrentReminders(api.context.store.getState());
-    addReminder(api, !bookmarked, username, contextId); // toggle bookmark
+    addBookmark(api, !currentBookmarks, username, contextId); // toggle bookmark
   }
 
   /**
@@ -663,6 +661,8 @@ export class Container extends Component {
       actions,
       resourcesReducer,
       verseAlignments,
+      currentBookmarks,
+      currentComments,
       tool: {
         api,
         translate
@@ -678,8 +678,7 @@ export class Container extends Component {
       },
       tc
     } = this.props;
-    const {snackText, showVerseEditor, showComments} = this.state;
-    const {store} = api.context;
+    const {snackText, showComments} = this.state;
     const snackOpen = snackText !== null;
 
     if (!contextId) {
@@ -707,8 +706,6 @@ export class Container extends Component {
 
     const verseState = api.getVerseData(chapter, verse);
     const isComplete = verseState[GroupMenu.FINISHED_KEY];
-    const comment = getCurrentComments(store.getState()) || '';
-    const bookmarked = getCurrentReminders(store.getState());
     const verseText = api.getVerseRawText(chapter, verse);
 
     // TRICKY: make hebrew text larger
@@ -754,10 +751,10 @@ export class Container extends Component {
                 verseEditIconEnable={true}
                 verseEditClickAction={this.handleVerseEditClick}
                 commentIconEnable={true}
-                commentStateSet={!!comment}
+                commentStateSet={currentComments}
                 commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
-                bookmarkStateSet={bookmarked}
+                bookmarkStateSet={currentBookmarks}
                 bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
@@ -803,7 +800,7 @@ export class Container extends Component {
         <CommentsDialog
           open={showComments}
           verseTitle={verseTitle}
-          comment={comment}
+          comment={currentComments}
           translate={translate}
           onClose={this.handleCommentClose}
           onSubmit={this.handleCommentSubmit}
@@ -843,7 +840,7 @@ Container.propTypes = {
   clearAlignmentSuggestions: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
-  addReminder: PropTypes.func.isRequired,
+  addBookmark: PropTypes.func.isRequired,
 
   // state props
   hasRenderedSuggestions: PropTypes.bool.isRequired,
@@ -858,6 +855,8 @@ Container.propTypes = {
   normalizedSourceVerseText: PropTypes.string.isRequired,
   hasSourceText: PropTypes.bool.isRequired,
   hasTargetText: PropTypes.bool.isRequired,
+  currentBookmarks: PropTypes.bool.isRequired,
+  currentComments: PropTypes.string.isRequired,
 
   // drag props
   isOver: PropTypes.bool,
@@ -887,7 +886,7 @@ const mapDispatchToProps = ({
   setAlignmentPredictions,
   clearAlignmentSuggestions,
   addComment,
-  addReminder,
+  addBookmark,
 });
 
 const mapStateToProps = (state, props) => {
@@ -922,7 +921,9 @@ const mapStateToProps = (state, props) => {
     verseIsValid: getIsVerseAlignmentsValid(state, chapter, verse,
       normalizedSourceVerseText, normalizedTargetVerseText),
     normalizedTargetVerseText,
-    normalizedSourceVerseText
+    normalizedSourceVerseText,
+    currentBookmarks: !!getCurrentBookmarks(state),
+    currentComments: getCurrentComments(state) || '',
   };
 };
 

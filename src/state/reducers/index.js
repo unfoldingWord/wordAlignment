@@ -1,16 +1,16 @@
 import {combineReducers} from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
-import groupMenu, * as fromGroupMenu from "./groupMenu";
-import commentsReducer, * as fromCommentsReducer from "./commentsReducer";
-import remindersReducer, * as fromRemindersReducer from "./remindersReducer";
+import groupMenu, * as fromGroupMenu from "./GroupMenu";
+import commentsReducer, * as fromCommentsReducer from "./CommentsReducer";
+import bookmarksReducer, * as fromBookmarksReducer from "./BookmarksReducer";
 
 export default combineReducers({
   alignments,
   checks,
   groupMenu,
   commentsReducer,
-  remindersReducer,
+  bookmarksReducer,
 });
 
 /**
@@ -168,12 +168,12 @@ export const getCurrentComments = (state) => {
 };
 
 /**
- * get the current reminders in the reducer.
+ * get the current bookmarks in the reducer.
  * @param state
  * @returns {Boolean}
  */
-export const getCurrentReminders = (state) => {
-  const reminderObject = fromRemindersReducer.getReminder(state.tool.remindersReducer);
+export const getCurrentBookmarks = (state) => {
+  const reminderObject = fromBookmarksReducer.getBookmarks(state.tool.bookmarksReducer);
   if (!reminderObject || !reminderObject.hasOwnProperty('enabled')) { // sanity check
     return false;
   }

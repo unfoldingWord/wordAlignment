@@ -4,7 +4,7 @@ import * as reducers from '../state/reducers';
 import Api from '../Api';
 import {
   INVALID_KEY,
-} from "../state/reducers/groupMenu";
+} from "../state/reducers/GroupMenu";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -281,12 +281,12 @@ describe('verse unaligned', () => {
 });
 
 describe('setVerseFinished()', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-      global.console = saveConsole; // restore original console
-    });
 
-    it('sets a verse as finished', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('sets a verse as finished', () => {
     // given
     const api = new Api();
     const writeToolData = jest.fn(() => Promise.resolve());
@@ -926,7 +926,3 @@ function delay(ms) {
     setTimeout(resolve, ms)
   );
 }
-
-//
-// helpers
-//

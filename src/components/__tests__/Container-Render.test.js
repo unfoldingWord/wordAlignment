@@ -36,6 +36,8 @@ describe('Container', () => {
       unaligned: true
     };
     const myProps = setupReducersAndProps(props, verseState);
+    myProps.currentBookmarks = true;
+    myProps.currentComments = 'My Comment';
 
     // when
     const wrapper = shallow(
@@ -152,36 +154,36 @@ describe('Container', () => {
 
     it('bookmark click should toggle from off to on', () => {
       // given
+      const initialBookmark = false;
       const myProps = {
         ...props,
-        addReminder: jest.fn(() => true)
+        addBookmark: jest.fn(() => true),
+        currentBookmarks: initialBookmark,
       };
       const instance = getContainerInstance(myProps);
-      const initialBookmark = false;
-      reducers.getCurrentReminders.mockReturnValue(initialBookmark);
 
       // when
       instance.handleBookmarkClick();
 
       // then
-      expect(myProps.addReminder).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
+      expect(myProps.addBookmark).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
     });
 
     it('bookmark click should toggle from on to off', () => {
       // given
+      const initialBookmark = true;
       const myProps = {
         ...props,
-        addReminder: jest.fn(() => true)
+        addBookmark: jest.fn(() => true),
+        currentBookmarks: initialBookmark,
       };
       const instance = getContainerInstance(myProps);
-      const initialBookmark = true;
-      reducers.getCurrentReminders.mockReturnValue(initialBookmark);
 
       // when
       instance.handleBookmarkClick();
 
       // then
-      expect(myProps.addReminder).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
+      expect(myProps.addBookmark).toBeCalledWith(instance.props.tool.api, !initialBookmark, myProps.username, myProps.tc.contextId);
     });
   });
 });
@@ -197,7 +199,7 @@ function setupReducersAndProps(props, verseState, verseText = 'Dummy Text') {
   reducers.getIsVerseAligned.mockReturnValue(true);
   reducers.getVerseHasRenderedSuggestions.mockReturnValue(false);
   reducers.getCurrentComments.mockReturnValue('');
-  reducers.getCurrentReminders.mockReturnValue(false);
+  reducers.getCurrentBookmarks.mockReturnValue(false);
   const state = {
     tool: {
       groupMenu: {

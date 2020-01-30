@@ -26,4 +26,4 @@ export const SET_GROUP_MENU_STATE = 'WA::SET_GROUP_MENU_STATE';
 export const ADD_COMMENT = 'WA::ADD_COMMENT';
 export const LOAD_COMMENT = 'WA::LOAD_COMMENT';
 export const LOAD_REMINDER = 'WA::LOAD_REMINDER';
-export const ADD_REMINDER = 'WA::ADD_REMINDER';
+export const ADD_BOOKMARK = 'WA::ADD_BOOKMARK';

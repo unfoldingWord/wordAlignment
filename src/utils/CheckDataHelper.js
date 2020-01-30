@@ -203,7 +203,7 @@ export function writeCheckData(api, checkType, chapter, verse, newData,
     activeVerse: verse,
     modifiedTimestamp
   };
-  const dataPath = path.join(dataFolder, modifiedTimestamp + '.json');
+  const dataPath = path.join(dataFolder, modifiedTimestamp + '.json').replace(/[:"]/g, '_'); // make legal path for all OS's
   writeProjectDataSync(dataPath, JSON.stringify(saveData));
 }
 

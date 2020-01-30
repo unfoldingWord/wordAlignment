@@ -19,7 +19,8 @@
   "alignments_corrupt": "ಈ ಅಧ್ಯಾಯಕ್ಕಾಗಿ ಮಾಡಿದ ಜೋಡಣೆಗಳು ಲೋಡ್ ಆಗುತ್ತಿಲ್ಲ ಮತ್ತು ಅವುಗಳನ್ನು ಮರುಹೊಂದಿಸಲಾಗುತ್ತಿಲ್ಲ. ",
   "edit_verse": "ವಚನವನ್ನು ತಿದ್ದುಗೊಳಿಸು ",
   "edit_verse_title": "ವಚನವನ್ನು ತಿದ್ದುಗೊಳಿಸು - ${passage}",
-  "select_reasons": "ಬದಲಾವಣೆಗಾಗಿ ಕಾರಣವನ್ನು (ಅಥವಾ ಕಾರಣಗಳನ್ನು) ಆರಿಸಿಕೊಳ್ಳಿರಿ",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "ಆದೇಶಗಳು ",
   "map_instructions": "ಎಡದಿಂದ ಬಲದಲ್ಲಿರುವ ಸರಿಯಾದ ಸಂಪನ್ಮೂಲಕ್ಕೆ ಪದ ಕೋಶದಿಂದ ಪದಗಳನ್ನು ಎಳೆಯಿರಿ. <br> ${word_map} ಮೂಲಕ ಸಲಹೆ ನೀಡಲಾಗಿದ ಪದಗಳು ಹಸಿರು ಅಡ್ಡಮರವನ್ನು ಹೊಂದಿರುತ್ತದೆ. <br> ಸಲಹೆಯನ್ನು ಖಚಿತಪಡಿಸಲು, ಸಲಹೆಕೊಟ್ಟಿರುವ ಪದದ ಮೇಲೆ ಒತ್ತಿರಿ. ${icon} ಮೇಲೆ ಸಲಹೆಯ ಒತ್ತನ್ನು ತಿರುಗಿ ಬದಲಾಯಿಸಲು ಅಥವಾ ಸರಿಯಾದ ಸ್ಥಳಕ್ಕೆ ಪದವನ್ನು ಎಳೆಯಲು. ",
   "alignment_complete": "ಜೋಡಣೆ ಸಂಪೂರ್ಣವಾಗಿರುತ್ತದೆ ",
@@ -180,6 +181,7 @@
     "ok_button": "ಸರಿ",
     "back_button": "ಹಿಂದಕ್ಕೆ ಹೋಗು",
     "cancel_button": "ರದ್ದು ಮಾಡು",
+    "reset_button": "Reset",
     "save_button": "ಉಳಿಸು",
     "next_button": "ಮುಂದಿನ",
     "discard_changes": "ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸಿ"
@@ -205,12 +207,12 @@
     "reject": "ತಿರಸ್ಕರಿಸು "
   },
   "icons": {
-    "verse_edits_found": "Verse edits were found for this verse alignment",
-    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
-    "comments_found": "Comments were found for this verse alignment",
-    "no_comments_found": "No comments were found for this verse alignment",
-    "bookmarked": "This verse alignment has been bookmarked for review",
-    "not_bookmarked": "This verse alignment has not been bookmarked for review"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "ಪ್ರಸ್ತುತ ಯೋಜನೆ",

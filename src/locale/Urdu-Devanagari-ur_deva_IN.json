@@ -19,7 +19,8 @@
   "alignments_corrupt": "The alignments for this chapter could not be loaded and have been reset.",
   "edit_verse": "Edit Verse",
   "edit_verse_title": "Edit Verse - ${passage}",
-  "select_reasons": "Select reason(s) for change",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "Instructions",
   "map_instructions": "Drag the words from the word bank on the left to the correct source on the right.<br><br>Words suggested by ${word_map} have a green bar.<br>To confirm the suggestion, click on the suggested word. To reset the suggestion click on the ${icon} or drag the word to the correct spot.",
   "alignment_complete": "Alignment complete",
@@ -180,6 +181,7 @@
     "ok_button": "OK",
     "back_button": "Go Back",
     "cancel_button": "Cancel",
+    "reset_button": "Reset",
     "save_button": "Save",
     "next_button": "Next",
     "discard_changes": "Discard Changes"
@@ -205,12 +207,12 @@
     "reject": "Reject"
   },
   "icons": {
-    "verse_edits_found": "Verse edits were found for this verse alignment",
-    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
-    "comments_found": "Comments were found for this verse alignment",
-    "no_comments_found": "No comments were found for this verse alignment",
-    "bookmarked": "This verse alignment has been bookmarked for review",
-    "not_bookmarked": "This verse alignment has not been bookmarked for review"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "Current project",

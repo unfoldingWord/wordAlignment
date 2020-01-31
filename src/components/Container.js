@@ -715,7 +715,7 @@ export class Container extends Component {
                 verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
                 verseEditIconEnable={true}
                 commentIconEnable={true}
-                commentStateSet={currentComments}
+                commentStateSet={!!currentComments}
                 commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
                 bookmarkStateSet={currentBookmarks}

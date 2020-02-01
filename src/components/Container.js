@@ -678,7 +678,7 @@ export class Container extends Component {
       },
       tc
     } = this.props;
-    const {snackText, showComments} = this.state;
+    const {snackText, showComments, showVerseEditor} = this.state;
     const snackOpen = snackText !== null;
 
     if (!contextId) {

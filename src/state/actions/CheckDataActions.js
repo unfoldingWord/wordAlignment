@@ -24,5 +24,5 @@ export function loadNewContext(api, contextId) {
     value: data,
   });
 
-  // TODO update verse edit when reducer is finished
+  // TODO update verse edit reducer when it is finished
 }

@@ -751,7 +751,7 @@ export class Container extends Component {
                 verseEditIconEnable={true}
                 verseEditClickAction={this.handleVerseEditClick}
                 commentIconEnable={true}
-                commentStateSet={currentComments}
+                commentStateSet={!!currentComments}
                 commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
                 bookmarkStateSet={currentBookmarks}

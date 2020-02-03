@@ -1,4 +1,5 @@
 // TODO: This file is incomplete
+// TODO: Change loadCheckData function to use different parameters.
 import path from 'path-extra';
 import {
   ADD_COMMENT,
@@ -7,6 +8,7 @@ import {
   CHANGE_SELECTIONS,
 } from '../state/actions/actionTypes';
 import generateTimestamp from '../utils/generateTimestamp';
+import { PROJECT_CHECKDATA_DIRECTORY } from '../common/constants';
 
 /**
  * Checks if the verse alignment is flagged as invalid
@@ -174,12 +176,132 @@ export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAl
 }
 
 /**
+ * Generates the output directory.
+ * @param {string} projectSaveLocation - Project's absolute path.
+ * @param {object} contextId - context id.
+ * @param {string} checkDataName - checkData folder name.
+ * @return {string} save path
+ * e.g. /translationCore/ar_eph_text_ulb/.apps/translationCore/checkData/comments/eph/1/3
+ */
+export function generateLoadPath(projectSaveLocation, contextId, checkDataName) {
+  if (projectSaveLocation) {
+    const bookAbbreviation = contextId.reference.bookId;
+    const chapter = contextId.reference.chapter.toString();
+    const verse = contextId.reference.verse.toString();
+    const loadPath = path.join(
+      projectSaveLocation,
+      PROJECT_CHECKDATA_DIRECTORY,
+      checkDataName,
+      bookAbbreviation,
+      chapter,
+      verse
+    );
+    return loadPath;
+  } else {
+    console.warn('projectSaveLocation is undefined');
+  }
+}
+
+/**
+ * Loads the latest comment file from the file system for the specify contextID.
+ * @param {string} projectSaveLocation - Project's absolute path.
+ * @param {object} contextId - context id.
+ * @return {Object} Dispatches an action that loads the commentsReducer with data.
+ */
+export function loadComments(projectSaveLocation, contextId) {
+  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
+  const commentsObject = loadCheckData(loadPath, contextId);
+
+  if (commentsObject) {
+    return {
+      type: ADD_COMMENT,
+      modifiedTimestamp: commentsObject.modifiedTimestamp,
+      text: commentsObject.text,
+      userName: commentsObject.userName,
+    };
+  } else {
+    // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
+    return {
+      type: ADD_COMMENT,
+      modifiedTimestamp: '',
+      text: '',
+      userName: '',
+    };
+  }
+}
+
+/**
+ * Loads the latest invalidated file from the file system for the specify contextID.
+ * @param {*} projectSaveLocation - project path.
+ * @param {*} contextId - context id.
+ * @param {*} gatewayLanguageCode - gateway language code.
+ * @param {*} gatewayLanguageQuote - gateway language quote.
+ */
+export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageCode, gatewayLanguageQuote) {
+  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'invalidated');
+  const invalidatedObject = loadCheckData(loadPath, contextId);
+
+  if (invalidatedObject) {
+    return {
+      type: SET_INVALIDATED,
+      enabled: invalidatedObject.enabled,
+      username: invalidatedObject.userName || invalidatedObject.username,
+      modifiedTimestamp: invalidatedObject.modifiedTimestamp,
+      gatewayLanguageCode,
+      gatewayLanguageQuote,
+    };
+  } else {
+    // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
+    return {
+      type: SET_INVALIDATED,
+      enabled: false,
+      modifiedTimestamp: '',
+      username: '',
+      gatewayLanguageCode: null,
+      gatewayLanguageQuote: null,
+    };
+  }
+}
+
+/**
+ * Loads the latest bookmarks file from the file system for the specify contextID.
+ * @param {string} projectSaveLocation - project path.
+ * @param {object} contextId - context id.
+ * @param {string} gatewayLanguageCode - gateway language code.
+ * @param {string} gatewayLanguageQuote - gateway language quote.
+ */
+export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCode, gatewayLanguageQuote) {
+  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
+  const remindersObject = loadCheckData(loadPath, contextId);
+
+  if (remindersObject) {
+    return {
+      type: SET_BOOKMARK,
+      enabled: remindersObject.enabled,
+      username: remindersObject.userName || remindersObject.username,
+      modifiedTimestamp: remindersObject.modifiedTimestamp,
+      gatewayLanguageCode,
+      gatewayLanguageQuote,
+    };
+  } else {
+    // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
+    return {
+      type: SET_BOOKMARK,
+      enabled: false,
+      modifiedTimestamp: '',
+      username: '',
+      gatewayLanguageCode: null,
+      gatewayLanguageQuote: null,
+    };
+  }
+}
+
+/**
  * Loads the latest selections file from the file system for the specific contextID.
  * @param {Object} state - store state object.
  * @return {Object} Dispatches an action that loads the selectionsReducer with data.
  */
 export function loadSelections(projectSaveLocation, contextId) {
-  //TODO: generateLoadPath
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'selections');
   const selectionsObject = loadCheckData(loadPath, contextId);
 

@@ -1,15 +1,32 @@
-import {getGroupMenuItem, getIsVerseAligned} from "../reducers";
-import {BOOKMARKED_KEY, COMMENT_KEY, EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "../reducers/GroupMenu";
-import * as CheckDataHelper from "../../utils/CheckDataHelper";
-import * as types from "./actionTypes";
+import { getGroupMenuItem, getIsVerseAligned } from '../reducers';
+import * as CheckDataHelper from '../../utils/CheckDataHelper';
+import {
+  BOOKMARKED_KEY,
+  COMMENT_KEY,
+  EDITED_KEY,
+  FINISHED_KEY,
+  INVALID_KEY,
+  UNALIGNED_KEY,
+} from '../reducers/GroupMenu';
+import {
+  CLEAR_GROUP_MENU,
+  GROUP_MENU_EXPAND_SUBMENU,
+  GROUP_MENU_SET_FILTER,
+  SET_GROUP_MENU_FINISHED,
+  SET_GROUP_MENU_INVALID,
+  SET_GROUP_MENU_UNALIGNED,
+  SET_GROUP_MENU_EDITED,
+  SET_GROUP_MENU_BOOKMARKED,
+  SET_GROUP_MENU_COMMENT,
+  SET_GROUP_MENU_STATE,
+} from './actionTypes';
+import { changeCurrentContextId } from './contextIdActions';
 
 /**
  * empties the group menu
  * @returns {Object}
  */
-export const clearGroupMenu = () => ({
-  type: types.CLEAR_GROUP_MENU
-});
+export const clearGroupMenu = () => ({ type: CLEAR_GROUP_MENU });
 
 /**
  * load items that may have been changed externally
@@ -21,6 +38,7 @@ export const clearGroupMenu = () => ({
  */
 export const loadGroupMenuItem = (api, chapter, verse, force = false) => ((dispatch, getState) => {
   const state = getState();
+
   // reload verse data if force or if no data found for this verse
   if (force || !getGroupMenuItem(state, chapter, verse)) {
     const itemState = {};
@@ -42,10 +60,10 @@ export const loadGroupMenuItem = (api, chapter, verse, force = false) => ((dispa
  * @returns {Object}
  */
 export const setGroupMenuItemFinished = (chapter, verse, value) => ({
-  type: types.SET_GROUP_MENU_FINISHED,
+  type: SET_GROUP_MENU_FINISHED,
   chapter,
   verse,
-  value
+  value,
 });
 
 /**
@@ -56,10 +74,10 @@ export const setGroupMenuItemFinished = (chapter, verse, value) => ({
  * @returns {Object}
  */
 export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
-  type: types.SET_GROUP_MENU_INVALID,
+  type: SET_GROUP_MENU_INVALID,
   chapter,
   verse,
-  value
+  value,
 });
 
 /**
@@ -70,10 +88,10 @@ export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
  * @returns {Object}
  */
 export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
-  type: types.SET_GROUP_MENU_UNALIGNED,
+  type: SET_GROUP_MENU_UNALIGNED,
   chapter,
   verse,
-  value
+  value,
 });
 
 /**
@@ -84,10 +102,10 @@ export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
  * @returns {Object}
  */
 export const setGroupMenuItemEdited = (chapter, verse, value) => ({
-  type: types.SET_GROUP_MENU_EDITED,
+  type: SET_GROUP_MENU_EDITED,
   chapter,
   verse,
-  value
+  value,
 });
 
 /**
@@ -98,10 +116,10 @@ export const setGroupMenuItemEdited = (chapter, verse, value) => ({
  * @returns {Object}
  */
 export const setGroupMenuItemBookmarked = (chapter, verse, value) => ({
-  type: types.SET_GROUP_MENU_BOOKMARKED,
+  type: SET_GROUP_MENU_BOOKMARKED,
   chapter,
   verse,
-  value
+  value,
 });
 
 /**
@@ -112,10 +130,10 @@ export const setGroupMenuItemBookmarked = (chapter, verse, value) => ({
  * @returns {Object}
  */
 export const setGroupMenuItemComment = (chapter, verse, value) => ({
-  type: types.SET_GROUP_MENU_COMMENT,
+  type: SET_GROUP_MENU_COMMENT,
   chapter,
   verse,
-  value
+  value,
 });
 
 /**
@@ -126,8 +144,40 @@ export const setGroupMenuItemComment = (chapter, verse, value) => ({
  * @returns {Object}
  */
 export const setGroupMenuItemState = (chapter, verse, values) => ({
-  type: types.SET_GROUP_MENU_STATE,
+  type: SET_GROUP_MENU_STATE,
   chapter,
   verse,
-  values
+  values,
+});
+
+/**
+ * This action expands/collapses the submenu in the group menu
+ * @param {bool} isSubMenuExpanded - true or false
+ */
+export const expandSubMenu = isSubMenuExpanded => ({
+  type: GROUP_MENU_EXPAND_SUBMENU,
+  isSubMenuExpanded,
+});
+
+/**
+ * Changes the group in the group menu
+ * @param {Object} contextId
+ * @param {string} projectSaveLocation
+ * @param {Object} userData
+ * @param {string} gatewayLanguageCode
+ * @param {string} gatewayLanguageQuote
+ */
+export const changeGroup = (projectSaveLocation, userData, gatewayLanguageCode, gatewayLanguageQuote) => dispatch => {
+  dispatch(changeCurrentContextId(projectSaveLocation, userData, gatewayLanguageCode, gatewayLanguageQuote));
+  dispatch(expandSubMenu(true));
+};
+
+/**
+ * Sets filter for what items to show.
+ * @param {string} name - name of filter to toggle.
+ */
+export const setFilter = (name, value) => ({
+  type: GROUP_MENU_SET_FILTER,
+  name,
+  value,
 });

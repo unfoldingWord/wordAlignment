@@ -1,4 +1,3 @@
-// TODO: THIS FILE IS INCOMPLETE
 import fs from 'fs-extra';
 import { batchActions } from 'redux-batched-actions';
 // Helpers
@@ -16,13 +15,13 @@ import {
   loadComments,
   loadBookmarks,
   loadInvalidated,
-} from '../../utils/CheckDataHelpers';
+} from '../../utils/CheckDataHelper';
 import {
   getGroupsIndex,
   getGroupsData,
   getContextId,
   getGroupMenuFilters,
-} from '../../selectors';
+} from '../selectors';
 import {
   CHANGE_CONTEXT_ID,
   CHANGE_SELECTIONS,

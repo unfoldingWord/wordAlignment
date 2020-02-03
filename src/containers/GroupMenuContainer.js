@@ -17,7 +17,7 @@ import {
   FINISHED_KEY,
   INVALID_KEY,
   UNALIGNED_KEY
-} from "../state/reducers/groupMenu";
+} from "../state/reducers/GroupMenu";
 
 class GroupMenuContainer extends React.Component {
 
@@ -45,7 +45,7 @@ class GroupMenuContainer extends React.Component {
       }
     } = item;
 
-    const itemState = toolApi.getGroupMenuItem(chapter, verse);
+    const itemState = toolApi.getVerseData(chapter, verse);
     return {
       ...item,
       title: `${bookName} ${chapter}:${verse}`,

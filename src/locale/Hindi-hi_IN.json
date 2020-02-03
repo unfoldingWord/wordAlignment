@@ -19,7 +19,8 @@
   "alignments_corrupt": "इस अध्याय के लिए संरेखण लोड नहीं किए जा सके और रीसेट कर दिए गए हैं।",
   "edit_verse": "श्लोक संपादित करें",
   "edit_verse_title": "श्लोक संपादित करें - ${passage}",
-  "select_reasons": "परिवर्तन के लिए कारण (ओं) का चयन करें",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "अनुदेश",
   "map_instructions": "शब्दों को बाईं ओर शब्द बैंक से दाईं ओर सही स्रोत पर खींचें।<br><br>शब्द ने सुझाव दिया ${word_map} एक हरे रंग की पट्टी है।<br>सुझाव की पुष्टि करने के लिए, सुझाए गए शब्द पर क्लिक करें। सुझाव को रीसेट करने के लिए ${icon} पर क्लिक करें या शब्द को सही स्थान पर खींचें।",
   "alignment_complete": "संरेखण पूर्ण",
@@ -180,6 +181,7 @@
     "ok_button": "ठीक",
     "back_button": "वापस जाओ",
     "cancel_button": "रद्द करना",
+    "reset_button": "Reset",
     "save_button": "बचाना",
     "next_button": "आगामी",
     "discard_changes": "परिवर्तनों को फेंक दें"
@@ -205,12 +207,12 @@
     "reject": "अस्वीकार"
   },
   "icons": {
-    "verse_edits_found": "Verse edits were found for this verse alignment",
-    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
-    "comments_found": "Comments were found for this verse alignment",
-    "no_comments_found": "No comments were found for this verse alignment",
-    "bookmarked": "This verse alignment has been bookmarked for review",
-    "not_bookmarked": "This verse alignment has not been bookmarked for review"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "वर्तमान परियोजना",

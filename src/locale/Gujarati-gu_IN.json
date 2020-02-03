@@ -19,7 +19,8 @@
   "alignments_corrupt": "આ પ્રકરણ માટે ગોઠવણી લોડ કરી શકતું નથી અને તેને ફરીથી સેટ કરી દેવામાં આવ્યું છે.",
   "edit_verse": "કલમ ઉમેરો",
   "edit_verse_title": "કલમ ઉમેરો - ${passage}",
-  "select_reasons": "ફેરફાર માટે કારણ(ણો) પસંદ કરો",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "સૂચનો",
   "map_instructions": "શબ્દોને ડાબી બાજુ શબ્દની બેન્કમાંથી જમણી તરફ ખરા સ્રોત તરફ ખેંચો. <br>\n<br>${word_map} દ્વારા સૂચિત શબ્દ લીલા અક્ષરોમાં આપેલ છે. <br>સૂચનને નિશ્ચિત કરવા, સૂચિત શબ્દ પર ક્લિક કરો. સૂચનને રીસેટ કરવા માટે ${icon} પર ક્લિક કરો અથવા શબ્દને ખરી જગા પર ખેંચો.",
   "alignment_complete": "ગોઠવણી પૂર્ણ",
@@ -180,6 +181,7 @@
     "ok_button": "બરાબર",
     "back_button": "પાછા જાઓ",
     "cancel_button": "રદ કરો",
+    "reset_button": "Reset",
     "save_button": "સાચવો",
     "next_button": "આગામી",
     "discard_changes": "ફેરફારોને કાઢી નાખો"
@@ -205,12 +207,12 @@
     "reject": "નકારો"
   },
   "icons": {
-    "verse_edits_found": "Verse edits were found for this verse alignment",
-    "no_verse_edits_found": "No Verse edits were found for this verse alignment",
-    "comments_found": "Comments were found for this verse alignment",
-    "no_comments_found": "No comments were found for this verse alignment",
-    "bookmarked": "This verse alignment has been bookmarked for review",
-    "not_bookmarked": "This verse alignment has not been bookmarked for review"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "વર્તમાન પ્રોજેક્ટ",

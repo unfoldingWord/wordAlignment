@@ -1,7 +1,10 @@
+/* eslint-disable no-prototype-builtins */
 import { combineReducers } from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
-import groupMenu, * as fromGroupMenu from './groupMenu';
+import groupMenu, * as fromGroupMenu from './GroupMenu';
+import commentsReducer, * as fromCommentsReducer from './CommentsReducer';
+import bookmarksReducer, * as fromBookmarksReducer from './BookmarksReducer';
 import groupsDataReducer from './groupsDataReducer';
 import groupsIndexReducer from './groupsIndexReducer';
 import contextIdReducer from './contextIdReducer';
@@ -10,6 +13,8 @@ export default combineReducers({
   checks,
   groupMenu,
   alignments,
+  commentsReducer,
+  bookmarksReducer,
   groupsDataReducer,
   groupsIndexReducer,
   contextIdReducer,
@@ -153,3 +158,31 @@ export const getVerseHasRenderedSuggestions = (state, chapter, verse) =>
  */
 export const getGroupMenuItem = (state, chapter, verse) =>
   fromGroupMenu.getMenuItem(state.tool.groupMenu, chapter, verse);
+
+/**
+ * get the current comments in the reducer.
+ * @param state
+ * @returns {String}
+ */
+export const getCurrentComments = (state) => {
+  const commentsObject = fromCommentsReducer.getComments(state.tool.commentsReducer);
+
+  if (!commentsObject || !commentsObject.hasOwnProperty('text')) { // sanity check
+    return '';
+  }
+  return commentsObject.text;
+};
+
+/**
+ * get the current bookmarks in the reducer.
+ * @param state
+ * @returns {Boolean}
+ */
+export const getCurrentBookmarks = (state) => {
+  const reminderObject = fromBookmarksReducer.getBookmarks(state.tool.bookmarksReducer);
+
+  if (!reminderObject || !reminderObject.hasOwnProperty('enabled')) { // sanity check
+    return false;
+  }
+  return !!reminderObject.enabled;
+};

@@ -61,26 +61,20 @@ export const getIsVerseEdited = (api, chapter, verse) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseCommentRecord = (api, contextId) => {
-  // const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
-  const {
-    reference: {
-      bookId, chapter, verse,
-    },
-  } = contextId;
-  const loadPath = generateCheckPath('comments', bookId, chapter, verse);
-  const data = loadCheckData(loadPath, contextId);
+export const getVerseCommentRecord = (api, chapter, verse) => {
+  const data = loadCheckData(api, 'comments', chapter, verse);
   return data;
 };
 
 /**
  * get current comment String for verse
- * @param {object} api - tool api for system calls
- * @param {object} contextId
+ * @param {Object} api - tool api for system calls
+ * @param {String|Number} chapter
+ * @param {String|Number} verse
  * @return {string}
  */
-export const getVerseComment = (api, contextId) => {
-  const comment = getVerseCommentRecord(api, contextId);
+export const getVerseComment = (api, chapter, verse) => {
+  const comment = getVerseCommentRecord(api, chapter, verse);
   return (comment && comment.text) || '';
 };
 
@@ -98,9 +92,9 @@ export const getVerseBookmarkedRecord = (api, chapter, verse) => {
 
 /**
  * get current bookmark state for verse
- * @param {object} api - api
- * @param {string} chapter
- * @param {string} verse
+ * @param {Object} api - tool api for system calls
+ * @param {String|Number} chapter
+ * @param {String|Number} verse
  * @return {boolean}
  */
 export const getVerseBookmarked = (api, chapter, verse) => {

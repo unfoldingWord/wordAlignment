@@ -36,24 +36,19 @@ export const clearGroupMenu = () => ({ type: CLEAR_GROUP_MENU });
  * @param {Boolean} force - if true, reload data, otherwise data will only be loaded if no current data for verse
  * @return {Object}
  */
-export const loadGroupMenuItem = (api, chapter, verse, force = false, contextId, projectSaveLocation) => ((dispatch, getState) => {
-  try {
-    const state = getState();
+export const loadGroupMenuItem = (api, chapter, verse, force = false) => ((dispatch, getState) => {
+  const state = getState();
 
-    // reload verse data if force or if no data found for this verse
-    if (force || !getGroupMenuItem(state, chapter, verse)) {
-      const itemState = {};
-      itemState[FINISHED_KEY] = CheckDataHelper.getIsVerseFinished(api, chapter, verse);
-      itemState[INVALID_KEY] = CheckDataHelper.getIsVerseInvalid(api, chapter, verse);
-      itemState[UNALIGNED_KEY] = !getIsVerseAligned(state, chapter, verse);
-      itemState[EDITED_KEY] = CheckDataHelper.getIsVerseEdited(api, chapter, verse);
-      itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(api, chapter, verse);
-      itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(api, chapter, verse);
-      dispatch(setGroupMenuItemState(chapter, verse, itemState));
-    }
-  } catch (error) {
-    console.error('loadGroupMenuItem() error');
-    console.error(error);
+  // reload verse data if force or if no data found for this verse
+  if (force || !getGroupMenuItem(state, chapter, verse)) {
+    const itemState = {};
+    itemState[FINISHED_KEY] = CheckDataHelper.getIsVerseFinished(api, chapter, verse);
+    itemState[INVALID_KEY] = CheckDataHelper.getIsVerseInvalid(api, chapter, verse);
+    itemState[UNALIGNED_KEY] = !getIsVerseAligned(state, chapter, verse);
+    itemState[EDITED_KEY] = CheckDataHelper.getIsVerseEdited(api, chapter, verse);
+    itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(api, chapter, verse);
+    itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(api, chapter, verse);
+    dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 });
 

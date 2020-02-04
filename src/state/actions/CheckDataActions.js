@@ -19,7 +19,7 @@ export function loadNewContext(api, contextId) {
     type: consts.LOAD_COMMENT,
     value: data,
   });
-  data = getVerseBookmarkedRecord(api, contextId);
+  data = getVerseBookmarkedRecord(api, chapter, verse);
   store.dispatch({
     type: consts.LOAD_REMINDER,
     value: data,

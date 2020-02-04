@@ -298,7 +298,9 @@ export default class Api extends ToolApi {
   _validateChapter(props, chapter) {
     const {
       loadGroupMenuItem,
-      tc: { targetBook },
+      tc: {
+        targetBook, projectSaveLocation, contextId,
+      },
     } = props;
     let chapterIsValid = true;
 
@@ -311,7 +313,7 @@ export default class Api extends ToolApi {
       if (isNaN(verse) || parseInt(verse) === -1) {
         continue;
       }
-      loadGroupMenuItem(this, chapter, verse);
+      loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
       const isValid = this._validateVerse(props, chapter, verse);
 
       if (!isValid) {
@@ -649,8 +651,12 @@ export default class Api extends ToolApi {
     console.log('this', this);
 
     if (!itemState) { // if not yet loaded, then fetch
-      const { loadGroupMenuItem } = this.props;
-      loadGroupMenuItem(this, chapter, verse, null);
+      const {
+        loadGroupMenuItem,
+        tc: { projectSaveLocation, contextId },
+      } = this.props;
+
+      loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
       itemState = getGroupMenuItem(store.getState(), chapter, verse);
     }
     return itemState;

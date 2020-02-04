@@ -24,7 +24,6 @@ import {
   setGroupMenuItemEdited,
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
-  setGroupMenuItemState,
 } from './state/actions/GroupMenuActions';
 import { loadNewContext } from './state/actions/CheckDataActions'; // TODO:
 import {
@@ -45,9 +44,6 @@ import SimpleCache, { SESSION_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
 // consts
 import {
-  BOOKMARKED_KEY,
-  COMMENT_KEY,
-  EDITED_KEY,
   FINISHED_KEY,
   INVALID_KEY,
   UNALIGNED_KEY,

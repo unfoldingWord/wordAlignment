@@ -615,9 +615,6 @@ export default class Api extends ToolApi {
       }
 
       if (Api._didToolChange(prevToolName, nextCurrentToolName)) {
-        if (isWaTool) {// if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
-          this._clearGroupMenuReducer();
-        }
         setTimeout(() => {
           const isValid = this._validateBook(nextProps);
 
@@ -627,22 +624,6 @@ export default class Api extends ToolApi {
         }, 0);
       }
     }
-  }
-
-  /**
-   * refresh items that may have been changed externally
-   * @param {number|string} chapter
-   * @param {number|string} verse
-   * @return {{}}
-   */
-  refreshGroupMenuItems(chapter, verse) {
-    const { store } = this.context;
-    const itemState = {}; // if found make copy or create new
-    itemState[UNALIGNED_KEY] = this.getisVerseUnaligned(chapter, verse);
-    itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
-    itemState[BOOKMARKED_KEY] = this.getVerseBookmarked(chapter, verse);
-    itemState[COMMENT_KEY] = this.getVerseComment(chapter, verse);
-    store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 
   /**
@@ -659,16 +640,9 @@ export default class Api extends ToolApi {
     console.log('this', this);
 
     if (!itemState) { // if not yet loaded, then fetch
-      const {
-        loadGroupMenuItem,
-        tc: { projectSaveLocation, contextId },
-      } = this.props;
+      const { loadGroupMenuItem } = this.props;
 
-      console.log('====================================');
-      console.log('projectSaveLocation, contextId', projectSaveLocation, contextId);
-      console.log('====================================');
-
-      loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
+      loadGroupMenuItem(this, chapter, verse);
       itemState = getGroupMenuItem(store.getState(), chapter, verse);
     }
     return itemState;

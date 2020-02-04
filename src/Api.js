@@ -603,7 +603,7 @@ export default class Api extends ToolApi {
       const langId = currentLang && currentLang.code;
 
       if (isWaTool && langId && (langId !== appLanguage)) {// see if locale language has changed
-        store.dispatch(setActiveLocale(appLanguage));
+        setActiveLocale(appLanguage);
       }
 
       if (Api._didToolChange(prevToolName, nextCurrentToolName)) {

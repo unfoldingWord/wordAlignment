@@ -47,8 +47,8 @@ export const loadGroupMenuItem = (api, chapter, verse, force = false, contextId,
       itemState[INVALID_KEY] = CheckDataHelper.getIsVerseInvalid(api, chapter, verse);
       itemState[UNALIGNED_KEY] = !getIsVerseAligned(state, chapter, verse);
       itemState[EDITED_KEY] = CheckDataHelper.getIsVerseEdited(api, chapter, verse);
-      itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(contextId, projectSaveLocation);
-      itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(contextId, projectSaveLocation);
+      itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(api, chapter, verse);
+      itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(api, chapter, verse);
       dispatch(setGroupMenuItemState(chapter, verse, itemState));
     }
   } catch (error) {

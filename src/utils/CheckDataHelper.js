@@ -61,7 +61,7 @@ export const getIsVerseEdited = (api, chapter, verse) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseCommentRecord = (contextId) => {
+export const getVerseCommentRecord = (api, contextId) => {
   // const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
   const {
     reference: {
@@ -75,12 +75,12 @@ export const getVerseCommentRecord = (contextId) => {
 
 /**
  * get current comment String for verse
- * @param {Object} contextId - tool api for system calls
- * @param {string} projectSaveLocation
+ * @param {object} api - tool api for system calls
+ * @param {object} contextId
  * @return {string}
  */
-export const getVerseComment = (contextId) => {
-  const comment = getVerseCommentRecord(contextId);
+export const getVerseComment = (api, contextId) => {
+  const comment = getVerseCommentRecord(api, contextId);
   return (comment && comment.text) || '';
 };
 
@@ -91,26 +91,20 @@ export const getVerseComment = (contextId) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseBookmarkedRecord = (contextId) => {
-  // const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
-  const {
-    reference: {
-      bookId, chapter, verse,
-    },
-  } = contextId;
-  const loadPath = generateCheckPath('reminders', bookId, chapter, verse);
-  const data = loadCheckData(loadPath, contextId);
+export const getVerseBookmarkedRecord = (api, chapter, verse) => {
+  const data = loadCheckData(api, 'reminders', chapter, verse);
   return data;
 };
 
 /**
  * get current bookmark state for verse
- * @param {object} contextId - contextId
- * @param {string} projectSaveLocation
+ * @param {object} api - api
+ * @param {string} chapter
+ * @param {string} verse
  * @return {boolean}
  */
-export const getVerseBookmarked = (contextId, projectSaveLocation) => {
-  const bookmark = getVerseBookmarkedRecord(contextId, projectSaveLocation);
+export const getVerseBookmarked = (api, chapter, verse) => {
+  const bookmark = getVerseBookmarkedRecord(api, chapter, verse);
   return !!(bookmark && bookmark.enabled);
 };
 
@@ -129,11 +123,65 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
 
 /**
  * Loads checkdata based on given contextId.
+ * @param {Object} api - tool api for system calls
+ * @param {String} checkType (e.g. reminders)
+ * @param {String|Number} chapter
+ * @param {String|Number} verse
+ * @param {String} toolName
+ * @return {Object} returns the most recent object for verse loaded from the file system.
+ */
+export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAlignment') {
+  const { contextId } = api.props.tc;
+  const { reference: { bookId } } = contextId;
+  let checkDataObject;
+  const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
+
+  if (loadPath && contextId && fs.existsSync(loadPath)) {
+    let files = fs.readdirSync(loadPath);
+
+    files = files.filter(file => // filter the filenames to only use .json
+      path.extname(file) === '.json'
+    );
+
+    let sorted = files.sort(); // sort the files by time
+
+    for (let i = sorted.length - 1; i >= 0; i--) { // check starting with most recent
+      const file = sorted[i];
+
+      // check each file for same current tool name
+      try {
+        const readPath = path.join(loadPath, file);
+        let _checkDataObject = fs.readJsonSync(readPath);
+
+        if (_checkDataObject) {
+          _checkDataObject = JSON.parse(_checkDataObject);
+        }
+
+        if (_checkDataObject && _checkDataObject.contextId &&
+          _checkDataObject.contextId.tool === toolName) {
+          checkDataObject = _checkDataObject; // return the first match since it is the latest modified one
+          break;
+        }
+      } catch (err) {
+        console.warn('File exists but could not be loaded \n', err);
+      }
+    }
+  }
+  /**
+   * @description Will return undefined if checkDataObject was not populated
+   * so that the load method returns and then dispatches an empty action object
+   * to initialized the reducer.
+   */
+  return checkDataObject;
+}
+
+/**
+ * Loads checkdata based on given contextId.
  * @param {string} loadPath - loadPath.
  * @param {string} contextId - contextId.
  * @return {Object} returns the most recent object for verse loaded from the file system.
  */
-export function loadCheckData(loadPath, contextId) {
+export function loadCheckData2(loadPath, contextId) {
   let checkDataObject;
 
   if (loadPath && contextId && fs.existsSync(loadPath)) {

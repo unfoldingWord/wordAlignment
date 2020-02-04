@@ -296,37 +296,29 @@ export default class Api extends ToolApi {
    * @private
    */
   _validateChapter(props, chapter) {
-    try {
-      const {
-        loadGroupMenuItem,
-        tc: {
-          targetBook, projectSaveLocation, contextId,
-        },
-      } = props;
-      console.log('projectSaveLocation, contextId', projectSaveLocation, contextId);
-      let chapterIsValid = true;
+    const {
+      loadGroupMenuItem,
+      tc: { targetBook },
+    } = props;
+    let chapterIsValid = true;
 
-      if (!(chapter in targetBook)) {
-        console.warn(`Could not validate missing chapter ${chapter}`);
-        return true;
-      }
-
-      for (const verse of Object.keys(targetBook[chapter])) {
-        if (isNaN(verse) || parseInt(verse) === -1) {
-          continue;
-        }
-        loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
-        const isValid = this._validateVerse(props, chapter, verse);
-
-        if (!isValid) {
-          chapterIsValid = isValid;
-        }
-      }
-      return chapterIsValid;
-    } catch (error) {
-      console.error('_validateChapter error');
-      console.error(error);
+    if (!(chapter in targetBook)) {
+      console.warn(`Could not validate missing chapter ${chapter}`);
+      return true;
     }
+
+    for (const verse of Object.keys(targetBook[chapter])) {
+      if (isNaN(verse) || parseInt(verse) === -1) {
+        continue;
+      }
+      loadGroupMenuItem(this, chapter, verse);
+      const isValid = this._validateVerse(props, chapter, verse);
+
+      if (!isValid) {
+        chapterIsValid = isValid;
+      }
+    }
+    return chapterIsValid;
   }
 
   /**

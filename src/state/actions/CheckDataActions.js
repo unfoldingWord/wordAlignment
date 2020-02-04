@@ -4,25 +4,24 @@ import {
   getVerseBookmarkedRecord,
 } from '../../utils/CheckDataHelper';
 
-// TODO: REFACTOR THIS ACTION
 /**
  * load reducers for latest context
- * @param {Object} api - tool api for system calls
  * @param contextId
+ * @param projectSaveLocation
  * @return {function(...[*]=)}
  */
-export function loadNewContext(api, contextId) {
-  const { store } = api.context;
-  const { reference: { chapter, verse } } = contextId;
-  let data = getVerseCommentRecord(api, chapter, verse);
+export function loadNewContext(contextId, projectSaveLocation) {
+  return (dispatch => {
+    let data = getVerseCommentRecord(contextId, projectSaveLocation);
 
-  store.dispatch({
-    type: consts.LOAD_COMMENT,
-    value: data,
-  });
-  data = getVerseBookmarkedRecord(api, chapter, verse);
-  store.dispatch({
-    type: consts.LOAD_REMINDER,
-    value: data,
+    dispatch({
+      type: consts.LOAD_COMMENT,
+      value: data,
+    });
+    data = getVerseBookmarkedRecord(contextId, projectSaveLocation);
+    dispatch({
+      type: consts.LOAD_REMINDER,
+      value: data,
+    });
   });
 }

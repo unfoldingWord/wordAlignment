@@ -24,6 +24,7 @@ import {
   setGroupMenuItemEdited,
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
+  setGroupMenuItemState,
 } from './state/actions/GroupMenuActions';
 // import { loadNewContext } from './state/actions/CheckDataActions'; // TODO:
 import {
@@ -631,7 +632,7 @@ export default class Api extends ToolApi {
     itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
     itemState[BOOKMARKED_KEY] = this.getVerseBookmarked(chapter, verse);
     itemState[COMMENT_KEY] = this.getVerseComment(chapter, verse);
-    store.dispatch(setGroupMenuItemState(chapter, verse, itemState));//TODO:
+    store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 
   /**
@@ -642,11 +643,14 @@ export default class Api extends ToolApi {
    */
   getVerseData(chapter, verse) {
     const { store } = this.context;
+    console.log('store.getState()', store.getState());
     let itemState = getGroupMenuItem(store.getState(), chapter, verse);
+
+    console.log('this', this);
 
     if (!itemState) { // if not yet loaded, then fetch
       const { loadGroupMenuItem } = this.props;
-      loadGroupMenuItem(this, chapter, verse);
+      loadGroupMenuItem(this, chapter, verse, null);
       itemState = getGroupMenuItem(store.getState(), chapter, verse);
     }
     return itemState;
@@ -661,7 +665,7 @@ export default class Api extends ToolApi {
    * @param {boolean} silent - if true, alignments invalidated prompt is not displayed (we don't trigger update)
    * @return {Promise}
    */
-  setVerseInvalid(chapter, verse, invalid = true, silent=false) {
+  setVerseInvalid(chapter, verse, invalid = true, silent = false) {
     const {
       setGroupMenuItemInvalid,
       tool: {

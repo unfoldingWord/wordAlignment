@@ -1,5 +1,4 @@
-// TODO: This file is incomplete
-// TODO: Change loadCheckData function to use different parameters.
+import fs from 'fs-extra';
 import path from 'path-extra';
 import {
   ADD_COMMENT,
@@ -62,20 +61,20 @@ export const getIsVerseEdited = (api, chapter, verse) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseCommentRecord = (api, chapter, verse) => {
-  const data = loadCheckData(api, 'comments', chapter, verse);
+export const getVerseCommentRecord = (contextId, projectSaveLocation) => {
+  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
+  const data = loadCheckData(loadPath, contextId);
   return data;
 };
 
 /**
  * get current comment String for verse
- * @param {Object} api - tool api for system calls
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @return {String}
+ * @param {Object} contextId - tool api for system calls
+ * @param {string} projectSaveLocation
+ * @return {string}
  */
-export const getVerseComment = (api, chapter, verse) => {
-  const comment = getVerseCommentRecord(api, chapter, verse);
+export const getVerseComment = (contextId, projectSaveLocation) => {
+  const comment = getVerseCommentRecord(contextId, projectSaveLocation);
   return (comment && comment.text) || '';
 };
 
@@ -86,20 +85,20 @@ export const getVerseComment = (api, chapter, verse) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseBookmarkedRecord = (api, chapter, verse) => {
-  const data = loadCheckData(api, 'reminders', chapter, verse);
+export const getVerseBookmarkedRecord = (contextId, projectSaveLocation) => {
+  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
+  const data = loadCheckData(loadPath, contextId);
   return data;
 };
 
 /**
  * get current bookmark state for verse
- * @param {Object} api - tool api for system calls
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @return {Boolean}
+ * @param {object} contextId - contextId
+ * @param {string} projectSaveLocation
+ * @return {boolean}
  */
-export const getVerseBookmarked = (api, chapter, verse) => {
-  const bookmark = getVerseBookmarkedRecord(api, chapter, verse);
+export const getVerseBookmarked = (contextId, projectSaveLocation) => {
+  const bookmark = getVerseBookmarkedRecord(contextId, projectSaveLocation);
   return !!(bookmark && bookmark.enabled);
 };
 
@@ -117,27 +116,16 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
 }
 
 /**
- * @description loads checkdata based on given contextId.
- * @param {Object} api - tool api for system calls
- * @param {String} checkType (e.g. reminders)
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @param {String} toolName
+ * Loads checkdata based on given contextId.
+ * @param {string} loadPath - loadPath.
+ * @param {string} contextId - contextId.
  * @return {Object} returns the most recent object for verse loaded from the file system.
  */
-export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAlignment') {
-  const {
-    projectDataPathExistsSync,
-    readProjectDataSync,
-    readProjectDirSync,
-    contextId,
-  } = api.props.tc;
-  const { reference: { bookId } } = contextId;
+export function loadCheckData(loadPath, contextId) {
   let checkDataObject;
-  const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
 
-  if (loadPath && contextId && projectDataPathExistsSync(loadPath)) {
-    let files = readProjectDirSync(loadPath);
+  if (loadPath && contextId && fs.existsSync(loadPath)) {
+    let files = fs.readdirSync(loadPath);
 
     files = files.filter(file => // filter the filenames to only use .json
       path.extname(file) === '.json'
@@ -151,14 +139,14 @@ export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAl
       // check each file for same current tool name
       try {
         const readPath = path.join(loadPath, file);
-        let _checkDataObject = readProjectDataSync(readPath);
+        let _checkDataObject = fs.readJsonSync(readPath);
 
         if (_checkDataObject) {
           _checkDataObject = JSON.parse(_checkDataObject);
         }
 
         if (_checkDataObject && _checkDataObject.contextId &&
-          _checkDataObject.contextId.tool === toolName) {
+          _checkDataObject.contextId.tool === contextId.tool) {
           checkDataObject = _checkDataObject; // return the first match since it is the latest modified one
           break;
         }

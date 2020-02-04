@@ -61,8 +61,14 @@ export const getIsVerseEdited = (api, chapter, verse) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseCommentRecord = (contextId, projectSaveLocation) => {
-  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
+export const getVerseCommentRecord = (contextId) => {
+  // const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
+  const {
+    reference: {
+      bookId, chapter, verse,
+    },
+  } = contextId;
+  const loadPath = generateCheckPath('comments', bookId, chapter, verse);
   const data = loadCheckData(loadPath, contextId);
   return data;
 };
@@ -73,8 +79,8 @@ export const getVerseCommentRecord = (contextId, projectSaveLocation) => {
  * @param {string} projectSaveLocation
  * @return {string}
  */
-export const getVerseComment = (contextId, projectSaveLocation) => {
-  const comment = getVerseCommentRecord(contextId, projectSaveLocation);
+export const getVerseComment = (contextId) => {
+  const comment = getVerseCommentRecord(contextId);
   return (comment && comment.text) || '';
 };
 
@@ -85,8 +91,14 @@ export const getVerseComment = (contextId, projectSaveLocation) => {
  * @param {String|Number} verse
  * @return {Object}
  */
-export const getVerseBookmarkedRecord = (contextId, projectSaveLocation) => {
-  const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
+export const getVerseBookmarkedRecord = (contextId) => {
+  // const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
+  const {
+    reference: {
+      bookId, chapter, verse,
+    },
+  } = contextId;
+  const loadPath = generateCheckPath('reminders', bookId, chapter, verse);
   const data = loadCheckData(loadPath, contextId);
   return data;
 };

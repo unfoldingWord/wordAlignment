@@ -26,7 +26,7 @@ import {
   setGroupMenuItemInvalid,
   setGroupMenuItemState,
 } from './state/actions/GroupMenuActions';
-// import { loadNewContext } from './state/actions/CheckDataActions'; // TODO:
+import { loadNewContext } from './state/actions/CheckDataActions'; // TODO:
 import {
   getIsVerseFinished,
   getIsVerseEdited,
@@ -296,31 +296,37 @@ export default class Api extends ToolApi {
    * @private
    */
   _validateChapter(props, chapter) {
-    const {
-      loadGroupMenuItem,
-      tc: {
-        targetBook, projectSaveLocation, contextId,
-      },
-    } = props;
-    let chapterIsValid = true;
+    try {
+      const {
+        loadGroupMenuItem,
+        tc: {
+          targetBook, projectSaveLocation, contextId,
+        },
+      } = props;
+      console.log('projectSaveLocation, contextId', projectSaveLocation, contextId);
+      let chapterIsValid = true;
 
-    if (!(chapter in targetBook)) {
-      console.warn(`Could not validate missing chapter ${chapter}`);
-      return true;
-    }
-
-    for (const verse of Object.keys(targetBook[chapter])) {
-      if (isNaN(verse) || parseInt(verse) === -1) {
-        continue;
+      if (!(chapter in targetBook)) {
+        console.warn(`Could not validate missing chapter ${chapter}`);
+        return true;
       }
-      loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
-      const isValid = this._validateVerse(props, chapter, verse);
 
-      if (!isValid) {
-        chapterIsValid = isValid;
+      for (const verse of Object.keys(targetBook[chapter])) {
+        if (isNaN(verse) || parseInt(verse) === -1) {
+          continue;
+        }
+        loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
+        const isValid = this._validateVerse(props, chapter, verse);
+
+        if (!isValid) {
+          chapterIsValid = isValid;
+        }
       }
+      return chapterIsValid;
+    } catch (error) {
+      console.error('_validateChapter error');
+      console.error(error);
     }
-    return chapterIsValid;
   }
 
   /**
@@ -565,6 +571,7 @@ export default class Api extends ToolApi {
       setGroupMenuItemFinished,
       setGroupMenuItemInvalid,
       unalignTargetToken,
+      loadNewContext,
     };
 
     const dispatchedMethods = {};
@@ -589,10 +596,13 @@ export default class Api extends ToolApi {
    * @param nextProps
    */
   toolWillReceiveProps(nextProps) {
-    const { tc: { currentToolName: nextCurrentToolName } } = nextProps;
+    const { tc: { currentToolName: nextCurrentToolName, contextId: nextContext } } = nextProps;
     const {
       setActiveLocale,
-      tc: { appLanguage, currentToolName: prevToolName },
+      loadNewContext,
+      tc: {
+        appLanguage, currentToolName: prevToolName, contextId: prevContext,
+      },
       tool: { isReady },
     } = this.props;
 
@@ -604,6 +614,12 @@ export default class Api extends ToolApi {
 
       if (isWaTool && langId && (langId !== appLanguage)) {// see if locale language has changed
         setActiveLocale(appLanguage);
+      }
+
+      if (isWaTool) {
+        if (!isEqual(prevContext, nextContext)) {
+          loadNewContext(this, nextContext);
+        }
       }
 
       if (Api._didToolChange(prevToolName, nextCurrentToolName)) {
@@ -655,6 +671,10 @@ export default class Api extends ToolApi {
         loadGroupMenuItem,
         tc: { projectSaveLocation, contextId },
       } = this.props;
+
+      console.log('====================================');
+      console.log('projectSaveLocation, contextId', projectSaveLocation, contextId);
+      console.log('====================================');
 
       loadGroupMenuItem(this, chapter, verse, null, contextId, projectSaveLocation);
       itemState = getGroupMenuItem(store.getState(), chapter, verse);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScripturePane} from 'tc-ui-toolkit';
+import { ScripturePane } from 'tc-ui-toolkit';
+import { getAvailableScripturePaneSelections } from '../utils/resourcesHelpers';
 
 /**
  * Injects necessary data into the scripture pane.
@@ -11,22 +12,19 @@ import {ScripturePane} from 'tc-ui-toolkit';
 const ScripturePaneContainer = (props) => {
   const {
     tc: {
-      actions: {
-        showPopover,
-        editTargetVerse,
-        getLexiconData,
-        setToolSettings,
-        getAvailableScripturePaneSelections,
-        makeSureBiblesLoadedForTool
-      },
-      settingsReducer: {toolsSettings},
-      resourcesReducer: {bibles},
-      selectionsReducer: {selections},
+      settingsReducer: { toolsSettings },
+      resourcesReducer: { bibles },
+      selectionsReducer: { selections },
       contextId,
-      projectDetailsReducer
+      projectDetailsReducer,
+      showPopover,
+      getLexiconData,
+      setToolSettings,
+      editTargetVerse,// TODO: Create a local version using the tools redux implementation.
+      makeSureBiblesLoadedForTool,
     },
     translate,
-    handleModalOpen
+    handleModalOpen,
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -34,8 +32,9 @@ const ScripturePaneContainer = (props) => {
     : [];
 
   // build the title
-  const {target_language, project} = projectDetailsReducer.manifest;
+  const { target_language, project } = projectDetailsReducer.manifest;
   let expandedScripturePaneTitle = project.name;
+
   if (target_language && target_language.book && target_language.book.name) {
     expandedScripturePaneTitle = target_language.book.name;
   }
@@ -54,7 +53,9 @@ const ScripturePaneContainer = (props) => {
         getLexiconData={getLexiconData}
         selections={selections}
         setToolSettings={setToolSettings}
-        getAvailableScripturePaneSelections={getAvailableScripturePaneSelections}
+        getAvailableScripturePaneSelections={(resourceList) => {
+          getAvailableScripturePaneSelections(resourceList, contextId, bibles);
+        }}
         makeSureBiblesLoadedForTool={makeSureBiblesLoadedForTool}
         handleModalOpen={handleModalOpen}
       />
@@ -67,25 +68,21 @@ const ScripturePaneContainer = (props) => {
 ScripturePaneContainer.propTypes = {
   translate: PropTypes.func.isRequired,
   tc: PropTypes.shape({
-    actions: {
-      showPopover: PropTypes.func.isRequired,
-      editTargetVerse: PropTypes.func.isRequired,
-      getLexiconData: PropTypes.func.isRequired,
-      setToolSettings: PropTypes.func.isRequired,
-      getAvailableScripturePaneSelections: PropTypes.func.isRequired,
-      makeSureBiblesLoadedForTool: PropTypes.func.isRequired
-    },
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
     selectionsReducer: PropTypes.object.isRequired,
     contextId: PropTypes.object.isRequired,
     projectDetailsReducer: PropTypes.object.isRequired,
+    showPopover: PropTypes.func.isRequired,
+    editTargetVerse: PropTypes.func.isRequired,
+    getLexiconData: PropTypes.func.isRequired,
+    setToolSettings: PropTypes.func.isRequired,
+    getAvailableScripturePaneSelections: PropTypes.func.isRequired,
+    makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
-  handleModalOpen: PropTypes.func
+  handleModalOpen: PropTypes.func,
 };
 
-ScripturePaneContainer.defaultProps = {
-  handleModalOpen: () => {}
-};
+ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };
 
 export default ScripturePaneContainer;

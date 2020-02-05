@@ -1,29 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // constants
 import * as types from './WordCard/Types';
 // components
 import AlignmentCard from './AlignmentCard';
 
-const makeStyles = props => {
-  return {
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      backgroundColor: '#ffffff',
-      padding: '0px 10px 10px',
-      overflowY: 'auto',
-      flexGrow: 2,
-      direction: props.sourceDirection,
-      alignContent: 'flex-start'
-    },
-    warning: {
-      padding: '20px',
-      backgroundColor: '#ccc',
-      display: 'inline-block'
-    }
-  };
-};
+const makeStyles = props => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    backgroundColor: '#ffffff',
+    padding: '0px 10px 10px',
+    overflowY: 'auto',
+    flexGrow: 2,
+    direction: props.sourceDirection,
+    alignContent: 'flex-start',
+  },
+  warning: {
+    padding: '20px',
+    backgroundColor: '#ccc',
+    display: 'inline-block',
+  },
+});
 
 /**
  * Renders a grid of word/phrase alignments
@@ -32,7 +30,6 @@ class AlignmentGrid extends Component {
   render() {
     const {
       translate,
-      actions,
       lexicons,
       onCancelSuggestion,
       sourceDirection,
@@ -41,7 +38,10 @@ class AlignmentGrid extends Component {
       sourceStyle,
       alignments,
       contextId,
-      isHebrew
+      isHebrew,
+      showPopover,
+      getLexiconData,
+      loadLexiconEntry,
     } = this.props;
 
     if (!contextId) {
@@ -54,63 +54,65 @@ class AlignmentGrid extends Component {
     return (
       <div id='AlignmentGrid' style={styles.root}>
         {
-          alignments.map((alignment, key) => {
-            return (
-              <React.Fragment key={key}>
-                {/* placeholder for un-merging primary words */}
-                {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
-                {/*<AlignmentCard*/}
-                {/*translate={translate}*/}
-                {/*alignmentIndex={index}*/}
-                {/*placeholderPosition="left"*/}
-                {/*bottomWords={[]}*/}
-                {/*topWords={[]}*/}
-                {/*onDrop={item => this.handleDrop(index, item)}*/}
-                {/*actions={actions}*/}
-                {/*lexicons={lexicons}*/}
-                {/*/>*/}
+          alignments.map((alignment, key) => (
+            <React.Fragment key={key}>
+              {/* placeholder for un-merging primary words */}
+              {/* TODO: cannot place this here due to this bug https://github.com/react-dnd/react-dnd/issues/735*/}
+              {/*<AlignmentCard*/}
+              {/*translate={translate}*/}
+              {/*alignmentIndex={index}*/}
+              {/*placeholderPosition="left"*/}
+              {/*bottomWords={[]}*/}
+              {/*topWords={[]}*/}
+              {/*onDrop={item => this.handleDrop(index, item)}*/}
+              {/*lexicons={lexicons}*/}
+              {/*/>*/}
 
-                <AlignmentCard
-                  translate={translate}
-                  sourceStyle={sourceStyle}
-                  sourceDirection={sourceDirection}
-                  targetDirection={targetDirection}
-                  onCancelTokenSuggestion={onCancelSuggestion}
-                  onAcceptTokenSuggestion={onAcceptTokenSuggestion}
-                  alignmentIndex={alignment.index}
-                  isSuggestion={alignment.isSuggestion}
-                  targetNgram={alignment.targetNgram}
-                  sourceNgram={alignment.sourceNgram}
-                  onDrop={item => this.handleDrop(alignment.index, item)}
-                  actions={actions}
-                  lexicons={lexicons}
-                  isHebrew={isHebrew}
-                />
-                {/* placeholder for un-merging primary words */}
-                <AlignmentCard
-                  translate={translate}
-                  sourceDirection={sourceDirection}
-                  targetDirection={targetDirection}
-                  alignmentIndex={alignment.index}
-                  isSuggestion={alignment.isSuggestion}
-                  placeholderPosition="right"
-                  targetNgram={[]}
-                  sourceNgram={[]}
-                  onDrop={item => this.handleDrop(alignment.index, item)}
-                  actions={actions}
-                  lexicons={lexicons}
-                  isHebrew={isHebrew}
-                />
-              </React.Fragment>
-            );
-          })
+              <AlignmentCard
+                translate={translate}
+                sourceStyle={sourceStyle}
+                sourceDirection={sourceDirection}
+                targetDirection={targetDirection}
+                onCancelTokenSuggestion={onCancelSuggestion}
+                onAcceptTokenSuggestion={onAcceptTokenSuggestion}
+                alignmentIndex={alignment.index}
+                isSuggestion={alignment.isSuggestion}
+                targetNgram={alignment.targetNgram}
+                sourceNgram={alignment.sourceNgram}
+                onDrop={item => this.handleDrop(alignment.index, item)}
+                lexicons={lexicons}
+                isHebrew={isHebrew}
+                showPopover={showPopover}
+                getLexiconData={getLexiconData}
+                loadLexiconEntry={loadLexiconEntry}
+              />
+              {/* placeholder for un-merging primary words */}
+              <AlignmentCard
+                translate={translate}
+                sourceDirection={sourceDirection}
+                targetDirection={targetDirection}
+                alignmentIndex={alignment.index}
+                isSuggestion={alignment.isSuggestion}
+                placeholderPosition="right"
+                targetNgram={[]}
+                sourceNgram={[]}
+                onDrop={item => this.handleDrop(alignment.index, item)}
+                showPopover={showPopover}
+                getLexiconData={getLexiconData}
+                loadLexiconEntry={loadLexiconEntry}
+                lexicons={lexicons}
+                isHebrew={isHebrew}
+              />
+            </React.Fragment>
+          ))
         }
       </div>
     );
   }
 
   handleDrop(alignmentIndex, item) {
-    const {onDropTargetToken, onDropSourceToken} = this.props;
+    const { onDropTargetToken, onDropSourceToken } = this.props;
+
     if (item.type === types.SECONDARY_WORD) {
       if (item.tokens) {
         // drop selected tokens
@@ -122,6 +124,7 @@ class AlignmentGrid extends Component {
         onDropTargetToken(item.token, alignmentIndex, item.alignmentIndex);
       }
     }
+
     if (item.type === types.PRIMARY_WORD) {
       onDropSourceToken(item.token, alignmentIndex, item.alignmentIndex);
     }
@@ -137,17 +140,19 @@ AlignmentGrid.propTypes = {
   alignments: PropTypes.array.isRequired,
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,
-  actions: PropTypes.object.isRequired,
   lexicons: PropTypes.object.isRequired,
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
   targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
-  isHebrew: PropTypes.bool.isRequired
+  isHebrew: PropTypes.bool.isRequired,
+  showPopover: PropTypes.func.isRequired,
+  getLexiconData: PropTypes.func.isRequired,
+  loadLexiconEntry: PropTypes.func.isRequired,
 };
 
 AlignmentGrid.defaultProps = {
   sourceDirection: 'ltr',
   targetDirection: 'ltr',
-  sourceStyle: {fontSize: "100%"},
+  sourceStyle: { fontSize: '100%' },
 };
 
 export default AlignmentGrid;

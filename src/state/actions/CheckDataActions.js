@@ -11,17 +11,18 @@ import {
  * @return {function(...[*]=)}
  */
 export function loadNewContext(api, contextId) {
-  const { store } = api.context;
-  const { reference: { chapter, verse } } = contextId;
-  let data = getVerseCommentRecord(api, chapter, verse);
+  return (dispatch => {
+    const { reference: { chapter, verse } } = contextId;
+    let data = getVerseCommentRecord(api, chapter, verse);
 
-  store.dispatch({
-    type: consts.LOAD_COMMENT,
-    value: data,
-  });
-  data = getVerseBookmarkedRecord(api, chapter, verse);
-  store.dispatch({
-    type: consts.LOAD_REMINDER,
-    value: data,
+    dispatch({
+      type: consts.LOAD_COMMENT,
+      value: data,
+    });
+    data = getVerseBookmarkedRecord(api, chapter, verse);
+    dispatch({
+      type: consts.LOAD_REMINDER,
+      value: data,
+    });
   });
 }

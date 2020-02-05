@@ -25,7 +25,7 @@ import {
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
 } from './state/actions/GroupMenuActions';
-import { loadNewContext } from './state/actions/CheckDataActions'; // TODO:
+import { loadNewContext } from './state/actions/CheckDataActions';
 import {
   getIsVerseFinished,
   getIsVerseEdited,
@@ -630,10 +630,7 @@ export default class Api extends ToolApi {
    */
   getVerseData(chapter, verse) {
     const { store } = this.context;
-    console.log('store.getState()', store.getState());
     let itemState = getGroupMenuItem(store.getState(), chapter, verse);
-
-    console.log('this', this);
 
     if (!itemState) { // if not yet loaded, then fetch
       const { loadGroupMenuItem } = this.props;

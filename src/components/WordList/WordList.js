@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Token} from 'wordmap-lexer';
-import SecondaryToken from '../SecondaryToken';
 import ReactTooltip from "react-tooltip";
+import SecondaryToken from '../SecondaryToken';
 
 /**
  * Renders a list of words that need to be aligned.
@@ -42,6 +42,7 @@ class WordList extends React.Component {
       selectedWordPositions.indexOf(token.tokenPos) !== -1;
   }
 
+  // eslint-disable-next-line no-unused-vars
   getSnapshotBeforeUpdate(prevProps, prevState) {
     if(!prevProps.isOver) {
       return {

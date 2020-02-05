@@ -29,8 +29,7 @@ const makeStyles = (props) => {
       width: 'max-content',
       flexGrow: 2,
       textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      wordBreak: 'break-all'
+      overflow: 'hidden'
     },
   };
 

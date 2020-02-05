@@ -1,7 +1,7 @@
 import * as fromGrouspIndex from './reducers/groupsIndexReducer';
 import * as fromGroupsData from './reducers/groupsDataReducer';
 import * as fromContextId from './reducers/contextIdReducer';
-import * as fromGroupMenu from './reducers/groupMenuReducer';
+import * as fromGroupMenu from './reducers/GroupMenu';
 
 export const getGroupsIndex = (state) =>
   fromGrouspIndex.getGroupsIndex(state.tool.groupsIndexReducer);

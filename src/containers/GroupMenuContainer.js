@@ -21,23 +21,31 @@ import {
   UNALIGNED_KEY,
 } from '../state/reducers/GroupMenu';
 
-class GroupMenuContainer extends React.Component {
+function GroupMenuContainer({
+  toolApi,
+  translate,
+  tc: {
+    project,
+    contextId,
+    groupsDataReducer: { groupsData },
+    groupsIndexReducer: { groupsIndex },
+    changeCurrentContextId,
+  },
+}) {
   /**
    * Handles click events from the menu
    * @param {object} contextId - the menu item's context id
    */
-  handleClick = ({ contextId }) => {
-    const { tc: { changeCurrentContextId } } = this.props;
+  function handleClick({ contextId }) {
     changeCurrentContextId(contextId);
-  };
+  }
 
   /**
    * Preprocess a menu item
    * @param {object} item - an item in the groups data
    * @returns {object} the updated item
    */
-  onProcessItem = item => {
-    const { tc: { project }, toolApi } = this.props;
+  function onProcessItem(item) {
     const bookName = project.getBookName();
 
     const { contextId: { reference: { chapter, verse } } } = item;
@@ -53,91 +61,82 @@ class GroupMenuContainer extends React.Component {
       comments: itemState[COMMENT_KEY],
       bookmarked: itemState[BOOKMARKED_KEY],
     };
-  };
+  }
 
-  render() {
-    const {
-      translate,
-      tc: {
-        contextId,
-        groupsDataReducer: { groupsData },
-        groupsIndexReducer: { groupsIndex },
-      },
-    } = this.props;
+  const filters = [
+    {
+      label: translate('menu.invalidated'),
+      key: 'invalid',
+      icon: <InvalidatedIcon/>,
+    },
+    {
+      label: translate('menu.bookmarks'),
+      key: 'bookmarked',
+      icon: <BookmarkIcon/>,
+    },
+    {
+      label: translate('menu.completed'),
+      key: 'completed',
+      disables: ['incomplete'],
+      icon: <CheckIcon/>,
+    },
+    {
+      label: translate('menu.incomplete'),
+      id: 'incomplete',
+      key: 'completed',
+      value: false,
+      disables: ['completed'],
+      icon: <BlockIcon/>,
+    },
+    {
+      label: translate('menu.verse_edit'),
+      key: 'verseEdits',
+      icon: <EditIcon/>,
+    },
+    {
+      label: translate('menu.comments'),
+      key: 'comments',
+      icon: <ModeCommentIcon/>,
+    },
+    {
+      label: translate('menu.unaligned'),
+      key: 'unaligned',
+      icon: <UnalignedIcon/>,
+    },
+  ];
 
-    const filters = [
-      {
-        label: translate('menu.invalidated'),
-        key: 'invalid',
-        icon: <InvalidatedIcon/>,
-      },
-      {
-        label: translate('menu.bookmarks'),
-        key: 'bookmarked',
-        icon: <BookmarkIcon/>,
-      },
-      {
-        label: translate('menu.completed'),
-        key: 'completed',
-        disables: ['incomplete'],
-        icon: <CheckIcon/>,
-      },
-      {
-        label: translate('menu.incomplete'),
-        id: 'incomplete',
-        key: 'completed',
-        value: false,
-        disables: ['completed'],
-        icon: <BlockIcon/>,
-      },
-      {
-        label: translate('menu.verse_edit'),
-        key: 'verseEdits',
-        icon: <EditIcon/>,
-      },
-      {
-        label: translate('menu.comments'),
-        key: 'comments',
-        icon: <ModeCommentIcon/>,
-      },
-      {
-        label: translate('menu.unaligned'),
-        key: 'unaligned',
-        icon: <UnalignedIcon/>,
-      },
-    ];
+  const statusIcons = [
+    {
+      key: 'invalid',
+      icon: <InvalidatedIcon style={{ color: 'white' }}/>,
+    },
+    {
+      key: 'bookmarked',
+      icon: <BookmarkIcon style={{ color: 'white' }}/>,
+    },
+    {
+      key: 'completed',
+      icon: <CheckIcon style={{ color: '#58c17a' }}/>,
+    },
+    {
+      key: 'verseEdits',
+      icon: <EditIcon style={{ color: 'white' }}/>,
+    },
+    {
+      key: 'comments',
+      icon: <ModeCommentIcon style={{ color: 'white' }}/>,
+    },
+  ];
 
-    const statusIcons = [
-      {
-        key: 'invalid',
-        icon: <InvalidatedIcon style={{ color: 'white' }}/>,
-      },
-      {
-        key: 'bookmarked',
-        icon: <BookmarkIcon style={{ color: 'white' }}/>,
-      },
-      {
-        key: 'completed',
-        icon: <CheckIcon style={{ color: '#58c17a' }}/>,
-      },
-      {
-        key: 'verseEdits',
-        icon: <EditIcon style={{ color: 'white' }}/>,
-      },
-      {
-        key: 'comments',
-        icon: <ModeCommentIcon style={{ color: 'white' }}/>,
-      },
-    ];
+  const entries = generateMenuData(
+    groupsIndex,
+    groupsData,
+    'completed',
+    onProcessItem
+  );
+  const activeEntry = generateMenuItem(contextId, onProcessItem);
 
-    const entries = generateMenuData(
-      groupsIndex,
-      groupsData,
-      'completed',
-      this.onProcessItem
-    );
-    const activeEntry = generateMenuItem(contextId, this.onProcessItem);
-
+  if (contextId) {
     return (
       <GroupedMenu
         filters={filters}
@@ -146,9 +145,11 @@ class GroupMenuContainer extends React.Component {
         statusIcons={statusIcons}
         emptyNotice={translate('menu.no_results')}
         title={translate('menu.menu_title')}
-        onItemClick={this.handleClick}
+        onItemClick={handleClick}
       />
     );
+  } else {
+    return null;
   }
 }
 

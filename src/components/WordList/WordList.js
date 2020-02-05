@@ -2,15 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Token} from 'wordmap-lexer';
 import SecondaryToken from '../SecondaryToken';
-
-/**
- * Checks if an element has overflowed it's parent
- * @param element
- * @returns {boolean}
- */
-function isOverflown(element) {
-  return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
-}
+import ReactTooltip from "react-tooltip";
 
 /**
  * Renders a list of words that need to be aligned.
@@ -113,6 +105,7 @@ class WordList extends React.Component {
               </div>
             );
           })}
+          <ReactTooltip id="word-overflow-tooltip"/>
         </div>
       );
     }

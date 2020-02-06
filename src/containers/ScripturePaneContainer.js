@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { ScripturePane } from 'tc-ui-toolkit';
 import { getAvailableScripturePaneSelections } from '../utils/resourcesHelpers';
+import { getContextId } from '../state/selectors';
 
 /**
  * Injects necessary data into the scripture pane.
@@ -15,7 +17,6 @@ const ScripturePaneContainer = (props) => {
       settingsReducer: { toolsSettings },
       resourcesReducer: { bibles },
       selectionsReducer: { selections },
-      contextId,
       projectDetailsReducer,
       showPopover,
       getLexiconData,
@@ -23,6 +24,7 @@ const ScripturePaneContainer = (props) => {
       editTargetVerse,// TODO: Create a local version using the tools redux implementation.
       makeSureBiblesLoadedForTool,
     },
+    contextId,
     translate,
     handleModalOpen,
   } = props;
@@ -67,11 +69,11 @@ const ScripturePaneContainer = (props) => {
 
 ScripturePaneContainer.propTypes = {
   translate: PropTypes.func.isRequired,
+  contextId: PropTypes.object.isRequired,
   tc: PropTypes.shape({
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
     selectionsReducer: PropTypes.object.isRequired,
-    contextId: PropTypes.object.isRequired,
     projectDetailsReducer: PropTypes.object.isRequired,
     showPopover: PropTypes.func.isRequired,
     editTargetVerse: PropTypes.func.isRequired,
@@ -85,4 +87,8 @@ ScripturePaneContainer.propTypes = {
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };
 
-export default ScripturePaneContainer;
+const mapStateToProps = (state) => ({ contextId: getContextId(state) });
+
+export default connect(
+  mapStateToProps,
+)(ScripturePaneContainer);

@@ -4,13 +4,11 @@ import { saveGroupsData } from '../utils/localStorage';
 /**
  * Loads all of a tool's group data from the project.
  * @param {string} toolName - the name of the tool who's helps will be loaded
- * @param {string} projectDir - the absolute path to the project
- * @param {class} ProjectAPI - ProjectAPI.
+ * @param {object} ProjectAPI - ProjectAPI.
  * @returns {*}
  */
-export function loadProjectGroupData(toolName, projectDir, ProjectAPI) {
-  const project = new ProjectAPI(projectDir);
-  return project.getGroupsData(toolName);
+export function loadProjectGroupData(toolName, projectApi) {
+  return projectApi.getGroupsData(toolName);
 }
 
 /**
@@ -139,7 +137,7 @@ export const getToggledGroupData = (state, action, key) => {
  * @return {*}
  */
 export const generateChapterGroupIndex = (translate, numChapters = 150) => {
-  const chapterLocalized = translate('tools.chapter') || 'Chapter';
+  const chapterLocalized = translate('menu.chapter') || 'Chapter';
 
   return Array(numChapters).fill().map((_, i) => {
     let chapter = i + 1;

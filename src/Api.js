@@ -182,6 +182,9 @@ export default class Api extends ToolApi {
   }
 
   _loadBookAlignments(props) {
+    console.log('====================================');
+    console.log('_loadBookAlignments() props', props);
+    console.log('====================================');
     const {
       tc: {
         contextId,

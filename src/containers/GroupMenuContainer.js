@@ -1,10 +1,14 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  GroupedMenu, generateMenuData, generateMenuItem, InvalidatedIcon, CheckIcon,
+  GroupedMenu,
+  generateMenuData,
+  generateMenuItem,
+  InvalidatedIcon,
+  CheckIcon,
 } from 'tc-ui-toolkit';
-import PropTypes from 'prop-types';
-
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BlockIcon from '@material-ui/icons/Block';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
@@ -20,18 +24,66 @@ import {
   INVALID_KEY,
   UNALIGNED_KEY,
 } from '../state/reducers/GroupMenu';
+import {
+  getUserData,
+  getBookName,
+  getProjectPath,
+  getProjectManifest,
+  getCurrentToolName,
+  getContextId,
+} from '../state/selectors';
+import { loadGroupsIndex, clearGroupsIndex } from '../state/actions/groupsIndexActions';
+import { loadGroupsData, clearGroupsData } from '../state/actions/groupsDataActions';
+import {
+  loadCurrentContextId,
+  changeCurrentContextId,
+  clearContextId,
+} from '../state/actions/contextIdActions';
 
 function GroupMenuContainer({
   toolApi,
+  bookName,
+  contextId,
   translate,
+  clearContextId,
+  loadGroupsData,
+  loadGroupsIndex,
+  currentToolName,
+  clearGroupsData,
+  clearGroupsIndex,
+  loadCurrentContextId,
+  changeCurrentContextId,
   tc: {
-    project,
-    contextId,
     groupsDataReducer: { groupsData },
     groupsIndexReducer: { groupsIndex },
-    changeCurrentContextId,
   },
 }) {
+  useEffect(() => {
+    loadGroupsIndex();
+
+    return () => {
+      // Clean up groupsIndex on unmount
+      clearGroupsIndex();
+    };
+  }, [currentToolName]);
+
+  useEffect(() => {
+    loadGroupsData();
+
+    return () => {
+      // Clean up groupsData on unmount
+      clearGroupsData();
+    };
+  }, [currentToolName]);
+
+  useEffect(() => {
+    loadCurrentContextId();
+
+    return () => {
+      clearContextId();
+    };
+  }, [currentToolName]);
+
   /**
    * Handles click events from the menu
    * @param {object} contextId - the menu item's context id
@@ -46,8 +98,6 @@ function GroupMenuContainer({
    * @returns {object} the updated item
    */
   function onProcessItem(item) {
-    const bookName = project.getBookName();
-
     const { contextId: { reference: { chapter, verse } } } = item;
 
     const itemState = toolApi.getVerseData(chapter, verse);
@@ -134,9 +184,9 @@ function GroupMenuContainer({
     'completed',
     onProcessItem
   );
-  const activeEntry = generateMenuItem(contextId, onProcessItem);
 
   if (contextId) {
+    const activeEntry = generateMenuItem(contextId, onProcessItem);
     return (
       <GroupedMenu
         filters={filters}
@@ -157,11 +207,49 @@ GroupMenuContainer.propTypes = {
   tc: PropTypes.object.isRequired,
   toolApi: PropTypes.instanceOf(Api),
   translate: PropTypes.func.isRequired,
+  bookName: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   // TRICKY: bind these to listen to state change events
   completedChecks: getChecks(state, 'completed'),
+  currentToolName: getCurrentToolName(ownProps),
+  bookName: getBookName(ownProps),
+  contextId: getContextId(state),
 });
 
-export default connect(mapStateToProps)(GroupMenuContainer);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const {
+    gatewayLanguageCode,
+    translate,
+    tc: { project: projectApi },
+  } = ownProps;
+  const projectSaveLocation = getProjectPath(ownProps);
+  const { project: { id: bookId } } = getProjectManifest(ownProps);
+  const currentToolName = getCurrentToolName(ownProps);
+  const userData = getUserData(ownProps);
+
+  return {
+    loadGroupsIndex: () => {
+      dispatch(loadGroupsIndex(translate));
+    },
+    clearGroupsIndex: () => clearGroupsIndex(),
+    loadGroupsData: () => {
+      dispatch(loadGroupsData(currentToolName, projectApi));
+    },
+    clearGroupsData: () => clearGroupsData(),
+    loadCurrentContextId: () => {
+      dispatch(loadCurrentContextId(currentToolName, bookId, projectSaveLocation, userData, gatewayLanguageCode));
+    },
+    changeCurrentContextId: (item = null) => {
+      const contextId = item.contextId || null;
+      dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
+    },
+    clearContextId: () => clearContextId(),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GroupMenuContainer);

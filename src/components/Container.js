@@ -40,6 +40,7 @@ import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
 import * as GroupMenu from '../state/reducers/GroupMenu';
+import { getGatewayLanguageCode, getContextId } from '../state/selectors';
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
@@ -679,9 +680,12 @@ export class Container extends Component {
             autoHideDuration={2000}
             onRequestClose={this.handleSnackbarClose}/>
         </MuiThemeProvider>
-        <GroupMenuContainer tc={tc}
+        <GroupMenuContainer
+          tc={tc}
           toolApi={api}
-          translate={translate}/>
+          gatewayLanguageCode={this.props.gatewayLanguageCode}
+          translate={translate}
+        />
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
@@ -775,6 +779,7 @@ Container.propTypes = {
     api: PropTypes.instanceOf(Api),
     translate: PropTypes.func,
   }),
+  gatewayLanguageCode: PropTypes.string.isRequired,
 
   // dispatch props
   acceptTokenSuggestion: PropTypes.func.isRequired,
@@ -841,14 +846,18 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {
-    tc: {
-      contextId, targetVerseText, sourceVerse,
-    }, tool: { api },
-  } = props;
-  const { reference: { chapter, verse } } = contextId;
-  const verseState = api.getVerseData(chapter, verse);
+  const { tc: { targetVerseText, sourceVerse }, tool: { api } } = props;
+  const contextId = getContextId(state);
+  let verseState = {};
+
+  const { reference: { chapter, verse } } = contextId || { reference: { chapter: '', verse: '' } };
+
+  if (contextId) {
+    verseState = api.getVerseData(chapter, verse);
+  }
+
   const isFinished = verseState[GroupMenu.FINISHED_KEY];
+  console.log('isFinished', isFinished);
   // TRICKY: the target verse contains punctuation we need to remove
   let targetTokens = [];
   let sourceTokens = [];
@@ -863,9 +872,11 @@ const mapStateToProps = (state, props) => {
 
   const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).join(' ');
   const normalizedTargetVerseText = targetTokens.map(t => t.toString()).join(' ');
+  const gatewayLanguageCode = getGatewayLanguageCode(props);
+
   return {
-    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter,
-      verse),
+    gatewayLanguageCode,
+    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
     verseIsComplete: isFinished,
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',

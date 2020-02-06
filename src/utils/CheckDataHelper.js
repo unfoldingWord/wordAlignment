@@ -274,12 +274,11 @@ export function loadComments(projectSaveLocation, contextId) {
 
 /**
  * Loads the latest invalidated file from the file system for the specify contextID.
- * @param {*} projectSaveLocation - project path.
- * @param {*} contextId - context id.
- * @param {*} gatewayLanguageCode - gateway language code.
- * @param {*} gatewayLanguageQuote - gateway language quote.
+ * @param {string} projectSaveLocation - project path.
+ * @param {object} contextId - context id.
+ * @param {string} gatewayLanguageCode - gateway language code.
  */
-export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageCode, gatewayLanguageQuote) {
+export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageCode) {
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'invalidated');
   const invalidatedObject = loadCheckData(loadPath, contextId);
 
@@ -290,7 +289,6 @@ export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageC
       username: invalidatedObject.userName || invalidatedObject.username,
       modifiedTimestamp: invalidatedObject.modifiedTimestamp,
       gatewayLanguageCode,
-      gatewayLanguageQuote,
     };
   } else {
     // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
@@ -300,7 +298,6 @@ export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageC
       modifiedTimestamp: '',
       username: '',
       gatewayLanguageCode: null,
-      gatewayLanguageQuote: null,
     };
   }
 }
@@ -310,9 +307,8 @@ export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageC
  * @param {string} projectSaveLocation - project path.
  * @param {object} contextId - context id.
  * @param {string} gatewayLanguageCode - gateway language code.
- * @param {string} gatewayLanguageQuote - gateway language quote.
  */
-export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCode, gatewayLanguageQuote) {
+export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCode) {
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
   const remindersObject = loadCheckData(loadPath, contextId);
 
@@ -323,7 +319,6 @@ export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCod
       username: remindersObject.userName || remindersObject.username,
       modifiedTimestamp: remindersObject.modifiedTimestamp,
       gatewayLanguageCode,
-      gatewayLanguageQuote,
     };
   } else {
     // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
@@ -333,7 +328,6 @@ export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCod
       modifiedTimestamp: '',
       username: '',
       gatewayLanguageCode: null,
-      gatewayLanguageQuote: null,
     };
   }
 }

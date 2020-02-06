@@ -165,10 +165,9 @@ export const expandSubMenu = isSubMenuExpanded => ({
  * @param {string} projectSaveLocation
  * @param {Object} userData
  * @param {string} gatewayLanguageCode
- * @param {string} gatewayLanguageQuote
  */
-export const changeGroup = (projectSaveLocation, userData, gatewayLanguageCode, gatewayLanguageQuote) => dispatch => {
-  dispatch(changeCurrentContextId(projectSaveLocation, userData, gatewayLanguageCode, gatewayLanguageQuote));
+export const changeGroup = (projectSaveLocation, userData, gatewayLanguageCode) => dispatch => {
+  dispatch(changeCurrentContextId(projectSaveLocation, userData, gatewayLanguageCode));
   dispatch(expandSubMenu(true));
 };
 

@@ -25,8 +25,12 @@ export const getBookmarksReducer = (state) =>
   state.tool.bookmarksReducer;
 
 export const getProjectManifest = (ownProps) => ownProps.tc.projectDetailsReducer.manifest;
-export const getGatewayLanguage = (ownProps) => ownProps.tc.gatewayLanguage;
+export const getGatewayLanguageCode = (ownProps) => ownProps.tc.gatewayLanguageCode;
 export const getCurrentToolName = (ownProps) => ownProps.tc.currentToolName;
+export const getProjectPath = (ownProps) => ownProps.tc.projectSaveLocation;
+export const getUserData = (ownProps) => ownProps.tc.loginReducer.userdata;
+export const getGatewayLanguageBibles = (ownProps) => ownProps.tc.resourcesReducer.bibles[getGatewayLanguageCode(ownProps)];
+export const getBookName = (ownProps) => ownProps.tc.project.getBookName();
 export const getResourcesReducer = (ownProps) => ownProps.tc.resourcesReducer;
 export const getBibles = (ownProps) => ownProps.tc.resourcesReducer.bibles;
 export const getCurrentPaneSettings = (ownProps) => {

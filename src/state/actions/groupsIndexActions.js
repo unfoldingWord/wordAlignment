@@ -13,8 +13,8 @@ import {
  * @param {function} translate - locale transtale.
  * @return {object} action object.
  */
-export const loadGroupsIndex = (gatewayLanguage, toolName, projectDir, translate) => ((dispatch, getState) => {
-  const groupsIndex = loadProjectGroupIndex(gatewayLanguage, toolName, projectDir, translate);
+export const loadGroupsIndex = (translate) => ((dispatch) => {
+  const groupsIndex = loadProjectGroupIndex(translate);
 
   dispatch({
     type: LOAD_GROUPS_INDEX,

@@ -877,7 +877,7 @@ const mapStateToProps = (state, props) => {
   return {
     gatewayLanguageCode,
     hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
-    verseIsComplete: isFinished,
+    verseIsComplete: !!isFinished,
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
     hasTargetText: normalizedTargetVerseText !== '',

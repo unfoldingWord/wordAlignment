@@ -31,6 +31,8 @@ import {
   getProjectManifest,
   getCurrentToolName,
   getContextId,
+  getGroupsData,
+  getGroupsIndex,
 } from '../state/selectors';
 import { loadGroupsIndex, clearGroupsIndex } from '../state/actions/groupsIndexActions';
 import { loadGroupsData, clearGroupsData } from '../state/actions/groupsDataActions';
@@ -43,8 +45,10 @@ import {
 function GroupMenuContainer({
   toolApi,
   bookName,
-  contextId,
   translate,
+  contextId,
+  groupsData,
+  groupsIndex,
   clearContextId,
   loadGroupsData,
   loadGroupsIndex,
@@ -53,10 +57,6 @@ function GroupMenuContainer({
   clearGroupsIndex,
   loadCurrentContextId,
   changeCurrentContextId,
-  tc: {
-    groupsDataReducer: { groupsData },
-    groupsIndexReducer: { groupsIndex },
-  },
 }) {
   useEffect(() => {
     loadGroupsIndex();
@@ -88,8 +88,8 @@ function GroupMenuContainer({
    * Handles click events from the menu
    * @param {object} contextId - the menu item's context id
    */
-  function handleClick({ contextId }) {
-    changeCurrentContextId(contextId);
+  function handleClick(item) {
+    changeCurrentContextId(item);
   }
 
   /**
@@ -187,6 +187,9 @@ function GroupMenuContainer({
 
   if (contextId) {
     const activeEntry = generateMenuItem(contextId, onProcessItem);
+    console.log('====================================');
+    console.log('activeEntry', activeEntry);
+    console.log('====================================');
     return (
       <GroupedMenu
         filters={filters}
@@ -215,6 +218,8 @@ const mapStateToProps = (state, ownProps) => ({
   completedChecks: getChecks(state, 'completed'),
   currentToolName: getCurrentToolName(ownProps),
   bookName: getBookName(ownProps),
+  groupsData: getGroupsData(state),
+  groupsIndex: getGroupsIndex(state),
   contextId: getContextId(state),
 });
 
@@ -241,8 +246,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadCurrentContextId: () => {
       dispatch(loadCurrentContextId(currentToolName, bookId, projectSaveLocation, userData, gatewayLanguageCode));
     },
-    changeCurrentContextId: (item = null) => {
-      const contextId = item.contextId || null;
+    changeCurrentContextId: ({ contextId = null }) => {
       dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
     },
     clearContextId: () => clearContextId(),

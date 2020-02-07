@@ -6,7 +6,7 @@
   "main": "index.js",
   "display": "app",
   "scripts": {
-    "test": "eslint ./src && jest ./src",
+    "test": "eslint ./src && jest",
     "lint-fix": "eslint ./src --fix"
   },
   "jest": {

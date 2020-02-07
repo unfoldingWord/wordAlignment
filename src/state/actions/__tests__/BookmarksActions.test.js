@@ -6,6 +6,7 @@ import { writeCheckData } from '../../../utils/CheckDataHelper';
 import generateTimestamp from '../../../utils/generateTimestamp';
 
 jest.mock('../../../utils/CheckDataHelper');
+jest.mock('../../../utils/generateTimestamp');
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

@@ -5,10 +5,12 @@
  * @param {String} str - A date string. If null, will use current date.
  * @return {String} The timestamp in milliseconds
  */
-export default function generateTimestamp(str) {
+const generateTimestamp = (str = null) => {
   if (!str) {
     return (new Date()).toJSON();
   } else {
     return (new Date(str)).toJSON();
   }
-}
+};
+
+export default generateTimestamp;

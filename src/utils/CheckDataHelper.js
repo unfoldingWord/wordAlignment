@@ -117,15 +117,15 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
 
 /**
  * Loads checkdata based on given contextId.
- * @param {Object} api - tool api for system calls
- * @param {String} checkType (e.g. reminders)
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @param {String} toolName
- * @return {Object} returns the most recent object for verse loaded from the file system.
+ * @param {object} api - tool api for system calls
+ * @param {string} checkType (e.g. reminders)
+ * @param {string|number} chapter
+ * @param {string|number} verse
+ * @param {string} toolName
+ * @return {object} returns the most recent object for verse loaded from the file system.
  */
 export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAlignment') {
-  const { contextId } = api.props.tc;
+  const { contextId } = api.props;
   const { reference: { bookId } } = contextId;
   let checkDataObject;
   const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
@@ -146,10 +146,6 @@ export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAl
       try {
         const readPath = path.join(loadPath, file);
         let _checkDataObject = fs.readJsonSync(readPath);
-
-        if (_checkDataObject) {
-          _checkDataObject = JSON.parse(_checkDataObject);
-        }
 
         if (_checkDataObject && _checkDataObject.contextId &&
           _checkDataObject.contextId.tool === toolName) {

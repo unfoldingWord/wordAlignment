@@ -32,7 +32,6 @@ describe('loadNewContext()', () => {
     ];
     const store = mockStore();
     const api = new Api();
-    api.context = { store };
     api.props = {
       tc: {
         targetBook: {
@@ -41,15 +40,15 @@ describe('loadNewContext()', () => {
           }
         },
         writeProjectData: jest.fn(() => Promise.resolve()),
-        contextId: {reference: {bookId: 'tit', chapter: 1, verse: 2}}
       },
+      contextId: {reference: {bookId: 'tit', chapter: 1, verse: 2}},
       tool: {
         isReady: false
       }
     };
 
     // when
-    loadNewContext(api, api.props.tc.contextId);
+    store.dispatch(loadNewContext(api, api.props.contextId));
 
     // then
     const actions = store.getActions();

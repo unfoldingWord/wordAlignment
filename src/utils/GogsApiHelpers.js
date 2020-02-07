@@ -42,21 +42,21 @@ export function login(userObj) {
  * @return {Promise} - Returns a promise with a repo object.
  */
 export const createRepo = async (user, reponame) => {
-  console.log('createRepo: listing repos');
+  console.info('createRepo: listing repos');
   let repo = await api.listRepos(user).then(function (repos) {
     const matchRepo = user.username + '/' + reponame;
     const found = repos.find((el) => el.full_name === matchRepo);
 
     if (found) {
-      console.log('createRepo: user repo already exists, no need to recreate: ' + found.full_name);
+      console.info('createRepo: user repo already exists, no need to recreate: ' + found.full_name);
     } else {
-      console.log('createRepo: could not find user repo: ' + matchRepo);
+      console.info('createRepo: could not find user repo: ' + matchRepo);
     }
     return found;
   });
 
   if (!repo) {
-    console.log('createRepo: creating new repo: ' + reponame);
+    console.info('createRepo: creating new repo: ' + reponame);
     repo = await api.createRepo({
       name: reponame,
       description: 'tc-desktop: ' + reponame,
@@ -66,7 +66,7 @@ export const createRepo = async (user, reponame) => {
     if (!repo) {
       console.error('createRepo: FAILED creating new repo: ' + reponame);
     } else {
-      console.log('createRepo: finished creating new repo: ' + reponame);
+      console.info('createRepo: finished creating new repo: ' + reponame);
     }
   }
   return repo;
@@ -118,14 +118,14 @@ export const renameRepo = async (newName, projectPath, user) => {
 
     if (remote.owner === user.username) {
       // delete current repo
-      console.log(`renameRepo() - deleting repo: ${remote.name}`);
+      console.info(`renameRepo() - deleting repo: ${remote.name}`);
       await api.deleteRepo({ name: remote.name }, user).catch(() => { });
 
       // delete legacy remote repo
       const legacyRemote = await repo.getRemote(TC_OLD_ORIGIN_KEY);
 
       if (legacyRemote && legacyRemote.name !== remote.name) {
-        console.log(`renameRepo() - deleting repo: ${legacyRemote.name}`);
+        console.info(`renameRepo() - deleting repo: ${legacyRemote.name}`);
         await api.deleteRepo({ name: legacyRemote.name }, user).catch(() => { });
       }
     }

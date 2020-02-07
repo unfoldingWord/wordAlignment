@@ -1,9 +1,7 @@
 import * as consts from '../actions/actionTypes';
 import * as GroupMenuActions from '../actions/GroupMenuActions';
-import {
-  generateTimestamp,
-  writeCheckData,
-} from '../../utils/CheckDataHelper';
+import { writeCheckData } from '../../utils/CheckDataHelper';
+import generateTimestamp from '../../utils/generateTimestamp';
 
 /**
  * set bookmark state in reducer
@@ -45,7 +43,7 @@ export const addBookmark = (api, enabled, username, contextId) => ((dispatch) =>
   const {
     reference: {
       bookId, chapter, verse,
-    }
+    },
   } = contextId;
 
   enabled = !!enabled;

@@ -41,7 +41,7 @@ const ScripturePaneContainer = (props) => {
     expandedScripturePaneTitle = target_language.book.name;
   }
 
-  if (Object.keys(bibles).length > 0) {
+  if (Object.keys(bibles).length > 0 && contextId) {
     return (
       <ScripturePane
         currentPaneSettings={currentPaneSettings}
@@ -69,7 +69,7 @@ const ScripturePaneContainer = (props) => {
 
 ScripturePaneContainer.propTypes = {
   translate: PropTypes.func.isRequired,
-  contextId: PropTypes.object.isRequired,
+  contextId: PropTypes.object,
   tc: PropTypes.shape({
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,

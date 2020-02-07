@@ -44,11 +44,6 @@ export function loadCurrentContextId(toolName, bookId, projectSaveLocation, user
     const state = getState();
     const groupsIndex = getGroupsIndex(state);
 
-    console.log('====================================');
-    console.log('groupsIndex', groupsIndex);
-    console.log('loadCurrentContextId()');
-    console.log('====================================');
-
     if (projectSaveLocation && toolName && bookId) {
       let contextId = {};
 

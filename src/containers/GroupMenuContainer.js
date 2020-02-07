@@ -187,9 +187,6 @@ function GroupMenuContainer({
 
   if (contextId) {
     const activeEntry = generateMenuItem(contextId, onProcessItem);
-    console.log('====================================');
-    console.log('activeEntry', activeEntry);
-    console.log('====================================');
     return (
       <GroupedMenu
         filters={filters}
@@ -211,6 +208,7 @@ GroupMenuContainer.propTypes = {
   toolApi: PropTypes.instanceOf(Api),
   translate: PropTypes.func.isRequired,
   bookName: PropTypes.string.isRequired,
+  contextId: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => ({

@@ -38,3 +38,89 @@ export const getCurrentPaneSettings = (ownProps) => {
   return ScripturePane ? ScripturePane.currentPaneSettings : [];
 };
 export const getUsername = (ownProps) => ownProps.tc.username;
+
+/**
+ * Returns a chapter in the target language bible
+ * @param {object} state
+ * @param {object} ownProps
+ * @param {number} chapter - the chapter number
+ */
+export const getTargetChapter = (state, ownProps, chapter) => {
+  const contextId = getContextId(state);
+
+  if (!chapter && contextId) {
+    const { reference: { chapter: _chapter } } = contextId;
+    chapter = _chapter;
+  } else if (!chapter && !contextId) {
+    return null;
+  }
+
+  return ownProps.tc.resourcesReducer.bibles.targetLanguage.targetBible[chapter + ''];
+};
+
+/**
+ * Returns the currently selected verse in the target language bible
+ * @param {object} state
+ * @param {object} ownProps
+ * @return {*}
+ */
+export const getSelectedTargetVerse = (state, ownProps) => {
+  const contextId = getContextId(state);
+
+  if (!contextId) {
+    return null;
+  }
+
+  const { reference: { chapter, verse } } = contextId;
+  const targetChapter = getTargetChapter(state, ownProps, chapter);
+
+  if (targetChapter) {
+    return targetChapter[verse + ''];
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Returns a chapter in the original language bible
+ * @param {object} state
+ * @param {object} ownProps
+ * @param {number} chapter - the chapter number
+ * @return {*}
+ */
+export const getSourceChapter = (state, ownProps, chapter) => {
+  const { sourceBook } = ownProps.tc;
+  const contextId = getContextId(state);
+
+  if (!chapter && contextId) {
+    const { reference: { chapter: _chapter } } = contextId;
+    chapter = _chapter;
+  } else if (!chapter && !contextId) {
+    return null;
+  }
+
+  return sourceBook && sourceBook[chapter + ''];
+};
+
+/**
+ * Returns the currently selected verse in the original language bible
+ * @param {object} state
+ * @param {object} ownProps
+ * @return {*}
+ */
+export const getSelectedSourceVerse = (state, ownProps) => {
+  const contextId = getContextId(state);
+
+  if (!contextId) {
+    return null;
+  }
+
+  const { reference: { chapter, verse } } = contextId;
+  const sourceChapter = getSourceChapter(state, ownProps, chapter);
+
+  if (sourceChapter) {
+    return sourceChapter[verse + ''];
+  } else {
+    return null;
+  }
+};

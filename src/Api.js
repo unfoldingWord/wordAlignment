@@ -182,9 +182,6 @@ export default class Api extends ToolApi {
   }
 
   _loadBookAlignments(props) {
-    console.log('====================================');
-    console.log('_loadBookAlignments() props', props);
-    console.log('====================================');
     const {
       tc: {
         contextId,
@@ -505,15 +502,17 @@ export default class Api extends ToolApi {
    */
   mapStateToProps(state, props) {
     const {
-      tc: {
+      tc: { // TODO: The contextId prop was moved from tc to the tools' contextIdReducer state thus at this point in the code's lifecycle we can't access it.
         contextId,
-        targetVerseText,
-        sourceVerse,
+        targetBook,
+        sourceBook,
       },
     } = props;
 
     if (contextId) {
       const { reference: { chapter, verse } } = contextId;
+      const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+      const sourceVerse = sourceBook[chapter][verse];
       let targetTokens = [];
       let sourceTokens = [];
 
@@ -854,7 +853,7 @@ export default class Api extends ToolApi {
               continue;
             }
           } catch (e) {
-            console.log(`Alignment memory cache is corrupt for ${key}`, e);
+            console.warn(`Alignment memory cache is corrupt for ${key}`, e);
           }
         }
 

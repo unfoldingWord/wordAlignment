@@ -5,7 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import isEqual from 'deep-equal';
 import WordMap, {Alignment, Ngram} from 'wordmap';
 import Lexer, {Token} from 'wordmap-lexer';
-import {VerseEditor} from 'tc-ui-toolkit';
+import { CommentsDialog, VerseEditor } from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {connect} from 'react-redux';
@@ -46,7 +46,6 @@ import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from "./IconIndicators";
-import CommentsDialog from "./CommentsDialog";
 
 const styles = {
   container: {
@@ -869,7 +868,7 @@ Container.propTypes = {
   resourcesReducer: PropTypes.object.isRequired,
   contextIdReducer: PropTypes.object.isRequired,
   settingsReducer: PropTypes.shape({
-    toolsSettings: PropTypes.object.required
+    toolsSettings: PropTypes.object.isRequired
   }).isRequired,
   actions: PropTypes.object.isRequired
 };

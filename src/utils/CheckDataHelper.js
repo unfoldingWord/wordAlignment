@@ -46,8 +46,8 @@ export const getIsVerseEdited = (api, chapter, verse) => {
   const {
     tc: {
       projectDataPathExistsSync,
-      contextId,
     },
+    contextId,
   } = api.props;
   const { reference: { bookId } } = contextId;
   const dataPath = generateCheckPath('verseEdits', bookId, chapter, verse);

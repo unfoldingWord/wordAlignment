@@ -29,8 +29,7 @@ const makeStyles = (props) => {
       width: 'max-content',
       flexGrow: 2,
       textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      wordBreak: 'break-all'
+      overflow: 'hidden'
     },
   };
 
@@ -66,6 +65,16 @@ const makeStyles = (props) => {
 };
 
 /**
+ * Checks if an element has overflowed it's parent
+ * @param element
+ * @returns {boolean}
+ */
+function isOverflown(element) {
+  return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+}
+
+
+/**
  * Renders a standard word.
  *
  * @param {string} word - the represented word
@@ -82,6 +91,12 @@ class WordCard extends React.Component {
     super(props);
     this._handleClick = this._handleClick.bind(this);
     this._handleCancelClick = this._handleCancelClick.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.wordRef = React.createRef();
+    this.state = {
+      tooltip: false
+    };
   }
 
   /**
@@ -111,14 +126,41 @@ class WordCard extends React.Component {
     }
   }
 
+  handleMouseEnter() {
+    if (isOverflown(this.wordRef.current)) {
+      this.setState({
+        tooltip: true
+      });
+    }
+  }
+
+  handleMouseLeave() {
+    if (this.state.tooltip) {
+      this.setState({
+        tooltip: false
+      });
+    }
+  }
+
   render() {
     const {word, occurrence, occurrences, isSuggestion} = this.props;
     const styles = makeStyles(this.props);
+    const {tooltip} = this.state;
+    // TRICKY: the <ReactTooltip/> is in WordList.js
     return (
-      <div style={{flex: 1}}>
-        <div style={styles.root}>
+      <span data-tip={word}
+            data-place="bottom"
+            data-effect="solid"
+            data-type="dark"
+            data-for="word-overflow-tooltip"
+            data-multiline={true}
+            data-tip-disable={!tooltip}
+            data-delay-show={200}
+            data-delay-hide={100}>
+        <div style={{flex: 1}} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+          <div style={styles.root}>
         <span style={{flex: 1, display: 'flex', overflow: 'hidden'}}>
-          <span onClick={this._handleClick} style={styles.word}>
+          <span onClick={this._handleClick} style={styles.word} ref={this.wordRef}>
             {word}
           </span>
           {isSuggestion ? (
@@ -126,10 +168,11 @@ class WordCard extends React.Component {
           ) : null}
 
         </span>
-          <WordOccurrence occurrence={occurrence}
-                          occurrences={occurrences}/>
+            <WordOccurrence occurrence={occurrence}
+                            occurrences={occurrences}/>
+          </div>
         </div>
-      </div>
+      </span>
     );
   }
 }

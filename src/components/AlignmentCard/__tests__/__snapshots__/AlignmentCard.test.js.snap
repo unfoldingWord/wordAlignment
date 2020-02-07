@@ -72,63 +72,76 @@ exports[`has a bottom word 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="bottomWord"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                bottomWord
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  bottomWord
+                </span>
               </span>
-            </span>
-            <sup
-              style={
-                Object {
-                  "marginTop": "2px",
-                  "opacity": "0.8",
-                  "top": 0,
+              <sup
+                style={
+                  Object {
+                    "marginTop": "2px",
+                    "opacity": "0.8",
+                    "top": 0,
+                  }
                 }
-              }
-            >
-              1
-            </sup>
+              >
+                1
+              </sup>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
   </div>
@@ -181,52 +194,65 @@ exports[`has a top and bottom word 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="topWord"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                topWord
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  topWord
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
     <div
@@ -254,63 +280,76 @@ exports[`has a top and bottom word 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="bottomWord"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                bottomWord
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  bottomWord
+                </span>
               </span>
-            </span>
-            <sup
-              style={
-                Object {
-                  "marginTop": "2px",
-                  "opacity": "0.8",
-                  "top": 0,
+              <sup
+                style={
+                  Object {
+                    "marginTop": "2px",
+                    "opacity": "0.8",
+                    "top": 0,
+                  }
                 }
-              }
-            >
-              1
-            </sup>
+              >
+                1
+              </sup>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
   </div>
@@ -363,52 +402,65 @@ exports[`has a top word 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="topWord"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                topWord
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  topWord
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
     <div
@@ -513,109 +565,135 @@ exports[`has multiple bottom words 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="bottomWord1"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                bottomWord1
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  bottomWord1
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        </span>
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="bottomWord2"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                bottomWord2
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  bottomWord2
+                </span>
               </span>
-            </span>
-            <sup
-              style={
-                Object {
-                  "marginTop": "2px",
-                  "opacity": "0.8",
-                  "top": 0,
+              <sup
+                style={
+                  Object {
+                    "marginTop": "2px",
+                    "opacity": "0.8",
+                    "top": 0,
+                  }
                 }
-              }
-            >
-              1
-            </sup>
+              >
+                1
+              </sup>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
   </div>
@@ -668,98 +746,124 @@ exports[`has multiple top and bottom words 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="topWord1"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                topWord1
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  topWord1
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        </span>
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="topWord2"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                topWord2
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  topWord2
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
     <div
@@ -787,109 +891,135 @@ exports[`has multiple top and bottom words 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="bottomWord1"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                bottomWord1
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  bottomWord1
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        </span>
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="bottomWord2"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                bottomWord2
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  bottomWord2
+                </span>
               </span>
-            </span>
-            <sup
-              style={
-                Object {
-                  "marginTop": "2px",
-                  "opacity": "0.8",
-                  "top": 0,
+              <sup
+                style={
+                  Object {
+                    "marginTop": "2px",
+                    "opacity": "0.8",
+                    "top": 0,
+                  }
                 }
-              }
-            >
-              1
-            </sup>
+              >
+                1
+              </sup>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
   </div>
@@ -942,98 +1072,124 @@ exports[`has multiple top words 1`] = `
           }
         }
       >
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="topWord1"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                topWord1
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  topWord1
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
-        <div
-          style={
-            Object {
-              "flex": 1,
-            }
-          }
+        </span>
+        <span
+          data-delay-hide={100}
+          data-delay-show={200}
+          data-effect="solid"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-place="bottom"
+          data-tip="topWord2"
+          data-tip-disable={true}
+          data-type="dark"
         >
           <div
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
             style={
               Object {
-                "backgroundColor": "#FFFFFF",
-                "borderLeft": "5px solid #44C6FF",
-                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexDirection": "row",
-                "padding": "9px",
+                "flex": 1,
               }
             }
           >
-            <span
+            <div
               style={
                 Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderLeft": "5px solid #44C6FF",
+                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                  "cursor": "pointer",
                   "display": "flex",
-                  "flex": 1,
-                  "overflow": "hidden",
+                  "flexDirection": "row",
+                  "padding": "9px",
                 }
               }
             >
               <span
-                onClick={[Function]}
                 style={
                   Object {
-                    "flexGrow": 2,
+                    "display": "flex",
+                    "flex": 1,
                     "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "width": "max-content",
-                    "wordBreak": "break-all",
                   }
                 }
               >
-                topWord2
+                <span
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "flexGrow": 2,
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "width": "max-content",
+                    }
+                  }
+                >
+                  topWord2
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
+        </span>
       </div>
     </div>
     <div

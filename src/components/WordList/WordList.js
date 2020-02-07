@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Token} from 'wordmap-lexer';
+import ReactTooltip from "react-tooltip";
 import SecondaryToken from '../SecondaryToken';
 
 /**
@@ -19,7 +20,12 @@ class WordList extends React.Component {
 
   constructor(props) {
     super(props);
+    this.listRef = React.createRef();
     this.isSelected = this.isSelected.bind(this);
+    this.state = {
+      width: 0,
+      height: 0
+    };
   }
 
   /**
@@ -36,6 +42,29 @@ class WordList extends React.Component {
       selectedWordPositions.indexOf(token.tokenPos) !== -1;
   }
 
+  // eslint-disable-next-line no-unused-vars
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if(!prevProps.isOver) {
+      return {
+        height: this.listRef.current.scrollHeight,
+        width: this.listRef.current.clientWidth
+      };
+    } else {
+      return {
+        height: 0,
+        width: 0
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const notZero = snapshot.width !== 0 && snapshot.height !== 0;
+    const changed = snapshot.width !== this.state.width || snapshot.height !== this.state.height;
+    if(notZero && changed) {
+      this.setState(snapshot);
+    }
+  }
+
   render() {
     const {
       onWordDragged,
@@ -45,25 +74,26 @@ class WordList extends React.Component {
       words,
       isOver
     } = this.props;
+    const {width, height} = this.state;
 
     if (isOver) {
       return (
         <div
           style={{
             border: '3px dashed #44C6FF',
-            height: '100%',
-            width: '100%'
+            height: `${height}px`,
+            width: `${width}px`
           }}/>
       );
     } else {
 
       return (
-        <React.Fragment>
+        <div ref={this.listRef} style={{height: "100%"}}>
           {words.map((token, index) => {
             return (
               <div
                 key={index}
-                style={{margin: '10px'}}>
+                style={{padding: '10px'}}>
                 <SecondaryToken
                   direction={direction}
                   onEndDrag={onWordDragged}
@@ -76,7 +106,8 @@ class WordList extends React.Component {
               </div>
             );
           })}
-        </React.Fragment>
+          <ReactTooltip id="word-overflow-tooltip"/>
+        </div>
       );
     }
   }

@@ -1,13 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot has no words 1`] = `null`;
+exports[`snapshot has no words 1`] = `
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
+  <div
+    className="__react_component_tooltip place-top type-dark "
+    data-id="tooltip"
+    id="word-overflow-tooltip"
+  />
+</div>
+`;
 
 exports[`snapshot has words 1`] = `
-Array [
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
   <div
     style={
       Object {
-        "margin": "10px",
+        "padding": "10px",
       }
     }
   >
@@ -19,59 +39,72 @@ Array [
         }
       }
     >
-      <div
-        style={
-          Object {
-            "flex": 1,
-          }
-        }
+      <span
+        data-delay-hide={100}
+        data-delay-show={200}
+        data-effect="solid"
+        data-for="word-overflow-tooltip"
+        data-multiline={true}
+        data-place="bottom"
+        data-tip="w1"
+        data-tip-disable={true}
+        data-type="dark"
       >
         <div
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           style={
             Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #44C6FF",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 1,
-              "padding": "9px",
+              "flex": 1,
             }
           }
         >
-          <span
+          <div
             style={
               Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
                 "display": "flex",
-                "flex": 1,
-                "overflow": "hidden",
+                "flexDirection": "row",
+                "opacity": 1,
+                "padding": "9px",
               }
             }
           >
             <span
-              onClick={[Function]}
               style={
                 Object {
-                  "flexGrow": 2,
+                  "display": "flex",
+                  "flex": 1,
                   "overflow": "hidden",
-                  "textOverflow": "ellipsis",
-                  "width": "max-content",
-                  "wordBreak": "break-all",
                 }
               }
             >
-              w1
+              <span
+                onClick={[Function]}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "width": "max-content",
+                  }
+                }
+              >
+                w1
+              </span>
             </span>
-          </span>
+          </div>
         </div>
-      </div>
+      </span>
     </div>
-  </div>,
+  </div>
   <div
     style={
       Object {
-        "margin": "10px",
+        "padding": "10px",
       }
     }
   >
@@ -83,59 +116,72 @@ Array [
         }
       }
     >
-      <div
-        style={
-          Object {
-            "flex": 1,
-          }
-        }
+      <span
+        data-delay-hide={100}
+        data-delay-show={200}
+        data-effect="solid"
+        data-for="word-overflow-tooltip"
+        data-multiline={true}
+        data-place="bottom"
+        data-tip="w2"
+        data-tip-disable={true}
+        data-type="dark"
       >
         <div
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           style={
             Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #44C6FF",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 1,
-              "padding": "9px",
+              "flex": 1,
             }
           }
         >
-          <span
+          <div
             style={
               Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #44C6FF",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "pointer",
                 "display": "flex",
-                "flex": 1,
-                "overflow": "hidden",
+                "flexDirection": "row",
+                "opacity": 1,
+                "padding": "9px",
               }
             }
           >
             <span
-              onClick={[Function]}
               style={
                 Object {
-                  "flexGrow": 2,
+                  "display": "flex",
+                  "flex": 1,
                   "overflow": "hidden",
-                  "textOverflow": "ellipsis",
-                  "width": "max-content",
-                  "wordBreak": "break-all",
                 }
               }
             >
-              w2
+              <span
+                onClick={[Function]}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "width": "max-content",
+                  }
+                }
+              >
+                w2
+              </span>
             </span>
-          </span>
+          </div>
         </div>
-      </div>
+      </span>
     </div>
-  </div>,
+  </div>
   <div
     style={
       Object {
-        "margin": "10px",
+        "padding": "10px",
       }
     }
   >
@@ -147,55 +193,73 @@ Array [
         }
       }
     >
-      <div
-        style={
-          Object {
-            "flex": 1,
-          }
-        }
+      <span
+        data-delay-hide={100}
+        data-delay-show={200}
+        data-effect="solid"
+        data-for="word-overflow-tooltip"
+        data-multiline={true}
+        data-place="bottom"
+        data-tip="w3"
+        data-tip-disable={true}
+        data-type="dark"
       >
         <div
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
           style={
             Object {
-              "backgroundColor": "#FFFFFF",
-              "borderLeft": "5px solid #868686",
-              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-              "cursor": "not-allowed",
-              "display": "flex",
-              "flexDirection": "row",
-              "opacity": 0.3,
-              "padding": "9px",
-              "userSelect": "none",
+              "flex": 1,
             }
           }
         >
-          <span
+          <div
             style={
               Object {
+                "backgroundColor": "#FFFFFF",
+                "borderLeft": "5px solid #868686",
+                "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                "cursor": "not-allowed",
                 "display": "flex",
-                "flex": 1,
-                "overflow": "hidden",
+                "flexDirection": "row",
+                "opacity": 0.3,
+                "padding": "9px",
+                "userSelect": "none",
               }
             }
           >
             <span
-              onClick={[Function]}
               style={
                 Object {
-                  "flexGrow": 2,
+                  "display": "flex",
+                  "flex": 1,
                   "overflow": "hidden",
-                  "textOverflow": "ellipsis",
-                  "width": "max-content",
-                  "wordBreak": "break-all",
                 }
               }
             >
-              w3
+              <span
+                onClick={[Function]}
+                style={
+                  Object {
+                    "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "width": "max-content",
+                  }
+                }
+              >
+                w3
+              </span>
             </span>
-          </span>
+          </div>
         </div>
-      </div>
+      </span>
     </div>
-  </div>,
-]
+  </div>
+  <div
+    className="__react_component_tooltip place-top type-dark "
+    data-id="tooltip"
+    id="word-overflow-tooltip"
+  />
+</div>
 `;

@@ -16,7 +16,7 @@ const ScripturePaneContainer = (props) => {
     tc: {
       settingsReducer: { toolsSettings },
       resourcesReducer: { bibles },
-      selectionsReducer: { selections },
+      selectionsReducer: { selections },// TODO:
       projectDetailsReducer,
       showPopover,
       getLexiconData,

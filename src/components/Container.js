@@ -281,7 +281,7 @@ export class Container extends Component {
       contextId,
     } = props;
 
-    if (contextId, hasSourceText && hasTargetText) {
+    if (contextId && hasSourceText && hasTargetText) {
       return this.initMAP(props).then(map => {
         this.map = map;
         return this.updatePredictions(props);
@@ -756,14 +756,16 @@ export class Container extends Component {
             ) : (
               <MissingBibleError translate={translate}/>
             )}
-            <MAPControls onAccept={this.handleAcceptSuggestions}
+            <MAPControls
+              onAccept={this.handleAcceptSuggestions}
               hasSuggestions={hasRenderedSuggestions}
               complete={isComplete}
               onToggleComplete={this.handleToggleComplete}
               showPopover={showPopover}
               onRefresh={this.handleRefreshSuggestions}
               onReject={this.handleRejectSuggestions}
-              translate={translate}/>
+              translate={translate}
+            />
           </div>
         </div>
         <CommentsDialog

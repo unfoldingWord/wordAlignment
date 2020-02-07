@@ -86,7 +86,6 @@ function GroupMenuContainer({
 
   /**
    * Handles click events from the menu
-   * @param {object} contextId - the menu item's context id
    */
   function handleClick(item) {
     changeCurrentContextId(item);

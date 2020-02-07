@@ -161,9 +161,8 @@ export const expandSubMenu = isSubMenuExpanded => ({
 
 /**
  * Changes the group in the group menu
- * @param {Object} contextId
  * @param {string} projectSaveLocation
- * @param {Object} userData
+ * @param {object} userData
  * @param {string} gatewayLanguageCode
  */
 export const changeGroup = (projectSaveLocation, userData, gatewayLanguageCode) => dispatch => {

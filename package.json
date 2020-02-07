@@ -78,6 +78,7 @@
     "react-tooltip": "3.9.2",
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
+    "simple-git": "^1.131.0",
     "tc-tool": "3.0.3",
     "tc-ui-toolkit": "0.14.28",
     "usfm-js": "1.0.6",

@@ -55,7 +55,7 @@
     "jest": "21.2.1",
     "material-ui": "0.20.2",
     "prop-types": "15.6.2",
-    "react": "16.3.2",
+    "react": "16.8.6",
     "react-dnd-test-backend": "2.5.4",
     "react-dom": "16.8.3",
     "react-redux": "5.1.1",

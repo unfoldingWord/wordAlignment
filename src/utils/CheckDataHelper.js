@@ -43,12 +43,19 @@ export const getIsVerseFinished = (api, chapter, verse) => {
  * @return {Boolean}
  */
 export const getIsVerseEdited = (api, chapter, verse) => {
-  const {
+  let {
     tc: {
+      project,
+      toolName,
+      contextId,
       projectDataPathExistsSync,
     },
-    contextId,
   } = api.props;
+
+  if (!contextId) {
+    contextId = project.readCurrentContextIdSync(toolName);
+  }
+
   const { reference: { bookId } } = contextId;
   const dataPath = generateCheckPath('verseEdits', bookId, chapter, verse);
   return projectDataPathExistsSync(dataPath);
@@ -125,7 +132,8 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
  * @return {object} returns the most recent object for verse loaded from the file system.
  */
 export function loadCheckData(api, checkType, chapter, verse, toolName = 'wordAlignment') {
-  const { contextId } = api.props;
+  const { tc: { project } } = api.props;
+  const contextId = project.readCurrentContextIdSync(toolName);
   const { reference: { bookId } } = contextId;
   let checkDataObject;
   const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
@@ -248,7 +256,7 @@ export function generateLoadPath(projectSaveLocation, contextId, checkDataName) 
  */
 export function loadComments(projectSaveLocation, contextId) {
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'comments');
-  const commentsObject = loadCheckData(loadPath, contextId);
+  const commentsObject = loadCheckData2(loadPath, contextId);
 
   if (commentsObject) {
     return {
@@ -276,7 +284,7 @@ export function loadComments(projectSaveLocation, contextId) {
  */
 export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageCode) {
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'invalidated');
-  const invalidatedObject = loadCheckData(loadPath, contextId);
+  const invalidatedObject = loadCheckData2(loadPath, contextId);
 
   if (invalidatedObject) {
     return {
@@ -306,7 +314,7 @@ export function loadInvalidated(projectSaveLocation, contextId, gatewayLanguageC
  */
 export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCode) {
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'reminders');
-  const remindersObject = loadCheckData(loadPath, contextId);
+  const remindersObject = loadCheckData2(loadPath, contextId);
 
   if (remindersObject) {
     return {
@@ -335,7 +343,7 @@ export function loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCod
  */
 export function loadSelections(projectSaveLocation, contextId) {
   const loadPath = generateLoadPath(projectSaveLocation, contextId, 'selections');
-  const selectionsObject = loadCheckData(loadPath, contextId);
+  const selectionsObject = loadCheckData2(loadPath, contextId);
 
   if (selectionsObject) {
     let {

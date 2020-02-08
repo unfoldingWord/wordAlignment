@@ -502,13 +502,25 @@ export default class Api extends ToolApi {
    */
   mapStateToProps(state, props) {
     const {
-      tc: { // TODO: The contextId prop was moved from tc to the tools' contextIdReducer state thus at this point in the code's lifecycle we can't access it.
-        contextId,
+      tc: {
+        // project,
         targetBook,
         sourceBook,
+        // currentToolName,
+        // toolName,
+        contextId,
       },
     } = props;
+    // console.log('1 readCurrentContextIdSync');
 
+    // console.log(' currentToolName, toolName,', currentToolName, toolName);
+
+    // const contextId = project.readCurrentContextIdSync(currentToolName);
+
+    // console.log('====================================');
+    // console.log('2 readCurrentContextIdSync');
+    // console.log('contextId', contextId);
+    // console.log('====================================');
     if (contextId) {
       const { reference: { chapter, verse } } = contextId;
       const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);

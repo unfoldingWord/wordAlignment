@@ -47,6 +47,9 @@ describe('loadCheckData()', () => {
           projectDataPathExistsSync: fs.existsSync,
           readProjectDataSync: fs.readFileSync,
           readProjectDirSync: fs.readdirSync,
+          project: {
+            readCurrentContextIdSync: () => _.cloneDeep(testRecord.contextId),
+          }
         },
         contextId: _.cloneDeep(testRecord.contextId),
       },
@@ -132,6 +135,9 @@ describe('getIsVerseEdited()', () => {
       tc: {
         projectDataPathExistsSync: () => expectedHasVerseEdits,
         targetBook: {},
+        project: {
+          readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }),
+        }
       },
       contextId: { reference: { bookId: bookId } },
     };
@@ -147,6 +153,7 @@ describe('getIsVerseEdited()', () => {
 
   it('should return that a verse does not have verse edits', () => {
     // given
+    const bookId = 'luk';
     const chapter = 10;
     const verse = 11;
     const expectedHasVerseEdits = false;
@@ -154,8 +161,11 @@ describe('getIsVerseEdited()', () => {
       tc: {
         projectDataPathExistsSync: () => expectedHasVerseEdits,
         targetBook: {},
+        project: {
+          readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }),
+        }
       },
-      contextId: { reference: { bookId: 'luk' } },
+      contextId: { reference: { bookId } },
     };
     const api = new Api();
     api.props = props;
@@ -226,9 +236,15 @@ describe('getVerseComment()', () => {
     const folderData = ['time1.json'];
     const commentData = _.cloneDeep(testRecord);
     let bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId } };
 
     api.props = {
-      contextId: { reference: { bookId: bookId } },
+      contextId,
+      tc: {
+        project: {
+          readCurrentContextIdSync: () => contextId,
+        }
+      },
     };
     // mocking fs methods
     jest.mock('fs-extra');
@@ -251,10 +267,16 @@ describe('getVerseComment()', () => {
     const folderData = ['time1.json'];
     const commentData = _.cloneDeep(testRecord);
     commentData.text = expectedComment;
-    let bookId = 'bookID';
+    const bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId }, tool: 'wordAlignment' };
 
     api.props = {
-      contextId: { reference: { bookId: bookId }, tool: 'wordAlignment' },
+      contextId,
+      tc: {
+        project: {
+          readCurrentContextIdSync: () => contextId,
+        }
+      },
     };
 
     // mocking fs methods
@@ -280,10 +302,16 @@ describe('getVerseComment()', () => {
     const commentData = _.cloneDeep(testRecord);
     commentData.text = expectedComment;
     commentData.contextId.tool = 'OtherTool';
-    let bookId = 'bookID';
+    const bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId } };
 
     api.props = {
-      contextId: { reference: { bookId: bookId } },
+      contextId,
+      tc: {
+        project: {
+          readCurrentContextIdSync: () => contextId,
+        }
+      },
     };
 
      // mocking fs methods
@@ -308,9 +336,15 @@ describe('getVerseComment()', () => {
     const expectedComment = '';
     const folderData = ['time1.json'];
     let bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId } };
 
     api.props = {
-      contextId: { reference: { bookId: bookId } },
+      contextId,
+      tc: {
+        project: {
+          readCurrentContextIdSync: () => contextId,
+        }
+      },
     };
 
     // mocking fs methods

@@ -502,7 +502,6 @@ export default class Api extends ToolApi {
    * @return {*}
    */
   mapStateToProps(state, props) {
-    console.log('mapStateToProps props', props);
     const {
       tc: {
         project,

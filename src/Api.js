@@ -184,7 +184,6 @@ export default class Api extends ToolApi {
   _loadBookAlignments(props) {
     const {
       tc: {
-        contextId,
         targetBook,
         sourceBook,
         showDialog,
@@ -192,10 +191,11 @@ export default class Api extends ToolApi {
         readProjectDataSync,
       },
       tool: {
+        translate,
         setToolReady,
         setToolLoading,
-        translate,
       },
+      contextId,
       indexChapterAlignments,
     } = props;
 
@@ -405,10 +405,11 @@ export default class Api extends ToolApi {
       tc: {
         targetBook,
         writeProjectData,
-        contextId: { reference: { bookId } },
       },
       tool: { isReady },
+      contextId,
     } = this.props;
+    const { reference: { bookId } } = contextId;
     const writableChange = Boolean(prevState) && Boolean(nextState) &&
       !isEqual(prevState.tool, nextState.tool);
     // TRICKY: only save if the tool has finished loading and the state has changed
@@ -501,26 +502,17 @@ export default class Api extends ToolApi {
    * @return {*}
    */
   mapStateToProps(state, props) {
+    console.log('mapStateToProps props', props);
     const {
       tc: {
-        // project,
+        project,
         targetBook,
         sourceBook,
-        // currentToolName,
-        // toolName,
-        contextId,
       },
+      tool: { name },
     } = props;
-    // console.log('1 readCurrentContextIdSync');
+    const contextId = project.readCurrentContextIdSync(name);
 
-    // console.log(' currentToolName, toolName,', currentToolName, toolName);
-
-    // const contextId = project.readCurrentContextIdSync(currentToolName);
-
-    // console.log('====================================');
-    // console.log('2 readCurrentContextIdSync');
-    // console.log('contextId', contextId);
-    // console.log('====================================');
     if (contextId) {
       const { reference: { chapter, verse } } = contextId;
       const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
@@ -536,6 +528,7 @@ export default class Api extends ToolApi {
         sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
       }
       return {
+        contextId,
         chapterIsLoaded: getIsChapterLoaded(state, chapter),
         targetTokens,
         sourceTokens,
@@ -544,6 +537,7 @@ export default class Api extends ToolApi {
       };
     } else {
       return {
+        contextId: null,
         targetTokens: [],
         sourceTokens: [],
         alignedTokens: [],
@@ -598,18 +592,20 @@ export default class Api extends ToolApi {
    * @param nextProps
    */
   toolWillReceiveProps(nextProps) {
-    const { tc: { currentToolName: nextCurrentToolName, contextId: nextContext } } = nextProps;
+    const {
+      contextId: nextContext,
+      tc: { toolName: nextToolName },
+    } = nextProps;
     const {
       setActiveLocale,
       loadNewContext,
-      tc: {
-        appLanguage, currentToolName: prevToolName, contextId: prevContext,
-      },
+      contextId: prevContext,
+      tc: { appLanguage, toolName: prevToolName },
       tool: { isReady },
     } = this.props;
 
     if (isReady) {
-      const isWaTool = (nextCurrentToolName === 'wordAlignment');
+      const isWaTool = (nextToolName === 'wordAlignment');
       const { store } = this.context;
       const currentLang = getActiveLanguage(store.getState());
       const langId = currentLang && currentLang.code;
@@ -624,7 +620,7 @@ export default class Api extends ToolApi {
         }
       }
 
-      if (Api._didToolChange(prevToolName, nextCurrentToolName)) {
+      if (Api._didToolChange(prevToolName, nextToolName)) {
         setTimeout(() => {
           const isValid = this._validateBook(nextProps);
 

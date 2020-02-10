@@ -846,7 +846,6 @@ Container.propTypes = {
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
-  contextIdReducer: PropTypes.object.isRequired,
   settingsReducer: PropTypes.shape({ toolsSettings: PropTypes.object.required }).isRequired,
 };
 

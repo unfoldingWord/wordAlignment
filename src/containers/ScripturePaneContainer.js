@@ -58,7 +58,7 @@ const ScripturePaneContainer = (props) => {
         getAvailableScripturePaneSelections={(resourceList) => {
           getAvailableScripturePaneSelections(resourceList, contextId, bibles);
         }}
-        makeSureBiblesLoadedForTool={makeSureBiblesLoadedForTool}
+        makeSureBiblesLoadedForTool={() => makeSureBiblesLoadedForTool(contextId)}
         handleModalOpen={handleModalOpen}
       />
     );

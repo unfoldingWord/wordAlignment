@@ -18,6 +18,8 @@ import {
 } from '../selectors';
 import { loadComments } from './CommentsActions';
 import {
+  ADD_COMMENT,
+  ADD_BOOKMARK,
   CHANGE_CONTEXT_ID,
   CLEAR_CONTEXT_ID,
 } from './actionTypes';
@@ -162,6 +164,30 @@ function changeContextIdInReducers(contextId, dispatch, state) {
       oldGroupObject = (index >= 0) ? currentGroupData[index] : null;
     }
   }
+
+  // if check data not found in group data reducer, set to defaults
+  const reminders = oldGroupObject['reminders'] || false;
+  const comments = oldGroupObject['comments'] || '';
+  const actionsBatch = [
+    {
+      type: CHANGE_CONTEXT_ID,
+      contextId,
+    },
+    {
+      type: ADD_BOOKMARK,
+      enabled: reminders,
+      modifiedTimestamp: '',
+      userName: null,
+      gatewayLanguageCode: null,
+    },
+    {
+      type: ADD_COMMENT,
+      modifiedTimestamp: '',
+      text: comments,
+      userName: null,
+    },
+  ];
+  dispatch(batchActions(actionsBatch)); // process the batch
 
   return !!oldGroupObject;
 }

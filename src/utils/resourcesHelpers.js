@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path-extra';
+import semver from 'semver';
 import {
   TARGET_BIBLE,
   TARGET_LANGUAGE,
@@ -131,7 +132,6 @@ export function getAvailableScripturePaneSelections(resourceList, contextId, bib
   }
 }
 
-
 function getLatestVersion(dir) {
   const versions = listVersions(dir);
 
@@ -143,17 +143,36 @@ function getLatestVersion(dir) {
 }
 
 /**
-   * Returns an array of paths found in the directory filtered and sorted by version
-   * @param {string} dir
-   * @returns {string[]}
-   */
+ * Returns an array of paths found in the directory filtered and sorted by version
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function listVersions(dir) {
   if (fs.pathExistsSync(dir)) {
     const versionedDirs = fs.readdirSync(dir).filter(file => fs.lstatSync(path.join(dir, file)).isDirectory() &&
           file.match(/^v\d/i));
     return versionedDirs.sort((a, b) =>
-      -this.compareVersions(a, b) // do inverted sort
+      -compareVersions(a, b) // do inverted sort
     );
   }
   return [];
+}
+
+/**
+ * compares version numbers, if a > b returns 1; if a < b return -1; else are equal and return 0
+ * @param a
+ * @param b
+ * @return {number}
+ */
+function compareVersions(a, b) {
+  const cleanA = semver.coerce(a);
+  const cleanB = semver.coerce(b);
+
+  if (semver.gt(cleanA, cleanB)) {
+    return 1;
+  } else if (semver.lt(cleanA, cleanB)) {
+    return -1;
+  } else {
+    return 0;
+  }
 }

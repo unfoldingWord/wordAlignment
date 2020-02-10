@@ -47,9 +47,7 @@ describe('loadCheckData()', () => {
           projectDataPathExistsSync: fs.existsSync,
           readProjectDataSync: fs.readFileSync,
           readProjectDirSync: fs.readdirSync,
-          project: {
-            readCurrentContextIdSync: () => _.cloneDeep(testRecord.contextId),
-          }
+          project: { readCurrentContextIdSync: () => _.cloneDeep(testRecord.contextId) },
         },
         contextId: _.cloneDeep(testRecord.contextId),
       },
@@ -60,11 +58,9 @@ describe('loadCheckData()', () => {
   it('should not crash with no files', () => {
     // given
     const checkType = 'comments';
-    const chapter = 2;
-    const verse = 4;
 
     // when
-    const data = loadCheckData(api, checkType, chapter, verse, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, toolName);
 
     // then
     expect(data).toBeFalsy();
@@ -90,7 +86,7 @@ describe('loadCheckData()', () => {
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(api, checkType, chapter, verse, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -117,7 +113,7 @@ describe('loadCheckData()', () => {
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(api, checkType, chapter, verse, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -135,9 +131,7 @@ describe('getIsVerseEdited()', () => {
       tc: {
         projectDataPathExistsSync: () => expectedHasVerseEdits,
         targetBook: {},
-        project: {
-          readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }),
-        }
+        project: { readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }) },
       },
       contextId: { reference: { bookId: bookId } },
     };
@@ -161,9 +155,7 @@ describe('getIsVerseEdited()', () => {
       tc: {
         projectDataPathExistsSync: () => expectedHasVerseEdits,
         targetBook: {},
-        project: {
-          readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }),
-        }
+        project: { readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }) },
       },
       contextId: { reference: { bookId } },
     };
@@ -236,15 +228,11 @@ describe('getVerseComment()', () => {
     const folderData = ['time1.json'];
     const commentData = _.cloneDeep(testRecord);
     let bookId = 'bookID';
-    const contextId = { reference: { bookId: bookId } };
+    const contextId = { reference: { bookId: bookId, chapter: 1, verse: 2 } };
 
     api.props = {
       contextId,
-      tc: {
-        project: {
-          readCurrentContextIdSync: () => contextId,
-        }
-      },
+      tc: { project: { readCurrentContextIdSync: () => contextId } },
     };
     // mocking fs methods
     jest.mock('fs-extra');
@@ -253,7 +241,7 @@ describe('getVerseComment()', () => {
     fs.readJsonSync = jest.fn(() => JSON.stringify(commentData));
 
     // when
-    const verseComment = getVerseComment(api, 1, 2);
+    const verseComment = getVerseComment(contextId);
 
     // then
     expect(verseComment).toEqual(expectedComment);
@@ -268,15 +256,11 @@ describe('getVerseComment()', () => {
     const commentData = _.cloneDeep(testRecord);
     commentData.text = expectedComment;
     const bookId = 'bookID';
-    const contextId = { reference: { bookId: bookId }, tool: 'wordAlignment' };
+    const contextId = { reference: { bookId: bookId, chapter: 2, verse: 3 }, tool: 'wordAlignment' };
 
     api.props = {
       contextId,
-      tc: {
-        project: {
-          readCurrentContextIdSync: () => contextId,
-        }
-      },
+      tc: { project: { readCurrentContextIdSync: () => contextId } },
     };
 
     // mocking fs methods
@@ -287,7 +271,7 @@ describe('getVerseComment()', () => {
     fs.readJsonSync = jest.fn(() => commentData);
 
     // when
-    const verseComment = getVerseComment(api, 2, 3);
+    const verseComment = getVerseComment(contextId);
 
     // then
     expect(verseComment).toEqual(expectedComment);
@@ -303,27 +287,23 @@ describe('getVerseComment()', () => {
     commentData.text = expectedComment;
     commentData.contextId.tool = 'OtherTool';
     const bookId = 'bookID';
-    const contextId = { reference: { bookId: bookId } };
+    const contextId = { reference: { bookId: bookId, chapter: 3, verse: 4 } };
 
     api.props = {
       contextId,
-      tc: {
-        project: {
-          readCurrentContextIdSync: () => contextId,
-        }
-      },
+      tc: { project: { readCurrentContextIdSync: () => contextId } },
     };
 
-     // mocking fs methods
-     jest.unmock('fs-extra');
-     jest.mock('fs-extra');
-     fs.existsSync = jest.fn(() => !!folderData.length);
-     fs.readdirSync = jest.fn(() => _.cloneDeep(folderData));
-     fs.readJsonSync = jest.fn(() => commentData);
+    // mocking fs methods
+    jest.unmock('fs-extra');
+    jest.mock('fs-extra');
+    fs.existsSync = jest.fn(() => !!folderData.length);
+    fs.readdirSync = jest.fn(() => _.cloneDeep(folderData));
+    fs.readJsonSync = jest.fn(() => commentData);
 
 
     // when
-    const verseComment = getVerseComment(api, 3, 4);
+    const verseComment = getVerseComment(contextId);
 
     // then
     expect(verseComment).toEqual(expectedComment);
@@ -336,15 +316,11 @@ describe('getVerseComment()', () => {
     const expectedComment = '';
     const folderData = ['time1.json'];
     let bookId = 'bookID';
-    const contextId = { reference: { bookId: bookId } };
+    const contextId = { reference: { bookId: bookId, chapter: 4, verse: 5 } };
 
     api.props = {
       contextId,
-      tc: {
-        project: {
-          readCurrentContextIdSync: () => contextId,
-        }
-      },
+      tc: { project: { readCurrentContextIdSync: () => contextId } },
     };
 
     // mocking fs methods
@@ -356,7 +332,7 @@ describe('getVerseComment()', () => {
 
 
     // when
-    const verseComment = getVerseComment(api, 4, 5);
+    const verseComment = getVerseComment(contextId);
 
     // then
     expect(verseComment).toEqual(expectedComment);

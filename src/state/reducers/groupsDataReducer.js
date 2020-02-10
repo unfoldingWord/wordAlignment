@@ -2,17 +2,8 @@ import isEqual from 'deep-equal';
 import _ from 'lodash';
 import {
   CLEAR_PREVIOUS_GROUPS_DATA,
-  SET_BOOKMARKS_IN_GROUPDATA,
-  SET_REMINDERS_IN_GROUPDATA,
-  SET_INVALIDATION_IN_GROUPDATA,
   LOAD_GROUPS_DATA_FROM_FS,
-  TOGGLE_VERSE_EDITS_IN_GROUPDATA,
-  TOGGLE_BOOKMARKS_IN_GROUPDATA,
-  TOGGLE_COMMENTS_IN_GROUPDATA,
-  TOGGLE_SELECTIONS_IN_GROUPDATA,
-  TOGGLE_MULTIPLE_VERSE_EDITS_IN_GROUPDATA,
 } from '../actions/actionTypes';
-import { getToggledGroupData } from '../../utils/groupDataHelpers';
 
 const initialState = {
   groupsData: {},
@@ -29,63 +20,6 @@ const groupsDataReducer = (state = initialState, action) => {
         ...action.groupsData,
       },
       loadedFromFileSystem: true,
-    };
-  case TOGGLE_BOOKMARKS_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.contextId.groupId]: getToggledGroupData(state, action, 'reminders'),
-      },
-    };
-  case TOGGLE_COMMENTS_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.contextId.groupId]: getToggledGroupData(state, action, 'comments'),
-      },
-    };
-  case TOGGLE_SELECTIONS_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.contextId.groupId]: getToggledGroupData(state, action, 'selections'),
-      },
-    };
-  case TOGGLE_VERSE_EDITS_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.contextId.groupId]: getToggledGroupData(state, action, 'verseEdits'),
-      },
-    };
-  case TOGGLE_MULTIPLE_VERSE_EDITS_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.groupId]: setMultipleVerseEdits(state, action),
-      },
-    };
-  case SET_INVALIDATION_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.contextId.groupId]: getToggledGroupData(state, action, 'invalidated'),
-      },
-    };
-  case SET_REMINDERS_IN_GROUPDATA:
-  case SET_BOOKMARKS_IN_GROUPDATA:
-    return {
-      ...state,
-      groupsData: {
-        ...state.groupsData,
-        [action.contextId.groupId]: getToggledGroupData(state, action, 'reminders'),
-      },
     };
   case CLEAR_PREVIOUS_GROUPS_DATA:
     return initialState;

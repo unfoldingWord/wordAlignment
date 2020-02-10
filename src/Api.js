@@ -295,6 +295,7 @@ export default class Api extends ToolApi {
     const {
       loadGroupMenuItem,
       tc: { targetBook },
+      contextId,
     } = props;
     let chapterIsValid = true;
 
@@ -307,7 +308,7 @@ export default class Api extends ToolApi {
       if (isNaN(verse) || parseInt(verse) === -1) {
         continue;
       }
-      loadGroupMenuItem(this, chapter, verse);
+      loadGroupMenuItem(this, chapter, verse, contextId);
       const isValid = this._validateVerse(props, chapter, verse);
 
       if (!isValid) {
@@ -615,7 +616,7 @@ export default class Api extends ToolApi {
 
       if (isWaTool) {
         if (!isEqual(prevContext, nextContext)) {
-          loadNewContext(this, nextContext);
+          loadNewContext(nextContext);
         }
       }
 
@@ -636,15 +637,16 @@ export default class Api extends ToolApi {
    * tries to get groupMenu info from reducers, if data missing then it is fetched
    * @param {number} chapter
    * @param {number} verse
+   * @param {object} contextId
    */
-  getVerseData(chapter, verse) {
+  getVerseData(chapter, verse, contextId) {
     const { store } = this.context;
     let itemState = getGroupMenuItem(store.getState(), chapter, verse);
 
     if (!itemState) { // if not yet loaded, then fetch
       const { loadGroupMenuItem } = this.props;
 
-      loadGroupMenuItem(this, chapter, verse);
+      loadGroupMenuItem(this, chapter, verse, contextId);
       itemState = getGroupMenuItem(store.getState(), chapter, verse);
     }
     return itemState;
@@ -742,8 +744,7 @@ export default class Api extends ToolApi {
    * @returns {number}
    */
   getInvalidChecks() {
-    const { tc: { targetBook } } = this.props;
-
+    const { tc: { targetBook }, contextId } = this.props;
     const chapters = Object.keys(targetBook);
     let invalidVerses = 0;
 
@@ -763,7 +764,7 @@ export default class Api extends ToolApi {
           continue;
         }
 
-        const itemState = this.getVerseData(chapter, verse);
+        const itemState = this.getVerseData(chapter, verse, contextId);
 
         if (itemState[INVALID_KEY]) {
           invalidVerses ++;
@@ -780,8 +781,7 @@ export default class Api extends ToolApi {
    * @returns {number} - a value between 0 and 1
    */
   getProgress() {
-    const { tc: { targetBook } } = this.props;
-
+    const { tc: { targetBook }, contextId } = this.props;
     const chapters = Object.keys(targetBook);
     let totalVerses = 0;
     let completeVerses = 0;
@@ -803,7 +803,7 @@ export default class Api extends ToolApi {
         }
 
         totalVerses ++;
-        const itemState = this.getVerseData(chapter, verse);
+        const itemState = this.getVerseData(chapter, verse, contextId);
         const isAligned = !itemState[UNALIGNED_KEY];
 
         if (isAligned || itemState[FINISHED_KEY]) {

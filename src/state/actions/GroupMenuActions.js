@@ -30,13 +30,14 @@ export const clearGroupMenu = () => ({ type: CLEAR_GROUP_MENU });
 
 /**
  * load items that may have been changed externally
- * @param {Object} api - tool api for system calls
+ * @param {object} api - tool api for system calls
  * @param {number|string} chapter
  * @param {number|string} verse
- * @param {Boolean} force - if true, reload data, otherwise data will only be loaded if no current data for verse
- * @return {Object}
+ * @param {object} contextId
+ * @param {boolean} force - if true, reload data, otherwise data will only be loaded if no current data for verse
+ * @return {object}
  */
-export const loadGroupMenuItem = (api, chapter, verse, force = false) => ((dispatch, getState) => {
+export const loadGroupMenuItem = (api, chapter, verse, contextId, force = false) => ((dispatch, getState) => {
   const state = getState();
 
   // reload verse data if force or if no data found for this verse
@@ -46,8 +47,8 @@ export const loadGroupMenuItem = (api, chapter, verse, force = false) => ((dispa
     itemState[INVALID_KEY] = CheckDataHelper.getIsVerseInvalid(api, chapter, verse);
     itemState[UNALIGNED_KEY] = !getIsVerseAligned(state, chapter, verse);
     itemState[EDITED_KEY] = CheckDataHelper.getIsVerseEdited(api, chapter, verse);
-    itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(api, chapter, verse);
-    itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(api, chapter, verse);
+    itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(contextId);
+    itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(contextId);
     dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 });

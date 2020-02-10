@@ -6,20 +6,18 @@ import {
 
 /**
  * load reducers for latest context
- * @param {Object} api - tool api for system calls
- * @param contextId
+ * @param {object} contextId - contextId.
  * @return {function(...[*]=)}
  */
-export function loadNewContext(api, contextId) {
+export function loadNewContext(contextId) {
   return (dispatch => {
-    const { reference: { chapter, verse } } = contextId;
-    let data = getVerseCommentRecord(api, chapter, verse);
+    let data = getVerseCommentRecord(contextId);
 
     dispatch({
       type: consts.LOAD_COMMENT,
       value: data,
     });
-    data = getVerseBookmarkedRecord(api, chapter, verse);
+    data = getVerseBookmarkedRecord(contextId);
     dispatch({
       type: consts.LOAD_REMINDER,
       value: data,

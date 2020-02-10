@@ -11,25 +11,17 @@ import {
   visibleGroupItems,
 } from '../../utils/navigationHelpers';
 import {
-  loadSelections,
-  loadComments,
-  loadBookmarks,
-  loadInvalidated,
-} from '../../utils/CheckDataHelper';
-import {
   getGroupsIndex,
   getGroupsData,
   getContextId,
   getGroupMenuFilters,
 } from '../selectors';
+import { loadComments } from './CommentsActions';
 import {
   CHANGE_CONTEXT_ID,
-  CHANGE_SELECTIONS,
-  SET_BOOKMARK,
-  SET_INVALIDATED,
-  ADD_COMMENT,
   CLEAR_CONTEXT_ID,
 } from './actionTypes';
+import { loadBookmarks } from './BookmarksActions';
 
 /**
  * Loads the latest contextId file from the file system.
@@ -102,7 +94,7 @@ export const changeCurrentContextId = (contextId = null, projectSaveLocation, us
     console.info(`changeCurrentContextId() - setting new contextId to: ${refStr}`);
 
     if (!groupDataLoaded) { // if group data not found, load from file
-      dispatch(loadCheckData(contextId, projectSaveLocation, gatewayLanguageCode));
+      dispatch(loadCheckDataOnContextIdChange(contextId, gatewayLanguageCode));
     }
 
     saveContextId(contextId, projectSaveLocation);
@@ -171,46 +163,6 @@ function changeContextIdInReducers(contextId, dispatch, state) {
     }
   }
 
-  // if check data not found in group data reducer, set to defaults
-  const selections = oldGroupObject['selections'] || [];
-  const nothingToSelect = oldGroupObject['nothingToSelect'] || false;
-  const reminders = oldGroupObject['reminders'] || false;
-  const invalidated = oldGroupObject['invalidated'] || false;
-  const comments = oldGroupObject['comments'] || '';
-  const actionsBatch = [
-    {
-      type: CHANGE_CONTEXT_ID,
-      contextId,
-    },
-    {
-      type: CHANGE_SELECTIONS,
-      modifiedTimestamp: null,
-      selections,
-      nothingToSelect,
-      username: null,
-    },
-    {
-      type: SET_BOOKMARK,
-      enabled: reminders,
-      modifiedTimestamp: '',
-      username: null,
-      gatewayLanguageCode: null,
-    },
-    {
-      type: SET_INVALIDATED,
-      enabled: invalidated,
-      modifiedTimestamp: '',
-      username: null,
-      gatewayLanguageCode: null,
-    },
-    {
-      type: ADD_COMMENT,
-      modifiedTimestamp: '',
-      text: comments,
-      username: null,
-    },
-  ];
-  dispatch(batchActions(actionsBatch)); // process the batch
   return !!oldGroupObject;
 }
 
@@ -220,17 +172,14 @@ export const changeContextId = contextId => ({
 });
 
 /**
- *
- * @param {*} contextId
- * @param {*} projectSaveLocation
- * @param {*} gatewayLanguageCode
+ * Loads CheckData On ContextId Change.
+ * @param {object} contextId
+ * @param {string} gatewayLanguageCode
  */
-const loadCheckData = (contextId, projectSaveLocation, gatewayLanguageCode) => dispatch => {
+const loadCheckDataOnContextIdChange = (contextId, gatewayLanguageCode) => dispatch => {
   const actionsBatch = [];
-  actionsBatch.push(loadSelections(projectSaveLocation, contextId));
-  actionsBatch.push(loadComments(projectSaveLocation, contextId));
-  actionsBatch.push(loadBookmarks(projectSaveLocation, contextId, gatewayLanguageCode));
-  actionsBatch.push(loadInvalidated(projectSaveLocation, contextId, gatewayLanguageCode));
+  actionsBatch.push(loadComments(contextId));
+  actionsBatch.push(loadBookmarks(contextId, gatewayLanguageCode));
   dispatch(batchActions(actionsBatch)); // process the batch
 };
 

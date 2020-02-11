@@ -7,9 +7,6 @@ import {
 
 /**
  * Loads all of the group Ids and group names to the groupsIndexReducer
- * @param {string} gatewayLanguage - gateway Language.
- * @param {string} toolName - tool Name.
- * @param {string} projectDir - project Directory path.
  * @param {function} translate - locale transtale.
  * @return {object} action object.
  */

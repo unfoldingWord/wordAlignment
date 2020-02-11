@@ -1,9 +1,7 @@
 import fs from 'fs-extra';
-import { batchActions } from 'redux-batched-actions';
 // Helpers
 import delay from '../../utils/delay';
 import Repo from '../../utils/Repo';
-import { findGroupDataItem } from '../../utils/groupDataHelpers';
 import { getContextIdPathFromIndex, saveContextId } from '../../utils/contextIdHelpers';
 import {
   shiftGroupIndex,
@@ -16,14 +14,11 @@ import {
   getContextId,
   getGroupMenuFilters,
 } from '../selectors';
-import { loadComments } from './CommentsActions';
 import {
-  ADD_COMMENT,
-  ADD_BOOKMARK,
   CHANGE_CONTEXT_ID,
   CLEAR_CONTEXT_ID,
 } from './actionTypes';
-import { loadBookmarks } from './BookmarksActions';
+import { loadNewContext } from './CheckDataActions';
 
 /**
  * Loads the latest contextId file from the file system.
@@ -33,7 +28,7 @@ import { loadBookmarks } from './BookmarksActions';
  * @param {object} userData - user data.
  * @param {string} gatewayLanguageCode - gateway language code.
  */
-export function loadCurrentContextId(toolName, bookId, projectSaveLocation, userData, gatewayLanguageCode) {
+export function loadCurrentContextId(toolName, bookId, projectSaveLocation, userData, gatewayLanguageCode, tc) {
   return (dispatch, getState) => {
     const state = getState();
     const groupsIndex = getGroupsIndex(state);
@@ -50,7 +45,7 @@ export function loadCurrentContextId(toolName, bookId, projectSaveLocation, user
             const contextIdExistInGroups = groupsIndex.filter(({ id }) => id === contextId.groupId).length > 0;
 
             if (contextId && contextIdExistInGroups) {
-              return dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
+              return dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
             }
           } catch (err) {
             // The object is undefined because the file wasn't found in the directory
@@ -59,7 +54,7 @@ export function loadCurrentContextId(toolName, bookId, projectSaveLocation, user
         }
         // if we could not read contextId default to first
         contextId = firstContextId(state);
-        dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
+        dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
       } catch (err) {
         // The object is undefined because the file wasn't found in the directory or other error
         console.error('loadCurrentContextId() error loading contextId', err);
@@ -76,11 +71,11 @@ export function loadCurrentContextId(toolName, bookId, projectSaveLocation, user
  * @param {string} projectSaveLocation - project's absolute path.
  * @param {object} userData - user data.
  * @param {string} gatewayLanguageCode - gateway language code.
+ * @param {object} tc - tc.
  */
-export const changeCurrentContextId = (contextId = null, projectSaveLocation, userData, gatewayLanguageCode) => (dispatch, getState) => {
+export const changeCurrentContextId = (contextId = null, projectSaveLocation, userData, gatewayLanguageCode, tc) => (dispatch, getState) => {
   const state = getState();
   contextId = contextId || getContextId(state);
-  const groupDataLoaded = changeContextIdInReducers(contextId, dispatch, state);
 
   if (contextId) {
     const {
@@ -95,10 +90,9 @@ export const changeCurrentContextId = (contextId = null, projectSaveLocation, us
     const refStr = `${tool} ${groupId} ${bookId} ${chapter}:${verse}`;
     console.info(`changeCurrentContextId() - setting new contextId to: ${refStr}`);
 
-    if (!groupDataLoaded) { // if group data not found, load from file
-      dispatch(loadCheckDataOnContextIdChange(contextId, gatewayLanguageCode));
-    }
-
+    dispatch(loadNewContext(contextId, tc));
+    dispatch(changeContextId(contextId));
+    // save current contextId to filesystem.
     saveContextId(contextId, projectSaveLocation);
 
     // commit project changes after delay
@@ -146,52 +140,9 @@ function firstContextId(state) {
 }
 
 /**
- * change context ID and load check data in reducers from group data reducer
- * @param {Object} contextId
- * @param {Function} dispatch
- * @param {Object} state
- * @return {Boolean} true if check data found in reducers
+ * Change Context Id action creator
+ * @param {object} contextId
  */
-function changeContextIdInReducers(contextId, dispatch, state) {
-  let oldGroupObject = {};
-  const groupsData = getGroupsData(state);
-
-  if (contextId && contextId.groupId) {
-    const currentGroupData = groupsData && groupsData[contextId.groupId];
-
-    if (currentGroupData) {
-      const index = findGroupDataItem(contextId, currentGroupData);
-      oldGroupObject = (index >= 0) ? currentGroupData[index] : null;
-    }
-  }
-
-  // if check data not found in group data reducer, set to defaults
-  const reminders = oldGroupObject['reminders'] || false;
-  const comments = oldGroupObject['comments'] || '';
-  const actionsBatch = [
-    {
-      type: CHANGE_CONTEXT_ID,
-      contextId,
-    },
-    {
-      type: ADD_BOOKMARK,
-      enabled: reminders,
-      modifiedTimestamp: '',
-      userName: null,
-      gatewayLanguageCode: null,
-    },
-    {
-      type: ADD_COMMENT,
-      modifiedTimestamp: '',
-      text: comments,
-      userName: null,
-    },
-  ];
-  dispatch(batchActions(actionsBatch)); // process the batch
-
-  return !!oldGroupObject;
-}
-
 export const changeContextId = contextId => ({
   type: CHANGE_CONTEXT_ID,
   contextId,
@@ -202,14 +153,14 @@ export const changeContextId = contextId => ({
  * @param {object} contextId
  * @param {string} gatewayLanguageCode
  */
-const loadCheckDataOnContextIdChange = (contextId, gatewayLanguageCode) => dispatch => {
-  const actionsBatch = [];
-  actionsBatch.push(loadComments(contextId));
-  actionsBatch.push(loadBookmarks(contextId, gatewayLanguageCode));
-  dispatch(batchActions(actionsBatch)); // process the batch
-};
+// const loadCheckDataOnContextIdChange = (contextId, gatewayLanguageCode) => dispatch => {
+//   const actionsBatch = [];
+//   actionsBatch.push(loadComments(contextId));
+//   actionsBatch.push(loadBookmarks(contextId, gatewayLanguageCode));
+//   dispatch(batchActions(actionsBatch)); // process the batch
+// };
 
-export const changeToNextContextId = (projectSaveLocation, userData, gatewayLanguageCode) => ((dispatch, getState) => {
+export const changeToNextContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => ((dispatch, getState) => {
   const state = getState();
   const groupsData = getGroupsData(state);
   const groupsIndex = getGroupsIndex(state);
@@ -233,7 +184,7 @@ export const changeToNextContextId = (projectSaveLocation, userData, gatewayLang
   } else {
     contextId = nextGroupDataItem.contextId;
   }
-  dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
+  dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
 });
 
 /**
@@ -241,8 +192,9 @@ export const changeToNextContextId = (projectSaveLocation, userData, gatewayLang
  * @param {*} projectSaveLocation
  * @param {*} userData
  * @param {*} gatewayLanguageCode
+ * @param {*} tc
  */
-export const changeToPreviousContextId = (projectSaveLocation, userData, gatewayLanguageCode) => ((dispatch, getState) => {
+export const changeToPreviousContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => ((dispatch, getState) => {
   const state = getState();
   const groupsData = getGroupsData(state);
   const groupsIndex = getGroupsIndex(state);
@@ -265,7 +217,7 @@ export const changeToPreviousContextId = (projectSaveLocation, userData, gateway
   } else {
     contextId = prevGroupDataItem.contextId;
   }
-  dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
+  dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
 });
 
 export const clearContextId = () => ({ type: CLEAR_CONTEXT_ID });

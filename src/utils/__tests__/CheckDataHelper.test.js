@@ -1,3 +1,4 @@
+/* eslint-disable */
 import _ from 'lodash';
 import fs from 'fs-extra';
 import path from 'path-extra';
@@ -34,6 +35,7 @@ const testRecord = {
     'groupId': 'chapter_2',
   },
 };
+const _dataPath = '/Users/mannycolon/translationCore/projects/hi_aaa_tit_book/.apps/translationCore';
 
 describe('loadCheckData()', () => {
   let api;
@@ -47,7 +49,7 @@ describe('loadCheckData()', () => {
           projectDataPathExistsSync: fs.existsSync,
           readProjectDataSync: fs.readFileSync,
           readProjectDirSync: fs.readdirSync,
-          project: { readCurrentContextIdSync: () => _.cloneDeep(testRecord.contextId) },
+          project: { readCurrentContextIdSync: () => _.cloneDeep(testRecord.contextId), _dataPath },
         },
         contextId: _.cloneDeep(testRecord.contextId),
       },
@@ -60,7 +62,7 @@ describe('loadCheckData()', () => {
     const checkType = 'comments';
 
     // when
-    const data = loadCheckData(api.props.contextId, checkType, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, api.props.tc, toolName);
 
     // then
     expect(data).toBeFalsy();
@@ -73,7 +75,7 @@ describe('loadCheckData()', () => {
     const verse = 4;
     const expectedText = 'new stuff';
     const bookId = testRecord.contextId.reference.bookId;
-    const folder = generateCheckPath(checkType, bookId, chapter, verse);
+    const folder = path.join(_dataPath, generateCheckPath(checkType, bookId, chapter, verse));
     fs.ensureDirSync(folder);
     let fileName2 = testRecord.modifiedTimestamp + '.json';
     fileName2 = fileName2.replace('2019-', '2020-');
@@ -85,8 +87,9 @@ describe('loadCheckData()', () => {
     testRecord1.text = 'old';
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
+    fs.existsSync()
     // when
-    const data = loadCheckData(api.props.contextId, checkType, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, api.props.tc, chapter, verse, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -99,7 +102,7 @@ describe('loadCheckData()', () => {
     const verse = 4;
     const expectedText = 'wa stuff';
     const bookId = testRecord.contextId.reference.bookId;
-    const folder = generateCheckPath(checkType, bookId, chapter, verse);
+    const folder = path.join(_dataPath, generateCheckPath(checkType, bookId, chapter, verse));
     fs.ensureDirSync(folder);
     let fileName2 = testRecord.modifiedTimestamp + '.json';
     fileName2 = fileName2.replace('2019-', '2020-');
@@ -113,7 +116,7 @@ describe('loadCheckData()', () => {
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(api.props.contextId, checkType, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, api.props.tc, chapter, verse, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -229,10 +232,9 @@ describe('getVerseComment()', () => {
     const commentData = _.cloneDeep(testRecord);
     let bookId = 'bookID';
     const contextId = { reference: { bookId: bookId, chapter: 1, verse: 2 } };
-
     api.props = {
       contextId,
-      tc: { project: { readCurrentContextIdSync: () => contextId } },
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
     // mocking fs methods
     jest.mock('fs-extra');
@@ -241,11 +243,11 @@ describe('getVerseComment()', () => {
     fs.readJsonSync = jest.fn(() => JSON.stringify(commentData));
 
     // when
-    const verseComment = getVerseComment(contextId);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(fs.existsSync).toBeCalledWith('checkData/comments/bookID/1/2');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/1/2'));
   });
 
   it('saved comment', () => {
@@ -260,7 +262,7 @@ describe('getVerseComment()', () => {
 
     api.props = {
       contextId,
-      tc: { project: { readCurrentContextIdSync: () => contextId } },
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
 
     // mocking fs methods
@@ -271,11 +273,11 @@ describe('getVerseComment()', () => {
     fs.readJsonSync = jest.fn(() => commentData);
 
     // when
-    const verseComment = getVerseComment(contextId);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(fs.existsSync).toBeCalledWith('checkData/comments/bookID/2/3');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/2/3'));
   });
 
   it('saved comment for different tool', () => {
@@ -291,7 +293,7 @@ describe('getVerseComment()', () => {
 
     api.props = {
       contextId,
-      tc: { project: { readCurrentContextIdSync: () => contextId } },
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
 
     // mocking fs methods
@@ -303,11 +305,11 @@ describe('getVerseComment()', () => {
 
 
     // when
-    const verseComment = getVerseComment(contextId);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(fs.existsSync).toBeCalledWith('checkData/comments/bookID/3/4');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/3/4'));
   });
 
   it('saved comment invalid json', () => {
@@ -320,7 +322,7 @@ describe('getVerseComment()', () => {
 
     api.props = {
       contextId,
-      tc: { project: { readCurrentContextIdSync: () => contextId } },
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
 
     // mocking fs methods
@@ -332,10 +334,10 @@ describe('getVerseComment()', () => {
 
 
     // when
-    const verseComment = getVerseComment(contextId);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(fs.existsSync).toBeCalledWith('checkData/comments/bookID/4/5');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/4/5'));
   });
 });

@@ -1,6 +1,6 @@
 import { ADD_BOOKMARK } from '../actions/actionTypes';
-import * as GroupMenuActions from '../actions/GroupMenuActions';
-import { writeCheckData, loadCheckData } from '../../utils/CheckDataHelper';
+import { setGroupMenuItemBookmarked } from '../actions/GroupMenuActions';
+import { writeCheckData } from '../../utils/CheckDataHelper';
 import generateTimestamp from '../../utils/generateTimestamp';
 
 /**
@@ -49,7 +49,7 @@ export const addBookmark = (api, enabled, username, contextId) => ((dispatch) =>
   enabled = !!enabled;
   const timestamp = generateTimestamp();
   dispatch(setBookmark(enabled, username, contextId, timestamp));
-  dispatch(GroupMenuActions.setGroupMenuItemBookmarked(chapter, verse, enabled));
+  dispatch(setGroupMenuItemBookmarked(chapter, verse, enabled));
   const newData = {
     enabled: enabled,
     userName: username,
@@ -60,31 +60,3 @@ export const addBookmark = (api, enabled, username, contextId) => ((dispatch) =>
   };
   writeCheckData(api, 'reminders', chapter, verse, newData, timestamp);
 });
-
-/**
- * Loads the latest bookmarks file from the file system for the specify contextID.
- * @param {object} contextId - context id.
- * @param {string} gatewayLanguageCode - gateway language code.
- */
-export function loadBookmarks(contextId, gatewayLanguageCode) {
-  const remindersObject = loadCheckData(contextId, 'reminders');
-
-  if (remindersObject) {
-    return {
-      type: ADD_BOOKMARK,
-      enabled: remindersObject.enabled,
-      userName: remindersObject.userName || remindersObject.username,
-      modifiedTimestamp: remindersObject.modifiedTimestamp,
-      gatewayLanguageCode,
-    };
-  } else {
-    // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
-    return {
-      type: ADD_BOOKMARK,
-      enabled: false,
-      modifiedTimestamp: '',
-      username: '',
-      gatewayLanguageCode: null,
-    };
-  }
-}

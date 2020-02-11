@@ -57,40 +57,52 @@ export const getIsVerseEdited = (api, chapter, verse) => {
 /**
  * get current comment Object for verse
  * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
+ * @param {number} chapter
+ * @param {number} verse
  * @return {object}
  */
-export const getVerseCommentRecord = (contextId) => {
-  const data = loadCheckData(contextId, 'comments');
+export const getVerseCommentRecord = (contextId, tc, chapter, verse) => {
+  const data = loadCheckData(contextId, 'comments', tc, chapter, verse);
   return data;
 };
 
 /**
  * get current comment String for verse
  * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
  * @return {string}
  */
-export const getVerseComment = (contextId) => {
-  const comment = getVerseCommentRecord(contextId);
+export const getVerseComment = (contextId, tc, chapter, verse) => {
+  const comment = getVerseCommentRecord(contextId, tc, chapter, verse);
   return (comment && comment.text) || '';
 };
 
 /**
  * get current bookmark Object for verse
  * @param {Object} contextId - contextId.
+ * @param {Object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
  * @return {Object}
  */
-export const getVerseBookmarkedRecord = (contextId) => {
-  const data = loadCheckData(contextId, 'reminders');
+export const getVerseBookmarkedRecord = (contextId, tc, chapter, verse) => {
+  const data = loadCheckData(contextId, 'reminders', tc, chapter, verse);
   return data;
 };
 
 /**
  * get current bookmark state for verse
  * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
  * @return {boolean}
  */
-export const getVerseBookmarked = (contextId) => {
-  const bookmark = getVerseBookmarkedRecord(contextId);
+export const getVerseBookmarked = (contextId, tc, chapter, verse) => {
+  const bookmark = getVerseBookmarkedRecord(contextId, tc, chapter, verse);
   return !!(bookmark && bookmark.enabled);
 };
 
@@ -111,17 +123,24 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
  * Loads checkdata based on given contextId.
  * @param {object} contextId - contextId.
  * @param {string} checkType (e.g. reminders)
+ * @param {object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
  * @param {string} toolName
  * @return {object} returns the most recent object for verse loaded from the file system.
  */
-export function loadCheckData(contextId, checkType, toolName = 'wordAlignment') {
+export function loadCheckData(contextId, checkType, tc, chapter = null, verse = null, toolName = 'wordAlignment') {
   const {
     reference: {
-      bookId, chapter, verse,
+      bookId, chapter: contextIdChapter, verse: contextIdVerse,
     },
   } = contextId;
+  // TRICKY: In some cases we need to use a chapter and verse combo different than the one coming in the contextId.
+  chapter = chapter || contextIdChapter;
+  verse = verse || contextIdVerse;
+  const { project: { _dataPath } } = tc;
+  const loadPath = path.join(_dataPath, generateCheckPath(checkType, bookId, chapter, verse));
   let checkDataObject;
-  const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
 
   if (loadPath && contextId && fs.existsSync(loadPath)) {
     let files = fs.readdirSync(loadPath);

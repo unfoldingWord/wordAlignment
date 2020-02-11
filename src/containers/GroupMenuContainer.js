@@ -222,10 +222,11 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {
-    gatewayLanguageCode,
+    tc,
     translate,
-    tc: { project: projectApi },
+    gatewayLanguageCode,
   } = ownProps;
+  const { project: projectApi } = tc;
   const projectSaveLocation = getProjectPath(ownProps);
   const { project: { id: bookId } } = getProjectManifest(ownProps);
   const currentToolName = getCurrentToolName(ownProps);
@@ -241,10 +242,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearGroupsData: () => clearGroupsData(),
     loadCurrentContextId: () => {
-      dispatch(loadCurrentContextId(currentToolName, bookId, projectSaveLocation, userData, gatewayLanguageCode));
+      dispatch(loadCurrentContextId(currentToolName, bookId, projectSaveLocation, userData, gatewayLanguageCode, tc));
     },
     changeCurrentContextId: ({ contextId = null }) => {
-      dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode));
+      dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
     },
     clearContextId: () => clearContextId(),
   };

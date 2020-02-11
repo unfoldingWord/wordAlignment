@@ -20,7 +20,6 @@ import {
   SET_GROUP_MENU_COMMENT,
   SET_GROUP_MENU_STATE,
 } from './actionTypes';
-import { changeCurrentContextId } from './contextIdActions';
 
 /**
  * empties the group menu
@@ -47,8 +46,8 @@ export const loadGroupMenuItem = (api, chapter, verse, contextId, force = false)
     itemState[INVALID_KEY] = CheckDataHelper.getIsVerseInvalid(api, chapter, verse);
     itemState[UNALIGNED_KEY] = !getIsVerseAligned(state, chapter, verse);
     itemState[EDITED_KEY] = CheckDataHelper.getIsVerseEdited(api, chapter, verse);
-    itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(contextId);
-    itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(contextId);
+    itemState[BOOKMARKED_KEY] = CheckDataHelper.getVerseBookmarked(contextId, api.props.tc, chapter, verse);
+    itemState[COMMENT_KEY] = CheckDataHelper.getVerseComment(contextId, api.props.tc, chapter, verse);
     dispatch(setGroupMenuItemState(chapter, verse, itemState));
   }
 });
@@ -159,17 +158,6 @@ export const expandSubMenu = isSubMenuExpanded => ({
   type: GROUP_MENU_EXPAND_SUBMENU,
   isSubMenuExpanded,
 });
-
-/**
- * Changes the group in the group menu
- * @param {string} projectSaveLocation
- * @param {object} userData
- * @param {string} gatewayLanguageCode
- */
-export const changeGroup = (projectSaveLocation, userData, gatewayLanguageCode) => dispatch => {
-  dispatch(changeCurrentContextId(projectSaveLocation, userData, gatewayLanguageCode));
-  dispatch(expandSubMenu(true));
-};
 
 /**
  * Sets filter for what items to show.

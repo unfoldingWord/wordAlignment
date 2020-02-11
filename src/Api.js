@@ -25,7 +25,6 @@ import {
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
 } from './state/actions/GroupMenuActions';
-import { loadNewContext } from './state/actions/CheckDataActions';
 import {
   getIsVerseFinished,
   getIsVerseEdited,
@@ -567,7 +566,6 @@ export default class Api extends ToolApi {
       setGroupMenuItemFinished,
       setGroupMenuItemInvalid,
       unalignTargetToken,
-      loadNewContext,
     };
 
     const dispatchedMethods = {};
@@ -593,13 +591,10 @@ export default class Api extends ToolApi {
    */
   toolWillReceiveProps(nextProps) {
     const {
-      contextId: nextContext,
       tc: { toolName: nextToolName },
     } = nextProps;
     const {
       setActiveLocale,
-      loadNewContext,
-      contextId: prevContext,
       tc: { appLanguage, toolName: prevToolName },
       tool: { isReady },
     } = this.props;
@@ -612,12 +607,6 @@ export default class Api extends ToolApi {
 
       if (isWaTool && langId && (langId !== appLanguage)) {// see if locale language has changed
         setActiveLocale(appLanguage);
-      }
-
-      if (isWaTool) {
-        if (!isEqual(prevContext, nextContext)) {
-          loadNewContext(nextContext);
-        }
       }
 
       if (Api._didToolChange(prevToolName, nextToolName)) {

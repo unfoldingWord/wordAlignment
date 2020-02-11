@@ -1,5 +1,5 @@
 import * as GroupMenuActions from '../actions/GroupMenuActions';
-import { writeCheckData, loadCheckData } from '../../utils/CheckDataHelper';
+import { writeCheckData } from '../../utils/CheckDataHelper';
 import generateTimestamp from '../../utils/generateTimestamp';
 import { ADD_COMMENT } from '../actions/actionTypes';
 
@@ -59,29 +59,3 @@ export const addComment = (api, text, username, contextId) => ((dispatch) => {
   };
   writeCheckData(api, 'comments', chapter, verse, newData, timestamp);
 });
-
-/**
- * Loads the latest comment file from the file system for the specify contextID.
- * @param {object} contextId - context id.
- * @return {Object} Dispatches an action that loads the commentsReducer with data.
- */
-export function loadComments(contextId) {
-  const commentsObject = loadCheckData(contextId, 'comments');
-
-  if (commentsObject) {
-    return {
-      type: ADD_COMMENT,
-      modifiedTimestamp: commentsObject.modifiedTimestamp,
-      text: commentsObject.text,
-      userName: commentsObject.userName,
-    };
-  } else {
-    // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
-    return {
-      type: ADD_COMMENT,
-      modifiedTimestamp: '',
-      text: '',
-      userName: '',
-    };
-  }
-}

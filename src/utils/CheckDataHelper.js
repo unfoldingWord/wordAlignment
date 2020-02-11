@@ -171,9 +171,9 @@ export function writeCheckData(api, checkType, chapter, verse, newData, timeStam
   const {
     tc: {
       username,
-      contextId,
       writeProjectDataSync,
     },
+    contextId,
   } = api.props;
   const { reference: { bookId } } = contextId;
   const dataFolder = generateCheckPath(checkType, bookId, chapter, verse);

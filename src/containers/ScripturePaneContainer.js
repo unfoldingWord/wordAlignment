@@ -43,7 +43,9 @@ const ScripturePaneContainer = (props) => {
         bibles={bibles}
         expandedScripturePaneTitle={expandedScripturePaneTitle}
         showPopover={showPopover}
-        editTargetVerse={editTargetVerse}
+        editTargetVerse={(chapter, verse, before, after, tags) => {
+          editTargetVerse(chapter, verse, before, after, tags, contextId);
+        }}
         projectDetailsReducer={projectDetailsReducer}
         translate={translate}
         getLexiconData={getLexiconData}

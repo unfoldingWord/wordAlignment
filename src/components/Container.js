@@ -831,7 +831,6 @@ Container.propTypes = {
 
   // tc actions
   showPopover: PropTypes.func.isRequired,
-  getLexiconData: PropTypes.func.isRequired,
   setToolSettings: PropTypes.func.isRequired,
   loadLexiconEntry: PropTypes.func.isRequired,
 

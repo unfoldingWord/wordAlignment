@@ -132,7 +132,7 @@ export function getAvailableScripturePaneSelections(resourceList, contextId, bib
   }
 }
 
-function getLatestVersion(dir) {
+export function getLatestVersion(dir) {
   const versions = listVersions(dir);
 
   if (versions.length > 0) {

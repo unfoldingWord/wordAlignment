@@ -627,7 +627,6 @@ export class Container extends Component {
       currentBookmarks,
       currentComments,
       showPopover,
-      getLexiconData,
       loadLexiconEntry,
       contextId,
       bookId,
@@ -644,11 +643,6 @@ export class Container extends Component {
     } = this.props;
     const { snackText, showComments } = this.state;
     const snackOpen = snackText !== null;
-
-    // if (!contextId) {
-    //   return null;
-    // }
-
     const targetLanguage = manifest && manifest.target_language;
     let bookName = targetLanguage && targetLanguage.book && targetLanguage.book.name;
 
@@ -750,7 +744,6 @@ export class Container extends Component {
                 isHebrew={isHebrew}
                 verseState={verseState}
                 showPopover={showPopover}
-                getLexiconData={getLexiconData}
                 loadLexiconEntry={loadLexiconEntry}
               />
             ) : (

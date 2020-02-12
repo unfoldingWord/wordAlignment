@@ -4,22 +4,16 @@ import { connect } from 'react-redux';
 import { ScripturePane } from 'tc-ui-toolkit';
 import { getAvailableScripturePaneSelections } from '../utils/resourcesHelpers';
 import { getContextId } from '../state/selectors';
+import { getLexiconData } from '../utils/lexiconHelpers';
 
-/**
- * Injects necessary data into the scripture pane.
- * @param props
- * @return {*}
- * @constructor
- */
 const ScripturePaneContainer = (props) => {
   const {
     tc: {
       settingsReducer: { toolsSettings },
       resourcesReducer: { bibles },
-      selectionsReducer: { selections },// TODO:
+      selectionsReducer: { selections },// TODO: Create a selectionsReducer
       projectDetailsReducer,
       showPopover,
-      getLexiconData,
       setToolSettings,
       editTargetVerse,// TODO: Create a local version using the tools redux implementation.
       makeSureBiblesLoadedForTool,
@@ -77,9 +71,7 @@ ScripturePaneContainer.propTypes = {
     projectDetailsReducer: PropTypes.object.isRequired,
     showPopover: PropTypes.func.isRequired,
     editTargetVerse: PropTypes.func.isRequired,
-    getLexiconData: PropTypes.func.isRequired,
     setToolSettings: PropTypes.func.isRequired,
-    getAvailableScripturePaneSelections: PropTypes.func.isRequired,
     makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
   handleModalOpen: PropTypes.func,

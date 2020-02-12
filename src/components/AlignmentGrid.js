@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // constants
+import { getLexiconData } from '../utils/lexiconHelpers';
 import * as types from './WordCard/Types';
 // components
 import AlignmentCard from './AlignmentCard';
+// helpers
 
 const makeStyles = props => ({
   root: {
@@ -40,7 +42,6 @@ class AlignmentGrid extends Component {
       contextId,
       isHebrew,
       showPopover,
-      getLexiconData,
       loadLexiconEntry,
     } = this.props;
 
@@ -145,7 +146,6 @@ AlignmentGrid.propTypes = {
   targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
   isHebrew: PropTypes.bool.isRequired,
   showPopover: PropTypes.func.isRequired,
-  getLexiconData: PropTypes.func.isRequired,
   loadLexiconEntry: PropTypes.func.isRequired,
 };
 

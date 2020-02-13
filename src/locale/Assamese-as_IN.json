@@ -187,6 +187,7 @@
     "discard_changes": "Discard Changes"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "No results",
     "invalidated": "Invalidated",
     "bookmarks": "Bookmark",

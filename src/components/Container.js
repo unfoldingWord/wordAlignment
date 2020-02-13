@@ -580,10 +580,8 @@ export class Container extends Component {
 
   handleVerseEditSubmit(before, after, reasons) {
     const {
-      tc: {
-        contextId: { reference: { chapter, verse } },
-        actions: { editTargetVerse }
-      }
+      contextId: { reference: { chapter, verse } },
+      tc: { editTargetVerse }
     } = this.props;
     editTargetVerse(chapter, verse, before, after, reasons);
     this.handleVerseEditClose();

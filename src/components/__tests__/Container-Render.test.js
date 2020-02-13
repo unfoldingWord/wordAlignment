@@ -238,7 +238,9 @@ function getContainerInstance(props, verseText = 'Dummy Text') {
     finished: true,
     invalid: true,
     edited: true,
-    unaligned: true
+    unaligned: true,
+    bookId: 'tit',
+    gatewayLanguageCode: 'en',
   };
   const myProps = setupReducersAndProps(props, verseState, verseText);
   const wrapper = shallow(

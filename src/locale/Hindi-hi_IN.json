@@ -187,6 +187,7 @@
     "discard_changes": "परिवर्तनों को फेंक दें"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "एसआरसी",
     "invalidated": "अवैध",
     "bookmarks": "बुकमार्क",

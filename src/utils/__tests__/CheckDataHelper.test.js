@@ -1,6 +1,7 @@
-import _ from "lodash";
+/* eslint-disable */
+import _ from 'lodash';
 import fs from 'fs-extra';
-import path from "path-extra";
+import path from 'path-extra';
 import Api from '../../Api';
 import {
   generateCheckPath,
@@ -8,32 +9,33 @@ import {
   getIsVerseFinished,
   getIsVerseInvalid,
   getVerseComment,
-  loadCheckData
-} from "../CheckDataHelper";
+  loadCheckData,
+} from '../CheckDataHelper';
 
 jest.mock('../../state/reducers');
 
 const testRecord = {
-  "tags": [
-    "other"
+  'tags': [
+    'other',
   ],
-  "userName": "dummy",
-  "activeBook": "tit",
-  "activeChapter": 2,
-  "activeVerse": 1,
-  "modifiedTimestamp": "2019-12-31T19:00:39.737Z",
-  "gatewayLanguageCode": "en",
-  "gatewayLanguageQuote": "",
-  "contextId": {
-    "reference": {
-      "bookId": "tit",
-      "chapter": 2,
-      "verse": 4
+  'userName': 'dummy',
+  'activeBook': 'tit',
+  'activeChapter': 2,
+  'activeVerse': 1,
+  'modifiedTimestamp': '2019-12-31T19:00:39.737Z',
+  'gatewayLanguageCode': 'en',
+  'gatewayLanguageQuote': '',
+  'contextId': {
+    'reference': {
+      'bookId': 'tit',
+      'chapter': 2,
+      'verse': 4,
     },
-    "tool": "wordAlignment",
-    "groupId": "chapter_2"
-  }
+    'tool': 'wordAlignment',
+    'groupId': 'chapter_2',
+  },
 };
+const _dataPath = '/Users/mannycolon/translationCore/projects/hi_aaa_tit_book/.apps/translationCore';
 
 describe('loadCheckData()', () => {
   let api;
@@ -47,9 +49,10 @@ describe('loadCheckData()', () => {
           projectDataPathExistsSync: fs.existsSync,
           readProjectDataSync: fs.readFileSync,
           readProjectDirSync: fs.readdirSync,
-          contextId: _.cloneDeep(testRecord.contextId)
-        }
-      }
+          project: { readCurrentContextIdSync: () => _.cloneDeep(testRecord.contextId), _dataPath },
+        },
+        contextId: _.cloneDeep(testRecord.contextId),
+      },
     };
     toolName = 'wordAlignment';
   });
@@ -57,11 +60,9 @@ describe('loadCheckData()', () => {
   it('should not crash with no files', () => {
     // given
     const checkType = 'comments';
-    const chapter = 2;
-    const verse = 4;
 
     // when
-    const data = loadCheckData(api, checkType, chapter, verse, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, api.props.tc, toolName);
 
     // then
     expect(data).toBeFalsy();
@@ -74,20 +75,21 @@ describe('loadCheckData()', () => {
     const verse = 4;
     const expectedText = 'new stuff';
     const bookId = testRecord.contextId.reference.bookId;
-    const folder = generateCheckPath(checkType, bookId, chapter, verse);
+    const folder = path.join(_dataPath, generateCheckPath(checkType, bookId, chapter, verse));
     fs.ensureDirSync(folder);
-    let fileName2 = testRecord.modifiedTimestamp + ".json";
+    let fileName2 = testRecord.modifiedTimestamp + '.json';
     fileName2 = fileName2.replace('2019-', '2020-');
     const testRecord2 = _.cloneDeep(testRecord);
     testRecord2.text = expectedText;
     fs.outputJsonSync(path.join(folder, fileName2), testRecord2);
-    const fileName1 = testRecord.modifiedTimestamp + ".json";
+    const fileName1 = testRecord.modifiedTimestamp + '.json';
     const testRecord1 = _.cloneDeep(testRecord);
     testRecord1.text = 'old';
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
+    fs.existsSync()
     // when
-    const data = loadCheckData(api, checkType,  chapter, verse, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, api.props.tc, chapter, verse, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -100,21 +102,21 @@ describe('loadCheckData()', () => {
     const verse = 4;
     const expectedText = 'wa stuff';
     const bookId = testRecord.contextId.reference.bookId;
-    const folder = generateCheckPath(checkType, bookId, chapter, verse);
+    const folder = path.join(_dataPath, generateCheckPath(checkType, bookId, chapter, verse));
     fs.ensureDirSync(folder);
-    let fileName2 = testRecord.modifiedTimestamp + ".json";
+    let fileName2 = testRecord.modifiedTimestamp + '.json';
     fileName2 = fileName2.replace('2019-', '2020-');
     const testRecord2 = _.cloneDeep(testRecord);
     testRecord2.text = 'ta stuff';
     testRecord2.contextId.tool = 'translationNotes';
     fs.outputJsonSync(path.join(folder, fileName2), testRecord2);
-    const fileName1 = testRecord.modifiedTimestamp + ".json";
+    const fileName1 = testRecord.modifiedTimestamp + '.json';
     const testRecord1 = _.cloneDeep(testRecord);
     testRecord1.text = expectedText;
     fs.outputJsonSync(path.join(folder, fileName1), testRecord1);
 
     // when
-    const data = loadCheckData(api, checkType,  chapter, verse, toolName);
+    const data = loadCheckData(api.props.contextId, checkType, api.props.tc, chapter, verse, toolName);
 
     // then
     expect(data.text).toEqual(expectedText);
@@ -131,13 +133,10 @@ describe('getIsVerseEdited()', () => {
     const props = {
       tc: {
         projectDataPathExistsSync: () => expectedHasVerseEdits,
-        contextId: {
-          reference: {
-            bookId: bookId
-          }
-        },
-        targetBook: {}
-      }
+        targetBook: {},
+        project: { readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }) },
+      },
+      contextId: { reference: { bookId: bookId } },
     };
     const api = new Api();
     api.props = props;
@@ -151,19 +150,17 @@ describe('getIsVerseEdited()', () => {
 
   it('should return that a verse does not have verse edits', () => {
     // given
+    const bookId = 'luk';
     const chapter = 10;
     const verse = 11;
     const expectedHasVerseEdits = false;
     const props = {
       tc: {
         projectDataPathExistsSync: () => expectedHasVerseEdits,
-        contextId: {
-          reference: {
-            bookId: 'luk'
-          }
-        },
-        targetBook: {}
-      }
+        targetBook: {},
+        project: { readCurrentContextIdSync: () => ({ reference: { bookId: bookId } }) },
+      },
+      contextId: { reference: { bookId } },
     };
     const api = new Api();
     api.props = props;
@@ -177,7 +174,6 @@ describe('getIsVerseEdited()', () => {
 });
 
 describe('getIsVerseFinished()', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -185,28 +181,21 @@ describe('getIsVerseFinished()', () => {
   it('is not finished', () => {
     const api = new Api();
     const fileExists = false;
-    api.props = {
-      tool: {
-        toolDataPathExistsSync: jest.fn(() => fileExists)
-      }
-    };
+
+    api.props = { tool: { toolDataPathExistsSync: jest.fn(() => fileExists) } };
     expect(getIsVerseFinished(api, 1, 1)).toEqual(fileExists);
   });
 
   it('is finished', () => {
     const api = new Api();
     const fileExists = true;
-    api.props = {
-      tool: {
-        toolDataPathExistsSync: jest.fn(() => fileExists)
-      }
-    };
+
+    api.props = { tool: { toolDataPathExistsSync: jest.fn(() => fileExists) } };
     expect(getIsVerseFinished(api, 1, 1)).toEqual(fileExists);
   });
 });
 
 describe('getIsVerseInvalid()', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -214,11 +203,8 @@ describe('getIsVerseInvalid()', () => {
   it('is not invalid', () => {
     const api = new Api();
     const fileExists = false;
-    api.props = {
-      tool: {
-        toolDataPathExistsSync: jest.fn(() => fileExists)
-      }
-    };
+
+    api.props = { tool: { toolDataPathExistsSync: jest.fn(() => fileExists) } };
     expect(getIsVerseInvalid(api, 1, 2)).toEqual(fileExists);
     expect(api.props.tool.toolDataPathExistsSync).toBeCalledWith('invalid/1/2.json');
   });
@@ -226,18 +212,14 @@ describe('getIsVerseInvalid()', () => {
   it('is invalid', () => {
     const api = new Api();
     const fileExists = true;
-    api.props = {
-      tool: {
-        toolDataPathExistsSync: jest.fn(() => fileExists)
-      }
-    };
+
+    api.props = { tool: { toolDataPathExistsSync: jest.fn(() => fileExists) } };
     expect(getIsVerseInvalid(api, 2, 3)).toEqual(fileExists);
     expect(api.props.tool.toolDataPathExistsSync).toBeCalledWith('invalid/2/3.json');
   });
 });
 
 describe('getVerseComment()', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -246,25 +228,26 @@ describe('getVerseComment()', () => {
     // given
     const api = new Api();
     const expectedComment = '';
-    const folderExists = false;
+    const folderData = ['time1.json'];
+    const commentData = _.cloneDeep(testRecord);
     let bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId, chapter: 1, verse: 2 } };
     api.props = {
-      tc: {
-        projectDataPathExistsSync: jest.fn(() => folderExists),
-        contextId: {
-          reference: {
-            bookId: bookId
-          }
-        },
-      },
+      contextId,
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
+    // mocking fs methods
+    jest.mock('fs-extra');
+    fs.existsSync = jest.fn(() => !!folderData.length);
+    fs.readdirSync = jest.fn(() => _.cloneDeep(folderData));
+    fs.readJsonSync = jest.fn(() => JSON.stringify(commentData));
 
     // when
-    const verseComment = getVerseComment(api, 1, 2);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(api.props.tc.projectDataPathExistsSync).toBeCalledWith('checkData/comments/bookID/1/2');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/1/2'));
   });
 
   it('saved comment', () => {
@@ -272,28 +255,29 @@ describe('getVerseComment()', () => {
     const api = new Api();
     const expectedComment = 'my comment';
     const folderData = ['time1.json'];
-    const commentData =  _.cloneDeep(testRecord);
+    const commentData = _.cloneDeep(testRecord);
     commentData.text = expectedComment;
-    let bookId = 'bookID';
+    const bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId, chapter: 2, verse: 3 }, tool: 'wordAlignment' };
+
     api.props = {
-      tc: {
-        projectDataPathExistsSync: jest.fn(() => !!folderData.length),
-        readProjectDirSync: jest.fn(() => _.cloneDeep(folderData)),
-        readProjectDataSync: jest.fn(() => JSON.stringify(commentData)),
-        contextId: {
-          reference: {
-            bookId: bookId
-          }
-        },
-      },
+      contextId,
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
 
+    // mocking fs methods
+    jest.unmock('fs-extra');
+    jest.mock('fs-extra');
+    fs.existsSync = jest.fn(() => !!folderData.length);
+    fs.readdirSync = jest.fn(() => _.cloneDeep(folderData));
+    fs.readJsonSync = jest.fn(() => commentData);
+
     // when
-    const verseComment = getVerseComment(api, 2, 3);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(api.props.tc.projectDataPathExistsSync).toBeCalledWith('checkData/comments/bookID/2/3');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/2/3'));
   });
 
   it('saved comment for different tool', () => {
@@ -301,29 +285,31 @@ describe('getVerseComment()', () => {
     const api = new Api();
     const expectedComment = '';
     const folderData = ['time1.json'];
-    const commentData =  _.cloneDeep(testRecord);
+    const commentData = _.cloneDeep(testRecord);
     commentData.text = expectedComment;
     commentData.contextId.tool = 'OtherTool';
-    let bookId = 'bookID';
+    const bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId, chapter: 3, verse: 4 } };
+
     api.props = {
-      tc: {
-        projectDataPathExistsSync: jest.fn(() => !!folderData.length),
-        readProjectDirSync: jest.fn(() => _.cloneDeep(folderData)),
-        readProjectDataSync: jest.fn(() => JSON.stringify(commentData)),
-        contextId: {
-          reference: {
-            bookId: bookId
-          }
-        },
-      },
+      contextId,
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
 
+    // mocking fs methods
+    jest.unmock('fs-extra');
+    jest.mock('fs-extra');
+    fs.existsSync = jest.fn(() => !!folderData.length);
+    fs.readdirSync = jest.fn(() => _.cloneDeep(folderData));
+    fs.readJsonSync = jest.fn(() => commentData);
+
+
     // when
-    const verseComment = getVerseComment(api, 3, 4);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(api.props.tc.projectDataPathExistsSync).toBeCalledWith('checkData/comments/bookID/3/4');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/3/4'));
   });
 
   it('saved comment invalid json', () => {
@@ -332,24 +318,26 @@ describe('getVerseComment()', () => {
     const expectedComment = '';
     const folderData = ['time1.json'];
     let bookId = 'bookID';
+    const contextId = { reference: { bookId: bookId, chapter: 4, verse: 5 } };
+
     api.props = {
-      tc: {
-        projectDataPathExistsSync: jest.fn(() => !!folderData.length),
-        readProjectDirSync: jest.fn(() => _.cloneDeep(folderData)),
-        readProjectDataSync: jest.fn(() => '{ missing'),
-        contextId: {
-          reference: {
-            bookId: bookId
-          }
-        },
-      },
+      contextId,
+      tc: { project: { readCurrentContextIdSync: () => contextId, _dataPath } },
     };
 
+    // mocking fs methods
+    jest.unmock('fs-extra');
+    jest.mock('fs-extra');
+    fs.existsSync = jest.fn(() => !!folderData.length);
+    fs.readdirSync = jest.fn(() => _.cloneDeep(folderData));
+    fs.readJsonSync = jest.fn(() => '{ missing');
+
+
     // when
-    const verseComment = getVerseComment(api, 4, 5);
+    const verseComment = getVerseComment(contextId, api.props.tc);
 
     // then
     expect(verseComment).toEqual(expectedComment);
-    expect(api.props.tc.projectDataPathExistsSync).toBeCalledWith('checkData/comments/bookID/4/5');
+    expect(fs.existsSync).toBeCalledWith(path.join(_dataPath, 'checkData/comments/bookID/4/5'));
   });
 });

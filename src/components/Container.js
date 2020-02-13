@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {DragDropContext} from 'react-dnd';
+import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import isEqual from 'deep-equal';
-import WordMap, {Alignment, Ngram} from 'wordmap';
-import Lexer, {Token} from 'wordmap-lexer';
+import WordMap, { Alignment, Ngram } from 'wordmap';
+import Lexer, { Token } from 'wordmap-lexer';
 import { CommentsDialog, VerseEditor } from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {connect} from 'react-redux';
-import {batchActions} from 'redux-batched-actions';
+import { connect } from 'react-redux';
+import { batchActions } from 'redux-batched-actions';
 import {
   acceptAlignmentSuggestions,
   acceptTokenSuggestion,
@@ -20,10 +20,10 @@ import {
   removeTokenSuggestion,
   resetVerse,
   setAlignmentPredictions,
-  unalignTargetToken
+  unalignTargetToken,
 } from '../state/actions';
-import {addComment} from '../state/actions/CommentsActions';
-import {addBookmark} from '../state/actions/BookmarksActions';
+import { addComment } from '../state/actions/CommentsActions';
+import { addBookmark } from '../state/actions/BookmarksActions';
 import {
   getChapterAlignments,
   getCurrentComments,
@@ -34,45 +34,53 @@ import {
   getRenderedVerseAlignments,
   getVerseHasRenderedSuggestions,
 } from '../state/reducers';
-import {tokenizeVerseObjects} from '../utils/verseObjects';
-import {sortPanesSettings} from '../utils/panesSettingsHelper';
-import {removeUsfmMarkers} from '../utils/usfmHelpers';
+import { tokenizeVerseObjects } from '../utils/verseObjects';
+import { sortPanesSettings } from '../utils/panesSettingsHelper';
+import { removeUsfmMarkers } from '../utils/usfmHelpers';
 import GroupMenuContainer from '../containers/GroupMenuContainer';
 import ScripturePaneContainer from '../containers/ScripturePaneContainer';
 import Api from '../Api';
-import * as GroupMenu from "../state/reducers/GroupMenu";
+import * as GroupMenu from '../state/reducers/GroupMenu';
+import {
+  getContextId,
+  getGatewayLanguageCode,
+  getSelectedTargetVerse,
+  getSelectedSourceVerse,
+  getSourceChapter,
+  getTargetChapter,
+} from '../state/selectors';
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
-import IconIndicators from "./IconIndicators";
+import IconIndicators from './IconIndicators';
 
 const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
     width: '100vw',
-    height: 'var(--tool-max-height)'
+    height: 'var(--tool-max-height)',
   },
   groupMenuContainer: {
     width: '250px',
-    height: '100%'
+    height: '100%',
   },
   wordListContainer: {
     minWidth: '100px',
     maxWidth: '400px',
-    height: '100%'
+    height: '100%',
   },
   alignmentAreaContainer: {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     width: 'calc(100vw - 650px)',
-    height: '100%'
+    height: '100%',
   },
   scripturePaneWrapper: {
     height: '250px',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   alignmentGridWrapper: {
     display: 'flex',
@@ -80,8 +88,8 @@ const styles = {
     height: '100%',
     boxSizing: 'border-box',
     margin: '0 10px 6px 10px',
-    boxShadow: '0 3px 10px var(--background-color)'
-  }
+    boxShadow: '0 3px 10px var(--background-color)',
+  },
 };
 
 /**
@@ -93,30 +101,31 @@ const styles = {
  * @return {Promise<WordMap>}
  */
 export const generateMAP = (
-  targetBook, state, currentChapter, currentVerse) => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
-      const map = new WordMap({targetNgramLength: 5, nGramWarnings: false});
-      for (const chapter of Object.keys(targetBook)) {
-        const chapterAlignments = getChapterAlignments(state, chapter);
-        for (const verse of Object.keys(chapterAlignments)) {
-          if (parseInt(verse) === currentVerse && parseInt(chapter) ===
+  targetBook, state, currentChapter, currentVerse) => new Promise(resolve => {
+  setTimeout(() => {
+    // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
+    const map = new WordMap({ targetNgramLength: 5, nGramWarnings: false });
+
+    for (const chapter of Object.keys(targetBook)) {
+      const chapterAlignments = getChapterAlignments(state, chapter);
+
+      for (const verse of Object.keys(chapterAlignments)) {
+        if (parseInt(verse) === currentVerse && parseInt(chapter) ===
             currentChapter) {
-            // exclude current verse from saved alignments
-            continue;
-          }
-          for (const a of chapterAlignments[verse]) {
-            if (a.sourceNgram.length && a.targetNgram.length) {
-              map.appendAlignmentMemory(new Alignment(new Ngram(a.sourceNgram), new Ngram(a.targetNgram)));
-            }
+          // exclude current verse from saved alignments
+          continue;
+        }
+
+        for (const a of chapterAlignments[verse]) {
+          if (a.sourceNgram.length && a.targetNgram.length) {
+            map.appendAlignmentMemory(new Alignment(new Ngram(a.sourceNgram), new Ngram(a.targetNgram)));
           }
         }
       }
-      resolve(map);
-    }, 0);
-  });
-};
+    }
+    resolve(map);
+  }, 0);
+});
 
 /**
  * Returns predictions based on the word map
@@ -125,17 +134,16 @@ export const generateMAP = (
  * @param targetVerseText
  * @return {Promise<*>}
  */
-export const getPredictions = (map, sourceVerseText, targetVerseText) => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const suggestions = map.predict(sourceVerseText, targetVerseText);
-      if (suggestions[0]) {
-        resolve(suggestions[0].predictions);
-      }
-      resolve();
-    }, 0);
-  });
-};
+export const getPredictions = (map, sourceVerseText, targetVerseText) => new Promise(resolve => {
+  setTimeout(() => {
+    const suggestions = map.predict(sourceVerseText, targetVerseText);
+
+    if (suggestions[0]) {
+      resolve(suggestions[0].predictions);
+    }
+    resolve();
+  }, 0);
+});
 
 /**
  * The base container for this tool
@@ -181,14 +189,12 @@ export class Container extends Component {
       canAutoComplete: false,
       resetWordList: false,
       showVerseEditor: false,
-      showComments: false
+      showComments: false,
     };
   }
 
   handleSnackbarClose() {
-    this.setState({
-      snackText: null
-    });
+    this.setState({ snackText: null });
   }
 
   handleModalOpen(isOpen) {
@@ -198,16 +204,17 @@ export class Container extends Component {
   }
 
   handleResetWordList() {
-    console.log("RESETTING WORD LIST - STATE");
-    this.setState( {
-      resetWordList: true
-    });
+    this.setState( { resetWordList: true });
   }
 
   UNSAFE_componentWillMount() {
     // current panes persisted in the scripture pane settings.
-    const {actions: {setToolSettings}, settingsReducer, resourcesReducer: {bibles}} = this.props;
-    const {ScripturePane} = settingsReducer.toolsSettings || {};
+    const {
+      setToolSettings,
+      settingsReducer,
+      resourcesReducer: { bibles },
+    } = this.props;
+    const { ScripturePane } = settingsReducer.toolsSettings || {};
     const currentPaneSettings = ScripturePane &&
     ScripturePane.currentPaneSettings ?
       ScripturePane.currentPaneSettings : [];
@@ -221,12 +228,12 @@ export class Container extends Component {
   componentDidUpdate(prevProps) {
     const {
       verseIsAligned,
-      verseIsComplete
+      verseIsComplete,
     } = this.props;
 
     const {
       canAutoComplete,
-      resetWordList
+      resetWordList,
     } = this.state;
 
     if (!Container.contextDidChange(this.props, prevProps)) {
@@ -235,10 +242,9 @@ export class Container extends Component {
         this.handleToggleComplete(null, true);
       }
     }
+
     if (resetWordList) {
-      this.setState({
-        resetWordList: false
-      });
+      this.setState({ resetWordList: false });
     }
   }
 
@@ -254,14 +260,17 @@ export class Container extends Component {
    * @return {boolean}
    */
   static contextDidChange(nextProps, prevProps) {
-    return !isEqual(prevProps.tc.contextId, nextProps.tc.contextId);
+    return !isEqual(prevProps.contextId, nextProps.contextId);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (Container.contextDidChange(nextProps, this.props)) {
+    if (nextProps.contextId && Container.contextDidChange(nextProps, this.props)) {
       // scroll alignments to top when context changes
       let page = document.getElementById('AlignmentGrid');
-      if (page) page.scrollTop = 0;
+
+      if (page) {
+        page.scrollTop = 0;
+      }
 
       this.runMAP(nextProps).catch(() => {
       });
@@ -272,9 +281,11 @@ export class Container extends Component {
   runMAP(props) {
     const {
       hasSourceText,
-      hasTargetText
+      hasTargetText,
+      contextId,
     } = props;
-    if (hasSourceText && hasTargetText) {
+
+    if (contextId && hasSourceText && hasTargetText) {
       return this.initMAP(props).then(map => {
         this.map = map;
         return this.updatePredictions(props);
@@ -291,19 +302,20 @@ export class Container extends Component {
    * @param props
    */
   initMAP(props) {
-    const {
+    let {
       tc: {
-        contextId: {reference: {chapter, verse}},
         targetBook,
         tools,
-        project
+        project,
       },
-      tool: {
-        api
-      }
+      tool: { api },
+      contextId,
     } = props;
+    // TRICKY:
+    contextId = contextId || { reference: { chapter: 1, verse: 1 } };
+    const { reference: { chapter, verse } } = contextId;
 
-    const {store} = this.context;
+    const { store } = this.context;
     const state = store.getState();
     return generateMAP(targetBook, state, chapter, verse).then(map => {
       let toolsMemory = [];
@@ -311,6 +323,7 @@ export class Container extends Component {
       try {
         for (const key of Object.keys(tools)) {
           const alignmentMemory = tools[key].trigger('getAlignmentMemory');
+
           if (alignmentMemory) {
             for (const alignment of alignmentMemory) {
               try {
@@ -360,13 +373,14 @@ export class Container extends Component {
         for (const alignment of this.globalToolsMemory) {
           map.appendAlignmentMemoryString(alignment.sourceText, alignment.targetText);
         }
+
         for (const alignment of this.globalWordAlignmentMemory) {
           map.appendAlignmentMemory(alignment);
         }
 
         return Promise.resolve(map);
-      } catch(e) {
-        console.warn("WA.initMAP() - Failed to init wordMap", e);
+      } catch (e) {
+        console.warn('WA.initMAP() - Failed to init wordMap', e);
       }
     });
   }
@@ -379,7 +393,7 @@ export class Container extends Component {
       normalizedTargetVerseText,
       sourceTokens,
       setAlignmentPredictions,
-      tc: {contextId: {reference: {chapter, verse}}}
+      contextId: { reference: { chapter, verse } },
     } = props;
 
     return getPredictions(this.map, sourceTokens,
@@ -394,11 +408,10 @@ export class Container extends Component {
    * Allows the verse to be auto completed if it is fully aligned
    */
   enableAutoComplete() {
-    const {canAutoComplete} = this.state;
+    const { canAutoComplete } = this.state;
+
     if (!canAutoComplete) {
-      this.setState({
-        canAutoComplete: true
-      });
+      this.setState({ canAutoComplete: true });
     }
   }
 
@@ -406,11 +419,10 @@ export class Container extends Component {
    * Disables the verse from being auto completed
    */
   disableAutoComplete() {
-    const {canAutoComplete} = this.state;
+    const { canAutoComplete } = this.state;
+
     if (canAutoComplete) {
-      this.setState({
-        canAutoComplete: false
-      });
+      this.setState({ canAutoComplete: false });
     }
   }
 
@@ -421,11 +433,10 @@ export class Container extends Component {
    * @param {object} [prevAlignmentIndex=null] - the alignment from which the token will be removed.
    */
   handleAlignTargetToken(token, nextAlignmentIndex, prevAlignmentIndex = null) {
-    const {
-      tc: {contextId: {reference: {chapter, verse}}}
-    } = this.props;
-    const {store} = this.context;
+    const { contextId: { reference: { chapter, verse } } } = this.props;
+    const { store } = this.context;
     const actions = [];
+
     if (prevAlignmentIndex !== null && prevAlignmentIndex >= 0) {
       // TRICKY: this does the same as {@link handleUnalignTargetToken} but is batchable
       actions.push(
@@ -446,8 +457,8 @@ export class Container extends Component {
    */
   handleUnalignTargetToken(token, prevAlignmentIndex) {
     const {
-      tc: {contextId: {reference: {chapter, verse}}},
-      unalignTargetToken
+      contextId: { reference: { chapter, verse } },
+      unalignTargetToken,
     } = this.props;
     unalignTargetToken(chapter, verse, prevAlignmentIndex, token);
     this.handleToggleComplete(null, false);
@@ -462,8 +473,9 @@ export class Container extends Component {
   handleAlignPrimaryToken(token, nextAlignmentIndex, prevAlignmentIndex) {
     const {
       moveSourceToken,
-      tc: {contextId: {reference: {chapter, verse}}}
+      contextId: { reference: { chapter, verse } },
     } = this.props;
+
     moveSourceToken(chapter, verse, nextAlignmentIndex, prevAlignmentIndex,
       token);
     this.handleToggleComplete(null, false);
@@ -471,24 +483,20 @@ export class Container extends Component {
 
   handleRefreshSuggestions() {
     const {
-      tool: {
-        translate
-      },
-      tc: {contextId: {reference: {chapter, verse}}}
+      tool: { translate },
+      contextId: { reference: { chapter, verse } },
     } = this.props;
-    const {store} = this.context;
+    const { store } = this.context;
+
     this.runMAP(this.props).catch(() => {
-      this.setState({
-        snackText: translate('suggestions.none')
-      });
+      this.setState({ snackText: translate('suggestions.none') });
     }).then(() => {
       // TRICKY: suggestions may not be rendered
       const hasSuggestions = getVerseHasRenderedSuggestions(store.getState(),
         chapter, verse);
+
       if (!hasSuggestions) {
-        this.setState({
-          snackText: translate('suggestions.none')
-        });
+        this.setState({ snackText: translate('suggestions.none') });
       }
     });
     this.handleResetWordList();
@@ -497,7 +505,7 @@ export class Container extends Component {
   handleAcceptSuggestions() {
     const {
       acceptAlignmentSuggestions,
-      tc: {contextId: {reference: {chapter, verse}}}
+      contextId: { reference: { chapter, verse } },
     } = this.props;
     // accepting all suggestions can auto-complete the verse
     this.enableAutoComplete();
@@ -507,14 +515,8 @@ export class Container extends Component {
 
   handleToggleComplete(e, isChecked) {
     const {
-      tool: {
-        api
-      },
-      tc: {
-        contextId: {
-          reference: {chapter, verse}
-        }
-      }
+      tool: { api },
+      contextId: { reference: { chapter, verse } },
     } = this.props;
 
     api.setVerseFinished(chapter, verse, isChecked).then(() => {
@@ -527,7 +529,7 @@ export class Container extends Component {
   handleRejectSuggestions() {
     const {
       clearAlignmentSuggestions,
-      tc: {contextId: {reference: {chapter, verse}}}
+      contextId: { reference: { chapter, verse } },
     } = this.props;
     clearAlignmentSuggestions(chapter, verse);
     this.handleResetWordList();
@@ -536,7 +538,7 @@ export class Container extends Component {
   handleRemoveSuggestion(alignmentIndex, token) {
     const {
       removeTokenSuggestion,
-      tc: {contextId: {reference: {chapter, verse}}}
+      contextId: { reference: { chapter, verse } },
     } = this.props;
     removeTokenSuggestion(chapter, verse, alignmentIndex, token);
   }
@@ -544,7 +546,7 @@ export class Container extends Component {
   handleAcceptTokenSuggestion(alignmentIndex, token) {
     const {
       acceptTokenSuggestion,
-      tc: {contextId: {reference: {chapter, verse}}}
+      contextId: { reference: { chapter, verse } },
     } = this.props;
     // accepting a single suggestion can auto-complete the verse
     this.enableAutoComplete();
@@ -556,11 +558,11 @@ export class Container extends Component {
    */
   handleBookmarkClick() {
     const {
+      username,
+      contextId,
       addBookmark,
       currentBookmarks,
       tool: { api },
-      tc: { contextId },
-      username,
     } = this.props;
     addBookmark(api, !currentBookmarks, username, contextId); // toggle bookmark
   }
@@ -569,24 +571,18 @@ export class Container extends Component {
    * will show verse editor on click
    */
   handleVerseEditClick() {
-    this.setState({
-      showVerseEditor: true
-    });
+    this.setState({ showVerseEditor: true });
   }
 
   handleVerseEditClose() {
-    this.setState({
-      showVerseEditor: false
-    });
+    this.setState({ showVerseEditor: false });
   }
 
   handleVerseEditSubmit(before, after, reasons) {
     const {
       tc: {
-        contextId: {reference: {chapter, verse}},
-        actions: {
-          editTargetVerse
-        }
+        contextId: { reference: { chapter, verse } },
+        actions: { editTargetVerse }
       }
     } = this.props;
     editTargetVerse(chapter, verse, before, after, reasons);
@@ -597,18 +593,14 @@ export class Container extends Component {
    * will show comment editor on click
    */
   handleCommentClick() {
-    this.setState({
-      showComments: true
-    });
+    this.setState({ showComments: true });
   }
 
   /**
    * will close comment editor
    */
   handleCommentClose() {
-    this.setState({
-      showComments: false
-    });
+    this.setState({ showComments: false });
   }
 
   /**
@@ -616,12 +608,10 @@ export class Container extends Component {
    */
   handleCommentSubmit(newComment) {
     const {
-      addComment,
-      tool: {
-        api
-      },
-      tc: {contextId},
       username,
+      contextId,
+      addComment,
+      tool: { api },
     } = this.props;
     addComment(api, newComment, username, contextId);
     this.handleCommentClose();
@@ -634,10 +624,11 @@ export class Container extends Component {
   getLabeledTargetTokens() {
     const {
       targetTokens,
-      alignedTokens
+      alignedTokens,
     } = this.props;
     return targetTokens.map(token => {
       let isUsed = false;
+
       for (const usedToken of alignedTokens) {
         if (token.toString() === usedToken.toString()
           && token.occurrence === usedToken.occurrence
@@ -657,61 +648,69 @@ export class Container extends Component {
       connectDropTarget,
       isOver,
       hasSourceText,
-      actions,
       resourcesReducer,
       verseAlignments,
       currentBookmarks,
       currentComments,
+      showPopover,
+      loadLexiconEntry,
+      contextId,
+      bookId,
       tool: {
         api,
-        translate
+        translate,
       },
       tc: {
-        contextId,
-        actions: {
-          showPopover
-        },
-        sourceBook: {manifest: {direction : sourceDirection, language_id: sourceLanguage}},
-        targetBook: {manifest: {direction : targetDirection}},
+        sourceBook: { manifest: { direction : sourceDirection, language_id: sourceLanguage } },
+        targetBook: { manifest: { direction : targetDirection } },
         projectDetailsReducer: { manifest },
       },
-      tc
+      tc,
     } = this.props;
-    const {snackText, showComments, showVerseEditor} = this.state;
+    const { snackText, showComments, showVerseEditor } = this.state;
     const snackOpen = snackText !== null;
-
-    if (!contextId) {
-      return null;
-    }
-
-    const {reference: {chapter, verse}} = contextId;
     const targetLanguage = manifest && manifest.target_language;
-    let bookName = targetLanguage  && targetLanguage.book && targetLanguage.book.name;
+    let bookName = targetLanguage && targetLanguage.book && targetLanguage.book.name;
+
     if (!bookName) {
-      bookName = contextId.reference.bookId; // fall back to book id
+      bookName = bookId; // fall back to book id
     }
-    const verseTitle = `${bookName} ${chapter}:${verse}`;
-    let targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
+
 
     // TODO: use the source book direction to correctly style the alignments
 
-    const {lexicons} = resourcesReducer;
+    const { lexicons } = resourcesReducer;
 
     // TRICKY: do not show word list if there is no source bible.
     let words = [];
+
     if (hasSourceText) {
       words = this.getLabeledTargetTokens();
     }
 
-    const verseState = api.getVerseData(chapter, verse);
-    const isComplete = verseState[GroupMenu.FINISHED_KEY];
-    const verseText = api.getVerseRawText(chapter, verse);
+    let verseTitle = '';//Empty verse title.
+    let verseState = {};
+    let targetLanguageStr = '';
+    let verseText = '';
+    const { reference: { chapter, verse } } = contextId || { reference: { chapter: 1, verse: 1 } };
+
+    if (contextId) {
+      verseTitle = `${bookName} ${chapter}:${verse}`;
+      targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
+      verseText = api.getVerseRawText(chapter, verse);
+      verseState = api.getVerseData(chapter, verse);
+    }
+
+    const isComplete = !!verseState[GroupMenu.FINISHED_KEY];
 
     // TRICKY: make hebrew text larger
-    let sourceStyle = {fontSize: "100%"};
-    const isHebrew = sourceLanguage === "hbo";
-    if(isHebrew) {
-      sourceStyle = {fontSize: "175%", paddingTop: "8px", lineHeight: "100%"};
+    let sourceStyle = { fontSize: '100%' };
+    const isHebrew = sourceLanguage === 'hbo';
+
+    if (isHebrew) {
+      sourceStyle = {
+        fontSize: '175%', paddingTop: '8px', lineHeight: '100%',
+      };
     }
 
     return (
@@ -723,9 +722,12 @@ export class Container extends Component {
             autoHideDuration={2000}
             onRequestClose={this.handleSnackbarClose}/>
         </MuiThemeProvider>
-        <GroupMenuContainer tc={tc}
-                            toolApi={api}
-                            translate={translate}/>
+        <GroupMenuContainer
+          tc={tc}
+          toolApi={api}
+          gatewayLanguageCode={this.props.gatewayLanguageCode}
+          translate={translate}
+        />
         <div style={styles.wordListContainer}>
           <WordList
             chapter={chapter}
@@ -742,7 +744,7 @@ export class Container extends Component {
             <ScripturePaneContainer handleModalOpen={this.handleModalOpen} {...this.props}/>
           </div>
           <div style={styles.alignmentGridWrapper}>
-            <div className='title-bar' style={{marginTop: '2px', marginBottom: `10px`}}>
+            <div className='title-bar' style={{ marginTop: '2px', marginBottom: `10px` }}>
               <span>{translate('align_title')}</span>
               <IconIndicators
                 translate={translate}
@@ -757,34 +759,37 @@ export class Container extends Component {
                 bookmarkClickAction={this.handleBookmarkClick}
               />
             </div>
-          {hasSourceText ? (
-            <AlignmentGrid
-              sourceStyle={sourceStyle}
-              sourceDirection={sourceDirection}
-              targetDirection={targetDirection}
-              alignments={verseAlignments}
+            {hasSourceText ? (
+              <AlignmentGrid
+                sourceStyle={sourceStyle}
+                sourceDirection={sourceDirection}
+                targetDirection={targetDirection}
+                alignments={verseAlignments}
+                translate={translate}
+                lexicons={lexicons}
+                onDropTargetToken={this.handleAlignTargetToken}
+                onDropSourceToken={this.handleAlignPrimaryToken}
+                onCancelSuggestion={this.handleRemoveSuggestion}
+                onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
+                contextId={contextId}
+                isHebrew={isHebrew}
+                verseState={verseState}
+                showPopover={showPopover}
+                loadLexiconEntry={loadLexiconEntry}
+              />
+            ) : (
+              <MissingBibleError translate={translate}/>
+            )}
+            <MAPControls
+              onAccept={this.handleAcceptSuggestions}
+              hasSuggestions={hasRenderedSuggestions}
+              complete={isComplete}
+              onToggleComplete={this.handleToggleComplete}
+              showPopover={showPopover}
+              onRefresh={this.handleRefreshSuggestions}
+              onReject={this.handleRejectSuggestions}
               translate={translate}
-              lexicons={lexicons}
-              onDropTargetToken={this.handleAlignTargetToken}
-              onDropSourceToken={this.handleAlignPrimaryToken}
-              onCancelSuggestion={this.handleRemoveSuggestion}
-              onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
-              actions={actions}
-              contextId={contextId}
-              isHebrew={isHebrew}
-              verseState={verseState}
             />
-          ) : (
-            <MissingBibleError translate={translate}/>
-          )}
-          <MAPControls onAccept={this.handleAcceptSuggestions}
-                       hasSuggestions={hasRenderedSuggestions}
-                       complete={isComplete}
-                       onToggleComplete={this.handleToggleComplete}
-                       showPopover={showPopover}
-                       onRefresh={this.handleRefreshSuggestions}
-                       onReject={this.handleRejectSuggestions}
-                       translate={translate}/>
           </div>
         </div>
         <VerseEditor
@@ -809,23 +814,25 @@ export class Container extends Component {
   }
 }
 
-Container.contextTypes = {
-  store: PropTypes.any.isRequired
-};
+Container.contextTypes = { store: PropTypes.any.isRequired };
 
 Container.propTypes = {
   tc: PropTypes.shape({
-    targetVerseText: PropTypes.string,
-    contextId: PropTypes.object,
-    sourceVerse: PropTypes.object,
-    sourceChapter: PropTypes.object.isRequired,
-    targetChapter: PropTypes.object.isRequired,
-    appLanguage: PropTypes.string.isRequired
+    appLanguage: PropTypes.string.isRequired,
+    sourceBook: PropTypes.object.isRequired,
+    targetBook: PropTypes.object.isRequired,
+    projectDetailsReducer: PropTypes.object.isRequired,
   }).isRequired,
   tool: PropTypes.shape({
     api: PropTypes.instanceOf(Api),
-    translate: PropTypes.func
+    translate: PropTypes.func,
   }),
+  contextId: PropTypes.object,
+  sourceVerse: PropTypes.object,
+  sourceChapter: PropTypes.object,
+  targetChapter: PropTypes.object,
+  bookId: PropTypes.string.isRequired,
+  gatewayLanguageCode: PropTypes.string.isRequired,
 
   // dispatch props
   acceptTokenSuggestion: PropTypes.func.isRequired,
@@ -842,6 +849,7 @@ Container.propTypes = {
   addBookmark: PropTypes.func.isRequired,
 
   // state props
+  username: PropTypes.string.isRequired,
   hasRenderedSuggestions: PropTypes.bool.isRequired,
   verseIsAligned: PropTypes.bool.isRequired,
   verseIsComplete: PropTypes.bool.isRequired,
@@ -861,16 +869,16 @@ Container.propTypes = {
   isOver: PropTypes.bool,
   connectDropTarget: PropTypes.func,
 
+  // tc actions
+  showPopover: PropTypes.func.isRequired,
+  setToolSettings: PropTypes.func.isRequired,
+  loadLexiconEntry: PropTypes.func.isRequired,
+
   // old properties
   selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
-  currentToolViews: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
-  contextIdReducer: PropTypes.object.isRequired,
-  settingsReducer: PropTypes.shape({
-    toolsSettings: PropTypes.object.isRequired
-  }).isRequired,
-  actions: PropTypes.object.isRequired
+  settingsReducer: PropTypes.shape({ toolsSettings: PropTypes.object.isRequired }).isRequired,
 };
 
 const mapDispatchToProps = ({
@@ -889,26 +897,40 @@ const mapDispatchToProps = ({
 });
 
 const mapStateToProps = (state, props) => {
-  const {tc: {contextId, targetVerseText, sourceVerse}, tool: {api}} = props;
-  const {reference: {chapter, verse}} = contextId;
-  const verseState = api.getVerseData(chapter, verse);
-  const isFinished = verseState[GroupMenu.FINISHED_KEY];
+  const { tool: { api } } = props;
+  const targetVerseText = getSelectedTargetVerse(state, props);
+  const sourceVerse = getSelectedSourceVerse(state, props);
+  const contextId = getContextId(state);
+  const { reference: { chapter, verse } } = contextId || { reference: { chapter: 1, verse: 1 } };
+  let verseState = {};
+
+  if (contextId) {
+    verseState = api.getVerseData(chapter, verse);
+  }
+
+  const isFinished = !!verseState[GroupMenu.FINISHED_KEY];
   // TRICKY: the target verse contains punctuation we need to remove
   let targetTokens = [];
   let sourceTokens = [];
+
   if (targetVerseText) {
     targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
   }
+
   if (sourceVerse) {
     sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
   }
-  const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).
-    join(' ');
-  const normalizedTargetVerseText = targetTokens.map(t => t.toString()).
-    join(' ');
+
+  const normalizedSourceVerseText = sourceTokens.map(t => t.toString()).join(' ');
+  const normalizedTargetVerseText = targetTokens.map(t => t.toString()).join(' ');
+  const gatewayLanguageCode = getGatewayLanguageCode(props);
+
   return {
-    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter,
-      verse),
+    sourceChapter: getSourceChapter(state, props),
+    targetChapter: getTargetChapter(state, props),
+    contextId,
+    gatewayLanguageCode,
+    hasRenderedSuggestions: getVerseHasRenderedSuggestions(state, chapter, verse),
     verseIsComplete: isFinished,
     verseIsAligned: getIsVerseAligned(state, chapter, verse),
     hasSourceText: normalizedSourceVerseText !== '',
@@ -927,4 +949,5 @@ const mapStateToProps = (state, props) => {
 };
 
 export default DragDropContext(HTML5Backend)(
-  connect(mapStateToProps, mapDispatchToProps)(Container));
+  connect(mapStateToProps, mapDispatchToProps)(Container)
+);

@@ -1,4 +1,7 @@
-import * as consts from '../actions/actionTypes';
+import {
+  LOAD_COMMENT,
+  ADD_COMMENT,
+} from '../actions/actionTypes';
 
 const initialState = {
   text: null,
@@ -8,16 +11,14 @@ const initialState = {
 
 const commentsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case consts.LOAD_COMMENT:
-      return {
-        ...action.value
-      };
-    case consts.ADD_COMMENT:
-      return {
-        text: action.text,
-        userName: action.userName,
-        modifiedTimestamp: action.modifiedTimestamp,
-      };
+  case LOAD_COMMENT:
+    return { ...action.value };
+  case ADD_COMMENT:
+    return {
+      text: action.text,
+      userName: action.userName,
+      modifiedTimestamp: action.modifiedTimestamp,
+    };
   default:
     return state;
   }
@@ -28,8 +29,6 @@ const commentsReducer = (state = initialState, action) => {
  * @param {Object} state
  * @returns {Object}
  */
-export const getComments = (state) => {
-  return state;
-};
+export const getComments = (state) => state;
 
 export default commentsReducer;

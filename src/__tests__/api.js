@@ -26,11 +26,11 @@ describe('saving', () => {
           }
         },
         writeProjectData: jest.fn(() => Promise.resolve()),
-        contextId: {reference: {bookId: 'tit', chapter: 1}}
       },
       tool: {
         isReady: false
-      }
+      },
+      contextId: {reference: {bookId: 'tit', chapter: 1}},
     };
     const nextState = {
       tool: {hello: 'world'}
@@ -46,11 +46,11 @@ describe('saving', () => {
     api.props = {
       tc: {
         writeToolData: jest.fn(),
-        contextId: {reference: {bookId: 'tit', chapter: 1}}
       },
       tool: {
         isReady: true
-      }
+      },
+      contextId: {reference: {bookId: 'tit', chapter: 1}},
     };
     const nextState = {};
     const prevState = {};
@@ -63,11 +63,11 @@ describe('saving', () => {
     api.props = {
       tc: {
         writeToolData: jest.fn(),
-        contextId: {reference: {bookId: 'tit', chapter: 1}}
       },
       tool: {
         isReady: true
-      }
+      },
+      contextId: {reference: {bookId: 'tit', chapter: 1}}
     };
     const nextState = {};
     const prevState = undefined;
@@ -80,11 +80,11 @@ describe('saving', () => {
     api.props = {
       tc: {
         writeToolData: jest.fn(),
-        contextId: {reference: {bookId: 'tit', chapter: 1}}
       },
       tool: {
         isReady: true
-      }
+      },
+      contextId: {reference: {bookId: 'tit', chapter: 1}}
     };
     const nextState = undefined;
     const prevState = {};
@@ -97,11 +97,11 @@ describe('saving', () => {
     api.props = {
       tc: {
         writeToolData: jest.fn(),
-        contextId: {reference: {bookId: 'tit', chapter: 1}}
       },
       tool: {
         isReady: true
-      }
+      },
+      contextId: {reference: {bookId: 'tit', chapter: 1}},
     };
     const nextState = {
       tool: {hello: 'world'}
@@ -125,11 +125,11 @@ describe('saving', () => {
             }
           },
           writeProjectData: jest.fn(() => Promise.resolve()),
-          contextId: {reference: {bookId: 'tit', chapter: 1}}
         },
         tool: {
           isReady: true
-        }
+        },
+        contextId: {reference: {bookId: 'tit', chapter: 1}},
       };
       const nextState = {
         tool: {hello: 'world'}
@@ -155,11 +155,11 @@ describe('saving', () => {
             }
           },
           writeProjectData: jest.fn(() => Promise.resolve()),
-          contextId: {reference: {bookId: 'tit', chapter: 1}}
         },
         tool: {
           isReady: true
-        }
+        },
+        contextId: {reference: {bookId: 'tit', chapter: 1}}
       };
       const nextState = {
         tool: {hello: 'world'}
@@ -306,8 +306,8 @@ describe('setVerseFinished()', () => {
       },
       tc: {
         username: 'username',
-        contextId: {reference: {bookId: 'somebook'}}
-      }
+      },
+      contextId: {reference: {bookId: 'somebook'}},
     };
     api.context = {
       store: {
@@ -342,8 +342,8 @@ describe('setVerseFinished()', () => {
       },
       tc: {
         username: 'username',
-        contextId: {reference: {bookId: 'somebook'}}
-      }
+      },
+      contextId: {reference: {bookId: 'somebook'}},
     };
     api.context = {
       store: {
@@ -394,7 +394,6 @@ describe('validate', () => {
         deleteToolFile: jest.fn(() => Promise.resolve()),
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -411,6 +410,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
@@ -452,7 +452,6 @@ describe('validate', () => {
         toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -469,6 +468,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => true),
     };
     api.props = props;
@@ -512,7 +512,6 @@ describe('validate', () => {
         toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -529,6 +528,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
@@ -572,7 +572,6 @@ describe('validate', () => {
         toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -589,6 +588,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
@@ -632,7 +632,6 @@ describe('validate', () => {
         toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -649,6 +648,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => wasChangedByRepair),
     };
     api.props = props;
@@ -691,7 +691,6 @@ describe('validate', () => {
         toolDataPathExists: jest.fn(() => Promise.resolve(alignmentInvalidFileExists))
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -708,6 +707,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;
@@ -748,7 +748,6 @@ describe('validate', () => {
         deleteToolFile: jest.fn(() => Promise.resolve())
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -765,6 +764,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(),
     };
     api.props = props;
@@ -807,7 +807,6 @@ describe('validate', () => {
         deleteToolFile: jest.fn(() => Promise.resolve())
       },
       tc: {
-        contextId: {reference: {bookId: 'mybook'}},
         sourceBook: {
           1: {
             1: {
@@ -824,6 +823,7 @@ describe('validate', () => {
           }
         }
       },
+      contextId: {reference: {bookId: 'mybook'}},
       repairAndInspectVerse: jest.fn(() => false),
     };
     api.props = props;

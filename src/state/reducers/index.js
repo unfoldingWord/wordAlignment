@@ -1,16 +1,23 @@
-import {combineReducers} from 'redux';
+/* eslint-disable no-prototype-builtins */
+import { combineReducers } from 'redux';
 import alignments, * as fromAlignments from './alignments';
 import checks, * as fromChecks from './checks';
-import groupMenu, * as fromGroupMenu from "./GroupMenu";
-import commentsReducer, * as fromCommentsReducer from "./CommentsReducer";
-import bookmarksReducer, * as fromBookmarksReducer from "./BookmarksReducer";
+import groupMenu, * as fromGroupMenu from './GroupMenu';
+import commentsReducer, * as fromCommentsReducer from './CommentsReducer';
+import bookmarksReducer, * as fromBookmarksReducer from './BookmarksReducer';
+import groupsDataReducer from './groupsDataReducer';
+import groupsIndexReducer from './groupsIndexReducer';
+import contextIdReducer from './contextIdReducer';
 
 export default combineReducers({
-  alignments,
   checks,
   groupMenu,
+  alignments,
   commentsReducer,
   bookmarksReducer,
+  groupsDataReducer,
+  groupsIndexReducer,
+  contextIdReducer,
 });
 
 /**
@@ -39,9 +46,7 @@ export const getChecks = (state, check) =>
  * @param chapter
  * @return {{}}
  */
-export const getChapterAlignments = (state, chapter) => {
-  return fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
-};
+export const getChapterAlignments = (state, chapter) => fromAlignments.getChapterAlignments(state.tool.alignments, chapter);
 
 /**
  * Checks if data for the chapter has been loaded
@@ -161,6 +166,7 @@ export const getGroupMenuItem = (state, chapter, verse) =>
  */
 export const getCurrentComments = (state) => {
   const commentsObject = fromCommentsReducer.getComments(state.tool.commentsReducer);
+
   if (!commentsObject || !commentsObject.hasOwnProperty('text')) { // sanity check
     return '';
   }
@@ -174,6 +180,7 @@ export const getCurrentComments = (state) => {
  */
 export const getCurrentBookmarks = (state) => {
   const reminderObject = fromBookmarksReducer.getBookmarks(state.tool.bookmarksReducer);
+
   if (!reminderObject || !reminderObject.hasOwnProperty('enabled')) { // sanity check
     return false;
   }

@@ -187,6 +187,7 @@
     "discard_changes": "Descartar Alterações"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "Nenhum resultado",
     "invalidated": "Invalidado",
     "bookmarks": "Marcador de Página",

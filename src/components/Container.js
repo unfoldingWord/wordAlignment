@@ -835,7 +835,6 @@ Container.propTypes = {
   loadLexiconEntry: PropTypes.func.isRequired,
 
   // old properties
-  selectionsReducer: PropTypes.object.isRequired,
   projectDetailsReducer: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
   settingsReducer: PropTypes.shape({ toolsSettings: PropTypes.object.required }).isRequired,

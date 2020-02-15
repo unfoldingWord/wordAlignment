@@ -32,6 +32,48 @@ import {
 } from './actionTypes';
 
 /**
+ * Loads the latest selections file from the file system for the specific contextID.
+ * @param {object} contextId - ContextId.
+ * @param {object} tc - tc.
+ */
+export function loadSelections(contextId, tc) {
+  return dispatch => {
+    const selectionsObject = loadCheckData(contextId, 'selections', tc);
+
+    if (selectionsObject) {
+      let {
+        selections,
+        modifiedTimestamp,
+        nothingToSelect,
+        username,
+        userName, // for old project data
+        gatewayLanguageCode,
+        gatewayLanguageQuote,
+      } = selectionsObject;
+      username = username || userName;
+
+      dispatch({
+        type: CHANGE_SELECTIONS,
+        selections: selections,
+        nothingToSelect: nothingToSelect,
+        username,
+        modifiedTimestamp: modifiedTimestamp,
+        gatewayLanguageCode: gatewayLanguageCode,
+        gatewayLanguageQuote: gatewayLanguageQuote,
+      });
+    } else {
+      // The object is undefined because the file wasn't found in the directory thus we init the reducer to a default value.
+      dispatch({
+        type: CHANGE_SELECTIONS,
+        modifiedTimestamp: null,
+        selections: [],
+        username: null,
+      });
+    }
+  };
+}
+
+/**
  * Adds a selection array to the selections reducer.
  * @param {array} selections - An array of selections.
  * @param {boolean} invalidated - if true then selection if flagged as invalidated, otherwise it is not flagged as invalidated

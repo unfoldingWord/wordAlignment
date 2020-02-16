@@ -3,23 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ScripturePane } from 'tc-ui-toolkit';
 import { getAvailableScripturePaneSelections } from '../utils/resourcesHelpers';
-import { getContextId } from '../state/selectors';
+import {
+  getUsername,
+  getContextId,
+  getSelections,
+  getProjectPath,
+  getCurrentToolName,
+} from '../state/selectors';
 import { getLexiconData } from '../utils/lexiconHelpers';
+import { editTargetVerse } from '../state/actions/verseEditActions';
 
 const ScripturePaneContainer = (props) => {
   const {
     tc: {
-      settingsReducer: { toolsSettings },
-      resourcesReducer: { bibles },
-      selectionsReducer: { selections },// TODO: Create a selectionsReducer
-      projectDetailsReducer,
       showPopover,
       setToolSettings,
-      editTargetVerse,// TODO: Create a local version using the tools redux implementation.
+      projectDetailsReducer,
       makeSureBiblesLoadedForTool,
+      resourcesReducer: { bibles },
+      settingsReducer: { toolsSettings },
     },
     contextId,
     translate,
+    selections,
+    editTargetVerse,
     handleModalOpen,
   } = props;
 
@@ -43,9 +50,7 @@ const ScripturePaneContainer = (props) => {
         bibles={bibles}
         expandedScripturePaneTitle={expandedScripturePaneTitle}
         showPopover={showPopover}
-        editTargetVerse={(chapter, verse, before, after, tags) => {
-          editTargetVerse(chapter, verse, before, after, tags, contextId);
-        }}
+        editTargetVerse={editTargetVerse}
         projectDetailsReducer={projectDetailsReducer}
         translate={translate}
         getLexiconData={getLexiconData}
@@ -69,10 +74,8 @@ ScripturePaneContainer.propTypes = {
   tc: PropTypes.shape({
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
-    selectionsReducer: PropTypes.object.isRequired,
     projectDetailsReducer: PropTypes.object.isRequired,
     showPopover: PropTypes.func.isRequired,
-    editTargetVerse: PropTypes.func.isRequired,
     setToolSettings: PropTypes.func.isRequired,
     makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
@@ -81,8 +84,36 @@ ScripturePaneContainer.propTypes = {
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };
 
-const mapStateToProps = (state) => ({ contextId: getContextId(state) });
+const mapStateToProps = (state) => ({
+  contextId: getContextId(state),
+  selections: getSelections(state),
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const {
+    tc: {
+      showAlert,
+      closeAlert,
+      updateTargetVerse,
+      showIgnorableAlert,
+      gatewayLanguageCode,
+    },
+    toolApi,
+    translate,
+    gatewayLanguageQuote,
+  } = ownProps;
+  const username = getUsername(ownProps);
+  const currentToolName = getCurrentToolName(ownProps);
+  const projectSaveLocation = getProjectPath(ownProps);
+
+  return {
+    editTargetVerse: (chapter, verse, before, after, tags) => {
+      dispatch(editTargetVerse(chapter, verse, before, after, tags, username, gatewayLanguageCode, gatewayLanguageQuote, projectSaveLocation, currentToolName, translate, showAlert, closeAlert, showIgnorableAlert, updateTargetVerse, toolApi));
+    },
+  };
+};
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(ScripturePaneContainer);

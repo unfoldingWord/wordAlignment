@@ -24,6 +24,9 @@ export const getSelectionsReducer = (state) =>
 export const getBookmarksReducer = (state) =>
   state.tool.bookmarksReducer;
 
+export const getSelections = (state) =>
+  state.tool.selectionsReducer.selections;
+
 export const getProjectManifest = (ownProps) => ownProps.tc.projectDetailsReducer.manifest;
 export const getGatewayLanguageCode = (ownProps) => ownProps.tc.gatewayLanguageCode;
 export const getCurrentToolName = (ownProps) => ownProps.tc.currentToolName;

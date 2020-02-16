@@ -128,7 +128,13 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
   await delay(300);
   const chapterWithVerseEdit = contextIdWithVerseEdit.reference.chapter;
   const verseWithVerseEdit = contextIdWithVerseEdit.reference.verse;
+  console.log('====================================');
+  console.log('before updateTargetVerse');
+  console.log('====================================');
   updateTargetVerse(chapterWithVerseEdit, verseWithVerseEdit, verseEdit.verseAfter);
+  console.log('====================================');
+  console.log('before updateTargetVerse');
+  console.log('====================================');
 
   if (currentToolName === WORD_ALIGNMENT) {
     // since tw group data is not loaded into reducer, need to save verse edit record directly to file system

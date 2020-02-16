@@ -711,7 +711,7 @@ export class Container extends Component {
         </div>
         <div style={styles.alignmentAreaContainer}>
           <div style={styles.scripturePaneWrapper}>
-            <ScripturePaneContainer handleModalOpen={this.handleModalOpen} {...this.props}/>
+            <ScripturePaneContainer handleModalOpen={this.handleModalOpen} toolApi={api} {...this.props}/>
           </div>
           <div style={styles.alignmentGridWrapper}>
             <div className='title-bar' style={{ marginTop: '2px', marginBottom: `10px` }}>

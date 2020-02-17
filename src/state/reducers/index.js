@@ -8,6 +8,7 @@ import bookmarksReducer, * as fromBookmarksReducer from './BookmarksReducer';
 import groupsDataReducer from './groupsDataReducer';
 import groupsIndexReducer from './groupsIndexReducer';
 import contextIdReducer from './contextIdReducer';
+import verseEditReducer from './verseEditReducer';
 
 export default combineReducers({
   checks,
@@ -18,6 +19,7 @@ export default combineReducers({
   groupsDataReducer,
   groupsIndexReducer,
   contextIdReducer,
+  verseEditReducer,
 });
 
 /**

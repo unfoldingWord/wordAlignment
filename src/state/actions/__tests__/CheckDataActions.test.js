@@ -25,6 +25,12 @@ describe('loadNewContext()', () => {
         'type': 'WA::LOAD_REMINDER',
         'value': { 'loadData': 'reminder' },
       },
+      {
+        'type': 'WA::CHANGE_SELECTIONS',
+        'modifiedTimestamp': null,
+        'username': null,
+        'selections': [],
+      },
     ];
     const store = mockStore();
     const api = new Api();

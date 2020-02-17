@@ -2,7 +2,6 @@ import { batchActions } from 'redux-batched-actions';
 import generateTimestamp from '../../utils/generateTimestamp';
 import { getContextId, getGroupsData } from '../../state/selectors';
 import {
-  WORD_ALIGNMENT,
   TRANSLATION_WORDS,
   TRANSLATION_NOTES,
 } from '../../common/constants';
@@ -128,24 +127,16 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
   await delay(300);
   const chapterWithVerseEdit = contextIdWithVerseEdit.reference.chapter;
   const verseWithVerseEdit = contextIdWithVerseEdit.reference.verse;
-  console.log('====================================');
-  console.log('before updateTargetVerse');
-  console.log('====================================');
   updateTargetVerse(chapterWithVerseEdit, verseWithVerseEdit, verseEdit.verseAfter);
-  console.log('====================================');
-  console.log('before updateTargetVerse');
-  console.log('====================================');
 
-  if (currentToolName === WORD_ALIGNMENT) {
-    // since tw group data is not loaded into reducer, need to save verse edit record directly to file system
-    dispatch(writeTranslationWordsVerseEditToFile(verseEdit, projectSaveLocation));
-    // in group data reducer set verse edit flag for the verse edited
-    dispatch({
-      type: TOGGLE_VERSE_EDITS_IN_GROUPDATA,
-      contextId: contextIdWithVerseEdit,
-      projectSaveLocation,
-    });
-  }
+  // since tw group data is not loaded into reducer, need to save verse edit record directly to file system
+  writeTranslationWordsVerseEditToFile(verseEdit, projectSaveLocation);
+  // in group data reducer set verse edit flag for the verse edited
+  dispatch({
+    type: TOGGLE_VERSE_EDITS_IN_GROUPDATA,
+    contextId: contextIdWithVerseEdit,
+    projectSaveLocation,
+  });
 
   let showAlignmentsInvalidated = false;
   showAlignmentsInvalidated = !toolApi.validateVerse(chapterWithVerseEdit, verseWithVerseEdit, true, groupsData);

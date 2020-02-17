@@ -177,6 +177,8 @@
   "morph_missing": "Morphology not found",
   "unsaved_changes": "You have unsaved changes.",
   "attention": "Attention:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",

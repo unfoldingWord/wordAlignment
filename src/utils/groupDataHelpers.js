@@ -1,6 +1,43 @@
 import isEqual from 'deep-equal';
 
 /**
+ * Gets the group data for the verse reference in contextId from groupsDataReducer
+ * @param {Object} groupsData
+ * @param {Object} contextId
+ * @return {object} group data object.
+ */
+export const getGroupDataForVerse = (groupsData, contextId) => {
+  const filteredGroupData = {};
+
+  if (groupsData) {
+    const groupsDataKeys = Object.keys(groupsData);
+
+    for (let i = 0, l = groupsDataKeys.length; i < l; i++) {
+      const groupItemKey = groupsDataKeys[i];
+      const groupItem = groupsData[groupItemKey];
+
+      if (groupItem) {
+        for (let j = 0, l = groupItem.length; j < l; j++) {
+          const check = groupItem[j];
+
+          try {
+            if (isSameVerse(check.contextId, contextId)) {
+              if (!filteredGroupData[groupItemKey]) {
+                filteredGroupData[groupItemKey] = [];
+              }
+              filteredGroupData[groupItemKey].push(check);
+            }
+          } catch (e) {
+            console.warn(`Corrupt check found in group "${groupItemKey}"`, check);
+          }
+        }
+      }
+    }
+  }
+  return filteredGroupData;
+};
+
+/**
  * Loads all of a tool's group data from the project.
  * @param {string} toolName - the name of the tool who's helps will be loaded
  * @param {object} ProjectAPI - ProjectAPI.

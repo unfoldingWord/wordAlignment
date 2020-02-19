@@ -590,9 +590,7 @@ export default class Api extends ToolApi {
    * @param nextProps
    */
   toolWillReceiveProps(nextProps) {
-    const {
-      tc: { toolName: nextToolName },
-    } = nextProps;
+    const { tc: { toolName: nextToolName } } = nextProps;
     const {
       setActiveLocale,
       tc: { appLanguage, toolName: prevToolName },

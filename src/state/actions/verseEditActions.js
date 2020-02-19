@@ -2,7 +2,6 @@ import { batchActions } from 'redux-batched-actions';
 import generateTimestamp from '../../utils/generateTimestamp';
 import { getContextId, getGroupsData } from '../../state/selectors';
 import {
-  WORD_ALIGNMENT,
   TRANSLATION_WORDS,
   TRANSLATION_NOTES,
 } from '../../common/constants';

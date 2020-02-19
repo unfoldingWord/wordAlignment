@@ -24,6 +24,7 @@ import {
 } from '../state/actions';
 import { addComment } from '../state/actions/CommentsActions';
 import { addBookmark } from '../state/actions/BookmarksActions';
+import { editTargetVerse } from "../state/actions/verseEditActions";
 import {
   getChapterAlignments,
   getCurrentComments,
@@ -48,6 +49,9 @@ import {
   getSelectedSourceVerse,
   getSourceChapter,
   getTargetChapter,
+  getUsername,
+  getCurrentToolName,
+  getProjectPath,
 } from '../state/selectors';
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
@@ -581,7 +585,7 @@ export class Container extends Component {
   handleVerseEditSubmit(before, after, reasons) {
     const {
       contextId,
-      tc: { editTargetVerse }
+      editTargetVerse,
     } = this.props;
     const { reference: { chapter, verse } } = contextId;
     editTargetVerse(chapter, verse, before, after, reasons, contextId);
@@ -879,20 +883,51 @@ Container.propTypes = {
   settingsReducer: PropTypes.shape({ toolsSettings: PropTypes.object.isRequired }).isRequired,
 };
 
-const mapDispatchToProps = ({
-  alignTargetToken,
-  unalignTargetToken,
-  moveSourceToken,
-  resetVerse,
-  clearState,
-  acceptTokenSuggestion,
-  removeTokenSuggestion,
-  acceptAlignmentSuggestions,
-  setAlignmentPredictions,
-  clearAlignmentSuggestions,
-  addComment,
-  addBookmark,
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const methods = {
+    alignTargetToken,
+    unalignTargetToken,
+    moveSourceToken,
+    resetVerse,
+    clearState,
+    acceptTokenSuggestion,
+    removeTokenSuggestion,
+    acceptAlignmentSuggestions,
+    setAlignmentPredictions,
+    clearAlignmentSuggestions,
+    addComment,
+    addBookmark,
+  };
+
+  const dispatchedMethods = {};
+
+  // eslint-disable-next-line array-callback-return
+  Object.keys(methods).map(key => {
+    dispatchedMethods[key] = (...args) => dispatch(methods[key](...args));
+  });
+
+  const {
+    tc: {
+      showAlert,
+      closeAlert,
+      updateTargetVerse,
+      showIgnorableAlert,
+      gatewayLanguageCode,
+    },
+    toolApi,
+    translate,
+    gatewayLanguageQuote,
+  } = ownProps;
+  const username = getUsername(ownProps);
+  const currentToolName = getCurrentToolName(ownProps);
+  const projectSaveLocation = getProjectPath(ownProps);
+
+  dispatchedMethods.editTargetVerse = (chapter, verse, before, after, tags) => {
+    dispatch(editTargetVerse(chapter, verse, before, after, tags, username, gatewayLanguageCode, gatewayLanguageQuote, projectSaveLocation, currentToolName, translate, showAlert, closeAlert, showIgnorableAlert, updateTargetVerse, toolApi));
+  };
+
+  return dispatchedMethods;
+};
 
 const mapStateToProps = (state, props) => {
   const { tool: { api } } = props;

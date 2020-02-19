@@ -83,10 +83,10 @@ describe('Container', () => {
       const myProps = {
         ...props,
         addComment: jest.fn(() => true),
+        editTargetVerse: jest.fn(() => true),
       };
       myProps.tc.actions = {
         ...myProps.tc.actions,
-        editTargetVerse: jest.fn(() => true),
       };
       const instance = getContainerInstance(myProps);
       instance.setState({showVerseEditor: true}); // make sure on before closing
@@ -105,7 +105,7 @@ describe('Container', () => {
       // then
       const newState = instance.state;
       expect(newState.showVerseEditor).toEqual(false);
-      expect(myProps.tc.actions.editTargetVerse).toBeCalledWith(chapter, verse, oldVerse, newVerse, reasons);
+      expect(myProps.editTargetVerse).toBeCalledWith(chapter, verse, oldVerse, newVerse, reasons, props.contextId);
     });
 
     it('comment click should open comments', () => {

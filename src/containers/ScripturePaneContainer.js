@@ -4,14 +4,10 @@ import { connect } from 'react-redux';
 import { ScripturePane } from 'tc-ui-toolkit';
 import { getAvailableScripturePaneSelections } from '../utils/resourcesHelpers';
 import {
-  getUsername,
   getContextId,
   getSelections,
-  getProjectPath,
-  getCurrentToolName,
 } from '../state/selectors';
 import { getLexiconData } from '../utils/lexiconHelpers';
-import { editTargetVerse } from '../state/actions/verseEditActions';
 
 const ScripturePaneContainer = (props) => {
   const {
@@ -71,6 +67,7 @@ const ScripturePaneContainer = (props) => {
 ScripturePaneContainer.propTypes = {
   translate: PropTypes.func.isRequired,
   contextId: PropTypes.object,
+  editTargetVerse: PropTypes.func.isRequired,
   tc: PropTypes.shape({
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
@@ -89,31 +86,4 @@ const mapStateToProps = (state) => ({
   selections: getSelections(state),
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const {
-    tc: {
-      showAlert,
-      closeAlert,
-      updateTargetVerse,
-      showIgnorableAlert,
-      gatewayLanguageCode,
-    },
-    toolApi,
-    translate,
-    gatewayLanguageQuote,
-  } = ownProps;
-  const username = getUsername(ownProps);
-  const currentToolName = getCurrentToolName(ownProps);
-  const projectSaveLocation = getProjectPath(ownProps);
-
-  return {
-    editTargetVerse: (chapter, verse, before, after, tags) => {
-      dispatch(editTargetVerse(chapter, verse, before, after, tags, username, gatewayLanguageCode, gatewayLanguageQuote, projectSaveLocation, currentToolName, translate, showAlert, closeAlert, showIgnorableAlert, updateTargetVerse, toolApi));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ScripturePaneContainer);
+export default connect( mapStateToProps )(ScripturePaneContainer);

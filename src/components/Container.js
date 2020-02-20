@@ -701,7 +701,7 @@ export class Container extends Component {
       verseTitle = `${bookName} ${chapter}:${verse}`;
       targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
       verseText = api.getVerseRawText(chapter, verse);
-      verseState = api.getVerseData(chapter, verse);
+      verseState = api.getVerseData(chapter, verse, contextId);
     }
 
     const isComplete = !!verseState[GroupMenu.FINISHED_KEY];
@@ -938,7 +938,7 @@ const mapStateToProps = (state, props) => {
   let verseState = {};
 
   if (contextId) {
-    verseState = api.getVerseData(chapter, verse);
+    verseState = api.getVerseData(chapter, verse, contextId);
   }
 
   const isFinished = !!verseState[GroupMenu.FINISHED_KEY];

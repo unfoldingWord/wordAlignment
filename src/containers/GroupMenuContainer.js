@@ -97,9 +97,10 @@ function GroupMenuContainer({
    * @returns {object} the updated item
    */
   function onProcessItem(item) {
-    const { contextId: { reference: { chapter, verse } } } = item;
+    const { contextId } = item;
+    const { reference: { chapter, verse } } = contextId;
 
-    const itemState = toolApi.getVerseData(chapter, verse);
+    const itemState = toolApi.getVerseData(chapter, verse, contextId);
     return {
       ...item,
       title: `${bookName} ${chapter}:${verse}`,

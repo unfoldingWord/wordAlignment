@@ -28,4 +28,6 @@ export function loadNewContext(contextId, tc) {
 
     dispatch(loadSelections(contextId, tc));
   });
+
+  // TODO update verse edit reducer when it is finished
 }

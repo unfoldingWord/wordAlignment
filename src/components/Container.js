@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import isEqual from 'deep-equal';
 import WordMap, { Alignment, Ngram } from 'wordmap';
 import Lexer, { Token } from 'wordmap-lexer';
+import { CommentsDialog, VerseEditor } from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
@@ -23,6 +24,7 @@ import {
 } from '../state/actions';
 import { addComment } from '../state/actions/CommentsActions';
 import { addBookmark } from '../state/actions/BookmarksActions';
+import { editTargetVerse } from "../state/actions/verseEditActions";
 import {
   getChapterAlignments,
   getCurrentComments,
@@ -47,13 +49,15 @@ import {
   getSelectedSourceVerse,
   getSourceChapter,
   getTargetChapter,
+  getUsername,
+  getCurrentToolName,
+  getProjectPath,
 } from '../state/selectors';
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from './IconIndicators';
-import CommentsDialog from './CommentsDialog';
 
 const styles = {
   container: {
@@ -174,6 +178,9 @@ export class Container extends Component {
     this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleResetWordList = this.handleResetWordList.bind(this);
     this.handleBookmarkClick = this.handleBookmarkClick.bind(this);
+    this.handleVerseEditClick = this.handleVerseEditClick.bind(this);
+    this.handleVerseEditClose = this.handleVerseEditClose.bind(this);
+    this.handleVerseEditSubmit = this.handleVerseEditSubmit.bind(this);
     this.handleCommentClick = this.handleCommentClick.bind(this);
     this.handleCommentClose = this.handleCommentClose.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
@@ -185,6 +192,7 @@ export class Container extends Component {
       snackText: null,
       canAutoComplete: false,
       resetWordList: false,
+      showVerseEditor: false,
       showComments: false,
     };
   }
@@ -564,6 +572,27 @@ export class Container extends Component {
   }
 
   /**
+   * will show verse editor on click
+   */
+  handleVerseEditClick() {
+    this.setState({ showVerseEditor: true });
+  }
+
+  handleVerseEditClose() {
+    this.setState({ showVerseEditor: false });
+  }
+
+  handleVerseEditSubmit(before, after, reasons) {
+    const {
+      contextId,
+      editTargetVerse,
+    } = this.props;
+    const { reference: { chapter, verse } } = contextId;
+    editTargetVerse(chapter, verse, before, after, reasons, contextId);
+    this.handleVerseEditClose();
+  }
+
+  /**
    * will show comment editor on click
    */
   handleCommentClick() {
@@ -641,7 +670,7 @@ export class Container extends Component {
       },
       tc,
     } = this.props;
-    const { snackText, showComments } = this.state;
+    const { snackText, showComments, showVerseEditor } = this.state;
     const snackOpen = snackText !== null;
     const targetLanguage = manifest && manifest.target_language;
     let bookName = targetLanguage && targetLanguage.book && targetLanguage.book.name;
@@ -664,10 +693,14 @@ export class Container extends Component {
 
     let verseTitle = '';//Empty verse title.
     let verseState = {};
+    let targetLanguageStr = '';
+    let verseText = '';
     const { reference: { chapter, verse } } = contextId || { reference: { chapter: 1, verse: 1 } };
 
     if (contextId) {
       verseTitle = `${bookName} ${chapter}:${verse}`;
+      targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
+      verseText = api.getVerseRawText(chapter, verse);
       verseState = api.getVerseData(chapter, verse, contextId);
     }
 
@@ -720,6 +753,7 @@ export class Container extends Component {
                 translate={translate}
                 verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
                 verseEditIconEnable={true}
+                verseEditClickAction={this.handleVerseEditClick}
                 commentIconEnable={true}
                 commentStateSet={!!currentComments}
                 commentClickAction={this.handleCommentClick}
@@ -761,6 +795,15 @@ export class Container extends Component {
             />
           </div>
         </div>
+        <VerseEditor
+          open={showVerseEditor}
+          verseTitle={verseTitle}
+          verseText={verseText}
+          targetLanguage={targetLanguageStr}
+          translate={translate}
+          onCancel={this.handleVerseEditClose}
+          onSubmit={this.handleVerseEditSubmit}
+        />
         <CommentsDialog
           open={showComments}
           verseTitle={verseTitle}
@@ -837,23 +880,54 @@ Container.propTypes = {
   // old properties
   projectDetailsReducer: PropTypes.object.isRequired,
   resourcesReducer: PropTypes.object.isRequired,
-  settingsReducer: PropTypes.shape({ toolsSettings: PropTypes.object.required }).isRequired,
+  settingsReducer: PropTypes.shape({ toolsSettings: PropTypes.object.isRequired }).isRequired,
 };
 
-const mapDispatchToProps = ({
-  alignTargetToken,
-  unalignTargetToken,
-  moveSourceToken,
-  resetVerse,
-  clearState,
-  acceptTokenSuggestion,
-  removeTokenSuggestion,
-  acceptAlignmentSuggestions,
-  setAlignmentPredictions,
-  clearAlignmentSuggestions,
-  addComment,
-  addBookmark,
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const methods = {
+    alignTargetToken,
+    unalignTargetToken,
+    moveSourceToken,
+    resetVerse,
+    clearState,
+    acceptTokenSuggestion,
+    removeTokenSuggestion,
+    acceptAlignmentSuggestions,
+    setAlignmentPredictions,
+    clearAlignmentSuggestions,
+    addComment,
+    addBookmark,
+  };
+
+  const dispatchedMethods = {};
+
+  // eslint-disable-next-line array-callback-return
+  Object.keys(methods).map(key => {
+    dispatchedMethods[key] = (...args) => dispatch(methods[key](...args));
+  });
+
+  const {
+    tc: {
+      showAlert,
+      closeAlert,
+      updateTargetVerse,
+      showIgnorableAlert,
+      gatewayLanguageCode,
+    },
+    toolApi,
+    translate,
+    gatewayLanguageQuote,
+  } = ownProps;
+  const username = getUsername(ownProps);
+  const currentToolName = getCurrentToolName(ownProps);
+  const projectSaveLocation = getProjectPath(ownProps);
+
+  dispatchedMethods.editTargetVerse = (chapter, verse, before, after, tags) => {
+    dispatch(editTargetVerse(chapter, verse, before, after, tags, username, gatewayLanguageCode, gatewayLanguageQuote, projectSaveLocation, currentToolName, translate, showAlert, closeAlert, showIgnorableAlert, updateTargetVerse, toolApi));
+  };
+
+  return dispatchedMethods;
+};
 
 const mapStateToProps = (state, props) => {
   const { tool: { api } } = props;

@@ -55,11 +55,7 @@ export const editTargetVerse = (chapterWithVerseEdit, verseWithVerseEdit, before
       verse: verseWithVerseEdit,
     },
   };
-  const selectionsValidationResults = {};
   const actionsBatch = [];
-
-  dispatch(validateSelections(after, contextIdWithVerseEdit, chapterWithVerseEdit, verseWithVerseEdit,
-    false, selectionsValidationResults, actionsBatch, projectSaveLocation, bookId, currentToolName, username));
 
   // create verse edit record to write to file system
   const verseEdit = {
@@ -80,7 +76,7 @@ export const editTargetVerse = (chapterWithVerseEdit, verseWithVerseEdit, before
 
   dispatch(
     updateVerseEditStatesAndCheckAlignments(
-      verseEdit, contextIdWithVerseEdit, currentCheckContextId, selectionsValidationResults.selectionsChanged, actionsBatch,
+      verseEdit, contextIdWithVerseEdit, currentCheckContextId, actionsBatch,
       currentToolName, translate, showAlert, closeAlert, projectSaveLocation, showIgnorableAlert, updateTargetVerse, toolApi
     )
   );
@@ -119,7 +115,7 @@ export const editTargetVerse = (chapterWithVerseEdit, verseWithVerseEdit, before
  * @param {function} updateTargetVerse -
  * @param {object} toolApi -
  */
-export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWithVerseEdit, currentCheckContextId, showSelectionInvalidated, batchGroupData = null, currentToolName, translate, showAlert, closeAlert, projectSaveLocation, showIgnorableAlert, updateTargetVerse, toolApi) => async (dispatch, getState) => {
+export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWithVerseEdit, currentCheckContextId, batchGroupData = null, currentToolName, translate, showAlert, closeAlert, projectSaveLocation, showIgnorableAlert, updateTargetVerse, toolApi) => async (dispatch, getState) => {
   const state = getState();
   const groupsData = getGroupsData(state);
   const actionsBatch = Array.isArray(batchGroupData) ? batchGroupData : []; // if batch array passed in then use it, otherwise create new array
@@ -138,8 +134,8 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
     projectSaveLocation,
   });
 
-  let showAlignmentsInvalidated = false;
-  showAlignmentsInvalidated = !toolApi.validateVerse(chapterWithVerseEdit, verseWithVerseEdit, true, groupsData);
+  const showAlignmentsInvalidated = !toolApi.validateVerse(chapterWithVerseEdit, verseWithVerseEdit, true, groupsData);
+  const showSelectionInvalidated = !toolApi.validateVerseSelections(chapterWithVerseEdit, verseWithVerseEdit, true);
   closeAlert();
 
   if (showSelectionInvalidated || showAlignmentsInvalidated) {
@@ -180,19 +176,6 @@ export const doBackgroundVerseEditsUpdates = (verseEdit, contextIdWithVerseEdit,
     verseEdit.gatewayLanguageCode, verseEdit.gatewayLanguageQuote, currentCheckContextId));
 
   const actionsBatch = Array.isArray(batchGroupData) ? batchGroupData : []; // if batch array passed in then use it, otherwise create new array
-  const state = getState();
-  const groupsData = getGroupsData(state);
-
-  if (toolName === TRANSLATION_WORDS || toolName === TRANSLATION_NOTES) {
-    const editedChecks = {};
-    getCheckVerseEditsInGroupData(groupsData, contextIdWithVerseEdit, editedChecks, projectSaveLocation);
-    const { groupEditsCount } = editChecksToBatch(editedChecks, actionsBatch); // optimize edits into batch
-
-    if (groupEditsCount) {
-      console.info(`doBackgroundVerseEditsUpdates() - ${groupEditsCount} group edits found`);
-    }
-  }
-
   if (actionsBatch.length) {
     dispatch(batchActions(actionsBatch));
   }

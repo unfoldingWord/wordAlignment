@@ -167,7 +167,11 @@ export default class Api extends ToolApi {
     const toolAPI = tools && tools[toolName];
 
     if (toolAPI) {
-      return toolAPI.trigger('validateVerse', chapter, verse, silent);
+      try {
+        return toolAPI.trigger('validateVerse', chapter, verse, silent);
+      } catch (e) {
+        console.error(`validateVerseInTool(${toolName}) - validateVerse failed`, e);
+      }
     }
     return false;
   }

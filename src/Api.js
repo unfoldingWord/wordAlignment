@@ -47,6 +47,7 @@ import {
   INVALID_KEY,
   UNALIGNED_KEY,
 } from './state/reducers/GroupMenu';
+import {TRANSLATION_NOTES, TRANSLATION_WORDS} from "./common/constants";
 const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
 
 export default class Api extends ToolApi {
@@ -57,6 +58,7 @@ export default class Api extends ToolApi {
     this._validateBook = this._validateBook.bind(this);
     this.validateBook = this.validateBook.bind(this);
     this.validateVerse = this.validateVerse.bind(this);
+    this.validateVerseSelections = this.validateVerseSelections.bind(this);
     this._loadBookAlignments = this._loadBookAlignments.bind(this);
     this._showResetDialog = this._showResetDialog.bind(this);
     this.getProgress = this.getProgress.bind(this);
@@ -136,6 +138,42 @@ export default class Api extends ToolApi {
         resetVerse(chapter, verse, sourceTokens, targetTokens);
       }
     }
+  }
+
+  /**
+   * method to validate verse selections
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
+   * @return {boolean} returns true if no checks invalidated
+   */
+  validateVerseSelections(chapter, verse, silent=false) {
+    const tnValid = this.validateVerseInTool(TRANSLATION_NOTES, chapter, verse, silent);
+    const twValid = this.validateVerseInTool(TRANSLATION_WORDS, chapter, verse, silent);
+    return tnValid && twValid;
+  }
+
+  /**
+   * will call validateVerse in the tool API
+   * @param {string} toolName
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
+   * @return {boolean} returns true if no checks invalidated
+   */
+  validateVerseInTool(toolName, chapter, verse, silent) {
+    const {tc: {tools}} = this.props;
+
+    const toolAPI = tools && tools[toolName];
+
+    if (toolAPI) {
+      try {
+        return toolAPI.trigger('validateVerse', chapter, verse, silent);
+      } catch (e) {
+        console.error(`validateVerseInTool(${toolName}) - validateVerse failed`, e);
+      }
+    }
+    return false;
   }
 
   /**

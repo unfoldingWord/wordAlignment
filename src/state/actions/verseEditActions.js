@@ -137,8 +137,7 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
   if (showSelectionInvalidated || showAlignmentsInvalidated) {
     dispatch(showInvalidatedWarnings(showSelectionInvalidated, showAlignmentsInvalidated, translate, showIgnorableAlert));
   }
-  dispatch(doBackgroundVerseEditsUpdates(verseEdit, contextIdWithVerseEdit,
-    currentCheckContextId, actionsBatch, currentToolName));
+  dispatch(doBackgroundVerseEditsUpdates(verseEdit, contextIdWithVerseEdit, currentCheckContextId, actionsBatch));
 };
 
 /**
@@ -160,9 +159,8 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
  * @param {Object} contextIdWithVerseEdit - contextId of verse being edited
  * @param {Object} currentCheckContextId - contextId of group menu item selected
  * @param {array} batchGroupData - if present then add group data actions to this array for later batch operation
- * @param {string} toolName - tool Name.
  */
-export const doBackgroundVerseEditsUpdates = (verseEdit, contextIdWithVerseEdit, currentCheckContextId, batchGroupData = null, toolName) => (dispatch) => {
+export const doBackgroundVerseEditsUpdates = (verseEdit, contextIdWithVerseEdit, currentCheckContextId, batchGroupData = null) => (dispatch) => {
   const chapterWithVerseEdit = contextIdWithVerseEdit.reference.chapter;
   const verseWithVerseEdit = contextIdWithVerseEdit.reference.verse;
 

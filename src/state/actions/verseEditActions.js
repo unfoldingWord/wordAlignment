@@ -1,10 +1,6 @@
 import { batchActions } from 'redux-batched-actions';
 import generateTimestamp from '../../utils/generateTimestamp';
 import { getContextId, getGroupsData } from '../../state/selectors';
-import {
-  TRANSLATION_WORDS,
-  TRANSLATION_NOTES,
-} from '../../common/constants';
 import { writeTranslationWordsVerseEditToFile } from '../../utils/verseEditHelpers';
 import { getGroupDataForVerse } from '../../utils/groupDataHelpers';
 import { saveVerseEdit } from '../../utils/localStorage';
@@ -14,7 +10,7 @@ import {
   TOGGLE_VERSE_EDITS_IN_GROUPDATA,
   TOGGLE_MULTIPLE_VERSE_EDITS_IN_GROUPDATA,
 } from './actionTypes';
-import { validateSelections, showInvalidatedWarnings } from './selectionsActions';
+import { showInvalidatedWarnings } from './selectionsActions';
 
 /**
  * This is called by tool when a verse has been edited. It updates group data reducer for current tool
@@ -142,7 +138,7 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
     dispatch(showInvalidatedWarnings(showSelectionInvalidated, showAlignmentsInvalidated, translate, showIgnorableAlert));
   }
   dispatch(doBackgroundVerseEditsUpdates(verseEdit, contextIdWithVerseEdit,
-    currentCheckContextId, actionsBatch, currentToolName, projectSaveLocation));
+    currentCheckContextId, actionsBatch, currentToolName));
 };
 
 /**
@@ -165,9 +161,8 @@ export const updateVerseEditStatesAndCheckAlignments = (verseEdit, contextIdWith
  * @param {Object} currentCheckContextId - contextId of group menu item selected
  * @param {array} batchGroupData - if present then add group data actions to this array for later batch operation
  * @param {string} toolName - tool Name.
- * @param {string} projectSaveLocation - project Directory path.
  */
-export const doBackgroundVerseEditsUpdates = (verseEdit, contextIdWithVerseEdit, currentCheckContextId, batchGroupData = null, toolName, projectSaveLocation) => (dispatch, getState) => {
+export const doBackgroundVerseEditsUpdates = (verseEdit, contextIdWithVerseEdit, currentCheckContextId, batchGroupData = null, toolName) => (dispatch) => {
   const chapterWithVerseEdit = contextIdWithVerseEdit.reference.chapter;
   const verseWithVerseEdit = contextIdWithVerseEdit.reference.verse;
 

@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as GroupMenuActions from '../GroupMenuActions';
-import Api from "../../../Api";
+import Api from '../../../Api';
 import * as CheckDataHelper from '../../../utils/CheckDataHelper';
 import * as Reducers from '../../reducers';
 
@@ -33,44 +33,46 @@ describe('thunk actions', () => {
     const api = new Api();
     const chapter = 3;
     const verse = 2;
+
     api.props = {
       tc: {
-        targetBook: {
-          1: {
-            1: "hello"
-          }
-        },
+        targetBook: { 1: { 1: 'hello' } },
         writeProjectData: jest.fn(() => Promise.resolve()),
-        contextId: {reference: {bookId: 'tit', chapter, verse}}
+        contextId: {
+          reference: {
+            bookId: 'tit', chapter, verse,
+          },
+        },
       },
-      tool: {
-        isReady: false
-      }
+      tool: { isReady: false },
     };
+
     const expectedActions = [
       {
-        type: 'WA::SET_GROUP_MENU_STATE',
+        'type': 'WA::SET_GROUP_MENU_STATE',
         chapter,
         verse,
-        "values": {
-          "bookMarked": expectedBookmarked,
-          "comment": expectedComment,
-          "edited": expectedIsVerseEdited,
-          "finished": expectedFinished,
-          "invalid": expectedInvalid,
-          "unaligned": !expectedAligned,
+        'values': {
+          'bookMarked': expectedBookmarked,
+          'comment': expectedComment,
+          'edited': expectedIsVerseEdited,
+          'finished': expectedFinished,
+          'invalid': expectedInvalid,
+          'unaligned': !expectedAligned,
         },
-      }
+      },
     ];
     const store = mockStore();
-    store.dispatch(GroupMenuActions.loadGroupMenuItem(api, chapter, verse));
+    store.dispatch(GroupMenuActions.loadGroupMenuItem(api, chapter, verse, api.props.contextId));
     expect(store.getActions()).toEqual(expectedActions);
   });
 
   it('setGroupMenuItemFinished()', () => {
     const finished = true;
     const expectedActions = [
-      {"type": "WA::SET_GROUP_MENU_FINISHED", "chapter": 2, "verse": 5, "value": finished}
+      {
+        'type': 'WA::SET_GROUP_MENU_FINISHED', 'chapter': 2, 'verse': 5, 'value': finished,
+      },
     ];
     const store = mockStore();
     const action = GroupMenuActions.setGroupMenuItemFinished(2, 5, finished);
@@ -81,7 +83,9 @@ describe('thunk actions', () => {
   it('setGroupMenuItemInvalid()', () => {
     const invalid = true;
     const expectedActions = [
-      {"type": "WA::SET_GROUP_MENU_INVALID", "chapter": 2, "verse": 7, "value": invalid}
+      {
+        'type': 'WA::SET_GROUP_MENU_INVALID', 'chapter': 2, 'verse': 7, 'value': invalid,
+      },
     ];
     const store = mockStore();
     const action = GroupMenuActions.setGroupMenuItemInvalid(2, 7, invalid);
@@ -92,7 +96,9 @@ describe('thunk actions', () => {
   it('setGroupMenuItemUnaligned()', () => {
     const unaligned = false;
     const expectedActions = [
-      {"type": "WA::SET_GROUP_MENU_UNALIGNED", "chapter": 3, "verse": 7, "value": unaligned}
+      {
+        'type': 'WA::SET_GROUP_MENU_UNALIGNED', 'chapter': 3, 'verse': 7, 'value': unaligned,
+      },
     ];
     const store = mockStore();
     const action = GroupMenuActions.setGroupMenuItemUnaligned(3, 7, unaligned);
@@ -103,7 +109,9 @@ describe('thunk actions', () => {
   it('setGroupMenuItemEdited()', () => {
     const edited = false;
     const expectedActions = [
-      {"type": "WA::SET_GROUP_MENU_EDITED", "chapter": 3, "verse": 7, "value": edited}
+      {
+        'type': 'WA::SET_GROUP_MENU_EDITED', 'chapter': 3, 'verse': 7, 'value': edited,
+      },
     ];
     const store = mockStore();
     const action = GroupMenuActions.setGroupMenuItemEdited(3, 7, edited);
@@ -112,9 +120,11 @@ describe('thunk actions', () => {
   });
 
   it('setGroupMenuItemState()', () => {
-    const values = {edited: false};
+    const values = { edited: false };
     const expectedActions = [
-      {"type": "WA::SET_GROUP_MENU_STATE", "chapter": 3, "verse": 7, "values": values}
+      {
+        'type': 'WA::SET_GROUP_MENU_STATE', 'chapter': 3, 'verse': 7, 'values': values,
+      },
     ];
     const store = mockStore();
     const action = GroupMenuActions.setGroupMenuItemState(3, 7, values);

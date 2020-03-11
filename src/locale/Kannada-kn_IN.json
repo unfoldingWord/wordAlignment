@@ -177,6 +177,9 @@
   "morph_missing": "ರೂಪವಿಜ್ಞಾನ ಕಂಡುಬಂದಿಲ್ಲ",
   "unsaved_changes": "ನೀವು ಉಳಿಸದಿರುವ ಬದಲಾವಣೆಗಳಿವೆ.",
   "attention": "ಗಮನಿಸಿ:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "buttons": {
     "ok_button": "ಸರಿ",
     "back_button": "ಹಿಂದಕ್ಕೆ ಹೋಗು",
@@ -187,6 +190,7 @@
     "discard_changes": "ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸಿ"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "ಫಲಿತಾಂಶಗಳು ಇಲ್ಲ",
     "invalidated": "ಅಸಮರ್ಥವಾಗಿಸು",
     "bookmarks": "ಪುಟ ಗುರುತು",

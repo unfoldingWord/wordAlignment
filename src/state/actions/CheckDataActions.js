@@ -1,26 +1,33 @@
-import * as consts from '../actions/actionTypes';
+import { LOAD_COMMENT, LOAD_REMINDER } from '../actions/actionTypes';
 import {
   getVerseCommentRecord,
   getVerseBookmarkedRecord,
 } from '../../utils/CheckDataHelper';
+import { loadSelections } from '../actions/selectionsActions';
 
 /**
  * load reducers for latest context
- * @param {Object} api - tool api for system calls
- * @param contextId
- * @return {function(...[*]=)}
+ * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
  */
-export function loadNewContext(api, contextId) {
-  const {store} = api.context;
-  const {reference: {chapter, verse}} = contextId;
-  let data = getVerseCommentRecord(api, chapter, verse);
-  store.dispatch({
-    type: consts.LOAD_COMMENT,
-    value: data,
+export function loadNewContext(contextId, tc) {
+  return (dispatch => {
+    let data = getVerseCommentRecord(contextId, tc);
+
+    dispatch({
+      type: LOAD_COMMENT,
+      value: data,
+    });
+
+    data = getVerseBookmarkedRecord(contextId, tc);
+
+    dispatch({
+      type: LOAD_REMINDER,
+      value: data,
+    });
+
+    dispatch(loadSelections(contextId, tc));
   });
-  data = getVerseBookmarkedRecord(api, chapter, verse);
-  store.dispatch({
-    type: consts.LOAD_REMINDER,
-    value: data,
-  });
+
+  // TODO update verse edit reducer when it is finished
 }

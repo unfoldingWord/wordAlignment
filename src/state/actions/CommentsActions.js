@@ -1,9 +1,7 @@
-import * as consts from '../actions/actionTypes';
 import * as GroupMenuActions from '../actions/GroupMenuActions';
-import {
-  generateTimestamp,
-  writeCheckData,
-} from '../../utils/CheckDataHelper';
+import { writeCheckData } from '../../utils/CheckDataHelper';
+import generateTimestamp from '../../utils/generateTimestamp';
+import { ADD_COMMENT } from '../actions/actionTypes';
 
 /**
  * set new comment in reducer
@@ -21,7 +19,7 @@ export function setComment(text, username, contextId, timestamp) {
     timestamp = timestamp || generateTimestamp();
 
     dispatch({
-      type: consts.ADD_COMMENT,
+      type: ADD_COMMENT,
       userName: username,
       activeBook: bookId,
       activeChapter: chapter,
@@ -45,7 +43,7 @@ export const addComment = (api, text, username, contextId) => ((dispatch) => {
   const {
     reference: {
       bookId, chapter, verse,
-    }
+    },
   } = contextId;
 
   const timestamp = generateTimestamp();

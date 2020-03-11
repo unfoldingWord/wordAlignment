@@ -1,4 +1,6 @@
-import path from "path-extra";
+import fs from 'fs-extra';
+import path from 'path-extra';
+import generateTimestamp from '../utils/generateTimestamp';
 
 /**
  * Checks if the verse alignment is flagged as invalid
@@ -8,11 +10,7 @@ import path from "path-extra";
  * @return {Boolean}
  */
 export const getIsVerseInvalid = (api, chapter, verse) => {
-  const {
-    tool: {
-      toolDataPathExistsSync
-    }
-  } = api.props;
+  const { tool: { toolDataPathExistsSync } } = api.props;
   const dataPath = path.join('invalid', chapter + '', verse + '.json');
   return toolDataPathExistsSync(dataPath);
 };
@@ -25,11 +23,7 @@ export const getIsVerseInvalid = (api, chapter, verse) => {
  * @return {Boolean}
  */
 export const getIsVerseFinished = (api, chapter, verse) => {
-  const {
-    tool: {
-      toolDataPathExistsSync
-    }
-  } = api.props;
+  const { tool: { toolDataPathExistsSync } } = api.props;
   const dataPath = path.join('completed', chapter + '', verse + '.json');
   return toolDataPathExistsSync(dataPath);
 };
@@ -42,62 +36,73 @@ export const getIsVerseFinished = (api, chapter, verse) => {
  * @return {Boolean}
  */
 export const getIsVerseEdited = (api, chapter, verse) => {
-  const {
+  let {
     tc: {
+      project,
+      toolName,
       projectDataPathExistsSync,
-      contextId
-    }
+    },
+    contextId,
   } = api.props;
-  const {reference: {bookId}} = contextId;
+
+  if (!contextId) {
+    contextId = project.readCurrentContextIdSync(toolName);
+  }
+
+  const { reference: { bookId } } = contextId;
   const dataPath = generateCheckPath('verseEdits', bookId, chapter, verse);
   return projectDataPathExistsSync(dataPath);
 };
 
 /**
  * get current comment Object for verse
- * @param {Object} api - tool api for system calls
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @return {Object}
+ * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
+ * @param {number} chapter
+ * @param {number} verse
+ * @return {object}
  */
-export const getVerseCommentRecord = (api, chapter, verse) => {
-  const data = loadCheckData(api, 'comments', chapter, verse);
+export const getVerseCommentRecord = (contextId, tc, chapter, verse) => {
+  const data = loadCheckData(contextId, 'comments', tc, chapter, verse);
   return data;
 };
 
 /**
  * get current comment String for verse
- * @param {Object} api - tool api for system calls
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @return {String}
+ * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
+ * @return {string}
  */
-export const getVerseComment = (api, chapter, verse) => {
-  const comment = getVerseCommentRecord(api, chapter, verse);
+export const getVerseComment = (contextId, tc, chapter, verse) => {
+  const comment = getVerseCommentRecord(contextId, tc, chapter, verse);
   return (comment && comment.text) || '';
 };
 
 /**
  * get current bookmark Object for verse
- * @param {Object} api - tool api for system calls
- * @param {String|Number} chapter
- * @param {String|Number} verse
+ * @param {Object} contextId - contextId.
+ * @param {Object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
  * @return {Object}
  */
-export const getVerseBookmarkedRecord = (api, chapter, verse) => {
-  const data = loadCheckData(api, 'reminders', chapter, verse);
+export const getVerseBookmarkedRecord = (contextId, tc, chapter, verse) => {
+  const data = loadCheckData(contextId, 'reminders', tc, chapter, verse);
   return data;
 };
 
 /**
  * get current bookmark state for verse
- * @param {Object} api - tool api for system calls
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @return {Boolean}
+ * @param {object} contextId - contextId.
+ * @param {object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
+ * @return {boolean}
  */
-export const getVerseBookmarked = (api, chapter, verse) => {
-  const bookmark = getVerseBookmarkedRecord(api, chapter, verse);
+export const getVerseBookmarked = (contextId, tc, chapter, verse) => {
+  const bookmark = getVerseBookmarkedRecord(contextId, tc, chapter, verse);
   return !!(bookmark && bookmark.enabled);
 };
 
@@ -115,28 +120,30 @@ export function generateCheckPath(checkType, bookId, chapter, verse) {
 }
 
 /**
- * @description loads checkdata based on given contextId.
- * @param {Object} api - tool api for system calls
- * @param {String} checkType (e.g. reminders)
- * @param {String|Number} chapter
- * @param {String|Number} verse
- * @param {String} toolName
- * @return {Object} returns the most recent object for verse loaded from the file system.
+ * Loads checkdata based on given contextId.
+ * @param {object} contextId - contextId.
+ * @param {string} checkType (e.g. reminders)
+ * @param {object} tc - tc.
+ * @param {object} chapter - chapter.
+ * @param {object} verse - verse.
+ * @param {string} toolName
+ * @return {object} returns the most recent object for verse loaded from the file system.
  */
-export function loadCheckData(api, checkType, chapter, verse,
-                              toolName = 'wordAlignment') {
+export function loadCheckData(contextId, checkType, tc, chapter = null, verse = null, toolName = 'wordAlignment') {
   const {
-    projectDataPathExistsSync,
-    readProjectDataSync,
-    readProjectDirSync,
-    contextId
-  } = api.props.tc;
-  const {reference: {bookId}} = contextId;
+    reference: {
+      bookId, chapter: contextIdChapter, verse: contextIdVerse,
+    },
+  } = contextId;
+  // TRICKY: In some cases we need to use a chapter and verse combo different than the one coming in the contextId.
+  chapter = chapter || contextIdChapter;
+  verse = verse || contextIdVerse;
+  const { project: { _dataPath } } = tc;
+  const loadPath = path.join(_dataPath, generateCheckPath(checkType, bookId, chapter, verse));
   let checkDataObject;
-  const loadPath = generateCheckPath(checkType, bookId, chapter, verse);
 
-  if (loadPath && contextId && projectDataPathExistsSync(loadPath)) {
-    let files = readProjectDirSync(loadPath);
+  if (loadPath && contextId && fs.existsSync(loadPath)) {
+    let files = fs.readdirSync(loadPath);
 
     files = files.filter(file => // filter the filenames to only use .json
       path.extname(file) === '.json'
@@ -150,10 +157,7 @@ export function loadCheckData(api, checkType, chapter, verse,
       // check each file for same current tool name
       try {
         const readPath = path.join(loadPath, file);
-        let _checkDataObject = readProjectDataSync(readPath);
-        if (_checkDataObject) {
-          _checkDataObject = JSON.parse(_checkDataObject);
-        }
+        let _checkDataObject = fs.readJsonSync(readPath);
 
         if (_checkDataObject && _checkDataObject.contextId &&
           _checkDataObject.contextId.tool === toolName) {
@@ -182,16 +186,15 @@ export function loadCheckData(api, checkType, chapter, verse,
  * @param {Object} newData - base data to save
  * @param {String} timeStamp - optional timeStamp to use, if empty will get generated by current time
  */
-export function writeCheckData(api, checkType, chapter, verse, newData,
-                               timeStamp ) {
+export function writeCheckData(api, checkType, chapter, verse, newData, timeStamp) {
   const {
     tc: {
       username,
-      contextId,
-      writeProjectDataSync
-    }
+      writeProjectDataSync,
+    },
+    contextId,
   } = api.props;
-  const {reference: { bookId }} = contextId;
+  const { reference: { bookId } } = contextId;
   const dataFolder = generateCheckPath(checkType, bookId, chapter, verse);
   const modifiedTimestamp = timeStamp || generateTimestamp();
   const saveData = {
@@ -201,23 +204,8 @@ export function writeCheckData(api, checkType, chapter, verse, newData,
     activeBook: bookId,
     activeChapter: chapter,
     activeVerse: verse,
-    modifiedTimestamp
+    modifiedTimestamp,
   };
   const dataPath = path.join(dataFolder, modifiedTimestamp + '.json').replace(/[:"]/g, '_'); // make legal path for all OS's
   writeProjectDataSync(dataPath, JSON.stringify(saveData));
 }
-
-/**
- * @description This helper method generates a timestamp in milliseconds for use
- *              in the storing of data in the app. Timestamps will be used to
- *              generate filenames and modified dates.
- * @param {String|null} str A date string to use. If null, will be current date
- * @return {String} The timestamp in milliseconds
- ******************************************************************************/
-export const generateTimestamp = (str = null) => {
-  if (!str) {
-    return (new Date()).toJSON();
-  } else {
-    return (new Date(str)).toJSON();
-  }
-};

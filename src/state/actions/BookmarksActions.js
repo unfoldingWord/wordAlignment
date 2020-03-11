@@ -1,9 +1,7 @@
-import * as consts from '../actions/actionTypes';
-import * as GroupMenuActions from '../actions/GroupMenuActions';
-import {
-  generateTimestamp,
-  writeCheckData,
-} from '../../utils/CheckDataHelper';
+import { ADD_BOOKMARK } from '../actions/actionTypes';
+import { setGroupMenuItemBookmarked } from '../actions/GroupMenuActions';
+import { writeCheckData } from '../../utils/CheckDataHelper';
+import generateTimestamp from '../../utils/generateTimestamp';
 
 /**
  * set bookmark state in reducer
@@ -21,7 +19,7 @@ export function setBookmark(enabled, username, contextId, timestamp) {
     timestamp = timestamp || generateTimestamp();
 
     dispatch({
-      type: consts.ADD_BOOKMARK,
+      type: ADD_BOOKMARK,
       userName: username,
       activeBook: bookId,
       activeChapter: chapter,
@@ -45,13 +43,13 @@ export const addBookmark = (api, enabled, username, contextId) => ((dispatch) =>
   const {
     reference: {
       bookId, chapter, verse,
-    }
+    },
   } = contextId;
 
   enabled = !!enabled;
   const timestamp = generateTimestamp();
   dispatch(setBookmark(enabled, username, contextId, timestamp));
-  dispatch(GroupMenuActions.setGroupMenuItemBookmarked(chapter, verse, enabled));
+  dispatch(setGroupMenuItemBookmarked(chapter, verse, enabled));
   const newData = {
     enabled: enabled,
     userName: username,

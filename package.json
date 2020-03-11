@@ -6,7 +6,7 @@
   "main": "index.js",
   "display": "app",
   "scripts": {
-    "test": "eslint ./src && jest ./src",
+    "test": "eslint ./src && jest",
     "lint-fix": "eslint ./src --fix"
   },
   "jest": {
@@ -55,7 +55,7 @@
     "jest": "21.2.1",
     "material-ui": "0.20.2",
     "prop-types": "15.6.2",
-    "react": "16.3.2",
+    "react": "16.8.6",
     "react-dnd-test-backend": "2.5.4",
     "react-dom": "16.8.3",
     "react-redux": "5.1.1",
@@ -66,10 +66,13 @@
     "redux-thunk": "2.3.0"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "deep-equal": "1.0.1",
     "fs-extra": "4.0.3",
+    "gogs-client": "^0.5.2",
     "lodash": "^4.17.10",
     "os-locale": "2.1.0",
+    "ospath": "^1.2.2",
     "path-extra": "3.0.0",
     "react-dnd": "2.5.4",
     "react-dnd-html5-backend": "2.5.4",
@@ -77,8 +80,10 @@
     "react-tooltip": "3.9.2",
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
+    "selections": "^0.1.7",
+    "simple-git": "^1.131.0",
     "tc-tool": "3.0.3",
-    "tc-ui-toolkit": "0.14.28",
+    "tc-ui-toolkit": "0.15.11",
     "usfm-js": "1.0.6",
     "word-aligner": "0.2.12",
     "wordmap": "^0.4.3",

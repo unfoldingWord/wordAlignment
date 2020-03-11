@@ -177,6 +177,9 @@
   "morph_missing": "नमुना सापडला नाही",
   "unsaved_changes": "तुमच्याकडे जतन न केलेले बदल आहेत.",
   "attention": "लक्ष द्या:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",
@@ -187,6 +190,7 @@
     "discard_changes": "बदल रद्द करा"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "कोणतेही परिणाम नाहीत.",
     "invalidated": "अवैद्य केलेले",
     "bookmarks": "वाचनखुणा",

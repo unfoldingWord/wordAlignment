@@ -9,6 +9,7 @@ import {
   SET_GROUP_MENU_BOOKMARKED,
   SET_GROUP_MENU_COMMENT,
 } from '../actions/actionTypes';
+//TODO: Move constants to constants.js
 export const FINISHED_KEY = 'finished';
 export const INVALID_KEY = 'invalid';
 export const UNALIGNED_KEY = 'unaligned';
@@ -23,42 +24,45 @@ export const COMMENT_KEY = 'comment';
  * @returns {Object} new state
  */
 const groupMenu = (state = {}, action) => {
-  switch(action.type) {
-    case CLEAR_GROUP_MENU: {
-      return {};
+  switch (action.type) {
+  case CLEAR_GROUP_MENU: {
+    return {};
+  }
+  case SET_GROUP_MENU_FINISHED: {
+    return setItemValue(state, action, FINISHED_KEY, !!action.value);
+  }
+  case SET_GROUP_MENU_INVALID: {
+    return setItemValue(state, action, INVALID_KEY, !!action.value);
+  }
+  case SET_GROUP_MENU_UNALIGNED: {
+    return setItemValue(state, action, UNALIGNED_KEY, !!action.value);
+  }
+  case SET_GROUP_MENU_EDITED: {
+    return setItemValue(state, action, EDITED_KEY, !!action.value);
+  }
+  case SET_GROUP_MENU_BOOKMARKED: {
+    return setItemValue(state, action, BOOKMARKED_KEY, !!action.value);
+  }
+  case SET_GROUP_MENU_COMMENT: {
+    return setItemValue(state, action, COMMENT_KEY, action.value);
+  }
+  case SET_GROUP_MENU_STATE: {
+    const {
+      chapter, verse, chapterData, itemData,
+    } = findMenuItem(state, action);
+    const validObject = action.values && Object.keys(action.values).length;
+
+    if (validObject && itemData) {
+      const newItemData = {
+        ...itemData,
+        ...action.values,
+      };
+      return setNewItemValue(state, chapterData, chapter, verse, newItemData);
     }
-    case SET_GROUP_MENU_FINISHED: {
-      return setItemValue(state, action, FINISHED_KEY, !!action.value);
-    }
-    case SET_GROUP_MENU_INVALID: {
-      return setItemValue(state, action, INVALID_KEY, !!action.value);
-    }
-    case SET_GROUP_MENU_UNALIGNED: {
-      return setItemValue(state, action, UNALIGNED_KEY, !!action.value);
-    }
-    case SET_GROUP_MENU_EDITED: {
-      return setItemValue(state, action, EDITED_KEY, !!action.value);
-    }
-    case SET_GROUP_MENU_BOOKMARKED: {
-      return setItemValue(state, action, BOOKMARKED_KEY, !!action.value);
-    }
-    case SET_GROUP_MENU_COMMENT: {
-      return setItemValue(state, action, COMMENT_KEY, action.value);
-    }
-    case SET_GROUP_MENU_STATE: {
-      const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);
-      const validObject = action.values && Object.keys(action.values).length;
-      if (validObject && itemData) {
-        const newItemData = {
-          ...itemData,
-          ...action.values
-        };
-        return setNewItemValue(state, chapterData, chapter, verse, newItemData);
-      }
-      return state; // on error return previous state
-    }
-    default:
-      return state;
+    return state; // on error return previous state
+  }
+  default:
+    return state;
   }
 };
 
@@ -74,11 +78,11 @@ const groupMenu = (state = {}, action) => {
 const setNewItemValue = (state, chapterData, chapter, verse, newItemData ) => {
   const newChapterData = {
     ...chapterData,
-    [verse]: newItemData
+    [verse]: newItemData,
   };
   return {
     ...state,
-    [chapter]: newChapterData
+    [chapter]: newChapterData,
   };
 };
 
@@ -93,24 +97,26 @@ const findMenuItem = (state, action) => {
   const verse = normalizeRef(action.verse);
   let chapterData = null;
   let itemData = null;
-  if(chapter in state) {
+
+  if (chapter in state) {
     chapterData = state[chapter];
-    if(verse in chapterData) {
+
+    if (verse in chapterData) {
       itemData = chapterData[verse];
     } else if (verse) {
       itemData = {};
       chapterData = {
         ...chapterData,
-        [verse]: itemData
+        [verse]: itemData,
       };
     }
   } else if (chapter) {
     itemData = {};
-    chapterData = {
-      [verse]: itemData
-    };
+    chapterData = { [verse]: itemData };
   }
-  return {chapter, verse, chapterData, itemData};
+  return {
+    chapter, verse, chapterData, itemData,
+  };
 };
 
 /**
@@ -122,11 +128,14 @@ const findMenuItem = (state, action) => {
  * @return {Object} - new reducer state
  */
 const setItemValue = (state, action, key, newValue) => {
-  const {chapter, verse, chapterData, itemData} = findMenuItem(state, action);
+  const {
+    chapter, verse, chapterData, itemData,
+  } = findMenuItem(state, action);
+
   if (itemData) {
     const newItemData = {
       ...itemData,
-      [key]: newValue
+      [key]: newValue,
     };
     return setNewItemValue(state, chapterData, chapter, verse, newItemData);
   }
@@ -138,9 +147,7 @@ const setItemValue = (state, action, key, newValue) => {
  * @param {string|number} index
  * @return {string}
  */
-const normalizeRef = (index) => {
-  return  index && index.toString() || "";
-};
+const normalizeRef = (index) => index && index.toString() || '';
 
 /**
  * Returns the menu data for item in chapter:verse
@@ -151,10 +158,12 @@ const normalizeRef = (index) => {
  */
 export const getMenuItem = (state, chapter, verse) => {
   chapter = normalizeRef(chapter);
-  if(chapter in state) {
+
+  if (chapter in state) {
     const chapterState = state[chapter];
     verse = normalizeRef(verse);
-    if(verse in chapterState) {
+
+    if (verse in chapterState) {
       return chapterState[verse];
     }
   }

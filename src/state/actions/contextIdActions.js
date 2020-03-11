@@ -160,32 +160,32 @@ export const changeContextId = contextId => ({
 //   dispatch(batchActions(actionsBatch)); // process the batch
 // };
 
-export const changeToNextContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => ((dispatch, getState) => {
-  const state = getState();
-  const groupsData = getGroupsData(state);
-  const groupsIndex = getGroupsIndex(state);
-  const filters = getGroupMenuFilters(state);
-  let contextId = getContextId(state);
-
-  const nextGroupDataItem = shiftGroupDataItem(1, contextId, groupsData, filters); // get the next groupDataItem
-
-  if (nextGroupDataItem === undefined) { // if it is undefined
-    // End of the items in the group, need first of next group
-    const nextGroupIndex = shiftGroupIndex(1, contextId, groupsIndex, groupsData, filters);
-
-    if (nextGroupIndex !== undefined) {
-      const nextGroupData = groupsData[nextGroupIndex.id]; // get the new groupData for previous group
-      const visibleItems = visibleGroupItems(nextGroupData, filters);
-
-      if (visibleItems.length) {
-        contextId = visibleItems.shift().contextId;
-      }
-    }
-  } else {
-    contextId = nextGroupDataItem.contextId;
-  }
-  dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
-});
+// export const changeToNextContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => ((dispatch, getState) => {
+//   const state = getState();
+//   const groupsData = getGroupsData(state);
+//   const groupsIndex = getGroupsIndex(state);
+//   const filters = getGroupMenuFilters(state);
+//   let contextId = getContextId(state);
+//
+//   const nextGroupDataItem = shiftGroupDataItem(1, contextId, groupsData, filters); // get the next groupDataItem
+//
+//   if (nextGroupDataItem === undefined) { // if it is undefined
+//     // End of the items in the group, need first of next group
+//     const nextGroupIndex = shiftGroupIndex(1, contextId, groupsIndex, groupsData, filters);
+//
+//     if (nextGroupIndex !== undefined) {
+//       const nextGroupData = groupsData[nextGroupIndex.id]; // get the new groupData for previous group
+//       const visibleItems = visibleGroupItems(nextGroupData, filters);
+//
+//       if (visibleItems.length) {
+//         contextId = visibleItems.shift().contextId;
+//       }
+//     }
+//   } else {
+//     contextId = nextGroupDataItem.contextId;
+//   }
+//   dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
+// });
 
 /**
  *
@@ -194,30 +194,30 @@ export const changeToNextContextId = (projectSaveLocation, userData, gatewayLang
  * @param {*} gatewayLanguageCode
  * @param {*} tc
  */
-export const changeToPreviousContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => ((dispatch, getState) => {
-  const state = getState();
-  const groupsData = getGroupsData(state);
-  const groupsIndex = getGroupsIndex(state);
-  const filters = getGroupMenuFilters(state);
-  let contextId = getContextId(state);
-  const prevGroupDataItem = shiftGroupDataItem(-1, contextId, groupsData, filters); // get the prev groupDataItem
-
-  if (prevGroupDataItem === undefined) { // if it is undefined
-    // End of the items in the group, need first of previous group
-    const prevGroupIndex = shiftGroupIndex(-1, contextId, groupsIndex, groupsData, filters);
-
-    if (prevGroupIndex !== undefined) {
-      const prevGroupData = groupsData[prevGroupIndex.id]; // get the new groupData for previous group
-      const visibleItems = visibleGroupItems(prevGroupData, filters);
-
-      if (visibleItems.length) {
-        contextId = visibleItems.pop().contextId;
-      }
-    }
-  } else {
-    contextId = prevGroupDataItem.contextId;
-  }
-  dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
-});
+// export const changeToPreviousContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => ((dispatch, getState) => {
+//   const state = getState();
+//   const groupsData = getGroupsData(state);
+//   const groupsIndex = getGroupsIndex(state);
+//   const filters = getGroupMenuFilters(state);
+//   let contextId = getContextId(state);
+//   const prevGroupDataItem = shiftGroupDataItem(-1, contextId, groupsData, filters); // get the prev groupDataItem
+//
+//   if (prevGroupDataItem === undefined) { // if it is undefined
+//     // End of the items in the group, need first of previous group
+//     const prevGroupIndex = shiftGroupIndex(-1, contextId, groupsIndex, groupsData, filters);
+//
+//     if (prevGroupIndex !== undefined) {
+//       const prevGroupData = groupsData[prevGroupIndex.id]; // get the new groupData for previous group
+//       const visibleItems = visibleGroupItems(prevGroupData, filters);
+//
+//       if (visibleItems.length) {
+//         contextId = visibleItems.pop().contextId;
+//       }
+//     }
+//   } else {
+//     contextId = prevGroupDataItem.contextId;
+//   }
+//   dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
+// });
 
 export const clearContextId = () => ({ type: CLEAR_CONTEXT_ID });

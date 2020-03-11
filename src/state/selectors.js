@@ -9,8 +9,8 @@ export const getGroupsIndex = (state) =>
 export const getGroupsData = (state) =>
   fromGroupsData.getGroupsData(state.tool.groupsDataReducer);
 
-export const getGroupMenuFilters = (state) =>
-  fromGroupMenu.getFilters(state.tool.groupMenuReducer);
+// export const getGroupMenuFilters = (state) =>
+//   fromGroupMenu.getFilters(state.tool.groupMenuReducer);
 
 export const getContextId = (state) =>
   fromContextId.getContext(state.tool.contextIdReducer);

@@ -59,6 +59,10 @@ import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from './IconIndicators';
 
+import './../../../../css/bootstrap.min.css';
+import './../../../../css/bootstrap-theme.min.css';
+import './../../../../css/styles.css';
+
 const styles = {
   container: {
     display: 'flex',

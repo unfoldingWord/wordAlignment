@@ -4,6 +4,7 @@ import {DragSource} from 'react-dnd';
 import {Token} from 'wordmap-lexer';
 import * as types from './WordCard/Types';
 import Word from './WordCard';
+// load drag previoew images
 import multi_drag_preview_2 from '../assets/multi_drag_preview_2.png'
 import multi_drag_preview_3 from '../assets/multi_drag_preview_3.png'
 import multi_drag_preview_4 from '../assets/multi_drag_preview_4.png'

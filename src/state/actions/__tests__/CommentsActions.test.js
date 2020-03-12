@@ -1,13 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as CommentsActions from '../CommentsActions';
-import Api from "../../../Api";
-import {
-  generateTimestamp,
-  writeCheckData,
-} from '../../../utils/CheckDataHelper';
+import Api from '../../../Api';
+import { writeCheckData } from '../../../utils/CheckDataHelper';
+import generateTimestamp from '../../../utils/generateTimestamp';
 
 jest.mock('../../../utils/CheckDataHelper');
+jest.mock('../../../utils/generateTimestamp');
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -24,29 +23,33 @@ describe('addComment()', () => {
     const bookId = 'tit';
     const chapter = 1;
     const verse = 2;
-    const contextId = { reference: { bookId, chapter, verse }};
+    const contextId = {
+      reference: {
+        bookId, chapter, verse,
+      },
+    };
     const timeStamp = `2019-10-28T15_34_35.875Z`;
     generateTimestamp.mockReturnValue(timeStamp);
     const expectedActions = [
       {
-        "type": "WA::ADD_COMMENT",
-        "text": "new comment",
-        "userName": "user name",
-        "contextId": {
-          "reference": {
-            "bookId": "tit",
-            "chapter": 1,
-            "verse": 2
-          }
+        'type': 'WA::ADD_COMMENT',
+        'text': 'new comment',
+        'userName': 'user name',
+        'contextId': {
+          'reference': {
+            'bookId': 'tit',
+            'chapter': 1,
+            'verse': 2,
+          },
         },
-        "modifiedTimestamp": "2019-10-28T15_34_35.875Z",
+        'modifiedTimestamp': '2019-10-28T15_34_35.875Z',
       },
       {
-        "type": "WA::SET_GROUP_MENU_COMMENT",
-        "value": "new comment",
-        "chapter": 1,
-        "verse": 2,
-      }
+        'type': 'WA::SET_GROUP_MENU_COMMENT',
+        'value': 'new comment',
+        'chapter': 1,
+        'verse': 2,
+      },
     ];
     const expectedNewData = {
       text: comment,
@@ -61,13 +64,9 @@ describe('addComment()', () => {
     api.context = { store };
     api.props = {
       tc: {
-        targetBook: {
-          1: {
-            1: "hello"
-          }
-        },
-        contextId,
+        targetBook: { 1: { 1: 'hello' } },
       },
+      contextId,
     };
 
     // when

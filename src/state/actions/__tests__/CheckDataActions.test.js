@@ -1,8 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { loadNewContext } from '../CheckDataActions';
-import Api from "../../../Api";
-import { getVerseBookmarkedRecord, getVerseCommentRecord} from "../../../utils/CheckDataHelper";
+import Api from '../../../Api';
+import { getVerseBookmarkedRecord, getVerseCommentRecord } from '../../../utils/CheckDataHelper';
 
 jest.mock('../../../utils/CheckDataHelper');
 
@@ -18,38 +18,38 @@ describe('loadNewContext()', () => {
     getVerseBookmarkedRecord.mockReturnValue(reminderData);
     const expectedActions = [
       {
-        "type": "WA::LOAD_COMMENT",
-        "value": {
-          "loadData": "comment"
-        }
+        'type': 'WA::LOAD_COMMENT',
+        'value': { 'loadData': 'comment' },
       },
       {
-        "type": "WA::LOAD_REMINDER",
-        "value": {
-          "loadData": "reminder"
-        }
-      }
+        'type': 'WA::LOAD_REMINDER',
+        'value': { 'loadData': 'reminder' },
+      },
+      {
+        'type': 'WA::CHANGE_SELECTIONS',
+        'modifiedTimestamp': null,
+        'username': null,
+        'selections': [],
+      },
     ];
     const store = mockStore();
     const api = new Api();
-    api.context = { store };
+
     api.props = {
       tc: {
-        targetBook: {
-          1: {
-            1: "hello"
-          }
-        },
+        targetBook: { 1: { 1: 'hello' } },
         writeProjectData: jest.fn(() => Promise.resolve()),
-        contextId: {reference: {bookId: 'tit', chapter: 1, verse: 2}}
       },
-      tool: {
-        isReady: false
-      }
+      contextId: {
+        reference: {
+          bookId: 'tit', chapter: 1, verse: 2,
+        },
+      },
+      tool: { isReady: false },
     };
 
     // when
-    loadNewContext(api, api.props.tc.contextId);
+    store.dispatch(loadNewContext(api.props.contextId));
 
     // then
     const actions = store.getActions();

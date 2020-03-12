@@ -1,32 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScripturePane} from 'tc-ui-toolkit';
+import { connect } from 'react-redux';
+import { ScripturePane } from 'tc-ui-toolkit';
+import { getAvailableScripturePaneSelections } from '../utils/resourcesHelpers';
+import {
+  getContextId,
+  getSelections,
+} from '../state/selectors';
+import { getLexiconData } from '../utils/lexiconHelpers';
 
-/**
- * Injects necessary data into the scripture pane.
- * @param props
- * @return {*}
- * @constructor
- */
 const ScripturePaneContainer = (props) => {
   const {
     tc: {
-      actions: {
-        showPopover,
-        editTargetVerse,
-        getLexiconData,
-        setToolSettings,
-        getAvailableScripturePaneSelections,
-        makeSureBiblesLoadedForTool
-      },
-      settingsReducer: {toolsSettings},
-      resourcesReducer: {bibles},
-      selectionsReducer: {selections},
-      contextId,
-      projectDetailsReducer
+      showPopover,
+      setToolSettings,
+      projectDetailsReducer,
+      makeSureBiblesLoadedForTool,
+      resourcesReducer: { bibles },
+      settingsReducer: { toolsSettings },
     },
+    contextId,
     translate,
-    handleModalOpen
+    selections,
+    editTargetVerse,
+    handleModalOpen,
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -34,13 +31,14 @@ const ScripturePaneContainer = (props) => {
     : [];
 
   // build the title
-  const {target_language, project} = projectDetailsReducer.manifest;
+  const { target_language, project } = projectDetailsReducer.manifest;
   let expandedScripturePaneTitle = project.name;
+
   if (target_language && target_language.book && target_language.book.name) {
     expandedScripturePaneTitle = target_language.book.name;
   }
 
-  if (Object.keys(bibles).length > 0) {
+  if (Object.keys(bibles).length > 0 && contextId) {
     return (
       <ScripturePane
         currentPaneSettings={currentPaneSettings}
@@ -54,8 +52,10 @@ const ScripturePaneContainer = (props) => {
         getLexiconData={getLexiconData}
         selections={selections}
         setToolSettings={setToolSettings}
-        getAvailableScripturePaneSelections={getAvailableScripturePaneSelections}
-        makeSureBiblesLoadedForTool={makeSureBiblesLoadedForTool}
+        getAvailableScripturePaneSelections={(resourceList) => {
+          getAvailableScripturePaneSelections(resourceList, contextId, bibles);
+        }}
+        makeSureBiblesLoadedForTool={() => makeSureBiblesLoadedForTool(contextId)}
         handleModalOpen={handleModalOpen}
       />
     );
@@ -66,26 +66,24 @@ const ScripturePaneContainer = (props) => {
 
 ScripturePaneContainer.propTypes = {
   translate: PropTypes.func.isRequired,
+  contextId: PropTypes.object,
+  editTargetVerse: PropTypes.func.isRequired,
   tc: PropTypes.shape({
-    actions: {
-      showPopover: PropTypes.func.isRequired,
-      editTargetVerse: PropTypes.func.isRequired,
-      getLexiconData: PropTypes.func.isRequired,
-      setToolSettings: PropTypes.func.isRequired,
-      getAvailableScripturePaneSelections: PropTypes.func.isRequired,
-      makeSureBiblesLoadedForTool: PropTypes.func.isRequired
-    },
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
-    selectionsReducer: PropTypes.object.isRequired,
-    contextId: PropTypes.object.isRequired,
     projectDetailsReducer: PropTypes.object.isRequired,
+    showPopover: PropTypes.func.isRequired,
+    setToolSettings: PropTypes.func.isRequired,
+    makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
-  handleModalOpen: PropTypes.func
+  handleModalOpen: PropTypes.func,
 };
 
-ScripturePaneContainer.defaultProps = {
-  handleModalOpen: () => {}
-};
+ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };
 
-export default ScripturePaneContainer;
+const mapStateToProps = (state) => ({
+  contextId: getContextId(state),
+  selections: getSelections(state),
+});
+
+export default connect( mapStateToProps )(ScripturePaneContainer);

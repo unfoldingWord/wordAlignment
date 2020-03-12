@@ -110,6 +110,7 @@ class SecondaryToken extends React.Component {
         onClick={this.handleClick}
       >
         <Word
+          disableTooltip={isDragging}
           selected={selected}
           word={token.text}
           disabled={disabled}
@@ -193,6 +194,10 @@ const dragHandler = {
     if (monitor.didDrop() && dropResult && typeof props.onEndDrag === 'function') {
       props.onEndDrag();
     }
+  },
+  isDragging(props, monitor) {
+    const item = monitor.getItem();
+    return item.token.tokenPos === props.token.tokenPos;
   }
 };
 

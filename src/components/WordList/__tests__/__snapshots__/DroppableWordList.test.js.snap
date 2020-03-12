@@ -188,7 +188,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="0"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -237,6 +237,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={false}
                         isSuggestion={false}
                         occurrence={1}
@@ -323,7 +324,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="1"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -372,6 +373,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={false}
                         isSuggestion={false}
                         occurrence={1}
@@ -470,7 +472,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="2"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -519,6 +521,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={false}
                         isSuggestion={false}
                         occurrence={2}
@@ -617,7 +620,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="3"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -666,6 +669,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={true}
                         isSuggestion={false}
                         occurrence={1}
@@ -981,7 +985,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="0"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -1030,6 +1034,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={false}
                         isSuggestion={false}
                         occurrence={1}
@@ -1116,7 +1121,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="1"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -1165,6 +1170,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={false}
                         isSuggestion={false}
                         occurrence={1}
@@ -1263,7 +1269,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="2"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -1312,6 +1318,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={false}
                         isSuggestion={false}
                         occurrence={2}
@@ -1410,7 +1417,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 key="3"
                 style={
                   Object {
-                    "padding": "10px",
+                    "padding": "5px 10px",
                   }
                 }
               >
@@ -1459,6 +1466,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     >
                       <WordCard
                         direction="ltr"
+                        disableTooltip={false}
                         disabled={true}
                         isSuggestion={false}
                         occurrence={1}

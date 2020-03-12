@@ -4,11 +4,6 @@ import delay from '../../utils/delay';
 import Repo from '../../utils/Repo';
 import { getContextIdPathFromIndex, saveContextId } from '../../utils/contextIdHelpers';
 import {
-  shiftGroupIndex,
-  shiftGroupDataItem,
-  visibleGroupItems,
-} from '../../utils/navigationHelpers';
-import {
   getGroupsIndex,
   getGroupsData,
   getContextId,

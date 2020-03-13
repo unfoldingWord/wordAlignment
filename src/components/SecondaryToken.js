@@ -5,20 +5,20 @@ import {Token} from 'wordmap-lexer';
 import * as types from './WordCard/Types';
 import Word from './WordCard';
 // load drag preview images
-import multi_drag_preview_2 from '../assets/multi_drag_preview_2.png'
-import multi_drag_preview_3 from '../assets/multi_drag_preview_3.png'
-import multi_drag_preview_4 from '../assets/multi_drag_preview_4.png'
-import multi_drag_preview_5 from '../assets/multi_drag_preview_5.png'
-import multi_drag_preview_6 from '../assets/multi_drag_preview_6.png'
-import multi_drag_preview_7 from '../assets/multi_drag_preview_7.png'
-import multi_drag_preview_8 from '../assets/multi_drag_preview_8.png'
-import multi_drag_preview_9 from '../assets/multi_drag_preview_9.png'
-import multi_drag_preview_10 from '../assets/multi_drag_preview_10.png'
-import multi_drag_preview_11 from '../assets/multi_drag_preview_11.png'
-import multi_drag_preview_12 from '../assets/multi_drag_preview_12.png'
-import multi_drag_preview_13 from '../assets/multi_drag_preview_13.png'
-import multi_drag_preview_14 from '../assets/multi_drag_preview_14.png'
-import multi_drag_preview_15 from '../assets/multi_drag_preview_15.png'
+import multi_drag_preview_2 from '../assets/multi_drag_preview_2.png';
+import multi_drag_preview_3 from '../assets/multi_drag_preview_3.png';
+import multi_drag_preview_4 from '../assets/multi_drag_preview_4.png';
+import multi_drag_preview_5 from '../assets/multi_drag_preview_5.png';
+import multi_drag_preview_6 from '../assets/multi_drag_preview_6.png';
+import multi_drag_preview_7 from '../assets/multi_drag_preview_7.png';
+import multi_drag_preview_8 from '../assets/multi_drag_preview_8.png';
+import multi_drag_preview_9 from '../assets/multi_drag_preview_9.png';
+import multi_drag_preview_10 from '../assets/multi_drag_preview_10.png';
+import multi_drag_preview_11 from '../assets/multi_drag_preview_11.png';
+import multi_drag_preview_12 from '../assets/multi_drag_preview_12.png';
+import multi_drag_preview_13 from '../assets/multi_drag_preview_13.png';
+import multi_drag_preview_14 from '../assets/multi_drag_preview_14.png';
+import multi_drag_preview_15 from '../assets/multi_drag_preview_15.png';
 
 /**
  * Checks if a token exists within the list

@@ -93,7 +93,7 @@ class WordList extends React.Component {
             return (
               <div
                 key={index}
-                style={{padding: '10px'}}>
+                style={{padding: '5px 10px'}}>
                 <SecondaryToken
                   direction={direction}
                   onEndDrag={onWordDragged}

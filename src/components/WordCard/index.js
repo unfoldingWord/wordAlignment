@@ -143,7 +143,7 @@ class WordCard extends React.Component {
   }
 
   render() {
-    const {word, occurrence, occurrences, isSuggestion} = this.props;
+    const {word, occurrence, occurrences, isSuggestion, disableTooltip} = this.props;
     const styles = makeStyles(this.props);
     const {tooltip} = this.state;
     // TRICKY: the <ReactTooltip/> is in WordList.js
@@ -154,7 +154,7 @@ class WordCard extends React.Component {
             data-type="dark"
             data-for="word-overflow-tooltip"
             data-multiline={true}
-            data-tip-disable={!tooltip}
+            data-tip-disable={!tooltip || disableTooltip}
             data-delay-show={200}
             data-delay-hide={100}>
         <div style={{flex: 1}} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
@@ -178,6 +178,7 @@ class WordCard extends React.Component {
 }
 
 WordCard.propTypes = {
+  disableTooltip: PropTypes.bool,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
@@ -197,7 +198,8 @@ WordCard.defaultProps = {
   disabled: false,
   isSuggestion: false,
   selected: false,
-  direction: 'ltr'
+  direction: 'ltr',
+  disableTooltip: false
 };
 
 export default WordCard;

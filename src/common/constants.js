@@ -1,5 +1,5 @@
 import path from 'path-extra';
-import ospath from 'ospath';
+import ospath from '../utils/ospath-extra';
 
 // Paths
 export const USER_RESOURCES_PATH = path.join(ospath.home(), 'translationCore', 'resources');

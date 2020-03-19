@@ -1,8 +1,8 @@
 import path from 'path-extra';
-import ospath from '../utils/ospath-extra';
+import env from '../utils/env';
 
 // Paths
-export const USER_RESOURCES_PATH = path.join(ospath.home(), 'translationCore', 'resources');
+export const USER_RESOURCES_PATH = path.join(env.home(), 'translationCore', 'resources');
 export const PROJECT_DOT_APPS_PATH = path.join('.apps', 'translationCore');
 export const PROJECT_CHECKDATA_DIRECTORY = path.join(PROJECT_DOT_APPS_PATH, 'checkData');
 export const PROJECT_INDEX_FOLDER_PATH = path.join('.apps', 'translationCore', 'index');

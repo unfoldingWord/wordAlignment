@@ -91,8 +91,6 @@ const styles = {
     flexShrink: 0,
     height: '250px',
     marginBottom: '20px',
-    overflowX: 'auto',
-    overflowY: 'hidden',
   },
   alignmentGridWrapper: {
     display: 'flex',

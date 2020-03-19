@@ -93,7 +93,7 @@ const styles = {
   alignmentGridWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    flexGrow: 1,
     boxSizing: 'border-box',
     margin: '0 10px 6px 10px',
     boxShadow: '0 3px 10px var(--background-color)',

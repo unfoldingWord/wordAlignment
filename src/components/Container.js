@@ -87,8 +87,12 @@ const styles = {
     height: '100%',
   },
   scripturePaneWrapper: {
+    display: 'flex',
+    flexShrink: 0,
     height: '250px',
     marginBottom: '20px',
+    overflowX: 'auto',
+    overflowY: 'hidden',
   },
   alignmentGridWrapper: {
     display: 'flex',

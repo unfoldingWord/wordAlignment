@@ -1,10 +1,26 @@
 // methods for accessing environment variables
 // this is needed because many process.env values are no longer defined on the client side (looks to be
 // security related).  To get the environment variable on client side can now use remote.process.env.
-const { app, remote } = require('electron');
+let { remote } = require('electron');
 
-// use app if we are main, otherwise we are render side so we use remote app
-const appObject = !remote ? app : remote.app;
+if (!remote) { // fallback for testing
+  remote = {
+    app: {
+      getPath: (path) => {
+        switch (path) {
+          case 'home':
+            return '/Users/test';
+          case 'appData':
+            return '/Users/test/appData';
+          default:
+            return 'unknown';
+        }
+      }
+    }
+  };
+}
+
+const appObject = remote.app;
 
 /**
  * get path to Home folder

@@ -1,6 +1,7 @@
 // methods for accessing environment variables
-// this is needed because many process.env values are no longer defined on the client side (looks to be
-// security related).  To get the environment variable on client side can now use remote.process.env.
+// this is needed because many process.env values are no longer defined on the client side which breaks
+// ospath (looks to be security related).  To get the environment variable on client side can now use
+// remote.process.env.
 let { remote } = require('electron');
 
 if (!remote) { // fallback for testing

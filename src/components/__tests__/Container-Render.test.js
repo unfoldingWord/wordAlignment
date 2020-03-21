@@ -9,12 +9,6 @@ import Api from '../../Api';
 
 jest.mock('../../state/reducers');
 
-const { app, remote } = require('electron');
-
-console.log("app" + !!app);
-console.log("remote" + !!remote);
-
-
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 

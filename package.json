@@ -88,7 +88,7 @@
     "selections": "^0.1.7",
     "simple-git": "^1.131.0",
     "tc-tool": "3.0.3",
-    "tc-electron-env": "0.9.0-beta.10",
+    "tc-electron-env": "0.9.0",
     "tc-ui-toolkit": "0.15.11",
     "usfm-js": "1.0.6",
     "word-aligner": "0.2.12",

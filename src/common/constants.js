@@ -1,5 +1,5 @@
 import path from 'path-extra';
-import env from '../utils/env';
+import env from 'tc-electron-env';
 
 // Paths
 export const USER_RESOURCES_PATH = path.join(env.home(), 'translationCore', 'resources');

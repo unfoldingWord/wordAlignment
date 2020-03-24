@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
 import {Token} from 'wordmap-lexer';
-import * as types from './WordCard/Types';
-import Word from './WordCard';
 // load drag preview images
 import multi_drag_preview_2 from '../assets/multi_drag_preview_2.png';
 import multi_drag_preview_3 from '../assets/multi_drag_preview_3.png';
@@ -19,6 +17,8 @@ import multi_drag_preview_12 from '../assets/multi_drag_preview_12.png';
 import multi_drag_preview_13 from '../assets/multi_drag_preview_13.png';
 import multi_drag_preview_14 from '../assets/multi_drag_preview_14.png';
 import multi_drag_preview_15 from '../assets/multi_drag_preview_15.png';
+import * as types from './WordCard/Types';
+import Word from './WordCard';
 
 /**
  * Checks if a token exists within the list

@@ -1,7 +1,7 @@
 {
   "cannot_drag_middle": "Невозможно объединить среднее слово",
   "loading_alignments": "Загрузка данных сопоставления",
-  "align_title": "Align",
+  "align_title": "Сопоставление",
   "lemma": "Лемма:",
   "morphology": "Морфология:",
   "strongs": "Номер Стронга:",
@@ -19,8 +19,8 @@
   "alignments_corrupt": "Сопоставление для этой главы не может быть загружено и было сброшено.",
   "edit_verse": "Редактировать стих",
   "edit_verse_title": "Редактировать стих - ${passage}",
-  "comment_title": "Comment - ${passage}",
-  "select_reasons": "Select reason(s) for change:",
+  "comment_title": "Комментарий - ${passage}",
+  "select_reasons": "Выберите причину(ы) изменения:",
   "instructions": "Инструкции",
   "map_instructions": "Перетащите слова из списка слов слева под соответствующее слово справа.<br><br>Слова, предложенные ${word_map} имеют зеленую полоску.<br>Чтобы подтвердить предложенное слово, нажмите на это слово. Чтобы сбросить предложение нажмите на ${icon} или перетащите слово под соответствующее слово.",
   "alignment_complete": "Сопоставление завершено",
@@ -177,20 +177,20 @@
   "morph_missing": "Морфология не найдена",
   "unsaved_changes": "Остались не сохраненные изменения.",
   "attention": "Внимание:",
-  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
-  "selections_invalidated": "Some selections are no longer valid and are removed.",
-  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
+  "invalidation_checking": "Проверьте, если эта редакция конфликтует с сохраненными отметками и сопоставлениями...",
+  "selections_invalidated": "Некоторые варианты больше не действительны и удалены.",
+  "invalid_verse_alignments_and_selections": "В вашем проекте были обнаружены изменения, которые аннулировали некоторые из ваших отметок и сопоставлений. Такие стихи имеют иконку сломанной цепочки рядом с ссылкой в боковом меню.",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Назад",
     "cancel_button": "Отменить",
-    "reset_button": "Reset",
+    "reset_button": "Сброс",
     "save_button": "Сохранить",
     "next_button": "Далее",
     "discard_changes": "Не сохранять"
   },
   "menu": {
-    "chapter": "Chapter",
+    "chapter": "Глава",
     "no_results": "Нет результатов",
     "invalidated": "Недействительно",
     "bookmarks": "Закладка",
@@ -211,12 +211,12 @@
     "reject": "Отклонить"
   },
   "icons": {
-    "verse_edits_found": "This verse has been edited",
-    "no_verse_edits_found": "Edit this verse",
-    "comments_found": "Comments have been entered for this alignment",
-    "no_comments_found": "Add a comment on this alignment",
-    "bookmarked": "The bookmark has been set for this alignment",
-    "not_bookmarked": "Bookmark this alignment"
+    "verse_edits_found": "Этот стих был отредактирован",
+    "no_verse_edits_found": "Редактировать этот стих",
+    "comments_found": "Комментарии были введены для этого сопоставления",
+    "no_comments_found": "Добавить комментарий к этому сопоставлению",
+    "bookmarked": "Закладка была установлена для этого сопоставления",
+    "not_bookmarked": "Закладка этого сопоставления"
   },
   "pane": {
     "current_project": "Текущий проект",

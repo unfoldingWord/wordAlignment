@@ -24,7 +24,7 @@ import {
 } from '../state/actions';
 import { addComment } from '../state/actions/CommentsActions';
 import { addBookmark } from '../state/actions/BookmarksActions';
-import { editTargetVerse } from "../state/actions/verseEditActions";
+import { editTargetVerse } from '../state/actions/verseEditActions';
 import {
   getChapterAlignments,
   getCurrentComments,
@@ -64,7 +64,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     width: '100vw',
-    height: 'var(--tool-max-height)',
+    height: '100%',
   },
   groupMenuContainer: {
     width: '250px',
@@ -83,15 +83,13 @@ const styles = {
     height: '100%',
   },
   scripturePaneWrapper: {
-    display: 'flex',
-    flexShrink: 0,
-    height: '250px',
+    minHeight: '250px',
     marginBottom: '20px',
   },
   alignmentGridWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    flexGrow: 1,
+    height: '100%',
     boxSizing: 'border-box',
     margin: '0 10px 6px 10px',
     boxShadow: '0 3px 10px var(--background-color)',
@@ -349,7 +347,7 @@ export class Container extends Component {
                 project.getLanguageId(),
                 project.getResourceId(),
                 project.getOriginalLanguageId(),
-                project.getBookId()
+                project.getBookId(),
               );
 
               if (memory) {
@@ -371,7 +369,7 @@ export class Container extends Component {
             project.getLanguageId(),
             project.getResourceId(),
             project.getOriginalLanguageId(),
-            project.getBookId()
+            project.getBookId(),
           );
         }
 
@@ -672,7 +670,9 @@ export class Container extends Component {
       },
       tc,
     } = this.props;
-    const { snackText, showComments, showVerseEditor } = this.state;
+    const {
+      snackText, showComments, showVerseEditor,
+    } = this.state;
     const snackOpen = snackText !== null;
     const targetLanguage = manifest && manifest.target_language;
     let bookName = targetLanguage && targetLanguage.book && targetLanguage.book.name;
@@ -852,6 +852,7 @@ Container.propTypes = {
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
   addBookmark: PropTypes.func.isRequired,
+  editTargetVerse: PropTypes.func.isRequired,
 
   // state props
   username: PropTypes.string.isRequired,
@@ -984,5 +985,5 @@ const mapStateToProps = (state, props) => {
 };
 
 export default DragDropContext(HTML5Backend)(
-  connect(mapStateToProps, mapDispatchToProps)(Container)
+  connect(mapStateToProps, mapDispatchToProps)(Container),
 );

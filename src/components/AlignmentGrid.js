@@ -11,6 +11,7 @@ const makeStyles = props => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+    height: '100%',
     backgroundColor: '#ffffff',
     padding: '0px 10px 10px',
     overflowY: 'auto',

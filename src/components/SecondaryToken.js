@@ -2,7 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {DragSource} from 'react-dnd';
 import {Token} from 'wordmap-lexer';
-import path from 'path-extra';
+// load drag preview images
+import multi_drag_preview_2 from '../assets/multi_drag_preview_2.png';
+import multi_drag_preview_3 from '../assets/multi_drag_preview_3.png';
+import multi_drag_preview_4 from '../assets/multi_drag_preview_4.png';
+import multi_drag_preview_5 from '../assets/multi_drag_preview_5.png';
+import multi_drag_preview_6 from '../assets/multi_drag_preview_6.png';
+import multi_drag_preview_7 from '../assets/multi_drag_preview_7.png';
+import multi_drag_preview_8 from '../assets/multi_drag_preview_8.png';
+import multi_drag_preview_9 from '../assets/multi_drag_preview_9.png';
+import multi_drag_preview_10 from '../assets/multi_drag_preview_10.png';
+import multi_drag_preview_11 from '../assets/multi_drag_preview_11.png';
+import multi_drag_preview_12 from '../assets/multi_drag_preview_12.png';
+import multi_drag_preview_13 from '../assets/multi_drag_preview_13.png';
+import multi_drag_preview_14 from '../assets/multi_drag_preview_14.png';
+import multi_drag_preview_15 from '../assets/multi_drag_preview_15.png';
 import * as types from './WordCard/Types';
 import Word from './WordCard';
 
@@ -84,11 +98,33 @@ class SecondaryToken extends React.Component {
     if (numSelections > 1 && connectDragPreview) {
       const img = new Image();
       img.onload = () => connectDragPreview(img);
-      img.src = path.join(__dirname, `../assets/multi_drag_preview_${numSelections}.png`);
+      img.src = this.getDragPreviewImage(numSelections);
     } else if (connectDragPreview) {
       // use default preview
       connectDragPreview(null);
     }
+  }
+
+  /**
+   * get the image to use for drag preview for number of selection items.  Sanity checking will return minimum of 2 and maximum of 15
+   * @param {number} selectionCount
+   * @return {Image}
+   */
+  getDragPreviewImage(selectionCount) {
+    const images = [ multi_drag_preview_2, multi_drag_preview_3, multi_drag_preview_4, multi_drag_preview_5,
+      multi_drag_preview_6, multi_drag_preview_7, multi_drag_preview_8, multi_drag_preview_9, multi_drag_preview_10,
+      multi_drag_preview_11, multi_drag_preview_12, multi_drag_preview_13, multi_drag_preview_14, multi_drag_preview_15
+    ];
+
+    // calculate offset of image with sanity checking
+    let offset = selectionCount - 2;
+    if (offset < 0) {
+      offset = 0;
+    } else if (offset >= images.length) {
+      offset = images.length - 1;
+    }
+
+    return images[offset];
   }
 
   render() {

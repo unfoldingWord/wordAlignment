@@ -11,6 +11,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       "display": "flex",
       "flexGrow": 2,
       "flexWrap": "wrap",
+      "height": "100%",
       "overflowY": "auto",
       "padding": "0px 10px 10px",
     }

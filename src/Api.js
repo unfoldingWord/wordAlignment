@@ -39,6 +39,9 @@ import {
   resetVerse,
   unalignTargetToken,
 } from './state/actions';
+import {
+  clearContextId,
+} from './state/actions/contextIdActions';
 import SimpleCache, { SESSION_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
 // consts
@@ -489,9 +492,10 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillConnect() {
-    const { clearState } = this.props;
+    const { clearState, clearContextId } = this.props;
     this._clearCachedAlignmentMemory();
     clearState();
+    clearContextId();
     this._clearGroupMenuReducer();
     this._loadBookAlignments(this.props);
   }
@@ -592,6 +596,7 @@ export default class Api extends ToolApi {
     const methods = {
       alignTargetToken,
       clearGroupMenu,
+      clearContextId,
       clearState,
       indexChapterAlignments,
       loadGroupMenuItem,

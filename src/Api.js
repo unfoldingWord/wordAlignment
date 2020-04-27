@@ -31,7 +31,6 @@ import {
 } from './utils/CheckDataHelper';
 import {
   alignTargetToken,
-  clearContextId,
   clearState,
   indexChapterAlignments,
   moveSourceToken,
@@ -40,6 +39,9 @@ import {
   resetVerse,
   unalignTargetToken,
 } from './state/actions';
+import {
+  clearContextId,
+} from './state/actions/contextIdActions';
 import SimpleCache, { SESSION_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
 // consts

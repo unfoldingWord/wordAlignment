@@ -31,6 +31,7 @@ import {
 } from './utils/CheckDataHelper';
 import {
   alignTargetToken,
+  clearContextId,
   clearState,
   indexChapterAlignments,
   moveSourceToken,
@@ -489,9 +490,10 @@ export default class Api extends ToolApi {
    * Lifecycle method
    */
   toolWillConnect() {
-    const { clearState } = this.props;
+    const { clearState, clearContextId } = this.props;
     this._clearCachedAlignmentMemory();
     clearState();
+    clearContextId();
     this._clearGroupMenuReducer();
     this._loadBookAlignments(this.props);
   }
@@ -592,6 +594,7 @@ export default class Api extends ToolApi {
     const methods = {
       alignTargetToken,
       clearGroupMenu,
+      clearContextId,
       clearState,
       indexChapterAlignments,
       loadGroupMenuItem,

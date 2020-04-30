@@ -25,6 +25,8 @@ import {
   setGroupMenuItemFinished,
   setGroupMenuItemInvalid,
 } from './state/actions/GroupMenuActions';
+import { clearGroupsIndex } from './state/actions/groupsIndexActions';
+import { clearGroupsData } from './state/actions/groupsDataActions';
 import {
   getIsVerseFinished,
   getIsVerseEdited,
@@ -66,7 +68,7 @@ export default class Api extends ToolApi {
     this._showResetDialog = this._showResetDialog.bind(this);
     this.getProgress = this.getProgress.bind(this);
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
-    this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
+    this._clearReducers = this._clearReducers.bind(this);
     this.getVerseRawText = this.getVerseRawText.bind(this);
     this.getVerseData = this.getVerseData.bind(this);
   }
@@ -481,22 +483,29 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * resets cached data in group menu reducer
+   * resets cached data in key reducers
    */
-  _clearGroupMenuReducer() {
-    const { clearGroupMenu } = this.props;
+  _clearReducers() {
+    const {
+      clearState,
+      clearContextId,
+      clearGroupMenu,
+      clearGroupsData,
+      clearGroupsIndex,
+    } = this.props;
+    clearState();
+    clearContextId();
     clearGroupMenu();
+    clearGroupsData();
+    clearGroupsIndex();
   }
 
   /**
    * Lifecycle method
    */
   toolWillConnect() {
-    const { clearState, clearContextId } = this.props;
     this._clearCachedAlignmentMemory();
-    clearState();
-    clearContextId();
-    this._clearGroupMenuReducer();
+    this._clearReducers();
     this._loadBookAlignments(this.props);
   }
 
@@ -595,8 +604,10 @@ export default class Api extends ToolApi {
   mapDispatchToProps(dispatch) {
     const methods = {
       alignTargetToken,
-      clearGroupMenu,
       clearContextId,
+      clearGroupMenu,
+      clearGroupsData,
+      clearGroupsIndex,
       clearState,
       indexChapterAlignments,
       loadGroupMenuItem,

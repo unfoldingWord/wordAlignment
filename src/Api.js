@@ -811,7 +811,14 @@ export default class Api extends ToolApi {
    * @returns {number} - a value between 0 and 1
    */
   getProgress() {
-    const { tc: { targetBook }, contextId } = this.props;
+    let {
+      tc: {
+        targetBook,
+        contextId: tc_contextId,
+      },
+      contextId,
+    } = this.props;
+    contextId = contextId || tc_contextId;
     const chapters = Object.keys(targetBook);
     let totalVerses = 0;
     let completeVerses = 0;

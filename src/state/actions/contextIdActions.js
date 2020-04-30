@@ -36,10 +36,13 @@ export function loadCurrentContextId(toolName, bookId, projectSaveLocation, user
         if (fs.existsSync(loadPath)) {
           try {
             contextId = fs.readJsonSync(loadPath);
-            const contextIdExistInGroups = groupsIndex.filter(({ id }) => id === contextId.groupId).length > 0;
 
-            if (contextId && contextIdExistInGroups) {
-              return dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
+            if (contextId) {
+              const contextIdExistInGroups = groupsIndex.filter(({id}) => id === contextId.groupId).length > 0;
+
+              if (contextIdExistInGroups) {
+                return dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
+              }
             }
           } catch (err) {
             // The object is undefined because the file wasn't found in the directory

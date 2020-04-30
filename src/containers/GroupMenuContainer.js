@@ -185,6 +185,7 @@ function GroupMenuContainer({
     onProcessItem
   );
 
+  console.log('render GroupMenuContainer')
   if (contextId) {
     const activeEntry = generateMenuItem(contextId, onProcessItem);
     return (

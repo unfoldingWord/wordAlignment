@@ -46,7 +46,6 @@ import {
 } from './state/actions/contextIdActions';
 import SimpleCache, { SESSION_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
-import { logMemory } from './utils/localStorage';
 // consts
 import {
   FINISHED_KEY,
@@ -517,7 +516,6 @@ export default class Api extends ToolApi {
   _clearCachedAlignmentMemory() {
     if (this.props.tc && this.props.tc.project) {
       const { tc: { project } } = this.props;
-      logMemory(`_clearCachedAlignmentMemory(), before: `);
 
       try {
         const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
@@ -533,8 +531,6 @@ export default class Api extends ToolApi {
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
       }
-
-      logMemory(`_clearCachedAlignmentMemory(), after: `);
     }
   }
 
@@ -897,7 +893,6 @@ export default class Api extends ToolApi {
         const hit = cache.get(key);
 
         if (hit) {
-          logMemory(`getGlobalAlignmentMemory(${key}), hit - before: `);
           // de-serialize the project memory
           try {
             const projectMemory = [];
@@ -910,7 +905,6 @@ export default class Api extends ToolApi {
                 projectMemory.push(new Alignment(sourceNgram, targetNgram));
               }
               memory.push.apply(memory, projectMemory);
-              logMemory(`getGlobalAlignmentMemory(${key}): after`);
               continue;
             }
           } catch (e) {
@@ -918,7 +912,6 @@ export default class Api extends ToolApi {
           }
         }
 
-        logMemory(`getGlobalAlignmentMemory(${key}), miss - before: `);
         // cache miss
         const projectMemory = [];
         const chaptersDir = path.join('alignmentData', p.getBookId());
@@ -952,9 +945,8 @@ export default class Api extends ToolApi {
         // cache serialized project memory
         cache.set(key, JSON.stringify(projectMemory));
       }
-      logMemory(`getGlobalAlignmentMemory(${key}): after`);
     }
-    logMemory(`getGlobalAlignmentMemory(${key}): done`);
+
     return memory;
   }
 }

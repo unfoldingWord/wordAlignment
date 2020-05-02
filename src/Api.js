@@ -46,6 +46,7 @@ import {
 } from './state/actions/contextIdActions';
 import SimpleCache, { SESSION_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
+import { getMemoryUsage, logMemory } from './utils/localStorage';
 // consts
 import {
   FINISHED_KEY,
@@ -516,6 +517,7 @@ export default class Api extends ToolApi {
   _clearCachedAlignmentMemory() {
     if (this.props.tc && this.props.tc.project) {
       const { tc: { project } } = this.props;
+      logMemory(`_clearCachedAlignmentMemory(), before: `);
 
       try {
         const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
@@ -531,6 +533,8 @@ export default class Api extends ToolApi {
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
       }
+
+      logMemory(`_clearCachedAlignmentMemory(), after: `);
     }
   }
 
@@ -893,18 +897,21 @@ export default class Api extends ToolApi {
         const hit = cache.get(key);
 
         if (hit) {
+          logMemory(`getGlobalAlignmentMemory(${key}), hit - before: `);
           // de-serialize the project memory
           try {
             const projectMemory = [];
             const cachedAlignments = JSON.parse(hit);
-
+            console.log(`getGlobalAlignmentMemory() - cached alignments: ${cachedAlignments && cachedAlignments.length}`);
             if (cachedAlignments.length > 0) {
               for (let a of cachedAlignments) {
                 const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
                 const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
                 projectMemory.push(new Alignment(sourceNgram, targetNgram));
               }
+              logMemory(`getGlobalAlignmentMemory(${key}): adding memory size ${getMemoryUsage(memory)}`);
               memory.push.apply(memory, projectMemory);
+              logMemory(`getGlobalAlignmentMemory(${key}): after`);
               continue;
             }
           } catch (e) {
@@ -912,6 +919,7 @@ export default class Api extends ToolApi {
           }
         }
 
+        logMemory(`getGlobalAlignmentMemory(${key}), miss - before: `);
         // cache miss
         const projectMemory = [];
         const chaptersDir = path.join('alignmentData', p.getBookId());
@@ -938,15 +946,25 @@ export default class Api extends ToolApi {
               }
             }
           } catch (e) {
-            console.error(`Failed to load alignment data from ${chapterPath}`, e);
+            console.error(`getGlobalAlignmentMemory(${key}): Failed to load alignment data from chapter ${chapterPath}`, e);
           }
+          logMemory(`getGlobalAlignmentMemory(${key}): chapter ${c}, memory size now ${getMemoryUsage(memory)}`);
         }
 
         // cache serialized project memory
-        cache.set(key, JSON.stringify(projectMemory));
+        logMemory(`getGlobalAlignmentMemory(${key}): before setting cache`);
+        try {
+          let value = JSON.stringify(projectMemory);
+          console.log(`projectMemory array length: ${projectMemory.length}`);
+          console.log(`projectMemory memory size: ${getMemoryUsage(projectMemory)}`);
+          cache.set(key, value);
+        } catch (e) {
+          console.error(`getGlobalAlignmentMemory(${key}): error setting cache`, e);
+        }
+        logMemory(`getGlobalAlignmentMemory(${key}): after`);
       }
     }
-
+    logMemory(`getGlobalAlignmentMemory(): done`);
     return memory;
   }
 }

@@ -225,14 +225,15 @@ const render = (alignments, suggestions, numSourceTokens) => {
         continue;
       }
 
+      // build queue of alignments within the suggestion.
+      // Alignments are popped from the queue as they are rendered.
       const alignmentPos = alignmentSourceIndex[tIndex].index;
-      if (alignmentQueue.indexOf(alignmentSourceIndex[tIndex].index) === -1) {
-        alignmentQueue.push(alignmentSourceIndex[tIndex].index);
+      if (alignmentQueue.indexOf(alignmentPos) === -1) {
+        alignmentQueue.push(alignmentPos);
       }
 
       const alignmentIsAligned = alignmentSourceIndex[tIndex].aligned;
-      const finishedReadingAlignment = alignmentSourceIndex[tIndex].lastSourceToken ===
-        tIndex;
+      const finishedReadingAlignment = alignmentSourceIndex[tIndex].lastSourceToken === tIndex;
       const suggestionSpansMultiple = alignmentQueue.length > 1;
 
       let targetUsedElsewhere = false;
@@ -265,6 +266,7 @@ const render = (alignments, suggestions, numSourceTokens) => {
         const targetNgramsMatch = alignmentSourceIndex[tIndex].targetId ===
           suggestionSourceIndex[tIndex].targetId;
         const isPerfectMatch = sourceNgramsMatch && targetNgramsMatch;
+        // The alignment has two or more source tokens merged together
         const alignmentIsMerged = alignmentSourceIndex[tIndex].sourceLength > 1;
 
         const suggestionIsEmpty = suggestionSourceIndex[tIndex].isEmpty;
@@ -335,6 +337,8 @@ const render = (alignments, suggestions, numSourceTokens) => {
         rawSuggestion.suggestion = index;
         rawSuggestion.targetNgram.sort(numberComparator);
         rawSuggestion.sort = rawSuggestion.sourceNgram && rawSuggestion.sourceNgram.length && rawSuggestion.sourceNgram[0] || 0;
+
+        alignmentQueue = [];
         if (suggestionSourceIndex[tIndex].isEmpty && sourceNgramsMatch) {
           // TRICKY: render empty matches as an alignment
           return {
@@ -364,7 +368,11 @@ const render = (alignments, suggestions, numSourceTokens) => {
       // clean up
       if (!suggestionStateIsValid && finishedReadingAlignment ||
         suggestionStateIsValid && finishedReadingSuggestion) {
-        alignmentQueue = [];
+        // TRICKY: render left-over alignments.
+        while(alignmentQueue.length > 0) {
+          // This will pop alignments off of alignmentQueue and render them
+          suggestedAlignments.push(renderAlignment());
+        }
       }
       if (finishedReadingSuggestion) {
         suggestionStateIsValid = true;

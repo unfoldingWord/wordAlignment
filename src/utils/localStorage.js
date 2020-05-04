@@ -207,27 +207,3 @@ export const saveInvalidated = (contextId, invalidatedData, projectSaveLocation)
     console.error(err);
   }
 };
-
-
-export function getMemoryUsage(object) {
-  return unescape(encodeURIComponent(JSON.stringify(object))).length;
-}
-
-// noinspection JSUnusedLocalSymbols
-export async function logMemory(title, intial = false) {
-  const localProcess = process;
-
-  if (localProcess.getProcessMemoryInfo) {
-    const emphasis = '############\n';
-    let output = `\n\n${emphasis} WA: ${title}\nlogMemory()\n`;
-    output += `process.getHeapStatistics() = ${JSON.stringify(localProcess.getHeapStatistics(), null, 2)}\n`;
-    output += `process.getSystemMemoryInfo() = ${JSON.stringify(localProcess.getSystemMemoryInfo(), null, 2)}\n`;
-    let object = sessionStorage;
-    const sessionStorageUsage = getMemoryUsage(object);
-    output += `sessionStorageUsage: ${sessionStorageUsage}\n`
-    output += emphasis + '\n';
-    console.log(output);
-    const processMemoryInfo = await localProcess.getProcessMemoryInfo();
-    console.log(`\n\n${emphasis} WA: ${title}\n process.getProcessMemoryInfo() = ${JSON.stringify(processMemoryInfo, null, 2)}\n`);
-  }
-}

@@ -108,7 +108,7 @@ export const generateMAP = (
   targetBook, state, currentChapter, currentVerse) => new Promise(resolve => {
   setTimeout(() => {
     // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
-    const map = new WordMap({ targetNgramLength: 5, warnings: true});
+    const map = new WordMap({ targetNgramLength: 5, warnings: false});
 
     for (const chapter of Object.keys(targetBook)) {
       const chapterAlignments = getChapterAlignments(state, chapter);
@@ -291,13 +291,8 @@ export class Container extends Component {
 
     if (contextId && hasSourceText && hasTargetText) {
       return this.initMAP(props).then(map => {
-        if (map) {
-          this.map = map;
-          return this.updatePredictions(props);
-        } else {
-          console.log(`WA::runMAP() - map not valid`);
-          return Promise.reject();
-        }
+        this.map = map;
+        return this.updatePredictions(props);
       });
     } else {
       return Promise.reject();

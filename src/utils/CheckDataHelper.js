@@ -41,10 +41,11 @@ export const getIsVerseEdited = (api, chapter, verse) => {
       project,
       toolName,
       projectDataPathExistsSync,
+      contextId: tc_contextId,
     },
     contextId,
   } = api.props;
-
+  contextId = contextId || tc_contextId;
   if (!contextId) {
     contextId = project.readCurrentContextIdSync(toolName);
   }

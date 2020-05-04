@@ -44,7 +44,7 @@ import {
 import {
   clearContextId,
 } from './state/actions/contextIdActions';
-import SimpleCache, { SESSION_STORAGE } from './utils/SimpleCache';
+import SimpleCache, { INSTANCE_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
 // consts
 import {
@@ -53,7 +53,8 @@ import {
   UNALIGNED_KEY,
 } from './state/reducers/GroupMenu';
 import {TRANSLATION_NOTES, TRANSLATION_WORDS} from "./common/constants";
-const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
+const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = INSTANCE_STORAGE;
+const globalAlignmentCache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
 
 export default class Api extends ToolApi {
   constructor() {
@@ -518,15 +519,14 @@ export default class Api extends ToolApi {
       const { tc: { project } } = this.props;
 
       try {
-        const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
         const resourceId = project.getResourceId();
         const resourceIdLc = resourceId.toLowerCase(); // make sure lower case
         let key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
-        cache.remove(key);
+        globalAlignmentCache.remove(key);
 
         if (resourceId !== resourceIdLc) {// if resource ID is not lower case, make sure we didn't leave behind an old copy in alignment memory
           key = this.getAlignMemoryKey(project.getLanguageId(), resourceId, project.getBookId());
-          cache.remove(key);
+          globalAlignmentCache.remove(key);
         }
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
@@ -878,7 +878,6 @@ export default class Api extends ToolApi {
   getGlobalAlignmentMemory(languageId, resourceId, originalLanguageId, bookIdFilter=null) {
     const { tc: { projects } } = this.props;
     const memory = [];
-    const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
     resourceId = resourceId.toLowerCase(); // make sure lower case
 
     for (let i = 0, len = projects.length; i < len; i++) {
@@ -890,13 +889,12 @@ export default class Api extends ToolApi {
        && p.getOriginalLanguageId() === originalLanguageId
        && p.getBookId() !== bookIdFilter) {
         const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
-        const hit = cache.get(key);
+        const cachedAlignments = globalAlignmentCache.get(key);
 
-        if (hit) {
+        if (cachedAlignments) {
           // de-serialize the project memory
           try {
             const projectMemory = [];
-            const cachedAlignments = JSON.parse(hit);
 
             if (cachedAlignments.length > 0) {
               for (let a of cachedAlignments) {
@@ -938,12 +936,12 @@ export default class Api extends ToolApi {
               }
             }
           } catch (e) {
-            console.error(`Failed to load alignment data from ${chapterPath}`, e);
+            console.error(`getGlobalAlignmentMemory(${key}): Failed to load alignment data from chapter ${chapterPath}`, e);
           }
         }
 
         // cache serialized project memory
-        cache.set(key, JSON.stringify(projectMemory));
+        globalAlignmentCache.set(key, projectMemory);
       }
     }
 

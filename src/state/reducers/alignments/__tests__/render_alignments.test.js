@@ -907,6 +907,59 @@ describe('render alignments', () => {
 
   describe('corner cases', () => {
 
+    it('does not lose an alignment during render', () => {
+      // This represents a situation where an alignment would get lost in rendering.
+      const state = {
+        sourceTokens: [{}, {}, {}, {}],
+        alignments: [
+          {
+            sourceNgram: [0, 2],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [1],
+            targetNgram: []
+          },
+          {
+            sourceNgram: [3],
+            targetNgram: [2]
+          }
+        ],
+        suggestions: [
+          {
+            sourceNgram: [0, 1, 2],
+            targetNgram: [0, 1]
+          },
+          {
+            sourceNgram: [3],
+            targetNgram: [2]
+          }
+        ]
+      };
+      const result = testRenderer(state);
+      expect(result).toEqual([
+        {
+          "alignments": [0],
+          "sort": 0,
+          "sourceNgram": [0, 2],
+          "targetNgram": []
+        },
+        // This one used to get lost
+        {
+          "alignments": [1],
+          "sort": 1,
+          "sourceNgram": [1],
+          "targetNgram": []
+        },
+        {
+          "alignments": [2],
+          "sort": 3,
+          "sourceNgram": [3],
+          "targetNgram": [2]
+        }
+      ]);
+    });
+
     it('has partial suggestions', () => {
       const state = {
         sourceTokens: [{}, {}, {}],

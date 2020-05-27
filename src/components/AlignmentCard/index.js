@@ -195,7 +195,7 @@ DroppableAlignmentCard.propTypes = {
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
-  targetDirection: PropTypes.oneOf(['ltr', 'trl']),
+  targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
   isHebrew: PropTypes.bool.isRequired,
   showPopover: PropTypes.func.isRequired,
   getLexiconData: PropTypes.func.isRequired,

@@ -7,7 +7,7 @@ import WordMap, { Alignment, Ngram } from 'wordmap';
 import Lexer, { Token } from 'wordmap-lexer';
 import {
   CommentsDialog, VerseEditor,
-  getReferenceStr, getTargetBibleTitle, getTitleStr,
+  getReferenceStr, getTitleWithId, getTitleStr,
 } from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -704,8 +704,8 @@ export class Container extends Component {
 
     if (contextId) {
       const refStr = getReferenceStr(chapter, verse, targetDirection);
-      verseTitle = getTitleStr(bookName, refStr);
-      targetLanguageStr = getTargetBibleTitle(targetLanguage.name, targetLanguage.id, targetDirection);
+      verseTitle = getTitleStr(bookName, refStr, targetDirection);
+      targetLanguageStr = getTitleWithId(targetLanguage.name, targetLanguage.id, targetDirection);
       verseText = api.getVerseRawText(chapter, verse);
       verseState = api.getVerseData(chapter, verse, contextId);
     }

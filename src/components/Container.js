@@ -671,9 +671,6 @@ export class Container extends Component {
       tc,
     } = this.props;
     const { languageFont: targetLanguageFont } = manifest;
-    console.log('====================================');
-    console.log('Container targetLanguageFont', targetLanguageFont);
-    console.log('====================================');
     const {
       snackText, showComments, showVerseEditor,
     } = this.state;

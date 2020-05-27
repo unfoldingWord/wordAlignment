@@ -108,7 +108,7 @@ export const generateMAP = (
   targetBook, state, currentChapter, currentVerse) => new Promise(resolve => {
   setTimeout(() => {
     // TODO: determine the maximum require target ngram length from the alignment memory before creating the map
-    const map = new WordMap({ targetNgramLength: 5, warnings: false});
+    const map = new WordMap({ targetNgramLength: 5, warnings: false });
 
     for (const chapter of Object.keys(targetBook)) {
       const chapterAlignments = getChapterAlignments(state, chapter);
@@ -670,6 +670,10 @@ export class Container extends Component {
       },
       tc,
     } = this.props;
+    const { languageFont: targetLanguageFont } = manifest;
+    console.log('====================================');
+    console.log('Container targetLanguageFont', targetLanguageFont);
+    console.log('====================================');
     const {
       snackText, showComments, showVerseEditor,
     } = this.state;
@@ -735,14 +739,16 @@ export class Container extends Component {
         />
         <div style={styles.wordListContainer}>
           <WordList
+            words={words}
+            verse={verse}
+            isOver={isOver}
             chapter={chapter}
             direction={targetDirection}
-            verse={verse}
-            words={words}
-            onDropTargetToken={this.handleUnalignTargetToken}
-            connectDropTarget={connectDropTarget}
             reset={this.state.resetWordList}
-            isOver={isOver}/>
+            connectDropTarget={connectDropTarget}
+            targetLanguageFont={targetLanguageFont}
+            onDropTargetToken={this.handleUnalignTargetToken}
+          />
         </div>
         <div style={styles.alignmentAreaContainer}>
           <div style={styles.scripturePaneWrapper}>
@@ -781,6 +787,7 @@ export class Container extends Component {
                 verseState={verseState}
                 showPopover={showPopover}
                 loadLexiconEntry={loadLexiconEntry}
+                targetLanguageFont={targetLanguageFont}
               />
             ) : (
               <MissingBibleError translate={translate}/>
@@ -798,13 +805,14 @@ export class Container extends Component {
           </div>
         </div>
         <VerseEditor
+          verseText={verseText}
+          translate={translate}
           open={showVerseEditor}
           verseTitle={verseTitle}
-          verseText={verseText}
           targetLanguage={targetLanguageStr}
-          translate={translate}
           onCancel={this.handleVerseEditClose}
           onSubmit={this.handleVerseEditSubmit}
+          targetLanguageFont={targetLanguageFont}
         />
         <CommentsDialog
           open={showComments}

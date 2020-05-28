@@ -57,6 +57,7 @@ function GroupMenuContainer({
   clearGroupsIndex,
   loadCurrentContextId,
   changeCurrentContextId,
+  direction,
 }) {
   useEffect(() => {
     loadGroupsIndex();
@@ -101,9 +102,10 @@ function GroupMenuContainer({
     const { reference: { chapter, verse } } = contextId;
 
     const itemState = toolApi.getVerseData(chapter, verse, contextId);
+    const title = getTitleStr(bookName, getReferenceStr(chapter, verse), direction);
     return {
       ...item,
-      title: `${bookName} ${chapter}:${verse}`,
+      title,
       completed: itemState[FINISHED_KEY],
       invalid: itemState[INVALID_KEY],
       unaligned: itemState[UNALIGNED_KEY],
@@ -209,6 +211,7 @@ GroupMenuContainer.propTypes = {
   translate: PropTypes.func.isRequired,
   bookName: PropTypes.string.isRequired,
   contextId: PropTypes.object,
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -250,6 +253,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearContextId: () => clearContextId(),
   };
+};
+
+GroupMenuContainer.defaultProps = {
+  direction: 'ltr',
 };
 
 export default connect(

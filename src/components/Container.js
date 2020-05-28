@@ -703,7 +703,7 @@ export class Container extends Component {
     const { reference: { chapter, verse } } = contextId || { reference: { chapter: 1, verse: 1 } };
 
     if (contextId) {
-      const refStr = getReferenceStr(chapter, verse, targetDirection);
+      const refStr = getReferenceStr(chapter, verse);
       verseTitle = getTitleStr(bookName, refStr, targetDirection);
       targetLanguageStr = getTitleWithId(targetLanguage.name, targetLanguage.id, targetDirection);
       verseText = api.getVerseRawText(chapter, verse);

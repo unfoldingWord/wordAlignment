@@ -736,6 +736,7 @@ export class Container extends Component {
           toolApi={api}
           gatewayLanguageCode={this.props.gatewayLanguageCode}
           translate={translate}
+          direction={targetDirection}
         />
         <div style={styles.wordListContainer}>
           <WordList

@@ -8,6 +8,8 @@ import {
   generateMenuItem,
   InvalidatedIcon,
   CheckIcon,
+  getTitleStr,
+  getReferenceStr,
 } from 'tc-ui-toolkit';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BlockIcon from '@material-ui/icons/Block';
@@ -102,10 +104,11 @@ function GroupMenuContainer({
     const { reference: { chapter, verse } } = contextId;
 
     const itemState = toolApi.getVerseData(chapter, verse, contextId);
-    const title = getTitleStr(bookName, getReferenceStr(chapter, verse), direction);
+    const title = getTitleStr(bookName, getReferenceStr(chapter, verse), item.direction);
     return {
       ...item,
       title,
+      direction: item.direction,
       completed: itemState[FINISHED_KEY],
       invalid: itemState[INVALID_KEY],
       unaligned: itemState[UNALIGNED_KEY],
@@ -184,11 +187,12 @@ function GroupMenuContainer({
     groupsIndex,
     groupsData,
     'completed',
+    direction,
     onProcessItem
   );
 
   if (contextId) {
-    const activeEntry = generateMenuItem(contextId, onProcessItem);
+    const activeEntry = generateMenuItem(contextId, direction, onProcessItem);
     return (
       <GroupedMenu
         filters={filters}

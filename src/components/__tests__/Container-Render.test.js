@@ -8,12 +8,6 @@ import * as reducers from '../../state/reducers';
 import Api from '../../Api';
 
 jest.mock('../../state/reducers');
-jest.mock('tc-ui-toolkit', () => ({
-  ...require.requireActual('tc-ui-toolkit'),
-  getReferenceStr: () => jest.fn((chapter, verse) => (chapter + ':' + verse)),
-  getTitleStr: () => jest.fn((first, second) => (first + ' ' + second)),
-  getTitleWithId: () => jest.fn((first, second) => (first + '  (' + second + ')')),
-}));
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 

@@ -120,6 +120,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         }
                       >
                         <span
+                          className=""
                           onClick={[Function]}
                           style={
                             Object {
@@ -281,6 +282,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         }
                       >
                         <span
+                          className=""
                           onClick={[Function]}
                           style={
                             Object {
@@ -442,6 +444,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         }
                       >
                         <span
+                          className=""
                           onClick={[Function]}
                           style={
                             Object {

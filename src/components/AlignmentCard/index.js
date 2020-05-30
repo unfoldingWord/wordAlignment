@@ -121,6 +121,7 @@ class DroppableAlignmentCard extends Component {
       showPopover,
       getLexiconData,
       loadLexiconEntry,
+      targetLanguageFont,
     } = this.props;
 
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
@@ -153,6 +154,7 @@ class DroppableAlignmentCard extends Component {
         key={index}
         token={token}
         direction={targetDirection}
+        targetLanguageFont={targetLanguageFont}
         onCancel={this._handleCancelSuggestion}
         onAccept={this._handleAcceptSuggestion}
         alignmentIndex={alignmentIndex}
@@ -197,6 +199,7 @@ DroppableAlignmentCard.propTypes = {
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
   targetDirection: PropTypes.oneOf(['ltr', 'trl']),
   isHebrew: PropTypes.bool.isRequired,
+  targetLanguageFont: PropTypes.string,
   showPopover: PropTypes.func.isRequired,
   getLexiconData: PropTypes.func.isRequired,
   loadLexiconEntry: PropTypes.func.isRequired,

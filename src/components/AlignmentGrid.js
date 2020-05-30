@@ -44,6 +44,7 @@ class AlignmentGrid extends Component {
       isHebrew,
       showPopover,
       loadLexiconEntry,
+      targetLanguageFont,
     } = this.props;
 
     if (!contextId) {
@@ -87,6 +88,7 @@ class AlignmentGrid extends Component {
                 showPopover={showPopover}
                 getLexiconData={getLexiconData}
                 loadLexiconEntry={loadLexiconEntry}
+                targetLanguageFont={targetLanguageFont}
               />
               {/* placeholder for un-merging primary words */}
               <AlignmentCard
@@ -104,6 +106,7 @@ class AlignmentGrid extends Component {
                 loadLexiconEntry={loadLexiconEntry}
                 lexicons={lexicons}
                 isHebrew={isHebrew}
+                targetLanguageFont={targetLanguageFont}
               />
             </React.Fragment>
           ))
@@ -148,6 +151,7 @@ AlignmentGrid.propTypes = {
   isHebrew: PropTypes.bool.isRequired,
   showPopover: PropTypes.func.isRequired,
   loadLexiconEntry: PropTypes.func.isRequired,
+  targetLanguageFont: PropTypes.string,
 };
 
 AlignmentGrid.defaultProps = {

@@ -115,6 +115,7 @@ exports[`has a bottom word 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -237,6 +238,7 @@ exports[`has a top and bottom word 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -323,6 +325,7 @@ exports[`has a top and bottom word 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -445,6 +448,7 @@ exports[`has a top word 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -608,6 +612,7 @@ exports[`has multiple bottom words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -667,6 +672,7 @@ exports[`has multiple bottom words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -789,6 +795,7 @@ exports[`has multiple top and bottom words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -848,6 +855,7 @@ exports[`has multiple top and bottom words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -934,6 +942,7 @@ exports[`has multiple top and bottom words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -993,6 +1002,7 @@ exports[`has multiple top and bottom words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -1115,6 +1125,7 @@ exports[`has multiple top words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {
@@ -1174,6 +1185,7 @@ exports[`has multiple top words 1`] = `
                 }
               >
                 <span
+                  className=""
                   onClick={[Function]}
                   style={
                     Object {

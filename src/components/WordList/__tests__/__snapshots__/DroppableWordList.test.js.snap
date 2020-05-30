@@ -295,6 +295,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -431,6 +432,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -579,6 +581,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -728,6 +731,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -1092,6 +1096,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -1228,6 +1233,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -1376,6 +1382,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {
@@ -1525,6 +1532,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                 }
                               >
                                 <span
+                                  className=""
                                   onClick={[Function]}
                                   style={
                                     Object {

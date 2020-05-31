@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Token} from 'wordmap-lexer';
-import ReactTooltip from "react-tooltip";
+import { Token } from 'wordmap-lexer';
+import ReactTooltip from 'react-tooltip';
 import SecondaryToken from '../SecondaryToken';
 
 /**
@@ -17,14 +17,13 @@ import SecondaryToken from '../SecondaryToken';
  * @constructor
  */
 class WordList extends React.Component {
-
   constructor(props) {
     super(props);
     this.listRef = React.createRef();
     this.isSelected = this.isSelected.bind(this);
     this.state = {
       width: 0,
-      height: 0
+      height: 0,
     };
   }
 
@@ -34,9 +33,7 @@ class WordList extends React.Component {
    * @return {boolean}
    */
   isSelected(token) {
-    const {
-      selectedWordPositions
-    } = this.props;
+    const { selectedWordPositions } = this.props;
 
     return selectedWordPositions &&
       selectedWordPositions.indexOf(token.tokenPos) !== -1;
@@ -44,15 +41,15 @@ class WordList extends React.Component {
 
   // eslint-disable-next-line no-unused-vars
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    if(!prevProps.isOver) {
+    if (!prevProps.isOver) {
       return {
         height: this.listRef.current.scrollHeight,
-        width: this.listRef.current.clientWidth
+        width: this.listRef.current.clientWidth,
       };
     } else {
       return {
         height: 0,
-        width: 0
+        width: 0,
       };
     }
   }
@@ -60,21 +57,23 @@ class WordList extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const notZero = snapshot.width !== 0 && snapshot.height !== 0;
     const changed = snapshot.width !== this.state.width || snapshot.height !== this.state.height;
-    if(notZero && changed) {
+
+    if (notZero && changed) {
       this.setState(snapshot);
     }
   }
 
   render() {
     const {
+      words,
+      isOver,
+      direction,
+      onWordClick,
       onWordDragged,
       selectedWords,
-      onWordClick,
-      direction,
-      words,
-      isOver
+      targetLanguageFont,
     } = this.props;
-    const {width, height} = this.state;
+    const { width, height } = this.state;
 
     if (isOver) {
       return (
@@ -82,30 +81,28 @@ class WordList extends React.Component {
           style={{
             border: '3px dashed #44C6FF',
             height: `${height}px`,
-            width: `${width}px`
+            width: `${width}px`,
           }}/>
       );
     } else {
-
       return (
-        <div ref={this.listRef} style={{height: "100%"}}>
-          {words.map((token, index) => {
-            return (
-              <div
-                key={index}
-                style={{padding: '5px 10px'}}>
-                <SecondaryToken
-                  direction={direction}
-                  onEndDrag={onWordDragged}
-                  selected={this.isSelected(token)}
-                  selectedTokens={selectedWords}
-                  onClick={onWordClick}
-                  token={token}
-                  disabled={token.disabled === true}
-                />
-              </div>
-            );
-          })}
+        <div ref={this.listRef} style={{ height: '100%' }}>
+          {words.map((token, index) => (
+            <div
+              key={index}
+              style={{ padding: '5px 10px' }}>
+              <SecondaryToken
+                token={token}
+                onClick={onWordClick}
+                direction={direction}
+                onEndDrag={onWordDragged}
+                selectedTokens={selectedWords}
+                selected={this.isSelected(token)}
+                disabled={token.disabled === true}
+                targetLanguageFont={targetLanguageFont}
+              />
+            </div>
+          ))}
           <ReactTooltip id="word-overflow-tooltip"/>
         </div>
       );
@@ -114,17 +111,16 @@ class WordList extends React.Component {
 }
 
 WordList.propTypes = {
+  onWordClick: PropTypes.func,
   onWordDragged: PropTypes.func,
   selectedWords: PropTypes.array,
-  selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
-  onWordClick: PropTypes.func,
-  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   isOver: PropTypes.bool.isRequired,
-  direction: PropTypes.oneOf(['ltr', 'rtl'])
+  targetLanguageFont: PropTypes.string,
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
+  selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
 };
 
-WordList.defaultProps = {
-  direction: 'ltr'
-};
+WordList.defaultProps = { direction: 'ltr' };
 
 export default WordList;

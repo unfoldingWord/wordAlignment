@@ -83,6 +83,7 @@ exports[`snapshot has words 1`] = `
               }
             >
               <span
+                className=""
                 onClick={[Function]}
                 style={
                   Object {
@@ -160,6 +161,7 @@ exports[`snapshot has words 1`] = `
               }
             >
               <span
+                className=""
                 onClick={[Function]}
                 style={
                   Object {
@@ -238,6 +240,7 @@ exports[`snapshot has words 1`] = `
               }
             >
               <span
+                className=""
                 onClick={[Function]}
                 style={
                   Object {

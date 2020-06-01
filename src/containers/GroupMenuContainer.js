@@ -104,7 +104,7 @@ function GroupMenuContainer({
     const { reference: { chapter, verse } } = contextId;
 
     const itemState = toolApi.getVerseData(chapter, verse, contextId);
-    const title = getTitleStr(bookName, getReferenceStr(chapter, verse), item.direction);
+    const title = getTitleStr(bookName, getReferenceStr(chapter, verse));
     return {
       ...item,
       title,

@@ -1,5 +1,5 @@
 {
-  "cannot_drag_middle": "Cannot un-merge a middle word",
+  "cannot_drag_middle": "Tidak bisa memisahakan kata tengah",
   "loading_alignments": "Loading alignment data",
   "align_title": "Align",
   "lemma": "Lemma:",
@@ -215,8 +215,8 @@
     "no_verse_edits_found": "Edit Ayat ini",
     "comments_found": "Komentar telah masuk untuk alignment ini",
     "no_comments_found": "Tambahkan komentar pada alignment ini",
-    "bookmarked": "The bookmark has been set for this alignment",
-    "not_bookmarked": "Bookmark this alignment"
+    "bookmarked": "Bookmark telah ditetapkan untuk alignment ini",
+    "not_bookmarked": "Bookmark alignment ini"
   },
   "pane": {
     "current_project": "Current project",
@@ -227,8 +227,8 @@
     "add_resource": "Click to add a resource",
     "add_resource_label": "Add Resources",
     "select_language": "Select language",
-    "gateway_language": "Gateway Language",
-    "target_language": "Target Language",
-    "original_language": "Original Language"
+    "gateway_language": "Bahasa Gateway",
+    "target_language": "Target Bahasa",
+    "original_language": "Bahasa Asli"
   }
 }

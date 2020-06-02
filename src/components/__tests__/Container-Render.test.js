@@ -8,7 +8,6 @@ import * as reducers from '../../state/reducers';
 import Api from '../../Api';
 
 jest.mock('../../state/reducers');
-
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 

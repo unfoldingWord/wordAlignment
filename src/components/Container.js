@@ -5,7 +5,13 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import isEqual from 'deep-equal';
 import WordMap, { Alignment, Ngram } from 'wordmap';
 import Lexer, { Token } from 'wordmap-lexer';
-import { CommentsDialog, VerseEditor } from 'tc-ui-toolkit';
+import {
+  CommentsDialog,
+  VerseEditor,
+  getReferenceStr,
+  getTitleWithId,
+  getTitleStr,
+} from 'tc-ui-toolkit';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
@@ -694,15 +700,16 @@ export class Container extends Component {
       words = this.getLabeledTargetTokens();
     }
 
-    let verseTitle = '';//Empty verse title.
+    let verseTitle = ''; //Empty verse title.
     let verseState = {};
     let targetLanguageStr = '';
     let verseText = '';
     const { reference: { chapter, verse } } = contextId || { reference: { chapter: 1, verse: 1 } };
 
     if (contextId) {
-      verseTitle = `${bookName} ${chapter}:${verse}`;
-      targetLanguageStr = `${targetLanguage.name} (${targetLanguage.id})`;
+      const refStr = getReferenceStr(chapter, verse);
+      verseTitle = getTitleStr(bookName, refStr, targetDirection);
+      targetLanguageStr = getTitleWithId(targetLanguage.name, targetLanguage.id, targetDirection);
       verseText = api.getVerseRawText(chapter, verse);
       verseState = api.getVerseData(chapter, verse, contextId);
     }
@@ -733,6 +740,7 @@ export class Container extends Component {
           toolApi={api}
           gatewayLanguageCode={this.props.gatewayLanguageCode}
           translate={translate}
+          direction={targetDirection}
         />
         <div style={styles.wordListContainer}>
           <WordList
@@ -810,6 +818,7 @@ export class Container extends Component {
           onCancel={this.handleVerseEditClose}
           onSubmit={this.handleVerseEditSubmit}
           targetLanguageFont={targetLanguageFont}
+          direction={targetDirection}
         />
         <CommentsDialog
           open={showComments}

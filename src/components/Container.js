@@ -676,7 +676,7 @@ export class Container extends Component {
       },
       tc,
     } = this.props;
-    const { projectFont: targetLanguageFont } = manifest;
+    const { projectFont: targetLanguageFont = '' } = manifest;
     const {
       snackText, showComments, showVerseEditor,
     } = this.state;

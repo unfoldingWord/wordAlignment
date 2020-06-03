@@ -1,7 +1,7 @@
 /**
- * Returns the class name for a given target language font.
- * @param {string} languageFont - User selected font for target Language.
+ * Returns the class name for a given target language project font.
+ * @param {string} projectFont - User selected font for target Language project.
  */
-export function getFontClassName(languageFont) {
-  return languageFont && languageFont !== 'default' ? `${languageFont}-text` : '';
+export function getFontClassName(projectFont) {
+  return projectFont && projectFont !== 'default' ? `${projectFont}-text` : '';
 }

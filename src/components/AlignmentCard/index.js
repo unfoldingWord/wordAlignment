@@ -123,7 +123,6 @@ class DroppableAlignmentCard extends Component {
       loadLexiconEntry,
       targetLanguageFontClassName,
     } = this.props;
-
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
     const acceptsBottom = canDrop && dragItemType === types.SECONDARY_WORD;
 

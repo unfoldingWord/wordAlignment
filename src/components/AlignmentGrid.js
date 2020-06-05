@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // constants
 import { getLexiconData } from '../utils/lexiconHelpers';
+import { getFontClassName } from '../common/fontUtils';
 import * as types from './WordCard/Types';
 // components
 import AlignmentCard from './AlignmentCard';
@@ -52,6 +53,7 @@ class AlignmentGrid extends Component {
     }
 
     const styles = makeStyles(this.props);
+    const targetLanguageFontClassName = getFontClassName(targetLanguageFont);
 
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
@@ -88,7 +90,7 @@ class AlignmentGrid extends Component {
                 showPopover={showPopover}
                 getLexiconData={getLexiconData}
                 loadLexiconEntry={loadLexiconEntry}
-                targetLanguageFont={targetLanguageFont}
+                targetLanguageFontClassName={targetLanguageFontClassName}
               />
               {/* placeholder for un-merging primary words */}
               <AlignmentCard
@@ -106,7 +108,7 @@ class AlignmentGrid extends Component {
                 loadLexiconEntry={loadLexiconEntry}
                 lexicons={lexicons}
                 isHebrew={isHebrew}
-                targetLanguageFont={targetLanguageFont}
+                targetLanguageFontClassName={targetLanguageFontClassName}
               />
             </React.Fragment>
           ))

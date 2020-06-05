@@ -80,6 +80,7 @@ const styles = {
     minWidth: '100px',
     maxWidth: '400px',
     height: '100%',
+    display: 'flex'
   },
   alignmentAreaContainer: {
     display: 'flex',

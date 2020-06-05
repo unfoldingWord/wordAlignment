@@ -150,9 +150,6 @@ class WordCard extends React.Component {
     } = this.props;
     const styles = makeStyles(this.props);
     const { tooltip } = this.state;
-    console.log('====================================');
-    console.log('targetLanguageFontClassName', targetLanguageFontClassName);
-    console.log('====================================');
     // TRICKY: the <ReactTooltip/> is in WordList.js
     return (
       <span

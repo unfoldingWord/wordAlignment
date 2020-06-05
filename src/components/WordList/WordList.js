@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Token } from 'wordmap-lexer';
 import ReactTooltip from 'react-tooltip';
 import SecondaryToken from '../SecondaryToken';
+import { getFontClassName } from '../../common/fontUtils';
 
 /**
  * Renders a list of words that need to be aligned.
@@ -85,6 +86,8 @@ class WordList extends React.Component {
           }}/>
       );
     } else {
+      const targetLanguageFontClassName = getFontClassName(targetLanguageFont);
+
       return (
         <div ref={this.listRef} style={{ height: '100%' }}>
           {words.map((token, index) => (
@@ -99,11 +102,11 @@ class WordList extends React.Component {
                 selectedTokens={selectedWords}
                 selected={this.isSelected(token)}
                 disabled={token.disabled === true}
-                targetLanguageFont={targetLanguageFont}
+                targetLanguageFontClassName={targetLanguageFontClassName}
               />
             </div>
           ))}
-          <ReactTooltip id="word-overflow-tooltip"/>
+          <ReactTooltip id="word-overflow-tooltip" className={targetLanguageFontClassName} />
         </div>
       );
     }

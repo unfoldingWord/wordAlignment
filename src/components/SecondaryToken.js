@@ -146,7 +146,7 @@ class SecondaryToken extends React.Component {
       direction,
       isDragging,
       connectDragSource,
-      targetLanguageFont,
+      targetLanguageFontClassName,
     } = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
@@ -168,7 +168,7 @@ class SecondaryToken extends React.Component {
           occurrence={token.occurrence}
           occurrences={token.occurrences}
           isSuggestion={token.meta.suggestion}
-          targetLanguageFont={targetLanguageFont}
+          targetLanguageFontClassName={targetLanguageFontClassName}
         />
       </div>
     );
@@ -195,7 +195,7 @@ SecondaryToken.propTypes = {
   alignmentIndex: PropTypes.number,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
   disabled: PropTypes.bool,
-  targetLanguageFont: PropTypes.string,
+  targetLanguageFontClassName: PropTypes.string,
 };
 
 SecondaryToken.defaultProps = {

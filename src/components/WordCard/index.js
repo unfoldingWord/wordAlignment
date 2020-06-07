@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getFontClassName } from '../../common/fontUtils';
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
 
@@ -142,11 +141,15 @@ class WordCard extends React.Component {
 
   render() {
     const {
-      word, occurrence, occurrences, isSuggestion, disableTooltip, targetLanguageFont,
+      word,
+      occurrence,
+      occurrences,
+      isSuggestion,
+      disableTooltip,
+      targetLanguageFontClassName,
     } = this.props;
     const styles = makeStyles(this.props);
     const { tooltip } = this.state;
-    const fontClass = getFontClassName(targetLanguageFont);
     // TRICKY: the <ReactTooltip/> is in WordList.js
     return (
       <span
@@ -167,7 +170,7 @@ class WordCard extends React.Component {
               <span
                 ref={this.wordRef}
                 style={styles.word}
-                className={fontClass}
+                className={targetLanguageFontClassName}
                 onClick={this._handleClick}
               >
                 {word}
@@ -198,7 +201,7 @@ WordCard.propTypes = {
   word: PropTypes.string.isRequired,
   isSuggestion: PropTypes.bool,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
-  targetLanguageFont: PropTypes.string,
+  targetLanguageFontClassName: PropTypes.string,
 };
 
 WordCard.defaultProps = {

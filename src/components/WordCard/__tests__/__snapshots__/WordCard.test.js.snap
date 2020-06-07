@@ -44,7 +44,7 @@ exports[`is a suggestion 1`] = `
         }
       >
         <span
-          className=""
+          className={undefined}
           onClick={[Function]}
           style={
             Object {
@@ -145,7 +145,7 @@ exports[`occurs multiple times 1`] = `
         }
       >
         <span
-          className=""
+          className={undefined}
           onClick={[Function]}
           style={
             Object {
@@ -219,7 +219,7 @@ exports[`occurs once 1`] = `
         }
       >
         <span
-          className=""
+          className={undefined}
           onClick={[Function]}
           style={
             Object {
@@ -282,7 +282,7 @@ exports[`renders rtl 1`] = `
         }
       >
         <span
-          className=""
+          className={undefined}
           onClick={[Function]}
           style={
             Object {

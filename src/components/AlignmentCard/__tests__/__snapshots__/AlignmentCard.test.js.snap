@@ -73,8 +73,8 @@ exports[`has a bottom word 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -143,6 +143,11 @@ exports[`has a bottom word 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
   </div>
@@ -196,8 +201,8 @@ exports[`has a top and bottom word 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -255,6 +260,11 @@ exports[`has a top and bottom word 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
     <div
@@ -283,8 +293,8 @@ exports[`has a top and bottom word 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -353,6 +363,11 @@ exports[`has a top and bottom word 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
   </div>
@@ -406,8 +421,8 @@ exports[`has a top word 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -465,6 +480,11 @@ exports[`has a top word 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
     <div
@@ -570,8 +590,8 @@ exports[`has multiple bottom words 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -629,9 +649,14 @@ exports[`has multiple bottom words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -700,6 +725,11 @@ exports[`has multiple bottom words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
   </div>
@@ -753,8 +783,8 @@ exports[`has multiple top and bottom words 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -812,9 +842,14 @@ exports[`has multiple top and bottom words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -872,6 +907,11 @@ exports[`has multiple top and bottom words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
     <div
@@ -900,8 +940,8 @@ exports[`has multiple top and bottom words 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -959,9 +999,14 @@ exports[`has multiple top and bottom words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -1030,6 +1075,11 @@ exports[`has multiple top and bottom words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
   </div>
@@ -1083,8 +1133,8 @@ exports[`has multiple top words 1`] = `
         }
       >
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -1142,9 +1192,14 @@ exports[`has multiple top words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
         <span
-          data-delay-hide={100}
-          data-delay-show={200}
+          data-delay-hide={200}
+          data-delay-show={400}
           data-effect="solid"
           data-for="word-overflow-tooltip"
           data-multiline={true}
@@ -1202,6 +1257,11 @@ exports[`has multiple top words 1`] = `
             </div>
           </div>
         </span>
+        <div
+          className="__react_component_tooltip place-top type-dark "
+          data-id="tooltip"
+          id="word-overflow-tooltip"
+        />
       </div>
     </div>
     <div

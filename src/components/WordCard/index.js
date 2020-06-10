@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
-import ReactTooltip from 'react-tooltip';
 
 /**
  * Generates the component styles

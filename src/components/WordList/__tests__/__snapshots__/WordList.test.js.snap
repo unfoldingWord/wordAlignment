@@ -7,13 +7,7 @@ exports[`snapshot has no words 1`] = `
       "height": "100%",
     }
   }
->
-  <div
-    className="__react_component_tooltip place-top type-dark "
-    data-id="tooltip"
-    id="word-overflow-tooltip"
-  />
-</div>
+/>
 `;
 
 exports[`snapshot has words 1`] = `
@@ -40,8 +34,8 @@ exports[`snapshot has words 1`] = `
       }
     >
       <span
-        data-delay-hide={100}
-        data-delay-show={200}
+        data-delay-hide={200}
+        data-delay-show={400}
         data-effect="solid"
         data-for="word-overflow-tooltip"
         data-multiline={true}
@@ -100,6 +94,11 @@ exports[`snapshot has words 1`] = `
           </div>
         </div>
       </span>
+      <div
+        className="__react_component_tooltip place-top type-dark "
+        data-id="tooltip"
+        id="word-overflow-tooltip"
+      />
     </div>
   </div>
   <div
@@ -118,8 +117,8 @@ exports[`snapshot has words 1`] = `
       }
     >
       <span
-        data-delay-hide={100}
-        data-delay-show={200}
+        data-delay-hide={200}
+        data-delay-show={400}
         data-effect="solid"
         data-for="word-overflow-tooltip"
         data-multiline={true}
@@ -178,6 +177,11 @@ exports[`snapshot has words 1`] = `
           </div>
         </div>
       </span>
+      <div
+        className="__react_component_tooltip place-top type-dark "
+        data-id="tooltip"
+        id="word-overflow-tooltip"
+      />
     </div>
   </div>
   <div
@@ -196,8 +200,8 @@ exports[`snapshot has words 1`] = `
       }
     >
       <span
-        data-delay-hide={100}
-        data-delay-show={200}
+        data-delay-hide={200}
+        data-delay-show={400}
         data-effect="solid"
         data-for="word-overflow-tooltip"
         data-multiline={true}
@@ -257,12 +261,12 @@ exports[`snapshot has words 1`] = `
           </div>
         </div>
       </span>
+      <div
+        className="__react_component_tooltip place-top type-dark "
+        data-id="tooltip"
+        id="word-overflow-tooltip"
+      />
     </div>
   </div>
-  <div
-    className="__react_component_tooltip place-top type-dark "
-    data-id="tooltip"
-    id="word-overflow-tooltip"
-  />
 </div>
 `;

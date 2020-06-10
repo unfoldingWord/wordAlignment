@@ -76,8 +76,8 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             >
               <div>
                 <span
-                  data-delay-hide={100}
-                  data-delay-show={200}
+                  data-delay-hide={200}
+                  data-delay-show={400}
                   data-effect="solid"
                   data-for="word-overflow-tooltip"
                   data-multiline={true}
@@ -137,6 +137,11 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                     </div>
                   </div>
                 </span>
+                <div
+                  className="__react_component_tooltip place-top type-dark "
+                  data-id="tooltip"
+                  id="word-overflow-tooltip"
+                />
               </div>
             </div>
           </div>
@@ -238,8 +243,8 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             >
               <div>
                 <span
-                  data-delay-hide={100}
-                  data-delay-show={200}
+                  data-delay-hide={200}
+                  data-delay-show={400}
                   data-effect="solid"
                   data-for="word-overflow-tooltip"
                   data-multiline={true}
@@ -299,6 +304,11 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                     </div>
                   </div>
                 </span>
+                <div
+                  className="__react_component_tooltip place-top type-dark "
+                  data-id="tooltip"
+                  id="word-overflow-tooltip"
+                />
               </div>
             </div>
           </div>
@@ -400,8 +410,8 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             >
               <div>
                 <span
-                  data-delay-hide={100}
-                  data-delay-show={200}
+                  data-delay-hide={200}
+                  data-delay-show={400}
                   data-effect="solid"
                   data-for="word-overflow-tooltip"
                   data-multiline={true}
@@ -461,6 +471,11 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                     </div>
                   </div>
                 </span>
+                <div
+                  className="__react_component_tooltip place-top type-dark "
+                  data-id="tooltip"
+                  id="word-overflow-tooltip"
+                />
               </div>
             </div>
           </div>

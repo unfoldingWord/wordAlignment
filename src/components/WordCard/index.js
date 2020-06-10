@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
+import ReactTooltip from 'react-tooltip';
 
 /**
  * Generates the component styles
@@ -152,39 +153,42 @@ class WordCard extends React.Component {
     const { tooltip } = this.state;
     // TRICKY: the <ReactTooltip/> is in WordList.js
     return (
-      <span
-        data-tip={word}
-        data-place="bottom"
-        data-effect="solid"
-        data-type="dark"
-        data-for="word-overflow-tooltip"
-        data-multiline={true}
-        data-tip-disable={!tooltip || disableTooltip}
-        data-delay-show={200}
-        data-delay-hide={100}>
-        <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-          <div style={styles.root}>
-            <span style={{
-              flex: 1, display: 'flex', overflow: 'hidden',
-            }}>
-              <span
-                ref={this.wordRef}
-                style={styles.word}
-                className={targetLanguageFontClassName}
-                onClick={this._handleClick}
-              >
-                {word}
-              </span>
-              {isSuggestion ? (
-                <Controls onCancel={this._handleCancelClick}/>
-              ) : null}
+      <React.Fragment>
+        <span
+          data-tip={word}
+          data-place="bottom"
+          data-effect="solid"
+          data-type="dark"
+          data-for="word-overflow-tooltip"
+          data-multiline={true}
+          data-tip-disable={!tooltip || disableTooltip}
+          data-delay-show={400}
+          data-delay-hide={200}>
+          <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+            <div style={styles.root}>
+              <span style={{
+                flex: 1, display: 'flex', overflow: 'hidden',
+              }}>
+                <span
+                  ref={this.wordRef}
+                  style={styles.word}
+                  className={targetLanguageFontClassName}
+                  onClick={this._handleClick}
+                >
+                  {word}
+                </span>
+                {isSuggestion ? (
+                  <Controls onCancel={this._handleCancelClick}/>
+                ) : null}
 
-            </span>
-            <WordOccurrence occurrence={occurrence}
-              occurrences={occurrences}/>
+              </span>
+              <WordOccurrence occurrence={occurrence}
+                              occurrences={occurrences}/>
+            </div>
           </div>
-        </div>
-      </span>
+        </span>
+        <ReactTooltip id="word-overflow-tooltip" className={targetLanguageFontClassName}/>
+      </React.Fragment>
     );
   }
 }

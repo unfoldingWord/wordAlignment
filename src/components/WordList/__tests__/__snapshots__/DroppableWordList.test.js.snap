@@ -255,8 +255,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w1"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -319,6 +319,19 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
@@ -395,8 +408,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w2"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -471,6 +484,19 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
@@ -547,8 +573,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w2"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -623,6 +649,19 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
@@ -699,8 +738,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w3"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -764,24 +803,24 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
                 </DragSource(SecondaryToken)>
               </div>
-              <ReactTooltip
-                className=""
-                id="word-overflow-tooltip"
-                insecure={true}
-                resizeHide={true}
-                wrapper="div"
-              >
-                <div
-                  className="__react_component_tooltip place-top type-dark "
-                  data-id="tooltip"
-                  id="word-overflow-tooltip"
-                />
-              </ReactTooltip>
             </div>
           </WordList>
         </div>
@@ -1069,8 +1108,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w1"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -1133,6 +1172,19 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
@@ -1209,8 +1261,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w2"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -1285,6 +1337,19 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
@@ -1361,8 +1426,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w2"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -1437,6 +1502,19 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
@@ -1513,8 +1591,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                         word="w3"
                       >
                         <span
-                          data-delay-hide={100}
-                          data-delay-show={200}
+                          data-delay-hide={200}
+                          data-delay-show={400}
                           data-effect="solid"
                           data-for="word-overflow-tooltip"
                           data-multiline={true}
@@ -1578,24 +1656,24 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             </div>
                           </div>
                         </span>
+                        <ReactTooltip
+                          className=""
+                          id="word-overflow-tooltip"
+                          insecure={true}
+                          resizeHide={true}
+                          wrapper="div"
+                        >
+                          <div
+                            className="__react_component_tooltip place-top type-dark "
+                            data-id="tooltip"
+                            id="word-overflow-tooltip"
+                          />
+                        </ReactTooltip>
                       </WordCard>
                     </div>
                   </SecondaryToken>
                 </DragSource(SecondaryToken)>
               </div>
-              <ReactTooltip
-                className=""
-                id="word-overflow-tooltip"
-                insecure={true}
-                resizeHide={true}
-                wrapper="div"
-              >
-                <div
-                  className="__react_component_tooltip place-top type-dark "
-                  data-id="tooltip"
-                  id="word-overflow-tooltip"
-                />
-              </ReactTooltip>
             </div>
           </WordList>
         </div>

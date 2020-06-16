@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Token } from 'wordmap-lexer';
+import ReactTooltip from "react-tooltip";
 import SecondaryToken from '../SecondaryToken';
 import { getFontClassName } from '../../common/fontUtils';
-import ReactTooltip from "react-tooltip";
 
 /**
  * Renders a list of words that need to be aligned.

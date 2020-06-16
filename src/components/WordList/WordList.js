@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Token } from 'wordmap-lexer';
 import SecondaryToken from '../SecondaryToken';
 import { getFontClassName } from '../../common/fontUtils';
+import ReactTooltip from "react-tooltip";
 
 /**
  * Renders a list of words that need to be aligned.
@@ -88,24 +89,27 @@ class WordList extends React.Component {
       const targetLanguageFontClassName = getFontClassName(targetLanguageFont);
 
       return (
-        <div ref={this.listRef} style={{ height: '100%' }}>
-          {words.map((token, index) => (
-            <div
-              key={index}
-              style={{ padding: '5px 10px' }}>
-              <SecondaryToken
-                token={token}
-                onClick={onWordClick}
-                direction={direction}
-                onEndDrag={onWordDragged}
-                selectedTokens={selectedWords}
-                selected={this.isSelected(token)}
-                disabled={token.disabled === true}
-                targetLanguageFontClassName={targetLanguageFontClassName}
-              />
-            </div>
-          ))}
-        </div>
+        <React.Fragment>
+          <div ref={this.listRef} style={{ height: '100%' }}>
+            {words.map((token, index) => (
+              <div
+                key={index}
+                style={{ padding: '5px 10px' }}>
+                <SecondaryToken
+                  token={token}
+                  onClick={onWordClick}
+                  direction={direction}
+                  onEndDrag={onWordDragged}
+                  selectedTokens={selectedWords}
+                  selected={this.isSelected(token)}
+                  disabled={token.disabled === true}
+                  targetLanguageFontClassName={targetLanguageFontClassName}
+                />
+              </div>
+            ))}
+          </div>
+          <ReactTooltip id="word-overflow-tooltip" className={targetLanguageFontClassName}/>
+        </React.Fragment>
       );
     }
   }

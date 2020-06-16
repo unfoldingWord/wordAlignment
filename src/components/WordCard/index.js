@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
 
@@ -187,7 +186,6 @@ class WordCard extends React.Component {
             </div>
           </div>
         </span>
-        <ReactTooltip id="word-overflow-tooltip" className={targetLanguageFontClassName}/>
       </React.Fragment>
     );
   }

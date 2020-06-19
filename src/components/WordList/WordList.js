@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Token } from 'wordmap-lexer';
-import ReactTooltip from "react-tooltip";
 import SecondaryToken from '../SecondaryToken';
 import { getFontClassName } from '../../common/fontUtils';
 
@@ -108,7 +107,6 @@ class WordList extends React.Component {
               </div>
             ))}
           </div>
-          <ReactTooltip id="word-overflow-tooltip" className={targetLanguageFontClassName}/>
         </React.Fragment>
       );
     }

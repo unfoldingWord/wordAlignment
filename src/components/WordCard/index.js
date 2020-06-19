@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ThemedTooltip from "../ThemedTooltip";
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
 
@@ -150,19 +151,9 @@ class WordCard extends React.Component {
     } = this.props;
     const styles = makeStyles(this.props);
     const { tooltip } = this.state;
-    // TRICKY: the <ReactTooltip/> is in WordList.js
     return (
       <React.Fragment>
-        <span
-          data-tip={word}
-          data-place="bottom"
-          data-effect="solid"
-          data-type="dark"
-          data-for="word-overflow-tooltip"
-          data-multiline={true}
-          data-tip-disable={!tooltip || disableTooltip}
-          data-delay-show={400}
-          data-delay-hide={200}>
+        <ThemedTooltip message={word} disabled={!tooltip || disableTooltip}>
           <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
             <div style={styles.root}>
               <span style={{
@@ -185,7 +176,7 @@ class WordCard extends React.Component {
                               occurrences={occurrences}/>
             </div>
           </div>
-        </span>
+        </ThemedTooltip>
       </React.Fragment>
     );
   }

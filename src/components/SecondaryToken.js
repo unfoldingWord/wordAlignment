@@ -163,7 +163,7 @@ class SecondaryToken extends React.Component {
           selected={selected}
           disabled={disabled}
           direction={direction}
-          disableTooltip={isDragging}
+          disableTooltip={isDragging || disabled}
           onCancel={this.handleCancel}
           occurrence={token.occurrence}
           occurrences={token.occurrences}

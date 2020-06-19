@@ -1,271 +1,230 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`snapshot has no words 1`] = `
-Array [
-  <div
-    style={
-      Object {
-        "height": "100%",
-      }
+<div
+  style={
+    Object {
+      "height": "100%",
     }
-  />,
-  <div
-    className="__react_component_tooltip place-top type-dark "
-    data-id="tooltip"
-    id="word-overflow-tooltip"
-  />,
-]
+  }
+/>
 `;
 
 exports[`snapshot has words 1`] = `
-Array [
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
   <div
     style={
       Object {
-        "height": "100%",
+        "padding": "5px 10px",
       }
     }
   >
     <div
+      onClick={[Function]}
       style={
         Object {
-          "padding": "5px 10px",
+          "flex": 1,
         }
       }
     >
       <div
-        onClick={[Function]}
+        aria-describedby={null}
+        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         style={
           Object {
             "flex": 1,
           }
         }
+        title={null}
       >
-        <span
-          data-delay-hide={200}
-          data-delay-show={400}
-          data-effect="solid"
-          data-for="word-overflow-tooltip"
-          data-multiline={true}
-          data-place="bottom"
-          data-tip="w1"
-          data-tip-disable={true}
-          data-type="dark"
-        >
-          <div
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            style={
-              Object {
-                "flex": 1,
-              }
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "9px",
             }
-          >
-            <div
-              style={
-                Object {
-                  "backgroundColor": "#FFFFFF",
-                  "borderLeft": "5px solid #44C6FF",
-                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                  "cursor": "pointer",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "opacity": 1,
-                  "padding": "9px",
-                }
-              }
-            >
-              <span
-                style={
-                  Object {
-                    "display": "flex",
-                    "flex": 1,
-                    "overflow": "hidden",
-                  }
-                }
-              >
-                <span
-                  className=""
-                  onClick={[Function]}
-                  style={
-                    Object {
-                      "flexGrow": 2,
-                      "overflow": "hidden",
-                      "textOverflow": "ellipsis",
-                      "width": "max-content",
-                    }
-                  }
-                >
-                  w1
-                </span>
-              </span>
-            </div>
-          </div>
-        </span>
-      </div>
-    </div>
-    <div
-      style={
-        Object {
-          "padding": "5px 10px",
-        }
-      }
-    >
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "flex": 1,
           }
-        }
-      >
-        <span
-          data-delay-hide={200}
-          data-delay-show={400}
-          data-effect="solid"
-          data-for="word-overflow-tooltip"
-          data-multiline={true}
-          data-place="bottom"
-          data-tip="w2"
-          data-tip-disable={true}
-          data-type="dark"
         >
-          <div
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
+          <span
             style={
               Object {
+                "display": "flex",
                 "flex": 1,
+                "overflow": "hidden",
               }
             }
           >
-            <div
+            <span
+              className=""
+              onClick={[Function]}
               style={
                 Object {
-                  "backgroundColor": "#FFFFFF",
-                  "borderLeft": "5px solid #44C6FF",
-                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                  "cursor": "pointer",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "opacity": 1,
-                  "padding": "9px",
+                  "flexGrow": 2,
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "width": "max-content",
                 }
               }
             >
-              <span
-                style={
-                  Object {
-                    "display": "flex",
-                    "flex": 1,
-                    "overflow": "hidden",
-                  }
-                }
-              >
-                <span
-                  className=""
-                  onClick={[Function]}
-                  style={
-                    Object {
-                      "flexGrow": 2,
-                      "overflow": "hidden",
-                      "textOverflow": "ellipsis",
-                      "width": "max-content",
-                    }
-                  }
-                >
-                  w2
-                </span>
-              </span>
-            </div>
-          </div>
-        </span>
+              w1
+            </span>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      style={
-        Object {
-          "padding": "5px 10px",
-        }
-      }
-    >
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "flex": 1,
-          }
-        }
-      >
-        <span
-          data-delay-hide={200}
-          data-delay-show={400}
-          data-effect="solid"
-          data-for="word-overflow-tooltip"
-          data-multiline={true}
-          data-place="bottom"
-          data-tip="w3"
-          data-tip-disable={true}
-          data-type="dark"
-        >
-          <div
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            style={
-              Object {
-                "flex": 1,
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "backgroundColor": "#FFFFFF",
-                  "borderLeft": "5px solid #868686",
-                  "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                  "cursor": "not-allowed",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "opacity": 0.3,
-                  "padding": "9px",
-                  "userSelect": "none",
-                }
-              }
-            >
-              <span
-                style={
-                  Object {
-                    "display": "flex",
-                    "flex": 1,
-                    "overflow": "hidden",
-                  }
-                }
-              >
-                <span
-                  className=""
-                  onClick={[Function]}
-                  style={
-                    Object {
-                      "flexGrow": 2,
-                      "overflow": "hidden",
-                      "textOverflow": "ellipsis",
-                      "width": "max-content",
-                    }
-                  }
-                >
-                  w3
-                </span>
-              </span>
-            </div>
-          </div>
-        </span>
-      </div>
-    </div>
-  </div>,
+  </div>
   <div
-    className="__react_component_tooltip place-top type-dark "
-    data-id="tooltip"
-    id="word-overflow-tooltip"
-  />,
-]
+    style={
+      Object {
+        "padding": "5px 10px",
+      }
+    }
+  >
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        aria-describedby={null}
+        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+        title={null}
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #44C6FF",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 1,
+              "padding": "9px",
+            }
+          }
+        >
+          <span
+            style={
+              Object {
+                "display": "flex",
+                "flex": 1,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <span
+              className=""
+              onClick={[Function]}
+              style={
+                Object {
+                  "flexGrow": 2,
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "width": "max-content",
+                }
+              }
+            >
+              w2
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "padding": "5px 10px",
+      }
+    }
+  >
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <div
+        aria-describedby={null}
+        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+        title={null}
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderLeft": "5px solid #868686",
+              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+              "cursor": "not-allowed",
+              "display": "flex",
+              "flexDirection": "row",
+              "opacity": 0.3,
+              "padding": "9px",
+              "userSelect": "none",
+            }
+          }
+        >
+          <span
+            style={
+              Object {
+                "display": "flex",
+                "flex": 1,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <span
+              className=""
+              onClick={[Function]}
+              style={
+                Object {
+                  "flexGrow": 2,
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "width": "max-content",
+                }
+              }
+            >
+              w3
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

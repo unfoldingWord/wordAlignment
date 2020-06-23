@@ -75,73 +75,59 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               }
             >
               <div>
-                <span
-                  data-delay-hide={200}
-                  data-delay-show={400}
-                  data-effect="solid"
-                  data-for="word-overflow-tooltip"
-                  data-multiline={true}
-                  data-place="bottom"
-                  data-tip="ἐπειδήπερ"
-                  data-tip-disable={true}
-                  data-type="dark"
+                <div
+                  aria-describedby={null}
+                  className=""
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                  title={null}
                 >
                   <div
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "fontSize": "100%",
+                        "padding": "9px",
                       }
                     }
                   >
-                    <div
+                    <span
                       style={
                         Object {
-                          "backgroundColor": "#333333",
-                          "borderLeft": "5px solid #44C6FF",
-                          "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                          "color": "#ffffff",
-                          "cursor": "pointer",
                           "display": "flex",
-                          "flexDirection": "row",
-                          "fontSize": "100%",
-                          "padding": "9px",
+                          "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
                       <span
+                        className={undefined}
+                        onClick={[Function]}
                         style={
                           Object {
-                            "display": "flex",
-                            "flex": 1,
+                            "flexGrow": 2,
                             "overflow": "hidden",
+                            "textOverflow": "ellipsis",
+                            "width": "max-content",
                           }
                         }
                       >
-                        <span
-                          className={undefined}
-                          onClick={[Function]}
-                          style={
-                            Object {
-                              "flexGrow": 2,
-                              "overflow": "hidden",
-                              "textOverflow": "ellipsis",
-                              "width": "max-content",
-                            }
-                          }
-                        >
-                          ἐπειδήπερ
-                        </span>
+                        ἐπειδήπερ
                       </span>
-                    </div>
+                    </span>
                   </div>
-                </span>
-                <div
-                  className="__react_component_tooltip place-top type-dark "
-                  data-id="tooltip"
-                  id="word-overflow-tooltip"
-                />
+                </div>
               </div>
             </div>
           </div>
@@ -242,73 +228,59 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               }
             >
               <div>
-                <span
-                  data-delay-hide={200}
-                  data-delay-show={400}
-                  data-effect="solid"
-                  data-for="word-overflow-tooltip"
-                  data-multiline={true}
-                  data-place="bottom"
-                  data-tip="πολλοὶ"
-                  data-tip-disable={true}
-                  data-type="dark"
+                <div
+                  aria-describedby={null}
+                  className=""
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                  title={null}
                 >
                   <div
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "fontSize": "100%",
+                        "padding": "9px",
                       }
                     }
                   >
-                    <div
+                    <span
                       style={
                         Object {
-                          "backgroundColor": "#333333",
-                          "borderLeft": "5px solid #44C6FF",
-                          "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                          "color": "#ffffff",
-                          "cursor": "pointer",
                           "display": "flex",
-                          "flexDirection": "row",
-                          "fontSize": "100%",
-                          "padding": "9px",
+                          "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
                       <span
+                        className={undefined}
+                        onClick={[Function]}
                         style={
                           Object {
-                            "display": "flex",
-                            "flex": 1,
+                            "flexGrow": 2,
                             "overflow": "hidden",
+                            "textOverflow": "ellipsis",
+                            "width": "max-content",
                           }
                         }
                       >
-                        <span
-                          className={undefined}
-                          onClick={[Function]}
-                          style={
-                            Object {
-                              "flexGrow": 2,
-                              "overflow": "hidden",
-                              "textOverflow": "ellipsis",
-                              "width": "max-content",
-                            }
-                          }
-                        >
-                          πολλοὶ
-                        </span>
+                        πολλοὶ
                       </span>
-                    </div>
+                    </span>
                   </div>
-                </span>
-                <div
-                  className="__react_component_tooltip place-top type-dark "
-                  data-id="tooltip"
-                  id="word-overflow-tooltip"
-                />
+                </div>
               </div>
             </div>
           </div>
@@ -409,73 +381,59 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
               }
             >
               <div>
-                <span
-                  data-delay-hide={200}
-                  data-delay-show={400}
-                  data-effect="solid"
-                  data-for="word-overflow-tooltip"
-                  data-multiline={true}
-                  data-place="bottom"
-                  data-tip="ἐπεχείρησαν"
-                  data-tip-disable={true}
-                  data-type="dark"
+                <div
+                  aria-describedby={null}
+                  className=""
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                  title={null}
                 >
                   <div
-                    onMouseEnter={[Function]}
-                    onMouseLeave={[Function]}
                     style={
                       Object {
-                        "flex": 1,
+                        "backgroundColor": "#333333",
+                        "borderLeft": "5px solid #44C6FF",
+                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                        "color": "#ffffff",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "fontSize": "100%",
+                        "padding": "9px",
                       }
                     }
                   >
-                    <div
+                    <span
                       style={
                         Object {
-                          "backgroundColor": "#333333",
-                          "borderLeft": "5px solid #44C6FF",
-                          "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                          "color": "#ffffff",
-                          "cursor": "pointer",
                           "display": "flex",
-                          "flexDirection": "row",
-                          "fontSize": "100%",
-                          "padding": "9px",
+                          "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
                       <span
+                        className={undefined}
+                        onClick={[Function]}
                         style={
                           Object {
-                            "display": "flex",
-                            "flex": 1,
+                            "flexGrow": 2,
                             "overflow": "hidden",
+                            "textOverflow": "ellipsis",
+                            "width": "max-content",
                           }
                         }
                       >
-                        <span
-                          className={undefined}
-                          onClick={[Function]}
-                          style={
-                            Object {
-                              "flexGrow": 2,
-                              "overflow": "hidden",
-                              "textOverflow": "ellipsis",
-                              "width": "max-content",
-                            }
-                          }
-                        >
-                          ἐπεχείρησαν
-                        </span>
+                        ἐπεχείρησαν
                       </span>
-                    </div>
+                    </span>
                   </div>
-                </span>
-                <div
-                  className="__react_component_tooltip place-top type-dark "
-                  data-id="tooltip"
-                  id="word-overflow-tooltip"
-                />
+                </div>
               </div>
             </div>
           </div>

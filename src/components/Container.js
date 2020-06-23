@@ -730,7 +730,7 @@ export class Container extends Component {
 
     if (isHebrew) {
       sourceStyle = {
-        fontSize: '175%', paddingTop: '8px', lineHeight: '100%',
+        fontSize: '175%', paddingTop: '2px', paddingBottom: '2px', lineHeight: 'normal', WebkitFontSmoothing: 'antialiased',
       };
     }
 

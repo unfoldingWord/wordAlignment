@@ -92,42 +92,44 @@ class WordList extends React.Component {
       const isRtl = direction === 'rtl';
 
       return (
-        <div ref={this.listRef} style={{ height: '100%' }}>
-          <div style={{
-            display: 'flex', justifyContent: 'flex-end', padding: '0px 5px 5px',
-          }}>
-            <ThreeDotMenu
-              isRtl={isRtl}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: isRtl ? 'right' : 'left',
-              }}
-              namespace='WordList'
-              toolsSettings={toolsSettings}
-              setToolSettings={setToolSettings}
-            />
-          </div>
-          {words.map((token, index) => (
-            <div
-              key={index}
-              style={{ padding: '5px 10px' }}>
-              <SecondaryToken
-                token={token}
-                onClick={onWordClick}
-                direction={direction}
-                onEndDrag={onWordDragged}
-                selectedTokens={selectedWords}
-                selected={this.isSelected(token)}
-                disabled={token.disabled === true}
-                targetLanguageFontClassName={targetLanguageFontClassName}
+        <React.Fragment>
+          <div ref={this.listRef} style={{ height: '100%' }}>
+            <div style={{
+              display: 'flex', justifyContent: 'flex-end', padding: '0px 5px 5px',
+            }}>
+              <ThreeDotMenu
+                isRtl={isRtl}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: isRtl ? 'right' : 'left',
+                }}
+                namespace='WordList'
+                toolsSettings={toolsSettings}
+                setToolSettings={setToolSettings}
               />
             </div>
-          ))}
-        </div>
+            {words.map((token, index) => (
+              <div
+                key={index}
+                style={{ padding: '5px 10px' }}>
+                <SecondaryToken
+                  token={token}
+                  onClick={onWordClick}
+                  direction={direction}
+                  onEndDrag={onWordDragged}
+                  selectedTokens={selectedWords}
+                  selected={this.isSelected(token)}
+                  disabled={token.disabled === true}
+                  targetLanguageFontClassName={targetLanguageFontClassName}
+                />
+              </div>
+            ))}
+          </div>
+        </React.Fragment>
       );
     }
   }

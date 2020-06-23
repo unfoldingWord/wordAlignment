@@ -680,10 +680,6 @@ export class Container extends Component {
       },
     } = this.props;
     const { toolsSettings = {} } = settingsReducer;
-
-    console.log('====================================');
-    console.log('toolsSettings', toolsSettings);
-    console.log('====================================');
     const { projectFont: targetLanguageFont = '' } = manifest;
     const {
       snackText, showComments, showVerseEditor,

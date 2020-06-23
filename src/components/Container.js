@@ -80,7 +80,7 @@ const styles = {
     minWidth: '100px',
     maxWidth: '400px',
     height: '100%',
-    display: 'flex'
+    display: 'flex',
   },
   alignmentAreaContainer: {
     display: 'flex',
@@ -654,18 +654,21 @@ export class Container extends Component {
 
   render() {
     const {
-      hasRenderedSuggestions,
-      connectDropTarget,
+      tc,
       isOver,
-      hasSourceText,
-      resourcesReducer,
-      verseAlignments,
-      currentBookmarks,
-      currentComments,
-      showPopover,
-      loadLexiconEntry,
-      contextId,
       bookId,
+      contextId,
+      showPopover,
+      hasSourceText,
+      verseAlignments,
+      currentComments,
+      setToolSettings,
+      currentBookmarks,
+      resourcesReducer,
+      loadLexiconEntry,
+      connectDropTarget,
+      hasRenderedSuggestions,
+      settingsReducer,
       tool: {
         api,
         translate,
@@ -675,8 +678,12 @@ export class Container extends Component {
         targetBook: { manifest: { direction : targetDirection } },
         projectDetailsReducer: { manifest },
       },
-      tc,
     } = this.props;
+    const { toolsSettings = {} } = settingsReducer;
+
+    console.log('====================================');
+    console.log('toolsSettings', toolsSettings);
+    console.log('====================================');
     const { projectFont: targetLanguageFont = '' } = manifest;
     const {
       snackText, showComments, showVerseEditor,
@@ -750,7 +757,9 @@ export class Container extends Component {
             isOver={isOver}
             chapter={chapter}
             direction={targetDirection}
+            toolsSettings={toolsSettings}
             reset={this.state.resetWordList}
+            setToolSettings={setToolSettings}
             connectDropTarget={connectDropTarget}
             targetLanguageFont={targetLanguageFont}
             onDropTargetToken={this.handleUnalignTargetToken}
@@ -765,15 +774,17 @@ export class Container extends Component {
               <span>{translate('align_title')}</span>
               <IconIndicators
                 translate={translate}
-                verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
-                verseEditIconEnable={true}
-                verseEditClickAction={this.handleVerseEditClick}
                 commentIconEnable={true}
-                commentStateSet={!!currentComments}
-                commentClickAction={this.handleCommentClick}
                 bookmarkIconEnable={true}
+                verseEditIconEnable={true}
+                toolsSettings={toolsSettings}
+                setToolSettings={setToolSettings}
+                commentStateSet={!!currentComments}
                 bookmarkStateSet={currentBookmarks}
+                commentClickAction={this.handleCommentClick}
                 bookmarkClickAction={this.handleBookmarkClick}
+                verseEditClickAction={this.handleVerseEditClick}
+                verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
               />
             </div>
             {hasSourceText ? (
@@ -784,6 +795,7 @@ export class Container extends Component {
                 alignments={verseAlignments}
                 translate={translate}
                 lexicons={lexicons}
+                toolsSettings={toolsSettings}
                 onDropTargetToken={this.handleAlignTargetToken}
                 onDropSourceToken={this.handleAlignPrimaryToken}
                 onCancelSuggestion={this.handleRemoveSuggestion}

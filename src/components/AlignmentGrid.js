@@ -44,6 +44,7 @@ class AlignmentGrid extends Component {
       contextId,
       isHebrew,
       showPopover,
+      toolsSettings,
       loadLexiconEntry,
       targetLanguageFont,
     } = this.props;
@@ -54,6 +55,11 @@ class AlignmentGrid extends Component {
 
     const styles = makeStyles(this.props);
     const targetLanguageFontClassName = getFontClassName(targetLanguageFont);
+    const { fontSize } = toolsSettings['AlignmentGrid'] || {};
+
+    if (fontSize) {
+      styles.root.fontSize = `${fontSize}%`;
+    }
 
     // TODO: add support for dragging to left of card. See utils/dragDrop.js
     return (
@@ -148,6 +154,7 @@ AlignmentGrid.propTypes = {
   contextId: PropTypes.object,
   translate: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
+  toolsSettings: PropTypes.object.isRequired,
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
   targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
   isHebrew: PropTypes.bool.isRequired,

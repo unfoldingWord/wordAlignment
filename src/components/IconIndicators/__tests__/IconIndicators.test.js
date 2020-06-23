@@ -3,8 +3,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import IconIndicators from '../../IconIndicators/index';
 
-const mock_translate = (text) => (text);
-
 describe('IconIndicators component:', () => {
 
   test('Icons not visible', () => {
@@ -60,13 +58,14 @@ describe('IconIndicators component:', () => {
 function getBaseProperties(props, visible, set) {
   return {
     ...props,
-    translate: mock_translate,
+    translate: text => text,
     verseEditStateSet: set,
     verseEditIconEnable: visible,
     commentStateSet: set,
     commentIconEnable: visible,
     bookmarkStateSet: set,
     bookmarkIconEnable: visible,
+    toolsSettings: {}
   };
 }
 

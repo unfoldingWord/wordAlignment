@@ -327,6 +327,10 @@ export class Container extends Component {
     const { reference: { chapter, verse } } = contextId;
 
     const { store } = this.context;
+    console.log('====================================');
+    console.log('this.context', this.context);
+    console.log('this', this);
+    console.log('====================================');
     const state = store.getState();
     return generateMAP(targetBook, state, chapter, verse).then(map => {
       let toolsMemory = [];

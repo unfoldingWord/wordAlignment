@@ -10,9 +10,12 @@ import WordList from '../WordList';
 describe('snapshot', () => {
   it('has no words', () => {
     const wrapper = renderer.create(
-      <WordList isOver={false}
-                modalOpen={false}
-                words={[]}/>
+      <WordList
+        isOver={false}
+        modalOpen={false}
+        words={[]}
+        toolsSettings={{}}
+      />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -27,8 +30,11 @@ describe('snapshot', () => {
       w3
     ];
     const wrapper = renderer.create(
-      <WrappedWordList isOver={false}
-                       words={words}/>
+      <WrappedWordList
+        isOver={false}
+        words={words}
+        toolsSettings={{}}
+      />
     );
     expect(wrapper).toMatchSnapshot();
   });

@@ -34,7 +34,7 @@ const ThreeDotMenu = ({
   const iconStyle = isRtl ? { margin: '0 10px 0 0' } : { margin: '0 0 0 10px' };
 
   return (
-    <>
+    <React.Fragment>
       <ThreeDotIcon onClick={handleClick} style={iconStyle}/>
       <DropdownMenu
         open={open}
@@ -47,7 +47,7 @@ const ThreeDotMenu = ({
           <FontSizeSlider value={fontSize} onChange={handleFontSizeChange}/>
         </MenuItem>
       </DropdownMenu>
-    </>
+    </React.Fragment>
   );
 };
 

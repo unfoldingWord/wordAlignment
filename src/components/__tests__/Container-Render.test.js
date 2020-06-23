@@ -37,12 +37,13 @@ describe('Container', () => {
     const myProps = setupReducersAndProps(props, verseState);
     myProps.currentBookmarks = true;
     myProps.currentComments = 'My Comment';
+    const store = mockStore(verseState);
 
     // when
     const wrapper = shallow(
-        <Container {...myProps} />
+        <Container {...myProps} />,
+        { context: { store }}
     );
-    // const instance = wrapper.instance();
 
     // then
     const instance = wrapper.instance();
@@ -227,7 +228,8 @@ function setupReducersAndProps(props, verseState, verseText = 'Dummy Text') {
     tool: {
       api,
       translate: k => k,
-    }
+    },
+    setToolSettings: K => K,
   };
   return myProps;
 }
@@ -241,9 +243,12 @@ function getContainerInstance(props, verseText = 'Dummy Text') {
     bookId: 'tit',
     gatewayLanguageCode: 'en',
   };
+  const store = mockStore(verseState);
+
   const myProps = setupReducersAndProps(props, verseState, verseText);
   const wrapper = shallow(
-    <Container {...myProps} />
+    <Container {...myProps} />,
+    { context: { store }}
   );
   const instance = wrapper.instance();
   return instance;

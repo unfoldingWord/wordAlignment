@@ -25,7 +25,8 @@ describe('Test DroppableWordList component in WordList/index.js', () => {
       onDropTargetToken: jest.fn(),
       words: words,
       moveBackToWordBank: jest.fn(),
-      modalOpen: false
+      modalOpen: false,
+      toolsSettings: {}
     };
   });
 

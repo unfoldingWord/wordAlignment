@@ -6,6 +6,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   modalOpen={false}
   moveBackToWordBank={[Function]}
   onDropTargetToken={[Function]}
+  toolsSettings={Object {}}
   verse={1}
   words={
     Array [
@@ -37,6 +38,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     modalOpen={false}
     moveBackToWordBank={[Function]}
     onDropTargetToken={[Function]}
+    toolsSettings={Object {}}
     verse={1}
     words={
       Array [
@@ -68,6 +70,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       modalOpen={false}
       moveBackToWordBank={[Function]}
       onDropTargetToken={[Function]}
+      toolsSettings={Object {}}
       verse={1}
       words={
         Array [
@@ -104,6 +107,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
         reset={false}
+        toolsSettings={Object {}}
         verse={1}
         words={
           Array [
@@ -151,6 +155,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             onWordDragged={[Function]}
             selectedWordPositions={Array []}
             selectedWords={Array []}
+            toolsSettings={Object {}}
             verse={1}
             words={
               Array [
@@ -184,6 +189,142 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "justifyContent": "flex-end",
+                    "padding": "0px 5px 5px",
+                  }
+                }
+              >
+                <ThreeDotMenu
+                  anchorOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "bottom",
+                    }
+                  }
+                  isRtl={false}
+                  namespace="WordList"
+                  toolsSettings={Object {}}
+                  transformOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "top",
+                    }
+                  }
+                >
+                  <ThreeDotIcon
+                    onClick={[Function]}
+                    style={
+                      Object {
+                        "margin": "0 0 0 10px",
+                      }
+                    }
+                  >
+                    <Glyphicon
+                      bsClass="glyphicon"
+                      glyph="option-vertical"
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                          "fontSize": "18px",
+                          "margin": "0 0 0 10px",
+                          "padding": 0,
+                        }
+                      }
+                    >
+                      <span
+                        className="glyphicon glyphicon-option-vertical"
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "cursor": "pointer",
+                            "fontSize": "18px",
+                            "margin": "0 0 0 10px",
+                            "padding": 0,
+                          }
+                        }
+                      />
+                    </Glyphicon>
+                  </ThreeDotIcon>
+                  <DropdownMenu
+                    anchorEl={null}
+                    anchorOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "bottom",
+                      }
+                    }
+                    onClose={[Function]}
+                    open={false}
+                    transformOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "top",
+                      }
+                    }
+                  >
+                    <WithStyles(ForwardRef(Popover))
+                      anchorEl={null}
+                      anchorOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "bottom",
+                        }
+                      }
+                      onClose={[Function]}
+                      open={false}
+                      style={Object {}}
+                      transformOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "top",
+                        }
+                      }
+                    >
+                      <ForwardRef(Popover)
+                        anchorEl={null}
+                        anchorOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "bottom",
+                          }
+                        }
+                        classes={
+                          Object {
+                            "paper": "MuiPopover-paper",
+                            "root": "MuiPopover-root",
+                          }
+                        }
+                        onClose={[Function]}
+                        open={false}
+                        style={Object {}}
+                        transformOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "top",
+                          }
+                        }
+                      >
+                        <ForwardRef(Modal)
+                          BackdropProps={
+                            Object {
+                              "invisible": true,
+                            }
+                          }
+                          className="MuiPopover-root"
+                          onClose={[Function]}
+                          open={false}
+                          style={Object {}}
+                        />
+                      </ForwardRef(Popover)>
+                    </WithStyles(ForwardRef(Popover))>
+                  </DropdownMenu>
+                </ThreeDotMenu>
+              </div>
               <div
                 key="0"
                 style={
@@ -2701,6 +2842,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   modalOpen={false}
   moveBackToWordBank={[Function]}
   onDropTargetToken={[Function]}
+  toolsSettings={Object {}}
   verse={1}
   wordList={
     Object {
@@ -2738,6 +2880,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     modalOpen={false}
     moveBackToWordBank={[Function]}
     onDropTargetToken={[Function]}
+    toolsSettings={Object {}}
     verse={1}
     wordList={
       Object {
@@ -2775,6 +2918,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       modalOpen={false}
       moveBackToWordBank={[Function]}
       onDropTargetToken={[Function]}
+      toolsSettings={Object {}}
       verse={1}
       wordList={
         Object {
@@ -2816,6 +2960,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
         reset={false}
+        toolsSettings={Object {}}
         verse={1}
         wordList={
           Object {
@@ -2868,6 +3013,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             onWordDragged={[Function]}
             selectedWordPositions={Array []}
             selectedWords={Array []}
+            toolsSettings={Object {}}
             verse={1}
             words={
               Array [
@@ -2901,6 +3047,142 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                 }
               }
             >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "justifyContent": "flex-end",
+                    "padding": "0px 5px 5px",
+                  }
+                }
+              >
+                <ThreeDotMenu
+                  anchorOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "bottom",
+                    }
+                  }
+                  isRtl={false}
+                  namespace="WordList"
+                  toolsSettings={Object {}}
+                  transformOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "top",
+                    }
+                  }
+                >
+                  <ThreeDotIcon
+                    onClick={[Function]}
+                    style={
+                      Object {
+                        "margin": "0 0 0 10px",
+                      }
+                    }
+                  >
+                    <Glyphicon
+                      bsClass="glyphicon"
+                      glyph="option-vertical"
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                          "fontSize": "18px",
+                          "margin": "0 0 0 10px",
+                          "padding": 0,
+                        }
+                      }
+                    >
+                      <span
+                        className="glyphicon glyphicon-option-vertical"
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "cursor": "pointer",
+                            "fontSize": "18px",
+                            "margin": "0 0 0 10px",
+                            "padding": 0,
+                          }
+                        }
+                      />
+                    </Glyphicon>
+                  </ThreeDotIcon>
+                  <DropdownMenu
+                    anchorEl={null}
+                    anchorOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "bottom",
+                      }
+                    }
+                    onClose={[Function]}
+                    open={false}
+                    transformOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "top",
+                      }
+                    }
+                  >
+                    <WithStyles(ForwardRef(Popover))
+                      anchorEl={null}
+                      anchorOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "bottom",
+                        }
+                      }
+                      onClose={[Function]}
+                      open={false}
+                      style={Object {}}
+                      transformOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "top",
+                        }
+                      }
+                    >
+                      <ForwardRef(Popover)
+                        anchorEl={null}
+                        anchorOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "bottom",
+                          }
+                        }
+                        classes={
+                          Object {
+                            "paper": "MuiPopover-paper",
+                            "root": "MuiPopover-root",
+                          }
+                        }
+                        onClose={[Function]}
+                        open={false}
+                        style={Object {}}
+                        transformOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "top",
+                          }
+                        }
+                      >
+                        <ForwardRef(Modal)
+                          BackdropProps={
+                            Object {
+                              "invisible": true,
+                            }
+                          }
+                          className="MuiPopover-root"
+                          onClose={[Function]}
+                          open={false}
+                          style={Object {}}
+                        />
+                      </ForwardRef(Popover)>
+                    </WithStyles(ForwardRef(Popover))>
+                  </DropdownMenu>
+                </ThreeDotMenu>
+              </div>
               <div
                 key="0"
                 style={

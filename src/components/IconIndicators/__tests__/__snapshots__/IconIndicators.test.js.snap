@@ -4,6 +4,7 @@ exports[`IconIndicators component: Icons not visible 1`] = `
 <div
   style={
     Object {
+      "alignItems": "baseline",
       "display": "flex",
       "justifyContent": "flex-end",
     }
@@ -12,6 +13,19 @@ exports[`IconIndicators component: Icons not visible 1`] = `
   
   
   
+  <span
+    className="glyphicon glyphicon-option-vertical"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "18px",
+        "margin": "0 0 0 10px",
+        "padding": 0,
+      }
+    }
+    title={undefined}
+  />
 </div>
 `;
 
@@ -19,6 +33,7 @@ exports[`IconIndicators component: Icons visible and not set 1`] = `
 <div
   style={
     Object {
+      "alignItems": "baseline",
       "display": "flex",
       "justifyContent": "flex-end",
     }
@@ -57,6 +72,19 @@ exports[`IconIndicators component: Icons visible and not set 1`] = `
     }
     title="icons.not_bookmarked"
   />
+  <span
+    className="glyphicon glyphicon-option-vertical"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "18px",
+        "margin": "0 0 0 10px",
+        "padding": 0,
+      }
+    }
+    title={undefined}
+  />
 </div>
 `;
 
@@ -64,6 +92,7 @@ exports[`IconIndicators component: Icons visible and set 1`] = `
 <div
   style={
     Object {
+      "alignItems": "baseline",
       "display": "flex",
       "justifyContent": "flex-end",
     }
@@ -101,6 +130,19 @@ exports[`IconIndicators component: Icons visible and set 1`] = `
       }
     }
     title="icons.bookmarked"
+  />
+  <span
+    className="glyphicon glyphicon-option-vertical"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "18px",
+        "margin": "0 0 0 10px",
+        "padding": 0,
+      }
+    }
+    title={undefined}
   />
 </div>
 `;

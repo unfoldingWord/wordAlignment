@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/translationCoreApps/word-alignment-tool#readme",
   "devDependencies": {
-    "@material-ui/core": "3.8.3",
+    "@material-ui/core": "4.10.2",
     "@material-ui/icons": "3.0.2",
     "babel-cli": "6.26.0",
     "babel-eslint": "8.2.2",
@@ -101,8 +101,8 @@
     "xregexp": "4.2.4"
   },
   "peerDependencies": {
-    "@material-ui/core": "^3.6.2",
-    "@material-ui/icons": "^3.0.1",
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^3.0.2",
     "material-ui": "^0.20.0",
     "react": "^16.3.0",
     "redux": "^2.0.0 || ^3.0.0",

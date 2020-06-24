@@ -80,6 +80,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   className=""
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
+                  onTouchStart={[Function]}
                   style={
                     Object {
                       "flex": 1,
@@ -233,6 +234,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   className=""
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
+                  onTouchStart={[Function]}
                   style={
                     Object {
                       "flex": 1,
@@ -386,6 +388,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                   className=""
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
+                  onTouchStart={[Function]}
                   style={
                     Object {
                       "flex": 1,

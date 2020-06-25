@@ -224,6 +224,7 @@
     "title": "પગલું 1. વાંચો",
     "expand_hover": "વિસ્તૃત સંસાધન ફલકો જોવા ક્લિક કરો",
     "remove_resource": "સંસાધનને દૂર કરવા ક્લિક કરો",
+    "remove_resource_label": "Remove resource",
     "add_resource": "સંસાધનને ઉમેરવા ક્લિક કરો",
     "add_resource_label": "સંસાધનોને ઉમેરો",
     "select_language": "ભાષા પસંદ કરો",

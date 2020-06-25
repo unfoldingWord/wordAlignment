@@ -224,6 +224,7 @@
     "title": "Passo 1. Leitura",
     "expand_hover": "Clique para mostrar os painéis de recurso expandidos",
     "remove_resource": "Clique para remover o recurso expandido",
+    "remove_resource_label": "Remove resource",
     "add_resource": "Clique para adicionar um recurso",
     "add_resource_label": "Adicionar Recursos",
     "select_language": "Selecionar o idioma",

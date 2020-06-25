@@ -93,7 +93,7 @@
     "simple-git": "^1.131.0",
     "tc-electron-env": "0.9.0",
     "tc-tool": "3.0.3",
-    "tc-ui-toolkit": "^4.0.0-alpha.13",
+    "tc-ui-toolkit": "^4.0.0",
     "usfm-js": "1.0.6",
     "word-aligner": "0.2.12",
     "wordmap": "^0.4.3",

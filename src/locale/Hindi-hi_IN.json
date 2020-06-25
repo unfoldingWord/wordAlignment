@@ -224,6 +224,7 @@
     "title": "चरण 1. पढ़ें",
     "expand_hover": "विस्तारित संसाधन पैन दिखाने के लिए क्लिक करें",
     "remove_resource": "संसाधन को हटाने के लिए क्लिक करें",
+    "remove_resource_label": "Remove resource",
     "add_resource": "संसाधन जोड़ने के लिए क्लिक करें",
     "add_resource_label": "संसाधन जोड़ें",
     "select_language": "भाषा चुनिए",

@@ -224,6 +224,7 @@
     "title": "Paso 1. Leer",
     "expand_hover": "Haga clic para mostrar ampliado los paneles de recursos",
     "remove_resource": "Haga clic para eliminar recurso",
+    "remove_resource_label": "Remove resource",
     "add_resource": "Haga clic para añadir un recurso",
     "add_resource_label": "Añadir Recursos",
     "select_language": "Seleccionar idioma",

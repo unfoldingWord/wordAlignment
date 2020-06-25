@@ -6,6 +6,7 @@ exports[`is a suggestion 1`] = `
   className=""
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
@@ -98,6 +99,7 @@ exports[`occurs multiple times 1`] = `
   className=""
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
@@ -163,6 +165,7 @@ exports[`occurs once 1`] = `
   className=""
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
@@ -217,6 +220,7 @@ exports[`renders rtl 1`] = `
   className=""
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,

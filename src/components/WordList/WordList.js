@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Token } from 'wordmap-lexer';
 import SecondaryToken from '../SecondaryToken';
 import { getFontClassName } from '../../common/fontUtils';
+import ThreeDotMenu from '../ThreeDotMenu';
 
 /**
  * Renders a list of words that need to be aligned.
@@ -71,6 +72,8 @@ class WordList extends React.Component {
       onWordClick,
       onWordDragged,
       selectedWords,
+      toolsSettings,
+      setToolSettings,
       targetLanguageFont,
     } = this.props;
     const { width, height } = this.state;
@@ -86,10 +89,29 @@ class WordList extends React.Component {
       );
     } else {
       const targetLanguageFontClassName = getFontClassName(targetLanguageFont);
+      const isRtl = direction === 'rtl';
 
       return (
         <React.Fragment>
           <div ref={this.listRef} style={{ height: '100%' }}>
+            <div style={{
+              display: 'flex', justifyContent: 'flex-end', padding: '0px 5px 5px',
+            }}>
+              <ThreeDotMenu
+                isRtl={isRtl}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: isRtl ? 'right' : 'left',
+                }}
+                namespace='WordList'
+                toolsSettings={toolsSettings}
+                setToolSettings={setToolSettings}
+              />
+            </div>
             {words.map((token, index) => (
               <div
                 key={index}
@@ -120,6 +142,8 @@ WordList.propTypes = {
   isOver: PropTypes.bool.isRequired,
   targetLanguageFont: PropTypes.string,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
+  toolsSettings: PropTypes.object.isRequired,
+  setToolSettings: PropTypes.func.isRequired,
   selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
 };

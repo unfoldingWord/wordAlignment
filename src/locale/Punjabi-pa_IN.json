@@ -224,6 +224,7 @@
     "title": "ਕਦਮ 1. ਪੜ੍ਹੋ",
     "expand_hover": "ਫੈਲੇ ਸਰੋਤਪੈਣਾਂ ਨੂੰ ਦਿਖਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ",
     "remove_resource": "ਸਰੋਤ ਨੂੰ ਹਟਾਉਣ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+    "remove_resource_label": "Remove resource",
     "add_resource": "ਇੱਕ ਸਰੋਤ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ",
     "add_resource_label": "ਸਰੋਤਾਂ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰੋ",
     "select_language": "ਭਾਸ਼ਾ ਚੁਣੋ",

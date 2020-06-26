@@ -151,6 +151,11 @@ WordList.propTypes = {
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
 };
 
-WordList.defaultProps = { direction: 'ltr' };
+WordList.defaultProps = {
+  direction: 'ltr',
+  toolSettings: {
+    fontSize: 100
+  }
+};
 
 export default WordList;

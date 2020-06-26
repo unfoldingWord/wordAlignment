@@ -147,6 +147,7 @@ class SecondaryToken extends React.Component {
       isDragging,
       connectDragSource,
       targetLanguageFontClassName,
+      fontScale
     } = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
@@ -160,6 +161,7 @@ class SecondaryToken extends React.Component {
         <Word
           word={token.text}
           style={{ opacity }}
+          fontScale={fontScale}
           selected={selected}
           disabled={disabled}
           direction={direction}
@@ -196,6 +198,7 @@ SecondaryToken.propTypes = {
   direction: PropTypes.oneOf(['ltr', 'rtl']),
   disabled: PropTypes.bool,
   targetLanguageFontClassName: PropTypes.string,
+  fontScale: PropTypes.number
 };
 
 SecondaryToken.defaultProps = {
@@ -206,6 +209,7 @@ SecondaryToken.defaultProps = {
   },
   alignmentIndex: undefined,
   disabled: false,
+  fontScale: 100,
   selectedTokens: [],
   direction: 'ltr',
 };

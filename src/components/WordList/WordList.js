@@ -74,6 +74,7 @@ class WordList extends React.Component {
       selectedWords,
       toolsSettings,
       setToolSettings,
+      toolSettings,
       targetLanguageFont,
     } = this.props;
     const { width, height } = this.state;
@@ -118,6 +119,7 @@ class WordList extends React.Component {
                 style={{ padding: '5px 10px' }}>
                 <SecondaryToken
                   token={token}
+                  fontScale={toolSettings.fontSize}
                   onClick={onWordClick}
                   direction={direction}
                   onEndDrag={onWordDragged}
@@ -144,6 +146,7 @@ WordList.propTypes = {
   direction: PropTypes.oneOf(['ltr', 'rtl']),
   toolsSettings: PropTypes.object.isRequired,
   setToolSettings: PropTypes.func.isRequired,
+  toolSettings: PropTypes.object.isRequired,
   selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
   words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
 };

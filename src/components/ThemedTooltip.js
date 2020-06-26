@@ -6,7 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 function arrowGenerator(color) {
   return {
     '&[x-placement*="bottom"] $arrow': {
-      top: 0,
+      top: 8,
       left: 0,
       marginTop: '-0.95em',
       width: '3em',
@@ -68,7 +68,8 @@ const styles = theme => ({
   bootstrapPopper: arrowGenerator(theme.palette.common.black),
   bootstrapTooltip: {
     backgroundColor: theme.palette.common.black,
-    fontSize: 14,
+    fontSize: "inherit",
+    lineHeight: "inherit",
     maxWidth: 375,
     wordBreak: "break-all"
   },
@@ -112,7 +113,7 @@ class ThemedTooltip extends React.Component {
   };
 
   render() {
-    const { message , children, classes, disabled} = this.props;
+    const { message , children, classes, disabled, targetLanguageFontClassName, fontScale} = this.props;
     const { arrowRef } = this.state;
 
     return (
@@ -124,7 +125,11 @@ class ThemedTooltip extends React.Component {
         leaveDelay={200}
         title={
           <React.Fragment>
-            {message}
+            <span style={{fontSize: `${fontScale}%`}}>
+              <span className={targetLanguageFontClassName}>
+                {message}
+              </span>
+            </span>
             <span className={classes.arrow} ref={this.handleArrowRef} />
           </React.Fragment>
         }
@@ -158,10 +163,13 @@ ThemedTooltip.propTypes = {
   message: PropTypes.string.isRequired,
   children: PropTypes.any.isRequired,
   classes: PropTypes.any.isRequired,
-  disabled: PropTypes.bool
+  targetLanguageFontClassName: PropTypes.any,
+  disabled: PropTypes.bool,
+  fontScale: PropTypes.number
 };
 ThemedTooltip.defaultProps = {
-  disabled: false
+  disabled: false,
+  fontScale: 100
 };
 
 export default withStyles(styles)(ThemedTooltip);

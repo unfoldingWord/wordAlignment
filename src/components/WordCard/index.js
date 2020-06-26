@@ -68,12 +68,12 @@ const makeStyles = (props) => {
 };
 
 /**
- * Checks if an element has overflowed it's parent
+ * Checks if an element has overflowed it's parent's width
  * @param element
  * @returns {boolean}
  */
 function isOverflown(element) {
-  return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+  return element.scrollWidth > element.clientWidth;
 }
 
 
@@ -148,12 +148,13 @@ class WordCard extends React.Component {
       isSuggestion,
       disableTooltip,
       targetLanguageFontClassName,
+      fontScale
     } = this.props;
     const styles = makeStyles(this.props);
     const { tooltip } = this.state;
     return (
       <React.Fragment>
-        <ThemedTooltip message={word} disabled={!tooltip || disableTooltip}>
+        <ThemedTooltip message={word} disabled={!tooltip || disableTooltip} fontScale={fontScale} targetLanguageFontClassName={targetLanguageFontClassName}>
           <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
             <div style={styles.root}>
               <span style={{
@@ -195,6 +196,7 @@ WordCard.propTypes = {
   isSuggestion: PropTypes.bool,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
   targetLanguageFontClassName: PropTypes.string,
+  fontScale: PropTypes.number
 };
 
 WordCard.defaultProps = {
@@ -206,6 +208,7 @@ WordCard.defaultProps = {
   selected: false,
   direction: 'ltr',
   disableTooltip: false,
+  fontScale: 100
 };
 
 export default WordCard;

@@ -141,6 +141,7 @@ class DroppableWordList extends React.Component {
     return connectDropTarget(
       <div id='wordList' style={wordListStyle}>
         <WordList
+          toolSettings={toolsSettings['WordList']}
           verse={verse}
           words={words}
           isOver={isOver}

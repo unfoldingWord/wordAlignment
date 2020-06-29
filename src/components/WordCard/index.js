@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ThemedTooltip from "../ThemedTooltip";
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
 
@@ -67,12 +68,12 @@ const makeStyles = (props) => {
 };
 
 /**
- * Checks if an element has overflowed it's parent
+ * Checks if an element has overflowed it's parent's width
  * @param element
  * @returns {boolean}
  */
 function isOverflown(element) {
-  return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+  return element.scrollWidth > element.clientWidth;
 }
 
 
@@ -147,44 +148,37 @@ class WordCard extends React.Component {
       isSuggestion,
       disableTooltip,
       targetLanguageFontClassName,
+      fontScale
     } = this.props;
     const styles = makeStyles(this.props);
     const { tooltip } = this.state;
-    // TRICKY: the <ReactTooltip/> is in WordList.js
     return (
-      <span
-        data-tip={word}
-        data-place="bottom"
-        data-effect="solid"
-        data-type="dark"
-        data-for="word-overflow-tooltip"
-        data-multiline={true}
-        data-tip-disable={!tooltip || disableTooltip}
-        data-delay-show={200}
-        data-delay-hide={100}>
-        <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-          <div style={styles.root}>
-            <span style={{
-              flex: 1, display: 'flex', overflow: 'hidden',
-            }}>
-              <span
-                ref={this.wordRef}
-                style={styles.word}
-                className={targetLanguageFontClassName}
-                onClick={this._handleClick}
-              >
-                {word}
-              </span>
-              {isSuggestion ? (
-                <Controls onCancel={this._handleCancelClick}/>
-              ) : null}
+      <React.Fragment>
+        <ThemedTooltip message={word} disabled={!tooltip || disableTooltip} fontScale={fontScale} targetLanguageFontClassName={targetLanguageFontClassName}>
+          <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+            <div style={styles.root}>
+              <span style={{
+                flex: 1, display: 'flex', overflow: 'hidden',
+              }}>
+                <span
+                  ref={this.wordRef}
+                  style={styles.word}
+                  className={targetLanguageFontClassName}
+                  onClick={this._handleClick}
+                >
+                  {word}
+                </span>
+                {isSuggestion ? (
+                  <Controls onCancel={this._handleCancelClick}/>
+                ) : null}
 
-            </span>
-            <WordOccurrence occurrence={occurrence}
-              occurrences={occurrences}/>
+              </span>
+              <WordOccurrence occurrence={occurrence}
+                              occurrences={occurrences}/>
+            </div>
           </div>
-        </div>
-      </span>
+        </ThemedTooltip>
+      </React.Fragment>
     );
   }
 }
@@ -202,6 +196,7 @@ WordCard.propTypes = {
   isSuggestion: PropTypes.bool,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
   targetLanguageFontClassName: PropTypes.string,
+  fontScale: PropTypes.number
 };
 
 WordCard.defaultProps = {
@@ -213,6 +208,7 @@ WordCard.defaultProps = {
   selected: false,
   direction: 'ltr',
   disableTooltip: false,
+  fontScale: 100
 };
 
 export default WordCard;

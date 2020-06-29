@@ -113,28 +113,43 @@ class DroppableWordList extends React.Component {
 
   render() {
     const {
-      words, chapter, verse, connectDropTarget, isOver, direction, targetLanguageFont,
+      words,
+      chapter,
+      verse,
+      isOver,
+      direction,
+      toolsSettings,
+      setToolSettings,
+      connectDropTarget,
+      targetLanguageFont,
     } = this.props;
     const { selectedWords, selectedWordPositions } = this.state;
+    const { fontSize } = toolsSettings['WordList'] || {};
+    const wordListStyle = {
+      height: '100%',
+      width: '100%',
+      backgroundColor: '#DCDCDC',
+      overflowY: 'auto',
+      padding: '8px',
+      direction: direction,
+    };
+
+    if (fontSize) {
+      wordListStyle.fontSize = `${fontSize}%`;
+    }
+
     return connectDropTarget(
-      <div
-        id='wordList'
-        style={{
-          height: '100%',
-          width: '100%',
-          backgroundColor: '#DCDCDC',
-          overflowY: 'auto',
-          padding: '8px',
-          direction: direction,
-        }}
-      >
+      <div id='wordList' style={wordListStyle}>
         <WordList
+          toolSettings={toolsSettings['WordList']}
           verse={verse}
           words={words}
           isOver={isOver}
           chapter={chapter}
           direction={direction}
+          toolsSettings={toolsSettings}
           selectedWords={selectedWords}
+          setToolSettings={setToolSettings}
           onWordClick={this.handleWordSelection}
           targetLanguageFont={targetLanguageFont}
           onWordDragged={this.clearWordSelections}
@@ -146,16 +161,18 @@ class DroppableWordList extends React.Component {
 }
 
 DroppableWordList.propTypes = {
-  chapter: PropTypes.number,
+  reset: PropTypes.bool,
   verse: PropTypes.number,
-  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)),
-  connectDropTarget: PropTypes.func.isRequired,
+  chapter: PropTypes.number,
+  wordList: PropTypes.object,
   isOver: PropTypes.bool.isRequired,
   targetLanguageFont: PropTypes.string,
-  onDropTargetToken: PropTypes.func.isRequired,
-  wordList: PropTypes.object,
+  toolsSettings: PropTypes.object.isRequired,
+  setToolSettings: PropTypes.func.isRequired,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
-  reset: PropTypes.bool,
+  connectDropTarget: PropTypes.func.isRequired,
+  onDropTargetToken: PropTypes.func.isRequired,
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)),
 };
 
 DroppableWordList.defaultProps = {

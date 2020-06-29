@@ -43,7 +43,7 @@ const ThreeDotMenu = ({
         anchorOrigin={anchorOrigin}
         transformOrigin={transformOrigin}
       >
-        <MenuItem onClose={handleClose} disableOnClick>
+        <MenuItem disableOnClick>
           <FontSizeSlider value={fontSize} onChange={handleFontSizeChange}/>
         </MenuItem>
       </DropdownMenu>

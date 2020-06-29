@@ -57,7 +57,7 @@ ThreeDotMenu.defaultProps = {
 };
 
 ThreeDotMenu.propTypes = {
-  isRtl: PropTypes.bool.isRequired,
+  isRtl: PropTypes.bool,
   namespace: PropTypes.string.isRequired,
   anchorOrigin: PropTypes.object.isRequired,
   toolsSettings: PropTypes.object.isRequired,

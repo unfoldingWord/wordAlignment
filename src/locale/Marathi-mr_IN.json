@@ -224,6 +224,7 @@
     "title": "Step 1. Read",
     "expand_hover": "Click to show expanded resource panes",
     "remove_resource": "Click to remove resource",
+    "remove_resource_label": "Remove resource",
     "add_resource": "Click to add a resource",
     "add_resource_label": "Add Resources",
     "select_language": "Select language",

@@ -818,25 +818,31 @@ export class Container extends Component {
             />
           </div>
         </div>
-        <VerseEditor
-          verseText={verseText}
-          translate={translate}
-          open={showVerseEditor}
-          verseTitle={verseTitle}
-          targetLanguage={targetLanguageStr}
-          onCancel={this.handleVerseEditClose}
-          onSubmit={this.handleVerseEditSubmit}
-          targetLanguageFont={targetLanguageFont}
-          direction={targetDirection}
-        />
-        <CommentsDialog
-          open={showComments}
-          verseTitle={verseTitle}
-          comment={currentComments}
-          translate={translate}
-          onClose={this.handleCommentClose}
-          onSubmit={this.handleCommentSubmit}
-        />
+        {
+          showVerseEditor &&
+          <VerseEditor
+            verseText={verseText}
+            translate={translate}
+            open={showVerseEditor}
+            verseTitle={verseTitle}
+            targetLanguage={targetLanguageStr}
+            onCancel={this.handleVerseEditClose}
+            onSubmit={this.handleVerseEditSubmit}
+            targetLanguageFont={targetLanguageFont}
+            direction={targetDirection}
+          />
+        }
+        {
+          showComments &&
+          <CommentsDialog
+            open={showComments}
+            verseTitle={verseTitle}
+            comment={currentComments}
+            translate={translate}
+            onClose={this.handleCommentClose}
+            onSubmit={this.handleCommentSubmit}
+          />
+        }
       </div>
     );
   }

@@ -6,7 +6,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
     let filterOut = (pane.languageId === 'targetLanguage'); // strip target language which will be placed first
     if (!filterOut) {
       const isOL = ['bhp','ugnt','uhb'].includes(pane.bibleId);
-      if (isOL) {  // strip OL which will be place second
+      if (isOL) {// strip OL which will be place second
         olBible = pane.bibleId;
         filterOut = isOL;
       }
@@ -40,7 +40,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
 
   desiredPanes = desiredPanes.map(desiredPane => {
     const foundPane = currentPanes.find(pane =>
-      pane.languageId === desiredPane.languageId && pane.bibleId === desiredPane.bibleId)
+      pane.languageId === desiredPane.languageId && pane.bibleId === desiredPane.bibleId);
     if (foundPane) {
       return {
         ...foundPane,
@@ -49,7 +49,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
     } else {
       return desiredPane;
     }
-  })
+  });
 
   // concat the remaining panes to the desiredPanes array
   if (panes.length > 0) {

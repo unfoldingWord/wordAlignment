@@ -92,6 +92,7 @@ const styles = {
   scripturePaneWrapper: {
     minHeight: '250px',
     marginBottom: '20px',
+    maxHeight: '310px',
   },
   alignmentGridWrapper: {
     display: 'flex',

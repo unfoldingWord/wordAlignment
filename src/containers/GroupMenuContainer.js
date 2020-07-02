@@ -7,6 +7,7 @@ import {
   generateMenuData,
   generateMenuItem,
   InvalidatedIcon,
+  CheckIcon,
   getReferenceStr,
 } from 'tc-ui-toolkit';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -44,7 +45,6 @@ import {
 
 function GroupMenuContainer({
   toolApi,
-  bookName,
   translate,
   contextId,
   groupsData,

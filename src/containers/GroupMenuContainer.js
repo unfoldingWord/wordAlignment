@@ -8,7 +8,6 @@ import {
   generateMenuItem,
   InvalidatedIcon,
   CheckIcon,
-  getTitleStr,
   getReferenceStr,
 } from 'tc-ui-toolkit';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -46,7 +45,6 @@ import {
 
 function GroupMenuContainer({
   toolApi,
-  bookName,
   translate,
   contextId,
   groupsData,
@@ -104,7 +102,7 @@ function GroupMenuContainer({
     const { reference: { chapter, verse } } = contextId;
 
     const itemState = toolApi.getVerseData(chapter, verse, contextId);
-    const title = getTitleStr(bookName, getReferenceStr(chapter, verse));
+    const title = getReferenceStr(chapter, verse);
     return {
       ...item,
       title,

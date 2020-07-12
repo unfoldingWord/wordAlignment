@@ -230,6 +230,7 @@
     "select_language": "Seleccionar idioma",
     "gateway_language": "Idioma Fuente",
     "target_language": "Idioma receptor",
-    "original_language": "Idioma Original"
+    "original_language": "Idioma Original",
+    "select_font_label": "Select Font"
   }
 }

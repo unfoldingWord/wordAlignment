@@ -24,6 +24,7 @@ const ScripturePaneContainer = (props) => {
     selections,
     editTargetVerse,
     handleModalOpen,
+    complexScriptFonts,
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -52,6 +53,7 @@ const ScripturePaneContainer = (props) => {
         getLexiconData={getLexiconData}
         selections={selections}
         setToolSettings={setToolSettings}
+        complexScriptFonts={complexScriptFonts}
         getAvailableScripturePaneSelections={(resourceList) => {
           getAvailableScripturePaneSelections(resourceList, contextId, bibles);
         }}
@@ -77,6 +79,7 @@ ScripturePaneContainer.propTypes = {
     makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
   handleModalOpen: PropTypes.func,
+  complexScriptFonts: PropTypes.array,
 };
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };

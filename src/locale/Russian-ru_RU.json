@@ -230,6 +230,7 @@
     "select_language": "Выбрать язык",
     "gateway_language": "Базовый язык",
     "target_language": "Целевой язык",
-    "original_language": "Язык оригинала"
+    "original_language": "Язык оригинала",
+    "select_font_label": "Select Font"
   }
 }

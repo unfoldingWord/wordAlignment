@@ -69,9 +69,11 @@ const ScripturePaneContainer = (props) => {
 };
 
 ScripturePaneContainer.propTypes = {
-  translate: PropTypes.func.isRequired,
   contextId: PropTypes.object,
+  handleModalOpen: PropTypes.func,
+  translate: PropTypes.func.isRequired,
   editTargetVerse: PropTypes.func.isRequired,
+  complexScriptFonts: PropTypes.object.isRequired,
   tc: PropTypes.shape({
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
@@ -80,8 +82,6 @@ ScripturePaneContainer.propTypes = {
     setToolSettings: PropTypes.func.isRequired,
     makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
-  handleModalOpen: PropTypes.func,
-  complexScriptFonts: PropTypes.array,
 };
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };

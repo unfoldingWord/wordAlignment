@@ -230,6 +230,7 @@
     "select_language": "Select language",
     "gateway_language": "গেটওয়ে ভাষা ",
     "target_language": "টার্গেট ভাষা ",
-    "original_language": "মূল ভাষা "
+    "original_language": "মূল ভাষা ",
+    "select_font_label": "Select Font"
   }
 }

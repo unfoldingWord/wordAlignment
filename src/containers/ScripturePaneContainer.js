@@ -25,6 +25,7 @@ const ScripturePaneContainer = (props) => {
     editTargetVerse,
     handleModalOpen,
     complexScriptFonts,
+    addObjectPropertyToManifest,
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -53,12 +54,13 @@ const ScripturePaneContainer = (props) => {
         getLexiconData={getLexiconData}
         selections={selections}
         setToolSettings={setToolSettings}
+        handleModalOpen={handleModalOpen}
         complexScriptFonts={complexScriptFonts}
+        addObjectPropertyToManifest={addObjectPropertyToManifest}
         getAvailableScripturePaneSelections={(resourceList) => {
           getAvailableScripturePaneSelections(resourceList, contextId, bibles);
         }}
         makeSureBiblesLoadedForTool={() => makeSureBiblesLoadedForTool(contextId)}
-        handleModalOpen={handleModalOpen}
       />
     );
   } else {
@@ -84,9 +86,10 @@ ScripturePaneContainer.propTypes = {
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   contextId: getContextId(state),
   selections: getSelections(state),
+  addObjectPropertyToManifest: ownProps.tc.addObjectPropertyToManifest,
 });
 
 export default connect( mapStateToProps )(ScripturePaneContainer);

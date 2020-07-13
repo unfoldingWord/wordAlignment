@@ -25,6 +25,7 @@ const ScripturePaneContainer = (props) => {
     editTargetVerse,
     handleModalOpen,
     complexScriptFonts,
+    addObjectPropertyToManifest,
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -53,12 +54,13 @@ const ScripturePaneContainer = (props) => {
         getLexiconData={getLexiconData}
         selections={selections}
         setToolSettings={setToolSettings}
+        handleModalOpen={handleModalOpen}
         complexScriptFonts={complexScriptFonts}
+        addObjectPropertyToManifest={addObjectPropertyToManifest}
         getAvailableScripturePaneSelections={(resourceList) => {
           getAvailableScripturePaneSelections(resourceList, contextId, bibles);
         }}
         makeSureBiblesLoadedForTool={() => makeSureBiblesLoadedForTool(contextId)}
-        handleModalOpen={handleModalOpen}
       />
     );
   } else {
@@ -67,9 +69,11 @@ const ScripturePaneContainer = (props) => {
 };
 
 ScripturePaneContainer.propTypes = {
-  translate: PropTypes.func.isRequired,
   contextId: PropTypes.object,
+  handleModalOpen: PropTypes.func,
+  translate: PropTypes.func.isRequired,
   editTargetVerse: PropTypes.func.isRequired,
+  complexScriptFonts: PropTypes.object.isRequired,
   tc: PropTypes.shape({
     settingsReducer: PropTypes.object.isRequired,
     resourcesReducer: PropTypes.object.isRequired,
@@ -78,15 +82,14 @@ ScripturePaneContainer.propTypes = {
     setToolSettings: PropTypes.func.isRequired,
     makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
-  handleModalOpen: PropTypes.func,
-  complexScriptFonts: PropTypes.array,
 };
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   contextId: getContextId(state),
   selections: getSelections(state),
+  addObjectPropertyToManifest: ownProps.tc.addObjectPropertyToManifest,
 });
 
 export default connect( mapStateToProps )(ScripturePaneContainer);

@@ -230,6 +230,7 @@
     "select_language": "ಭಾಷೆಯನ್ನು ಆರಿಸಿಕೊಳ್ಳಿರಿ ",
     "gateway_language": "ಹೆಬ್ಬಾಗಿಲಿನ ಭಾಷೆ ",
     "target_language": "ಲಕ್ಷ್ಯೆ ಭಾಷೆ ",
-    "original_language": "ಮೂಲ ಭಾಷೆ"
+    "original_language": "ಮೂಲ ಭಾಷೆ",
+    "select_font_label": "Select Font"
   }
 }

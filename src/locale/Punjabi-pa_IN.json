@@ -230,6 +230,7 @@
     "select_language": "ਭਾਸ਼ਾ ਚੁਣੋ",
     "gateway_language": "ਗੇਟਵੇ ਭਾਸ਼ਾ",
     "target_language": "ਟੀਚਾ ਭਾਸ਼ਾ",
-    "original_language": "ਮੂਲ ਭਾਸ਼ਾ"
+    "original_language": "ਮੂਲ ਭਾਸ਼ਾ",
+    "select_font_label": "Select Font"
   }
 }

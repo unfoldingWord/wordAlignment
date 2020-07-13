@@ -230,6 +230,7 @@
     "select_language": "Pilih Bahasa",
     "gateway_language": "Bahasa Gateway",
     "target_language": "Target Bahasa",
-    "original_language": "Bahasa Asli"
+    "original_language": "Bahasa Asli",
+    "select_font_label": "Select Font"
   }
 }

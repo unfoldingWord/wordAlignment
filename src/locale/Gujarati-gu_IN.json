@@ -230,6 +230,7 @@
     "select_language": "ભાષા પસંદ કરો",
     "gateway_language": "ગેટવે ભાષા",
     "target_language": "લક્ષ્ય ભાષા",
-    "original_language": "મૂળ ભાષા"
+    "original_language": "મૂળ ભાષા",
+    "select_font_label": "Select Font"
   }
 }

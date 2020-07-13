@@ -720,6 +720,7 @@ export class Container extends Component {
     }
 
     const isComplete = !!verseState[GroupMenu.FINISHED_KEY];
+    const algnGridFontSize = (toolsSettings['AlignmentGrid'] && toolsSettings['AlignmentGrid'].fontSize) || 100;
 
     // TRICKY: make hebrew text larger
     let sourceStyle = { fontSize: '100%' };
@@ -830,6 +831,7 @@ export class Container extends Component {
             onCancel={this.handleVerseEditClose}
             onSubmit={this.handleVerseEditSubmit}
             targetLanguageFont={targetLanguageFont}
+            targetLanguageFontSize={`${algnGridFontSize}%`}
             direction={targetDirection}
           />
         }

@@ -15,15 +15,27 @@ const ThreeDotMenu = ({
   setToolSettings,
   transformOrigin,
 }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorPosition, setAnchorPosition] = useState(null);
+  const open = Boolean(anchorPosition);
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget);
+    const anchorEl = event && event.currentTarget;
+    if (anchorEl) {
+      let anchorPosition_ = {top: anchorEl.offsetTop, left: anchorEl.offsetLeft};
+      if (anchorOrigin) { // see if we need to shift origin
+        if (anchorOrigin.vertical === 'bottom') {
+          anchorPosition_.top += anchorEl.offsetHeight;
+        }
+        if (anchorOrigin.horizontal === 'right') {
+          anchorPosition_.left += anchorEl.offsetWidth;
+        }
+      }
+      setAnchorPosition(anchorPosition_);
+    }
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorPosition(null);
   };
 
   const handleFontSizeChange = (fontSize) => {
@@ -38,7 +50,7 @@ const ThreeDotMenu = ({
       <ThreeDotIcon onClick={handleClick} style={iconStyle}/>
       <DropdownMenu
         open={open}
-        anchorEl={anchorEl}
+        anchorPosition={anchorPosition}
         onClose={handleClose}
         anchorOrigin={anchorOrigin}
         transformOrigin={transformOrigin}

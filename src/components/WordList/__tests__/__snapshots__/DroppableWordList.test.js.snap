@@ -279,6 +279,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                           "vertical": "bottom",
                         }
                       }
+                      anchorPosition={null}
+                      anchorReference={null}
                       onClose={[Function]}
                       open={false}
                       style={Object {}}
@@ -296,6 +298,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             "vertical": "bottom",
                           }
                         }
+                        anchorPosition={null}
+                        anchorReference={null}
                         classes={
                           Object {
                             "paper": "MuiPopover-paper",
@@ -1882,6 +1886,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                           "vertical": "bottom",
                         }
                       }
+                      anchorPosition={null}
+                      anchorReference={null}
                       onClose={[Function]}
                       open={false}
                       style={Object {}}
@@ -1899,6 +1905,8 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             "vertical": "bottom",
                           }
                         }
+                        anchorPosition={null}
+                        anchorReference={null}
                         classes={
                           Object {
                             "paper": "MuiPopover-paper",

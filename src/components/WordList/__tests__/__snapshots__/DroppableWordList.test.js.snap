@@ -256,13 +256,13 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     </Glyphicon>
                   </ThreeDotIcon>
                   <DropdownMenu
-                    anchorEl={null}
                     anchorOrigin={
                       Object {
                         "horizontal": "left",
                         "vertical": "bottom",
                       }
                     }
+                    anchorPosition={null}
                     onClose={[Function]}
                     open={false}
                     transformOrigin={
@@ -273,7 +273,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WithStyles(ForwardRef(Popover))
-                      anchorEl={null}
                       anchorOrigin={
                         Object {
                           "horizontal": "left",
@@ -291,7 +290,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       }
                     >
                       <ForwardRef(Popover)
-                        anchorEl={null}
                         anchorOrigin={
                           Object {
                             "horizontal": "left",
@@ -1861,13 +1859,13 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     </Glyphicon>
                   </ThreeDotIcon>
                   <DropdownMenu
-                    anchorEl={null}
                     anchorOrigin={
                       Object {
                         "horizontal": "left",
                         "vertical": "bottom",
                       }
                     }
+                    anchorPosition={null}
                     onClose={[Function]}
                     open={false}
                     transformOrigin={
@@ -1878,7 +1876,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   >
                     <WithStyles(ForwardRef(Popover))
-                      anchorEl={null}
                       anchorOrigin={
                         Object {
                           "horizontal": "left",
@@ -1896,7 +1893,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                       }
                     >
                       <ForwardRef(Popover)
-                        anchorEl={null}
                         anchorOrigin={
                           Object {
                             "horizontal": "left",

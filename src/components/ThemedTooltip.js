@@ -52,19 +52,28 @@ function arrowGenerator(color) {
 
 const styles = theme => ({
   arrow: {
-    position: 'absolute',
-    fontSize: 6,
-    width: '3em',
-    height: '3em',
+    'fontSize': 16,
+    'width': 17,
     '&::before': {
-      content: '""',
-      margin: 'auto',
-      display: 'block',
-      width: 0,
-      height: 0,
-      borderStyle: 'solid',
+      border: '1px solid #000',
+      backgroundColor: theme.palette.common.black,
+      boxSizing: 'border-box',
     },
   },
+  // arrow: {
+  //   position: 'absolute',
+  //   fontSize: 6,
+  //   width: '3em',
+  //   height: '3em',
+  //   '&::before': {
+  //     content: '""',
+  //     margin: 'auto',
+  //     display: 'block',
+  //     width: 0,
+  //     height: 0,
+  //     borderStyle: 'solid',
+  //   },
+  // },
   bootstrapPopper: arrowGenerator(theme.palette.common.black),
   bootstrapTooltip: {
     backgroundColor: theme.palette.common.black,
@@ -118,38 +127,29 @@ class ThemedTooltip extends React.Component {
 
     return (
       <Tooltip
+        arrow={true}
         disableFocusListener={disabled}
         disableHoverListener={disabled}
         disableTouchListener={disabled}
         enterDelay={400}
         leaveDelay={200}
         title={
-          <React.Fragment>
-            <span style={{fontSize: `${fontScale}%`}}>
-              <span className={targetLanguageFontClassName}>
-                {message}
-              </span>
+          // <React.Fragment>
+          <span style={{fontSize: `${fontScale}%`}}>
+            <span className={targetLanguageFontClassName}>
+              {message}
             </span>
-            <span className={classes.arrow} ref={this.handleArrowRef} />
-          </React.Fragment>
+          </span>
+        //     <span className={classes.arrow} ref={this.handleArrowRef} />
+        //   </React.Fragment>
         }
         classes={{
           tooltip: classes.bootstrapTooltip,
-          popper: classes.bootstrapPopper,
+          arrow: classes.arrow,
           tooltipPlacementLeft: classes.bootstrapPlacementLeft,
           tooltipPlacementRight: classes.bootstrapPlacementRight,
           tooltipPlacementTop: classes.bootstrapPlacementTop,
           tooltipPlacementBottom: classes.bootstrapPlacementBottom,
-        }}
-        PopperProps={{
-          popperOptions: {
-            modifiers: {
-              arrow: {
-                enabled: Boolean(arrowRef),
-                element: arrowRef,
-              },
-            },
-          },
         }}
       >
         {children}

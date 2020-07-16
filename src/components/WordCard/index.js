@@ -143,12 +143,12 @@ class WordCard extends React.Component {
   render() {
     const {
       word,
+      fontScale,
       occurrence,
       occurrences,
       isSuggestion,
       disableTooltip,
       targetLanguageFontClassName,
-      fontScale
     } = this.props;
     const styles = makeStyles(this.props);
     const { tooltip } = this.state;
@@ -163,8 +163,8 @@ class WordCard extends React.Component {
                 <span
                   ref={this.wordRef}
                   style={styles.word}
-                  className={targetLanguageFontClassName}
                   onClick={this._handleClick}
+                  className={targetLanguageFontClassName}
                 >
                   {word}
                 </span>

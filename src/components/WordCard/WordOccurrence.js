@@ -1,10 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const styles = {
+const regularHebrewStyles = {
   top: 0,
-  marginTop: '2px',
-  opacity: '0.8'
+  opacity: '0.8',
+  marginTop: '5.5px',
+};
+
+const largeHebrewStyles = {
+  top: 7,
+  opacity: '0.8',
+  marginTop: '5px',
+  marginRight: '10px',
+  padding: '2px 0px 0px 0px',
+};
+
+const regularGreekStyles = {
+  top: '0px',
+  opacity: '0.8',
+};
+
+const largeGreekStyles = {
+  top: '0px',
+  opacity: '0.8',
+  padding: '2px 0px 0px',
 };
 
 /**
@@ -16,11 +35,26 @@ const styles = {
  * @return {*}
  * @constructor
  */
-const WordOccurrence = ({occurrence, occurrences, style}) => {
+const WordOccurrence = ({
+  style,
+  fontSize,
+  isHebrew,
+  occurrence,
+  occurrences,
+}) => {
+  let styles = {};
+
+  if (isHebrew) {
+    styles = fontSize <= 100 ? regularHebrewStyles : largeHebrewStyles;
+  } else { // is Greek
+    styles = fontSize <= 100 ? regularGreekStyles : largeGreekStyles;
+  }
+
   const computedStyles = {
     ...styles,
     ...style
   };
+
   if (occurrences > 1) {
     return <sup style={computedStyles}>{occurrence}</sup>;
   } else {
@@ -29,9 +63,11 @@ const WordOccurrence = ({occurrence, occurrences, style}) => {
 };
 
 WordOccurrence.propTypes = {
+  style: PropTypes.object,
+  isHebrew: PropTypes.bool,
+  fontSize: PropTypes.string,
   occurrence: PropTypes.number.isRequired,
   occurrences: PropTypes.number.isRequired,
-  style: PropTypes.object
 };
 
 export default WordOccurrence;

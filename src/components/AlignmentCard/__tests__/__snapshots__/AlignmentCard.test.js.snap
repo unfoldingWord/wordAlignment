@@ -125,9 +125,9 @@ exports[`has a bottom word 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -319,9 +319,9 @@ exports[`has a top and bottom word 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -642,9 +642,9 @@ exports[`has multiple bottom words 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -940,9 +940,9 @@ exports[`has multiple top and bottom words 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >

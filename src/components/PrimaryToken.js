@@ -62,23 +62,28 @@ class PrimaryToken extends Component {
     const {
       token,
       style,
-      isDragging,
-      direction,
       canDrag,
-      connectDragSource,
+      fontSize,
+      isHebrew,
+      direction,
+      isDragging,
       dragPreview,
+      connectDragSource,
     } = this.props;
     const { hover } = this.state;
 
     const disabled = (isDragging || hover) && !canDrag;
     const word = dragPreview(
       <div>
-        <Word word={token.text}
-          direction={direction}
+        <Word
+          word={token.text}
           disabled={disabled}
-          style={{ ...internalStyle.word, ...style }}
+          fontSize={fontSize}
+          isHebrew={isHebrew}
+          direction={direction}
           occurrence={token.occurrence}
           occurrences={token.occurrences}
+          style={{ ...internalStyle.word, ...style }}
         />
       </div>
     );
@@ -116,6 +121,7 @@ class PrimaryToken extends Component {
 }
 
 PrimaryToken.propTypes = {
+  fontSize: PropTypes.string,
   translate: PropTypes.func.isRequired,
   wordIndex: PropTypes.number,
   alignmentLength: PropTypes.number,

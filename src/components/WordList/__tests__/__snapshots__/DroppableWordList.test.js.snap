@@ -809,9 +809,9 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       <sup
                                         style={
                                           Object {
-                                            "marginTop": "2px",
                                             "opacity": "0.8",
-                                            "top": 0,
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
                                           }
                                         }
                                       >
@@ -839,7 +839,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                           </span>
                                         </span>
                                         <sup
-                                          style="top: 0px; margin-top: 2px; opacity: 0.8;"
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
                                         >
                                           1
                                         </sup>
@@ -1087,9 +1087,9 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       <sup
                                         style={
                                           Object {
-                                            "marginTop": "2px",
                                             "opacity": "0.8",
-                                            "top": 0,
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
                                           }
                                         }
                                       >
@@ -1117,7 +1117,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                           </span>
                                         </span>
                                         <sup
-                                          style="top: 0px; margin-top: 2px; opacity: 0.8;"
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
                                         >
                                           2
                                         </sup>
@@ -2252,9 +2252,9 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       <sup
                                         style={
                                           Object {
-                                            "marginTop": "2px",
                                             "opacity": "0.8",
-                                            "top": 0,
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
                                           }
                                         }
                                       >
@@ -2282,7 +2282,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                           </span>
                                         </span>
                                         <sup
-                                          style="top: 0px; margin-top: 2px; opacity: 0.8;"
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
                                         >
                                           1
                                         </sup>
@@ -2530,9 +2530,9 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       <sup
                                         style={
                                           Object {
-                                            "marginTop": "2px",
                                             "opacity": "0.8",
-                                            "top": 0,
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
                                           }
                                         }
                                       >
@@ -2560,7 +2560,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                           </span>
                                         </span>
                                         <sup
-                                          style="top: 0px; margin-top: 2px; opacity: 0.8;"
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
                                         >
                                           2
                                         </sup>

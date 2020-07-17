@@ -121,6 +121,7 @@ class DroppableAlignmentCard extends Component {
       showPopover,
       getLexiconData,
       loadLexiconEntry,
+      fontSize,
       targetLanguageFontClassName,
     } = this.props;
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
@@ -134,15 +135,16 @@ class DroppableAlignmentCard extends Component {
     const topWordCards = sourceNgram.map((token, index) => (
       <PrimaryToken
         key={index}
-        style={sourceStyle}
-        translate={translate}
-        direction={sourceDirection}
-        wordIndex={index}
-        alignmentLength={sourceNgram.length}
         token={token}
-        alignmentIndex={alignmentIndex}
+        wordIndex={index}
+        style={sourceStyle}
         lexicons={lexicons}
         isHebrew={isHebrew}
+        fontSize={fontSize}
+        translate={translate}
+        direction={sourceDirection}
+        alignmentLength={sourceNgram.length}
+        alignmentIndex={alignmentIndex}
         showPopover={showPopover}
         getLexiconData={getLexiconData}
         loadLexiconEntry={loadLexiconEntry}
@@ -153,10 +155,10 @@ class DroppableAlignmentCard extends Component {
         key={index}
         token={token}
         direction={targetDirection}
-        targetLanguageFontClassName={targetLanguageFontClassName}
+        alignmentIndex={alignmentIndex}
         onCancel={this._handleCancelSuggestion}
         onAccept={this._handleAcceptSuggestion}
-        alignmentIndex={alignmentIndex}
+        targetLanguageFontClassName={targetLanguageFontClassName}
       />
     ));
 
@@ -180,6 +182,7 @@ class DroppableAlignmentCard extends Component {
 }
 
 DroppableAlignmentCard.propTypes = {
+  fontSize: PropTypes.string,
   onCancelTokenSuggestion: PropTypes.func,
   onAcceptTokenSuggestion: PropTypes.func,
   translate: PropTypes.func.isRequired,

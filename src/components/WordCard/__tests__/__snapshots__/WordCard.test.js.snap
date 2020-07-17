@@ -81,9 +81,9 @@ exports[`is a suggestion 1`] = `
     <sup
       style={
         Object {
-          "marginTop": "2px",
           "opacity": "0.8",
-          "top": 0,
+          "padding": "2px 0px 0px",
+          "top": "0px",
         }
       }
     >
@@ -147,9 +147,9 @@ exports[`occurs multiple times 1`] = `
     <sup
       style={
         Object {
-          "marginTop": "2px",
           "opacity": "0.8",
-          "top": 0,
+          "padding": "2px 0px 0px",
+          "top": "0px",
         }
       }
     >

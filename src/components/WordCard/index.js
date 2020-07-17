@@ -143,6 +143,8 @@ class WordCard extends React.Component {
   render() {
     const {
       word,
+      fontSize,
+      isHebrew,
       fontScale,
       occurrence,
       occurrences,
@@ -173,8 +175,12 @@ class WordCard extends React.Component {
                 ) : null}
 
               </span>
-              <WordOccurrence occurrence={occurrence}
-                              occurrences={occurrences}/>
+              <WordOccurrence
+                fontSize={fontSize}
+                isHebrew={isHebrew}
+                occurrence={occurrence}
+                occurrences={occurrences}
+              />
             </div>
           </div>
         </ThemedTooltip>
@@ -184,6 +190,8 @@ class WordCard extends React.Component {
 }
 
 WordCard.propTypes = {
+  isHebrew: PropTypes.bool,
+  fontSize: PropTypes.string,
   disableTooltip: PropTypes.bool,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,

@@ -96,6 +96,7 @@ class AlignmentGrid extends Component {
                 showPopover={showPopover}
                 getLexiconData={getLexiconData}
                 loadLexiconEntry={loadLexiconEntry}
+                fontSize={fontSize}
                 targetLanguageFontClassName={targetLanguageFontClassName}
               />
               {/* placeholder for un-merging primary words */}
@@ -114,6 +115,7 @@ class AlignmentGrid extends Component {
                 loadLexiconEntry={loadLexiconEntry}
                 lexicons={lexicons}
                 isHebrew={isHebrew}
+                fontSize={fontSize}
                 targetLanguageFontClassName={targetLanguageFontClassName}
               />
             </React.Fragment>

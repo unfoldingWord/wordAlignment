@@ -415,12 +415,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -429,26 +424,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -457,7 +437,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w1
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -471,64 +488,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w1
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w1
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -609,7 +568,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -717,12 +676,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -731,26 +685,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -759,7 +698,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -773,64 +749,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w2
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w2
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -928,7 +846,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -1036,12 +954,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -1050,26 +963,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -1078,7 +976,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -1092,64 +1027,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w2
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w2
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -1247,7 +1124,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -1355,12 +1232,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -1369,26 +1241,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -1397,7 +1254,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w3
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -1411,64 +1305,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w3
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w3
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -1550,7 +1386,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -2022,12 +1858,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -2036,26 +1867,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -2064,7 +1880,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w1
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -2078,64 +1931,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w1
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w1
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -2216,7 +2011,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -2324,12 +2119,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -2338,26 +2128,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -2366,7 +2141,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -2380,64 +2192,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w2
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w2
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -2535,7 +2289,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -2643,12 +2397,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -2657,26 +2406,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -2685,7 +2419,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -2699,64 +2470,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w2
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w2
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -2854,7 +2567,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"
@@ -2962,12 +2675,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             classes={
                               Object {
                                 "arrow": "ThemedTooltip-arrow-1",
-                                "bootstrapPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                "bootstrapPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                "bootstrapPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                "bootstrapPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
-                                "bootstrapPopper": "ThemedTooltip-bootstrapPopper-2",
-                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-3",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
                             disabled={true}
@@ -2976,26 +2684,11 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                             targetLanguageFontClassName=""
                           >
                             <WithStyles(ForwardRef(Tooltip))
-                              PopperProps={
-                                Object {
-                                  "popperOptions": Object {
-                                    "modifiers": Object {
-                                      "arrow": Object {
-                                        "element": null,
-                                        "enabled": false,
-                                      },
-                                    },
-                                  },
-                                }
-                              }
+                              arrow={true}
                               classes={
                                 Object {
-                                  "popper": "ThemedTooltip-bootstrapPopper-2",
-                                  "tooltip": "ThemedTooltip-bootstrapTooltip-3",
-                                  "tooltipPlacementBottom": "ThemedTooltip-bootstrapPlacementBottom-7",
-                                  "tooltipPlacementLeft": "ThemedTooltip-bootstrapPlacementLeft-4",
-                                  "tooltipPlacementRight": "ThemedTooltip-bootstrapPlacementRight-5",
-                                  "tooltipPlacementTop": "ThemedTooltip-bootstrapPlacementTop-6",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
                               disableFocusListener={true}
@@ -3004,7 +2697,44 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                               enterDelay={400}
                               leaveDelay={200}
                               title={
-                                <UNDEFINED>
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w3
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
                                   <span
                                     style={
                                       Object {
@@ -3018,64 +2748,6 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       w3
                                     </span>
                                   </span>
-                                  <span
-                                    className="ThemedTooltip-arrow-1"
-                                  />
-                                </UNDEFINED>
-                              }
-                            >
-                              <ForwardRef(Tooltip)
-                                PopperProps={
-                                  Object {
-                                    "popperOptions": Object {
-                                      "modifiers": Object {
-                                        "arrow": Object {
-                                          "element": null,
-                                          "enabled": false,
-                                        },
-                                      },
-                                    },
-                                  }
-                                }
-                                classes={
-                                  Object {
-                                    "arrow": "MuiTooltip-arrow",
-                                    "popper": "MuiTooltip-popper ThemedTooltip-bootstrapPopper-2",
-                                    "popperArrow": "MuiTooltip-popperArrow",
-                                    "popperInteractive": "MuiTooltip-popperInteractive",
-                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-3",
-                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
-                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom ThemedTooltip-bootstrapPlacementBottom-7",
-                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft ThemedTooltip-bootstrapPlacementLeft-4",
-                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight ThemedTooltip-bootstrapPlacementRight-5",
-                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop ThemedTooltip-bootstrapPlacementTop-6",
-                                    "touch": "MuiTooltip-touch",
-                                  }
-                                }
-                                disableFocusListener={true}
-                                disableHoverListener={true}
-                                disableTouchListener={true}
-                                enterDelay={400}
-                                leaveDelay={200}
-                                title={
-                                  <UNDEFINED>
-                                    <span
-                                      style={
-                                        Object {
-                                          "fontSize": "100%",
-                                        }
-                                      }
-                                    >
-                                      <span
-                                        className=""
-                                      >
-                                        w3
-                                      </span>
-                                    </span>
-                                    <span
-                                      className="ThemedTooltip-arrow-1"
-                                    />
-                                  </UNDEFINED>
                                 }
                               >
                                 <div
@@ -3157,7 +2829,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                                       </div>
                                     </div>
                                   }
-                                  className="MuiTooltip-popper ThemedTooltip-bootstrapPopper-2"
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
                                   id={null}
                                   open={false}
                                   placement="bottom"

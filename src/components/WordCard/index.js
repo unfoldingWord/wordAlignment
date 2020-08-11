@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ThemedTooltip from "../ThemedTooltip";
 import WordOccurrence from './WordOccurrence';
 import Controls from './Controls';
 
@@ -9,7 +10,9 @@ import Controls from './Controls';
  * @return {object}
  */
 const makeStyles = (props) => {
-  const {onClick, disabled, style, isSuggestion, selected, direction} = props;
+  const {
+    onClick, disabled, style, isSuggestion, selected, direction,
+  } = props;
 
   // TRICKY: place border on correct side to match text direction
   const borderKey = direction === 'ltr' ? 'borderLeft' : 'borderRight';
@@ -23,12 +26,14 @@ const makeStyles = (props) => {
       cursor: 'pointer',
       display: 'flex',
       flexDirection: 'row',
-      ...style
+      ...style,
     },
     word: {
       width: 'max-content',
-      flexGrow: 2
-    }
+      flexGrow: 2,
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    },
   };
 
   if (isSuggestion) {
@@ -41,26 +46,36 @@ const makeStyles = (props) => {
       [borderKey]: '5px solid #868686',
       opacity: 0.3,
       cursor: 'not-allowed',
-      userSelect: 'none'
+      userSelect: 'none',
     };
   }
 
   if (selected) {
     styles.root = {
       ...styles.root,
-      backgroundColor: '#44C6FF'
+      backgroundColor: '#44C6FF',
     };
   }
 
   if (!disabled && typeof onClick === 'function') {
     styles.word = {
       ...styles.word,
-      cursor: 'pointer'
+      cursor: 'pointer',
     };
   }
 
   return styles;
 };
+
+/**
+ * Checks if an element has overflowed it's parent's width
+ * @param element
+ * @returns {boolean}
+ */
+function isOverflown(element) {
+  return element.scrollWidth > element.clientWidth;
+}
+
 
 /**
  * Renders a standard word.
@@ -74,11 +89,14 @@ const makeStyles = (props) => {
  * @constructor
  */
 class WordCard extends React.Component {
-
   constructor(props) {
     super(props);
     this._handleClick = this._handleClick.bind(this);
     this._handleCancelClick = this._handleCancelClick.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.wordRef = React.createRef();
+    this.state = { tooltip: false };
   }
 
   /**
@@ -88,7 +106,8 @@ class WordCard extends React.Component {
    * @private
    */
   _handleClick(e) {
-    const {disabled, onClick} = this.props;
+    const { disabled, onClick } = this.props;
+
     if (!disabled && typeof onClick === 'function') {
       e.stopPropagation();
       onClick(e);
@@ -101,37 +120,79 @@ class WordCard extends React.Component {
    * @private
    */
   _handleCancelClick(e) {
-    const {onCancel} = this.props;
+    const { onCancel } = this.props;
+
     if (typeof onCancel === 'function') {
       e.stopPropagation();
       onCancel(e);
     }
   }
 
-  render() {
-    const {word, occurrence, occurrences, isSuggestion} = this.props;
-    const styles = makeStyles(this.props);
-    return (
-      <div style={{flex: 1}}>
-        <div style={styles.root}>
-        <span style={{flex: 1, display: 'flex'}}>
-          <span onClick={this._handleClick} style={styles.word}>
-            {word}
-          </span>
-          {isSuggestion ? (
-            <Controls onCancel={this._handleCancelClick}/>
-          ) : null}
+  handleMouseEnter() {
+    if (isOverflown(this.wordRef.current)) {
+      this.setState({ tooltip: true });
+    }
+  }
 
-        </span>
-          <WordOccurrence occurrence={occurrence}
-                          occurrences={occurrences}/>
-        </div>
-      </div>
+  handleMouseLeave() {
+    if (this.state.tooltip) {
+      this.setState({ tooltip: false });
+    }
+  }
+
+  render() {
+    const {
+      word,
+      fontSize,
+      isHebrew,
+      fontScale,
+      occurrence,
+      occurrences,
+      isSuggestion,
+      disableTooltip,
+      targetLanguageFontClassName,
+    } = this.props;
+    const styles = makeStyles(this.props);
+    const { tooltip } = this.state;
+    return (
+      <React.Fragment>
+        <ThemedTooltip message={word} disabled={!tooltip || disableTooltip} fontScale={fontScale} targetLanguageFontClassName={targetLanguageFontClassName}>
+          <div style={{ flex: 1 }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+            <div style={styles.root}>
+              <span style={{
+                flex: 1, display: 'flex', overflow: 'hidden',
+              }}>
+                <span
+                  ref={this.wordRef}
+                  style={styles.word}
+                  onClick={this._handleClick}
+                  className={targetLanguageFontClassName}
+                >
+                  {word}
+                </span>
+                {isSuggestion ? (
+                  <Controls onCancel={this._handleCancelClick}/>
+                ) : null}
+
+              </span>
+              <WordOccurrence
+                fontSize={fontSize}
+                isHebrew={isHebrew}
+                occurrence={occurrence}
+                occurrences={occurrences}
+              />
+            </div>
+          </div>
+        </ThemedTooltip>
+      </React.Fragment>
     );
   }
 }
 
 WordCard.propTypes = {
+  isHebrew: PropTypes.bool,
+  fontSize: PropTypes.string,
+  disableTooltip: PropTypes.bool,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
@@ -141,7 +202,9 @@ WordCard.propTypes = {
   occurrences: PropTypes.number,
   word: PropTypes.string.isRequired,
   isSuggestion: PropTypes.bool,
-  direction: PropTypes.oneOf(['ltr', 'rtl'])
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
+  targetLanguageFontClassName: PropTypes.string,
+  fontScale: PropTypes.number
 };
 
 WordCard.defaultProps = {
@@ -151,7 +214,9 @@ WordCard.defaultProps = {
   disabled: false,
   isSuggestion: false,
   selected: false,
-  direction: 'ltr'
+  direction: 'ltr',
+  disableTooltip: false,
+  fontScale: 100
 };
 
 export default WordCard;

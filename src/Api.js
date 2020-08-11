@@ -1,5 +1,12 @@
-import {getActiveLanguage, setActiveLocale, ToolApi} from 'tc-tool';
+import {
+  getActiveLanguage,
+  setActiveLocale,
+  ToolApi,
+} from 'tc-tool';
 import isEqual from 'deep-equal';
+import path from 'path-extra';
+import Lexer, { Token } from 'wordmap-lexer';
+import { Alignment, Ngram } from 'wordmap';
 import {
   getGroupMenuItem,
   getIsChapterLoaded,
@@ -7,13 +14,23 @@ import {
   getIsVerseAlignmentsValid,
   getLegacyChapterAlignments,
   getVerseAlignedTargetTokens,
-  getVerseAlignments
+  getVerseAlignments,
 } from './state/reducers';
-import path from 'path-extra';
-import Lexer, {Token} from 'wordmap-lexer';
-import {Alignment, Ngram} from 'wordmap';
-import {tokenizeVerseObjects} from './utils/verseObjects';
-import {removeUsfmMarkers} from './utils/usfmHelpers';
+import { tokenizeVerseObjects } from './utils/verseObjects';
+import { removeUsfmMarkers } from './utils/usfmHelpers';
+import {
+  clearGroupMenu,
+  loadGroupMenuItem,
+  setGroupMenuItemEdited,
+  setGroupMenuItemFinished,
+  setGroupMenuItemInvalid,
+} from './state/actions/GroupMenuActions';
+import { clearGroupsIndex } from './state/actions/groupsIndexActions';
+import { clearGroupsData } from './state/actions/groupsDataActions';
+import {
+  getIsVerseFinished,
+  getIsVerseEdited,
+} from './utils/CheckDataHelper';
 import {
   alignTargetToken,
   clearState,
@@ -22,37 +39,39 @@ import {
   recordCheck,
   repairAndInspectVerse,
   resetVerse,
-  setGroupMenuItemFinished,
-  setGroupMenuItemInvalid,
-  setGroupMenuItemState,
   unalignTargetToken,
 } from './state/actions';
-import SimpleCache, {SESSION_STORAGE} from './utils/SimpleCache';
+import {
+  clearContextId,
+} from './state/actions/contextIdActions';
+import SimpleCache, { INSTANCE_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
-
 // consts
-import {EDITED_KEY, FINISHED_KEY, INVALID_KEY, UNALIGNED_KEY} from "./state/reducers/groupMenu";
-import * as types from "./state/actions/actionTypes";
-const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = SESSION_STORAGE;
+import {
+  FINISHED_KEY,
+  INVALID_KEY,
+  UNALIGNED_KEY,
+} from './state/reducers/GroupMenu';
+import {TRANSLATION_NOTES, TRANSLATION_WORDS} from "./common/constants";
+const GLOBAL_ALIGNMENT_MEM_CACHE_TYPE = INSTANCE_STORAGE;
+const globalAlignmentCache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
 
 export default class Api extends ToolApi {
   constructor() {
     super();
-    this.getIsVerseFinished = this.getIsVerseFinished.bind(this);
     this._validateVerse = this._validateVerse.bind(this);
     this._validateChapter = this._validateChapter.bind(this);
     this._validateBook = this._validateBook.bind(this);
     this.validateBook = this.validateBook.bind(this);
     this.validateVerse = this.validateVerse.bind(this);
+    this.validateVerseSelections = this.validateVerseSelections.bind(this);
     this._loadBookAlignments = this._loadBookAlignments.bind(this);
-    this.getIsVerseInvalid = this.getIsVerseInvalid.bind(this);
     this._showResetDialog = this._showResetDialog.bind(this);
-    this.getInvalidChecks = this.getInvalidChecks.bind(this);
     this.getProgress = this.getProgress.bind(this);
     this._clearCachedAlignmentMemory = this._clearCachedAlignmentMemory.bind(this);
-    this.refreshGroupMenuItems = this.refreshGroupMenuItems.bind(this);
-    this.getGroupMenuItem = this.getGroupMenuItem.bind(this);
-    this._clearGroupMenuReducer = this._clearGroupMenuReducer.bind(this);
+    this._clearReducers = this._clearReducers.bind(this);
+    this.getVerseRawText = this.getVerseRawText.bind(this);
+    this.getVerseData = this.getVerseData.bind(this);
   }
 
   /**
@@ -65,9 +84,11 @@ export default class Api extends ToolApi {
     if (!prevContext && nextContext) {
       return true;
     }
+
     if (prevContext && nextContext) {
-      const {reference: {bookId: prevBook, chapter: prevChapter}} = prevContext;
-      const {reference: {bookId: nextBook, chapter: nextChapter}} = nextContext;
+      const { reference: { bookId: prevBook, chapter: prevChapter } } = prevContext;
+      const { reference: { bookId: nextBook, chapter: nextChapter } } = nextContext;
+
       if (prevBook !== nextBook || prevChapter !== nextChapter) {
         return true;
       }
@@ -76,17 +97,18 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * Checks if the chapter context changed
-   * @param prevContext
-   * @param nextContext
+   * Checks if the tool name changed.
+   * @param prevToolName
+   * @param nextToolName
    * @return {boolean}
    */
-  static _didToolContextChange(prevContext, nextContext) {
-    if (!prevContext && nextContext) {
+  static _didToolChange(prevToolName, nextToolName) {
+    if (!prevToolName && nextToolName) {
       return true;
     }
-    if (prevContext && nextContext) {
-      if (prevContext.tool !== nextContext.tool) {
+
+    if (prevToolName && nextToolName) {
+      if (prevToolName !== nextToolName) {
         return true;
       }
     }
@@ -103,9 +125,9 @@ export default class Api extends ToolApi {
     const {
       tc: {
         targetBook,
-        sourceBook
+        sourceBook,
       },
-      resetVerse
+      resetVerse,
     } = props;
 
     for (const verse of Object.keys(targetBook[chapter])) {
@@ -115,13 +137,49 @@ export default class Api extends ToolApi {
             `Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
           continue;
         }
-        const sourceTokens = tokenizeVerseObjects(
-          sourceBook[chapter][verse].verseObjects);
+
+        const sourceTokens = tokenizeVerseObjects(sourceBook[chapter][verse].verseObjects);
         const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
         const targetTokens = Lexer.tokenize(targetVerseText);
         resetVerse(chapter, verse, sourceTokens, targetTokens);
       }
     }
+  }
+
+  /**
+   * method to validate verse selections
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
+   * @return {boolean} returns true if no checks invalidated
+   */
+  validateVerseSelections(chapter, verse, silent=false) {
+    const tnValid = this.validateVerseInTool(TRANSLATION_NOTES, chapter, verse, silent);
+    const twValid = this.validateVerseInTool(TRANSLATION_WORDS, chapter, verse, silent);
+    return tnValid && twValid;
+  }
+
+  /**
+   * will call validateVerse in the tool API
+   * @param {string} toolName
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
+   * @return {boolean} returns true if no checks invalidated
+   */
+  validateVerseInTool(toolName, chapter, verse, silent) {
+    const {tc: {tools}} = this.props;
+
+    const toolAPI = tools && tools[toolName];
+
+    if (toolAPI) {
+      try {
+        return toolAPI.trigger('validateVerse', chapter, verse, silent);
+      } catch (e) {
+        console.error(`validateVerseInTool(${toolName}) - validateVerse failed`, e);
+      }
+    }
+    return false;
   }
 
   /**
@@ -133,13 +191,19 @@ export default class Api extends ToolApi {
    */
   validateVerse(chapter, verse, silent=false) {
     if (isNaN(verse) || parseInt(verse) === -1 ||
-      isNaN(chapter) || parseInt(chapter) === -1) return;
+      isNaN(chapter) || parseInt(chapter) === -1) {
+      return;
+    }
 
-    this.refreshGroupMenuItems(chapter, verse);
+    const { setGroupMenuItemEdited } = this.props;
     const isValid = this._validateVerse(this.props, chapter, verse, silent);
+
     if (!silent && !isValid) {
       this._showResetDialog();
     }
+
+    const verseEdited = getIsVerseEdited(this, chapter, verse);
+    setGroupMenuItemEdited(chapter, verse, verseEdited);
     return isValid;
   }
 
@@ -149,36 +213,33 @@ export default class Api extends ToolApi {
    */
   validateBook() {
     const isValid = this._validateBook(this.props);
+
     if (!isValid) {
       this._showResetDialog();
     }
   }
 
   _showResetDialog() {
-    const {
-      tool: {
-        translate
-      }
-    } = this.props;
+    const { tool: { translate } } = this.props;
     this.props.tc.showIgnorableDialog('alignments_reset', translate('alignments_reset'));
   }
 
   _loadBookAlignments(props) {
     const {
       tc: {
-        contextId,
         targetBook,
         sourceBook,
         showDialog,
         projectDataPathExistsSync,
-        readProjectDataSync
+        readProjectDataSync,
       },
       tool: {
+        translate,
         setToolReady,
         setToolLoading,
-        translate
       },
-      indexChapterAlignments
+      contextId,
+      indexChapterAlignments,
     } = props;
 
     if (!contextId) {
@@ -188,29 +249,35 @@ export default class Api extends ToolApi {
 
     setToolLoading();
 
-    const {reference: {bookId}} = contextId;
-    const {store} = this.context;
+    const { reference: { bookId } } = contextId;
+    const { store } = this.context;
     const state = store.getState();
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
+
     for (const chapter of Object.keys(targetBook)) {
-      if (isNaN(chapter) || parseInt(chapter) === -1) continue;
+      if (isNaN(chapter) || parseInt(chapter) === -1) {
+        continue;
+      }
 
       const isChapterLoaded = getIsChapterLoaded(state, chapter);
+
       if (isChapterLoaded) {
         continue;
       }
+
       try {
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
+
         if (projectDataPathExistsSync(dataPath)) {
           // load chapter data
           const data = readProjectDataSync(dataPath);
           const json = JSON.parse(data);
-          indexChapterAlignments(chapter, json, sourceBook[chapter],
-            targetBook[chapter]);
+          indexChapterAlignments(chapter, json, sourceBook[chapter], targetBook[chapter]);
 
           // validate
           const isValid = this._validateChapter(props, chapter);
+
           if (!isValid) {
             alignmentsAreValid = isValid;
           }
@@ -223,10 +290,12 @@ export default class Api extends ToolApi {
         Api._initChapterAlignments(props, chapter);
       }
     }
+
     if (hasCorruptChapters) {
       showDialog(translate('alignments_corrupt'),
         translate('buttons.ok_button'));
     }
+
     if (!alignmentsAreValid) {
       this._showResetDialog();
     }
@@ -241,15 +310,16 @@ export default class Api extends ToolApi {
    * @private
    */
   _validateBook(props) {
-    const {
-      tc: {
-        targetBook
-      }
-    } = props;
+    const { tc: { targetBook } } = props;
     let bookIsValid = true;
+
     for (const chapter of Object.keys(targetBook)) {
-      if (isNaN(chapter) || parseInt(chapter) === -1) continue;
+      if (isNaN(chapter) || parseInt(chapter) === -1) {
+        continue;
+      }
+
       const isValid = this._validateChapter(props, chapter);
+
       if (!isValid) {
         bookIsValid = isValid;
       }
@@ -266,23 +336,44 @@ export default class Api extends ToolApi {
    */
   _validateChapter(props, chapter) {
     const {
-      tc: {
-        targetBook
-      }
+      loadGroupMenuItem,
+      tc: { targetBook },
+      contextId,
     } = props;
     let chapterIsValid = true;
+
     if (!(chapter in targetBook)) {
       console.warn(`Could not validate missing chapter ${chapter}`);
       return true;
     }
+
     for (const verse of Object.keys(targetBook[chapter])) {
-      if (isNaN(verse) || parseInt(verse) === -1) continue;
+      if (isNaN(verse) || parseInt(verse) === -1) {
+        continue;
+      }
+      loadGroupMenuItem(this, chapter, verse, contextId);
       const isValid = this._validateVerse(props, chapter, verse);
+
       if (!isValid) {
         chapterIsValid = isValid;
       }
     }
     return chapterIsValid;
+  }
+
+  /**
+   * fetch the verse text with USFM
+   * @param chapter
+   * @param verse
+   * @return {boolean}
+   */
+  getVerseRawText(chapter, verse) {
+    const { tc: { targetBook } } = this.props;
+
+    if (verse in targetBook[chapter] && targetBook[chapter][verse]) {
+      return targetBook[chapter][verse];
+    }
+    return null;
   }
 
   /**
@@ -296,31 +387,32 @@ export default class Api extends ToolApi {
    */
   _validateVerse(props, chapter, verse, silent=false) {
     const {
-      tc: {
-        targetBook,
-        sourceBook
-      },
-      repairAndInspectVerse
+      tc: { sourceBook },
+      repairAndInspectVerse,
     } = props;
-    const {store} = this.context;
+    const { store } = this.context;
 
-    if (!(verse in targetBook[chapter] && verse in sourceBook[chapter])) {
+    const targetVerse = this.getVerseRawText(chapter, verse);
+
+    if (!(targetVerse && verse in sourceBook[chapter])) {
       console.warn(`Could not validate missing verse ${chapter}:${verse}`);
       return true;
     }
 
     const sourceTokens = tokenizeVerseObjects(
       sourceBook[chapter][verse].verseObjects);
-    const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+    const targetVerseText = removeUsfmMarkers(targetVerse);
     const targetTokens = Lexer.tokenize(targetVerseText);
-    let normalizedSource = "";
+    let normalizedSource = '';
     let normalizedSourceArray = [];
-    let normalizedTarget = "";
+    let normalizedTarget = '';
     let normalizedTargetArray = [];
+
     for (let t of sourceTokens) {
       normalizedSourceArray.push(t.toString());
     }
     normalizedSource = normalizedSourceArray.join(' ');
+
     for (let t of targetTokens) {
       normalizedTargetArray.push(t.toString());
     }
@@ -328,11 +420,13 @@ export default class Api extends ToolApi {
     const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
     const areVerseAlignmentsValid = getIsVerseAlignmentsValid(store.getState(), chapter, verse,
       normalizedSource, normalizedTarget);
-    const isAlignmentComplete = this.getIsVerseFinished(chapter, verse);
+    const isAlignmentComplete = getIsVerseFinished(this, chapter, verse);
+
     if (!areVerseAlignmentsValid) {
       const wasChanged = repairAndInspectVerse(chapter, verse, sourceTokens,
         targetTokens);
       let isVerseInvalidated = (wasChanged || isAligned || isAlignmentComplete);
+
       if (isVerseInvalidated) {
         this.setVerseInvalid(chapter, verse, true, silent);
       }
@@ -355,26 +449,29 @@ export default class Api extends ToolApi {
       tc: {
         targetBook,
         writeProjectData,
-        contextId: {reference: {bookId}}
       },
-      tool: {
-        isReady
-      }
+      tool: { isReady },
+      contextId,
     } = this.props;
+    const { reference: { bookId } } = contextId;
     const writableChange = Boolean(prevState) && Boolean(nextState) &&
       !isEqual(prevState.tool, nextState.tool);
     // TRICKY: only save if the tool has finished loading and the state has changed
+
     if (isReady && writableChange) {
       const promises = [];
+
       // TRICKY: we validate the entire book so we must write all chapters
       for (const chapter of Object.keys(targetBook)) {
         if (isNaN(chapter)) {
           // TRICKY: skip the 'manifest' key
           continue;
         }
+
         // write alignment data to the project folder
         const dataPath = path.join('alignmentData', bookId, chapter + '.json');
         const data = getLegacyChapterAlignments(nextState, chapter);
+
         if (data && Object.keys(data).length > 0) {
           promises.push(writeProjectData(dataPath, JSON.stringify(data)));
         } else {
@@ -387,23 +484,29 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * resets cached data in group menu reducer
+   * resets cached data in key reducers
    */
-  _clearGroupMenuReducer() {
-    const store = this.context && this.context.store;
-    if (store && store.dispatch) {
-      store.dispatch({type: types.CLEAR_GROUP_MENU}); // make sure group menu reducer is clear each time we change projects
-    }
+  _clearReducers() {
+    const {
+      clearState,
+      clearContextId,
+      clearGroupMenu,
+      clearGroupsData,
+      clearGroupsIndex,
+    } = this.props;
+    clearState();
+    clearContextId();
+    clearGroupMenu();
+    clearGroupsData();
+    clearGroupsIndex();
   }
 
   /**
    * Lifecycle method
    */
   toolWillConnect() {
-    const {clearState} = this.props;
     this._clearCachedAlignmentMemory();
-    clearState();
-    this._clearGroupMenuReducer();
+    this._clearReducers();
     this._loadBookAlignments(this.props);
   }
 
@@ -412,17 +515,18 @@ export default class Api extends ToolApi {
    * Memory is cached while looking up global alignment memory.
    */
   _clearCachedAlignmentMemory() {
-    if(this.props.tc && this.props.tc.project) {
-      const {tc: {project}} = this.props;
+    if (this.props.tc && this.props.tc.project) {
+      const { tc: { project } } = this.props;
+
       try {
-        const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
         const resourceId = project.getResourceId();
         const resourceIdLc = resourceId.toLowerCase(); // make sure lower case
         let key = this.getAlignMemoryKey(project.getLanguageId(), resourceIdLc, project.getBookId());
-        cache.remove(key);
-        if (resourceId !== resourceIdLc) {  // if resource ID is not lower case, make sure we didn't leave behind an old copy in alignment memory
+        globalAlignmentCache.remove(key);
+
+        if (resourceId !== resourceIdLc) {// if resource ID is not lower case, make sure we didn't leave behind an old copy in alignment memory
           key = this.getAlignMemoryKey(project.getLanguageId(), resourceId, project.getBookId());
-          cache.remove(key);
+          globalAlignmentCache.remove(key);
         }
       } catch (e) {
         console.error('Failed to clear alignment cache', e);
@@ -449,31 +553,46 @@ export default class Api extends ToolApi {
    * @return {*}
    */
   mapStateToProps(state, props) {
-    const {tc: {contextId, targetVerseText, sourceVerse}} = props;
+    const {
+      tc: {
+        project,
+        targetBook,
+        sourceBook,
+      },
+      tool: { name },
+    } = props;
+    const contextId = project.readCurrentContextIdSync(name);
+
     if (contextId) {
-      const {reference: {chapter, verse}} = contextId;
+      const { reference: { chapter, verse } } = contextId;
+      const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+      const sourceVerse = sourceBook[chapter][verse];
       let targetTokens = [];
       let sourceTokens = [];
+
       if (targetVerseText) {
         targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));
       }
+
       if (sourceVerse) {
         sourceTokens = tokenizeVerseObjects(sourceVerse.verseObjects);
       }
       return {
+        contextId,
         chapterIsLoaded: getIsChapterLoaded(state, chapter),
         targetTokens,
         sourceTokens,
         alignedTokens: getVerseAlignedTargetTokens(state, chapter, verse),
-        verseAlignments: getVerseAlignments(state, chapter, verse)
+        verseAlignments: getVerseAlignments(state, chapter, verse),
       };
     } else {
       return {
+        contextId: null,
         targetTokens: [],
         sourceTokens: [],
         alignedTokens: [],
         verseAlignments: [],
-        chapterIsLoaded: false
+        chapterIsLoaded: false,
       };
     }
   }
@@ -484,17 +603,28 @@ export default class Api extends ToolApi {
    */
   mapDispatchToProps(dispatch) {
     const methods = {
-      recordCheck,
       alignTargetToken,
-      unalignTargetToken,
+      clearContextId,
+      clearGroupMenu,
+      clearGroupsData,
+      clearGroupsIndex,
+      clearState,
+      indexChapterAlignments,
+      loadGroupMenuItem,
       moveSourceToken,
+      recordCheck,
       resetVerse,
       repairAndInspectVerse,
-      clearState,
-      indexChapterAlignments
+      setActiveLocale,
+      setGroupMenuItemEdited,
+      setGroupMenuItemFinished,
+      setGroupMenuItemInvalid,
+      unalignTargetToken,
     };
 
     const dispatchedMethods = {};
+
+    // eslint-disable-next-line array-callback-return
     Object.keys(methods).map(key => {
       dispatchedMethods[key] = (...args) => dispatch(methods[key](...args));
     });
@@ -514,31 +644,27 @@ export default class Api extends ToolApi {
    * @param nextProps
    */
   toolWillReceiveProps(nextProps) {
-    const {tc: {contextId: nextContext}} = nextProps;
+    const { tc: { toolName: nextToolName } } = nextProps;
     const {
-      tc: {
-        contextId: prevContext,
-        appLanguage,
-      },
-      tool: {
-        isReady
-      }
+      setActiveLocale,
+      tc: { appLanguage, toolName: prevToolName },
+      tool: { isReady },
     } = this.props;
+
     if (isReady) {
-      const isWaTool = (nextContext.tool === 'wordAlignment');
-      const {store} = this.context;
+      const isWaTool = (nextToolName === 'wordAlignment');
+      const { store } = this.context;
       const currentLang = getActiveLanguage(store.getState());
       const langId = currentLang && currentLang.code;
-      if (isWaTool && langId && (langId !== appLanguage)) { // see if locale language has changed
-        store.dispatch(setActiveLocale(appLanguage));
+
+      if (isWaTool && langId && (langId !== appLanguage)) {// see if locale language has changed
+        setActiveLocale(appLanguage);
       }
 
-      if (Api._didToolContextChange(prevContext, nextContext)) {
-        if (isWaTool) { // if we changed from other tool context, we are launching tool - make sure we clear previous group menu entries
-          this._clearGroupMenuReducer();
-        }
+      if (Api._didToolChange(prevToolName, nextToolName)) {
         setTimeout(() => {
           const isValid = this._validateBook(nextProps);
+
           if (!isValid) {
             this._showResetDialog();
           }
@@ -548,48 +674,21 @@ export default class Api extends ToolApi {
   }
 
   /**
-   * refresh items that may have been changed externally
-   * @param {number|string} chapter
-   * @param {number|string} verse
-   * @return {{}}
-   */
-  refreshGroupMenuItems(chapter, verse) {
-    const {store} = this.context;
-    const itemState = {}; // if found make copy or create new
-    itemState[UNALIGNED_KEY] = this.getisVerseUnaligned(chapter, verse);
-    itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
-    store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
-  }
-
-  /**
+   * checks reducer to see if verse data is loaded, if not it loads verse data
    * tries to get groupMenu info from reducers, if data missing then it is fetched
-   * @param {number|string} chapter
-   * @param {number|string} verse
-   * @return {{}}
+   * @param {number} chapter
+   * @param {number} verse
+   * @param {object} contextId
    */
-  getGroupMenuItem(chapter, verse) {
-    const {store} = this.context;
-    let updated = false;
-    const currentState = getGroupMenuItem(store.getState(), chapter, verse);
-    const itemState = currentState ? {...currentState} : {}; // if found make copy or create new
-    if(!itemState.hasOwnProperty(FINISHED_KEY)) {
-      itemState[FINISHED_KEY] = this.getIsVerseFinished(chapter, verse);
-      updated = true;
-    }
-    if(!itemState.hasOwnProperty(INVALID_KEY)) {
-      itemState[INVALID_KEY] = this.getIsVerseInvalid(chapter, verse);
-      updated = true;
-    }
-    if(!itemState.hasOwnProperty(UNALIGNED_KEY)) {
-      itemState[UNALIGNED_KEY] = this.getisVerseUnaligned(chapter, verse);
-      updated = true;
-    }
-    if(!itemState.hasOwnProperty(EDITED_KEY)) {
-      itemState[EDITED_KEY] = this.getIsVerseEdited(chapter, verse);
-      updated = true;
-    }
-    if (updated) {
-      store.dispatch(setGroupMenuItemState(chapter, verse, itemState));
+  getVerseData(chapter, verse, contextId) {
+    const { store } = this.context;
+    let itemState = getGroupMenuItem(store.getState(), chapter, verse);
+
+    if (!itemState) { // if not yet loaded, then fetch
+      const { loadGroupMenuItem } = this.props;
+
+      loadGroupMenuItem(this, chapter, verse, contextId);
+      itemState = getGroupMenuItem(store.getState(), chapter, verse);
     }
     return itemState;
   }
@@ -603,20 +702,24 @@ export default class Api extends ToolApi {
    * @param {boolean} silent - if true, alignments invalidated prompt is not displayed (we don't trigger update)
    * @return {Promise}
    */
-  setVerseInvalid(chapter, verse, invalid = true, silent=false) {
+  setVerseInvalid(chapter, verse, invalid = true, silent = false) {
     const {
+      setGroupMenuItemInvalid,
       tool: {
         writeToolData,
         deleteToolFile,
-        toolDataPathExists
-      }
+        toolDataPathExists,
+      },
     } = this.props;
-    const {store} = this.context;
+    const { store } = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
-    if (!itemState || itemState[INVALID_KEY] !== invalid) { // see if needs to be updated
-      store.dispatch(setGroupMenuItemInvalid(chapter, verse, invalid));
+
+    if (!itemState || itemState[INVALID_KEY] !== invalid) {// see if needs to be updated
+      setGroupMenuItemInvalid(chapter, verse, invalid);
     }
+
     const dataPath = path.join('invalid', chapter + '', verse + '.json');
+
     if (!invalid) {
       return toolDataPathExists(dataPath).then(exists => {
         if (exists) {
@@ -626,30 +729,12 @@ export default class Api extends ToolApi {
     } else {
       return toolDataPathExists(dataPath).then(exists => {
         if (!exists) {
-          const data = {
-            timestamp: (new Date()).toISOString()
-          };
+          const data = { timestamp: (new Date()).toISOString() };
           return writeToolData(dataPath, JSON.stringify(data)).
             then(() => (!silent && this.toolDidUpdate()));
         }
       });
     }
-  }
-
-  /**
-   * Checks if the verse is labeled as invalid
-   * @param chapter
-   * @param verse
-   * @return {*}
-   */
-  getIsVerseInvalid(chapter, verse) {
-    const {
-      tool: {
-        toolDataPathExistsSync
-      }
-    } = this.props;
-    const dataPath = path.join('invalid', chapter + '', verse + '.json');
-    return toolDataPathExistsSync(dataPath);
   }
 
   /**
@@ -661,67 +746,38 @@ export default class Api extends ToolApi {
    */
   setVerseFinished(chapter, verse, finished) {
     const {
+      setGroupMenuItemFinished,
       tool: {
         writeToolData,
-        deleteToolFile
+        deleteToolFile,
       },
-      tc: {
-        username
-      },
-      recordCheck
+      tc: { username },
+      recordCheck,
     } = this.props;
-    const {store} = this.context;
+    const { store } = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
+
     if (!itemState || itemState[FINISHED_KEY] !== finished) { // see if needs to be updated
-      store.dispatch(setGroupMenuItemFinished(chapter, verse, finished));
+      setGroupMenuItemFinished(chapter, verse, finished);
     }
+
     const dataPath = path.join('completed', chapter + '', verse + '.json');
+
     if (finished) {
+      this.setVerseInvalid(chapter, verse, false); // reset invalidated flag if finished
+
       const data = {
         username,
-        modifiedTimestamp: (new Date()).toJSON()
+        modifiedTimestamp: (new Date()).toJSON(),
       };
       return writeToolData(dataPath, JSON.stringify(data)).then(() => {
-        recordCheck("completed", chapter, verse, true);
+        recordCheck('completed', chapter, verse, true);
       });
     } else {
       return deleteToolFile(dataPath).then(() => {
-        recordCheck("completed", chapter, verse, false);
+        recordCheck('completed', chapter, verse, false);
       });
     }
-  }
-
-  /**
-   * Checks if a verse has been completed.
-   * @param {number} chapter
-   * @param {number} verse
-   * @return {*}
-   */
-  getIsVerseFinished(chapter, verse) {
-    const {
-      tool: {
-        toolDataPathExistsSync
-      }
-    } = this.props;
-    const dataPath = path.join('completed', chapter + '', verse + '.json');
-    return toolDataPathExistsSync(dataPath);
-  }
-
-  getIsVerseEdited(chapter, verse) {
-    const {
-      tc: {
-        projectDataPathExistsSync,
-        contextId
-      }
-    } = this.props;
-    const {reference: {bookId}} = contextId;
-    const dataPath = path.join('checkData', 'verseEdits', bookId, chapter + '', verse + '');
-    return projectDataPathExistsSync(dataPath);
-  }
-
-  getisVerseUnaligned(chapter, verse) {
-    const {store} = this.context;
-    return !getIsVerseAligned(store.getState(), chapter, verse);
   }
 
   /**
@@ -729,24 +785,29 @@ export default class Api extends ToolApi {
    * @returns {number}
    */
   getInvalidChecks() {
-    const {
-      tc: {
-        targetBook
-      }
-    } = this.props;
-
+    const { tc: { targetBook }, contextId } = this.props;
     const chapters = Object.keys(targetBook);
     let invalidVerses = 0;
-    for(let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
+
+    for (let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
       const chapter = chapters[i];
-      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
+      if (isNaN(chapter) || parseInt(chapter) === -1) {
+        continue;
+      }
 
       const verses = Object.keys(targetBook[chapter]);
-      for(let j = 0, verseLen = verses.length; j < verseLen; j ++) {
-        const verse = verses[j];
-        if(isNaN(verse) || parseInt(verse) === -1) continue;
 
-        if(this.getIsVerseInvalid(chapter, verse)) {
+      for (let j = 0, verseLen = verses.length; j < verseLen; j ++) {
+        const verse = verses[j];
+
+        if (isNaN(verse) || parseInt(verse) === -1) {
+          continue;
+        }
+
+        const itemState = this.getVerseData(chapter, verse, contextId);
+
+        if (itemState[INVALID_KEY]) {
           invalidVerses ++;
         }
       }
@@ -761,34 +822,45 @@ export default class Api extends ToolApi {
    * @returns {number} - a value between 0 and 1
    */
   getProgress() {
-    const {
+    let {
       tc: {
-        targetBook
-      }
+        targetBook,
+        contextId: tc_contextId,
+      },
+      contextId,
     } = this.props;
-    const {store} = this.context;
-
+    contextId = contextId || tc_contextId;
     const chapters = Object.keys(targetBook);
     let totalVerses = 0;
     let completeVerses = 0;
-    for(let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
+
+    for (let i = 0, chapterLen = chapters.length; i < chapterLen; i ++) {
       const chapter = chapters[i];
-      if(isNaN(chapter) || parseInt(chapter) === -1) continue;
+
+      if (isNaN(chapter) || parseInt(chapter) === -1) {
+        continue;
+      }
 
       const verses = Object.keys(targetBook[chapter]);
-      for(let j = 0, verseLen = verses.length; j < verseLen; j ++) {
+
+      for (let j = 0, verseLen = verses.length; j < verseLen; j ++) {
         const verse = verses[j];
-        if(isNaN(verse) || parseInt(verse) === -1) continue;
+
+        if (isNaN(verse) || parseInt(verse) === -1) {
+          continue;
+        }
 
         totalVerses ++;
-        const isAligned = getIsVerseAligned(store.getState(), chapter, verse);
-        if(isAligned || this.getIsVerseFinished(chapter, verse)) {
+        const itemState = this.getVerseData(chapter, verse, contextId);
+        const isAligned = !itemState[UNALIGNED_KEY];
+
+        if (isAligned || itemState[FINISHED_KEY]) {
           completeVerses ++;
         }
       }
     }
 
-    if(totalVerses > 0) {
+    if (totalVerses > 0) {
       return completeVerses / totalVerses;
     } else {
       return 0;
@@ -804,74 +876,73 @@ export default class Api extends ToolApi {
    * @param {string} bookIdFilter the id of the book to exclude. This will be the current project.
    */
   getGlobalAlignmentMemory(languageId, resourceId, originalLanguageId, bookIdFilter=null) {
-    const {
-      tc: {
-        projects
-      }
-    } = this.props;
+    const { tc: { projects } } = this.props;
     const memory = [];
-    const cache = new SimpleCache(GLOBAL_ALIGNMENT_MEM_CACHE_TYPE);
     resourceId = resourceId.toLowerCase(); // make sure lower case
 
-    for(let i = 0, len = projects.length; i < len; i++) {
+    for (let i = 0, len = projects.length; i < len; i++) {
       const p = projects[i];
       const resourceId_ = p.getResourceId().toLowerCase(); // make sure lower case
-      if(p.getLanguageId() === languageId
+
+      if (p.getLanguageId() === languageId
        && resourceId_ === resourceId
        && p.getOriginalLanguageId() === originalLanguageId
        && p.getBookId() !== bookIdFilter) {
-          const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
-          const hit = cache.get(key);
-          if(hit) {
-            // de-serialize the project memory
-            try {
-              const projectMemory = [];
-              const cachedAlignments = JSON.parse(hit);
-              if(cachedAlignments.length > 0) {
-                for (let a of cachedAlignments) {
-                  const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
-                  const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
-                  projectMemory.push(new Alignment(sourceNgram, targetNgram));
-                }
-                memory.push.apply(memory, projectMemory);
-                continue;
+        const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
+        const cachedAlignments = globalAlignmentCache.get(key);
+
+        if (cachedAlignments) {
+          // de-serialize the project memory
+          try {
+            const projectMemory = [];
+
+            if (cachedAlignments.length > 0) {
+              for (let a of cachedAlignments) {
+                const sourceNgram = new Ngram(a.sourceNgram.map(t => new Token(t)));
+                const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
+                projectMemory.push(new Alignment(sourceNgram, targetNgram));
               }
-            } catch (e) {
-              console.log(`Alignment memory cache is corrupt for ${key}`, e);
+              memory.push.apply(memory, projectMemory);
+              continue;
             }
+          } catch (e) {
+            console.warn(`Alignment memory cache is corrupt for ${key}`, e);
           }
+        }
 
-          // cache miss
-          const projectMemory = [];
-          const chaptersDir = path.join('alignmentData', p.getBookId());
-          const chapterFiles = p.readDataDirSync(chaptersDir);
-          for(let c of chapterFiles) {
-            const chapterPath = path.join(chaptersDir, c);
-            try {
-              const chapterData = p.readDataFileSync(chapterPath);
-              const json = JSON.parse(chapterData);
-              const alignmentData = migrateChapterAlignments(json, {}, {});
+        // cache miss
+        const projectMemory = [];
+        const chaptersDir = path.join('alignmentData', p.getBookId());
+        const chapterFiles = p.readDataDirSync(chaptersDir);
 
-              // format alignments as alignment memory
-              for (const verse of Object.keys(alignmentData)) {
-                for (const a of alignmentData[verse].alignments) {
-                  if (a.sourceNgram.length && a.targetNgram.length) {
-                    const sourceNgramTokens = a.sourceNgram.map(p => new Token(alignmentData[verse].sourceTokens[p]));
-                    const targetNgramTokens = a.targetNgram.map(p => new Token(alignmentData[verse].targetTokens[p]));
-                    const alignment = new Alignment(new Ngram(sourceNgramTokens), new Ngram(targetNgramTokens));
-                    memory.push(alignment);
-                    projectMemory.push(alignment.toJSON(true));
-                  }
+        for (let c of chapterFiles) {
+          const chapterPath = path.join(chaptersDir, c);
+
+          try {
+            const chapterData = p.readDataFileSync(chapterPath);
+            const json = JSON.parse(chapterData);
+            const alignmentData = migrateChapterAlignments(json, {}, {});
+
+            // format alignments as alignment memory
+            for (const verse of Object.keys(alignmentData)) {
+              for (const a of alignmentData[verse].alignments) {
+                if (a.sourceNgram.length && a.targetNgram.length) {
+                  const sourceNgramTokens = a.sourceNgram.map(p => new Token(alignmentData[verse].sourceTokens[p]));
+                  const targetNgramTokens = a.targetNgram.map(p => new Token(alignmentData[verse].targetTokens[p]));
+                  const alignment = new Alignment(new Ngram(sourceNgramTokens), new Ngram(targetNgramTokens));
+                  memory.push(alignment);
+                  projectMemory.push(alignment.toJSON(true));
                 }
               }
-            } catch (e) {
-              console.error(`Failed to load alignment data from ${chapterPath}`, e);
             }
+          } catch (e) {
+            console.error(`getGlobalAlignmentMemory(${key}): Failed to load alignment data from chapter ${chapterPath}`, e);
           }
+        }
 
-          // cache serialized project memory
-          cache.set(key, JSON.stringify(projectMemory));
-       }
+        // cache serialized project memory
+        globalAlignmentCache.set(key, projectMemory);
+      }
     }
 
     return memory;

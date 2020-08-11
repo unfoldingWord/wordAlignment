@@ -11,6 +11,7 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
       "display": "flex",
       "flexGrow": 2,
       "flexWrap": "wrap",
+      "height": "100%",
       "overflowY": "auto",
       "padding": "0px 10px 10px",
     }
@@ -75,11 +76,17 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             >
               <div>
                 <div
+                  aria-describedby={null}
+                  className=""
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  onTouchStart={[Function]}
                   style={
                     Object {
                       "flex": 1,
                     }
                   }
+                  title={null}
                 >
                   <div
                     style={
@@ -101,14 +108,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         Object {
                           "display": "flex",
                           "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
                       <span
+                        className={undefined}
                         onClick={[Function]}
                         style={
                           Object {
                             "flexGrow": 2,
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
                             "width": "max-content",
                           }
                         }
@@ -219,11 +230,17 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             >
               <div>
                 <div
+                  aria-describedby={null}
+                  className=""
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  onTouchStart={[Function]}
                   style={
                     Object {
                       "flex": 1,
                     }
                   }
+                  title={null}
                 >
                   <div
                     style={
@@ -245,14 +262,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         Object {
                           "display": "flex",
                           "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
                       <span
+                        className={undefined}
                         onClick={[Function]}
                         style={
                           Object {
                             "flexGrow": 2,
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
                             "width": "max-content",
                           }
                         }
@@ -363,11 +384,17 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
             >
               <div>
                 <div
+                  aria-describedby={null}
+                  className=""
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  onTouchStart={[Function]}
                   style={
                     Object {
                       "flex": 1,
                     }
                   }
+                  title={null}
                 >
                   <div
                     style={
@@ -389,14 +416,18 @@ exports[`AlignmentGrid renders Luke 1:1 1`] = `
                         Object {
                           "display": "flex",
                           "flex": 1,
+                          "overflow": "hidden",
                         }
                       }
                     >
                       <span
+                        className={undefined}
                         onClick={[Function]}
                         style={
                           Object {
                             "flexGrow": 2,
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
                             "width": "max-content",
                           }
                         }

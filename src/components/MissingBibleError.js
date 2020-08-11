@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
  * @return {*}
  * @constructor
  */
-const MissingBibleError = ({translate}) => (
+const MissingBibleError = ({ translate }) => (
   <div id='AlignmentGrid' style={{
     display: 'flex',
     flexWrap: 'wrap',
@@ -15,21 +15,20 @@ const MissingBibleError = ({translate}) => (
     padding: '0px 10px 10px',
     overflowY: 'auto',
     flexGrow: 2,
-    alignContent: 'flex-start'
+    alignContent: 'flex-start',
   }}>
-    <div style={{flexGrow: 1}}>
+    <div style={{ flexGrow: 1 }}>
       <div style={{
         padding: '20px',
         backgroundColor: '#ccc',
-        display: 'inline-block'
+        display: 'inline-block',
       }}>
         {translate('pane.missing_verse_warning')}
       </div>
     </div>
   </div>
 );
-MissingBibleError.propTypes = {
-  translate: PropTypes.func.isRequired
-};
+
+MissingBibleError.propTypes = { translate: PropTypes.func.isRequired };
 
 export default MissingBibleError;

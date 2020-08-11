@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "ಮಧ್ಯೆ ಪದವನ್ನು ತೆಗೆಯುವುದಕ್ಕೆ ಆಗುತ್ತಿಲ್ಲ ",
   "loading_alignments": "ಜೋಡಣೆ ಮಾಡುವ ಮಾಹಿತಿಯು ಲೋಡ್ ಆಗುತ್ತಿದೆ ",
+  "align_title": "Align",
   "lemma": "ಪೂರ್ವಪಕ್ಷ: ",
   "morphology": "ಸ್ವರೂಪ ಶಾಸ್ತ್ರ: ",
   "strongs": "ಪ್ರಬಲವಾದ: ",
@@ -18,7 +19,8 @@
   "alignments_corrupt": "ಈ ಅಧ್ಯಾಯಕ್ಕಾಗಿ ಮಾಡಿದ ಜೋಡಣೆಗಳು ಲೋಡ್ ಆಗುತ್ತಿಲ್ಲ ಮತ್ತು ಅವುಗಳನ್ನು ಮರುಹೊಂದಿಸಲಾಗುತ್ತಿಲ್ಲ. ",
   "edit_verse": "ವಚನವನ್ನು ತಿದ್ದುಗೊಳಿಸು ",
   "edit_verse_title": "ವಚನವನ್ನು ತಿದ್ದುಗೊಳಿಸು - ${passage}",
-  "select_reasons": "ಬದಲಾವಣೆಗಾಗಿ ಕಾರಣವನ್ನು (ಅಥವಾ ಕಾರಣಗಳನ್ನು) ಆರಿಸಿಕೊಳ್ಳಿರಿ",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "ಆದೇಶಗಳು ",
   "map_instructions": "ಎಡದಿಂದ ಬಲದಲ್ಲಿರುವ ಸರಿಯಾದ ಸಂಪನ್ಮೂಲಕ್ಕೆ ಪದ ಕೋಶದಿಂದ ಪದಗಳನ್ನು ಎಳೆಯಿರಿ. <br> ${word_map} ಮೂಲಕ ಸಲಹೆ ನೀಡಲಾಗಿದ ಪದಗಳು ಹಸಿರು ಅಡ್ಡಮರವನ್ನು ಹೊಂದಿರುತ್ತದೆ. <br> ಸಲಹೆಯನ್ನು ಖಚಿತಪಡಿಸಲು, ಸಲಹೆಕೊಟ್ಟಿರುವ ಪದದ ಮೇಲೆ ಒತ್ತಿರಿ. ${icon} ಮೇಲೆ ಸಲಹೆಯ ಒತ್ತನ್ನು ತಿರುಗಿ ಬದಲಾಯಿಸಲು ಅಥವಾ ಸರಿಯಾದ ಸ್ಥಳಕ್ಕೆ ಪದವನ್ನು ಎಳೆಯಲು. ",
   "alignment_complete": "ಜೋಡಣೆ ಸಂಪೂರ್ಣವಾಗಿರುತ್ತದೆ ",
@@ -175,15 +177,20 @@
   "morph_missing": "ರೂಪವಿಜ್ಞಾನ ಕಂಡುಬಂದಿಲ್ಲ",
   "unsaved_changes": "ನೀವು ಉಳಿಸದಿರುವ ಬದಲಾವಣೆಗಳಿವೆ.",
   "attention": "ಗಮನಿಸಿ:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "buttons": {
     "ok_button": "ಸರಿ",
     "back_button": "ಹಿಂದಕ್ಕೆ ಹೋಗು",
     "cancel_button": "ರದ್ದು ಮಾಡು",
+    "reset_button": "Reset",
     "save_button": "ಉಳಿಸು",
     "next_button": "ಮುಂದಿನ",
     "discard_changes": "ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸಿ"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "ಫಲಿತಾಂಶಗಳು ಇಲ್ಲ",
     "invalidated": "ಅಸಮರ್ಥವಾಗಿಸು",
     "bookmarks": "ಪುಟ ಗುರುತು",
@@ -204,14 +211,12 @@
     "reject": "ತಿರಸ್ಕರಿಸು "
   },
   "icons": {
-    "selections_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ಸಂಪೂರ್ಣಗೊಳಿಸಿದ ಎಲ್ಲಾ ವಚನಗಳು ಕಂಡುಬಂದಿವೆ",
-    "no_selections_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ಅಸಂಪುರ್ಣವಾಗಿರುವ ವಚನಗಳು ಕಂಡುಬಂದಿವೆ",
-    "verse_edits_found": "ಈ ಪರಿಶೀಲನೆಗೆ ವಚನದ ತಿದ್ದುಪಡಿಗಳು ಕಂಡುಬಂದಿವೆ",
-    "no_verse_edits_found": "ಈ ಪರಿಶೀಲನೆಗೆ ಯಾವುದೇ ವಚನದ ತಿದ್ದುಪಡಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
-    "comments_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ವ್ಯಾಖ್ಯೆಗಳು ಕಂಡುಬಂದವು",
-    "no_comments_found": "ಈ ಪರಿಶೀಲನೆಯಲ್ಲಿ ಯಾವುದೇ ವ್ಯಾಖ್ಯೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
-    "bookmarked": "ಪುನರ್ ಪರಿಶೀಲನೆಗಾಗಿ ಈ ಪರಿಶೀಲನೆಯನ್ನು ಪುಟ ಗುರುತು ಹಾಕಲಾಗಿದೆ",
-    "not_bookmarked": "ಪುನರ್ ಪರಿಶೀಲನೆಗಾಗಿ ಈ ಪರಿಶೀಲನೆಯನ್ನು ಪುಟ ಗುರುತು ಮಾಡಲಿಲ್ಲ."
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "ಪ್ರಸ್ತುತ ಯೋಜನೆ",
@@ -219,11 +224,13 @@
     "title": "ಕ್ರಮ 1. ಓದಿರಿ ",
     "expand_hover": "ವಿಸ್ತರಿಸಲಾಗಿರುವ ವಚನಗಳನ್ನು ನೋಡಲು ಇದನ್ನು ಒತ್ತಿರಿ",
     "remove_resource": "ಸಂಪನ್ಮೂಲವನ್ನು ತೆಗೆದುಹಾಕಲು ಇದನ್ನು ಒತ್ತಿರಿ",
+    "remove_resource_label": "Remove resource",
     "add_resource": "ಸಂಪನ್ಮೂಲವನ್ನು ಸೇರಿಸಲು ಇದನ್ನು ಒತ್ತಿರಿ",
     "add_resource_label": "ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸೇರಿಸಿರಿ ",
     "select_language": "ಭಾಷೆಯನ್ನು ಆರಿಸಿಕೊಳ್ಳಿರಿ ",
     "gateway_language": "ಹೆಬ್ಬಾಗಿಲಿನ ಭಾಷೆ ",
     "target_language": "ಲಕ್ಷ್ಯೆ ಭಾಷೆ ",
-    "original_language": "ಮೂಲ ಭಾಷೆ"
+    "original_language": "ಮೂಲ ಭಾಷೆ",
+    "select_font_label": "Select Font"
   }
 }

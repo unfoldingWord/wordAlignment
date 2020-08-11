@@ -1,7 +1,7 @@
-import {reducerTest} from './alignments.test';
+import {Token} from 'wordmap-lexer';
 import * as types from '../../../actions/actionTypes';
 import alignments from '../index';
-import {Token} from 'wordmap-lexer';
+import {reducerTest} from './alignments.test';
 
 describe('set alignment suggestions', () => {
   const stateBefore = {

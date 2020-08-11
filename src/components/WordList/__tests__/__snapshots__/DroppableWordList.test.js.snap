@@ -6,6 +6,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   modalOpen={false}
   moveBackToWordBank={[Function]}
   onDropTargetToken={[Function]}
+  toolsSettings={Object {}}
   verse={1}
   words={
     Array [
@@ -37,6 +38,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     modalOpen={false}
     moveBackToWordBank={[Function]}
     onDropTargetToken={[Function]}
+    toolsSettings={Object {}}
     verse={1}
     words={
       Array [
@@ -68,6 +70,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       modalOpen={false}
       moveBackToWordBank={[Function]}
       onDropTargetToken={[Function]}
+      toolsSettings={Object {}}
       verse={1}
       words={
         Array [
@@ -104,6 +107,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
         reset={false}
+        toolsSettings={Object {}}
         verse={1}
         words={
           Array [
@@ -138,7 +142,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               "direction": "ltr",
               "height": "100%",
               "overflowY": "auto",
-              "padding": "5px 8px 5px 5px",
+              "padding": "8px",
               "width": "100%",
             }
           }
@@ -151,6 +155,12 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             onWordDragged={[Function]}
             selectedWordPositions={Array []}
             selectedWords={Array []}
+            toolSettings={
+              Object {
+                "fontSize": 100,
+              }
+            }
+            toolsSettings={Object {}}
             verse={1}
             words={
               Array [
@@ -178,40 +188,167 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             }
           >
             <div
-              key="0"
               style={
                 Object {
-                  "margin": "10px",
+                  "height": "100%",
                 }
               }
             >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={false}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+              <div
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 1,
-                    "occurrences": 1,
+                    "display": "flex",
+                    "justifyContent": "flex-end",
+                    "padding": "0px 5px 5px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <ThreeDotMenu
+                  anchorOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "bottom",
+                    }
+                  }
+                  isRtl={false}
+                  namespace="WordList"
+                  toolsSettings={Object {}}
+                  transformOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "top",
+                    }
+                  }
+                >
+                  <ThreeDotIcon
+                    onClick={[Function]}
+                    style={
+                      Object {
+                        "margin": "0 0 0 10px",
+                      }
+                    }
+                  >
+                    <Glyphicon
+                      bsClass="glyphicon"
+                      glyph="option-vertical"
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                          "fontSize": "18px",
+                          "margin": "0 0 0 10px",
+                          "padding": 0,
+                        }
+                      }
+                    >
+                      <span
+                        className="glyphicon glyphicon-option-vertical"
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "cursor": "pointer",
+                            "fontSize": "18px",
+                            "margin": "0 0 0 10px",
+                            "padding": 0,
+                          }
+                        }
+                      />
+                    </Glyphicon>
+                  </ThreeDotIcon>
+                  <DropdownMenu
+                    anchorOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "bottom",
+                      }
+                    }
+                    anchorPosition={null}
+                    onClose={[Function]}
+                    open={false}
+                    transformOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "top",
+                      }
+                    }
+                  >
+                    <WithStyles(ForwardRef(Popover))
+                      anchorOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "bottom",
+                        }
+                      }
+                      anchorPosition={null}
+                      anchorReference={null}
+                      onClose={[Function]}
+                      open={false}
+                      style={Object {}}
+                      transformOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "top",
+                        }
+                      }
+                    >
+                      <ForwardRef(Popover)
+                        anchorOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "bottom",
+                          }
+                        }
+                        anchorPosition={null}
+                        anchorReference={null}
+                        classes={
+                          Object {
+                            "paper": "MuiPopover-paper",
+                            "root": "MuiPopover-root",
+                          }
+                        }
+                        onClose={[Function]}
+                        open={false}
+                        style={Object {}}
+                        transformOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "top",
+                          }
+                        }
+                      >
+                        <ForwardRef(Modal)
+                          BackdropProps={
+                            Object {
+                              "invisible": true,
+                            }
+                          }
+                          className="MuiPopover-root"
+                          onClose={[Function]}
+                          open={false}
+                          style={Object {}}
+                        />
+                      </ForwardRef(Popover)>
+                    </WithStyles(ForwardRef(Popover))>
+                  </DropdownMenu>
+                </ThreeDotMenu>
+              </div>
+              <div
+                key="0"
+                style={
+                  Object {
+                    "padding": "5px 10px",
+                  }
+                }
+              >
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={false}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -220,116 +357,259 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={false}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 1,
+                        "occurrences": 1,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={false}
-                      isSuggestion={false}
-                      occurrence={1}
-                      occurrences={1}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w1"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={false}
+                        disabled={false}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={1}
+                        occurrences={1}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w1"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #44C6FF",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "pointer",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 1,
-                              "padding": "9px",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w1"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w1"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w1
+                                  </span>
+                                </span>
+                              }
                             >
-                              w1
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={1}
-                            occurrences={1}
-                          />
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
-            </div>
-            <div
-              key="1"
-              style={
-                Object {
-                  "margin": "10px",
-                }
-              }
-            >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={false}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w1
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #44C6FF",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "pointer",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 1,
+                                        "padding": "9px",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w1
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={1}
+                                      occurrences={1}
+                                    />
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #44C6FF; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: pointer; display: flex; opacity: 1;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w1
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
+              <div
+                key="1"
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 1,
-                    "occurrences": 2,
+                    "padding": "5px 10px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={false}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -338,128 +618,276 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={false}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 1,
+                        "occurrences": 2,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={false}
-                      isSuggestion={false}
-                      occurrence={1}
-                      occurrences={2}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w2"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={false}
+                        disabled={false}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={1}
+                        occurrences={2}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w2"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #44C6FF",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "pointer",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 1,
-                              "padding": "9px",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w2"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w2"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
-                            >
-                              w2
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={1}
-                            occurrences={2}
-                          >
-                            <sup
-                              style={
-                                Object {
-                                  "marginTop": "2px",
-                                  "opacity": "0.8",
-                                  "top": 0,
-                                }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
                               }
                             >
-                              1
-                            </sup>
-                          </WordOccurrence>
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
-            </div>
-            <div
-              key="2"
-              style={
-                Object {
-                  "margin": "10px",
-                }
-              }
-            >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={false}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w2
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #44C6FF",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "pointer",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 1,
+                                        "padding": "9px",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w2
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={1}
+                                      occurrences={2}
+                                    >
+                                      <sup
+                                        style={
+                                          Object {
+                                            "opacity": "0.8",
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
+                                          }
+                                        }
+                                      >
+                                        1
+                                      </sup>
+                                    </WordOccurrence>
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #44C6FF; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: pointer; display: flex; opacity: 1;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w2
+                                          </span>
+                                        </span>
+                                        <sup
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
+                                        >
+                                          1
+                                        </sup>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
+              <div
+                key="2"
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 2,
-                    "occurrences": 2,
+                    "padding": "5px 10px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={false}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -468,128 +896,276 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={false}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 2,
+                        "occurrences": 2,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={false}
-                      isSuggestion={false}
-                      occurrence={2}
-                      occurrences={2}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w2"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={false}
+                        disabled={false}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={2}
+                        occurrences={2}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w2"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #44C6FF",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "pointer",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 1,
-                              "padding": "9px",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w2"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w2"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
-                            >
-                              w2
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={2}
-                            occurrences={2}
-                          >
-                            <sup
-                              style={
-                                Object {
-                                  "marginTop": "2px",
-                                  "opacity": "0.8",
-                                  "top": 0,
-                                }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
                               }
                             >
-                              2
-                            </sup>
-                          </WordOccurrence>
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
-            </div>
-            <div
-              key="3"
-              style={
-                Object {
-                  "margin": "10px",
-                }
-              }
-            >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={true}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w2
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #44C6FF",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "pointer",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 1,
+                                        "padding": "9px",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w2
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={2}
+                                      occurrences={2}
+                                    >
+                                      <sup
+                                        style={
+                                          Object {
+                                            "opacity": "0.8",
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
+                                          }
+                                        }
+                                      >
+                                        2
+                                      </sup>
+                                    </WordOccurrence>
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #44C6FF; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: pointer; display: flex; opacity: 1;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w2
+                                          </span>
+                                        </span>
+                                        <sup
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
+                                        >
+                                          2
+                                        </sup>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
+              <div
+                key="3"
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 1,
-                    "occurrences": 1,
+                    "padding": "5px 10px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={true}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -598,81 +1174,243 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={true}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 1,
+                        "occurrences": 1,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={true}
-                      isSuggestion={false}
-                      occurrence={1}
-                      occurrences={1}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w3"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={true}
+                        disabled={true}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={1}
+                        occurrences={1}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w3"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #868686",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "not-allowed",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 0.3,
-                              "padding": "9px",
-                              "userSelect": "none",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w3"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w3"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w3
+                                  </span>
+                                </span>
+                              }
                             >
-                              w3
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={1}
-                            occurrences={1}
-                          />
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w3
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #868686",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "not-allowed",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 0.3,
+                                        "padding": "9px",
+                                        "userSelect": "none",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w3
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={1}
+                                      occurrences={1}
+                                    />
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #868686; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: not-allowed; display: flex; opacity: 0.3;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w3
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
             </div>
           </WordList>
         </div>
@@ -689,6 +1427,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
   modalOpen={false}
   moveBackToWordBank={[Function]}
   onDropTargetToken={[Function]}
+  toolsSettings={Object {}}
   verse={1}
   wordList={
     Object {
@@ -726,6 +1465,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
     modalOpen={false}
     moveBackToWordBank={[Function]}
     onDropTargetToken={[Function]}
+    toolsSettings={Object {}}
     verse={1}
     wordList={
       Object {
@@ -763,6 +1503,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
       modalOpen={false}
       moveBackToWordBank={[Function]}
       onDropTargetToken={[Function]}
+      toolsSettings={Object {}}
       verse={1}
       wordList={
         Object {
@@ -804,6 +1545,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
         moveBackToWordBank={[Function]}
         onDropTargetToken={[Function]}
         reset={false}
+        toolsSettings={Object {}}
         verse={1}
         wordList={
           Object {
@@ -843,7 +1585,7 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
               "direction": "ltr",
               "height": "100%",
               "overflowY": "auto",
-              "padding": "5px 8px 5px 5px",
+              "padding": "8px",
               "width": "100%",
             }
           }
@@ -856,6 +1598,12 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             onWordDragged={[Function]}
             selectedWordPositions={Array []}
             selectedWords={Array []}
+            toolSettings={
+              Object {
+                "fontSize": 100,
+              }
+            }
+            toolsSettings={Object {}}
             verse={1}
             words={
               Array [
@@ -883,40 +1631,167 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
             }
           >
             <div
-              key="0"
               style={
                 Object {
-                  "margin": "10px",
+                  "height": "100%",
                 }
               }
             >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={false}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+              <div
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 1,
-                    "occurrences": 1,
+                    "display": "flex",
+                    "justifyContent": "flex-end",
+                    "padding": "0px 5px 5px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <ThreeDotMenu
+                  anchorOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "bottom",
+                    }
+                  }
+                  isRtl={false}
+                  namespace="WordList"
+                  toolsSettings={Object {}}
+                  transformOrigin={
+                    Object {
+                      "horizontal": "left",
+                      "vertical": "top",
+                    }
+                  }
+                >
+                  <ThreeDotIcon
+                    onClick={[Function]}
+                    style={
+                      Object {
+                        "margin": "0 0 0 10px",
+                      }
+                    }
+                  >
+                    <Glyphicon
+                      bsClass="glyphicon"
+                      glyph="option-vertical"
+                      onClick={[Function]}
+                      style={
+                        Object {
+                          "cursor": "pointer",
+                          "fontSize": "18px",
+                          "margin": "0 0 0 10px",
+                          "padding": 0,
+                        }
+                      }
+                    >
+                      <span
+                        className="glyphicon glyphicon-option-vertical"
+                        onClick={[Function]}
+                        style={
+                          Object {
+                            "cursor": "pointer",
+                            "fontSize": "18px",
+                            "margin": "0 0 0 10px",
+                            "padding": 0,
+                          }
+                        }
+                      />
+                    </Glyphicon>
+                  </ThreeDotIcon>
+                  <DropdownMenu
+                    anchorOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "bottom",
+                      }
+                    }
+                    anchorPosition={null}
+                    onClose={[Function]}
+                    open={false}
+                    transformOrigin={
+                      Object {
+                        "horizontal": "left",
+                        "vertical": "top",
+                      }
+                    }
+                  >
+                    <WithStyles(ForwardRef(Popover))
+                      anchorOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "bottom",
+                        }
+                      }
+                      anchorPosition={null}
+                      anchorReference={null}
+                      onClose={[Function]}
+                      open={false}
+                      style={Object {}}
+                      transformOrigin={
+                        Object {
+                          "horizontal": "left",
+                          "vertical": "top",
+                        }
+                      }
+                    >
+                      <ForwardRef(Popover)
+                        anchorOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "bottom",
+                          }
+                        }
+                        anchorPosition={null}
+                        anchorReference={null}
+                        classes={
+                          Object {
+                            "paper": "MuiPopover-paper",
+                            "root": "MuiPopover-root",
+                          }
+                        }
+                        onClose={[Function]}
+                        open={false}
+                        style={Object {}}
+                        transformOrigin={
+                          Object {
+                            "horizontal": "left",
+                            "vertical": "top",
+                          }
+                        }
+                      >
+                        <ForwardRef(Modal)
+                          BackdropProps={
+                            Object {
+                              "invisible": true,
+                            }
+                          }
+                          className="MuiPopover-root"
+                          onClose={[Function]}
+                          open={false}
+                          style={Object {}}
+                        />
+                      </ForwardRef(Popover)>
+                    </WithStyles(ForwardRef(Popover))>
+                  </DropdownMenu>
+                </ThreeDotMenu>
+              </div>
+              <div
+                key="0"
+                style={
+                  Object {
+                    "padding": "5px 10px",
+                  }
+                }
+              >
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={false}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -925,116 +1800,259 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={false}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 1,
+                        "occurrences": 1,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={false}
-                      isSuggestion={false}
-                      occurrence={1}
-                      occurrences={1}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w1"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={false}
+                        disabled={false}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={1}
+                        occurrences={1}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w1"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #44C6FF",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "pointer",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 1,
-                              "padding": "9px",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w1"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w1"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w1
+                                  </span>
+                                </span>
+                              }
                             >
-                              w1
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={1}
-                            occurrences={1}
-                          />
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
-            </div>
-            <div
-              key="1"
-              style={
-                Object {
-                  "margin": "10px",
-                }
-              }
-            >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={false}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w1
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #44C6FF",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "pointer",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 1,
+                                        "padding": "9px",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w1
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={1}
+                                      occurrences={1}
+                                    />
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #44C6FF; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: pointer; display: flex; opacity: 1;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w1
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
+              <div
+                key="1"
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 1,
-                    "occurrences": 2,
+                    "padding": "5px 10px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={false}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -1043,128 +2061,276 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={false}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 1,
+                        "occurrences": 2,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={false}
-                      isSuggestion={false}
-                      occurrence={1}
-                      occurrences={2}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w2"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={false}
+                        disabled={false}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={1}
+                        occurrences={2}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w2"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #44C6FF",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "pointer",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 1,
-                              "padding": "9px",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w2"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w2"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
-                            >
-                              w2
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={1}
-                            occurrences={2}
-                          >
-                            <sup
-                              style={
-                                Object {
-                                  "marginTop": "2px",
-                                  "opacity": "0.8",
-                                  "top": 0,
-                                }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
                               }
                             >
-                              1
-                            </sup>
-                          </WordOccurrence>
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
-            </div>
-            <div
-              key="2"
-              style={
-                Object {
-                  "margin": "10px",
-                }
-              }
-            >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={false}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w2
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #44C6FF",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "pointer",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 1,
+                                        "padding": "9px",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w2
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={1}
+                                      occurrences={2}
+                                    >
+                                      <sup
+                                        style={
+                                          Object {
+                                            "opacity": "0.8",
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
+                                          }
+                                        }
+                                      >
+                                        1
+                                      </sup>
+                                    </WordOccurrence>
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #44C6FF; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: pointer; display: flex; opacity: 1;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w2
+                                          </span>
+                                        </span>
+                                        <sup
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
+                                        >
+                                          1
+                                        </sup>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
+              <div
+                key="2"
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 2,
-                    "occurrences": 2,
+                    "padding": "5px 10px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={false}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -1173,128 +2339,276 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={false}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 2,
+                        "occurrences": 2,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={false}
-                      isSuggestion={false}
-                      occurrence={2}
-                      occurrences={2}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w2"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={false}
+                        disabled={false}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={2}
+                        occurrences={2}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w2"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #44C6FF",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "pointer",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 1,
-                              "padding": "9px",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w2"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w2"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
-                            >
-                              w2
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={2}
-                            occurrences={2}
-                          >
-                            <sup
-                              style={
-                                Object {
-                                  "marginTop": "2px",
-                                  "opacity": "0.8",
-                                  "top": 0,
-                                }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w2
+                                  </span>
+                                </span>
                               }
                             >
-                              2
-                            </sup>
-                          </WordOccurrence>
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
-            </div>
-            <div
-              key="3"
-              style={
-                Object {
-                  "margin": "10px",
-                }
-              }
-            >
-              <DragSource(SecondaryToken)
-                direction="ltr"
-                disabled={true}
-                onClick={[Function]}
-                onEndDrag={[Function]}
-                selected={false}
-                selectedTokens={Array []}
-                token={
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w2
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #44C6FF",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "pointer",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 1,
+                                        "padding": "9px",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w2
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={2}
+                                      occurrences={2}
+                                    >
+                                      <sup
+                                        style={
+                                          Object {
+                                            "opacity": "0.8",
+                                            "padding": "2px 0px 0px",
+                                            "top": "0px",
+                                          }
+                                        }
+                                      >
+                                        2
+                                      </sup>
+                                    </WordOccurrence>
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #44C6FF; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: pointer; display: flex; opacity: 1;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w2
+                                          </span>
+                                        </span>
+                                        <sup
+                                          style="top: 0px; opacity: 0.8; padding: 2px 0px 0px;"
+                                        >
+                                          2
+                                        </sup>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
+              <div
+                key="3"
+                style={
                   Object {
-                    "index": 0,
-                    "occurrence": 1,
-                    "occurrences": 1,
+                    "padding": "5px 10px",
                   }
                 }
               >
-                <SecondaryToken
-                  connectDragPreview={[Function]}
-                  connectDragSource={[Function]}
+                <DragSource(SecondaryToken)
                   direction="ltr"
                   disabled={true}
-                  isDragging={false}
-                  isSelected={false}
-                  onAccept={[Function]}
+                  fontScale={100}
                   onClick={[Function]}
                   onEndDrag={[Function]}
                   selected={false}
                   selectedTokens={Array []}
+                  targetLanguageFontClassName=""
                   token={
                     Object {
                       "index": 0,
@@ -1303,81 +2617,243 @@ exports[`Test DroppableWordList component in WordList/index.js DroppableWordList
                     }
                   }
                 >
-                  <div
+                  <SecondaryToken
+                    connectDragPreview={[Function]}
+                    connectDragSource={[Function]}
+                    direction="ltr"
+                    disabled={true}
+                    fontScale={100}
+                    isDragging={false}
+                    isSelected={false}
+                    onAccept={[Function]}
                     onClick={[Function]}
-                    style={
+                    onEndDrag={[Function]}
+                    selected={false}
+                    selectedTokens={Array []}
+                    targetLanguageFontClassName=""
+                    token={
                       Object {
-                        "flex": 1,
+                        "index": 0,
+                        "occurrence": 1,
+                        "occurrences": 1,
                       }
                     }
                   >
-                    <WordCard
-                      direction="ltr"
-                      disabled={true}
-                      isSuggestion={false}
-                      occurrence={1}
-                      occurrences={1}
-                      onCancel={[Function]}
-                      selected={false}
+                    <div
+                      onClick={[Function]}
                       style={
                         Object {
-                          "opacity": 1,
+                          "flex": 1,
                         }
                       }
-                      word="w3"
                     >
-                      <div
+                      <WordCard
+                        direction="ltr"
+                        disableTooltip={true}
+                        disabled={true}
+                        fontScale={100}
+                        isSuggestion={false}
+                        occurrence={1}
+                        occurrences={1}
+                        onCancel={[Function]}
+                        selected={false}
                         style={
                           Object {
-                            "flex": 1,
+                            "opacity": 1,
                           }
                         }
+                        targetLanguageFontClassName=""
+                        word="w3"
                       >
-                        <div
-                          style={
-                            Object {
-                              "backgroundColor": "#FFFFFF",
-                              "borderLeft": "5px solid #868686",
-                              "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
-                              "cursor": "not-allowed",
-                              "display": "flex",
-                              "flexDirection": "row",
-                              "opacity": 0.3,
-                              "padding": "9px",
-                              "userSelect": "none",
-                            }
-                          }
+                        <WithStyles(ThemedTooltip)
+                          disabled={true}
+                          fontScale={100}
+                          message="w3"
+                          targetLanguageFontClassName=""
                         >
-                          <span
-                            style={
+                          <ThemedTooltip
+                            classes={
                               Object {
-                                "display": "flex",
-                                "flex": 1,
+                                "arrow": "ThemedTooltip-arrow-1",
+                                "bootstrapTooltip": "ThemedTooltip-bootstrapTooltip-2",
                               }
                             }
+                            disabled={true}
+                            fontScale={100}
+                            message="w3"
+                            targetLanguageFontClassName=""
                           >
-                            <span
-                              onClick={[Function]}
-                              style={
+                            <WithStyles(ForwardRef(Tooltip))
+                              arrow={true}
+                              classes={
                                 Object {
-                                  "flexGrow": 2,
-                                  "width": "max-content",
+                                  "arrow": "ThemedTooltip-arrow-1",
+                                  "tooltip": "ThemedTooltip-bootstrapTooltip-2",
                                 }
                               }
+                              disableFocusListener={true}
+                              disableHoverListener={true}
+                              disableTouchListener={true}
+                              enterDelay={400}
+                              leaveDelay={200}
+                              title={
+                                <span
+                                  style={
+                                    Object {
+                                      "fontSize": "100%",
+                                    }
+                                  }
+                                >
+                                  <span
+                                    className=""
+                                  >
+                                    w3
+                                  </span>
+                                </span>
+                              }
                             >
-                              w3
-                            </span>
-                          </span>
-                          <WordOccurrence
-                            occurrence={1}
-                            occurrences={1}
-                          />
-                        </div>
-                      </div>
-                    </WordCard>
-                  </div>
-                </SecondaryToken>
-              </DragSource(SecondaryToken)>
+                              <ForwardRef(Tooltip)
+                                arrow={true}
+                                classes={
+                                  Object {
+                                    "arrow": "MuiTooltip-arrow ThemedTooltip-arrow-1",
+                                    "popper": "MuiTooltip-popper",
+                                    "popperArrow": "MuiTooltip-popperArrow",
+                                    "popperInteractive": "MuiTooltip-popperInteractive",
+                                    "tooltip": "MuiTooltip-tooltip ThemedTooltip-bootstrapTooltip-2",
+                                    "tooltipArrow": "MuiTooltip-tooltipArrow",
+                                    "tooltipPlacementBottom": "MuiTooltip-tooltipPlacementBottom",
+                                    "tooltipPlacementLeft": "MuiTooltip-tooltipPlacementLeft",
+                                    "tooltipPlacementRight": "MuiTooltip-tooltipPlacementRight",
+                                    "tooltipPlacementTop": "MuiTooltip-tooltipPlacementTop",
+                                    "touch": "MuiTooltip-touch",
+                                  }
+                                }
+                                disableFocusListener={true}
+                                disableHoverListener={true}
+                                disableTouchListener={true}
+                                enterDelay={400}
+                                leaveDelay={200}
+                                title={
+                                  <span
+                                    style={
+                                      Object {
+                                        "fontSize": "100%",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      className=""
+                                    >
+                                      w3
+                                    </span>
+                                  </span>
+                                }
+                              >
+                                <div
+                                  aria-describedby={null}
+                                  className=""
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  style={
+                                    Object {
+                                      "flex": 1,
+                                    }
+                                  }
+                                  title={null}
+                                >
+                                  <div
+                                    style={
+                                      Object {
+                                        "backgroundColor": "#FFFFFF",
+                                        "borderLeft": "5px solid #868686",
+                                        "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset",
+                                        "cursor": "not-allowed",
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "opacity": 0.3,
+                                        "padding": "9px",
+                                        "userSelect": "none",
+                                      }
+                                    }
+                                  >
+                                    <span
+                                      style={
+                                        Object {
+                                          "display": "flex",
+                                          "flex": 1,
+                                          "overflow": "hidden",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        className=""
+                                        onClick={[Function]}
+                                        style={
+                                          Object {
+                                            "flexGrow": 2,
+                                            "overflow": "hidden",
+                                            "textOverflow": "ellipsis",
+                                            "width": "max-content",
+                                          }
+                                        }
+                                      >
+                                        w3
+                                      </span>
+                                    </span>
+                                    <WordOccurrence
+                                      occurrence={1}
+                                      occurrences={1}
+                                    />
+                                  </div>
+                                </div>
+                                <ForwardRef(Popper)
+                                  anchorEl={
+                                    <div
+                                      class=""
+                                    >
+                                      <div
+                                        style="border-left: 5px solid #868686; padding: 9px; background-color: rgb(255, 255, 255); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; cursor: not-allowed; display: flex; opacity: 0.3;"
+                                      >
+                                        <span
+                                          style="display: flex; overflow: hidden;"
+                                        >
+                                          <span
+                                            class=""
+                                            style="text-overflow: ellipsis; overflow: hidden;"
+                                          >
+                                            w3
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  }
+                                  className="MuiTooltip-popper MuiTooltip-popperArrow"
+                                  id={null}
+                                  open={false}
+                                  placement="bottom"
+                                  popperOptions={
+                                    Object {
+                                      "modifiers": Object {
+                                        "arrow": Object {
+                                          "element": null,
+                                          "enabled": false,
+                                        },
+                                      },
+                                    }
+                                  }
+                                  transition={true}
+                                />
+                              </ForwardRef(Tooltip)>
+                            </WithStyles(ForwardRef(Tooltip))>
+                          </ThemedTooltip>
+                        </WithStyles(ThemedTooltip)>
+                      </WordCard>
+                    </div>
+                  </SecondaryToken>
+                </DragSource(SecondaryToken)>
+              </div>
             </div>
           </WordList>
         </div>

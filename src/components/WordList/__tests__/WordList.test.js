@@ -4,15 +4,18 @@ import {Token} from 'wordmap-lexer';
 import React, {Component} from 'react';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
-import WordList from '../WordList';
 import renderer from 'react-test-renderer';
+import WordList from '../WordList';
 
 describe('snapshot', () => {
   it('has no words', () => {
     const wrapper = renderer.create(
-      <WordList isOver={false}
-                modalOpen={false}
-                words={[]}/>
+      <WordList
+        isOver={false}
+        modalOpen={false}
+        words={[]}
+        toolsSettings={{}}
+      />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -27,8 +30,11 @@ describe('snapshot', () => {
       w3
     ];
     const wrapper = renderer.create(
-      <WrappedWordList isOver={false}
-                       words={words}/>
+      <WrappedWordList
+        isOver={false}
+        words={words}
+        toolsSettings={{}}
+      />
     );
     expect(wrapper).toMatchSnapshot();
   });

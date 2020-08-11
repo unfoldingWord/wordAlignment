@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import {Token} from 'wordmap-lexer';
 import {
   ACCEPT_TOKEN_SUGGESTION,
   ACCEPT_VERSE_ALIGNMENT_SUGGESTIONS,
@@ -9,8 +11,6 @@ import {
   SET_ALIGNMENT_SUGGESTIONS,
   SET_CHAPTER_ALIGNMENTS
 } from '../../actions/actionTypes';
-import _ from 'lodash';
-import {Token} from 'wordmap-lexer';
 import render, {convertToRendered} from './render';
 
 /**

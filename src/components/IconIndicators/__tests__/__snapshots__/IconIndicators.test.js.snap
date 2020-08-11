@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IconIndicators component: Icons not visible 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "baseline",
+      "display": "flex",
+      "justifyContent": "flex-end",
+    }
+  }
+>
+  
+  
+  
+  <span
+    className="glyphicon glyphicon-option-vertical"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "18px",
+        "margin": "0 0 0 10px",
+        "padding": 0,
+      }
+    }
+    title={undefined}
+  />
+</div>
+`;
+
+exports[`IconIndicators component: Icons visible and not set 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "baseline",
+      "display": "flex",
+      "justifyContent": "flex-end",
+    }
+  }
+>
+  <span
+    className="glyphicon glyphicon-pencil"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "var(--reverse-color)",
+        "margin": "0px 20px",
+      }
+    }
+    title="icons.no_verse_edits_found"
+  />
+  <span
+    className="glyphicon glyphicon-comment"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "var(--reverse-color)",
+        "margin": "0px 20px",
+      }
+    }
+    title="icons.no_comments_found"
+  />
+  <span
+    className="glyphicon glyphicon-bookmark"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "var(--reverse-color)",
+        "margin": "0px 20px",
+      }
+    }
+    title="icons.not_bookmarked"
+  />
+  <span
+    className="glyphicon glyphicon-option-vertical"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "18px",
+        "margin": "0 0 0 10px",
+        "padding": 0,
+      }
+    }
+    title={undefined}
+  />
+</div>
+`;
+
+exports[`IconIndicators component: Icons visible and set 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "baseline",
+      "display": "flex",
+      "justifyContent": "flex-end",
+    }
+  }
+>
+  <span
+    className="glyphicon glyphicon-pencil"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "var(--highlight-color)",
+        "margin": "0px 20px",
+      }
+    }
+    title="icons.verse_edits_found"
+  />
+  <span
+    className="glyphicon glyphicon-comment"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "var(--highlight-color)",
+        "margin": "0px 20px",
+      }
+    }
+    title="icons.comments_found"
+  />
+  <span
+    className="glyphicon glyphicon-bookmark"
+    onClick={[Function]}
+    style={
+      Object {
+        "color": "var(--highlight-color)",
+        "margin": "0px 20px",
+      }
+    }
+    title="icons.bookmarked"
+  />
+  <span
+    className="glyphicon glyphicon-option-vertical"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "fontSize": "18px",
+        "margin": "0 0 0 10px",
+        "padding": 0,
+      }
+    }
+    title={undefined}
+  />
+</div>
+`;

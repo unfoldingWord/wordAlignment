@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "Cannot un-merge a middle word",
   "loading_alignments": "Loading alignment data",
+  "align_title": "Align",
   "lemma": "Lemma:",
   "morphology": "Morphology:",
   "strongs": "Strongs:",
@@ -18,7 +19,8 @@
   "alignments_corrupt": "The alignments for this chapter could not be loaded and have been reset.",
   "edit_verse": "Edit Verse",
   "edit_verse_title": "Edit Verse - ${passage}",
-  "select_reasons": "Select reason(s) for change",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "Instructions",
   "map_instructions": "Drag the words from the word bank on the left to the correct source on the right.<br><br>Words suggested by ${word_map} have a green bar.<br>To confirm the suggestion, click on the suggested word. To reset the suggestion click on the ${icon} or drag the word to the correct spot.",
   "alignment_complete": "Alignment complete",
@@ -175,15 +177,20 @@
   "morph_missing": "অঙ্গসংস্থানবিদ্যা দেখা যায়নি ",
   "unsaved_changes": "আপনি পরিবর্তনগুলোকে অসংরক্ষিত করেছেন ",
   "attention": "খেয়াল দিন:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Go Back",
     "cancel_button": "Cancel",
+    "reset_button": "Reset",
     "save_button": "Save",
     "next_button": "Next",
     "discard_changes": "পরিবর্তনগুলোকে বাতিল করুন "
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "কোনো ফলাফল নেই ",
     "invalidated": "অবৈধ ",
     "bookmarks": "বুকমার্ক ",
@@ -204,14 +211,12 @@
     "reject": "Reject"
   },
   "icons": {
-    "selections_found": "এই পরীক্ষার জন্য সম্পূর্ণ পদগুলোকে দেখা গেছে  ",
-    "no_selections_found": "এই পরীক্ষার জন্য কোন পদ সমূহকে দেখা যায় নি ",
-    "verse_edits_found": "এই পরীক্ষার জন্য পদ সম্পাদনাগুলোকে দেখা গেছে ",
-    "no_verse_edits_found": "এই পরীক্ষার জন্য কোনো পদ সম্পদনাকে দেখা যায়নি ",
-    "comments_found": "এই পরীক্ষার জন্য মন্তব্য সমূহকে দেখা গিয়েছিল ",
-    "no_comments_found": "এই পরীক্ষার জন্য কোনো মন্তব্যকে দেখা যায়নি ",
-    "bookmarked": "পর্যলোচনের জন্য এই পরীক্ষাটিকে বুকমার্ক করা হয়েছে ",
-    "not_bookmarked": "এই পরীক্ষাটিকে পর্যালোচনার জন্য বুকমার্ক করা হয়নি "
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "Current project",
@@ -219,11 +224,13 @@
     "title": "Step 1. Read",
     "expand_hover": "Click to show expanded resource panes",
     "remove_resource": "Click to remove resource",
+    "remove_resource_label": "Remove resource",
     "add_resource": "Click to add a resource",
     "add_resource_label": "Add Resources",
     "select_language": "Select language",
     "gateway_language": "গেটওয়ে ভাষা ",
     "target_language": "টার্গেট ভাষা ",
-    "original_language": "মূল ভাষা "
+    "original_language": "মূল ভাষা ",
+    "select_font_label": "Select Font"
   }
 }

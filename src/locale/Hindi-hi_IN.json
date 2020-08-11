@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "मध्य शब्द को अन-मर्ज नहीं कर सकते",
   "loading_alignments": "संरेखण डेटा लोड हो रहा है",
+  "align_title": "Align",
   "lemma": "लेम्मा:",
   "morphology": "आकृति विज्ञान:",
   "strongs": "मजबूत की:",
@@ -18,7 +19,8 @@
   "alignments_corrupt": "इस अध्याय के लिए संरेखण लोड नहीं किए जा सके और रीसेट कर दिए गए हैं।",
   "edit_verse": "श्लोक संपादित करें",
   "edit_verse_title": "श्लोक संपादित करें - ${passage}",
-  "select_reasons": "परिवर्तन के लिए कारण (ओं) का चयन करें",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "अनुदेश",
   "map_instructions": "शब्दों को बाईं ओर शब्द बैंक से दाईं ओर सही स्रोत पर खींचें।<br><br>शब्द ने सुझाव दिया ${word_map} एक हरे रंग की पट्टी है।<br>सुझाव की पुष्टि करने के लिए, सुझाए गए शब्द पर क्लिक करें। सुझाव को रीसेट करने के लिए ${icon} पर क्लिक करें या शब्द को सही स्थान पर खींचें।",
   "alignment_complete": "संरेखण पूर्ण",
@@ -175,15 +177,20 @@
   "morph_missing": "आकृति विज्ञान नहीं पाया",
   "unsaved_changes": "आप बिना सहेजे गए परिवर्तन हैं.",
   "attention": "ध्यान दें:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "buttons": {
     "ok_button": "ठीक",
     "back_button": "वापस जाओ",
     "cancel_button": "रद्द करना",
+    "reset_button": "Reset",
     "save_button": "बचाना",
     "next_button": "आगामी",
     "discard_changes": "परिवर्तनों को फेंक दें"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "एसआरसी",
     "invalidated": "अवैध",
     "bookmarks": "बुकमार्क",
@@ -204,14 +211,12 @@
     "reject": "अस्वीकार"
   },
   "icons": {
-    "selections_found": "पूरा छंद में पाया गया के लिए इस की जाँच करें",
-    "no_selections_found": "कोई पूरा छंद में पाया गया के लिए इस की जाँच करें",
-    "verse_edits_found": "इस चेक के लिए कविता संपादन पाए गए",
-    "no_verse_edits_found": "इस चेक के लिए कोई कविता संपादन नहीं मिला",
-    "comments_found": "इस चेक के लिए टिप्पणियां मिलीं",
-    "no_comments_found": "इस चेक के लिए कोई टिप्पणी नहीं मिली",
-    "bookmarked": "इस चेक को समीक्षा के लिए बुकमार्क किया गया है",
-    "not_bookmarked": "इस चेक को समीक्षा के लिए बुकमार्क नहीं किया गया है"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "वर्तमान परियोजना",
@@ -219,11 +224,13 @@
     "title": "चरण 1. पढ़ें",
     "expand_hover": "विस्तारित संसाधन पैन दिखाने के लिए क्लिक करें",
     "remove_resource": "संसाधन को हटाने के लिए क्लिक करें",
+    "remove_resource_label": "Remove resource",
     "add_resource": "संसाधन जोड़ने के लिए क्लिक करें",
     "add_resource_label": "संसाधन जोड़ें",
     "select_language": "भाषा चुनिए",
     "gateway_language": "गेटवे भाषा",
     "target_language": "लक्ष्य भाषा",
-    "original_language": "मूल भाषा"
+    "original_language": "मूल भाषा",
+    "select_font_label": "Select Font"
   }
 }

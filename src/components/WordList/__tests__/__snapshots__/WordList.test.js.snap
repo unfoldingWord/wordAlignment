@@ -1,13 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot has no words 1`] = `null`;
-
-exports[`snapshot has words 1`] = `
-Array [
+exports[`snapshot has no words 1`] = `
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
   <div
     style={
       Object {
-        "margin": "10px",
+        "display": "flex",
+        "justifyContent": "flex-end",
+        "padding": "0px 5px 5px",
+      }
+    }
+  >
+    <span
+      className="glyphicon glyphicon-option-vertical"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "fontSize": "18px",
+          "margin": "0 0 0 10px",
+          "padding": 0,
+        }
+      }
+      title={undefined}
+    />
+  </div>
+</div>
+`;
+
+exports[`snapshot has words 1`] = `
+<div
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "justifyContent": "flex-end",
+        "padding": "0px 5px 5px",
+      }
+    }
+  >
+    <span
+      className="glyphicon glyphicon-option-vertical"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "fontSize": "18px",
+          "margin": "0 0 0 10px",
+          "padding": 0,
+        }
+      }
+      title={undefined}
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "padding": "5px 10px",
       }
     }
   >
@@ -20,11 +81,17 @@ Array [
       }
     >
       <div
+        aria-describedby={null}
+        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
         style={
           Object {
             "flex": 1,
           }
         }
+        title={null}
       >
         <div
           style={
@@ -45,14 +112,18 @@ Array [
               Object {
                 "display": "flex",
                 "flex": 1,
+                "overflow": "hidden",
               }
             }
           >
             <span
+              className=""
               onClick={[Function]}
               style={
                 Object {
                   "flexGrow": 2,
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
                   "width": "max-content",
                 }
               }
@@ -63,11 +134,11 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     style={
       Object {
-        "margin": "10px",
+        "padding": "5px 10px",
       }
     }
   >
@@ -80,11 +151,17 @@ Array [
       }
     >
       <div
+        aria-describedby={null}
+        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
         style={
           Object {
             "flex": 1,
           }
         }
+        title={null}
       >
         <div
           style={
@@ -105,14 +182,18 @@ Array [
               Object {
                 "display": "flex",
                 "flex": 1,
+                "overflow": "hidden",
               }
             }
           >
             <span
+              className=""
               onClick={[Function]}
               style={
                 Object {
                   "flexGrow": 2,
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
                   "width": "max-content",
                 }
               }
@@ -123,11 +204,11 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     style={
       Object {
-        "margin": "10px",
+        "padding": "5px 10px",
       }
     }
   >
@@ -140,11 +221,17 @@ Array [
       }
     >
       <div
+        aria-describedby={null}
+        className=""
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
         style={
           Object {
             "flex": 1,
           }
         }
+        title={null}
       >
         <div
           style={
@@ -166,14 +253,18 @@ Array [
               Object {
                 "display": "flex",
                 "flex": 1,
+                "overflow": "hidden",
               }
             }
           >
             <span
+              className=""
               onClick={[Function]}
               style={
                 Object {
                   "flexGrow": 2,
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
                   "width": "max-content",
                 }
               }
@@ -184,6 +275,6 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

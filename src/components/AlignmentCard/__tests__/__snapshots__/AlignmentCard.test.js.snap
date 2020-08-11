@@ -73,11 +73,17 @@ exports[`has a bottom word 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -97,14 +103,18 @@ exports[`has a bottom word 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -115,9 +125,9 @@ exports[`has a bottom word 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -178,11 +188,17 @@ exports[`has a top and bottom word 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -202,14 +218,18 @@ exports[`has a top and bottom word 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -247,11 +267,17 @@ exports[`has a top and bottom word 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -271,14 +297,18 @@ exports[`has a top and bottom word 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -289,9 +319,9 @@ exports[`has a top and bottom word 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -352,11 +382,17 @@ exports[`has a top word 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -376,14 +412,18 @@ exports[`has a top word 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -498,11 +538,17 @@ exports[`has multiple bottom words 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -522,14 +568,18 @@ exports[`has multiple bottom words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -540,11 +590,17 @@ exports[`has multiple bottom words 1`] = `
           </div>
         </div>
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -564,14 +620,18 @@ exports[`has multiple bottom words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -582,9 +642,9 @@ exports[`has multiple bottom words 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -645,11 +705,17 @@ exports[`has multiple top and bottom words 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -669,14 +735,18 @@ exports[`has multiple top and bottom words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -687,11 +757,17 @@ exports[`has multiple top and bottom words 1`] = `
           </div>
         </div>
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -711,14 +787,18 @@ exports[`has multiple top and bottom words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -756,11 +836,17 @@ exports[`has multiple top and bottom words 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -780,14 +866,18 @@ exports[`has multiple top and bottom words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -798,11 +888,17 @@ exports[`has multiple top and bottom words 1`] = `
           </div>
         </div>
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -822,14 +918,18 @@ exports[`has multiple top and bottom words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -840,9 +940,9 @@ exports[`has multiple top and bottom words 1`] = `
             <sup
               style={
                 Object {
-                  "marginTop": "2px",
                   "opacity": "0.8",
-                  "top": 0,
+                  "padding": "2px 0px 0px",
+                  "top": "0px",
                 }
               }
             >
@@ -903,11 +1003,17 @@ exports[`has multiple top words 1`] = `
         }
       >
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -927,14 +1033,18 @@ exports[`has multiple top words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }
@@ -945,11 +1055,17 @@ exports[`has multiple top words 1`] = `
           </div>
         </div>
         <div
+          aria-describedby={null}
+          className=""
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
           style={
             Object {
               "flex": 1,
             }
           }
+          title={null}
         >
           <div
             style={
@@ -969,14 +1085,18 @@ exports[`has multiple top words 1`] = `
                 Object {
                   "display": "flex",
                   "flex": 1,
+                  "overflow": "hidden",
                 }
               }
             >
               <span
+                className={undefined}
                 onClick={[Function]}
                 style={
                   Object {
                     "flexGrow": 2,
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
                     "width": "max-content",
                   }
                 }

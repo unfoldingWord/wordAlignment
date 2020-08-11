@@ -2,11 +2,17 @@
 
 exports[`is a suggestion 1`] = `
 <div
+  aria-describedby={null}
+  className=""
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
     }
   }
+  title={null}
 >
   <div
     style={
@@ -26,14 +32,18 @@ exports[`is a suggestion 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
       <span
+        className={undefined}
         onClick={[Function]}
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }
@@ -71,9 +81,9 @@ exports[`is a suggestion 1`] = `
     <sup
       style={
         Object {
-          "marginTop": "2px",
           "opacity": "0.8",
-          "top": 0,
+          "padding": "2px 0px 0px",
+          "top": "0px",
         }
       }
     >
@@ -85,11 +95,17 @@ exports[`is a suggestion 1`] = `
 
 exports[`occurs multiple times 1`] = `
 <div
+  aria-describedby={null}
+  className=""
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
     }
   }
+  title={null}
 >
   <div
     style={
@@ -109,14 +125,18 @@ exports[`occurs multiple times 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
       <span
+        className={undefined}
         onClick={[Function]}
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }
@@ -127,9 +147,9 @@ exports[`occurs multiple times 1`] = `
     <sup
       style={
         Object {
-          "marginTop": "2px",
           "opacity": "0.8",
-          "top": 0,
+          "padding": "2px 0px 0px",
+          "top": "0px",
         }
       }
     >
@@ -141,11 +161,17 @@ exports[`occurs multiple times 1`] = `
 
 exports[`occurs once 1`] = `
 <div
+  aria-describedby={null}
+  className=""
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
     }
   }
+  title={null}
 >
   <div
     style={
@@ -165,14 +191,18 @@ exports[`occurs once 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
       <span
+        className={undefined}
         onClick={[Function]}
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }
@@ -186,11 +216,17 @@ exports[`occurs once 1`] = `
 
 exports[`renders rtl 1`] = `
 <div
+  aria-describedby={null}
+  className=""
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  onTouchStart={[Function]}
   style={
     Object {
       "flex": 1,
     }
   }
+  title={null}
 >
   <div
     style={
@@ -210,14 +246,18 @@ exports[`renders rtl 1`] = `
         Object {
           "display": "flex",
           "flex": 1,
+          "overflow": "hidden",
         }
       }
     >
       <span
+        className={undefined}
         onClick={[Function]}
         style={
           Object {
             "flexGrow": 2,
+            "overflow": "hidden",
+            "textOverflow": "ellipsis",
             "width": "max-content",
           }
         }

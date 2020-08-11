@@ -1,10 +1,10 @@
-import * as types from './actionTypes';
-import {migrateChapterAlignments} from '../../utils/migrations';
 import Lexer from 'wordmap-lexer';
+import {migrateChapterAlignments} from '../../utils/migrations';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
 import {getVerseAlignments, getRenderedVerseAlignments} from '../reducers';
 import {areAlignmentsEquivalent} from '../../utils/alignmentValidation';
+import * as types from './actionTypes';
 
 /**
  * Puts alignment data that has been loaded from the file system into redux.
@@ -379,74 +379,4 @@ export const recordCheck = (check, chapter, verse, data) => ({
   chapter,
   verse,
   data
-});
-
-/**
- * updates the finished state for new group menu item.
- * @param {number|string} chapter - the chapter number
- * @param {number|string} verse - the verse number
- * @param {*} value - the new value for finished state
- * @returns {{ value: *, chapter: *, verse: *}}
- */
-export const setGroupMenuItemFinished = (chapter, verse, value) => ({
-  type: types.SET_FINISHED,
-  chapter,
-  verse,
-  value
-});
-
-/**
- * updates the invalid state for new group menu item.
- * @param {number|string} chapter - the chapter number
- * @param {number|string} verse - the verse number
- * @param {*} value - the new value for finished state
- * @returns {{ value: *, chapter: *, verse: *}}
- */
-export const setGroupMenuItemInvalid = (chapter, verse, value) => ({
-  type: types.SET_INVALID,
-  chapter,
-  verse,
-  value
-});
-
-/**
- * updates the Unaligned state for new group menu item.
- * @param {number|string} chapter - the chapter number
- * @param {number|string} verse - the verse number
- * @param {*} value - the new value for finished state
- * @returns {{ value: *, chapter: *, verse: *}}
- */
-export const setGroupMenuItemUnaligned = (chapter, verse, value) => ({
-  type: types.SET_UNALIGNED,
-  chapter,
-  verse,
-  value
-});
-
-/**
- * updates the Edited state for new group menu item.
- * @param {number|string} chapter - the chapter number
- * @param {number|string} verse - the verse number
- * @param {*} value - the new value for finished state
- * @returns {{ value: *, chapter: *, verse: *}}
- */
-export const setGroupMenuItemEdited = (chapter, verse, value) => ({
-  type: types.SET_EDITED,
-  chapter,
-  verse,
-  value
-});
-
-/**
- * updates the Edited state for new group menu item - to set multiple values
- * @param {number|string} chapter - the chapter number
- * @param {number|string} verse - the verse number
- * @param {Object} values - new state values for item
- * @returns {{ value: *, chapter: *, verse: *}}
- */
-export const setGroupMenuItemState = (chapter, verse, values) => ({
-  type: types.SET_STATE,
-  chapter,
-  verse,
-  values
 });

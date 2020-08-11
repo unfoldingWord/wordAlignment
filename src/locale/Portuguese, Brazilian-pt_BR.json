@@ -1,6 +1,7 @@
 {
   "cannot_drag_middle": "Não é possível desfazer a integração de uma palavra no meio",
   "loading_alignments": "Carregando os dados de alinhamento",
+  "align_title": "Align",
   "lemma": "Lema:",
   "morphology": "Morfologia",
   "strongs": "Strong:",
@@ -18,7 +19,8 @@
   "alignments_corrupt": "Os alinhamentos para este capítulo não puderam ser carregados e foram redefinidos.",
   "edit_verse": "Editar Versículo",
   "edit_verse_title": "Editar Versículo - ${passage}",
-  "select_reasons": "Selecione razão(ões) para mudança",
+  "comment_title": "Comment - ${passage}",
+  "select_reasons": "Select reason(s) for change:",
   "instructions": "Instruções",
   "map_instructions": "Arraste as palavras do banco de palavras à esquerda para a fonte correta na direita.<br><br>As palavras sugeridas por ${word_map} têm uma barra verde.<br>Para confirmar a sugestão, clique na palavra sugerida. Para redefinir a sugestão, clique no ${icon} ou arraste a palavra para a posição correta.",
   "alignment_complete": "Alinhamento completo",
@@ -175,15 +177,20 @@
   "morph_missing": "Morfologia não encontrado",
   "unsaved_changes": "Você tem alterações não salvas.",
   "attention": "Atenção:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "buttons": {
     "ok_button": "OK",
     "back_button": "Voltar",
     "cancel_button": "Cancelar",
+    "reset_button": "Reset",
     "save_button": "Salvar",
     "next_button": "Próximo",
     "discard_changes": "Descartar Alterações"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "Nenhum resultado",
     "invalidated": "Invalidado",
     "bookmarks": "Marcador de Página",
@@ -204,14 +211,12 @@
     "reject": "Rejeitar"
   },
   "icons": {
-    "selections_found": "Foram encontrados edições de Versículos para essa verificação",
-    "no_selections_found": "Nenhúm versiculo completo foi encontrado para esta verificação",
-    "verse_edits_found": "Foram encontrados edições de versículo(s) para essa verificação",
-    "no_verse_edits_found": "Não foram encontrados edições de Versículo(s) para essa verificação",
-    "comments_found": "Encontraram-se comentários para esta verificação",
-    "no_comments_found": "Nenhum comentário foi encontrado para esta verificação",
-    "bookmarked": "Esta verificação foi marcada para revisão",
-    "not_bookmarked": "Esta verificação não foi marcada para revisão"
+    "verse_edits_found": "This verse has been edited",
+    "no_verse_edits_found": "Edit this verse",
+    "comments_found": "Comments have been entered for this alignment",
+    "no_comments_found": "Add a comment on this alignment",
+    "bookmarked": "The bookmark has been set for this alignment",
+    "not_bookmarked": "Bookmark this alignment"
   },
   "pane": {
     "current_project": "Projeto atual",
@@ -219,11 +224,13 @@
     "title": "Passo 1. Leitura",
     "expand_hover": "Clique para mostrar os painéis de recurso expandidos",
     "remove_resource": "Clique para remover o recurso expandido",
+    "remove_resource_label": "Remove resource",
     "add_resource": "Clique para adicionar um recurso",
     "add_resource_label": "Adicionar Recursos",
     "select_language": "Selecionar o idioma",
     "gateway_language": "Lingua Ponte",
     "target_language": "Idioma de destino",
-    "original_language": "Idioma original"
+    "original_language": "Idioma original",
+    "select_font_label": "Select Font"
   }
 }

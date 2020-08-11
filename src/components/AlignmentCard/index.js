@@ -1,25 +1,25 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {DropTarget} from 'react-dnd';
+import { DropTarget } from 'react-dnd';
+import { Token } from 'wordmap-lexer';
 import * as types from '../WordCard/Types';
 import SecondaryToken from '../SecondaryToken';
 import PrimaryToken from '../PrimaryToken';
 import AlignmentCard from './AlignmentCard';
-import {Token} from 'wordmap-lexer';
 
 const styles = {
   root: {
     open: {
       width: 'auto',
       display: 'inherit',
-      transition: '0.5s'
+      transition: '0.5s',
     },
     closed: {
       width: '0',
       display: 'none',
-      transition: '0.5s'
-    }
-  }
+      transition: '0.5s',
+    },
+  },
 };
 
 /**
@@ -32,7 +32,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
   const emptyTarget = dropTargetProps.sourceNgram.length === 0;
   const singleTarget = dropTargetProps.sourceNgram.length === 1;
   const mergedTarget = dropTargetProps.sourceNgram.length > 1;
-  const singleSource  = dragSourceProps.alignmentLength === 1;
+  const singleSource = dragSourceProps.alignmentLength === 1;
   const mergedSource = dragSourceProps.alignmentLength > 1;
   const alignmentDelta = dropTargetProps.alignmentIndex - dragSourceProps.alignmentIndex;
   // const leftPlaceholder = dropTargetProps.placeholderPosition === 'left';  //alignmentDelta < 0;
@@ -43,16 +43,16 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
 
   // moving single word to another single (new merge)
   // TRICKY: make sure this is to a different word
-  if(singleSource && singleTarget && different) {
+  if (singleSource && singleTarget && different) {
     return true;
   }
 
   // moving single word to merged group
-  if(singleSource && mergedTarget) {
+  if (singleSource && mergedTarget) {
     return true;
   }
-  
-  if(mergedSource) { // removing a word from a merged group
+
+  if (mergedSource) { // removing a word from a merged group
     if (emptyTarget) { // moving word from merged group to empty (unmerge)
       if (!different) { // if unmerge target for this group
         return true;
@@ -62,7 +62,7 @@ export const canDropPrimaryToken = (dropTargetProps, dragSourceProps) => {
     } else if (mergedTarget && different) { //  moving word from merged group to a different merged group
       return true;
     }
-    
+
     // TODO: need a workaround for this bug before supporting left vs right un-merging https://github.com/react-dnd/react-dnd/issues/735
     // see components/AlignmentGrid.js
     // we could potentially use the touch backend https://github.com/yahoo/react-dnd-touch-backend
@@ -87,15 +87,17 @@ class DroppableAlignmentCard extends Component {
   }
 
   _handleCancelSuggestion(token) {
-    const {onCancelTokenSuggestion, alignmentIndex} = this.props;
-    if(typeof onCancelTokenSuggestion === 'function') {
+    const { onCancelTokenSuggestion, alignmentIndex } = this.props;
+
+    if (typeof onCancelTokenSuggestion === 'function') {
       onCancelTokenSuggestion(alignmentIndex, token);
     }
   }
 
   _handleAcceptSuggestion(token) {
-    const {onAcceptTokenSuggestion, alignmentIndex} = this.props;
-    if(typeof onAcceptTokenSuggestion === 'function') {
+    const { onAcceptTokenSuggestion, alignmentIndex } = this.props;
+
+    if (typeof onAcceptTokenSuggestion === 'function') {
       onAcceptTokenSuggestion(alignmentIndex, token);
     }
   }
@@ -107,7 +109,6 @@ class DroppableAlignmentCard extends Component {
       canDrop,
       dragItemType,
       isOver,
-      actions,
       targetNgram,
       sourceNgram,
       alignmentIndex,
@@ -116,9 +117,13 @@ class DroppableAlignmentCard extends Component {
       targetDirection,
       isSuggestion,
       connectDropTarget,
-      isHebrew
+      isHebrew,
+      showPopover,
+      getLexiconData,
+      loadLexiconEntry,
+      fontSize,
+      targetLanguageFontClassName,
     } = this.props;
-
     const acceptsTop = canDrop && dragItemType === types.PRIMARY_WORD;
     const acceptsBottom = canDrop && dragItemType === types.SECONDARY_WORD;
 
@@ -130,16 +135,19 @@ class DroppableAlignmentCard extends Component {
     const topWordCards = sourceNgram.map((token, index) => (
       <PrimaryToken
         key={index}
+        token={token}
+        wordIndex={index}
         style={sourceStyle}
+        lexicons={lexicons}
+        isHebrew={isHebrew}
+        fontSize={fontSize}
         translate={translate}
         direction={sourceDirection}
-        wordIndex={index}
         alignmentLength={sourceNgram.length}
-        token={token}
         alignmentIndex={alignmentIndex}
-        lexicons={lexicons}
-        actions={actions}
-        isHebrew={isHebrew}
+        showPopover={showPopover}
+        getLexiconData={getLexiconData}
+        loadLexiconEntry={loadLexiconEntry}
       />
     ));
     const bottomWordCards = targetNgram.map((token, index) => (
@@ -147,9 +155,10 @@ class DroppableAlignmentCard extends Component {
         key={index}
         token={token}
         direction={targetDirection}
+        alignmentIndex={alignmentIndex}
         onCancel={this._handleCancelSuggestion}
         onAccept={this._handleAcceptSuggestion}
-        alignmentIndex={alignmentIndex}
+        targetLanguageFontClassName={targetLanguageFontClassName}
       />
     ));
 
@@ -159,20 +168,21 @@ class DroppableAlignmentCard extends Component {
       return connectDropTarget(
         <div>
           <AlignmentCard targetTokenCards={bottomWordCards}
-                         targetDirection={targetDirection}
-                         hoverBottom={hoverBottom}
-                         hoverTop={hoverTop}
-                         isSuggestion={isSuggestion}
-                         acceptsTargetTokens={acceptsBottom}
-                         acceptsSourceTokens={acceptsTop}
-                         sourceTokenCards={topWordCards}/>
-        </div>
+            targetDirection={targetDirection}
+            hoverBottom={hoverBottom}
+            hoverTop={hoverTop}
+            isSuggestion={isSuggestion}
+            acceptsTargetTokens={acceptsBottom}
+            acceptsSourceTokens={acceptsTop}
+            sourceTokenCards={topWordCards}/>
+        </div>,
       );
     }
   }
 }
 
 DroppableAlignmentCard.propTypes = {
+  fontSize: PropTypes.string,
   onCancelTokenSuggestion: PropTypes.func,
   onAcceptTokenSuggestion: PropTypes.func,
   translate: PropTypes.func.isRequired,
@@ -189,18 +199,18 @@ DroppableAlignmentCard.propTypes = {
   onDrop: PropTypes.func.isRequired,
   lexicons: PropTypes.object.isRequired,
   sourceDirection: PropTypes.oneOf(['ltr', 'rtl']),
-  targetDirection: PropTypes.oneOf(['ltr', 'trl']),
-  actions: PropTypes.shape({
-    showPopover: PropTypes.func.isRequired,
-    loadLexiconEntry: PropTypes.func.isRequired
-  }),
-  isHebrew: PropTypes.bool.isRequired
+  targetDirection: PropTypes.oneOf(['ltr', 'rtl']),
+  isHebrew: PropTypes.bool.isRequired,
+  targetLanguageFontClassName: PropTypes.string,
+  showPopover: PropTypes.func.isRequired,
+  getLexiconData: PropTypes.func.isRequired,
+  loadLexiconEntry: PropTypes.func.isRequired,
 };
 
 DroppableAlignmentCard.defaultProps = {
   sourceDirection: 'ltr',
   targetDirection: 'ltr',
-  sourceStyle: {fontSize: "100%"},
+  sourceStyle: { fontSize: '100%' },
 };
 
 const dragHandler = {
@@ -209,8 +219,9 @@ const dragHandler = {
     const alignmentEmpty = (props.sourceNgram.length === 0 &&
       props.targetNgram.length === 0);
     let canDrop = false;
+
     if (item.type === types.SECONDARY_WORD) {
-      if(item.alignmentIndex === undefined) {
+      if (item.alignmentIndex === undefined) {
         // TRICKY: tokens from the word list will not have an alignment
         canDrop = !alignmentEmpty;
       } else {
@@ -219,13 +230,14 @@ const dragHandler = {
       }
       return canDrop;
     }
+
     if (item.type === types.PRIMARY_WORD) {
       return canDropPrimaryToken(props, item);
     }
   },
   drop(props, monitor) {
     props.onDrop(monitor.getItem());
-  }
+  },
 };
 
 const collect = (connect, monitor) => {
@@ -234,12 +246,12 @@ const collect = (connect, monitor) => {
     connectDropTarget: connect.dropTarget(),
     dragItemType: item ? item.type : null,
     isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
+    canDrop: monitor.canDrop(),
   };
 };
 
 export default DropTarget(
   [types.SECONDARY_WORD, types.PRIMARY_WORD],
   dragHandler,
-  collect
+  collect,
 )(DroppableAlignmentCard);

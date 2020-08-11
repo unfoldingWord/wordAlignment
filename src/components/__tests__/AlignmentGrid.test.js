@@ -1,10 +1,10 @@
 import React from 'react';
-import AlignmentGrid from '../AlignmentGrid';
 import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
 import TestBackend from 'react-dnd-test-backend';
 import {DragDropContext} from 'react-dnd';
 import {Token} from 'wordmap-lexer';
+import AlignmentGrid from '../AlignmentGrid';
 
 test('empty snapshot', () => {
   const wrapper = renderer.create(
@@ -15,11 +15,13 @@ test('empty snapshot', () => {
                    onCancelSuggestion={jest.fn()}
                    onDropTargetToken={jest.fn()}
                    translate={k => k}
+                   toolsSettings={{}}
                    actions={{
                      showPopover: jest.fn(),
                      loadLexiconEntry: jest.fn(),
                      getLexiconData: jest.fn()
-                   }}/>
+                   }}
+                   />
   );
   expect(wrapper).toMatchSnapshot();
 });
@@ -110,6 +112,7 @@ describe('AlignmentGrid', () => {
         onDropSourceToken={jest.fn()}
         onDropTargetToken={jest.fn()}
         onCancelSuggestion={jest.fn()}
+        toolsSettings={{}}
         translate={k => k}
         actions={{
           showPopover: jest.fn(),
@@ -148,6 +151,7 @@ describe('AlignmentGrid', () => {
           getLexiconData: jest.fn()
         }}
         lexicons={{}}
+        toolsSettings={{}}
       />
     );
 

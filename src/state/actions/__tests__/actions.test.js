@@ -1,9 +1,9 @@
 import _ from "lodash";
-import * as actions from '../index';
 import {Token} from 'wordmap-lexer';
 import {Prediction, Alignment, Ngram} from 'wordmap';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import * as actions from '../index';
 import {
   ALIGN_RENDERED_SOURCE_TOKEN,
   INSERT_RENDERED_ALIGNMENT,
@@ -340,61 +340,6 @@ describe('thunk actions', () => {
     const prediction = new Prediction(new Alignment(source, target));
     prediction.setScore('confidence', 1);
     const action = actions.setAlignmentPredictions(1, 1, [prediction]);
-    store.dispatch(action);
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  it('setGroupMenuItemFinished()', () => {
-    const finished = true;
-    const expectedActions = [
-      {"type": "WA::SET_FINISHED", "chapter": 2, "verse": 5, "value": finished}
-    ];
-    const store = mockStore();
-    const action = actions.setGroupMenuItemFinished(2, 5, finished);
-    store.dispatch(action);
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  it('setGroupMenuItemInvalid()', () => {
-    const invalid = true;
-    const expectedActions = [
-      {"type": "WA::SET_INVALID", "chapter": 2, "verse": 7, "value": invalid}
-    ];
-    const store = mockStore();
-    const action = actions.setGroupMenuItemInvalid(2, 7, invalid);
-    store.dispatch(action);
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  it('setGroupMenuItemUnaligned()', () => {
-    const unaligned = false;
-    const expectedActions = [
-      {"type": "WA::SET_UNALIGNED", "chapter": 3, "verse": 7, "value": unaligned}
-    ];
-    const store = mockStore();
-    const action = actions.setGroupMenuItemUnaligned(3, 7, unaligned);
-    store.dispatch(action);
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  it('setGroupMenuItemEdited()', () => {
-    const edited = false;
-    const expectedActions = [
-      {"type": "WA::SET_EDITED", "chapter": 3, "verse": 7, "value": edited}
-    ];
-    const store = mockStore();
-    const action = actions.setGroupMenuItemEdited(3, 7, edited);
-    store.dispatch(action);
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  it('setGroupMenuItemState()', () => {
-    const values = {edited: false};
-    const expectedActions = [
-      {"type": "WA::SET_STATE", "chapter": 3, "verse": 7, "values": values}
-    ];
-    const store = mockStore();
-    const action = actions.setGroupMenuItemState(3, 7, values);
     store.dispatch(action);
     expect(store.getActions()).toEqual(expectedActions);
   });

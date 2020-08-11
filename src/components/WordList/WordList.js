@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Token } from 'wordmap-lexer';
 import SecondaryToken from '../SecondaryToken';
-import {Token} from 'wordmap-lexer';
+import { getFontClassName } from '../../common/fontUtils';
+import ThreeDotMenu from '../ThreeDotMenu';
 
 /**
  * Renders a list of words that need to be aligned.
@@ -16,10 +18,14 @@ import {Token} from 'wordmap-lexer';
  * @constructor
  */
 class WordList extends React.Component {
-
   constructor(props) {
     super(props);
+    this.listRef = React.createRef();
     this.isSelected = this.isSelected.bind(this);
+    this.state = {
+      width: 0,
+      height: 0,
+    };
   }
 
   /**
@@ -28,54 +34,103 @@ class WordList extends React.Component {
    * @return {boolean}
    */
   isSelected(token) {
-    const {
-      selectedWordPositions
-    } = this.props;
+    const { selectedWordPositions } = this.props;
 
     return selectedWordPositions &&
       selectedWordPositions.indexOf(token.tokenPos) !== -1;
   }
 
+  // eslint-disable-next-line no-unused-vars
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (!prevProps.isOver) {
+      return {
+        height: this.listRef.current.scrollHeight,
+        width: this.listRef.current.clientWidth,
+      };
+    } else {
+      return {
+        height: 0,
+        width: 0,
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const notZero = snapshot.width !== 0 && snapshot.height !== 0;
+    const changed = snapshot.width !== this.state.width || snapshot.height !== this.state.height;
+
+    if (notZero && changed) {
+      this.setState(snapshot);
+    }
+  }
+
   render() {
     const {
+      words,
+      isOver,
+      direction,
+      onWordClick,
       onWordDragged,
       selectedWords,
-      onWordClick,
-      direction,
-      words,
-      isOver
+      toolsSettings,
+      setToolSettings,
+      toolSettings,
+      targetLanguageFont,
     } = this.props;
+    const { width, height } = this.state;
 
     if (isOver) {
       return (
         <div
           style={{
             border: '3px dashed #44C6FF',
-            height: '100%',
-            width: '100%'
+            height: `${height}px`,
+            width: `${width}px`,
           }}/>
       );
     } else {
+      const targetLanguageFontClassName = getFontClassName(targetLanguageFont);
+      const isRtl = direction === 'rtl';
 
       return (
         <React.Fragment>
-          {words.map((token, index) => {
-            return (
+          <div ref={this.listRef} style={{ height: '100%' }}>
+            <div style={{
+              display: 'flex', justifyContent: 'flex-end', padding: '0px 5px 5px',
+            }}>
+              <ThreeDotMenu
+                isRtl={isRtl}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: isRtl ? 'right' : 'left',
+                }}
+                namespace='WordList'
+                toolsSettings={toolsSettings}
+                setToolSettings={setToolSettings}
+              />
+            </div>
+            {words.map((token, index) => (
               <div
                 key={index}
-                style={{margin: '10px'}}>
+                style={{ padding: '5px 10px' }}>
                 <SecondaryToken
+                  token={token}
+                  fontScale={toolSettings.fontSize}
+                  onClick={onWordClick}
                   direction={direction}
                   onEndDrag={onWordDragged}
-                  selected={this.isSelected(token)}
                   selectedTokens={selectedWords}
-                  onClick={onWordClick}
-                  token={token}
+                  selected={this.isSelected(token)}
                   disabled={token.disabled === true}
+                  targetLanguageFontClassName={targetLanguageFontClassName}
                 />
               </div>
-            );
-          })}
+            ))}
+          </div>
         </React.Fragment>
       );
     }
@@ -83,17 +138,24 @@ class WordList extends React.Component {
 }
 
 WordList.propTypes = {
+  onWordClick: PropTypes.func,
   onWordDragged: PropTypes.func,
   selectedWords: PropTypes.array,
-  selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
-  onWordClick: PropTypes.func,
-  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
   isOver: PropTypes.bool.isRequired,
-  direction: PropTypes.oneOf(['ltr', 'rtl'])
+  targetLanguageFont: PropTypes.string,
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
+  toolsSettings: PropTypes.object.isRequired,
+  setToolSettings: PropTypes.func.isRequired,
+  toolSettings: PropTypes.object.isRequired,
+  selectedWordPositions: PropTypes.arrayOf(PropTypes.number),
+  words: PropTypes.arrayOf(PropTypes.instanceOf(Token)).isRequired,
 };
 
 WordList.defaultProps = {
-  direction: 'ltr'
+  direction: 'ltr',
+  toolSettings: {
+    fontSize: 100
+  }
 };
 
 export default WordList;

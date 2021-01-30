@@ -224,13 +224,13 @@
     "title": "Шаг 1. Чтение",
     "expand_hover": "Нажмите, чтобы показать расширенно панель ресурсов",
     "remove_resource": "Нажмите, чтобы удалить ресурс",
-    "remove_resource_label": "Remove resource",
+    "remove_resource_label": "Удалить ресурс",
     "add_resource": "Щёлкните, чтобы добавить ресурс",
     "add_resource_label": "Добавить ресурс",
     "select_language": "Выбрать язык",
     "gateway_language": "Базовый язык",
     "target_language": "Целевой язык",
     "original_language": "Язык оригинала",
-    "select_font_label": "Select Font"
+    "select_font_label": "Выбрать шрифт"
   }
 }

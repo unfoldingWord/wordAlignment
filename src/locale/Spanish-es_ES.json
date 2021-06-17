@@ -177,7 +177,7 @@
   "morph_missing": "Morfología no encontrado",
   "unsaved_changes": "Tienes cambios sin guardar.",
   "attention": "Atención:",
-  "invalidation_checking": "Comprobando si esta edición entra en conflicto con selecciones y alineaciones guardadas...",
+  "invalidation_checking": "Verificando si esta edición entra en conflicto con selecciones y alineaciones guardadas...",
   "selections_invalidated": "Algunas selecciones ya no son válidas y están eliminadas.",
   "invalid_verse_alignments_and_selections": "Se han detectado cambios en su proyecto que han invalidado algunas selecciones y algunas alineaciones. Estos versículos tienen un ícono de una cadena rota junto a la referencia en el menú lateral.",
   "buttons": {

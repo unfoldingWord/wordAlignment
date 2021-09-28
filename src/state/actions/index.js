@@ -34,6 +34,40 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
 };
 
 /**
+ * convert verse to number
+ * @param a
+ * @return {number}
+ */
+function getNumber(a) {
+  let number = parseInt(a);
+  if (isNaN(number)) {
+    number = 10000000;
+  }
+  return number;
+}
+
+// for sorting verses that are strings in numerical order
+export const verseComparator = (a, b) => {
+  const diff = getNumber(a) - getNumber(b);
+  return diff;
+};
+
+/**
+ * returns new object with keys are sorted by verse order
+ * @param object
+ * @return {*[]} new sorted object
+ */
+export const sortObjectByVerse = (object) => {
+  let keys = Object.keys(object);
+  keys = keys.sort(verseComparator);
+  const newObject = [];
+  for (let key of keys) {
+    newObject[key] = object[key];
+  }
+  return newObject;
+}
+
+/**
  * Retrieves some extra data from redux before inserting the chapter alignments.
  * The pain point here is due to the current alignment file format we cannot
  * reliably assume token order. Therefore we must include a frame of reference.
@@ -47,15 +81,52 @@ export const indexChapterAlignments = (
   chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
   return (dispatch) => {
     // tokenize baseline chapters
-    const targetChapterTokens = {};
-    const sourceChapterTokens = {};
-    for (const verse of Object.keys(targetChapter)) {
+    let targetChapterTokens = {};
+    let sourceChapterTokens = {};
+    const verseSpans = [];
+    const targetVerses = Object.keys(targetChapter);
+    for (const verse of targetVerses) {
       const targetVerseText = removeUsfmMarkers(targetChapter[verse]);
       targetChapterTokens[verse] = Lexer.tokenize(targetVerseText);
+      if (verse.includes('-')) {
+        verseSpans.push(verse)
+      }
     }
-    for (const verse of Object.keys(sourceChapter)) {
+    const sourceVerses = Object.keys(sourceChapter);
+    for (const verse of sourceVerses) {
       sourceChapterTokens[verse] = tokenizeVerseObjects(
         sourceChapter[verse].verseObjects);
+    }
+    for (const verse of verseSpans) {
+      if (!sourceChapter[verse]) {
+        let combined = [];
+        let [low, high] = verse.split('-');
+        low = parseInt(low)
+        high = parseInt(high)
+        for (let i = low; i <= high; i++) {
+          const verseStr = i.toString()
+          const verseData = sourceChapter[verseStr];
+          if (verseData) {
+            if (combined.length) {
+              combined = combined.concat({type: "text", text: `\n  ${chapterId}:${i} `});
+            }
+            combined = combined.concat(verseData.verseObjects)
+          }
+          // remove individual verses after merging into verse span
+          delete sourceChapter[verseStr];
+          delete sourceChapterTokens[verseStr];
+        }
+        sourceChapter[verse] = combined;
+        sourceChapterTokens[verse] = tokenizeVerseObjects(combined);
+      }
+    }
+
+    if (verseSpans.length) {
+      // fixup verse order
+      sourceChapter = sortObjectByVerse(sourceChapter);
+      sourceChapterTokens = sortObjectByVerse(sourceChapterTokens);
+      targetChapter = sortObjectByVerse(targetChapter);
+      targetChapterTokens = sortObjectByVerse(targetChapterTokens);
     }
 
     // migrate alignment data

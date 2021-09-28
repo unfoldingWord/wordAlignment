@@ -40,6 +40,7 @@ import {
   repairAndInspectVerse,
   resetVerse,
   unalignTargetToken,
+  verseComparator,
 } from './state/actions';
 import {
   clearContextId,
@@ -347,8 +348,10 @@ export default class Api extends ToolApi {
       return true;
     }
 
-    for (const verse of Object.keys(targetBook[chapter])) {
-      if (isNaN(verse) || parseInt(verse) === -1) {
+    const verses = Object.keys(targetBook[chapter]).sort(verseComparator);
+    for (const verse of verses) {
+      const verseNum = parseInt(verse);
+      if (isNaN(verseNum) || verseNum < 0) {
         continue;
       }
       loadGroupMenuItem(this, chapter, verse, contextId);

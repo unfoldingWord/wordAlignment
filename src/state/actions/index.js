@@ -116,7 +116,7 @@ export const indexChapterAlignments = (
           delete sourceChapter[verseStr];
           delete sourceChapterTokens[verseStr];
         }
-        sourceChapter[verse] = combined;
+        sourceChapter[verse] = {verseObjects: combined};
         sourceChapterTokens[verse] = tokenizeVerseObjects(combined);
       }
     }

@@ -97,10 +97,10 @@ export const indexChapterAlignments = (
       sourceChapterTokens[verse] = tokenizeVerseObjects(
         sourceChapter[verse].verseObjects);
     }
-    for (const verse of verseSpans) {
-      if (!sourceChapter[verse]) {
+    for (const verseSpan of verseSpans) {
+      if (!sourceChapter[verseSpan]) {
         let combined = [];
-        let [low, high] = verse.split('-');
+        let [low, high] = verseSpan.split('-');
         low = parseInt(low)
         high = parseInt(high)
         for (let i = low; i <= high; i++) {
@@ -113,11 +113,11 @@ export const indexChapterAlignments = (
             combined = combined.concat(verseData.verseObjects)
           }
           // remove individual verses after merging into verse span
-          delete sourceChapter[verseStr];
-          delete sourceChapterTokens[verseStr];
+          delete targetChapter[verseStr];
+          delete targetChapterTokens[verseStr];
         }
-        sourceChapter[verse] = {verseObjects: combined};
-        sourceChapterTokens[verse] = tokenizeVerseObjects(combined);
+        sourceChapter[verseSpan] = {verseObjects: combined};
+        sourceChapterTokens[verseSpan] = tokenizeVerseObjects(combined);
       }
     }
 

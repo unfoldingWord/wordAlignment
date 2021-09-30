@@ -206,7 +206,7 @@ export const recordTargetVerseEdit = (bookId, chapter, verse, before, after, tag
   reference: {
     bookId,
     chapter: parseInt(chapter),
-    verse: parseInt(verse),
+    verse: verse,
     groupId,
   },
   quote,

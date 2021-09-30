@@ -109,7 +109,7 @@ const styles = {
  * @param targetBook
  * @param state
  * @param {number} currentChapter
- * @param {number} currentVerse
+ * @param {number|string} currentVerse
  * @return {Promise<WordMap>}
  */
 export const generateMAP = (
@@ -122,7 +122,7 @@ export const generateMAP = (
       const chapterAlignments = getChapterAlignments(state, chapter);
 
       for (const verse of Object.keys(chapterAlignments)) {
-        if (parseInt(verse) === currentVerse && parseInt(chapter) ===
+        if (verse === currentVerse && parseInt(chapter) ===
             currentChapter) {
           // exclude current verse from saved alignments
           continue;

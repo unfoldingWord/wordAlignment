@@ -41,7 +41,6 @@ export const editTargetVerse = (chapterWithVerseEdit, verseWithVerseEdit, before
   const {
     bookId, chapter: currentCheckChapter, verse: currentCheckVerse,
   } = currentCheckContextId.reference;
-  verseWithVerseEdit = (typeof verseWithVerseEdit === 'string') ? parseInt(verseWithVerseEdit) : verseWithVerseEdit; // make sure number
 
   const contextIdWithVerseEdit = {
     ...currentCheckContextId,

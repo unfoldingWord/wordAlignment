@@ -68,6 +68,18 @@ export const sortObjectByVerse = (object) => {
 }
 
 /**
+ * get verse range from span
+ * @param {string} verseSpan
+ * @return {{high: number, low: number}}
+ */
+export function getVerseSpanRange(verseSpan) {
+  let [low, high] = verseSpan.split('-');
+  low = parseInt(low);
+  high = parseInt(high);
+  return { low, high };
+}
+
+/**
  * Retrieves some extra data from redux before inserting the chapter alignments.
  * The pain point here is due to the current alignment file format we cannot
  * reliably assume token order. Therefore we must include a frame of reference.
@@ -89,7 +101,7 @@ export const indexChapterAlignments = (
       const targetVerseText = removeUsfmMarkers(targetChapter[verse]);
       targetChapterTokens[verse] = Lexer.tokenize(targetVerseText);
       if (verse.includes('-')) {
-        verseSpans.push(verse)
+        verseSpans.push(verse);
       }
     }
     const sourceVerses = Object.keys(sourceChapter);
@@ -100,23 +112,23 @@ export const indexChapterAlignments = (
     for (const verseSpan of verseSpans) {
       if (!sourceChapter[verseSpan]) {
         let combined = [];
-        let [low, high] = verseSpan.split('-');
-        low = parseInt(low)
-        high = parseInt(high)
-        for (let i = low; i <= high; i++) {
-          const verseStr = i.toString()
-          const verseData = sourceChapter[verseStr];
-          if (verseData) {
-            if (combined.length) {
-              combined = combined.concat({type: "text", text: `\n  ${chapterId}:${i} `});
+        const { low, high } = getVerseSpanRange(verseSpan);
+        if ((low > 0) && (high > 0)) {
+          for (let i = low; i <= high; i++) {
+            const verseStr = i.toString();
+            const verseData = sourceChapter[verseStr];
+            if (verseData) {
+              if (combined.length) {
+                combined = combined.concat({type: 'text', text: `\n  ${chapterId}:${i} `});
+              }
+              combined = combined.concat(verseData.verseObjects);
             }
-            combined = combined.concat(verseData.verseObjects)
+            // remove individual verses after merging into verse span
+            delete targetChapter[verseStr];
+            delete targetChapterTokens[verseStr];
           }
-          // remove individual verses after merging into verse span
-          delete targetChapter[verseStr];
-          delete targetChapterTokens[verseStr];
         }
-        sourceChapter[verseSpan] = {verseObjects: combined};
+        sourceChapter[verseSpan] = { verseObjects: combined };
         sourceChapterTokens[verseSpan] = tokenizeVerseObjects(combined);
       }
     }

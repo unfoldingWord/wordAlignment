@@ -98,7 +98,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     flex: '1 1 auto',
-    overflowY: 'auto',
+    overflow: 'auto',
     boxSizing: 'border-box',
     margin: '0 10px 6px 10px',
     boxShadow: '0 3px 10px var(--background-color)',

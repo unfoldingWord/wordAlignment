@@ -1,4 +1,5 @@
 import Lexer from 'wordmap-lexer';
+import {verseHelpers} from 'tc-ui-toolkit';
 import {migrateChapterAlignments} from '../../utils/migrations';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
@@ -119,7 +120,7 @@ export const indexChapterAlignments = (
             const verseData = sourceChapter[verseStr];
             if (verseData) {
               if (combined.length) {
-                combined = combined.concat({type: 'text', text: `\n  ${chapterId}:${i} `});
+                combined.push(verseHelpers.createVerseMarker(i));
               }
               combined = combined.concat(verseData.verseObjects);
             }

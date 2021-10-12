@@ -1,4 +1,4 @@
-import {getVerseSpanRange, verseComparator} from "../index";
+import { getVerseSpanRange, verseComparator } from '../index';
 
 describe('verseComparator', () => {
   it('sorting verse order', () => {

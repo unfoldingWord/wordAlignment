@@ -35,7 +35,7 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
 };
 
 /**
- * convert verse to number
+ * convert verse to number for sorting
  * @param a
  * @return {number}
  */
@@ -52,21 +52,6 @@ export const verseComparator = (a, b) => {
   const diff = getNumber(a) - getNumber(b);
   return diff;
 };
-
-/**
- * returns new object with keys are sorted by verse order
- * @param object
- * @return {*[]} new sorted object
- */
-export const sortObjectByVerse = (object) => {
-  let keys = Object.keys(object);
-  keys = keys.sort(verseComparator);
-  const newObject = [];
-  for (let key of keys) {
-    newObject[key] = object[key];
-  }
-  return newObject;
-}
 
 /**
  * get verse range from span
@@ -132,14 +117,6 @@ export const indexChapterAlignments = (
         sourceChapter[verseSpan] = { verseObjects: combined };
         sourceChapterTokens[verseSpan] = tokenizeVerseObjects(combined);
       }
-    }
-
-    if (verseSpans.length) {
-      // fixup verse order
-      sourceChapter = sortObjectByVerse(sourceChapter);
-      sourceChapterTokens = sortObjectByVerse(sourceChapterTokens);
-      targetChapter = sortObjectByVerse(targetChapter);
-      targetChapterTokens = sortObjectByVerse(targetChapterTokens);
     }
 
     // migrate alignment data

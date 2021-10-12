@@ -65,7 +65,7 @@ const WordOccurrence = ({
 WordOccurrence.propTypes = {
   style: PropTypes.object,
   isHebrew: PropTypes.bool,
-  fontSize: PropTypes.string,
+  fontSize: PropTypes.number,
   occurrence: PropTypes.number.isRequired,
   occurrences: PropTypes.number.isRequired,
 };

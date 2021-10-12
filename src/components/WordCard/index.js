@@ -191,7 +191,7 @@ class WordCard extends React.Component {
 
 WordCard.propTypes = {
   isHebrew: PropTypes.bool,
-  fontSize: PropTypes.string,
+  fontSize: PropTypes.number,
   disableTooltip: PropTypes.bool,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,

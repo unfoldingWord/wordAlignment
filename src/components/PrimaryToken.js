@@ -121,7 +121,7 @@ class PrimaryToken extends Component {
 }
 
 PrimaryToken.propTypes = {
-  fontSize: PropTypes.string,
+  fontSize: PropTypes.number,
   translate: PropTypes.func.isRequired,
   wordIndex: PropTypes.number,
   alignmentLength: PropTypes.number,

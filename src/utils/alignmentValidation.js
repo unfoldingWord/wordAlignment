@@ -74,7 +74,7 @@ export function isValidVerse(verse) {
       return !isNaN(verse);
     case 'string':
       const value = parseInt(verse); // this will work for verse spans and verse numbers as strings
-      return value !== -1;
+      return !isNaN(value);
     default:
       break;
   }

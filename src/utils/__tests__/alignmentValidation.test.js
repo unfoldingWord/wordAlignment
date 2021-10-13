@@ -1,4 +1,54 @@
-import {areAlignmentsEquivalent} from '../alignmentValidation';
+import {areAlignmentsEquivalent, isValidVerse} from '../alignmentValidation';
+
+describe('isValidVerse', () => {
+  it('number is valid', () => {
+    //given
+    const verse = 1;
+    const expected = true;
+
+    // when
+    const isValid = isValidVerse(verse);
+
+    //then
+    expect(isValid).toEqual(expected);
+  });
+
+  it('number string is valid', () => {
+    //given
+    const verse = '1';
+    const expected = true;
+
+    // when
+    const isValid = isValidVerse(verse);
+
+    //then
+    expect(isValid).toEqual(expected);
+  });
+
+  it('number span is valid', () => {
+    //given
+    const verse = '1-2';
+    const expected = true;
+
+    // when
+    const isValid = isValidVerse(verse);
+
+    //then
+    expect(isValid).toEqual(expected);
+  });
+
+  it('non-numeric string is not valid', () => {
+    //given
+    const verse = 'front';
+    const expected = false;
+
+    // when
+    const isValid = isValidVerse(verse);
+
+    //then
+    expect(isValid).toEqual(expected);
+  });
+});
 
 describe('Determine alignment equivalence', () => {
 

@@ -97,6 +97,7 @@ export const indexChapterAlignments = (
     }
     for (const verseSpan of verseSpans) {
       if (!sourceChapter[verseSpan]) {
+        // if verse span and verse span does not exist, create span by combining verses
         let combined = [];
         const { low, high } = getVerseSpanRange(verseSpan);
         if ((low > 0) && (high > 0)) {
@@ -104,7 +105,7 @@ export const indexChapterAlignments = (
             const verseStr = i.toString();
             const verseData = sourceChapter[verseStr];
             if (verseData) {
-              if (combined.length) {
+              if (combined.length) { // add verse marker between each verse
                 combined.push(verseHelpers.createVerseMarker(i));
               }
               combined = combined.concat(verseData.verseObjects);

@@ -182,7 +182,7 @@ class DroppableAlignmentCard extends Component {
 }
 
 DroppableAlignmentCard.propTypes = {
-  fontSize: PropTypes.string,
+  fontSize: PropTypes.number,
   onCancelTokenSuggestion: PropTypes.func,
   onAcceptTokenSuggestion: PropTypes.func,
   translate: PropTypes.func.isRequired,

@@ -61,3 +61,22 @@ function compareTokens(prev, next) {
   // TRICKY: this is in a separate function just in case we need additional logic.
   return prev.text === next.text;
 }
+
+/**
+ * test if verse is valid verse number or verse span string
+ * @param {string|number} verse
+ * @return {boolean}
+ */
+export function isValidVerse(verse) {
+  const type = typeof verse;
+  switch (type) {
+    case 'number':
+      return !isNaN(verse);
+    case 'string':
+      const value = parseInt(verse); // this will work for verse spans and verse numbers as strings
+      return !isNaN(value);
+    default:
+      break;
+  }
+  return false; // anything else is not valid
+}

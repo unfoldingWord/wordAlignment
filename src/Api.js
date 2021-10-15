@@ -40,12 +40,14 @@ import {
   repairAndInspectVerse,
   resetVerse,
   unalignTargetToken,
+  verseComparator,
 } from './state/actions';
 import {
   clearContextId,
 } from './state/actions/contextIdActions';
 import SimpleCache, { INSTANCE_STORAGE } from './utils/SimpleCache';
 import { migrateChapterAlignments } from './utils/migrations';
+import { isValidVerse } from './utils/alignmentValidation';
 // consts
 import {
   FINISHED_KEY,
@@ -131,7 +133,7 @@ export default class Api extends ToolApi {
     } = props;
 
     for (const verse of Object.keys(targetBook[chapter])) {
-      if (!isNaN(verse)) { // only load valid numbers
+      if (isValidVerse(verse)) { // only load valid verse ids
         if (sourceBook[chapter][verse] === undefined) {
           console.warn(
             `Missing passage ${chapter}:${verse} in source text. Skipping alignment initialization.`);
@@ -190,7 +192,7 @@ export default class Api extends ToolApi {
    * @param {boolean} silent - if true, alignments invalidated prompt is not displayed, only valid returned
    */
   validateVerse(chapter, verse, silent=false) {
-    if (isNaN(verse) || parseInt(verse) === -1 ||
+    if (!isValidVerse(verse) ||
       isNaN(chapter) || parseInt(chapter) === -1) {
       return;
     }
@@ -347,8 +349,9 @@ export default class Api extends ToolApi {
       return true;
     }
 
-    for (const verse of Object.keys(targetBook[chapter])) {
-      if (isNaN(verse) || parseInt(verse) === -1) {
+    const verses = Object.keys(targetBook[chapter]).sort(verseComparator);
+    for (const verse of verses) {
+      if (!isValidVerse(verse)) {
         continue;
       }
       loadGroupMenuItem(this, chapter, verse, contextId);
@@ -801,7 +804,7 @@ export default class Api extends ToolApi {
       for (let j = 0, verseLen = verses.length; j < verseLen; j ++) {
         const verse = verses[j];
 
-        if (isNaN(verse) || parseInt(verse) === -1) {
+        if (!isValidVerse(verse)) {
           continue;
         }
 
@@ -846,7 +849,7 @@ export default class Api extends ToolApi {
       for (let j = 0, verseLen = verses.length; j < verseLen; j ++) {
         const verse = verses[j];
 
-        if (isNaN(verse) || parseInt(verse) === -1) {
+        if (!isValidVerse(verse)) {
           continue;
         }
 

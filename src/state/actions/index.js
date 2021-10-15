@@ -1,4 +1,5 @@
 import Lexer from 'wordmap-lexer';
+import {verseHelpers} from 'tc-ui-toolkit';
 import {migrateChapterAlignments} from '../../utils/migrations';
 import {tokenizeVerseObjects} from '../../utils/verseObjects';
 import {removeUsfmMarkers} from '../../utils/usfmHelpers';
@@ -34,6 +35,37 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
 };
 
 /**
+ * convert verse to number for sorting
+ * @param a
+ * @return {number}
+ */
+function getNumber(a) {
+  let number = parseInt(a);
+  if (isNaN(number)) {
+    number = 10000000;
+  }
+  return number;
+}
+
+// for sorting verses that are strings in numerical order
+export const verseComparator = (a, b) => {
+  const diff = getNumber(a) - getNumber(b);
+  return diff;
+};
+
+/**
+ * get verse range from span
+ * @param {string} verseSpan
+ * @return {{high: number, low: number}}
+ */
+export function getVerseSpanRange(verseSpan) {
+  let [low, high] = verseSpan.split('-');
+  low = parseInt(low);
+  high = parseInt(high);
+  return { low, high };
+}
+
+/**
  * Retrieves some extra data from redux before inserting the chapter alignments.
  * The pain point here is due to the current alignment file format we cannot
  * reliably assume token order. Therefore we must include a frame of reference.
@@ -47,15 +79,45 @@ export const indexChapterAlignments = (
   chapterId, rawAlignmentData, sourceChapter, targetChapter) => {
   return (dispatch) => {
     // tokenize baseline chapters
-    const targetChapterTokens = {};
-    const sourceChapterTokens = {};
-    for (const verse of Object.keys(targetChapter)) {
+    let targetChapterTokens = {};
+    let sourceChapterTokens = {};
+    const verseSpans = [];
+    const targetVerses = Object.keys(targetChapter);
+    for (const verse of targetVerses) {
       const targetVerseText = removeUsfmMarkers(targetChapter[verse]);
       targetChapterTokens[verse] = Lexer.tokenize(targetVerseText);
+      if (verse.includes('-')) {
+        verseSpans.push(verse);
+      }
     }
-    for (const verse of Object.keys(sourceChapter)) {
+    const sourceVerses = Object.keys(sourceChapter);
+    for (const verse of sourceVerses) {
       sourceChapterTokens[verse] = tokenizeVerseObjects(
         sourceChapter[verse].verseObjects);
+    }
+    for (const verseSpan of verseSpans) {
+      if (!sourceChapter[verseSpan]) {
+        // if verse span and verse span does not exist, create span by combining verses
+        let combined = [];
+        const { low, high } = getVerseSpanRange(verseSpan);
+        if ((low > 0) && (high > 0)) {
+          for (let i = low; i <= high; i++) {
+            const verseStr = i.toString();
+            const verseData = sourceChapter[verseStr];
+            if (verseData) {
+              if (combined.length) { // add verse marker between each verse
+                combined.push(verseHelpers.createVerseMarker(i));
+              }
+              combined = combined.concat(verseData.verseObjects);
+            }
+            // remove individual verses after merging into verse span
+            delete targetChapter[verseStr];
+            delete targetChapterTokens[verseStr];
+          }
+        }
+        sourceChapter[verseSpan] = { verseObjects: combined };
+        sourceChapterTokens[verseSpan] = tokenizeVerseObjects(combined);
+      }
     }
 
     // migrate alignment data

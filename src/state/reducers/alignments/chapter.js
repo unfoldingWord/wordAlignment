@@ -16,6 +16,7 @@ import {
   UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
 import verse, * as fromVerse from './verse';
+import { isValidVerse } from '../../../utils/alignmentValidation';
 
 /**
  * Reduces the chapter alignment state
@@ -39,8 +40,8 @@ const chapter = (state = {}, action) => {
     case SET_ALIGNMENT_SUGGESTIONS:
     case RESET_VERSE_ALIGNMENTS:
     case ALIGN_RENDERED_TARGET_TOKEN: {
-      if(isNaN(action.verse)) {
-        throw new Error('Alignment verse must be a number');
+      if(!isValidVerse(action.verse)) {
+        throw new Error(`Alignment verse must be a number or span, not ${action.verse}`);
       }
       const vid = action.verse + '';
       return {

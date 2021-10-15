@@ -97,7 +97,8 @@ const styles = {
   alignmentGridWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    flex: '1 1 auto',
+    overflow: 'auto',
     boxSizing: 'border-box',
     margin: '0 10px 6px 10px',
     boxShadow: '0 3px 10px var(--background-color)',
@@ -109,7 +110,7 @@ const styles = {
  * @param targetBook
  * @param state
  * @param {number} currentChapter
- * @param {number} currentVerse
+ * @param {number|string} currentVerse
  * @return {Promise<WordMap>}
  */
 export const generateMAP = (
@@ -122,7 +123,7 @@ export const generateMAP = (
       const chapterAlignments = getChapterAlignments(state, chapter);
 
       for (const verse of Object.keys(chapterAlignments)) {
-        if (parseInt(verse) === currentVerse && parseInt(chapter) ===
+        if (verse === currentVerse && parseInt(chapter) ===
             currentChapter) {
           // exclude current verse from saved alignments
           continue;

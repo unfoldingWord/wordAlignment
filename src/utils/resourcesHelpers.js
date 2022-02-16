@@ -141,7 +141,7 @@ export function getAvailableScripturePaneSelections(resourceList, contextId, bib
 /**
  * get object of latest versions by owner
  * @param {string} folder
- * @return {*}
+ * @return {object}
  */
 export function getLatestVersionsAndOwners(folder) {
   return resourcesHelpers.getLatestVersionsAndOwners(folder);

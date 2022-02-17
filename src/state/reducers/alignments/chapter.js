@@ -15,8 +15,8 @@ import {
   UNALIGN_RENDERED_SOURCE_TOKEN,
   UNALIGN_RENDERED_TARGET_TOKEN
 } from '../../actions/actionTypes';
-import verse, * as fromVerse from './verse';
 import { isValidVerse } from '../../../utils/alignmentValidation';
+import verse, * as fromVerse from './verse';
 
 /**
  * Reduces the chapter alignment state

@@ -1,3 +1,4 @@
+import { getBibleElement } from './bibleHelpers';
 
 export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
   // filter out targetLanguage and OL
@@ -8,7 +9,7 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
     if (!filterOut) {
       const isOL = ['bhp','ugnt','uhb'].includes(pane.bibleId);
 
-      if (isOL) {// strip OL which will be place second
+      if (isOL) {// strip OL which will be placed second
         olBible = pane.bibleId;
         filterOut = isOL;
       }
@@ -61,4 +62,13 @@ export const sortPanesSettings = (currentPanes, setToolSettings, bibles) => {
   setToolSettings('ScripturePane', 'currentPaneSettings', desiredPanes);
 };
 
-const isPaneSettingFoundInBibles = (bibles, paneSetting) => bibles[paneSetting.languageId] && bibles[paneSetting.languageId][paneSetting.bibleId] ? true : false;
+/**
+ * check for pane
+ * @param {object} bibles
+ * @param {object} paneSetting
+ * @return {boolean}
+ */
+function isPaneSettingFoundInBibles(bibles, paneSetting) {
+  const bible = getBibleElement(bibles, paneSetting.languageId, paneSetting.bibleId, paneSetting.owner);
+  return !!bible;
+}

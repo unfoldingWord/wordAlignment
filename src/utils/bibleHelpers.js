@@ -46,3 +46,17 @@ export function isOriginalLanguageBible(languageId, bookId) {
 export function isOriginalLanguage(languageId) {
   return (languageId.toLowerCase() === NT_ORIG_LANG || languageId.toLowerCase() === OT_ORIG_LANG);
 }
+
+/**
+ * get bible from bibles
+ * @param {object} bibles
+ * @param {string} languageId
+ * @param {string} owner
+ * @param {string} bibleId
+ * @return {*}
+ */
+export function getBibleElement(bibles, languageId, bibleId, owner = null) {
+  const key = (owner && languageId !== 'targetLanguage') ? `${languageId}_${owner}` : languageId;
+  const bibleElement = bibles[key]?.[bibleId];
+  return bibleElement;
+}

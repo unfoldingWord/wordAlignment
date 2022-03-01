@@ -887,13 +887,11 @@ export default class Api extends ToolApi {
       const p = projects[i];
       const resourceId_ = p.getResourceId().toLowerCase(); // make sure lower case
       const projectMemoryPath = `alignmentData_WordMap_${resourceId_}_${p.getLanguageId()}_${p.getBookId()}.json`;
-
-      // this.recordAlignmentMemory(p);
+      const isCurrentBook = p.getBookId() !== bookIdFilter;
 
       if (p.getLanguageId() === languageId
        && resourceId_ === resourceId
-       && p.getOriginalLanguageId() === originalLanguageId
-       && p.getBookId() !== bookIdFilter) {
+       && p.getOriginalLanguageId() === originalLanguageId) {
         const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
         const cachedAlignments = globalAlignmentCache.get(key);
 
@@ -908,7 +906,9 @@ export default class Api extends ToolApi {
                 const targetNgram = new Ngram(a.targetNgram.map(t => new Token(t)));
                 projectMemory.push(new Alignment(sourceNgram, targetNgram));
               }
-              memory.push.apply(memory, projectMemory);
+              if (!isCurrentBook) { // skip if current book, will be added to memory later
+                memory.push.apply(memory, projectMemory);
+              }
               p.writeDataFileSync(projectMemoryPath, JSON.stringify(projectMemory));
               continue;
             }
@@ -937,7 +937,9 @@ export default class Api extends ToolApi {
                   const sourceNgramTokens = a.sourceNgram.map(p => new Token(alignmentData[verse].sourceTokens[p]));
                   const targetNgramTokens = a.targetNgram.map(p => new Token(alignmentData[verse].targetTokens[p]));
                   const alignment = new Alignment(new Ngram(sourceNgramTokens), new Ngram(targetNgramTokens));
-                  memory.push(alignment);
+                  if (!isCurrentBook) { // skip if current book, will be added to memory later
+                    memory.push(alignment);
+                  }
                   projectMemory.push(alignment.toJSON(true));
                 }
               }

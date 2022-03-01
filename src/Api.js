@@ -256,6 +256,7 @@ export default class Api extends ToolApi {
     const state = store.getState();
     let alignmentsAreValid = true;
     let hasCorruptChapters = false;
+    this.AllAlignments = [];
 
     for (const chapter of Object.keys(targetBook)) {
       if (isNaN(chapter) || parseInt(chapter) === -1) {
@@ -292,6 +293,9 @@ export default class Api extends ToolApi {
         Api._initChapterAlignments(props, chapter);
       }
     }
+
+    const alignmentsPath = `alignments_for_${bookId}.json`;
+    props.tool.writeToolData(alignmentsPath, JSON.stringify(this.AllAlignments));
 
     if (hasCorruptChapters) {
       showDialog(translate('alignments_corrupt'),
@@ -342,7 +346,9 @@ export default class Api extends ToolApi {
       tc: { targetBook },
       contextId,
     } = props;
+    const { store } = this.context;
     let chapterIsValid = true;
+    let bookId = contextId?.reference?.bookId;
 
     if (!(chapter in targetBook)) {
       console.warn(`Could not validate missing chapter ${chapter}`);
@@ -351,7 +357,9 @@ export default class Api extends ToolApi {
 
     const verses = Object.keys(targetBook[chapter]).sort(verseComparator);
     for (const verse of verses) {
+      const verseAlignmentPath = `alignments_${bookId}_${chapter}_${verse}.json`;
       if (!isValidVerse(verse)) {
+        this.writeVerseAlignments(store, chapter, verse, props, verseAlignmentPath, bookId);
         continue;
       }
       loadGroupMenuItem(this, chapter, verse, contextId);
@@ -360,8 +368,21 @@ export default class Api extends ToolApi {
       if (!isValid) {
         chapterIsValid = isValid;
       }
+      this.writeVerseAlignments(store, chapter, verse, props, verseAlignmentPath, bookId);
     }
     return chapterIsValid;
+  }
+
+  writeVerseAlignments(store, chapter, verse, props, verseAlignmentPath, bookId) {
+    const reference = {
+      chapter,
+      verse,
+      bookId,
+    }
+    const alignments = getVerseAlignments(store.getState(), chapter, verse);
+    props.tool.writeToolData(verseAlignmentPath, JSON.stringify(alignments));
+    for (const alignment of alignments) { alignment.reference = reference } // add reference
+    this.AllAlignments.push.apply(this.AllAlignments, alignments); // append alignments
   }
 
   /**
@@ -887,7 +908,7 @@ export default class Api extends ToolApi {
       const p = projects[i];
       const resourceId_ = p.getResourceId().toLowerCase(); // make sure lower case
       const projectMemoryPath = `alignmentData_WordMap_${resourceId_}_${p.getLanguageId()}_${p.getBookId()}.json`;
-      const isCurrentBook = p.getBookId() !== bookIdFilter;
+      const isCurrentBook = p.getBookId() === bookIdFilter;
 
       if (p.getLanguageId() === languageId
        && resourceId_ === resourceId
@@ -895,7 +916,7 @@ export default class Api extends ToolApi {
         const key = this.getAlignMemoryKey(p.getLanguageId(), resourceId_, p.getBookId());
         const cachedAlignments = globalAlignmentCache.get(key);
 
-        if (cachedAlignments) {
+        if (cachedAlignments && !isCurrentBook) {
           // de-serialize the project memory
           try {
             const projectMemory = [];

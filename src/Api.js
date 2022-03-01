@@ -886,6 +886,9 @@ export default class Api extends ToolApi {
     for (let i = 0, len = projects.length; i < len; i++) {
       const p = projects[i];
       const resourceId_ = p.getResourceId().toLowerCase(); // make sure lower case
+      const projectMemoryPath = `alignmentData_WordMap_${resourceId_}_${p.getLanguageId()}_${p.getBookId()}.json`;
+
+      // this.recordAlignmentMemory(p);
 
       if (p.getLanguageId() === languageId
        && resourceId_ === resourceId
@@ -906,6 +909,7 @@ export default class Api extends ToolApi {
                 projectMemory.push(new Alignment(sourceNgram, targetNgram));
               }
               memory.push.apply(memory, projectMemory);
+              p.writeDataFileSync(projectMemoryPath, JSON.stringify(projectMemory));
               continue;
             }
           } catch (e) {
@@ -943,6 +947,7 @@ export default class Api extends ToolApi {
           }
         }
 
+        p.writeDataFileSync(projectMemoryPath, JSON.stringify(projectMemory));
         // cache serialized project memory
         globalAlignmentCache.set(key, projectMemory);
       }

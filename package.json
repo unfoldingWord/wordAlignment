@@ -91,7 +91,7 @@
     "redux-batched-actions": "0.3.0",
     "reselect": "3.0.1",
     "selections": "^0.1.7",
-    "simple-git": "^1.131.0",
+    "simple-git": "^3.3.0",
     "tc-electron-env": "0.9.0",
     "tc-tool": "3.0.3",
     "tc-ui-toolkit": "5.3.1",

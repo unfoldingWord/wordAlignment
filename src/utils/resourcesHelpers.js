@@ -89,7 +89,7 @@ export function getAvailableScripturePaneSelections(resourceList, contextId, bib
 
         biblesFolders.forEach(bibleId => {
           const bibleIdPath = path.join(biblesPath, bibleId);
-          const owners = getLatestVersionsAndOwners(bibleIdPath);
+          const owners = getLatestVersionsAndOwners(bibleIdPath) || {};
 
           for (const owner of Object.keys(owners)) {
             let bibleLatestVersion = owners[owner];

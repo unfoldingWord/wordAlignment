@@ -568,10 +568,17 @@ export default class Api extends ToolApi {
 
     if (contextId) {
       const { reference: { chapter, verse } } = contextId;
-      const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
-      const sourceVerse = sourceBook[chapter][verse];
+      let targetVerseText, sourceVerse;
       let targetTokens = [];
       let sourceTokens = [];
+
+      try {
+        targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+      } catch {}
+
+      try {
+        sourceVerse = sourceBook[chapter][verse];
+      } catch {}
 
       if (targetVerseText) {
         targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));

@@ -568,10 +568,21 @@ export default class Api extends ToolApi {
 
     if (contextId) {
       const { reference: { chapter, verse } } = contextId;
-      const targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
-      const sourceVerse = sourceBook[chapter][verse];
+      let targetVerseText, sourceVerse;
       let targetTokens = [];
       let sourceTokens = [];
+
+      try {
+        targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
+      } catch {
+        console.warn(`wordAlignment.API - error reading ${chapter}:${verse} from target book`)
+      }
+
+      try {
+        sourceVerse = sourceBook[chapter][verse];
+      } catch {
+        console.warn(`wordAlignment.API - error reading ${chapter}:${verse} from source book`)
+      }
 
       if (targetVerseText) {
         targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));

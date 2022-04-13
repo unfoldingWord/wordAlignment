@@ -574,11 +574,15 @@ export default class Api extends ToolApi {
 
       try {
         targetVerseText = removeUsfmMarkers(targetBook[chapter][verse]);
-      } catch {}
+      } catch {
+        console.warn(`wordAlignment.API - error reading ${chapter}:${verse} from target book`)
+      }
 
       try {
         sourceVerse = sourceBook[chapter][verse];
-      } catch {}
+      } catch {
+        console.warn(`wordAlignment.API - error reading ${chapter}:${verse} from source book`)
+      }
 
       if (targetVerseText) {
         targetTokens = Lexer.tokenize(removeUsfmMarkers(targetVerseText));

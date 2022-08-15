@@ -228,7 +228,7 @@
     "add_resource": "Cliquer pour ajouter une ressource",
     "add_resource_label": "Ajouter des ressources",
     "select_language": "Sélectionnez une langue",
-    "gateway_language": "Langue de passerelle",
+    "gateway_language": "Langue-relais",
     "target_language": "Langue cible",
     "original_language": "Langue source",
     "select_font_label": "Sélectionner la police"

@@ -180,6 +180,7 @@
   "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
   "selections_invalidated": "Some selections are no longer valid and are removed.",
   "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
+  "pre_release": "Pre-release",
   "buttons": {
     "ok_button": "બરાબર",
     "back_button": "પાછા જાઓ",

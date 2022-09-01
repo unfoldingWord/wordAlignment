@@ -83,58 +83,69 @@ export function getAvailableScripturePaneSelections(resourceList, contextId, bib
     languagesIds.forEach((languageId) => {
       const biblesPath = path.join(USER_RESOURCES_PATH, languageId, 'bibles');
 
-      if (fs.existsSync(biblesPath)) {
-        const biblesFolders = fs.readdirSync(biblesPath).
-          filter(folder => folder !== '.DS_Store');
+      try {
+        if (fs.existsSync(biblesPath)) {
+          const biblesFolders = fs.readdirSync(biblesPath).filter(folder => folder !== '.DS_Store');
 
-        biblesFolders.forEach(bibleId => {
-          const bibleIdPath = path.join(biblesPath, bibleId);
-          const owners = getLatestVersionsAndOwners(bibleIdPath) || {};
+          biblesFolders.forEach(bibleId => {
+            const bibleIdPath = path.join(biblesPath, bibleId);
 
-          for (const owner of Object.keys(owners)) {
-            let bibleLatestVersion = owners[owner];
+            try {
+              const owners = getLatestVersionsAndOwners(bibleIdPath) || {};
 
-            if (bibleLatestVersion) {
-              const pathToBibleManifestFile = path.join(bibleLatestVersion, 'manifest.json');
+              for (const owner of Object.keys(owners)) {
+                let bibleLatestVersion = owners[owner];
 
-              try {
-                const manifestExists = fs.existsSync(pathToBibleManifestFile);
-                const bookExists = fs.existsSync(
-                  path.join(bibleLatestVersion, bookId, '1.json'));
+                try {
+                  if (bibleLatestVersion) {
+                    const pathToBibleManifestFile = path.join(bibleLatestVersion, 'manifest.json');
 
-                if (manifestExists && bookExists) {
-                  let languageId_ = languageId;
+                    try {
+                      const manifestExists = fs.existsSync(pathToBibleManifestFile);
+                      const bookExists = fs.existsSync(
+                        path.join(bibleLatestVersion, bookId, '1.json'));
 
-                  if (isOriginalLanguage(languageId)) {
-                    languageId_ = ORIGINAL_LANGUAGE;
+                      if (manifestExists && bookExists) {
+                        let languageId_ = languageId;
+
+                        if (isOriginalLanguage(languageId)) {
+                          languageId_ = ORIGINAL_LANGUAGE;
+                        }
+
+                        const manifest = fs.readJsonSync(pathToBibleManifestFile);
+
+                        if (Object.keys(manifest).length) {
+                          const resource = {
+                            bookId,
+                            bibleId,
+                            languageId: languageId_,
+                            manifest,
+                            owner,
+                          };
+                          resourceList.push(resource);
+                        }
+                      }
+                    } catch (e) {
+                      console.error('WA:getAvailableScripturePaneSelections() - Invalid bible: ' + bibleLatestVersion, e);
+                    }
                   }
-
-                  const manifest = fs.readJsonSync(pathToBibleManifestFile);
-
-                  if (Object.keys(manifest).length) {
-                    const resource = {
-                      bookId,
-                      bibleId,
-                      languageId: languageId_,
-                      manifest,
-                      owner,
-                    };
-                    resourceList.push(resource);
-                  }
+                } catch (e) {
+                  console.error(`WA:getAvailableScripturePaneSelections() - failed to get bibles for ${owner} in ${bibleIdPath}`, e);
                 }
-              } catch (e) {
-                console.error('Invalid bible: ' + bibleLatestVersion, e);
               }
+            } catch (e) {
+              console.error(`WA:getAvailableScripturePaneSelections() - failed to get latest version bible in ${bibleIdPath}`, e);
             }
-          }
-        });
-      } else {
-        console.error('Directory not found, ' + biblesPath);
+          });
+        } else {
+          console.error('WA:getAvailableScripturePaneSelections() - Directory not found, ' + biblesPath);
+        }
+      } catch (e) {
+        console.error('WA:getAvailableScripturePaneSelections() - Failed to read list of bibles at ' + biblesPath);
       }
     });
-  } catch (err) {
-    console.error('getAvailableScripturePaneSelections:');
-    console.error(err);
+  } catch (e) {
+    console.error('WA:getAvailableScripturePaneSelections() - FAILED: ', e);
   }
 }
 

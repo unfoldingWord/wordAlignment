@@ -26,7 +26,7 @@ export const NT_ORIG_LANG_BIBLE = 'ugnt';
 export const OT_ORIG_LANG = 'hbo';
 export const OT_ORIG_LANG_BIBLE = 'uhb';
 // url strings
-export const DCS_BASE_URL = 'https://git.door43.org';
+export const DCS_BASE_URL = 'https://qa.door43.org';
 // alerts strings
 export const ALERT_ALIGNMENTS_RESET_ID = 'alignments_reset';
 export const ALERT_SELECTIONS_INVALIDATED_ID = 'selections_invalidated_id';

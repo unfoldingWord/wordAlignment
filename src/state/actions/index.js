@@ -41,8 +41,13 @@ export const resetVerse = (chapter, verse, sourceTokens, targetTokens) => {
  */
 function getNumber(a) {
   let number = parseInt(a);
+
   if (isNaN(number)) {
-    number = 10000000;
+    if (a === 'front') {
+      number = -1;
+    } else {
+      number = 10000000;
+    }
   }
   return number;
 }

@@ -166,6 +166,7 @@ class MAPControls extends React.Component {
       onRefresh,
       onAccept,
       onReject,
+      onClear,
       translate,
       complete,
       onToggleComplete,
@@ -203,6 +204,13 @@ class MAPControls extends React.Component {
             </SecondaryButton>
           </Tooltip>
 
+          <Tooltip tooltip={translate('suggestions.clear_suggestions')}>
+            <SecondaryButton style={styles.button} onClick={onClear}>
+              <CancelIcon style={styles.buttonIcon}/>
+              {translate('suggestions.clear')}
+            </SecondaryButton>
+          </Tooltip>
+
           <Toggle
             labelPosition={'right'}
             label={translate('alignment_complete')}
@@ -227,6 +235,7 @@ MAPControls.propTypes = {
   showPopover: PropTypes.func.isRequired,
   onRefresh: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   complete: PropTypes.bool.isRequired,

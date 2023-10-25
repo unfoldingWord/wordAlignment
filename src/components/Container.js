@@ -20,6 +20,7 @@ import {
   acceptAlignmentSuggestions,
   acceptTokenSuggestion,
   alignTargetToken,
+  clearAllAlignments,
   clearAlignmentSuggestions,
   clearState,
   moveSourceToken,
@@ -176,6 +177,7 @@ export class Container extends Component {
     this.handleRefreshSuggestions = this.handleRefreshSuggestions.bind(this);
     this.handleAcceptSuggestions = this.handleAcceptSuggestions.bind(this);
     this.handleRejectSuggestions = this.handleRejectSuggestions.bind(this);
+    this.handleClearAlignments =   this.handleClearAlignments.bind(this);
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
     this.handleToggleComplete = this.handleToggleComplete.bind(this);
     this.enableAutoComplete = this.enableAutoComplete.bind(this);
@@ -539,6 +541,17 @@ export class Container extends Component {
     this.handleResetWordList();
   }
 
+  handleClearAlignments() {
+    const {
+      clearAllAlignments,
+      clearAlignmentSuggestions,
+      contextId: { reference: { chapter, verse } },
+    } = this.props;
+    clearAlignmentSuggestions(chapter, verse);
+    clearAllAlignments(chapter, verse)
+    this.handleResetWordList();
+  }
+
   handleRejectSuggestions() {
     const {
       clearAlignmentSuggestions,
@@ -817,6 +830,7 @@ export class Container extends Component {
               showPopover={showPopover}
               onRefresh={this.handleRefreshSuggestions}
               onReject={this.handleRejectSuggestions}
+              onClear={this.handleClearAlignments}
               translate={translate}
             />
           </div>
@@ -882,6 +896,7 @@ Container.propTypes = {
   resetVerse: PropTypes.func.isRequired,
   setAlignmentPredictions: PropTypes.func.isRequired,
   clearAlignmentSuggestions: PropTypes.func.isRequired,
+  clearAllAlignments: PropTypes.func.isRequired,
   acceptAlignmentSuggestions: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
   addBookmark: PropTypes.func.isRequired,
@@ -930,6 +945,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeTokenSuggestion,
     acceptAlignmentSuggestions,
     setAlignmentPredictions,
+    clearAllAlignments,
     clearAlignmentSuggestions,
     addComment,
     addBookmark,

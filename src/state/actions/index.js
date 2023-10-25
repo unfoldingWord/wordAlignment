@@ -394,6 +394,18 @@ export const clearAlignmentSuggestions = (chapter, verse) => ({
 });
 
 /**
+ * Removes all alignment suggestions for a verse
+ * @param chapter
+ * @param verse
+ * @return {{type: string, chapter: *, verse: *}}
+ */
+export const clearAllAlignments = (chapter, verse) => ({
+  type: types.RESET_VERSE_ALIGNMENTS,
+  chapter,
+  verse
+});
+
+/**
  * Accepts all alignment suggestions for a verse
  * @param chapter
  * @param verse

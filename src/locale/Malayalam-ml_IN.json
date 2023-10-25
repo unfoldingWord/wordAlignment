@@ -209,10 +209,12 @@
     "refresh_suggestions": "Refresh suggestions.",
     "accept_suggestions": "Accept all suggestions.",
     "reject_suggestions": "Reject all suggestions.",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
-    "reject": "Reject"
+    "reject": "Reject",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

@@ -209,10 +209,12 @@
     "refresh_suggestions": "ਤਾਜ਼ਾ ਸੁਝਾਅ |",
     "accept_suggestions": "ਸਾਰੇ ਸੁਝਾਅ ਸਵੀਕਾਰ ਕਰੋ |",
     "reject_suggestions": "ਸਾਰੇ ਸੁਝਾਅ ਰੱਦ ਕਰੋ |",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "ਕੋਈ ਨਵੇਂ ਸੁਝਾਅ ਨਹੀਂ",
     "refresh": "ਤਾਜ਼ਾ ਕਰਨਾ",
     "accept": "ਸਵੀਕਾਰ ਕਰਨਾ",
-    "reject": "ਅਸਵੀਕਾਰ ਕਰਨਾ"
+    "reject": "ਅਸਵੀਕਾਰ ਕਰਨਾ",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

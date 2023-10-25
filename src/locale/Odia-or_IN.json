@@ -209,10 +209,12 @@
     "refresh_suggestions": "ପ୍ରସ୍ତାବଗୁଡିକୁ ସତେଜ କରନ୍ତୁ।",
     "accept_suggestions": "ସମସ୍ତ ପ୍ରସ୍ତାବଗୁଡିକୁ ଗ୍ରହଣ କରନ୍ତୁ।",
     "reject_suggestions": "ସମସ୍ତ ପ୍ରସ୍ତାବଗୁଡିକୁ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ।",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "କୌଣସି ନୂତନ ପ୍ରସ୍ତାବଗୁଡିକ ନାହିଁ",
     "refresh": "ରିଫ୍ରେସ୍ କରନ୍ତୁ",
     "accept": "ଗ୍ରହଣ କରନ୍ତୁ",
-    "reject": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ"
+    "reject": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

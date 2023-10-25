@@ -209,10 +209,12 @@
     "refresh_suggestions": "ताज़ा सुझाव.",
     "accept_suggestions": "सभी स्वीकार करते हैं सुझाव है.",
     "reject_suggestions": "अस्वीकार सभी सुझाव है ।",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "कोई नया सुझाव नहीं",
     "refresh": "ताज़ा करना",
     "accept": "स्वीकार करना",
-    "reject": "अस्वीकार"
+    "reject": "अस्वीकार",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

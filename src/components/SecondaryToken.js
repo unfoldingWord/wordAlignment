@@ -64,6 +64,7 @@ class SecondaryToken extends React.Component {
     const {
       token, onAccept, onClick,
     } = this.props;
+    const shiftClick = e.shiftKey;
 
     if (token.meta.suggestion) {
       onAccept(token);
@@ -75,7 +76,7 @@ class SecondaryToken extends React.Component {
           buttonDiv.style.cursor = 'pointer';
         }
       }, 1000);
-      onClick(token);
+      onClick(token, shiftClick);
     }
   }
 

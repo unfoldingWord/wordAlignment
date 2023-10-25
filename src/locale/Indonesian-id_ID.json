@@ -209,10 +209,12 @@
     "refresh_suggestions": "Refresh saran.",
     "accept_suggestions": "Terima semua saran.",
     "reject_suggestions": "Tolak semua saran.",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "Tidak ada saran baru",
     "refresh": "Refresh",
     "accept": "Terima",
-    "reject": "Tolak"
+    "reject": "Tolak",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "Ayat ini telah diedit",

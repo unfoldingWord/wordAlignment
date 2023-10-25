@@ -209,10 +209,12 @@
     "refresh_suggestions": "Обновить предложения.",
     "accept_suggestions": "Принять все предложения.",
     "reject_suggestions": "Отклонить все предложения.",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "Нет новых предложений",
     "refresh": "Обновить",
     "accept": "Принять",
-    "reject": "Отклонить"
+    "reject": "Отклонить",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "Этот стих был отредактирован",

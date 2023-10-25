@@ -209,10 +209,12 @@
     "refresh_suggestions": "সতেজ করা প্রস্তাব সমূহ ",
     "accept_suggestions": "সমস্ত প্রস্তাবগুলোকে স্বীকার করুন ",
     "reject_suggestions": "সমস্ত প্রস্তাবগুলোকে প্রত্যাখ্যান করুন ",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "No new suggestions",
     "refresh": "Refresh",
     "accept": "Accept",
-    "reject": "Reject"
+    "reject": "Reject",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

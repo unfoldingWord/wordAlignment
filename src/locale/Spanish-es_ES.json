@@ -209,10 +209,12 @@
     "refresh_suggestions": "Actualizar sugerencias.",
     "accept_suggestions": "Aceptar todas las sugerencias.",
     "reject_suggestions": "Rechazar todas las sugerencias.",
+    "clear_suggestions": "Eliminar alineaciones",
     "none": "No hay nuevas sugerencias",
     "refresh": "Actualizar",
     "accept": "Aceptar",
-    "reject": "Rechazar"
+    "reject": "Rechazar",
+    "clear": "Borrar"
   },
   "icons": {
     "verse_edits_found": "Este versículo ha sido editado",

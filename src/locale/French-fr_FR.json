@@ -168,7 +168,7 @@
   "haphel": "Haphel",
   "saphel": "Saphel",
   "shaphel": "Shaphel",
-  "ishtaphel": "Ishtaphel",
+  "ishtaphel": "Ichtaphel ",
   "ithpeel": "Ithpeel",
   "hithaphel": "Hithaphel",
   "hephal": "Hephal",
@@ -209,10 +209,12 @@
     "refresh_suggestions": "Actualiser les propositions.",
     "accept_suggestions": "Accepter toutes les propositions.",
     "reject_suggestions": "Refuser toutes les propositions.",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "Aucune nouvelles propositions",
     "refresh": "Actualiser",
     "accept": "Accepter",
-    "reject": "Rejeter"
+    "reject": "Rejeter",
+    "clear": "Clear"
   },
   "icons": {
     "verse_edits_found": "Ce verset a été modifié",

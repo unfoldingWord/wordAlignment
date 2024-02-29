@@ -61,9 +61,9 @@
   "verb": "Глагол",
   "transitive": "Переходное",
   "intransitive": "Непереходное",
-  "any": "Any",
-  "extraneous": "Extraneous",
-  "substantive_adjective": "Substantive Adjective",
+  "any": "Любые",
+  "extraneous": "Лишний",
+  "substantive_adjective": "Самостоятельное прилагательное",
   "linking": "Связь",
   "modal": "Модальное",
   "periphrastic": "Иносказание",
@@ -209,12 +209,12 @@
     "refresh_suggestions": "Обновить предложения.",
     "accept_suggestions": "Принять все предложения.",
     "reject_suggestions": "Отклонить все предложения.",
-    "clear_suggestions": "Clear All Alignments.",
+    "clear_suggestions": "Очистить все привязки.",
     "none": "Нет новых предложений",
     "refresh": "Обновить",
     "accept": "Принять",
     "reject": "Отклонить",
-    "clear": "Clear"
+    "clear": "Очистить"
   },
   "icons": {
     "verse_edits_found": "Этот стих был отредактирован",

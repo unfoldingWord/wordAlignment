@@ -227,7 +227,6 @@ export class Container extends Component {
     this.handleCommentClick = this.handleCommentClick.bind(this);
     this.handleCommentClose = this.handleCommentClose.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
-    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.state = {
       loading: false,
       validating: false,

@@ -202,6 +202,7 @@ export class Container extends Component {
     this.updatePredictions = this.updatePredictions.bind(this);
     this.runMAP = this.runMAP.bind(this);
     this.initMAP = this.initMAP.bind(this);
+    this.getHasRenderedSuggestions = this.getHasRenderedSuggestions.bind(this)
     this.handleAlignTargetToken = this.handleAlignTargetToken.bind(this);
     this.handleUnalignTargetToken = this.handleUnalignTargetToken.bind(this);
     this.handleAlignPrimaryToken = this.handleAlignPrimaryToken.bind(this);
@@ -572,6 +573,13 @@ export class Container extends Component {
     this.handleResetWordList();
   }
 
+  getHasRenderedSuggestions() {
+    const {
+      hasRenderedSuggestions
+    } = this.props;
+    return !!hasRenderedSuggestions
+  }
+
   handleClearAlignments() {
     const {
       clearAllAlignments,
@@ -784,7 +792,7 @@ export class Container extends Component {
       },
       ACCEPT: () => {
         // console.log('A - Accept action triggered')
-        if (hasRenderedSuggestions) {
+        if (this.getHasRenderedSuggestions()) {
           this.handleAcceptSuggestions()
         } else {
           // console.log('No suggestions')
@@ -792,7 +800,7 @@ export class Container extends Component {
       },
       REJECT: () => {
         // console.log('J - Reject action triggered')
-        if (hasRenderedSuggestions) {
+        if (this.getHasRenderedSuggestions()) {
           this.handleRejectSuggestions()
         } else {
           // console.log('No suggestions')

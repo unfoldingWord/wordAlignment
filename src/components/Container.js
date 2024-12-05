@@ -59,12 +59,15 @@ import {
   getUsername,
   getCurrentToolName,
   getProjectPath,
+  getUserData,
 } from '../state/selectors';
 import MAPControls from './MAPControls';
 import MissingBibleError from './MissingBibleError';
 import AlignmentGrid from './AlignmentGrid';
 import WordList from './WordList/index';
 import IconIndicators from './IconIndicators';
+import { HotKeys } from 'react-hotkeys';
+import {changeToNextContextId} from "../state/actions/contextIdActions";
 
 const styles = {
   container: {
@@ -104,6 +107,34 @@ const styles = {
     margin: '0 10px 6px 10px',
     boxShadow: '0 3px 10px var(--background-color)',
   },
+};
+
+let platform = 'null'
+if ("platform" in navigator) {
+  platform = navigator.platform
+  console.log(`Container: platform detected: ${platform}`, navigator)
+} else {
+  console.log(`Container: navigator does not support platform`, navigator)
+}
+
+// Function to detect the operating system
+const getOS = () => {
+  if (platform.startsWith('Mac')) return 'mac';
+  if (platform.startsWith('Win')) return 'windows';
+  return 'other';
+};
+
+const os = getOS();
+console.log(`Container: os detected ${os}`)
+
+// Define key combinations based on the operating system
+const keyMap = {
+  REFRESH: os === 'mac' ? 'command+f' : 'ctrl+f',
+  ACCEPT: os === 'mac' ? 'command+a' : 'ctrl+a',
+  REJECT: os === 'mac' ? 'command+j' : 'ctrl+j',
+  CLEAR: os === 'mac' ? 'command+k' : 'ctrl+k',
+  COMPLETE: os === 'mac' ? 'command+t' : 'ctrl+t',
+  NEXT: os === 'mac' ? 'command+n' : 'ctrl+n'
 };
 
 /**
@@ -528,13 +559,13 @@ export class Container extends Component {
     this.handleResetWordList();
   }
 
-  handleToggleComplete(e, isChecked) {
+  handleToggleComplete(e, isChecked, toggle = false) {
     const {
       tool: { api },
       contextId: { reference: { chapter, verse } },
     } = this.props;
 
-    api.setVerseFinished(chapter, verse, isChecked).then(() => {
+    api.setVerseFinished(chapter, verse, isChecked, toggle).then(() => {
       this.disableAutoComplete();
       this.forceUpdate();
     });
@@ -746,8 +777,45 @@ export class Container extends Component {
       };
     }
 
+    const handlers = {
+      REFRESH: () => {
+        // console.log('F - Refresh action triggered')
+        this.handleRefreshSuggestions()
+      },
+      ACCEPT: () => {
+        // console.log('A - Accept action triggered')
+        if (hasRenderedSuggestions) {
+          this.handleAcceptSuggestions()
+        } else {
+          // console.log('No suggestions')
+        }
+      },
+      REJECT: () => {
+        // console.log('J - Reject action triggered')
+        if (hasRenderedSuggestions) {
+          this.handleRejectSuggestions()
+        } else {
+          // console.log('No suggestions')
+        }
+      },
+      CLEAR: () => {
+        // console.log('K - Clear action triggered')
+        this.handleClearAlignments()
+      },
+      COMPLETE: () => {
+        // console.log('T - Complete action triggered')
+        this.handleToggleComplete(null, false, true) // toggle complete
+      },
+      NEXT: () => {
+        // console.log('N - Next action triggered, contextId', contextId)
+        const { changeToNextContextId } = this.props;
+        changeToNextContextId()
+      }
+    };
+
     return (
-      <div style={styles.container}>
+      <HotKeys keyMap={keyMap} handlers={handlers}>
+        <div style={styles.container}>
         <MuiThemeProvider>
           <Snackbar
             open={snackOpen}
@@ -862,6 +930,7 @@ export class Container extends Component {
           />
         }
       </div>
+      </HotKeys>
     );
   }
 }
@@ -901,6 +970,7 @@ Container.propTypes = {
   addComment: PropTypes.func.isRequired,
   addBookmark: PropTypes.func.isRequired,
   editTargetVerse: PropTypes.func.isRequired,
+  changeToNextContextId: PropTypes.func.isRequired,
 
   // state props
   username: PropTypes.string.isRequired,
@@ -973,9 +1043,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const username = getUsername(ownProps);
   const currentToolName = getCurrentToolName(ownProps);
   const projectSaveLocation = getProjectPath(ownProps);
+  const userData = getUserData(ownProps);
 
   dispatchedMethods.editTargetVerse = (chapter, verse, before, after, tags) => {
     dispatch(editTargetVerse(chapter, verse, before, after, tags, username, gatewayLanguageCode, gatewayLanguageQuote, projectSaveLocation, currentToolName, translate, showAlert, closeAlert, showIgnorableAlert, updateTargetVerse, toolApi));
+  };
+
+  dispatchedMethods.changeToNextContextId = () => {
+    dispatch(changeToNextContextId(projectSaveLocation, userData, gatewayLanguageCode, ownProps.tc));
   };
 
   return dispatchedMethods;

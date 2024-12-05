@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import isEqual from 'deep-equal';
 // Helpers
 import delay from '../../utils/delay';
 import Repo from '../../utils/Repo';
@@ -109,7 +110,7 @@ export const changeCurrentContextId = (contextId = null, projectSaveLocation, us
 };
 
 /**
- * @description this action changes the contextId to the first check.
+ * @description this action returns the contextId of the first check.
  * @return {object} New state for contextId reducer.
  */
 function firstContextId(state) {
@@ -134,6 +135,52 @@ function firstContextId(state) {
     }
     return contextId;
   }
+}
+
+/**
+ * Changes the contextId to the next check.
+ * @param {string} projectSaveLocation - project's absolute path.
+ * @param {object} userData - user data.
+ * @param {string} gatewayLanguageCode - gateway language code.
+ * @param {object} tc - tc.
+ */
+export const changeToNextContextId = (projectSaveLocation, userData, gatewayLanguageCode, tc) => (dispatch, getState) => {
+  const state = getState();
+  const contextId = getNextContextId(state)
+  if (contextId) {
+    dispatch(changeCurrentContextId(contextId, projectSaveLocation, userData, gatewayLanguageCode, tc));
+  }
+}
+
+/**
+ * @description this action returns the contextId of the next check.
+ * @return {object} New state for contextId reducer.
+ */
+function getNextContextId(state) {
+  const currentContextId = getContextId(state) || {}
+  let foundMatch = false
+  const groupsIndex = getGroupsIndex(state);
+  const groupsData = getGroupsData(state);
+  let groupsIndexEmpty = groupsIndex.length === 0;
+  let groupsDataEmpty = Object.keys(groupsData).length === 0;
+
+  if (!groupsIndexEmpty && !groupsDataEmpty) {
+
+    for (const groupId of Object.keys(groupsData)) {
+      let groupItems = groupsData[groupId] || [];
+
+      for (const item of groupItems) {
+        if (foundMatch) { // if previous item was a match, then this item is the next
+          return item.contextId
+        }
+
+        if (isEqual(item.contextId, currentContextId)) {
+          foundMatch = true
+        }
+      }
+    }
+  }
+  return null;
 }
 
 /**

@@ -756,9 +756,10 @@ export default class Api extends ToolApi {
    * @param {number} chapter
    * @param {number} verse
    * @param {boolean} finished - indicates if the verse has been finished
+   * @param {boolean} toggle - if true then do force toggle (value of finished is ignored)
    * @return {Promise}
    */
-  setVerseFinished(chapter, verse, finished) {
+  setVerseFinished(chapter, verse, finished, toggle = false) {
     const {
       setGroupMenuItemFinished,
       tool: {
@@ -771,7 +772,12 @@ export default class Api extends ToolApi {
     const { store } = this.context;
     const itemState = getGroupMenuItem(store.getState(), chapter, verse);
 
-    if (!itemState || itemState[FINISHED_KEY] !== finished) { // see if needs to be updated
+    const currentFinished = itemState[FINISHED_KEY];
+    if (toggle) {
+      finished = !currentFinished
+    }
+
+    if (!itemState || currentFinished !== finished) { // see if needs to be updated
       setGroupMenuItemFinished(chapter, verse, finished);
     }
 

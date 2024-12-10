@@ -61,9 +61,9 @@
   "verb": "Kata Kerja",
   "transitive": "Transisi",
   "intransitive": "Intransitif",
-  "any": "Any",
-  "extraneous": "Extraneous",
-  "substantive_adjective": "Substantive Adjective",
+  "any": "Setiap",
+  "extraneous": "Asing",
+  "substantive_adjective": "Kata Sifat Substantif",
   "linking": "Menghubungkan",
   "modal": "Modal",
   "periphrastic": "Periprastik",
@@ -102,7 +102,7 @@
   "diminutive": "Kecil",
   "suffix": "Akhiran",
   "cardinal_number": "Bilangan Pokok",
-  "gentilic": "Gentilic",
+  "gentilic": "Gentilik",
   "ordinal_number": "Nomor Urut",
   "both_genders": "Kedua Jenis ",
   "common_gender": "Jenis yang umum",
@@ -183,7 +183,7 @@
   "invalidation_checking": "Memeriksa apakah pengeditan ini bertentangan dengan pilihan dan penyelarasan yang disimpan ...",
   "selections_invalidated": "Beberapa pilihan tidak lagi valid dan dihapus.",
   "invalid_verse_alignments_and_selections": "Perubahan telah terdeteksi di proyek Anda yang telah membatalkan beberapa pilihan dan beberapa penyelarasan. Ayat-ayat ini menampilkan ikon rantai rusak di sebelah referensi di menu samping.",
-  "pre_release": "Pre-release",
+  "pre_release": "Pra-Rilis",
   "buttons": {
     "ok_button": "Oke",
     "back_button": "Kembali",
@@ -209,12 +209,12 @@
     "refresh_suggestions": "Refresh saran.",
     "accept_suggestions": "Terima semua saran.",
     "reject_suggestions": "Tolak semua saran.",
-    "clear_suggestions": "Clear All Alignments.",
+    "clear_suggestions": "Kosongkan Semua Penyelarasan",
     "none": "Tidak ada saran baru",
     "refresh": "Refresh",
     "accept": "Terima",
     "reject": "Tolak",
-    "clear": "Clear"
+    "clear": "Kosongkan"
   },
   "icons": {
     "verse_edits_found": "Ayat ini telah diedit",
@@ -230,13 +230,13 @@
     "title": "Langkah 1. Baca",
     "expand_hover": "Klik untuk menampilkan panel sumber yang diperluas",
     "remove_resource": "Klik untuk menghilangkan iklan",
-    "remove_resource_label": "Remove resource",
+    "remove_resource_label": "Hapus Sumber Daya",
     "add_resource": "Klik untuk menambahkan sumber daya",
     "add_resource_label": "Tambahkan sumber daya",
     "select_language": "Pilih Bahasa",
     "gateway_language": "Bahasa Gateway",
     "target_language": "Target Bahasa",
     "original_language": "Bahasa Asli",
-    "select_font_label": "Select Font"
+    "select_font_label": "Pilih Huruf"
   }
 }

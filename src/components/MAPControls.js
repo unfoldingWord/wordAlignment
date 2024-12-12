@@ -123,16 +123,92 @@ const styles = {
   },
 };
 
-const InfoPopup = ({ translate }) => (
-  <div style={{ width: '400px', padding: '0 10px' }}>
-    {translate('map_instructions', {
-      word_map: translate('_.word_map'),
-      icon: '(x)',
-    })}
-  </div>
+/**
+ *
+ * @param {function} translate
+ * @param {boolean} isMacOS
+ * @returns {JSX.Element}
+ */
+const getShortcutTable = (translate, isMacOS) => {
+  const tableElement = {
+    width: '90%',
+    border: '1px solid black',
+    padding: '8px',
+    textAlign: 'left',
+  };
+
+  const styles = {
+    table: {
+      borderCollapse: 'collapse',
+      margin: '16px',
+    },
+    tableElement,
+    tableData: {
+      padding: '6px',
+      border: '1px solid black',
+    },
+    tableRowEven: {
+      ...tableElement,
+      backgroundColor: '#ffffff', /* Shade for odd rows */
+    },
+    tableRowOdd: {
+      ...tableElement,
+      backgroundColor: '#f2f2f2', /* Shade for even rows */
+    },
+  };
+
+  const functionKey = isMacOS ? 'Command' : 'Ctrl';
+  const shortcuts = [
+    { action: 'suggestions.refresh_suggestions', shortcut: functionKey + '+F' },
+    { action: 'suggestions.accept_suggestions', shortcut: functionKey + '+A' },
+    { action: 'suggestions.reject_suggestions', shortcut: functionKey + '+J' },
+    { action: 'suggestions.clear_suggestions', shortcut: functionKey + '+K' },
+    { action: 'toggle_alignment_complete', shortcut: functionKey + '+T' },
+    { action: 'suggestions.next', shortcut: functionKey + '+N' },
+  ];
+
+  function getTranslated(item) {
+    let text = (translate(item.action) || '').trim();
+    const lastChar = text[text.length - 1];
+    if (lastChar === '.') {
+      text = text.substring(0, text.length - 1);
+    }
+    return text;
+  }
+
+  return (
+    <table style={styles.table}>
+      <thead>
+        <tr>
+          <th style={ styles.tableData }>Action</th>
+          <th style={ styles.tableData }>Shortcut</th>
+        </tr>
+      </thead>
+      <tbody>
+        {shortcuts.map((item, index) => (
+          <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+            <td style={ styles.tableData }>{getTranslated(item)}</td>
+            <td style={ styles.tableData }>{item.shortcut}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+const InfoPopup = ({ translate, isMacOS }) => (
+  <>
+    <div style={{ width: '400px', padding: '0 10px' }}>
+      {translate('map_instructions', {
+        word_map: translate('_.word_map'),
+        icon: '(x)',
+      })}
+    </div>
+    {getShortcutTable(translate, isMacOS)}
+  </>
 );
 
-InfoPopup.propTypes = { translate: PropTypes.func.isRequired };
+InfoPopup.propTypes = { translate: PropTypes.func.isRequired, isMacOS: PropTypes.bool.isRequired };
 
 /**
  * Renders controls for managing Word MAP predictions
@@ -151,13 +227,13 @@ class MAPControls extends React.Component {
    * Handles opening the info popup
    * @private
    */
-  _handleOnInfoClick(e) {
+  _handleOnInfoClick(e, isMacOS) {
     const { showPopover, translate } = this.props;
 
     showPopover(
       <strong>{translate('instructions')}</strong>,
-      <InfoPopup translate={translate}/>,
-      e.target
+      <InfoPopup translate={translate} isMacOS={isMacOS}/>,
+      e.target,
     );
   }
 
@@ -171,13 +247,14 @@ class MAPControls extends React.Component {
       complete,
       onToggleComplete,
       hasSuggestions,
+      isMacOS,
     } = this.props;
 
     return (
       <MuiThemeProvider>
         <div style={styles.root}>
           <InfoIcon style={styles.icon}
-            onClick={this._handleOnInfoClick}/>
+            onClick={(e) => this._handleOnInfoClick(e, isMacOS)}/>
           <Tooltip tooltip={translate('suggestions.refresh_suggestions')}>
             <SecondaryButton style={styles.button}
               onClick={onRefresh}>
@@ -240,6 +317,7 @@ MAPControls.propTypes = {
   translate: PropTypes.func.isRequired,
   complete: PropTypes.bool.isRequired,
   onToggleComplete: PropTypes.func.isRequired,
+  isMacOS: PropTypes.bool.isRequired,
 };
 MAPControls.defaultProps = { hasSuggestions: true };
 export default MAPControls;

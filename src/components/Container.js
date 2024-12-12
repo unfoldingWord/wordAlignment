@@ -109,12 +109,12 @@ const styles = {
   },
 };
 
-let platform = 'null'
-if ("platform" in navigator) {
-  platform = navigator.platform
-  console.log(`Container: platform detected: ${platform}`, navigator)
+let platform = 'null';
+if ('platform' in navigator) {
+  platform = navigator.platform;
+  console.log(`Container: platform detected: ${platform}`, navigator);
 } else {
-  console.log(`Container: navigator does not support platform`, navigator)
+  console.log(`Container: navigator does not support platform`, navigator);
 }
 
 // Function to detect the operating system
@@ -125,7 +125,8 @@ const getOS = () => {
 };
 
 const os = getOS();
-console.log(`Container: os detected ${os}`)
+console.log(`Container: os detected ${os}`);
+const isMacOS = (os === 'mac');
 
 // Define key combinations based on the operating system
 const keyMap = {
@@ -908,6 +909,7 @@ export class Container extends Component {
               onReject={this.handleRejectSuggestions}
               onClear={this.handleClearAlignments}
               translate={translate}
+              isMacOS={isMacOS}
             />
           </div>
         </div>

@@ -24,6 +24,7 @@
   "instructions": "Instruções",
   "map_instructions": "Arraste as palavras do banco de palavras à esquerda para a fonte correta na direita.<br><br>As palavras sugeridas por ${word_map} têm uma barra verde.<br>Para confirmar a sugestão, clique na palavra sugerida. Para redefinir a sugestão, clique no ${icon} ou arraste a palavra para a posição correta.",
   "alignment_complete": "Alinhamento completo",
+  "toggle_alignment_complete": "Alternar Alinhamento Completo",
   "noun": "Substantivo",
   "substantive_adj": "Substantivo adj.",
   "predicate_adj": "Predicado adj.",
@@ -214,7 +215,8 @@
     "refresh": "Atualizar",
     "accept": "Aceitar",
     "reject": "Rejeitar",
-    "clear": "Clear"
+    "clear": "Clear",
+    "next": "Mover para o próximo versículo"
   },
   "icons": {
     "verse_edits_found": "Este versículo foi editado",

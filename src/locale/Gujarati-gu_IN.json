@@ -24,6 +24,7 @@
   "instructions": "સૂચનો",
   "map_instructions": "શબ્દોને ડાબી બાજુ શબ્દની બેન્કમાંથી જમણી તરફ ખરા સ્રોત તરફ ખેંચો. <br>\n<br>${word_map} દ્વારા સૂચિત શબ્દ લીલા અક્ષરોમાં આપેલ છે. <br>સૂચનને નિશ્ચિત કરવા, સૂચિત શબ્દ પર ક્લિક કરો. સૂચનને રીસેટ કરવા માટે ${icon} પર ક્લિક કરો અથવા શબ્દને ખરી જગા પર ખેંચો.",
   "alignment_complete": "ગોઠવણી પૂર્ણ",
+  "toggle_alignment_complete": "Toggle Alignment Complete",
   "noun": "નામ",
   "substantive_adj": "મૂળ વિશેષણ.",
   "predicate_adj": "વિષયના ગુણલક્ષણનું વિશેષણ.",
@@ -214,7 +215,8 @@
     "refresh": "તાજું કરો",
     "accept": "સ્વીકારો",
     "reject": "નકારો",
-    "clear": "Clear"
+    "clear": "Clear",
+    "next": "Move to next verse"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

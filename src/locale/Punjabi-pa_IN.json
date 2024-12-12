@@ -24,6 +24,7 @@
   "instructions": "ਹਿਦਾਇਤਾਂ",
   "map_instructions": "ਖੱਬੇ ਪਾਸੇ ਵਾਲੇ ਸ਼ਬਦ ਤੋਂ ਸ਼ਬਦ ਨੂੰ ਸੱਜੇ ਸਰੋਤ ਵੱਲ ਖਿੱਚੋ | ${word_map} ਦੁਆਰਾ ਸੁਝਾਏ ਗਏ <br><br> ਸ਼ਬਦਾਂ ਵਿਚ ਹਰੇ ਰੰਗ ਦੀ ਪੱਟੀ ਹੈ | <br> ਸੁਝਾਅ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ, ਸੁਝਾਏ ਗਏ ਸ਼ਬਦ 'ਤੇ ਕਲਿੱਕ ਕਰੋ | ਸੁਝਾਅ ਨੂੰ ਰੀਸੈਟ ਕਰਨ ਲਈ ${icon} 'ਤੇ ਕਲਿੱਕ ਕਰੋ ਜਾਂ ਸ਼ਬਦ ਨੂੰ ਸਹੀ ਜਗ੍ਹਾ' ਤੇ ਖਿੱਚੋ |.",
   "alignment_complete": "ਅਲਾਈਨਮੈਂਟ ਪੂਰੀ ਹੈ",
+  "toggle_alignment_complete": "Toggle Alignment Complete",
   "noun": "ਨਾਂਵ",
   "substantive_adj": "ਸਾਰਥਕ ਵਿਸ਼ੇਸ਼ਣ",
   "predicate_adj": "ਪ੍ਰੇਡੀਕੇਟ ਵਿਸ਼ੇਸ਼ਣ.",
@@ -214,7 +215,8 @@
     "refresh": "ਤਾਜ਼ਾ ਕਰਨਾ",
     "accept": "ਸਵੀਕਾਰ ਕਰਨਾ",
     "reject": "ਅਸਵੀਕਾਰ ਕਰਨਾ",
-    "clear": "Clear"
+    "clear": "Clear",
+    "next": "Move to next verse"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

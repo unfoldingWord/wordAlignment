@@ -134,13 +134,13 @@ const getShortcutTable = (translate, isMacOS) => {
     border: '1px solid black',
     padding: '8px',
     textAlign: 'left',
-    marginLeft: '10%'
   };
 
   const styles = {
     table: {
       borderCollapse: 'collapse',
       margin: '16px',
+      marginLeft: '10%',
     },
     tableElement,
     tableData: {

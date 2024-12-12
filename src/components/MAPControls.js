@@ -131,10 +131,10 @@ const styles = {
  */
 const getShortcutTable = (translate, isMacOS) => {
   const tableElement = {
-    width: '90%',
     border: '1px solid black',
     padding: '8px',
     textAlign: 'left',
+    marginLeft: '10%'
   };
 
   const styles = {

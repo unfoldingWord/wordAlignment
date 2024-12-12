@@ -24,6 +24,7 @@
   "instructions": "Petunjuk",
   "map_instructions": "Seret kata-kata dari tempat penyimpanan kata di sebelah kiri ke sumber yang benar di sebelah kanan.<br><br>Kata-kata yang disarankan oleh ${word_map} memiliki palang hijau.<br>Untuk mengonfirmasi saran, klik kata yang disarankan. Untuk mengatur ulang saran, klik pada ${ikon} atau seret kata ke tempat yang benar.",
   "alignment_complete": "Penyelarasan Berhasil",
+  "toggle_alignment_complete": "Toggle Alignment Complete",
   "noun": "Kata Benda",
   "substantive_adj": "Substantif adj.",
   "predicate_adj": "Predikat adj.",
@@ -214,7 +215,8 @@
     "refresh": "Refresh",
     "accept": "Terima",
     "reject": "Tolak",
-    "clear": "Kosongkan"
+    "clear": "Kosongkan",
+    "next": "Move to next verse"
   },
   "icons": {
     "verse_edits_found": "Ayat ini telah diedit",

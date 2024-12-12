@@ -24,6 +24,7 @@
   "instructions": "ନିର୍ଦ୍ଦେଶଗୁଡିକ",
   "map_instructions": "ବାମରେ ଥିବା ୱର୍ଡ ବ୍ୟାଙ୍କଠାରୁ ଶବ୍ଦଗୁଡିକୁ ଡାହାଣରେ ଥିବା ସଠିକ୍ ଉତ୍ସ ଆଡକୁ ଟାଣନ୍ତୁ।<br><br> ${word_map} ଦ୍ଵାରା ପ୍ରସ୍ତାବିତ ହୋଇଥିବା ଶବ୍ଦଗୁଡିକରେ ସବୁଜ ରଙ୍ଗର ଦଣ୍ଡିକା ଅଛି।<br>ପ୍ରସ୍ତାବକୁ ସୁନିଶ୍ଚିତ କରିବା ପାଇଁ, ପ୍ରସ୍ତାବିତ ହୋଇଥିବା ଶବ୍ଦ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ। ପ୍ରସ୍ତାବକୁ ରିସେଟ୍ କରିବା ପାଇଁ ଏଠାରେ ${icon} କ୍ଲିକ୍ କରନ୍ତୁ କିମ୍ବା ଶବ୍ଦକୁ ସଠିକ୍ ସ୍ଥାନକୁ ଟାଣି ନିଅନ୍ତୁ।",
   "alignment_complete": "ଏଲାଇନ୍‍‍ମେଣ୍ଟ ସମ୍ପୂର୍ଣ୍ଣ କରନ୍ତୁ",
+  "toggle_alignment_complete": "Toggle Alignment Complete",
   "noun": "ବିଶେଷ୍ୟ",
   "substantive_adj": "ପ୍ରକୃତ ବିଶେଷଣ",
   "predicate_adj": "ବିଧେୟ ବିଶେଷଣ",
@@ -214,7 +215,8 @@
     "refresh": "ରିଫ୍ରେସ୍ କରନ୍ତୁ",
     "accept": "ଗ୍ରହଣ କରନ୍ତୁ",
     "reject": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ",
-    "clear": "Clear"
+    "clear": "Clear",
+    "next": "Move to next verse"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

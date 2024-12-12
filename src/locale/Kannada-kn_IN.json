@@ -24,6 +24,7 @@
   "instructions": "ಆದೇಶಗಳು ",
   "map_instructions": "ಎಡದಿಂದ ಬಲದಲ್ಲಿರುವ ಸರಿಯಾದ ಸಂಪನ್ಮೂಲಕ್ಕೆ ಪದ ಕೋಶದಿಂದ ಪದಗಳನ್ನು ಎಳೆಯಿರಿ. <br> ${word_map} ಮೂಲಕ ಸಲಹೆ ನೀಡಲಾಗಿದ ಪದಗಳು ಹಸಿರು ಅಡ್ಡಮರವನ್ನು ಹೊಂದಿರುತ್ತದೆ. <br> ಸಲಹೆಯನ್ನು ಖಚಿತಪಡಿಸಲು, ಸಲಹೆಕೊಟ್ಟಿರುವ ಪದದ ಮೇಲೆ ಒತ್ತಿರಿ. ${icon} ಮೇಲೆ ಸಲಹೆಯ ಒತ್ತನ್ನು ತಿರುಗಿ ಬದಲಾಯಿಸಲು ಅಥವಾ ಸರಿಯಾದ ಸ್ಥಳಕ್ಕೆ ಪದವನ್ನು ಎಳೆಯಲು. ",
   "alignment_complete": "ಜೋಡಣೆ ಸಂಪೂರ್ಣವಾಗಿರುತ್ತದೆ ",
+  "toggle_alignment_complete": "Toggle Alignment Complete",
   "noun": "ನಾಮಪದ ",
   "substantive_adj": "ಅಸ್ತಿತ್ವವನ್ನು ಸೂಚಿಸುವ ವಿಶೇಷಣ.",
   "predicate_adj": "ಪ್ರತಿಪಾದಿಸುವ ವಿಶೇಷಣ ",
@@ -214,7 +215,8 @@
     "refresh": "ಪುನಶ್ಚೇತನಗೊಳಿಸು",
     "accept": "ಸ್ವೀಕರಿಸು ",
     "reject": "ತಿರಸ್ಕರಿಸು ",
-    "clear": "Clear"
+    "clear": "Clear",
+    "next": "Move to next verse"
   },
   "icons": {
     "verse_edits_found": "This verse has been edited",

@@ -24,6 +24,7 @@
   "instructions": "Mode d'emploi",
   "map_instructions": "Faites glisser les mots depuis la banque de mots à gauche vers la source correcte à droite.<br><br>Les mots suggérés par ${word_map} ont une barre verte.<br>Pour confirmer la suggestion, cliquez sur le mot suggéré. Pour réinitialiser la suggestion, cliquez sur le ${icon} ou faites glisser le mot au bon endroit.",
   "alignment_complete": "Alignement terminé",
+  "toggle_alignment_complete": "Activer/désactiver l'alignement terminé",
   "noun": "Nom",
   "substantive_adj": "adjectif substantif",
   "predicate_adj": "Adjectif prédicat",
@@ -214,7 +215,8 @@
     "refresh": "Actualiser",
     "accept": "Accepter",
     "reject": "Rejeter",
-    "clear": "Clear"
+    "clear": "Clear",
+    "next": "Aller au verset suivant"
   },
   "icons": {
     "verse_edits_found": "Ce verset a été modifié",

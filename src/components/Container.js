@@ -831,121 +831,121 @@ export class Container extends Component {
     return (
       <HotKeys keyMap={keyMap} handlers={handlers}>
         <div style={styles.container}>
-        <MuiThemeProvider>
-          <Snackbar
-            open={snackOpen}
-            message={snackText ? snackText : ''}
-            autoHideDuration={2000}
-            onRequestClose={this.handleSnackbarClose}/>
-        </MuiThemeProvider>
-        <GroupMenuContainer
-          tc={tc}
-          toolApi={api}
-          gatewayLanguageCode={this.props.gatewayLanguageCode}
-          translate={translate}
-          direction={targetDirection}
-        />
-        <div style={styles.wordListContainer}>
-          <WordList
-            words={words}
-            verse={verse}
-            isOver={isOver}
-            chapter={chapter}
+          <MuiThemeProvider>
+            <Snackbar
+              open={snackOpen}
+              message={snackText ? snackText : ''}
+              autoHideDuration={2000}
+              onRequestClose={this.handleSnackbarClose}/>
+          </MuiThemeProvider>
+          <GroupMenuContainer
+            tc={tc}
+            toolApi={api}
+            gatewayLanguageCode={this.props.gatewayLanguageCode}
+            translate={translate}
             direction={targetDirection}
-            toolsSettings={toolsSettings}
-            reset={this.state.resetWordList}
-            setToolSettings={setToolSettings}
-            connectDropTarget={connectDropTarget}
-            targetLanguageFont={targetLanguageFont}
-            onDropTargetToken={this.handleUnalignTargetToken}
           />
-        </div>
-        <div style={styles.alignmentAreaContainer}>
-          <div style={styles.scripturePaneWrapper}>
-            <ScripturePaneContainer handleModalOpen={this.handleModalOpen} toolApi={api} {...this.props}/>
-          </div>
-          <div style={styles.alignmentGridWrapper}>
-            <div className='title-bar' style={{ marginTop: '2px', marginBottom: `10px` }}>
-              <span>{translate('align_title')}</span>
-              <IconIndicators
-                translate={translate}
-                commentIconEnable={true}
-                bookmarkIconEnable={true}
-                verseEditIconEnable={true}
-                toolsSettings={toolsSettings}
-                setToolSettings={setToolSettings}
-                commentStateSet={!!currentComments}
-                bookmarkStateSet={currentBookmarks}
-                commentClickAction={this.handleCommentClick}
-                bookmarkClickAction={this.handleBookmarkClick}
-                verseEditClickAction={this.handleVerseEditClick}
-                verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
-              />
-            </div>
-            {hasSourceText ? (
-              <AlignmentGrid
-                sourceStyle={sourceStyle}
-                sourceDirection={sourceDirection}
-                targetDirection={targetDirection}
-                alignments={verseAlignments}
-                translate={translate}
-                lexicons={lexicons}
-                toolsSettings={toolsSettings}
-                onDropTargetToken={this.handleAlignTargetToken}
-                onDropSourceToken={this.handleAlignPrimaryToken}
-                onCancelSuggestion={this.handleRemoveSuggestion}
-                onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
-                contextId={contextId}
-                isHebrew={isHebrew}
-                verseState={verseState}
-                showPopover={showPopover}
-                loadLexiconEntry={loadLexiconEntry}
-                targetLanguageFont={targetLanguageFont}
-              />
-            ) : (
-              <MissingBibleError translate={translate}/>
-            )}
-            <MAPControls
-              onAccept={this.handleAcceptSuggestions}
-              hasSuggestions={hasRenderedSuggestions}
-              complete={isComplete}
-              onToggleComplete={this.handleToggleComplete}
-              showPopover={showPopover}
-              onRefresh={this.handleRefreshSuggestions}
-              onReject={this.handleRejectSuggestions}
-              onClear={this.handleClearAlignments}
-              translate={translate}
-              isMacOS={isMacOS}
+          <div style={styles.wordListContainer}>
+            <WordList
+              words={words}
+              verse={verse}
+              isOver={isOver}
+              chapter={chapter}
+              direction={targetDirection}
+              toolsSettings={toolsSettings}
+              reset={this.state.resetWordList}
+              setToolSettings={setToolSettings}
+              connectDropTarget={connectDropTarget}
+              targetLanguageFont={targetLanguageFont}
+              onDropTargetToken={this.handleUnalignTargetToken}
             />
           </div>
+          <div style={styles.alignmentAreaContainer}>
+            <div style={styles.scripturePaneWrapper}>
+              <ScripturePaneContainer handleModalOpen={this.handleModalOpen} toolApi={api} {...this.props}/>
+            </div>
+            <div style={styles.alignmentGridWrapper}>
+              <div className='title-bar' style={{ marginTop: '2px', marginBottom: `10px` }}>
+                <span>{translate('align_title')}</span>
+                <IconIndicators
+                  translate={translate}
+                  commentIconEnable={true}
+                  bookmarkIconEnable={true}
+                  verseEditIconEnable={true}
+                  toolsSettings={toolsSettings}
+                  setToolSettings={setToolSettings}
+                  commentStateSet={!!currentComments}
+                  bookmarkStateSet={currentBookmarks}
+                  commentClickAction={this.handleCommentClick}
+                  bookmarkClickAction={this.handleBookmarkClick}
+                  verseEditClickAction={this.handleVerseEditClick}
+                  verseEditStateSet={!!verseState[GroupMenu.EDITED_KEY]}
+                />
+              </div>
+              {hasSourceText ? (
+                <AlignmentGrid
+                  sourceStyle={sourceStyle}
+                  sourceDirection={sourceDirection}
+                  targetDirection={targetDirection}
+                  alignments={verseAlignments}
+                  translate={translate}
+                  lexicons={lexicons}
+                  toolsSettings={toolsSettings}
+                  onDropTargetToken={this.handleAlignTargetToken}
+                  onDropSourceToken={this.handleAlignPrimaryToken}
+                  onCancelSuggestion={this.handleRemoveSuggestion}
+                  onAcceptTokenSuggestion={this.handleAcceptTokenSuggestion}
+                  contextId={contextId}
+                  isHebrew={isHebrew}
+                  verseState={verseState}
+                  showPopover={showPopover}
+                  loadLexiconEntry={loadLexiconEntry}
+                  targetLanguageFont={targetLanguageFont}
+                />
+              ) : (
+                <MissingBibleError translate={translate}/>
+              )}
+              <MAPControls
+                onAccept={this.handleAcceptSuggestions}
+                hasSuggestions={hasRenderedSuggestions}
+                complete={isComplete}
+                onToggleComplete={this.handleToggleComplete}
+                showPopover={showPopover}
+                onRefresh={this.handleRefreshSuggestions}
+                onReject={this.handleRejectSuggestions}
+                onClear={this.handleClearAlignments}
+                translate={translate}
+                isMacOS={isMacOS}
+              />
+            </div>
+          </div>
+          {
+            showVerseEditor &&
+            <VerseEditor
+              verseText={verseText}
+              translate={translate}
+              open={showVerseEditor}
+              verseTitle={verseTitle}
+              targetLanguage={targetLanguageStr}
+              onCancel={this.handleVerseEditClose}
+              onSubmit={this.handleVerseEditSubmit}
+              targetLanguageFont={targetLanguageFont}
+              targetLanguageFontSize={`${algnGridFontSize}%`}
+              direction={targetDirection}
+            />
+          }
+          {
+            showComments &&
+            <CommentsDialog
+              open={showComments}
+              verseTitle={verseTitle}
+              comment={currentComments}
+              translate={translate}
+              onClose={this.handleCommentClose}
+              onSubmit={this.handleCommentSubmit}
+            />
+          }
         </div>
-        {
-          showVerseEditor &&
-          <VerseEditor
-            verseText={verseText}
-            translate={translate}
-            open={showVerseEditor}
-            verseTitle={verseTitle}
-            targetLanguage={targetLanguageStr}
-            onCancel={this.handleVerseEditClose}
-            onSubmit={this.handleVerseEditSubmit}
-            targetLanguageFont={targetLanguageFont}
-            targetLanguageFontSize={`${algnGridFontSize}%`}
-            direction={targetDirection}
-          />
-        }
-        {
-          showComments &&
-          <CommentsDialog
-            open={showComments}
-            verseTitle={verseTitle}
-            comment={currentComments}
-            translate={translate}
-            onClose={this.handleCommentClose}
-            onSubmit={this.handleCommentSubmit}
-          />
-        }
-      </div>
       </HotKeys>
     );
   }

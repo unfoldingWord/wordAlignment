@@ -131,7 +131,7 @@ const isMacOS = (os === 'mac');
 // Define key combinations based on the operating system
 const keyMap = {
   REFRESH: os === 'mac' ? 'command+f' : 'ctrl+f',
-  ACCEPT: os === 'mac' ? 'command+a' : 'ctrl+a',
+  ACCEPT: os === 'mac' ? 'command+e' : 'ctrl+e',
   REJECT: os === 'mac' ? 'command+j' : 'ctrl+j',
   CLEAR: os === 'mac' ? 'command+k' : 'ctrl+k',
   COMPLETE: os === 'mac' ? 'command+t' : 'ctrl+t',
@@ -793,7 +793,7 @@ export class Container extends Component {
         e.stopPropagation()
       },
       ACCEPT: (e) => {
-        // console.log('A - Accept action triggered')
+        // console.log('E - Accept action triggered')
         if (this.getHasRenderedSuggestions()) {
           this.handleAcceptSuggestions()
         } else {

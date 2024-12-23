@@ -160,7 +160,7 @@ const getShortcutTable = (translate, isMacOS) => {
   const functionKey = isMacOS ? 'Command' : 'Ctrl';
   const shortcuts = [
     { action: 'suggestions.refresh_suggestions', shortcut: functionKey + '+F' },
-    { action: 'suggestions.accept_suggestions', shortcut: functionKey + '+A' },
+    { action: 'suggestions.accept_suggestions', shortcut: functionKey + '+E' },
     { action: 'suggestions.reject_suggestions', shortcut: functionKey + '+J' },
     { action: 'suggestions.clear_suggestions', shortcut: functionKey + '+K' },
     { action: 'toggle_alignment_complete', shortcut: functionKey + '+T' },

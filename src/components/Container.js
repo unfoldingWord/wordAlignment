@@ -131,7 +131,7 @@ const isMacOS = (os === 'mac');
 // Define key combinations based on the operating system
 const keyMap = {
   REFRESH: os === 'mac' ? 'command+f' : 'ctrl+f',
-  ACCEPT: os === 'mac' ? 'command+a' : 'ctrl+a',
+  ACCEPT: os === 'mac' ? 'command+e' : 'ctrl+e',
   REJECT: os === 'mac' ? 'command+j' : 'ctrl+j',
   CLEAR: os === 'mac' ? 'command+k' : 'ctrl+k',
   COMPLETE: os === 'mac' ? 'command+t' : 'ctrl+t',
@@ -787,38 +787,44 @@ export class Container extends Component {
     }
 
     const handlers = {
-      REFRESH: () => {
+      REFRESH: (e) => {
         // console.log('F - Refresh action triggered')
         this.handleRefreshSuggestions()
+        e.stopPropagation()
       },
-      ACCEPT: () => {
-        // console.log('A - Accept action triggered')
+      ACCEPT: (e) => {
+        // console.log('E - Accept action triggered')
         if (this.getHasRenderedSuggestions()) {
           this.handleAcceptSuggestions()
         } else {
           // console.log('No suggestions')
         }
+        e.stopPropagation()
       },
-      REJECT: () => {
+      REJECT: (e) => {
         // console.log('J - Reject action triggered')
         if (this.getHasRenderedSuggestions()) {
           this.handleRejectSuggestions()
         } else {
           // console.log('No suggestions')
         }
+        e.stopPropagation()
       },
-      CLEAR: () => {
+      CLEAR: (e) => {
         // console.log('K - Clear action triggered')
         this.handleClearAlignments()
+        e.stopPropagation()
       },
-      COMPLETE: () => {
+      COMPLETE: (e) => {
         // console.log('T - Complete action triggered')
         this.handleToggleComplete(null, false, true) // toggle complete
+        e.stopPropagation()
       },
-      NEXT: () => {
+      NEXT: (e) => {
         // console.log('N - Next action triggered, contextId', contextId)
         const { changeToNextContextId } = this.props;
         changeToNextContextId()
+        e.stopPropagation()
       }
     };
 

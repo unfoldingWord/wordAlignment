@@ -787,38 +787,44 @@ export class Container extends Component {
     }
 
     const handlers = {
-      REFRESH: () => {
+      REFRESH: (e) => {
         // console.log('F - Refresh action triggered')
         this.handleRefreshSuggestions()
+        e.stopPropagation()
       },
-      ACCEPT: () => {
+      ACCEPT: (e) => {
         // console.log('A - Accept action triggered')
         if (this.getHasRenderedSuggestions()) {
           this.handleAcceptSuggestions()
         } else {
           // console.log('No suggestions')
         }
+        e.stopPropagation()
       },
-      REJECT: () => {
+      REJECT: (e) => {
         // console.log('J - Reject action triggered')
         if (this.getHasRenderedSuggestions()) {
           this.handleRejectSuggestions()
         } else {
           // console.log('No suggestions')
         }
+        e.stopPropagation()
       },
-      CLEAR: () => {
+      CLEAR: (e) => {
         // console.log('K - Clear action triggered')
         this.handleClearAlignments()
+        e.stopPropagation()
       },
-      COMPLETE: () => {
+      COMPLETE: (e) => {
         // console.log('T - Complete action triggered')
         this.handleToggleComplete(null, false, true) // toggle complete
+        e.stopPropagation()
       },
-      NEXT: () => {
+      NEXT: (e) => {
         // console.log('N - Next action triggered, contextId', contextId)
         const { changeToNextContextId } = this.props;
         changeToNextContextId()
+        e.stopPropagation()
       }
     };
 

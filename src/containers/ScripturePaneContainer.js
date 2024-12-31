@@ -26,6 +26,7 @@ const ScripturePaneContainer = (props) => {
     handleModalOpen,
     complexScriptFonts,
     addObjectPropertyToManifest,
+    autoOpenExpandedScripturePane,
   } = props;
 
   const currentPaneSettings = (toolsSettings && toolsSettings.ScripturePane)
@@ -43,6 +44,7 @@ const ScripturePaneContainer = (props) => {
   if (Object.keys(bibles).length > 0 && contextId) {
     return (
       <ScripturePane
+        autoOpenExpandedScripturePane={autoOpenExpandedScripturePane}
         currentPaneSettings={currentPaneSettings}
         contextId={contextId}
         bibles={bibles}
@@ -82,6 +84,7 @@ ScripturePaneContainer.propTypes = {
     setToolSettings: PropTypes.func.isRequired,
     makeSureBiblesLoadedForTool: PropTypes.func.isRequired,
   }).isRequired,
+  autoOpenExpandedScripturePane: PropTypes.number, // expanded SP is opened if this changes value
 };
 
 ScripturePaneContainer.defaultProps = { handleModalOpen: () => {} };

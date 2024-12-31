@@ -185,6 +185,7 @@
   "selections_invalidated": "Beberapa pilihan tidak lagi valid dan dihapus.",
   "invalid_verse_alignments_and_selections": "Perubahan telah terdeteksi di proyek Anda yang telah membatalkan beberapa pilihan dan beberapa penyelarasan. Ayat-ayat ini menampilkan ikon rantai rusak di sebelah referensi di menu samping.",
   "pre_release": "Pra-Rilis",
+  "showExpandedScripturePane": "Show Expanded Scripture Pane",
   "buttons": {
     "ok_button": "Oke",
     "back_button": "Kembali",

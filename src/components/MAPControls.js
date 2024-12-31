@@ -165,6 +165,7 @@ const getShortcutTable = (translate, isMacOS) => {
     { action: 'suggestions.clear_suggestions', shortcut: functionKey + '+K' },
     { action: 'toggle_alignment_complete', shortcut: functionKey + '+T' },
     { action: 'suggestions.next', shortcut: functionKey + '+N' },
+    { action: 'showExpandedScripturePane', shortcut: functionKey + '+W' },
   ];
 
   function getTranslated(item) {

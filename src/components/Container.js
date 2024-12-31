@@ -135,7 +135,8 @@ const keyMap = {
   REJECT: os === 'mac' ? 'command+j' : 'ctrl+j',
   CLEAR: os === 'mac' ? 'command+k' : 'ctrl+k',
   COMPLETE: os === 'mac' ? 'command+t' : 'ctrl+t',
-  NEXT: os === 'mac' ? 'command+n' : 'ctrl+n'
+  NEXT: os === 'mac' ? 'command+n' : 'ctrl+n',
+  EXPAND: os === 'mac' ? 'command+w' : 'ctrl+w',
 };
 
 /**
@@ -213,6 +214,7 @@ export class Container extends Component {
     this.handleClearAlignments =   this.handleClearAlignments.bind(this);
     this.handleRemoveSuggestion = this.handleRemoveSuggestion.bind(this);
     this.handleToggleComplete = this.handleToggleComplete.bind(this);
+    this.showExpandedScripturePane = this.showExpandedScripturePane.bind(this)
     this.enableAutoComplete = this.enableAutoComplete.bind(this);
     this.disableAutoComplete = this.disableAutoComplete.bind(this);
     this.handleAcceptTokenSuggestion = this.handleAcceptTokenSuggestion.bind(
@@ -238,6 +240,7 @@ export class Container extends Component {
       resetWordList: false,
       showVerseEditor: false,
       showComments: false,
+      autoOpenExpandedScripturePane: 0,
     };
   }
 
@@ -574,6 +577,11 @@ export class Container extends Component {
     this.handleResetWordList();
   }
 
+  showExpandedScripturePane() {
+    const newCount = (this.state.autoOpenExpandedScripturePane || 0) + 1;
+    this.setState({ autoOpenExpandedScripturePane: newCount });
+  }
+
   getHasRenderedSuggestions() {
     const {
       hasRenderedSuggestions
@@ -825,6 +833,11 @@ export class Container extends Component {
         const { changeToNextContextId } = this.props;
         changeToNextContextId()
         e.stopPropagation()
+      },
+      EXPAND: (e) => {
+        console.log('W - Expand Scripture Pane action triggered, contextId', contextId)
+        this.showExpandedScripturePane();
+        e.stopPropagation()
       }
     };
 
@@ -862,7 +875,12 @@ export class Container extends Component {
           </div>
           <div style={styles.alignmentAreaContainer}>
             <div style={styles.scripturePaneWrapper}>
-              <ScripturePaneContainer handleModalOpen={this.handleModalOpen} toolApi={api} {...this.props}/>
+              <ScripturePaneContainer
+                handleModalOpen={this.handleModalOpen}
+                toolApi={api}
+                {...this.props}
+                autoOpenExpandedScripturePane={this.state.autoOpenExpandedScripturePane}
+              />
             </div>
             <div style={styles.alignmentGridWrapper}>
               <div className='title-bar' style={{ marginTop: '2px', marginBottom: `10px` }}>

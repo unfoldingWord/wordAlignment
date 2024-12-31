@@ -292,6 +292,8 @@ export class Container extends Component {
       if (verseIsAligned && canAutoComplete && !verseIsComplete) {
         this.handleToggleComplete(null, true);
       }
+    } else {
+      this.setState({ autoOpenExpandedScripturePane: 0 });
     }
 
     if (resetWordList) {

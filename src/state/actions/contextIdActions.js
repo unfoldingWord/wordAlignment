@@ -192,9 +192,9 @@ function getNextContextId(state) {
   let foundMatch = false
   const groupsIndex = getGroupsIndex(state);
   const groupsData = getGroupsData(state);
-  let groupsIndexEmpty = groupsIndex.length === 0;
   let chapters = Object.keys(groupsData);
-  let groupsDataEmpty = chapters.length === 0;
+  const groupsIndexEmpty = groupsIndex.length === 0;
+  const groupsDataEmpty = chapters.length === 0;
 
   if (!groupsIndexEmpty && !groupsDataEmpty) {
 

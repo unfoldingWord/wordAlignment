@@ -153,6 +153,37 @@ export const changeToNextContextId = (projectSaveLocation, userData, gatewayLang
 }
 
 /**
+ * Sorts an array of chapter strings based on specific rules. Chapters with the prefix "chapter_" followed by a number
+ * are sorted numerically based on the number. Entries without the "chapter_" prefix are sorted alphabetically,
+ * with entries starting with "chapter_" coming after other entries.
+ *
+ * @param {string[]} chapters - An array of chapter strings to be sorted.
+ * @return {string[]} A new array of sorted chapter strings.
+ */
+function sortChapters(chapters) {
+  return chapters.sort((a, b) => {
+    // Check if both start with 'chapter_'
+    const aIsChapter = a.startsWith('chapter_');
+    const bIsChapter = b.startsWith('chapter_');
+    if (aIsChapter && bIsChapter) {
+      // Extract the number after the underscore in each chapter string and compare numerically
+      const numA = parseInt(a.split('_')[1]);
+      const numB = parseInt(b.split('_')[1]);
+      return numA - numB;
+    } else if (aIsChapter) {
+      // If only 'a' starts with 'chapter_', it should come after 'b'
+      return 1;
+    } else if (bIsChapter) {
+      // If only 'b' starts with 'chapter_', it should come before 'a'
+      return -1;
+    } else {
+      // Neither starts with 'chapter_', sort alphabetically
+      return a.localeCompare(b);
+    }
+  });
+}
+
+/**
  * @description this action returns the contextId of the next check.
  * @return {object} New state for contextId reducer.
  */
@@ -162,11 +193,13 @@ function getNextContextId(state) {
   const groupsIndex = getGroupsIndex(state);
   const groupsData = getGroupsData(state);
   let groupsIndexEmpty = groupsIndex.length === 0;
-  let groupsDataEmpty = Object.keys(groupsData).length === 0;
+  let chapters = Object.keys(groupsData);
+  let groupsDataEmpty = chapters.length === 0;
 
   if (!groupsIndexEmpty && !groupsDataEmpty) {
 
-    for (const groupId of Object.keys(groupsData)) {
+    chapters = sortChapters(chapters)
+    for (const groupId of chapters) {
       let groupItems = groupsData[groupId] || [];
 
       for (const item of groupItems) {

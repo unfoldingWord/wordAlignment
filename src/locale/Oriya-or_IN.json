@@ -19,10 +19,12 @@
   "alignments_corrupt": "ଏହି ଅଧ୍ୟାୟର ଏଲାଇନ୍‍‍ମେଣ୍ଟଗୁଡିକ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ ଏବଂ ଏଗୁଡିକ ରିସେଟ୍ ହୋଇଅଛି।",
   "edit_verse": "ପଦକୁ ସଂଶୋଧନ କରନ୍ତୁ",
   "edit_verse_title": "ପଦର ସଂଶୋଧନ କରନ୍ତୁ - ${passage}",
+  "comment_title": "Comment - ${passage}",
   "select_reasons": "ପରିବର୍ତ୍ତନର କାରଣ(ଗୁଡିକୁ) ଚୟନ କରନ୍ତୁ",
   "instructions": "ନିର୍ଦ୍ଦେଶଗୁଡିକ",
   "map_instructions": "ବାମରେ ଥିବା ୱର୍ଡ ବ୍ୟାଙ୍କଠାରୁ ଶବ୍ଦଗୁଡିକୁ ଡାହାଣରେ ଥିବା ସଠିକ୍ ଉତ୍ସ ଆଡକୁ ଟାଣନ୍ତୁ।<br><br> ${word_map} ଦ୍ଵାରା ପ୍ରସ୍ତାବିତ ହୋଇଥିବା ଶବ୍ଦଗୁଡିକରେ ସବୁଜ ରଙ୍ଗର ଦଣ୍ଡିକା ଅଛି।<br>ପ୍ରସ୍ତାବକୁ ସୁନିଶ୍ଚିତ କରିବା ପାଇଁ, ପ୍ରସ୍ତାବିତ ହୋଇଥିବା ଶବ୍ଦ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ। ପ୍ରସ୍ତାବକୁ ରିସେଟ୍ କରିବା ପାଇଁ ଏଠାରେ ${icon} କ୍ଲିକ୍ କରନ୍ତୁ କିମ୍ବା ଶବ୍ଦକୁ ସଠିକ୍ ସ୍ଥାନକୁ ଟାଣି ନିଅନ୍ତୁ।",
   "alignment_complete": "ଏଲାଇନ୍‍‍ମେଣ୍ଟ ସମ୍ପୂର୍ଣ୍ଣ କରନ୍ତୁ",
+  "toggle_alignment_complete": "Toggle Alignment Complete",
   "noun": "ବିଶେଷ୍ୟ",
   "substantive_adj": "ପ୍ରକୃତ ବିଶେଷଣ",
   "predicate_adj": "ବିଧେୟ ବିଶେଷଣ",
@@ -179,16 +181,22 @@
   "morph_missing": "ପଦବିଜ୍ଞାନ ମିଳିଲା ନାହିଁ",
   "unsaved_changes": "ଆପଣଙ୍କ ପାଖରେ ଅସୁରକ୍ଷିତ ପରିବର୍ତ୍ତନଗୁଡିକ ଅଛି।",
   "attention": "ଧ୍ୟାନ:",
+  "invalidation_checking": "Checking if this edit conflicts with saved selections and alignments...",
+  "selections_invalidated": "Some selections are no longer valid and are removed.",
+  "invalid_verse_alignments_and_selections": "Changes have been detected in your project which have invalidated some selections and some alignments. These verses display an icon of a broken chain next to the reference in the side menu.",
   "pre_release": "Pre-release",
+  "showExpandedScripturePane": "Show Expanded Scripture Pane",
   "buttons": {
     "ok_button": "ଓକେ",
     "back_button": "ପଛକୁ ଯାଆନ୍ତୁ",
     "cancel_button": "ରଦ୍ଦ କରନ୍ତୁ",
+    "reset_button": "Reset",
     "save_button": "ସୁରକ୍ଷିତ ରଖନ୍ତୁ",
     "next_button": "ପରବର୍ତ୍ତୀ",
     "discard_changes": "ପରିବର୍ତ୍ତନଗୁଡିକୁ ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ"
   },
   "menu": {
+    "chapter": "Chapter",
     "no_results": "କୌଣସି ଫଳାଫଳ ନାହିଁ",
     "invalidated": "ଅବୈଧ ହୋଇଅଛି",
     "bookmarks": "ବୁକ୍‍ମାର୍କ୍",
@@ -203,10 +211,13 @@
     "refresh_suggestions": "ପ୍ରସ୍ତାବଗୁଡିକୁ ସତେଜ କରନ୍ତୁ।",
     "accept_suggestions": "ସମସ୍ତ ପ୍ରସ୍ତାବଗୁଡିକୁ ଗ୍ରହଣ କରନ୍ତୁ।",
     "reject_suggestions": "ସମସ୍ତ ପ୍ରସ୍ତାବଗୁଡିକୁ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ।",
+    "clear_suggestions": "Clear All Alignments.",
     "none": "କୌଣସି ନୂତନ ପ୍ରସ୍ତାବଗୁଡିକ ନାହିଁ",
     "refresh": "ରିଫ୍ରେସ୍ କରନ୍ତୁ",
     "accept": "ଗ୍ରହଣ କରନ୍ତୁ",
-    "reject": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ"
+    "reject": "ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ",
+    "clear": "Clear",
+    "next": "Move to next verse"
   },
   "icons": {
     "verse_edits_found": "Verse edits were found for this verse alignment",
@@ -222,11 +233,13 @@
     "title": "ପ୍ରଥମ ପଦକ୍ଷେପ. ପଢନ୍ତୁ",
     "expand_hover": "ବିସ୍ତାରିତ ସମ୍ବଳ ଫଳକଗୁଡିକୁ ଦେଖାଇବା ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ",
     "remove_resource": "ସମ୍ବଳକୁ ହଟାଇବା ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ",
+    "remove_resource_label": "Remove resource",
     "add_resource": "ସମ୍ବଳକୁ ଯୋଗ କରିବା ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ",
     "add_resource_label": "ସମ୍ବଳଗୁଡିକୁ ଯୋଗ କରନ୍ତୁ",
     "select_language": "ଭାଷାକୁ ଚୟନ କରନ୍ତୁ",
     "gateway_language": "ଗେଟ୍‍‍ୱେ ଭାଷା",
     "target_language": "ଟାର୍ଗେଟ୍ ଭାଷା",
-    "original_language": "ମୂଳ ଭାଷା"
+    "original_language": "ମୂଳ ଭାଷା",
+    "select_font_label": "Select Font"
   }
 }
